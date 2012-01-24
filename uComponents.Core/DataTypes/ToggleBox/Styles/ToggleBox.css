@@ -1,0 +1,45 @@
+.toggleSwitch
+{
+	/* Horrible hack for IE8 - I don't really understand why it needs a background? [LK] */
+	background: transparent url("/umbraco/images/editor/spacer.gif") top left no-repeat;
+}
+
+.toggleSwitch .leftLabel
+{
+	float: left;
+}
+
+.toggleSwitch .leftLabel, .toggleSwitch .rightLabel
+{
+	line-height: 24px;
+	padding: 0px 5px;
+}
+
+.toggleSwitch .switchArea
+{
+	float: left;
+	background: transparent url('<%= WebResource("uComponents.Core.DataTypes.ToggleBox.Images.shadow-bg.png")%>') top left no-repeat;
+	width: 64px;
+	height: 24px;
+}
+
+.toggleSwitch .switchHandle
+{
+	display: block;
+	background: #aaa;
+	background: transparent url('<%= WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-bg.png")%>') top left no-repeat;
+	width: 30px;
+	height: 100%;
+	cursor: pointer;
+	margin-left: 0px;
+}
+
+.toggleSwitch .switchHandle.left
+{
+	background-image: url('<%= WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-left-bg.png")%>');
+}
+
+.toggleSwitch .switchHandle.right
+{
+	background-image: url('<%= WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-right-bg.png")%>');
+}
