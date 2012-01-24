@@ -8,7 +8,7 @@
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
-		<PackageVersion>3.0.2</PackageVersion>
+		<PackageVersion>3.0.3</PackageVersion>
 		<ProjectName>uComponents.Core</ProjectName>
 	</PropertyGroup>
 
