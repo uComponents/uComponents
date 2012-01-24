@@ -1,0 +1,376 @@
+﻿/*
+ *  DATA EDITOR TABLE
+ */
+ 
+.ui-widget-overlay 
+{
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: url("/umbraco_client/modal/modalBackground.gif") repeat 0 0 transparent;
+	/*filter: Alpha(Opacity=50);
+	opacity: 0.5;*/
+}
+
+.dtg .ui-corner-all 
+{
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.dtg .dataTables_wrapper 
+{
+	position: relative;
+	clear: both;
+	margin: 0 0 1em 0;
+}
+
+.dtg .paging_full_numbers .ui-button 
+{
+	padding: 2px 6px;
+	margin: 0 1px;
+	cursor: pointer;
+}
+
+.dtg .ui-toolbar 
+{
+	padding: 5px;
+}
+
+.dtg .dataTables_info 
+{
+	padding-top: 3px;
+}
+
+.dtg table.display thead th 
+{
+	padding: 3px 0px 3px 10px;
+	cursor: pointer;
+}
+
+.dtg .dataTables_processing 
+{
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	width: 250px;
+	margin-left: -125px;
+	border: 1px solid #ddd;
+	text-align: center;
+	color: #999;
+	font-size: 11px;
+	padding: 2px 0;
+}
+
+.dtg .dataTables_empty 
+{
+	text-align: center;
+}
+
+.dtg .dataTables_scroll 
+{
+	clear: both;
+}
+
+.dtg .dataTables_length 
+{
+	width: 50%;
+	float: left;
+}
+
+.dtg .dataTables_filter 
+{
+	width: 50%;
+	float: right;
+	text-align: right;
+}
+
+.dtg .dataTables_info 
+{
+	min-width: 140px;
+	float: left;
+}
+
+.dtg .dataTables_paginate 
+{
+	width: 350px !important;
+	float: right;
+	text-align: right;
+}
+
+.dtg .paging_full_numbers 
+{
+	line-height: 22px;
+}
+
+.dtg .paginate_disabled_previous, 
+.dtg .paginate_enabled_previous, 
+.dtg .paginate_disabled_next, 
+.dtg .paginate_enabled_next 
+{
+	height: 19px;
+	width: 19px;
+	margin-left: 3px;
+	float: left;
+}
+
+.dtg .paging_full_numbers span.paginate_button,
+.dtg .paging_full_numbers span.paginate_active 
+{
+	border: 1px solid #aaa;
+	padding: 2px 5px;
+	margin: 0 3px;
+	cursor: pointer;
+}
+
+.dtg .paging_full_numbers span.paginate_button 
+{
+	background-color: #ddd;
+}
+
+.dtg .paging_full_numbers span.paginate_button:hover 
+{
+	background-color: #ccc;
+}
+
+.dtg .paging_full_numbers span.paginate_active 
+{
+	background-color: #99B3FF;
+}
+
+.dtg table.display 
+{
+	width: 100% !important;
+	min-width: 500px;
+	clear: both;
+	border-collapse: collapse;
+}
+
+.dtg table.display td {
+	padding: 3px 10px;
+}
+
+.dtg table.display td.center {
+	text-align: center;
+}
+
+.dtg tr.odd {
+	background-color: #f5f3f3;
+}
+
+.dtg tr.even {
+	background-color: white;
+}
+
+.dtg .css_left
+{
+	float: left;
+}
+
+.dtg .css_right
+{
+	float: right;
+}
+
+/*
+ ** DATA EDITOR CONTROLS
+ */
+.deleteRowDialog:first-child,
+.editRowDialog:first-child 
+{
+	margin-left: 0;
+} 
+ 
+.deleteRowDialog,
+.editRowDialog
+{
+	display: inline-block;
+	margin-left: 3px;
+}
+ 
+.deleteRowDialog span.ui-button-text,
+.editRowDialog span.ui-button-text
+{
+	display: none;
+}
+
+.insertRowDialog,
+.insertButton,
+.updateButton
+{
+	display: inline-block;
+	padding: 5px 10px 5px 5px;
+	line-height: 17px;
+	height: 16px;
+	text-decoration: none;	
+}
+
+.insertRowDialog:hover
+{
+	text-decoration: none;	
+}
+
+.insertRowDialog span.ui-icon,
+.insertButton span.ui-icon,
+.updateButton span.ui-icon
+{
+	display: block;
+	float: left;
+}
+
+.insertRowDialog span.ui-button-text,
+.insertButton span.ui-button-text,
+.updateButton span.ui-button-text
+{
+	padding-left: 3px;
+	font-size: 11px;
+}
+
+.deletedialog .deleteButton, 
+.insertdialog .insertButton, 
+.editdialog .updateButton
+{
+	display: inline-block;
+	clear: both;
+}
+
+.deletedialog .deleteButton:hover, 
+.insertdialog .insertButton:hover,
+.editdialog .updateButton:hover
+{
+	text-decoration: none !important;
+}
+
+.insertdialog,
+.editdialog 
+{
+	border: 5px solid #A3A3A3;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	overflow: visible !important;
+}
+
+.insertdialog .ui-corner-all,
+.editdialog .ui-corner-all 
+{
+	-moz-border-radius: 0;
+	border-radius: 0;
+} 
+
+.insertdialog .ui-dialog-titlebar,
+.editdialog .ui-dialog-titlebar
+{
+	position: relative;
+	height: 16px;
+	padding: 5px 11px;
+	cursor: move;
+	background: transparent url("/umbraco_client/modal/modalGradiant.gif") 0 0 repeat-x;
+	border-top: none;
+	border-right: none;
+	border-bottom: 1px solid #CCCCCC;
+	border-left: none;
+}
+
+.insertdialog .ui-dialog-titlebar-close,
+.editdialog .ui-dialog-titlebar-close
+{
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	border: 1px solid #999;
+}
+
+.insertdialog .ui-resizable-handle,
+.editdialog .ui-resizable-handle 
+{
+	position: absolute;
+	bottom: 3px;
+	right: 3px;
+	cursor: se-resize;
+}
+
+.insertdialog .ui-dialog-buttonpane,
+.editdialog .ui-dialog-buttonpane 
+{
+	background: none;
+	border: none;
+	padding: 5.5px 11px;
+}
+
+.InsertControls,
+.EditControls
+{
+	padding: 5.5px 11px;
+	border: none;
+	overflow: auto;
+}
+
+.InsertControls .dtgTinymceMenu,
+.EditControls .dtgTinymceMenu 
+{
+	position: relative;
+	height: 32px;
+	background-image: url("/umbraco_client/tabView/images/background.gif");
+	border-bottom: 1px solid #cac9c9;
+}
+
+.InsertControls .dtgTinymceMenu .mceToolbarExternal,
+.EditControls .dtgTinymceMenu .mceToolbarExternal 
+{
+	top: 2px;
+	left: 0;
+}
+
+.InsertControls .dtgTinymceMenu .mceToolbarExternal table,
+.EditControls .dtgTinymceMenu .mceToolbarExternal table
+{
+	margin: 0;
+}
+
+.InsertControls ul,
+.EditControls ul
+{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.InsertControls ul li,
+.EditControls ul li
+{
+	margin-bottom: 7px;
+}
+
+.insertControl,
+.editControl  
+{
+	display: inline-block;
+	width: 300px;
+}
+
+.insertControlLabel,
+.editControlLabel
+{
+	display: block;
+	width: 16%;
+	padding-right: 1%;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.validator 
+{
+	font-size: 11px;
+	font-weight: normal;
+	color: Red;
+}
+
+
+/*
+**  DataType Fixes
+ */
+ 
+/* Date Picker with Time */
+.ui-datepicker {
+	z-index: 1003 !important;
+}

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+	<files />
+	<info>
+		<package>
+			<name>uComponents</name>
+			<version>0.0.0</version>
+			<license url="http://www.opensource.org/licenses/mit-license.php">MIT license</license>
+			<url>http://ucomponents.codeplex.com</url>
+			<requirements>
+				<major>0</major>
+				<minor>0</minor>
+				<patch>0</patch>
+			</requirements>
+		</package>
+		<author>
+			<name>uComponents Team</name>
+			<website>http://ucomponents.org</website>
+		</author>
+		<readme><![CDATA[]]></readme>
+	</info>
+	<DocumentTypes />
+	<Templates />
+	<Stylesheets />
+	<Macros />
+	<DictionaryItems />
+	<Languages />
+	<DataTypes />
+	<control>/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control>
+	<Actions>
+		<Action runat="install" undo="true" alias="uComponents_Uninstaller" />
+	</Actions>
+</umbPackage>

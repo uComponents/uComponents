@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Assemblies", "External Assemblies", "{B391F059-19D2-456F-BC27-34D37CAF1B84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Core", "uComponents.Core\uComponents.Core.csproj", "{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildPackage", "BuildPackage", "{242824E1-675B-47F0-9876-C709F579BC3A}"
+	ProjectSection(SolutionItems) = preProject
+		BuildPackage\BuildPackage.cmd = BuildPackage\BuildPackage.cmd
+		BuildPackage\BuildPackage.msbuild = BuildPackage\BuildPackage.msbuild
+		BuildPackage\package.nuspec = BuildPackage\package.nuspec
+		BuildPackage\package.xml = BuildPackage\package.xml
+		BuildPackage\readme.txt = BuildPackage\readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco Assemblies", "Umbraco Assemblies", "{F1DA5738-9002-44BA-BF5D-271E4068236D}"
+	ProjectSection(SolutionItems) = preProject
+		DLLs\businesslogic.dll = DLLs\businesslogic.dll
+		DLLs\cms.dll = DLLs\cms.dll
+		DLLs\controls.dll = DLLs\controls.dll
+		DLLs\interfaces.dll = DLLs\interfaces.dll
+		DLLs\umbraco.DataLayer.dll = DLLs\umbraco.DataLayer.dll
+		DLLs\umbraco.dll = DLLs\umbraco.dll
+		DLLs\umbraco.editorControls.dll = DLLs\umbraco.editorControls.dll
+		DLLs\umbraco.Linq.Core.dll = DLLs\umbraco.Linq.Core.dll
+		DLLs\umbraco.macroRenderings.dll = DLLs\umbraco.macroRenderings.dll
+		DLLs\umbraco.providers.dll = DLLs\umbraco.providers.dll
+		DLLs\umbraco.webservices.dll = DLLs\umbraco.webservices.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rd Party Assemblies", "3rd Party Assemblies", "{FDE7AE95-C714-4323-8F04-8DEFF07377C7}"
+	ProjectSection(SolutionItems) = preProject
+		DLLs\ClientDependency.Core.dll = DLLs\ClientDependency.Core.dll
+		DLLs\Examine.dll = DLLs\Examine.dll
+		DLLs\ICSharpCode.SharpZipLib.dll = DLLs\ICSharpCode.SharpZipLib.dll
+		DLLs\Lucene.Net.dll = DLLs\Lucene.Net.dll
+		DLLs\SimilarityNet.dll = DLLs\SimilarityNet.dll
+		DLLs\UmbracoExamine.dll = DLLs\UmbracoExamine.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2ADE05-3906-4DDA-87E3-4D84539AB51C}"
+	ProjectSection(SolutionItems) = preProject
+		MIT-LICENSE.txt = MIT-LICENSE.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 1
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs04
+		SccProjectUniqueName0 = uComponents.Core\\uComponents.Core.csproj
+		SccProjectName0 = uComponents.Core
+		SccAuxPath0 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath0 = uComponents.Core
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{242824E1-675B-47F0-9876-C709F579BC3A} = {1E2ADE05-3906-4DDA-87E3-4D84539AB51C}
+		{B391F059-19D2-456F-BC27-34D37CAF1B84} = {1E2ADE05-3906-4DDA-87E3-4D84539AB51C}
+		{FDE7AE95-C714-4323-8F04-8DEFF07377C7} = {B391F059-19D2-456F-BC27-34D37CAF1B84}
+		{F1DA5738-9002-44BA-BF5D-271E4068236D} = {B391F059-19D2-456F-BC27-34D37CAF1B84}
+	EndGlobalSection
+EndGlobal
