@@ -1,3 +1,4 @@
+#pragma warning disable 0618
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -959,3 +960,4 @@ namespace uComponents.Core.DataTypes.Similarity.Net
 		}
 	}
 }
+#pragma warning restore 0618

@@ -30,7 +30,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 	using uComponents.Core.DataTypes.DataTypeGrid.Functions;
 
 	using umbraco.BusinessLogic;
-	using umbraco.presentation.nodeFactory;
+	using umbraco.NodeFactory;
 
 	/// <summary>
 	/// The DataType Grid Control

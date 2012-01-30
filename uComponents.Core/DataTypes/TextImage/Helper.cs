@@ -9,7 +9,7 @@ using System.Xml.XPath;
 using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.media;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core.DataTypes.TextImage
 {

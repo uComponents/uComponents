@@ -1,7 +1,7 @@
 using System.Net;
 using System.Web;
 using umbraco.interfaces;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core.NotFoundHandlers
 {

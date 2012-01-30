@@ -4,7 +4,7 @@ using System.Linq;
 using uComponents.Core.uQueryExtensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.propertytype;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core
 {
@@ -13,31 +13,6 @@ namespace uComponents.Core
 	/// </summary>
 	public static partial class uQuery
 	{
-		/// <summary>
-		/// Makes the new pre value.
-		/// </summary>
-		/// <param name="dataTypeDefinitionId">The data type definition id.</param>
-		/// <param name="value">The value.</param>
-		/// <returns></returns>
-		public static PreValue MakeNewPreValue(int dataTypeDefinitionId, string value)
-		{
-			// TODO: Revert back to using "Default parameter specifiers" when we compile against .NET 4.0
-			return MakeNewPreValue(dataTypeDefinitionId, value, string.Empty, 0); // [LK] Added 'underloaded' method, as "Default parameter specifiers are not permitted" in .NET 3.5
-		}
-
-		/// <summary>
-		/// Makes the new pre value.
-		/// </summary>
-		/// <param name="dataTypeDefinitionId">The data type definition id.</param>
-		/// <param name="value">The value.</param>
-		/// <param name="alias">The alias.</param>
-		/// <returns></returns>
-		public static PreValue MakeNewPreValue(int dataTypeDefinitionId, string value, string alias)
-		{
-			// TODO: Revert back to using "Default parameter specifiers" when we compile against .NET 4.0
-			return MakeNewPreValue(dataTypeDefinitionId, value, alias, 0); // [LK] Added 'underloaded' method, as "Default parameter specifiers are not permitted" in .NET 3.5
-		}
-
 		/// <summary>
 		/// Makes a new PreValue.
 		/// </summary>
@@ -48,7 +23,7 @@ namespace uComponents.Core
 		/// <returns>
 		/// The inserted prevalue or null if the operation failed.
 		/// </returns>
-		public static PreValue MakeNewPreValue(int dataTypeDefinitionId, string value, string alias, int sortOrder)
+		public static PreValue MakeNewPreValue(int dataTypeDefinitionId, string value, string alias = "", int sortOrder = 0)
 		{
 			var result =
 				SqlHelper.ExecuteNonQuery(
@@ -86,7 +61,7 @@ namespace uComponents.Core
 
 		/// <summary>
 		/// Gets the pre values.
-		/// TODO: Document on Codeplex
+		/// TODO: [OA] Document on Codeplex
 		/// </summary>
 		/// <param name="nodeId">The node id.</param>
 		/// <param name="propertyAlias">The property alias.</param>

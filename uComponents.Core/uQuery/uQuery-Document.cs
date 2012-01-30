@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using umbraco.cms.businesslogic.web;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml;
 using uComponents.Core.Shared;
 using umbraco.cms.businesslogic.web;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 using umbraco;
 
 namespace uComponents.Core.uQueryExtensions
@@ -39,7 +39,7 @@ namespace uComponents.Core.uQueryExtensions
 
 			while (ancestor != null)
 			{
-				yield return ancestor;
+				yield return ancestor as Node;
 
 				ancestor = ancestor.Parent;
 			}
@@ -69,7 +69,8 @@ namespace uComponents.Core.uQueryExtensions
 		{
 			if (node.Parent != null)
 			{
-				foreach (var precedingSiblingNode in node.Parent.GetChildNodes().Where(childNode => childNode.SortOrder < node.SortOrder))
+				var parentNode = node.Parent as Node;
+				foreach (var precedingSiblingNode in parentNode.GetChildNodes().Where(childNode => childNode.SortOrder < node.SortOrder))
 				{
 					yield return precedingSiblingNode;
 				}
@@ -85,7 +86,8 @@ namespace uComponents.Core.uQueryExtensions
 		{
 			if (node.Parent != null)
 			{
-				foreach (var followingSiblingNode in node.Parent.GetChildNodes().Where(childNode => childNode.SortOrder > node.SortOrder))
+				var parentNode = node.Parent as Node;
+				foreach (var followingSiblingNode in parentNode.GetChildNodes().Where(childNode => childNode.SortOrder > node.SortOrder))
 				{
 					yield return followingSiblingNode;
 				}
@@ -101,7 +103,8 @@ namespace uComponents.Core.uQueryExtensions
 		{
 			if (node.Parent != null)
 			{
-				foreach (var siblingNode in node.Parent.GetChildNodes().Where(childNode => childNode.Id != node.Id))
+				var parentNode = node.Parent as Node;
+				foreach (var siblingNode in parentNode.GetChildNodes().Where(childNode => childNode.Id != node.Id))
 				{
 					yield return siblingNode;
 				}
@@ -436,7 +439,7 @@ namespace uComponents.Core.uQueryExtensions
 			{
 				var xml = node.GetProperty<string>(propertyAlias);
 
-				// TODO: Add Node extension method: GetPropertyAsXmlNode()
+				// TODO: [??] Add Node extension method: GetPropertyAsXmlNode()
 
 				var xmlDocument = new XmlDocument();
 				xmlDocument.LoadXml(xml);
@@ -586,7 +589,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns></returns>
 		public static string GetFullNiceUrl(this Node node, Domain domain, bool ssl)
 		{
-			// TODO: Document on Codeplex [Ove, auth.]
+			// TODO: [OA] Document on Codeplex
 			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == Settings.SLASH)
 			{
 				return (ssl ? Settings.HTTPS : Settings.HTTP) + domain.Name + node.NiceUrl;
@@ -604,7 +607,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// </returns>
 		public static bool IsHiddenFromNavigation(this Node node)
 		{
-			// TODO: Document on Codeplex. Is this one really necessary? [Ove, auth.]
+			// TODO: [OA] Document on Codeplex. Is this one really necessary?
 			return node.GetPropertyAsBoolean("umbracoNaviHide");
 		}
 	}

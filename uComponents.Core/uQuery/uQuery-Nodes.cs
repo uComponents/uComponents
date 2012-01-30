@@ -3,7 +3,7 @@ using System.Linq;
 using System.Web;
 using System.Xml.XPath;
 using uComponents.Core.uQueryExtensions;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core
 {

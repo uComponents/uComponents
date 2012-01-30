@@ -8,7 +8,7 @@ using uComponents.Core.uQueryExtensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 using CmsContentType = umbraco.cms.businesslogic.ContentType;
 using CmsProperty = umbraco.cms.businesslogic.property.Property;
 using Xslt = uComponents.Core.XsltExtensions;

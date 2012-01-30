@@ -9,7 +9,7 @@ using System.Web;
 using umbraco.BusinessLogic.Utils;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 using System.Xml;
 using umbraco.interfaces;
 
