@@ -32,8 +32,8 @@ namespace uComponents.Core.DataTypes.UniqueProperty
 		/// 
 		/// </summary>
 		private const string DuplicateXpath = "//*[@isDoc and @id != {0} and {1} = '{2}']";
-        
-		// TODO: pull warnings from resource file? [IM]
+
+		// TODO: [IM] pull warnings from resource file?
 
 		/// <summary>
 		/// 
@@ -74,7 +74,7 @@ namespace uComponents.Core.DataTypes.UniqueProperty
 		/// <returns></returns>
         private XmlNode QueryXmlDataStoreForProperty()
         {
-            //TODO use examine on internal index
+			// TODO: [IM] use examine on internal index
             int currentDocId = int.Parse(HttpContext.Current.Request.QueryString["id"]);
             string xpath = string.Empty;
 

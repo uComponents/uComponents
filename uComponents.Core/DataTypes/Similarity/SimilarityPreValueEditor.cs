@@ -15,7 +15,7 @@ using umbraco.interfaces;
 namespace uComponents.Core.DataTypes.Similarity
 {
     /// <summary>
-    /// TODO add validation and pick up label descriptions from resource file
+    /// TODO: [IM] add validation and pick up label descriptions from resource file
     /// </summary>
     public class SimilarityPreValueEditor:Control, IDataPrevalue
     {
