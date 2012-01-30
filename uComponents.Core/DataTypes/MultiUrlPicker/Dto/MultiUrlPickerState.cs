@@ -40,23 +40,12 @@ namespace uComponents.Core.DataTypes.MultiUrlPicker.Dto
         }
 
 		/// <summary>
-		/// Serializes the specified format.
-		/// </summary>
-		/// <param name="format">The format.</param>
-		/// <returns></returns>
-		public string Serialize(UrlPickerDataFormat format)
-		{
-			// TODO: Revert back to using "Default parameter specifiers" when we compile against .NET 4.0
-			return Serialize(format, true); // [LK] Added 'underloaded' method, as "Default parameter specifiers are not permitted" in .NET 3.5
-		}
-
-		/// <summary>
 		/// Serializes this state into a number of formats
 		/// </summary>
 		/// <param name="format">The format desired</param>
 		/// <param name="includeEmptyItems">if set to <c>true</c> [include empty items].</param>
 		/// <returns>A serialized string</returns>
-        public string Serialize(UrlPickerDataFormat format, bool includeEmptyItems)
+        public string Serialize(UrlPickerDataFormat format, bool includeEmptyItems = true)
         {
             // Serialized return string
             string serializedData = string.Empty;

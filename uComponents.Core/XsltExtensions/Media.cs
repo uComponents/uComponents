@@ -1,9 +1,7 @@
 ﻿using System.Drawing;
 using System.IO;
-using System.Web;
 using System.Xml;
 using System.Xml.XPath;
-
 using uComponents.Core.uQueryExtensions;
 
 namespace uComponents.Core.XsltExtensions
@@ -58,7 +56,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		public static XPathNodeIterator GetMediaByName(string nodeName)
 		{
-			string xpath = string.Concat("descendant::*[@nodeName='", nodeName, "']");
+			var xpath = string.Concat("descendant::*[@nodeName='", nodeName, "']");
 			return GetMediaByXPath(xpath);
 		}
 
@@ -71,7 +69,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		public static XPathNodeIterator GetMediaByType(string nodeTypeAlias)
 		{
-			string xpath = string.Concat("descendant::*[@nodeTypeAlias='", nodeTypeAlias, "']");
+			var xpath = string.Concat("descendant::*[@nodeTypeAlias='", nodeTypeAlias, "']");
 			return GetMediaByXPath(xpath);
 		}
 
@@ -84,7 +82,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		public static XPathNodeIterator GetMediaByUrlName(string urlName)
 		{
-			string xpath = string.Concat("descendant::*[@urlName='", urlName, "']");
+			var xpath = string.Concat("descendant::*[@urlName='", urlName, "']");
 			return GetMediaByXPath(xpath);
 		}
 
@@ -101,7 +99,7 @@ namespace uComponents.Core.XsltExtensions
 			if (xml != null)
 			{
 				var nav = xml.CreateNavigator();
-				return nav.Select(xpath);	
+				return nav.Select(xpath);
 			}
 
 			return null;
@@ -156,23 +154,23 @@ namespace uComponents.Core.XsltExtensions
 			if (media != null)
 			{
 				// get the img src
-				string src = media.GetPropertyAsString("umbracoFile");
+				var src = media.GetPropertyAsString("umbracoFile");
 
 				// check that the img src has a value
 				if (!string.IsNullOrEmpty(src))
 				{
 					// define the img tag
-					string img = "<img src=\"{0}\" alt=\"{1}\" height=\"{2}\" width=\"{3}\" />";
+					var img = "<img src=\"{0}\" alt=\"{1}\" height=\"{2}\" width=\"{3}\" />";
 
 					// get the height
-					int height = media.GetPropertyAsInt("umbracoHeight");
+					var height = media.GetPropertyAsInt("umbracoHeight");
 					if (height <= 0)
 					{
 						height = defaultHeight;
 					}
 
 					// get the width
-					int width = media.GetPropertyAsInt("umbracoWidth");
+					var width = media.GetPropertyAsInt("umbracoWidth");
 					if (width <= 0)
 					{
 						width = defaultWidth;
@@ -263,7 +261,7 @@ namespace uComponents.Core.XsltExtensions
 		{
 			if (!string.IsNullOrEmpty(path))
 			{
-				string localFile = IO.MapPath(path, true);
+				var localFile = IO.MapPath(path, true);
 
 				if (File.Exists(localFile))
 				{

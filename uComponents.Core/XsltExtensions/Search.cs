@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-
 using Examine;
-using uComponents.Core;
 using uComponents.Core.Shared;
-using UmbracoExamine;
 
 namespace uComponents.Core.XsltExtensions
 {
@@ -201,7 +197,6 @@ namespace uComponents.Core.XsltExtensions
 		public static string GetNodeIds(string searchText, bool useWildcards, string providerName)
 		{
 			var results = InternalSearch(searchText, useWildcards, providerName);
-
 			var list = results.Select<SearchResult, string>(r => r.Id.ToString());
 
 			return string.Join(new string(Settings.COMMA, 1), list.ToArray());
@@ -296,16 +291,16 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		internal static XPathNodeIterator GetResultsAsXml(ISearchResults results)
 		{
-			bool legacy = uQuery.IsLegacyXmlSchema();
+			var legacy = uQuery.IsLegacyXmlSchema();
 			var attributes = new List<string>() { "id", "nodeName", "updateDate", "writerName", "path", "nodeTypeAlias", "parentID", "loginName", "email" };
+			var doc = new XDocument();
 
-			XDocument doc = new XDocument();
 			if (results.TotalItemCount > 0)
 			{
-				XElement nodes = new XElement("results");
+				var nodes = new XElement("results");
 				foreach (SearchResult result in results)
 				{
-					XElement node = new XElement(legacy ? "node" : result.Fields["nodeTypeAlias"]);
+					var node = new XElement(legacy ? "node" : result.Fields["nodeTypeAlias"]);
 					node.Add(new object[] { new XAttribute("score", result.Score) });
 
 					foreach (KeyValuePair<string, string> item in result.Fields)
@@ -329,7 +324,7 @@ namespace uComponents.Core.XsltExtensions
 						else
 						{
 							// data field
-							XElement data = new XElement(legacy ? "data" : item.Key);
+							var data = new XElement(legacy ? "data" : item.Key);
 
 							// if legacy add the 'alias' attribute
 							if (legacy)

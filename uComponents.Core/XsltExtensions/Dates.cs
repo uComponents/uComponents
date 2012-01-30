@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
 
 namespace uComponents.Core.XsltExtensions
 {
@@ -84,13 +83,13 @@ namespace uComponents.Core.XsltExtensions
 			if (DateTime.TryParse(date, out d))
 			{
 				// 1. Get time span elapsed since the date.
-				TimeSpan s = DateTime.Now.Subtract(d);
+				var s = DateTime.Now.Subtract(d);
 
 				// 2. Get total number of days elapsed.
-				Int32 dayDiff = (Int32)s.TotalDays;
+				var dayDiff = (int)s.TotalDays;
 
 				// 3. Get total number of seconds elapsed.
-				Int32 secDiff = (Int32)s.TotalSeconds;
+				var secDiff = (int)s.TotalSeconds;
 
 				// 4. Don't allow out of range values.
 				if (dayDiff < 0 || dayDiff >= 31)
@@ -465,7 +464,7 @@ namespace uComponents.Core.XsltExtensions
 			var unixEpoch = new DateTime(1970, 1, 1);
 
 			// set the current date/time
-			DateTime result = DateTime.UtcNow;
+			var result = DateTime.UtcNow;
 
 			// parse the date
 			DateTime.TryParse(date, out result);
@@ -575,9 +574,9 @@ namespace uComponents.Core.XsltExtensions
 		private static int WorkdaysDiff(DateTime startDate, DateTime endDate)
 		{
 			// This function includes the start and end date in the count if they fall on a weekday
-			int start = ((int)startDate.DayOfWeek == 0 ? 7 : (int)startDate.DayOfWeek);
-			int end = ((int)endDate.DayOfWeek == 0 ? 7 : (int)endDate.DayOfWeek);
-			TimeSpan diff = endDate - startDate;
+			var start = ((int)startDate.DayOfWeek == 0 ? 7 : (int)startDate.DayOfWeek);
+			var end = ((int)endDate.DayOfWeek == 0 ? 7 : (int)endDate.DayOfWeek);
+			var diff = endDate - startDate;
 
 			if (start <= end)
 			{

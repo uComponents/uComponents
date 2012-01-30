@@ -39,13 +39,13 @@ namespace uComponents.Core.XsltExtensions
 		/// </remarks>
 		public static int GetNodeIdByUrl(string url)
 		{
-			string xpathQuery = GetXPathQuery(url);
-			XmlNode xmlNode = content.Instance.XmlContent.SelectSingleNode(xpathQuery);
+			var xpathQuery = GetXPathQuery(url);
+			var xmlNode = content.Instance.XmlContent.SelectSingleNode(xpathQuery);
 
 			if (xmlNode != null && xmlNode.Attributes.Count > 0)
 			{
 				int nodeId;
-				string id = xmlNode.Attributes.GetNamedItem("id").Value;
+				var id = xmlNode.Attributes.GetNamedItem("id").Value;
 
 				if (int.TryParse(id, out nodeId))
 				{
@@ -165,7 +165,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns the XML for the node.</returns>
 		public static XPathNodeIterator GetXmlNodeByUrl(string url)
 		{
-			string xpathQuery = GetXPathQuery(url);
+			var xpathQuery = GetXPathQuery(url);
 			return library.GetXmlNodeByXPath(xpathQuery);
 		}
 

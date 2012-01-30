@@ -3,8 +3,6 @@ using System.Collections.Specialized;
 using System.Web;
 using System.Xml;
 using System.Xml.XPath;
-
-using uComponents.Core.Shared;
 using umbraco;
 
 namespace uComponents.Core.XsltExtensions
@@ -54,7 +52,7 @@ namespace uComponents.Core.XsltExtensions
 			{
 				try
 				{
-					HttpCookieCollection cookies = HttpContext.Current.Request.Cookies;
+					var cookies = HttpContext.Current.Request.Cookies;
 					for (int i = 0; i < cookies.Count; i++)
 					{
 						var cookie = cookies.Get(i);
@@ -71,7 +69,7 @@ namespace uComponents.Core.XsltExtensions
 						for (int j = 0; j < cookie.Values.Count; j++)
 						{
 							var value = xmlHelper.addTextNode(xd, "value", cookie.Values.Get(j));
-							
+
 							if (cookie.HasKeys)
 							{
 								value.Attributes.Append(xmlHelper.addAttribute(xd, "name", cookie.Values.GetKey(j)));

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
-
 using uComponents.Core.Shared;
 using umbraco.cms.helpers;
 
@@ -239,18 +238,20 @@ namespace uComponents.Core.XsltExtensions
 		/// </remarks>
 		public static string StripHTML(string input)
 		{
+			var less = '<';
+			var greater = '>';
 			var sb = new StringBuilder(input.Length);
 			var inside = false;
 			for (var i = 0; i < input.Length; i++)
 			{
 				char let = input[i];
-				if (let == '<')
+				if (let == less)
 				{
 					inside = true;
 					continue;
 				}
 
-				if (let == '>')
+				if (let == greater)
 				{
 					inside = false;
 					continue;
@@ -333,8 +334,6 @@ namespace uComponents.Core.XsltExtensions
 		public static string ConvertToCamelCase(string input)
 		{
 			var sb = new StringBuilder();
-
-			// Look for spaces
 			var str = input.Split(new[] { ' ' });
 			var firstTime = true;
 

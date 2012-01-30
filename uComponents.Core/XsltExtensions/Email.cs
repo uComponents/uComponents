@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.Mail;
 using umbraco;
 using umbraco.BusinessLogic;
@@ -26,7 +23,7 @@ namespace uComponents.Core.XsltExtensions
 		{
 			if (!useSSL)
 			{
-				umbraco.library.SendMail(from, to, subject, body, isHtml);
+				library.SendMail(from, to, subject, body, isHtml);
 				return;
 			}
 
