@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
+using uComponents.Core.Shared;
 using umbraco.BusinessLogic;
 using umbraco.DataLayer;
 
@@ -48,7 +48,6 @@ namespace uComponents.Core.Modules
 			if (path.StartsWith(ServicePath))
 			{
 				var method = path.Substring(ServicePath.Length + 1).ToLower();
-
 				var json = new JavaScriptSerializer();
 
 				Dictionary<string, object> request;
@@ -57,38 +56,41 @@ namespace uComponents.Core.Modules
 					request = (Dictionary<string, object>)json.DeserializeObject(sr.ReadToEnd());
 				}
 
-
 				var sqlHelper = Application.SqlHelper;
 				var sql = new StringBuilder(
 					@"SELECT n.id, n.path, n.uniqueID, n.text, ct.alias as typeAlias FROM umbracoNode n
-	                        INNER JOIN cmsContent c ON c.nodeId = n.id
-	                        INNER JOIN cmsContentType ct ON ct.nodeId = c.contentType
-	                        INNER JOIN umbracoNode ctn on ctn.id = ct.nodeId");
+							INNER JOIN cmsContent c ON c.nodeId = n.id
+							INNER JOIN cmsContentType ct ON ct.nodeId = c.contentType
+							INNER JOIN umbracoNode ctn on ctn.id = ct.nodeId");
 
 				var ps = new List<IParameter>();
-				if (method == "children")
+				if (method == "children" && request.ContainsKey("parentID"))
 				{
 					ps.Add(sqlHelper.CreateParameter("@parentID", request["parentID"]));
 					sql.Append(" WHERE n.parentID = @parentID");
 				}
-				else if (method == "range")
+				else if (method == "range" && request.ContainsKey("ids"))
 				{
-					sql.Append(" WHERE n.id IN (");
-					var ids = ((object[])request["ids"]).Cast<int>().ToArray();
-
-					for (int i = 0; i < ids.Length; i++)
+					var ids = request["ids"];
+					if (ids != null && typeof(object[]) == ids.GetType())
 					{
-						if (i > 0)
+						sql.Append(" WHERE n.id IN (");
+						var nodeIds = (object[])request["ids"];
+
+						for (int i = 0; i < nodeIds.Length; i++)
 						{
-							sql.Append(",");
+							var param = string.Concat("@p", i);
+							if (i > 0)
+							{
+								sql.Append(Settings.COMMA);
+							}
+							sql.Append(param);
+							ps.Add(sqlHelper.CreateParameter(param, nodeIds[i]));
 						}
-						sql.Append("@p" + i);
-						ps.Add(sqlHelper.CreateParameter("@p" + i, ids[i]));
+
+						sql.Append(")");
 					}
-
-					sql.Append(")");
 				}
-
 
 				var fields = new[] { "id", "path", "uniqueID", "text", "typeAlias" };
 
@@ -106,16 +108,16 @@ namespace uComponents.Core.Modules
 					}
 				}
 
-				foreach (var node in nodes)
-				{
-					//node["niceUrl"] = umbraco.library.NiceUrl(int.Parse("" + node["id"]));
-				}
+				//// foreach (var node in nodes)
+				//// {
+				//// 	node["niceUrl"] = umbraco.library.NiceUrl(int.Parse("" + node["id"]));
+				//// }
 
 				app.CompleteRequest();
 
 				var response = Encoding.UTF8.GetBytes(json.Serialize(nodes));
 				app.Response.ContentType = "application/json; charset=utf-8";
-				app.Response.AddHeader("Content-Length", "" + response.Length);
+				app.Response.AddHeader("Content-Length", response.Length.ToString());
 				app.Response.BinaryWrite(response);
 
 				return true;
