@@ -71,24 +71,39 @@ namespace uComponents.Core.Modules
 				}
 				else if (method == "range" && request.ContainsKey("ids"))
 				{
-					var ids = request["ids"];
-					if (ids != null && typeof(object[]) == ids.GetType())
+					// check that the Ids are an array
+					if (request["ids"] != null && typeof(object[]) == request["ids"].GetType())
 					{
-						sql.Append(" WHERE n.id IN (");
-						var nodeIds = (object[])request["ids"];
+						int id;
+						var ids = (object[])request["ids"];
+						var nodeIds = new List<int>();
 
-						for (int i = 0; i < nodeIds.Length; i++)
+						// loop through array, making sure they are integers
+						for (int i = 0; i < ids.Length; i++)
 						{
-							var param = string.Concat("@p", i);
-							if (i > 0)
+							if (int.TryParse(ids[i].ToString(), out id))
 							{
-								sql.Append(Settings.COMMA);
+								nodeIds.Add(id);
 							}
-							sql.Append(param);
-							ps.Add(sqlHelper.CreateParameter(param, nodeIds[i]));
 						}
 
-						sql.Append(")");
+						if (nodeIds.Count > 0)
+						{
+							sql.Append(" WHERE n.id IN (");
+
+							for (int i = 0; i < nodeIds.Count; i++)
+							{
+								var param = string.Concat("@p", i);
+								if (i > 0)
+								{
+									sql.Append(Settings.COMMA);
+								}
+								sql.Append(param);
+								ps.Add(sqlHelper.CreateParameter(param, nodeIds[i]));
+							}
+
+							sql.Append(")");
+						}
 					}
 				}
 
