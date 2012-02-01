@@ -49,6 +49,10 @@ namespace uComponents.Core.Modules
 			{
 				var method = path.Substring(ServicePath.Length + 1).ToLower();
 				var json = new JavaScriptSerializer();
+				var nodes = new List<Dictionary<string, object>>();
+				var sqlHelper = Application.SqlHelper;
+				var sql = new StringBuilder();
+				var ps = new List<IParameter>();
 
 				Dictionary<string, object> request;
 				using (var sr = new StreamReader(app.Request.InputStream, Encoding.UTF8))
@@ -56,18 +60,15 @@ namespace uComponents.Core.Modules
 					request = (Dictionary<string, object>)json.DeserializeObject(sr.ReadToEnd());
 				}
 
-				var sqlHelper = Application.SqlHelper;
-				var sql = new StringBuilder(
-					@"SELECT n.id, n.path, n.uniqueID, n.text, ct.alias as typeAlias FROM umbracoNode n
-							INNER JOIN cmsContent c ON c.nodeId = n.id
-							INNER JOIN cmsContentType ct ON ct.nodeId = c.contentType
-							INNER JOIN umbracoNode ctn on ctn.id = ct.nodeId");
-
-				var ps = new List<IParameter>();
 				if (method == "children" && request.ContainsKey("parentID"))
 				{
+					sql.Append(@"SELECT n.id, n.path, n.uniqueID, n.text, ct.alias as typeAlias
+						FROM umbracoNode n
+							INNER JOIN cmsContent c ON c.nodeId = n.id
+							INNER JOIN cmsContentType ct ON ct.nodeId = c.contentType
+							INNER JOIN umbracoNode ctn on ctn.id = ct.nodeId
+						WHERE n.parentID = @parentID");
 					ps.Add(sqlHelper.CreateParameter("@parentID", request["parentID"]));
-					sql.Append(" WHERE n.parentID = @parentID");
 				}
 				else if (method == "range" && request.ContainsKey("ids"))
 				{
@@ -89,7 +90,12 @@ namespace uComponents.Core.Modules
 
 						if (nodeIds.Count > 0)
 						{
-							sql.Append(" WHERE n.id IN (");
+							sql.Append(@"SELECT n.id, n.path, n.uniqueID, n.text, ct.alias as typeAlias
+								FROM umbracoNode n
+									INNER JOIN cmsContent c ON c.nodeId = n.id
+									INNER JOIN cmsContentType ct ON ct.nodeId = c.contentType
+									INNER JOIN umbracoNode ctn on ctn.id = ct.nodeId
+								WHERE n.id IN (");
 
 							for (int i = 0; i < nodeIds.Count; i++)
 							{
@@ -107,26 +113,28 @@ namespace uComponents.Core.Modules
 					}
 				}
 
-				var fields = new[] { "id", "path", "uniqueID", "text", "typeAlias" };
-
-				var nodes = new List<Dictionary<string, object>>();
-				using (var dr = sqlHelper.ExecuteReader(sql.ToString(), ps.ToArray()))
+				if (sql.Length > 0)
 				{
-					while (dr.Read())
-					{
-						var node = new Dictionary<string, object>();
-						foreach (var field in fields)
-						{
-							node.Add(field, dr.GetObject(field));
-						}
-						nodes.Add(node);
-					}
-				}
+					var fields = new[] { "id", "path", "uniqueID", "text", "typeAlias" };
 
-				//// foreach (var node in nodes)
-				//// {
-				//// 	node["niceUrl"] = umbraco.library.NiceUrl(int.Parse("" + node["id"]));
-				//// }
+					using (var dr = sqlHelper.ExecuteReader(sql.ToString(), ps.ToArray()))
+					{
+						while (dr.Read())
+						{
+							var node = new Dictionary<string, object>();
+							foreach (var field in fields)
+							{
+								node.Add(field, dr.GetObject(field));
+							}
+							nodes.Add(node);
+						}
+					}
+
+					//// foreach (var node in nodes)
+					//// {
+					//// 	node["niceUrl"] = umbraco.library.NiceUrl(int.Parse("" + node["id"]));
+					//// }
+				}
 
 				app.CompleteRequest();
 
