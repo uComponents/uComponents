@@ -25,6 +25,11 @@ namespace uComponents.Core.DataTypes.CharLimit
 		/// </summary>
 		private RadioButtonList TextBoxModeList;
 
+        /// <summary>
+        /// The CheckBox control for the option to enforce the character limit of the data-type.
+        /// </summary>
+        private CheckBox CheckBoxEnforceCharacterLimit;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CharLimitPrevalueEditor"/> class.
 		/// </summary>
@@ -64,6 +69,15 @@ namespace uComponents.Core.DataTypes.CharLimit
 				options.TextBoxMode = TextBoxMode.SingleLine;
 			}
 
+            if (this.CheckBoxEnforceCharacterLimit.Checked)
+            {
+                options.EnforceCharLimit = true;
+            }
+            else
+            {
+                options.EnforceCharLimit = false;
+            }
+
 			// save the options as JSON
 			this.SaveAsJson(options);
 		}
@@ -88,14 +102,16 @@ namespace uComponents.Core.DataTypes.CharLimit
 			// set-up child controls
 			this.CharLimitValue = new TextBox() { ID = "TextBoxCharLimit", CssClass = "guiInputText" };
 			this.TextBoxModeList = new RadioButtonList() { ID = "TextBoxModeList" };
+            this.CheckBoxEnforceCharacterLimit = new CheckBox() { ID = "CheckBoxEnforceChatLimit" };
 
 			// populate the controls
 			this.TextBoxModeList.Items.Clear();
 			this.TextBoxModeList.Items.Add(TextBoxMode.SingleLine.ToString());
 			this.TextBoxModeList.Items.Add(TextBoxMode.MultiLine.ToString());
 
+            
 			// add the child controls
-			this.Controls.AddPrevalueControls(this.CharLimitValue, this.TextBoxModeList);
+			this.Controls.AddPrevalueControls(this.CharLimitValue, this.TextBoxModeList, this.CheckBoxEnforceCharacterLimit);
 		}
 
 		/// <summary>
@@ -118,6 +134,7 @@ namespace uComponents.Core.DataTypes.CharLimit
 			// set the values
 			this.CharLimitValue.Text = options.Limit.ToString();
 			this.TextBoxModeList.SelectedValue = options.TextBoxMode.ToString();
+            this.CheckBoxEnforceCharacterLimit.Checked = options.EnforceCharLimit;
 		}
 
 		/// <summary>
@@ -129,6 +146,7 @@ namespace uComponents.Core.DataTypes.CharLimit
 			// add property fields
 			writer.AddPrevalueRow("Character Limit:", this.CharLimitValue);
 			writer.AddPrevalueRow("TextBox Mode:", this.TextBoxModeList);
+            writer.AddPrevalueRow("Enforce Character Limit:", this.CheckBoxEnforceCharacterLimit);
 		}
 	}
 }
