@@ -503,7 +503,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1)
 		{
-			return Format(format, arg1);
+			return FormatString(format, arg1);
 		}
 
 		/// <summary>
@@ -515,7 +515,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1, string arg2)
 		{
-			return Format(format, arg1, arg2);
+			return FormatString(format, arg1, arg2);
 		}
 
 		/// <summary>
@@ -528,7 +528,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1, string arg2, string arg3)
 		{
-			return Format(format, arg1, arg2, arg3);
+			return FormatString(format, arg1, arg2, arg3);
 		}
 
 		/// <summary>
@@ -542,7 +542,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1, string arg2, string arg3, string arg4)
 		{
-			return Format(format, arg1, arg2, arg3, arg4);
+			return FormatString(format, arg1, arg2, arg3, arg4);
 		}
 
 		/// <summary>
@@ -557,7 +557,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1, string arg2, string arg3, string arg4, string arg5)
 		{
-			return Format(format, arg1, arg2, arg3, arg4, arg5);
+			return FormatString(format, arg1, arg2, arg3, arg4, arg5);
 		}
 
 		/// <summary>
@@ -779,7 +779,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <param name="format">The format string.</param>
 		/// <param name="args">The arguments.</param>
 		/// <returns>Returns a formatted string.</returns>
-		private static string Format(string format, params string[] args)
+		private static string FormatString(string format, params string[] args)
 		{
 			return string.Format(format, args);
 		}
