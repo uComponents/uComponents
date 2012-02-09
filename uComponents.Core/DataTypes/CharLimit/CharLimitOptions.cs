@@ -40,5 +40,12 @@ namespace uComponents.Core.DataTypes.CharLimit
 		/// <value>The text box mode.</value>
 		[DefaultValue(TextBoxMode.SingleLine)]
 		public TextBoxMode TextBoxMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the bool option to enforce the character limit
+        /// </summary>
+        /// <value>Enforce character limit option</value>
+        [DefaultValue(true)]
+        public Boolean EnforceCharLimit { get; set; }
 	}
 }
