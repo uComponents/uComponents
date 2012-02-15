@@ -610,5 +610,7 @@ namespace uComponents.Core.uQueryExtensions
 			// TODO: [OA] Document on Codeplex. Is this one really necessary?
 			return node.GetPropertyAsBoolean("umbracoNaviHide");
 		}
+
+		// TODO: [LK] Convert legacy nodeFactory collection to INode collection
 	}
 }
