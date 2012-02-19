@@ -6,6 +6,7 @@ using System.Web.UI;
 using ClientDependency.Core.Controls;
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 // embed resources
 [assembly: WebResource("uComponents.Core.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", MediaTypeNames.Application.JavaScript)]

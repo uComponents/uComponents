@@ -6,7 +6,7 @@ using System.Web.UI;
 using ClientDependency.Core.Controls;
 using ClientDependency.Core;
 using uComponents.Core.Shared;
-
+using uComponents.Core.Shared.Extensions;
 
 [assembly: WebResource("uComponents.Core.DataTypes.UrlPicker.UrlPickerScripts.js", MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.Core.DataTypes.UrlPicker.UrlPickerStyles.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]

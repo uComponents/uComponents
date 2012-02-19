@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 namespace uComponents.Core.Controls
 {

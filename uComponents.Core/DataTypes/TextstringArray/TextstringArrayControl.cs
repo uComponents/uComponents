@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 [assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.css", MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.js", MediaTypeNames.Application.JavaScript)]

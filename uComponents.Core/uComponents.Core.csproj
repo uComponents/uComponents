@@ -507,6 +507,10 @@
     <Compile Include="Shared\Data\XmlData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shared\Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
+    <Compile Include="Shared\Extensions\PrevalueEditorExtensions.cs" />
+    <Compile Include="Shared\Extensions\ResourceExtensions.cs" />
     <Compile Include="Shared\MediaTypeNames.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractOptions.cs" />
@@ -518,9 +522,6 @@
     <Compile Include="Shared\PrevalueEditors\MultiImageUpload_PrevalueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shared\ExceptionExtensions.cs" />
-    <Compile Include="Shared\PrevalueEditorExtensions.cs" />
-    <Compile Include="Shared\ResourceExtensions.cs" />
     <Compile Include="Shared\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -593,7 +594,6 @@
       <DependentUpon>uQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="uQuery\uQueryExtensions\ContentExtensions.cs" />
-    <Compile Include="Shared\IRecordsReaderExtensions.cs" />
     <Compile Include="uQuery\uQueryExtensions\PreValueExtensions.cs" />
     <Compile Include="uQuery\uQueryExtensions\DocumentExtensions.cs" />
     <Compile Include="uQuery\uQueryExtensions\MediaExtensions.cs" />

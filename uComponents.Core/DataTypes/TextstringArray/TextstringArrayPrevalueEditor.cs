@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using uComponents.Core.DataTypes.MultipleTextstring;
-using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
-using System.Web.UI.HtmlControls;
 
 namespace uComponents.Core.DataTypes.TextstringArray
 {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 [assembly: WebResource("uComponents.Core.DataTypes.CharLimit.CharLimit.js", MediaTypeNames.Application.JavaScript)]
 

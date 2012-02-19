@@ -1,5 +1,6 @@
 ﻿using System.Web.UI;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 [assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.color.png", MediaTypeNames.Image.Png)]
 [assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.colorpicker.png", MediaTypeNames.Image.Png)]

@@ -2,10 +2,9 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
-
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
-
 using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.Core.DataTypes.XPathDropDownList

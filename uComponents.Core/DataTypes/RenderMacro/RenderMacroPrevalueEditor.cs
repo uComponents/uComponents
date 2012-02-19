@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.macro;

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using uComponents.Core.Shared;
-// using umbraco.BusinessLogic;
+using uComponents.Core.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
-using umbraco.cms.businesslogic.propertytype;
 
 namespace uComponents.Core.DataTypes.UniqueProperty
 {

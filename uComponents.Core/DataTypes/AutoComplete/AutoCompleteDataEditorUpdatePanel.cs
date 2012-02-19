@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
 using umbraco.interfaces;

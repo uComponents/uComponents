@@ -611,16 +611,26 @@ namespace uComponents.Core.uQueryExtensions
 			return node.GetPropertyAsBoolean("umbracoNaviHide");
 		}
 
-		// TODO/WIP: [LK] Convert legacy nodeFactory collection to INode collection
+#pragma warning disable 0618
+		/// <summary>
+		/// Converts legacy nodeFactory collection to INode collection
+		/// </summary>
+		/// <param name="nodes">The legacy nodeFactory nodes.</param>
+		/// <returns>Returns the legacy nodeFactory nodes as INode nodes.</returns>
 		public static IEnumerable<Node> ToINodes(this IEnumerable<umbraco.presentation.nodeFactory.Node> nodes)
 		{
 			return nodes.Select(n => new Node(n.Id));
 		}
 
-		// TODO/WIP: [LK] Convert INode collection to legacy nodeFactory collection
+		/// <summary>
+		/// Converts INode collection to legacy nodeFactory collection
+		/// </summary>
+		/// <param name="nodes">The nodes.</param>
+		/// <returns>Returns the nodes as legacy nodeFactory nodes.</returns>
 		public static IEnumerable<umbraco.presentation.nodeFactory.Node> ToLegacyNodes(this IEnumerable<Node> nodes)
 		{
 			return nodes.Select(n => new umbraco.presentation.nodeFactory.Node(n.Id));
 		}
+#pragma warning restore 0618
 	}
 }

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Web.UI;
-using umbraco.interfaces;
-using umbraco.cms.businesslogic.datatype;
-using System.Web.UI.WebControls;
-using uComponents.Core.Shared;
-using uComponents;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
-using System.Collections.Generic;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using uComponents.Core.Shared.Extensions;
 using umbraco;
+using umbraco.cms.businesslogic.datatype;
+using umbraco.interfaces;
 using umbraco.IO;
 
 namespace uComponents.Core.Shared.PrevalueEditors

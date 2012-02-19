@@ -1,6 +1,6 @@
 ﻿using umbraco.DataLayer;
 
-namespace uComponents.Core.Shared
+namespace uComponents.Core.Shared.Extensions
 {
 	/// <summary>
 	/// Extensions for the IRecordsReader class

@@ -2,7 +2,7 @@
 using System.Web.Security;
 using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.member;
 

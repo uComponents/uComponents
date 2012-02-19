@@ -3,7 +3,7 @@ using System.Web.UI;
 using ClientDependency.Core;
 using umbraco;
 
-namespace uComponents.Core.Shared
+namespace uComponents.Core.Shared.Extensions
 {
 	/// <summary>
 	/// Extension methods for embedded resources
@@ -29,7 +29,7 @@ namespace uComponents.Core.Shared
 		/// <param name="type">The type.</param>
 		public static void AddResourceToClientDependency(this Control ctl, string resourceName, ClientDependencyType type)
 		{
-			ctl.Page.AddResourceToClientDependency(typeof(uComponents.Core.Shared.ResourceExtensions), resourceName, type, 100);
+			ctl.Page.AddResourceToClientDependency(typeof(uComponents.Core.Shared.Extensions.ResourceExtensions), resourceName, type, 100);
 		}
 
 		/// <summary>

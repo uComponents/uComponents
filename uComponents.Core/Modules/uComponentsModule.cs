@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco;
 using umbraco.presentation;
 

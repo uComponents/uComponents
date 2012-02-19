@@ -2,7 +2,7 @@
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-namespace uComponents.Core.Shared
+namespace uComponents.Core.Shared.Extensions
 {
 	/// <summary>
 	/// Extension methods for the Prevalue Editor

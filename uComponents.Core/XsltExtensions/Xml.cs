@@ -9,6 +9,7 @@ using System.Web.Caching;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco;
 
 namespace uComponents.Core.XsltExtensions

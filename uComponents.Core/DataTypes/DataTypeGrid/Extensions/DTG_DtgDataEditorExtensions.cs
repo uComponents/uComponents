@@ -7,8 +7,8 @@
 namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
 {
     using ClientDependency.Core;
-
     using uComponents.Core.Shared;
+	using uComponents.Core.Shared.Extensions;
 
     /// <summary>
     /// Extension methods for the DataType Grid DataType

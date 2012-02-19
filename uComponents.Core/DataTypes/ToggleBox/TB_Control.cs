@@ -5,11 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
-// embed resources
 [assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Styles.ToggleBox.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.shadow-bg.png", MediaTypeNames.Image.Png)]
