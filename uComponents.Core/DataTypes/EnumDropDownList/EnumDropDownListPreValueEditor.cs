@@ -1,26 +1,29 @@
 ﻿using System;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Xml.XPath;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
+using System.IO;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
-
 using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.Core.DataTypes.EnumDropDownList
 {
-	class EnumDropDownListPreValueEditor : AbstractJsonPrevalueEditor
+	/// <summary>
+	/// Prevalue Editor for the Enum DropDownList data-type.
+	/// </summary>
+	public class EnumDropDownListPreValueEditor : AbstractJsonPrevalueEditor
 	{
 		/// <summary>
-		/// 
+		/// DropDownList to list the assmeblies
 		/// </summary>
 		private DropDownList assemblyDropDownList = new DropDownList();
 
 		/// <summary>
-		///
+		/// DropDownList for the enumerables
 		/// </summary>
 		private DropDownList enumsDropDownList = new DropDownList();
 
@@ -48,6 +51,7 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 						this.options = new EnumDropDownListOptions();
 					}
 				}
+
 				return this.options;
 			}
 		}
@@ -62,7 +66,7 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 		}
 
 		/// <summary>
-		/// Creates all of the controls and assigns all of their properties
+		/// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
 		/// </summary>
 		protected override void CreateChildControls()
 		{
@@ -71,24 +75,40 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 			this.assemblyDropDownList.SelectedIndexChanged += new EventHandler(this.AssemblyDropDownList_SelectedIndexChanged);
 
 			// find all assemblies (*.dll)
-			this.assemblyDropDownList.DataSource = System.IO.Directory.GetFiles(MapPathSecure("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1));
-			//this.assemblyDropDownList.DataSource = System.Threading.Thread.GetDomain().GetAssemblies().Where(assembly => !string.IsNullOrEmpty(assembly.Location) && assembly.Location.StartsWith(MapPathSecure("~/bin")));			
-			//this.assemblyDropDownList.DataTextField = "ManifestModule";
+			this.assemblyDropDownList.DataSource = this.GetAssemblies();
 			this.assemblyDropDownList.DataBind();
 
-			this.assemblyDropDownList.Items.Insert(0, new ListItem("", "-1"));
+			this.assemblyDropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
 
 			this.enumsDropDownList.ID = "enumsDropDownList";
 
-			this.Controls.Add(this.assemblyDropDownList);
-			this.Controls.Add(this.enumsDropDownList);
+			this.Controls.AddPrevalueControls(this.assemblyDropDownList, this.enumsDropDownList);
 		}
 
+		/// <summary>
+		/// Gets the assemblies.
+		/// </summary>
+		/// <returns></returns>
+		private string[] GetAssemblies()
+		{
+			var assemblies = new List<string>();
+
+			// check if the App_Code directory has any files
+			if (Directory.GetFiles(this.MapPathSecure("~/App_Code")).Length > 0)
+			{
+				assemblies.Add("App_Code");
+			}
+
+			// add assemblies from the /bin directory
+			assemblies.AddRange(Directory.GetFiles(this.MapPathSecure("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
+
+			return assemblies.ToArray();
+		}
 
 		/// <summary>
-		/// 
+		/// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
 		/// </summary>
-		/// <param name="e"></param>
+		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
@@ -102,20 +122,39 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 			}
 		}
 
+		/// <summary>
+		/// Handles the SelectedIndexChanged event of the AssemblyDropDownList control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void AssemblyDropDownList_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			this.SetSourceEnumDropDownList();
 		}
 
+		/// <summary>
+		/// Sets the source enum drop down list.
+		/// </summary>
 		private void SetSourceEnumDropDownList()
 		{
+			var value = this.assemblyDropDownList.SelectedValue;
+
 			// recreate the SourceEnum dropdownlist....
-			if (!string.IsNullOrEmpty(this.assemblyDropDownList.SelectedValue))
+			if (!string.IsNullOrEmpty(value))
 			{
 				try
 				{
-					Assembly assembly = Assembly.LoadFile(MapPathSecure("~/bin/" + this.assemblyDropDownList.SelectedValue));
-					Type[] assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
+					Assembly assembly;
+					if (string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase))
+					{
+						assembly = Assembly.Load(value);
+					}
+					else
+					{
+						assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
+					}
+					
+					var assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
 
 					this.enumsDropDownList.DataSource = assemblyTypes;
 					this.enumsDropDownList.DataBind();
@@ -131,7 +170,6 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 			}
 
 		}
-
 
 		/// <summary>
 		/// Saves the pre value data to Umbraco
@@ -150,12 +188,11 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 		/// <summary>
 		/// Replaces the base class writer and instead uses the shared uComponents extension method, to inject consistant markup
 		/// </summary>
-		/// <param name="writer"></param>
+		/// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
 			writer.AddPrevalueRow("Assembly", this.assemblyDropDownList);
 			writer.AddPrevalueRow("Enum", this.enumsDropDownList);
 		}
-
 	}
 }

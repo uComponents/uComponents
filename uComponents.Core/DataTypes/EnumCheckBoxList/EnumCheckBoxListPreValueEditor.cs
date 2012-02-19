@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
 using System.Linq;
+using System.IO;
 using System.Reflection;
-
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
-
 using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.Core.DataTypes.EnumCheckBoxList
@@ -76,12 +77,10 @@ namespace uComponents.Core.DataTypes.EnumCheckBoxList
 			this.assemblyDropDownList.SelectedIndexChanged += new EventHandler(this.AssemblyDropDownList_SelectedIndexChanged);
 
 			// find all assemblies (*.dll)
-			this.assemblyDropDownList.DataSource = System.IO.Directory.GetFiles(MapPathSecure("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1));
-			//this.assemblyDropDownList.DataSource = System.Threading.Thread.GetDomain().GetAssemblies().Where(assembly => !string.IsNullOrEmpty(assembly.Location) && assembly.Location.StartsWith(MapPathSecure("~/bin")));			
-			//this.assemblyDropDownList.DataTextField = "ManifestModule";
+			this.assemblyDropDownList.DataSource = this.GetAssemblies();
 			this.assemblyDropDownList.DataBind();
 
-			this.assemblyDropDownList.Items.Insert(0, new ListItem("", "-1"));
+			this.assemblyDropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
 
 			this.enumsDropDownList.ID = "enumsDropDownList";
 
@@ -96,9 +95,29 @@ namespace uComponents.Core.DataTypes.EnumCheckBoxList
 		}
 
 		/// <summary>
-		/// 
+		/// Gets the assemblies.
 		/// </summary>
-		/// <param name="e"></param>
+		/// <returns></returns>
+		private string[] GetAssemblies()
+		{
+			var assemblies = new List<string>();
+
+			// check if the App_Code directory has any files
+			if (Directory.GetFiles(this.MapPathSecure("~/App_Code")).Length > 0)
+			{
+				assemblies.Add("App_Code");
+			}
+
+			// add assemblies from the /bin directory
+			assemblies.AddRange(Directory.GetFiles(this.MapPathSecure("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
+
+			return assemblies.ToArray();
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
@@ -109,6 +128,7 @@ namespace uComponents.Core.DataTypes.EnumCheckBoxList
 				this.assemblyDropDownList.SelectedValue = this.Options.Assembly;
 				this.SetSourceEnumDropDownList();
 				this.enumsDropDownList.SelectedValue = this.Options.Enum;
+				this.storageTypeRadioButtonList.SelectedIndex = this.Options.UseXml ? 0 : 1;
 			}
 		}
 
@@ -119,13 +139,24 @@ namespace uComponents.Core.DataTypes.EnumCheckBoxList
 
 		private void SetSourceEnumDropDownList()
 		{
+			var value = this.assemblyDropDownList.SelectedValue;
+
 			// recreate the SourceEnum dropdownlist....
-			if (!string.IsNullOrEmpty(this.assemblyDropDownList.SelectedValue))
+			if (!string.IsNullOrEmpty(value))
 			{
 				try
 				{
-					Assembly assembly = Assembly.LoadFile(MapPathSecure("~/bin/" + this.assemblyDropDownList.SelectedValue));
-					Type[] assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
+					Assembly assembly;
+					if (string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase))
+					{
+						assembly = Assembly.Load(value);
+					}
+					else
+					{
+						assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
+					}
+
+					var assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
 
 					this.enumsDropDownList.DataSource = assemblyTypes;
 					this.enumsDropDownList.DataBind();
