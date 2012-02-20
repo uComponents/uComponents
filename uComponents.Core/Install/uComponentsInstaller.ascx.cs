@@ -165,20 +165,20 @@ namespace uComponents.Core.Install
 				{
 					failures.Add(string.Concat(this.cbUiModules.Text, " (", ex.Message, ")"));
 				}
-			}
-			
-			// adds the appSettings keys for the UI modules (drag-n-drop and tray-peek)
-			foreach (ListItem item in this.cblUiModules.Items)
-			{
-				try
+
+				// adds the appSettings keys for the UI modules (drag-n-drop and tray-peek)
+				foreach (ListItem item in this.cblUiModules.Items)
 				{
-					xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_AddAppConfigKey\" key=\"{0}\" value=\"{1}\" />", item.Value, item.Selected.ToString().ToLower()));
-					umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "uComponents_AddAppConfigKey", xml.FirstChild);
-					successes.Add(item.Text);
-				}
-				catch (Exception ex)
-				{
-					failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
+					try
+					{
+						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_AddAppConfigKey\" key=\"{0}\" value=\"{1}\" />", item.Value, item.Selected.ToString().ToLower()));
+						umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "uComponents_AddAppConfigKey", xml.FirstChild);
+						successes.Add(item.Text);
+					}
+					catch (Exception ex)
+					{
+						failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
+					}
 				}
 			}
 
