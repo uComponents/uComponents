@@ -210,71 +210,78 @@ namespace uComponents.Core.uQueryExtensions
 
 			if (property != null)
 			{
-				var dataTypeGuid = property.PropertyType.DataTypeDefinition.DataType.Id.ToString();
-
-				// switch based on datatype of property being set - if setting a built in ddl or radion button list, then string supplied is checked against prevalues
-				switch (dataTypeGuid.ToUpper())
+				if (value != null)
 				{
-					case "A74EA9C9-8E18-4D2A-8CF6-73C6206C5DA6": // DropDownList
-					case "A52C7C1C-C330-476E-8605-D63D3B84B6A6": // RadioButtonList
+					var dataTypeGuid = property.PropertyType.DataTypeDefinition.DataType.Id.ToString();
 
-						var preValues = PreValues.GetPreValues(property.PropertyType.DataTypeDefinition.Id);
-						PreValue preValue = null;
+					// switch based on datatype of property being set - if setting a built in ddl or radion button list, then string supplied is checked against prevalues
+					switch (dataTypeGuid.ToUpper())
+					{
+						case "A74EA9C9-8E18-4D2A-8CF6-73C6206C5DA6": // DropDownList
+						case "A52C7C1C-C330-476E-8605-D63D3B84B6A6": // RadioButtonList
 
-						// switch based on the supplied value type
-						switch (Type.GetTypeCode(value.GetType()))
-						{
-							case TypeCode.String:
-								// attempt to get prevalue from the label
-								preValue = preValues.Values.Cast<PreValue>().Where(x => x.Value == (string)value).FirstOrDefault();
-								break;
+							var preValues = PreValues.GetPreValues(property.PropertyType.DataTypeDefinition.Id);
+							PreValue preValue = null;
 
-							case TypeCode.Int16:
-							case TypeCode.Int32:
-								// attempt to get prevalue from the id
-								preValue = preValues.Values.Cast<PreValue>().Where(x => x.Id == (int)value).FirstOrDefault();
-								break;
-						}
-
-						if (preValue != null)
-						{
-							// check db field type being saved to and store prevalue id as an int or a string - note can never save a prevalue id to a date field ! 
-							switch (((DefaultData)property.PropertyType.DataTypeDefinition.DataType.Data).DatabaseType)
+							// switch based on the supplied value type
+							switch (Type.GetTypeCode(value.GetType()))
 							{
-								case DBTypes.Ntext:
-								case DBTypes.Nvarchar:
-									property.Value = preValue.Id.ToString();
+								case TypeCode.String:
+									// attempt to get prevalue from the label
+									preValue = preValues.Values.Cast<PreValue>().Where(x => x.Value == (string)value).FirstOrDefault();
 									break;
 
-								case DBTypes.Integer:
-									property.Value = preValue.Id;
+								case TypeCode.Int16:
+								case TypeCode.Int32:
+									// attempt to get prevalue from the id
+									preValue = preValues.Values.Cast<PreValue>().Where(x => x.Id == (int)value).FirstOrDefault();
 									break;
 							}
-						}
 
-						break;
-
-					case "23E93522-3200-44E2-9F29-E61A6FCBB79A": // Date (NOTE: currently assumes database type is set to Date)
-
-						switch (Type.GetTypeCode(value.GetType()))
-						{
-							case TypeCode.DateTime:
-								property.Value = ((DateTime)value).Date;
-								break;
-							case TypeCode.String:
-								DateTime valueDateTime;
-								if (DateTime.TryParse((string)value, out valueDateTime))
+							if (preValue != null)
+							{
+								// check db field type being saved to and store prevalue id as an int or a string - note can never save a prevalue id to a date field ! 
+								switch (((DefaultData)property.PropertyType.DataTypeDefinition.DataType.Data).DatabaseType)
 								{
-									property.Value = valueDateTime.Date;
-								};
-								break;
-						}
+									case DBTypes.Ntext:
+									case DBTypes.Nvarchar:
+										property.Value = preValue.Id.ToString();
+										break;
 
-						break;
+									case DBTypes.Integer:
+										property.Value = preValue.Id;
+										break;
+								}
+							}
 
-					default:
-						property.Value = value; // This saves the property value
-						break;
+							break;
+
+						case "23E93522-3200-44E2-9F29-E61A6FCBB79A": // Date (NOTE: currently assumes database type is set to Date)
+
+							switch (Type.GetTypeCode(value.GetType()))
+							{
+								case TypeCode.DateTime:
+									property.Value = ((DateTime)value).Date;
+									break;
+								case TypeCode.String:
+									DateTime valueDateTime;
+									if (DateTime.TryParse((string)value, out valueDateTime))
+									{
+										property.Value = valueDateTime.Date;
+									};
+									break;
+							}
+
+							break;
+
+						default:
+							property.Value = value; // This saves the property value
+							break;
+					}
+				}
+				else
+				{
+					property.Value = value;
 				}
 			}
 
