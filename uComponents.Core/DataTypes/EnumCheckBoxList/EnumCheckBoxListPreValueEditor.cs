@@ -109,6 +109,7 @@ namespace uComponents.Core.DataTypes.EnumCheckBoxList
 				this.assemblyDropDownList.SelectedValue = this.Options.Assembly;
 				this.SetSourceEnumDropDownList();
 				this.enumsDropDownList.SelectedValue = this.Options.Enum;
+				this.storageTypeRadioButtonList.SelectedIndex = this.Options.UseXml ? 0 : 1;
 			}
 		}
 
