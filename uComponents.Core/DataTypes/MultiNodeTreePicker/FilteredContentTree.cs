@@ -198,8 +198,12 @@ namespace uComponents.Core.DataTypes.MultiNodeTreePicker
         {
             base.OnRenderNode(ref xNode, doc);
 
-            var xpath = this.GetXPathFromCookie(this.GetDataTypeId());
-            var xPathType = this.GetXPathFilterTypeFromCookie(this.GetDataTypeId());
+			var dataTypeId = this.GetDataTypeId();
+			var xpath = this.GetXPathFromCookie(dataTypeId);
+			var xPathType = this.GetXPathFilterTypeFromCookie(dataTypeId);
+
+			// resolves any Umbraco params in the XPath
+			xpath = uQuery.ResolveXPath(xpath);
 
             var xDoc = new XmlDocument();
             XmlNode xmlDoc;
@@ -218,7 +222,7 @@ namespace uComponents.Core.DataTypes.MultiNodeTreePicker
             xNode.DetermineClickable(xpath, xPathType, xml);
 
             //ensure that the NodeKey is passed through
-            xNode.Source = this.GetTreeServiceUrlWithParams(int.Parse(xNode.NodeID), this.GetDataTypeId());
+			xNode.Source = this.GetTreeServiceUrlWithParams(int.Parse(xNode.NodeID), dataTypeId);
         } 
         #endregion
     }

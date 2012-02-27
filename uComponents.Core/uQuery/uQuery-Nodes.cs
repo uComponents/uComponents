@@ -3,12 +3,13 @@ using System.Linq;
 using System.Web;
 using System.Xml.XPath;
 using uComponents.Core.uQueryExtensions;
+using umbraco;
 using umbraco.NodeFactory;
 
 namespace uComponents.Core
 {
 	/// <summary>
-	/// 
+	/// uQuery sub-class for Nodes
 	/// </summary>
 	public static partial class uQuery
 	{
@@ -20,69 +21,39 @@ namespace uComponents.Core
 		/// <summary>
 		/// Get a collection of Umbraco Nodes from an XPath expression
 		/// </summary>
-		/// <param name="xPath">XPath expression to get Nodes, can use $ancestorOrSelf which will use the current Node if published, else it'll use the nearest published parent
+		/// <param name="xpath">XPath expression to get Nodes, can use $ancestorOrSelf which will use the current Node if published, else it'll use the nearest published parent
 		/// $currentPage will be depreciated</param>
 		/// <returns>an empty collection or a collection of nodes</returns>
-		public static List<Node> GetNodesByXPath(string xPath)
+		public static List<Node> GetNodesByXPath(string xpath)
 		{
 			var nodes = new List<Node>();
 
-			if (xPath.Contains("$currentPage") || xPath.Contains("$ancestorOrSelf") || xPath.Contains("$parentPage"))
-			{
-				var ancestorOrSelfId = RootNodeId;
-				var parentPageId = RootNodeId;
-
-				var currentNode = uQuery.GetCurrentNode();
-				if (currentNode != null)
-				{
-					ancestorOrSelfId = currentNode.Id;
-					parentPageId = (currentNode.Parent != null) ? currentNode.Parent.Id : currentNode.Id;
-				}
-				else
-				{
-					// current node is unpublished or can't be found, so try via the Document API
-					var currentDocument = uQuery.GetCurrentDocument();
-					if (currentDocument != null)
-					{
-						// need to find first published parent						
-						var publishedDocument = currentDocument.GetAncestorOrSelfDocuments().Where(document => document.Published == true).FirstOrDefault();
-						if (publishedDocument != null)
-						{
-							// found the nearest published document
-							ancestorOrSelfId = publishedDocument.Id;
-							parentPageId = (publishedDocument.Id == currentDocument.Id) ? currentDocument.ParentId : publishedDocument.Id;
-						}
-					}
-				}
-
-				xPath = xPath.Replace("$parentPage", string.Concat("/descendant::*[@id='", parentPageId, "']"));
-				xPath = xPath.Replace("$currentPage", "$ancestorOrSelf"); // $currentPage TO BE DECPRECIATED
-				xPath = xPath.Replace("$ancestorOrSelf", string.Concat("/descendant::*[@id='", ancestorOrSelfId, "']"));
-			}
+			// resolve the XPath expression with any Umbraco-specific parameters
+			xpath = uQuery.ResolveXPath(xpath);
 
 			// Get Umbraco Xml
-			XPathNavigator xPathNavigator = umbraco.content.Instance.XmlContent.CreateNavigator();
+			var xPathNavigator = content.Instance.XmlContent.CreateNavigator();
 			XPathExpression xPathExpression;
 
 			// Check to see if XPathExpression is in the cache
-			if (HttpContext.Current.Cache[xPath] == null)
+			if (HttpContext.Current.Cache[xpath] == null)
 			{
 				// Build Compiled XPath expression
-				xPathExpression = xPathNavigator.Compile(xPath);
+				xPathExpression = xPathNavigator.Compile(xpath);
 
 				// Store in Cache
-				HttpContext.Current.Cache[xPath] = xPathExpression;
+				HttpContext.Current.Cache[xpath] = xPathExpression;
 			}
 			else // Get from Cache
 			{
-				xPathExpression = (XPathExpression)HttpContext.Current.Cache[xPath];
+				xPathExpression = (XPathExpression)HttpContext.Current.Cache[xpath];
 			}
 
 			// [LK] Interested in exploring options to call custom extension methods in XPath expressions.
 			// http://msdn.microsoft.com/en-us/library/ms950806.aspx
 			// http://msdn.microsoft.com/en-us/library/dd567715.aspx
 
-			XPathNodeIterator xPathNodeIterator = xPathNavigator.Select(xPathExpression);
+			var xPathNodeIterator = xPathNavigator.Select(xPathExpression);
 
 			while (xPathNodeIterator.MoveNext())
 			{
@@ -274,6 +245,55 @@ namespace uComponents.Core
 			}
 
 			return node;
+		}
+
+		/// <summary>
+		/// Resolves the XPath expression with any Umbraco-specific parameters.
+		/// </summary>
+		/// <param name="xpath">The xpath expression.</param>
+		/// <returns>Returns an XPath expression with the Umbraco-specific parameters resolved.</returns>
+		public static string ResolveXPath(string xpath)
+		{
+			if (!string.IsNullOrWhiteSpace(xpath))
+			{
+				var parameters = new[] { "$currentPage", "$ancestorOrSelf", "$parentPage" };
+
+				if (parameters.Any(xpath.Contains))
+				{
+					var ancestorOrSelfId = RootNodeId;
+					var parentPageId = RootNodeId;
+
+					var currentNode = uQuery.GetCurrentNode();
+					if (currentNode != null)
+					{
+						ancestorOrSelfId = currentNode.Id;
+						parentPageId = (currentNode.Parent != null) ? currentNode.Parent.Id : currentNode.Id;
+					}
+					else
+					{
+						// current node is unpublished or can't be found, so try via the Document API
+						var currentDocument = uQuery.GetCurrentDocument();
+						if (currentDocument != null)
+						{
+							// need to find first published parent
+							var publishedDocument = currentDocument.GetAncestorOrSelfDocuments().Where(document => document.Published == true).FirstOrDefault();
+							if (publishedDocument != null)
+							{
+								// found the nearest published document
+								ancestorOrSelfId = publishedDocument.Id;
+								parentPageId = (publishedDocument.Id == currentDocument.Id) ? currentDocument.ParentId : publishedDocument.Id;
+							}
+						}
+					}
+
+					// replace the parameters with corresponding XPath expression
+					xpath = xpath.Replace("$parentPage", string.Concat("/descendant::*[@id='", parentPageId, "']"));
+					xpath = xpath.Replace("$currentPage", "$ancestorOrSelf");
+					xpath = xpath.Replace("$ancestorOrSelf", string.Concat("/descendant::*[@id='", ancestorOrSelfId, "']"));
+				}
+			}
+
+			return xpath;
 		}
 
 		/// <summary>
