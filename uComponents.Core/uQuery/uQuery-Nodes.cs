@@ -96,6 +96,32 @@ namespace uComponents.Core
 			return nodes;
 		}
 
+        /// <summary>
+        /// The umbraco.content.Instance.XmlContent method from VB.NET causes an ambiguous issue,
+        /// so this method can gets the source xml directly from the DB
+        /// WARNING: xml is flat - every node in the content tree is a sibling
+        /// </summary>
+        /// <param name="xPath"></param>
+        /// <returns></returns>
+        public static List<Node> GetNodesByXPathViaSql(string xPath)
+        {
+            var nodes = new List<Node>();
+            var xmlDocument = uQuery.GetPublishedXml(UmbracoObjectType.Document);
+            var xPathNavigator = xmlDocument.CreateNavigator();
+            var xPathNodeIterator = xPathNavigator.Select(xPath);
+
+            while (xPathNodeIterator.MoveNext())
+            {
+                var node = uQuery.GetNode(xPathNodeIterator.Current.Evaluate("string(@id)").ToString());
+                if (node != null)
+                {
+                    nodes.Add(node);
+                }
+            }
+
+            return nodes;
+        }
+
 		/// <summary>
 		/// Returns a collection of Nodes, from a delimited list of Ids (as per the format used with UltimatePicker)
 		/// </summary>
