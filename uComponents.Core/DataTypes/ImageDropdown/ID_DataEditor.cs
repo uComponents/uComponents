@@ -4,6 +4,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 
 [assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.css.ImageDropdown.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]

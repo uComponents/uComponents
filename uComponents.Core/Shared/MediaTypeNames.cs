@@ -16,6 +16,11 @@ namespace uComponents.Core.Shared
 			/// MIME type for JavaScript files/scripts.
 			/// </summary>
 			public const string JavaScript = "application/x-javascript";
+
+			/// <summary>
+			/// MIME type for JSON text.
+			/// </summary>
+			public const string Json = "application/json";
 		}
 
 		/// <summary>

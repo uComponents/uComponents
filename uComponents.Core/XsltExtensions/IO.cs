@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Xml;
 using System.Xml.XPath;
-
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco.IO;
 
 namespace uComponents.Core.XsltExtensions
@@ -49,11 +46,11 @@ namespace uComponents.Core.XsltExtensions
 			try
 			{
 				// create the XML document
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<Directories/>");
 
 				// set the search options
-				SearchOption searchOption = allDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+				var searchOption = allDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
 				// get the directories
 				var directories = Directory.GetDirectories(path, searchPattern, searchOption);
@@ -65,7 +62,7 @@ namespace uComponents.Core.XsltExtensions
 					foreach (var directory in directories)
 					{
 						// create an XML node for the directory
-						XmlNode directoryNode = umbraco.xmlHelper.addTextNode(xd, "Directory", directory);
+						var directoryNode = umbraco.xmlHelper.addTextNode(xd, "Directory", directory);
 
 						// add the node to the XML document
 						xd.DocumentElement.AppendChild(directoryNode);
@@ -93,11 +90,11 @@ namespace uComponents.Core.XsltExtensions
 			try
 			{
 				// create the XML document
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<Files/>");
 
 				// set the search options
-				SearchOption searchOption = allDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+				var searchOption = allDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
 				// get the files
 				var files = Directory.GetFiles(path, searchPattern, searchOption);
@@ -109,7 +106,7 @@ namespace uComponents.Core.XsltExtensions
 					foreach (var file in files)
 					{
 						// create an XML node for the file
-						XmlNode fileNode = umbraco.xmlHelper.addTextNode(xd, "File", file);
+						var fileNode = umbraco.xmlHelper.addTextNode(xd, "File", file);
 
 						// add the node to the XML document
 						xd.DocumentElement.AppendChild(fileNode);
@@ -251,9 +248,9 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns></returns>
 		public static string FormatFileSize(long filesize)
 		{
-			string[] suffix = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB" };
-			int i = 0;
-			int kilobyte = 1024;
+			var suffix = new[] { "bytes", "KB", "MB", "GB", "TB", "PB", "EB" };
+			var i = 0;
+			var kilobyte = 1024;
 
 			// while the filesize is over 1KB and index is less than the length of the suffix array.
 			while (filesize >= kilobyte && i < suffix.Length)
@@ -297,7 +294,7 @@ namespace uComponents.Core.XsltExtensions
 		{
 			if (!string.IsNullOrEmpty(path))
 			{
-				string localFile = MapPath(path, true);
+				var localFile = MapPath(path, true);
 
 				if (File.Exists(localFile))
 				{

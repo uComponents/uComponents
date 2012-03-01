@@ -7,6 +7,7 @@ using System.Xml.XPath;
 using uComponents.Core.Shared;
 using umbraco;
 using umbraco.cms.helpers;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core.XsltExtensions
 {
@@ -67,12 +68,11 @@ namespace uComponents.Core.XsltExtensions
 				return string.Concat(url, q, key, '=', HttpUtility.UrlEncode(value));
 			}
 
-			string baseUrl = url.Substring(0, url.IndexOf(q));
-			string queryString = url.Substring(url.IndexOf(q) + 1);
-
-			bool match = false;
-
+			var baseUrl = url.Substring(0, url.IndexOf(q));
+			var queryString = url.Substring(url.IndexOf(q) + 1);
+			var match = false;
 			var kvps = HttpUtility.ParseQueryString(queryString);
+
 			foreach (var queryStringKey in kvps.AllKeys)
 			{
 				if (queryStringKey == key)
@@ -249,15 +249,15 @@ namespace uComponents.Core.XsltExtensions
 		/// </remarks>
 		public static string GuessNiceUrl(int nodeId)
 		{
-			var node = new umbraco.presentation.nodeFactory.Node(nodeId);
-			string niceUrl = node.NiceUrl;
-			bool published = node.Path != null;
+			var node = new Node(nodeId);
+			var niceUrl = node.NiceUrl;
+			var published = node.Path != null;
 
 			if (!niceUrl.StartsWith(Settings.HTTP) || !published)
 			{
 				const string URLNAME = "umbracoUrlName";
-				bool hasDomain = false;
-				string domain = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToLower();
+				var hasDomain = false;
+				var domain = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToLower();
 				string nodeName;
 				string nodePath;
 				int nodeParentId;
@@ -282,7 +282,7 @@ namespace uComponents.Core.XsltExtensions
 				if (UmbracoSettings.UseDomainPrefixes)
 				{
 					// get the path
-					string[] path = nodePath.Split(Settings.SLASH);
+					var path = nodePath.Split(Settings.SLASH);
 
 					// loop through each part of the path in reverse order
 					for (int i = path.Length - 1; i >= 0; i--)
@@ -305,7 +305,7 @@ namespace uComponents.Core.XsltExtensions
 				if (!published)
 				{
 					// get the published node for the parent node.
-					var parentNode = new umbraco.presentation.nodeFactory.Node(nodeParentId);
+					var parentNode = new Node(nodeParentId);
 					if (parentNode.Path != null || (nodeParentId == uQuery.RootNodeId && !hasDomain))
 					{
 						int level = parentNode.Path.Split(Settings.COMMA).Length;

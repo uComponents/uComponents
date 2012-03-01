@@ -213,6 +213,17 @@ namespace uComponents.Core
 		}
 
 		/// <summary>
+		/// Converts a string array into an integer array.
+		/// </summary>
+		/// <param name="items">The string array.</param>
+		/// <returns>Returns an integer array.</returns>
+		internal static int[] ConvertToIntArray(string[] items)
+		{
+			int n;
+			return items.Select(s => int.TryParse(s, out n) ? n : 0).ToArray();
+		}
+
+		/// <summary>
 		/// Generates an XML document.
 		/// </summary>
 		/// <param name="hierarchy">The hierarchy.</param>

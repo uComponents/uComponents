@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using Examine;
 using uComponents.Core.DataTypes.CountryPicker;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.propertytype;
 using umbraco.interfaces;
@@ -15,7 +16,7 @@ using umbraco.interfaces;
 namespace uComponents.Core.DataTypes.Similarity
 {
     /// <summary>
-    /// TODO add validation and pick up label descriptions from resource file
+    /// TODO: [IM] add validation and pick up label descriptions from resource file
     /// </summary>
     public class SimilarityPreValueEditor:Control, IDataPrevalue
     {

@@ -1,7 +1,7 @@
 ﻿using System.Web.UI;
 using ClientDependency.Core;
 using uComponents.Core.Shared;
-
+using uComponents.Core.Shared.Extensions;
 
 [assembly: WebResource("uComponents.Core.DataTypes.MultiUrlPicker.MultiUrlPickerScripts.js", MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.Core.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]

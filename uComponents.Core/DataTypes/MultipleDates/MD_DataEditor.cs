@@ -3,6 +3,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco.uicontrols.DatePicker;
 
 [assembly: WebResource("uComponents.Core.DataTypes.MultipleDates.css.MultipleDates.css", MediaTypeNames.Text.Css)]

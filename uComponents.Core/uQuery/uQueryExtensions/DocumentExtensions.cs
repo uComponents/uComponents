@@ -4,7 +4,7 @@ using System.Linq;
 using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.web;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core.uQueryExtensions
 {

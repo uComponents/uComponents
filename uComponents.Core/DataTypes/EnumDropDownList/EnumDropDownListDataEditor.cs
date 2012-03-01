@@ -99,8 +99,17 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 
 			try
 			{
-				Assembly assembly = Assembly.ReflectionOnlyLoadFrom(MapPathSecure("~/bin/" + this.options.Assembly));
-				Type type = assembly.GetType(this.options.Enum);
+				Assembly assembly;
+				if (string.Equals(this.options.Assembly, "App_Code", StringComparison.InvariantCultureIgnoreCase))
+				{
+					assembly = Assembly.Load(this.options.Assembly);
+				}
+				else
+				{
+					assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", this.options.Assembly)));
+				}
+
+				var type = assembly.GetType(this.options.Enum);
 
 				// Loop though enum to create drop down list items
 				foreach (string name in Enum.GetNames(type))

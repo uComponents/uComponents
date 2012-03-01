@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-
-using ClientDependency.Core.Controls;
-
 using uComponents.Core.Shared;
-using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 

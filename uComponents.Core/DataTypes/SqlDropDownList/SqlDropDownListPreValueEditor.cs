@@ -2,10 +2,9 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
-
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
-
 using umbraco.cms.businesslogic.datatype;
 using umbraco.DataLayer;
 
@@ -123,7 +122,7 @@ namespace uComponents.Core.DataTypes.SqlDropDownList
 
 			try
 			{
-				// TODO:
+				// TODO: [HR] SqlCustomValidator_ServerValidate
 
 				isValid = true;
 			}

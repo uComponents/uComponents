@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 [assembly: WebResource("uComponents.Core.DataTypes.CharLimit.CharLimit.js", MediaTypeNames.Application.JavaScript)]
 
@@ -94,6 +94,7 @@ namespace uComponents.Core.DataTypes.CharLimit
 			this.TextBoxControl.TextMode = this.Options.TextBoxMode;
 			this.TextBoxControl.CssClass = this.Options.TextBoxMode == TextBoxMode.SingleLine ? "CharLimit umbEditorTextField" : "CharLimit umbEditorTextFieldMultiple";
 			this.TextBoxControl.Attributes.Add("rel", this.Options.Limit.ToString());
+            this.TextBoxControl.Attributes.Add("enforce", this.Options.EnforceCharLimit.ToString());
 
 			// add the controls
 			this.Controls.Add(this.TextBoxControl);
@@ -110,9 +111,20 @@ namespace uComponents.Core.DataTypes.CharLimit
 
 			this.TextBoxControl.RenderControl(writer);
 
+            String message = String.Format("You have {0} characters left.", this.Options.Limit - this.Text.Length);
+
+            if(!this.Options.EnforceCharLimit && this.Text.Length > this.Options.Limit){
+                message = String.Format("You have gone past the limit of {0}. Total: {1} characters.", this.Options.Limit, this.Text.Length);
+            }
+            // in the case where they've Not enforced the character limit, entered too many characters, and then turned 'enforce' on.
+            else if (this.Options.EnforceCharLimit && this.Text.Length > this.Options.Limit)
+            {
+                message = String.Format("You used {0} characters. You are only allowed {1} characters.", this.Text.Length, this.Options.Limit);
+            }
+
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, "CharLimitStatus");
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
-			writer.Write("You have {0} characters left.", this.Options.Limit - this.Text.Length);
+			writer.Write(message);
 			writer.RenderEndTag(); // .CharLimitStatus
 
 			writer.RenderEndTag(); // .CharLimit

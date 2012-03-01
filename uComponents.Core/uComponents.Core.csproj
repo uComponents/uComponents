@@ -96,6 +96,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\GetMedia.cs" />
+    <Compile Include="DataTypes\CheckBoxTree\CheckBoxTreeModelBinder.cs" />
+    <Compile Include="DataTypes\CountryPicker\CountryPickerModelBinder.cs" />
     <Compile Include="DataTypes\DataTypeConstants.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_DateDataTypeFunctions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_DropDownListDataTypeExtensions.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_MediaPickerDataTypeExtensions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_MemberPickerDataTypeExtensions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_TinyMCE3DataTypeExtensions.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\DTG_ModelBinder.cs" />
     <Compile Include="DataTypes\DataTypeGrid\Extensions\DTG_DataTypeExtensions.cs" />
     <Compile Include="DataTypes\EnumCheckBoxList\EnumCheckBoxListAttribute.cs">
       <SubType>Code</SubType>
@@ -120,21 +123,30 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataTypes\EnumDropDownList\EnumDropDownListAttribute.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\MultiNodeTreePickerModelBinder.cs" />
+    <Compile Include="DataTypes\MultipleDates\MD_ModelBinder.cs" />
+    <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringModelBinder.cs" />
+    <Compile Include="DataTypes\MultiUrlPicker\MultiUrlPickerModelBinder.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroDataEditor.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroDataType.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroOptions.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroPrevalueEditor.cs" />
     <Compile Include="DataTypes\Similarity\Net\MoreLikeThis.cs" />
     <Compile Include="DataTypes\Similarity\Net\SimilarityQueries.cs" />
+    <Compile Include="DataTypes\Similarity\SimilarityModelBinder.cs" />
+    <Compile Include="DataTypes\Slider\SliderModelBinder.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListDataEditor.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListDataType.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListOptions.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListPreValueEditor.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayControl.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayDataType.cs" />
+    <Compile Include="DataTypes\TextstringArray\TextstringArrayModelBinder.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayOptions.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayPrevalueEditor.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayData.cs" />
+    <Compile Include="DataTypes\UrlPicker\UrlPickerModelBinder.cs" />
+    <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
     <Compile Include="NotFoundHandlers\SearchForPageNotFound.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -495,6 +507,10 @@
     <Compile Include="Shared\Data\XmlData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shared\Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
+    <Compile Include="Shared\Extensions\PrevalueEditorExtensions.cs" />
+    <Compile Include="Shared\Extensions\ResourceExtensions.cs" />
     <Compile Include="Shared\MediaTypeNames.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractOptions.cs" />
@@ -506,9 +522,6 @@
     <Compile Include="Shared\PrevalueEditors\MultiImageUpload_PrevalueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shared\ExceptionExtensions.cs" />
-    <Compile Include="Shared\PrevalueEditorExtensions.cs" />
-    <Compile Include="Shared\ResourceExtensions.cs" />
     <Compile Include="Shared\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -581,7 +594,6 @@
       <DependentUpon>uQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="uQuery\uQueryExtensions\ContentExtensions.cs" />
-    <Compile Include="Shared\IRecordsReaderExtensions.cs" />
     <Compile Include="uQuery\uQueryExtensions\PreValueExtensions.cs" />
     <Compile Include="uQuery\uQueryExtensions\DocumentExtensions.cs" />
     <Compile Include="uQuery\uQueryExtensions\MediaExtensions.cs" />

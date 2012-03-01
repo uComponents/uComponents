@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
-
 using uComponents.Core.Shared;
 using umbraco.cms.helpers;
 
@@ -239,18 +238,20 @@ namespace uComponents.Core.XsltExtensions
 		/// </remarks>
 		public static string StripHTML(string input)
 		{
+			var less = '<';
+			var greater = '>';
 			var sb = new StringBuilder(input.Length);
 			var inside = false;
 			for (var i = 0; i < input.Length; i++)
 			{
 				char let = input[i];
-				if (let == '<')
+				if (let == less)
 				{
 					inside = true;
 					continue;
 				}
 
-				if (let == '>')
+				if (let == greater)
 				{
 					inside = false;
 					continue;
@@ -333,8 +334,6 @@ namespace uComponents.Core.XsltExtensions
 		public static string ConvertToCamelCase(string input)
 		{
 			var sb = new StringBuilder();
-
-			// Look for spaces
 			var str = input.Split(new[] { ' ' });
 			var firstTime = true;
 
@@ -503,7 +502,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1)
 		{
-			return Format(format, arg1);
+			return FormatString(format, arg1);
 		}
 
 		/// <summary>
@@ -515,7 +514,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1, string arg2)
 		{
-			return Format(format, arg1, arg2);
+			return FormatString(format, arg1, arg2);
 		}
 
 		/// <summary>
@@ -528,7 +527,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1, string arg2, string arg3)
 		{
-			return Format(format, arg1, arg2, arg3);
+			return FormatString(format, arg1, arg2, arg3);
 		}
 
 		/// <summary>
@@ -542,7 +541,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1, string arg2, string arg3, string arg4)
 		{
-			return Format(format, arg1, arg2, arg3, arg4);
+			return FormatString(format, arg1, arg2, arg3, arg4);
 		}
 
 		/// <summary>
@@ -557,7 +556,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns a formatted string.</returns>
 		public static string Format(string format, string arg1, string arg2, string arg3, string arg4, string arg5)
 		{
-			return Format(format, arg1, arg2, arg3, arg4, arg5);
+			return FormatString(format, arg1, arg2, arg3, arg4, arg5);
 		}
 
 		/// <summary>
@@ -779,7 +778,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <param name="format">The format string.</param>
 		/// <param name="args">The arguments.</param>
 		/// <returns>Returns a formatted string.</returns>
-		private static string Format(string format, params string[] args)
+		private static string FormatString(string format, params string[] args)
 		{
 			return string.Format(format, args);
 		}

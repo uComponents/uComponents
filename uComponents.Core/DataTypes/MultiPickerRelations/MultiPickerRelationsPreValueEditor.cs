@@ -1,32 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web.UI.WebControls;
-using System.Web.UI;
-//using System.Data;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
-using System.IO;
-
 using System.Linq;
-
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
-
-using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.relation;
-using umbraco.DataLayer;
-using umbraco.interfaces;
 using umbraco.macroRenderings;
-using umbraco.presentation.nodeFactory;
 
 namespace uComponents.Core.DataTypes.MultiPickerRelations
 {
     /// <summary>
     /// This PreValueEditor will require an XPath expression to define the nodes to pick as CheckBox options,
-    /// TODO: min / max selections ?
+	/// TODO: [HR] min / max selections ?
     /// Uses the shared JsonPreValueEditor as nice way of lightweight serializing a config data class object into a single DB field
     /// </summary>
     public class MultiPickerRelationsPreValueEditor : AbstractJsonPrevalueEditor

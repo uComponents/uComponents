@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.XPath;
 using uComponents.Core.Shared;
 using umbraco;
-using System.Xml.XPath;
 
 namespace uComponents.Core.XsltExtensions
 {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 [assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", MediaTypeNames.Application.JavaScript)]

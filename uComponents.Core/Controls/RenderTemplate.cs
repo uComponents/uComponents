@@ -7,8 +7,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core.Controls
 {
@@ -60,6 +61,12 @@ namespace uComponents.Core.Controls
 				}
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets the custom property.
+		/// </summary>
+		/// <value>The custom property.</value>
+		public string CustomProperty { get; set; }
 
 		/// <summary>
 		/// Gets or sets the doc-type aliases to use the altTemplate.
@@ -177,6 +184,12 @@ namespace uComponents.Core.Controls
 		{
 			base.OnLoad(e);
 
+			// add custom property
+			if (!string.IsNullOrEmpty(this.CustomProperty))
+			{
+				this.AddCustomProperty("ucCustomProperty", this.CustomProperty);
+			}
+
 			// get the nodes.
 			var nodes = this.GetNodes();
 
@@ -195,7 +208,7 @@ namespace uComponents.Core.Controls
 				// intialise the output collection.
 				if (this.RenderedTemplates == null)
 				{
-					this.RenderedTemplates = new List<string>(nodes.Count);
+					this.RenderedTemplates = new List<string>(take);
 				}
 
 				// loop through each node (with pagination)
@@ -252,6 +265,19 @@ namespace uComponents.Core.Controls
 		}
 
 		/// <summary>
+		/// Adds the custom property.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="value">The value.</param>
+		private void AddCustomProperty(string key, object value)
+		{
+			if (!HttpContext.Current.Items.Contains(key))
+			{
+				HttpContext.Current.Items.Add(key, value);
+			}
+		}
+
+		/// <summary>
 		/// Gets the nodes.
 		/// </summary>
 		/// <returns>Returns a list of nodes.</returns>
@@ -263,11 +289,7 @@ namespace uComponents.Core.Controls
 			// add the current node id to a HttpItem - in case of reference
 			if (currentNode != null)
 			{
-				var itemKey = "umbCallingPageId";
-				if (!HttpContext.Current.Items.Contains(itemKey))
-				{
-					HttpContext.Current.Items.Add(itemKey, currentNode.Id);	
-				}
+				this.AddCustomProperty("umbCallingPageId", currentNode.Id);
 			}
 
 			// checks whether to use the child nodes.

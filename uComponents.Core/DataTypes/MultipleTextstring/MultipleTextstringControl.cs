@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core.DataTypes.MultipleTextstring;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco;
 
 [assembly: WebResource(MultipleTextstringControl.CssResourcePath, MediaTypeNames.Text.Css)]

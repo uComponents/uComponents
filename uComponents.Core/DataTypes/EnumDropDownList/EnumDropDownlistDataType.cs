@@ -1,28 +1,26 @@
 ﻿using System;
-using System.Xml;
-
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
 namespace uComponents.Core.DataTypes.EnumDropDownList
 {
 	/// <summary>
-	/// 
+	/// The Enum DropDownList data-type.
 	/// </summary>
 	public class EnumDropDownListDataType : BaseDataType, IDataType
 	{
 		/// <summary>
-		/// 
+		/// Private field for the Prevalue Editor.
 		/// </summary>
 		private EnumDropDownListPreValueEditor preValueEditor;
 
 		/// <summary>
-		/// 
+		/// Private field for the Editor.
 		/// </summary>
 		private IDataEditor dataEditor;
 
 		/// <summary>
-		/// 
+		/// Private field for the Data.
 		/// </summary>
 		private IData data;
 
@@ -30,13 +28,25 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 		/// Gets the name of the data type.
 		/// </summary>
 		/// <value>The name of the data type.</value>
-		public override string DataTypeName { get { return "uComponents: Enum DropDownList"; } }
+		public override string DataTypeName
+		{
+			get
+			{
+				return "uComponents: Enum DropDownList";
+			}
+		}
 
 		/// <summary>
 		/// Gets the id.
 		/// </summary>
 		/// <value>The id.</value>
-		public override Guid Id { get { return new Guid(DataTypeConstants.EnumDropDownListId); } }
+		public override Guid Id
+		{
+			get
+			{
+				return new Guid(DataTypeConstants.EnumDropDownListId);
+			}
+		}
 
 		/// <summary>
 		/// Lazy load the associated PreValueEditor instance,
@@ -50,6 +60,7 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 				{
 					this.preValueEditor = new EnumDropDownListPreValueEditor(this);
 				}
+
 				return this.preValueEditor;
 			}
 		}
@@ -66,6 +77,7 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 				{
 					this.dataEditor = new EnumDropDownListDataEditor(this.Data, ((EnumDropDownListPreValueEditor)this.PrevalueEditor).Options);
 				}
+
 				return this.dataEditor;
 			}
 		}
@@ -81,6 +93,7 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 				{
 					this.data = new DefaultData(this);
 				}
+
 				return this.data;
 			}
 		}

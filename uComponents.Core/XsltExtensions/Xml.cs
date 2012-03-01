@@ -9,6 +9,7 @@ using System.Web.Caching;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco;
 
 namespace uComponents.Core.XsltExtensions
@@ -34,7 +35,7 @@ namespace uComponents.Core.XsltExtensions
 				while (nodeset.MoveNext())
 				{
 					// evaluate the current node with the xpath expression.
-					XPathNavigator nav = nodeset.Current;
+					var nav = nodeset.Current;
 					return (XPathNodeIterator)nav.Evaluate(xpath);
 				}
 			}
@@ -186,7 +187,7 @@ namespace uComponents.Core.XsltExtensions
 			var children = node.SelectChildren(XPathNodeType.Element);
 
 			// gets a random number from the node count.
-			int random = (children != null && children.Count > 0) ? library.GetRandom().Next(1, children.Count) : 1;
+			var random = (children != null && children.Count > 0) ? library.GetRandom().Next(1, children.Count) : 1;
 
 			// return the node at that position()
 			return node.Select(string.Concat("*[", random, "]"));
@@ -204,7 +205,7 @@ namespace uComponents.Core.XsltExtensions
 			try
 			{
 				// gets a random number from the node count.
-				int random = library.GetRandom().Next(1, nodeset.Count + 1);
+				var random = library.GetRandom().Next(1, nodeset.Count + 1);
 
 				// iterate over the node-set.
 				while (nodeset.MoveNext())

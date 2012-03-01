@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace uComponents.Core.Shared
+namespace uComponents.Core.Shared.Extensions
 {
 	/// <summary>
 	/// Extension methods for exceptions.

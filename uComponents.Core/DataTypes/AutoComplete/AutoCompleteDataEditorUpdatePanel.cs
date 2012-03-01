@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
 using umbraco.interfaces;
-using umbraco.presentation.nodeFactory;
+using umbraco.NodeFactory;
 
 [assembly: WebResource("uComponents.Core.DataTypes.AutoComplete.css.autocomplete.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
 
@@ -146,7 +147,7 @@ namespace uComponents.Core.DataTypes.AutoComplete
 				switch (umbracoObjectType)
 				{
 					case uQuery.UmbracoObjectType.Document:
-						foreach (Node node in uQuery.GetNodesByCsv(csv))
+						foreach (var node in uQuery.GetNodesByCsv(csv))
 						{
 							collection.Add(node.Id, node.Name);
 						}

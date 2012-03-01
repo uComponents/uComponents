@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web.UI.WebControls;
 using System.Web.UI;
-using System.Web;
-using System.Xml;
-using System.IO;
-
-using umbraco.cms.businesslogic.datatype;
-using umbraco.interfaces;
-using umbraco.BusinessLogic;
-using umbraco.presentation.nodeFactory;
-
+using System.Web.UI.WebControls;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using uComponents.Core.uQueryExtensions;
+using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.Core.DataTypes.AutoComplete
 {

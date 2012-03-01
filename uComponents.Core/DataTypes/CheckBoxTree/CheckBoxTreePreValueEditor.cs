@@ -4,8 +4,8 @@ using System.Web.UI.WebControls;
 using System.Xml.XPath;
 using uComponents.Core.uQueryExtensions;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
-
 using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.Core.DataTypes.CheckBoxTree
@@ -80,7 +80,7 @@ namespace uComponents.Core.DataTypes.CheckBoxTree
 		/// </summary>
 		private CheckBoxTreeOptions options = null;
 
-		// TODO: CheckBox to toggle auto selecting parent if descendents fully selected (like when installing software)
+		// TODO: [HR] CheckBox to toggle auto selecting parent if descendents fully selected (like when installing software)
 
 		/// <summary>
 		/// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.

@@ -2,17 +2,16 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
-
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
-
 using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.Core.DataTypes.XPathCheckBoxList
 {
 	/// <summary>
 	/// This PreValueEditor will require an XPath expression to define the nodes to pick as CheckBox options,
-	/// TODO: min / max selections ?
+	/// TODO: [HR] min / max selections ?
 	/// Uses the shared JsonPreValueEditor as nice way of lightweight serializing a config data class object into a single DB field
 	/// </summary>
 	class XPathCheckBoxListPreValueEditor : AbstractJsonPrevalueEditor

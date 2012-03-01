@@ -2,8 +2,8 @@
 using System.Web.Security;
 using System.Xml;
 using System.Xml.XPath;
-
-using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
+using umbraco;
 using umbraco.cms.businesslogic.member;
 
 namespace uComponents.Core.XsltExtensions
@@ -45,14 +45,14 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<members/>");
 
 				if (!string.IsNullOrEmpty(groupName))
 				{
 					foreach (var memberName in Roles.GetUsersInRole(groupName))
 					{
-						XmlNode memberNode = umbraco.xmlHelper.addTextNode(xd, "member", memberName);
+						var memberNode = xmlHelper.addTextNode(xd, "member", memberName);
 						xd.DocumentElement.AppendChild(memberNode);
 					}
 				}
@@ -74,7 +74,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		public static XPathNodeIterator GetMembersByType(string nodeTypeAlias)
 		{
-			string xpath = string.Concat("descendant::*[@nodeTypeAlias='", nodeTypeAlias, "']");
+			var xpath = string.Concat("descendant::*[@nodeTypeAlias='", nodeTypeAlias, "']");
 			return GetMembersByXPath(xpath);
 		}
 
@@ -91,7 +91,7 @@ namespace uComponents.Core.XsltExtensions
 			if (xml != null)
 			{
 				var nav = xml.CreateNavigator();
-				return nav.Select(xpath);	
+				return nav.Select(xpath);
 			}
 
 			return null;
@@ -132,7 +132,7 @@ namespace uComponents.Core.XsltExtensions
 			if (memberId > 0)
 			{
 				// get the member
-				Member member = new Member(memberId);
+				var member = new Member(memberId);
 
 				// check that the member exists
 				if (member != null)
@@ -156,14 +156,14 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<memberGroups/>");
 
-				Member member = new Member(memberId);
+				var member = new Member(memberId);
 
 				foreach (var group in Roles.GetRolesForUser(member.LoginName))
 				{
-					XmlNode memberGroupNode = umbraco.xmlHelper.addTextNode(xd, "memberGroup", group);
+					var memberGroupNode = umbraco.xmlHelper.addTextNode(xd, "memberGroup", group);
 					xd.DocumentElement.AppendChild(memberGroupNode);
 				}
 

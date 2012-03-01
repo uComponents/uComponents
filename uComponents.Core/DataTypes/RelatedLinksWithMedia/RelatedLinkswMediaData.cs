@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-// TODO: Replace with uComponents.Core.Shared.Data.XmlData [LK]
+// TODO: [LK] Replace with uComponents.Core.Shared.Data.XmlData
 
 namespace uComponents.Core.DataTypes.RelatedLinksWithMedia
 {
