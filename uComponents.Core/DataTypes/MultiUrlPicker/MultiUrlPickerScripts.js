@@ -80,9 +80,9 @@ Date modified: 21st of March, 2011
             $itemContainer.children().removeClass("active");
 
             if ($item && $item.length) {
-                $item.addClass("active");
                 $urlPickerContainer.appendTo($item);
                 urlPickerApi.setState(getItemState($item));
+                $item.addClass("active");
             } else {
                 // Close editing
                 shelveUrlPicker();
@@ -119,6 +119,11 @@ Date modified: 21st of March, 2011
             var itemStates = [];
 
             $itemContainer.children().each(function () {
+                if ($(this).is(".active")) {
+                    // This item is currently being edited - get the latest
+                    setItemState($(this), urlPickerApi.getState());
+                }
+
                 itemStates.push(getItemState($(this)));
             });
 
@@ -216,11 +221,7 @@ Date modified: 21st of March, 2011
         urlPickerApi = $urlPickerContainer.UrlPicker({
             state: settings.UrlPickerDefaultState,
             settings: settings.UrlPickerSettings,
-            change: function (itemState) {
-                setItemState($itemContainer.children(".active"), itemState);
-
-                change();
-            }
+            change: change
         });
 
         // Apply state
