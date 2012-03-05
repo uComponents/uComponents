@@ -56,7 +56,7 @@ namespace uComponents.Core.DataTypes.RadiobuttonListWithImages
 		{
 			get
 			{
-				return new Guid(DataTypeConstants.RadiobuttonListWithImagesId);
+				return new Guid(DataTypeConstants.RadioButtonListWithImagesId);
 			}
 		}
 

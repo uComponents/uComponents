@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-
 using uComponents.Core.XsltExtensions;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;

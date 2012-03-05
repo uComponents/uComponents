@@ -106,9 +106,14 @@
 		public const string NotesId = "B3032791-3280-4B5F-9F88-49132E4764BB";
 
 		/// <summary>
-		/// Guid for the RadiobuttonListWithImages data-type.
+		/// Guid for the PropertyPicker data-type.
 		/// </summary>
-		public const string RadiobuttonListWithImagesId = "3B369027-A116-4FBA-B1F4-718B65C8665F";
+		public const string PropertyPickerId = "22677DCD-37D3-4029-8871-E9F7634DF25E";
+
+		/// <summary>
+		/// Guid for the RadioButtonListWithImages data-type.
+		/// </summary>
+		public const string RadioButtonListWithImagesId = "3B369027-A116-4FBA-B1F4-718B65C8665F";
 
 		/// <summary>
 		/// Guid for the RelatedLinksWithMedia data-type.

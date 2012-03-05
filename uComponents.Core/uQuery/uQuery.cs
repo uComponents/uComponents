@@ -219,11 +219,10 @@ namespace uComponents.Core
 		/// <returns>Returns an integer array.</returns>
 		internal static int[] ConvertToIntArray(string[] items)
 		{
-			int n;
-
 			if (items == null)
-				return new int[] {};
+				return new int[] { };
 
+			int n;
 			return items.Select(s => int.TryParse(s, out n) ? n : 0).ToArray();
 		}
 
