@@ -127,6 +127,10 @@
     <Compile Include="DataTypes\MultipleDates\MD_ModelBinder.cs" />
     <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringModelBinder.cs" />
     <Compile Include="DataTypes\MultiUrlPicker\MultiUrlPickerModelBinder.cs" />
+    <Compile Include="DataTypes\PropertyPicker\PropertyPickerDataEditor.cs" />
+    <Compile Include="DataTypes\PropertyPicker\PropertyPickerDataType.cs" />
+    <Compile Include="DataTypes\PropertyPicker\PropertyPickerOptions.cs" />
+    <Compile Include="DataTypes\PropertyPicker\PropertyPickerPrevalueEditor.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroDataEditor.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroDataType.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroOptions.cs" />
