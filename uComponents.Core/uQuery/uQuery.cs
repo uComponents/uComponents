@@ -220,6 +220,10 @@ namespace uComponents.Core
 		internal static int[] ConvertToIntArray(string[] items)
 		{
 			int n;
+
+			if (items == null)
+				return new int[] {};
+
 			return items.Select(s => int.TryParse(s, out n) ? n : 0).ToArray();
 		}
 
