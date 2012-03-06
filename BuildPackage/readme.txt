@@ -25,6 +25,7 @@ DataTypes:
 * Multiple Textstring
 * Multi-Url Picker
 * Notes
+* Property Picker
 * RadioButton List with Images
 * Related Links with Media
 * Render Macro
@@ -48,6 +49,7 @@ XSLT Extesions:
 * Media
 * Members
 * Nodes
+* Random
 * Request
 * Search
 * Strings
@@ -61,11 +63,13 @@ Not Found Handlers
 * 301 Moved Permanently
 * Multi-site Page Not Found
 * 404 Page Not Found
+* Search for PageNotFound
 
 UI Enhancements:
 * Keyboard navigation in tree
 * Shortcuts for tray icons/tabs
 * Drag and drop for content pickers (including the Multi-Node Tree Picker)
+* Tray Peek
 
 Controls
 * GetMedia
