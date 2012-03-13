@@ -52,6 +52,7 @@ namespace uComponents.Core
 			// [LK] Interested in exploring options to call custom extension methods in XPath expressions.
 			// http://msdn.microsoft.com/en-us/library/ms950806.aspx
 			// http://msdn.microsoft.com/en-us/library/dd567715.aspx
+			// Alternative is to render a Clean.xslt with the desired XPath, returning nodeIds
 
 			var xPathNodeIterator = xPathNavigator.Select(xPathExpression);
 
