@@ -17,6 +17,11 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 		/// </summary>
 		public string Enum { get; set; }
 
+        /// <summary>
+        /// If true, then the first item in the enum will be selected
+        /// </summary>
+        public bool DefaultToFirstItem { get; set; }
+
 		/// <summary>
 		/// Initializes an instance of EnumDropDownListOptions
 		/// </summary>

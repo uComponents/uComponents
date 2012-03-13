@@ -27,6 +27,11 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 		/// </summary>
 		private DropDownList enumsDropDownList = new DropDownList();
 
+        /// <summary>
+        /// Option to set if the first data item should be used as the default value, or whether to add a "please select..." item
+        /// </summary>
+        private CheckBox defaultToFirstItemCheckBox = new CheckBox();
+
 		/// <summary>
 		/// Data object used to define the configuration status of this PreValueEditor
 		/// </summary>
@@ -82,7 +87,9 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 
 			this.enumsDropDownList.ID = "enumsDropDownList";
 
-			this.Controls.AddPrevalueControls(this.assemblyDropDownList, this.enumsDropDownList);
+            this.defaultToFirstItemCheckBox.ID = "defaultToFirstItemCheckBox";
+
+			this.Controls.AddPrevalueControls(this.assemblyDropDownList, this.enumsDropDownList, defaultToFirstItemCheckBox);
 		}
 
 		/// <summary>
@@ -180,6 +187,7 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 			{
 				this.Options.Assembly = this.assemblyDropDownList.SelectedValue;
 				this.Options.Enum = this.enumsDropDownList.SelectedValue;
+                this.Options.DefaultToFirstItem = this.defaultToFirstItemCheckBox.Checked;
 
 				this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
 			}
@@ -193,6 +201,7 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 		{
 			writer.AddPrevalueRow("Assembly", this.assemblyDropDownList);
 			writer.AddPrevalueRow("Enum", this.enumsDropDownList);
+            writer.AddPrevalueRow("Default To First Item", this.defaultToFirstItemCheckBox);
 		}
 	}
 }
