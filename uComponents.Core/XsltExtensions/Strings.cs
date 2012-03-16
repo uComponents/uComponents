@@ -324,13 +324,20 @@ namespace uComponents.Core.XsltExtensions
 		/// <summary>
 		/// Changes a string to camelCase
 		/// </summary>
-		/// <param name="input">
-		/// The input string.
-		/// </param>
-		/// <returns>
-		/// The camelCased string
-		/// </returns>
+		/// <param name="input">The input string.</param>
+		/// <returns>The camelCased string</returns>
+		[Obsolete("Please use uComponents.Core.XsltExtensions.Strings.ToCamelCase")]
 		public static string ConvertToCamelCase(string input)
+		{
+			return ToCamelCase(input);
+		}
+
+		/// <summary>
+		/// Changes a string to camelCase
+		/// </summary>
+		/// <param name="input">The input string.</param>
+		/// <returns>The camelCased string</returns>
+		public static string ToCamelCase(string input)
 		{
 			var sb = new StringBuilder();
 
