@@ -151,8 +151,11 @@ namespace uComponents.Core.DataTypes.EnumDropDownList
 			{
 			}
 
-			// Add a default please select value
-			this.dropDownList.Items.Insert(0, new ListItem(string.Concat(ui.Text("choose"), "..."), "-1"));
+            if (!this.options.DefaultToFirstItem)
+            {
+                // Add a default please select value
+                this.dropDownList.Items.Insert(0, new ListItem(string.Concat(ui.Text("choose"), "..."), "-1"));
+            }
 
 			this.Controls.Add(this.customValidator);
 			this.Controls.Add(this.dropDownList);
