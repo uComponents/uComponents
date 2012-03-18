@@ -18,8 +18,8 @@
         function getPosition(trigger, tip, conf) {
             // get origin top/left position 
             var top = trigger.offset().top,
-			 left = trigger.offset().left,
-			 pos = conf.position[0];
+                left = trigger.offset().left,
+                pos = conf.position[0];
 
             top -= tip.outerHeight() - conf.offset[0];
             left += trigger.outerWidth() + conf.offset[1];
@@ -130,10 +130,10 @@
         };
 
         function doHighlight(node) {
-            var div = node.find("div:first");
+            var div = node.find('a').find("div:first");
             var origBorder = div.css("border");
             div.css("border", "1px solid #FBC2C4").css("background-color", "#FBE3E4").css("color", "#8a1f11");
-            setTimeout(function () { div.removeAttr("style"); }, 250);
+            setTimeout(function () { div.attr("style", ""); }, 500);
         }
 
         //handler for the node clicking event
@@ -190,19 +190,27 @@
         //does the adding of a node to the right hand column
         //If "test" is true the node is not added. Instead true is returned if it could have been added
         function AddToRight(node, test) {
+
+            var $node = $(node);
+
+            if ($node.hasClass("uc-treenode-noclick")) {
+                doHighlight($node);
+                return "Item not allowed here";
+            }
+
             //get the node id of the node selected
-            var nodeId = $(node).attr("id");
+            var nodeId = $node.attr("id");
 
             //first, check if we've reached the max
             if (maxItems >= 0 && rightCol.find("li").length >= maxItems) {
-                doHighlight($(node));
+                doHighlight($node);
                 return "No more items can be added";
             }
 
             //check if node id already exists in the right panel, also check if it the root node
             //since this should not be selectable
             if (nodeId <= 0 || $tree.find("li:first").attr("id") == nodeId || (rightCol.find("li[rel='" + nodeId + "']").length > 0)) {
-                doHighlight($(node));
+                doHighlight($node);
                 return nodeId < 0 ? "Item not allowed here" : "Item already added";
             }
 
@@ -211,7 +219,7 @@
             }
 
             //create a copy of the node clicked on the tree
-            var jNode = $(node).clone().find("a:first")
+            var jNode = $node.clone().find("a:first")
             //remove un-needed attributes
             jNode.removeAttr("href")
                 .removeAttr("umb:nodedata")
