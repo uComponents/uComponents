@@ -145,6 +145,11 @@
 		/// </summary>
 		public const string StyledTextBoxId = "551A84BF-1478-4942-90A8-8430E231010F";
 
+        /// <summary>
+        /// Guid for the Tabs to DropDown Panel data-type
+        /// </summary>
+        public const string TabsToDropDown = "D3D353D6-F0F6-42A0-8A98-07E5B5CB4F42";
+
 		/// <summary>
 		/// Guid for the TextImage data-type.
 		/// </summary>

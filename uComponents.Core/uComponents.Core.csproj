@@ -143,6 +143,10 @@
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListDataType.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListOptions.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListPreValueEditor.cs" />
+    <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownDataEditor.cs" />
+    <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownDataType.cs" />
+    <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownOptions.cs" />
+    <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownPreValueEditor.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayControl.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayDataType.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayModelBinder.cs" />
@@ -641,6 +645,10 @@
 			MinifyJavaScript;
 			$(ResGenDependsOn)
 		</ResGenDependsOn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
     <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">
