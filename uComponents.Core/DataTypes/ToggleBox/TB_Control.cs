@@ -9,12 +9,12 @@ using ClientDependency.Core;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Styles.ToggleBox.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.shadow-bg.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-bg.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-left-bg.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-right-bg.png", MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Styles.ToggleBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.shadow-bg.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-bg.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-left-bg.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-right-bg.png", Constants.MediaTypeNames.Image.Png)]
 
 namespace uComponents.Core.DataTypes.ToggleBox
 {
@@ -120,22 +120,22 @@ namespace uComponents.Core.DataTypes.ToggleBox
 
 			if (!string.IsNullOrEmpty(this.Options.OnText))
 			{
-				options.Append(" on_label: '").Append(this.Options.OnText).Append("'").Append(Settings.COMMA);
+				options.Append(" on_label: '").Append(this.Options.OnText).Append("'").Append(Constants.Common.COMMA);
 			}
 
 			if (!string.IsNullOrEmpty(this.Options.OnBackgroundColor))
 			{
-				options.Append(" on_bg_color: '").Append(this.Options.OnBackgroundColor).Append("'").Append(Settings.COMMA);
+				options.Append(" on_bg_color: '").Append(this.Options.OnBackgroundColor).Append("'").Append(Constants.Common.COMMA);
 			}
 
 			if (!string.IsNullOrEmpty(this.Options.OffText))
 			{
-				options.Append(" off_label: '").Append(this.Options.OffText).Append("'").Append(Settings.COMMA);
+				options.Append(" off_label: '").Append(this.Options.OffText).Append("'").Append(Constants.Common.COMMA);
 			}
 
 			if (!string.IsNullOrEmpty(this.Options.OffBackgroundColor))
 			{
-				options.Append(" off_bg_color: '").Append(this.Options.OffBackgroundColor).Append("'").Append(Settings.COMMA);
+				options.Append(" off_bg_color: '").Append(this.Options.OffBackgroundColor).Append("'").Append(Constants.Common.COMMA);
 			}
 
 			// add jquery window load event to create the ToggleBox

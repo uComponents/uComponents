@@ -389,7 +389,7 @@ namespace uComponents.Core.uQueryExtensions
 		[Obsolete("Use Level instead")]
 		public static int GetDepth(this Node node)
 		{
-			return node.Path.Split(Settings.COMMA).ToList().Count;
+			return node.Path.Split(Constants.Common.COMMA).ToList().Count;
 		}
 
 		/// <summary>
@@ -401,7 +401,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns></returns>
 		public static int Level(this Node node)
 		{
-			return node.Path.Split(Settings.COMMA).Length - 1;
+			return node.Path.Split(Constants.Common.COMMA).Length - 1;
 		}
 
 		/// <summary>
@@ -530,7 +530,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns></returns>
 		public static string GetFullNiceUrl(this Node node)
 		{
-			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == Settings.SLASH)
+			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == Constants.Common.SLASH)
 			{
 				return string.Concat(library.RequestServerVariables("HTTP_HOST"), node.NiceUrl);
 			}
@@ -590,12 +590,12 @@ namespace uComponents.Core.uQueryExtensions
 		public static string GetFullNiceUrl(this Node node, Domain domain, bool ssl)
 		{
 			// TODO: [OA] Document on Codeplex
-			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == Settings.SLASH)
+			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == Constants.Common.SLASH)
 			{
-				return (ssl ? Settings.HTTPS : Settings.HTTP) + domain.Name + node.NiceUrl;
+				return (ssl ? Constants.Common.HTTPS : Constants.Common.HTTP) + domain.Name + node.NiceUrl;
 			}
 
-			return node.NiceUrl.Replace(library.RequestServerVariables("HTTP_HOST"), string.Concat((ssl ? Settings.HTTPS : Settings.HTTP), domain.Name));
+			return node.NiceUrl.Replace(library.RequestServerVariables("HTTP_HOST"), string.Concat((ssl ? Constants.Common.HTTPS : Constants.Common.HTTP), domain.Name));
 		}
 
 		/// <summary>
@@ -608,7 +608,7 @@ namespace uComponents.Core.uQueryExtensions
 		public static bool IsHiddenFromNavigation(this Node node)
 		{
 			// TODO: [OA] Document on Codeplex. Is this one really necessary?
-			return node.GetPropertyAsBoolean("umbracoNaviHide");
+			return node.GetPropertyAsBoolean(Constants.Umbraco.Content.NaviHide);
 		}
 
 #pragma warning disable 0618

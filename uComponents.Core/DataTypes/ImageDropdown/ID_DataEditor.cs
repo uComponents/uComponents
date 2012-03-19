@@ -7,9 +7,9 @@ using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 
-[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.css.ImageDropdown.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.scripts.jquery.dd.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.images.dd_arrow.gif", MediaTypeNames.Image.Gif)]
+[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.css.ImageDropdown.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.scripts.jquery.dd.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.images.dd_arrow.gif", Constants.MediaTypeNames.Image.Gif)]
 
 namespace uComponents.Core.DataTypes.ImageDropdown
 {

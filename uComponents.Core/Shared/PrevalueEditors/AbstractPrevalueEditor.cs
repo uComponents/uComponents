@@ -58,7 +58,7 @@ namespace uComponents.Core.Shared.PrevalueEditors
 		/// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
 		public override void RenderBeginTag(HtmlTextWriter writer)
 		{
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, Settings.APPNAME);
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
 			base.RenderBeginTag(writer);

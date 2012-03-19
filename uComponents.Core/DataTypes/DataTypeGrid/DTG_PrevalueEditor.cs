@@ -13,8 +13,8 @@ using uComponents.Core.DataTypes.DataTypeGrid.WebServices;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.Core.DataTypes.DataTypeGrid
 {

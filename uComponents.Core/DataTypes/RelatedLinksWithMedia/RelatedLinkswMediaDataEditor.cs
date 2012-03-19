@@ -638,7 +638,7 @@ namespace uComponents.Core.DataTypes.RelatedLinksWithMedia
 				// use default HTTP protocol if no protocol was specified and it is not an absolute url
 				if (!url.Contains("://") && !url.StartsWith("/"))
 				{
-					url = string.Concat(Settings.HTTP, url);
+					url = string.Concat(Constants.Common.HTTP, url);
 				}
 
 				string value = "e" + (_checkNewWindow.Checked ? "n" : "o") + url;
@@ -698,7 +698,7 @@ namespace uComponents.Core.DataTypes.RelatedLinksWithMedia
 				// use default HTTP protocol if no protocol was specified and it is not an absolute url
 				if (!url.Contains("://") && !url.StartsWith("/"))
 				{
-					url = string.Concat(Settings.HTTP, url);
+					url = string.Concat(Constants.Common.HTTP, url);
 				}
 
 				string value = "e" + (_checkNewWindow.Checked ? "n" : "o") + url;
@@ -753,7 +753,7 @@ namespace uComponents.Core.DataTypes.RelatedLinksWithMedia
 		/// </summary>
 		private void resetInputMedia()
 		{
-			_textBoxExtUrl.Text = Settings.HTTP;
+			_textBoxExtUrl.Text = Constants.Common.HTTP;
 			_textboxLinkTitle.Text = string.Empty;
 			_pagePickerExtractor.Value = string.Empty;
 			_mediaChooserExtractor.Value = string.Empty;

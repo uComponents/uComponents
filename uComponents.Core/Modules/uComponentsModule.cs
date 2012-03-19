@@ -56,8 +56,8 @@ namespace uComponents.Core.Modules
 			#region Script injection (for drag & drop etc.)
 
 			string umbracoPath = GlobalSettings.Path + "/";
-			string enableDragAndDrop = ConfigurationManager.AppSettings[Settings.AppKey_DragAndDrop] ?? "true";
-			string enableTrayPeek = ConfigurationManager.AppSettings[Settings.AppKey_TrayPeek] ?? "true";
+			string enableDragAndDrop = ConfigurationManager.AppSettings[Constants.AppKey_DragAndDrop] ?? "true";
+			string enableTrayPeek = ConfigurationManager.AppSettings[Constants.AppKey_TrayPeek] ?? "true";
 
 			bool.TryParse(enableDragAndDrop, out _dragAndDrop);
 			bool.TryParse(enableTrayPeek, out _trayPeek);

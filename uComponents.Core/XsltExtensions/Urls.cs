@@ -134,11 +134,11 @@ namespace uComponents.Core.XsltExtensions
 			{
 				if (GlobalSettings.UseDirectoryUrls)
 				{
-					niceUrl = string.Concat(niceUrl, altTemplateAlias.ToLower(), Settings.SLASH);
+					niceUrl = string.Concat(niceUrl, altTemplateAlias.ToLower(), Constants.Common.SLASH);
 				}
 				else
 				{
-					niceUrl = niceUrl.Replace(Settings.DOTASPX, string.Concat(Settings.SLASH, altTemplateAlias.ToLower(), Settings.DOTASPX));
+					niceUrl = niceUrl.Replace(Constants.Common.DOTASPX, string.Concat(Constants.Common.SLASH, altTemplateAlias.ToLower(), Constants.Common.DOTASPX));
 				}
 			}
 
@@ -253,9 +253,9 @@ namespace uComponents.Core.XsltExtensions
 			var niceUrl = node.NiceUrl;
 			var published = node.Path != null;
 
-			if (!niceUrl.StartsWith(Settings.HTTP) || !published)
+			if (!niceUrl.StartsWith(Constants.Common.HTTP) || !published)
 			{
-				const string URLNAME = "umbracoUrlName";
+				const string URLNAME = Constants.Umbraco.Content.UrlName; // "umbracoUrlName";
 				var hasDomain = false;
 				var domain = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToLower();
 				string nodeName;
@@ -282,7 +282,7 @@ namespace uComponents.Core.XsltExtensions
 				if (UmbracoSettings.UseDomainPrefixes)
 				{
 					// get the path
-					var path = nodePath.Split(Settings.SLASH);
+					var path = nodePath.Split(Constants.Common.SLASH);
 
 					// loop through each part of the path in reverse order
 					for (int i = path.Length - 1; i >= 0; i--)
@@ -308,26 +308,26 @@ namespace uComponents.Core.XsltExtensions
 					var parentNode = new Node(nodeParentId);
 					if (parentNode.Path != null || (nodeParentId == uQuery.RootNodeId && !hasDomain))
 					{
-						int level = parentNode.Path.Split(Settings.COMMA).Length;
+						int level = parentNode.Path.Split(Constants.Common.COMMA).Length;
 						string parentUrl = nodeParentId > 0 && !(level == 2 && GlobalSettings.HideTopLevelNodeFromPath) ? parentNode.NiceUrl : string.Empty;
-						string urlName = string.Concat(Settings.SLASH, url.FormatUrl(nodeName.ToLower()));
-						string fileExtension = GlobalSettings.UseDirectoryUrls ? string.Empty : Settings.DOTASPX;
+						string urlName = string.Concat(Constants.Common.SLASH, url.FormatUrl(nodeName.ToLower()));
+						string fileExtension = GlobalSettings.UseDirectoryUrls ? string.Empty : Constants.Common.DOTASPX;
 
 						// construct the NiceUrl for the unpublished node.
-						niceUrl = string.Concat(parentUrl.Replace(Settings.DOTASPX, string.Empty), urlName, fileExtension);
+						niceUrl = string.Concat(parentUrl.Replace(Constants.Common.DOTASPX, string.Empty), urlName, fileExtension);
 					}
 				}
 
 				// if the node has a domain, and is unpublished, use the domain.
-				if (niceUrl == Settings.HASH && hasDomain)
+				if (niceUrl == Constants.Common.HASH && hasDomain)
 				{
-					niceUrl = string.Concat(Settings.HTTP, domain);
+					niceUrl = string.Concat(Constants.Common.HTTP, domain);
 				}
 
 				// if the NiceUrl doesn't start with 'http://' (and isn't '#') then prepend it.
-				if (!niceUrl.StartsWith(Settings.HTTP) && niceUrl != Settings.HASH)
+				if (!niceUrl.StartsWith(Constants.Common.HTTP) && niceUrl != Constants.Common.HASH)
 				{
-					niceUrl = string.Concat(Settings.HTTP, domain, niceUrl);
+					niceUrl = string.Concat(Constants.Common.HTTP, domain, niceUrl);
 				}
 			}
 

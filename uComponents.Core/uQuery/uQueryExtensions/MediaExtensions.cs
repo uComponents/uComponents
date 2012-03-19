@@ -134,7 +134,7 @@ namespace uComponents.Core.uQueryExtensions
 		[Obsolete("Use Level instead")]
 		public static int GetDepth(this Media media)
 		{
-			return media.Path.Split(Settings.COMMA).ToList().Count;
+			return media.Path.Split(Constants.Common.COMMA).ToList().Count;
 		}
 
 		/// <summary>
@@ -146,7 +146,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns></returns>
 		public static int Level(this Media media)
 		{
-			return media.Path.Split(Settings.COMMA).Length - 1;
+			return media.Path.Split(Constants.Common.COMMA).Length - 1;
 		}
 
 		/// <summary>
@@ -191,9 +191,13 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns></returns>
 		public static string GetImageUrl(this Media media)
 		{
-			if (!string.IsNullOrEmpty(media.GetPropertyAsString("umbracoFile")) && media.ContentType.Alias.Equals("Image"))
+			if (media.ContentType.Alias.Equals("Image"))
 			{
-				return media.GetPropertyAsString("umbracoFile");
+				var url = media.GetPropertyAsString(Constants.Umbraco.Media.File);
+				if (!string.IsNullOrEmpty(url))
+				{
+					return url;
+				}
 			}
 
 			return string.Empty;
@@ -206,11 +210,14 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns></returns>
 		public static string GetImageThumbnailUrl(this Media media)
 		{
-			if (!string.IsNullOrEmpty(media.GetPropertyAsString("umbracoFile")) && media.ContentType.Alias.Equals("Image"))
+			if (media.ContentType.Alias.Equals("Image"))
 			{
-				var ext = media.GetPropertyAsString("umbracoExtension");
-
-				return media.GetPropertyAsString("umbracoFile").Replace("." + ext, "_thumb.jpg");
+				var url = media.GetPropertyAsString(Constants.Umbraco.Media.File);
+				if (!string.IsNullOrEmpty(url))
+				{
+					var ext = media.GetPropertyAsString(Constants.Umbraco.Media.Extension);
+					return url.Replace("." + ext, "_thumb.jpg");
+				}
 			}
 
 			return string.Empty;

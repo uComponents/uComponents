@@ -7,7 +7,7 @@ using ClientDependency.Core;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.Core.DataTypes.ElasticTextBox
 {

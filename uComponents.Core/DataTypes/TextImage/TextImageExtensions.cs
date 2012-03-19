@@ -2,13 +2,13 @@
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.color.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.colorpicker.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.graybar.jpg", MediaTypeNames.Image.Jpeg)]
-[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.grid.gif", MediaTypeNames.Image.Gif)]
-[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.meta100.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.transparentpixel.gif", MediaTypeNames.Image.Gif)]
-[assembly: WebResource("uComponents.Core.DataTypes.TextImage.scripts.mColorPicker.js", MediaTypeNames.Application.JavaScript, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.color.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.colorpicker.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.graybar.jpg", Constants.MediaTypeNames.Image.Jpeg)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.grid.gif", Constants.MediaTypeNames.Image.Gif)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.meta100.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextImage.images.transparentpixel.gif", Constants.MediaTypeNames.Image.Gif)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextImage.scripts.mColorPicker.js", Constants.MediaTypeNames.Application.JavaScript, PerformSubstitution = true)]
 
 namespace uComponents.Core.DataTypes.TextImage
 {

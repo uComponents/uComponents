@@ -64,7 +64,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns the node id for a given path level.</returns>
 		public static string GetNodeIdByPathLevel(string path, int level)
 		{
-			var nodeIds = path.Split(Settings.COMMA).ToList();
+			var nodeIds = path.Split(Constants.Common.COMMA).ToList();
 
 			if (nodeIds.Count <= level)
 			{
@@ -179,7 +179,7 @@ namespace uComponents.Core.XsltExtensions
 		private static string GetXPathQuery(string url)
 		{
 			// strip the ASP.NET file-extension from the URL.
-			url = url.Replace(Settings.DOTASPX, string.Empty);
+			url = url.Replace(Constants.Common.DOTASPX, string.Empty);
 
 			// return the XPath query.
 			return requestHandler.CreateXPathQuery(url, true);

@@ -11,8 +11,8 @@ using uComponents.Core.Shared.Extensions;
 using umbraco.cms.businesslogic.web;
 using umbraco.IO;
 
-[assembly: WebResource("uComponents.Core.DataTypes.Similarity.SimilarityScripts.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.Similarity.SimilarityStyles.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.Similarity.SimilarityScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.Similarity.SimilarityStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 
 namespace uComponents.Core.DataTypes.Similarity
 {
@@ -177,7 +177,7 @@ namespace uComponents.Core.DataTypes.Similarity
 		/// </summary>
 		private void AddExistingToSelectedList()
 		{
-			string[] items = _selectedNodes.Split(new[] { Settings.COMMA });
+			string[] items = _selectedNodes.Split(new[] { Constants.Common.COMMA });
 			PickedValues.Value = _selectedNodes;
 
 			// TODO: [IM] need check to see if doc still exists
@@ -419,7 +419,7 @@ namespace uComponents.Core.DataTypes.Similarity
 
 		private string GetSelectedItems()
 		{
-			return PickedValues.Value.TrimEnd(new[] { Settings.COMMA });
+			return PickedValues.Value.TrimEnd(new[] { Constants.Common.COMMA });
 		}
 
 	}

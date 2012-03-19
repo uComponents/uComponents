@@ -94,7 +94,7 @@ namespace uComponents.Core.DataTypes.Slider
 				if (data.Length > 0)
 				{
 					double value1, value2;
-					var values = data.Split(Settings.COMMA);
+					var values = data.Split(Constants.Common.COMMA);
 
 					if (double.TryParse(values[0], out value1))
 					{
@@ -120,7 +120,7 @@ namespace uComponents.Core.DataTypes.Slider
 		{
 			// set the values (on PostBack)
 			double value1, value2 = 0;
-			var values = this.m_Control.Text.Split(Settings.COMMA);
+			var values = this.m_Control.Text.Split(Constants.Common.COMMA);
 
 			if (double.TryParse(values[0], out value1))
 			{
@@ -135,7 +135,7 @@ namespace uComponents.Core.DataTypes.Slider
 			// save the value of the control
 			if (value2 > 0)
 			{
-				this.Data.Value = string.Concat(value1, Settings.COMMA, value2);
+				this.Data.Value = string.Concat(value1, Constants.Common.COMMA, value2);
 			}
 			else
 			{

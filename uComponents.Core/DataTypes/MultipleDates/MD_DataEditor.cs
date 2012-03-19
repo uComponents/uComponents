@@ -6,8 +6,8 @@ using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 using umbraco.uicontrols.DatePicker;
 
-[assembly: WebResource("uComponents.Core.DataTypes.MultipleDates.css.MultipleDates.css", MediaTypeNames.Text.Css)]
-[assembly: WebResource("uComponents.Core.DataTypes.MultipleDates.scripts.main.js", MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.MultipleDates.css.MultipleDates.css", Constants.MediaTypeNames.Text.Css)]
+[assembly: WebResource("uComponents.Core.DataTypes.MultipleDates.scripts.main.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.Core.DataTypes.MultipleDates
 {

@@ -102,7 +102,7 @@ namespace uComponents.Core.Modules
 								var param = string.Concat("@p", i);
 								if (i > 0)
 								{
-									sql.Append(Settings.COMMA);
+									sql.Append(Constants.Common.COMMA);
 								}
 								sql.Append(param);
 								ps.Add(sqlHelper.CreateParameter(param, nodeIds[i]));

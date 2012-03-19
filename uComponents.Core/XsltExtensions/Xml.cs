@@ -283,7 +283,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns an <c>System.Xml.XPath.XPathNodeIterator</c> representation of the delimited string data.</returns>
 		public static XPathNodeIterator Split(string data)
 		{
-			return Split(data, new string(Settings.COMMA, 1));
+			return Split(data, new string(Constants.Common.COMMA, 1));
 		}
 
 		/// <summary>
@@ -308,7 +308,7 @@ namespace uComponents.Core.XsltExtensions
 		public static XPathNodeIterator Split(string data, string separator, string rootName, string elementName)
 		{
 			var xd = Split(data, new[] { separator }, rootName, elementName);
-			return xd.CreateNavigator().Select(string.Concat(Settings.SLASH, rootName));
+			return xd.CreateNavigator().Select(string.Concat(Constants.Common.SLASH, rootName));
 		}
 
 		/// <summary>

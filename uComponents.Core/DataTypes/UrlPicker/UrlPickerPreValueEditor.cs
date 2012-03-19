@@ -302,7 +302,7 @@ namespace uComponents.Core.DataTypes.UrlPicker
         /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the server control content.</param>
         protected override void Render(HtmlTextWriter writer)
         {
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, uComponents.Core.Shared.Settings.APPNAME);
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, uComponents.Core.Shared.Constants.ApplicationName);
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
             // add property fields

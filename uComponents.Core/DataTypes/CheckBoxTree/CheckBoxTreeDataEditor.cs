@@ -332,7 +332,7 @@ namespace uComponents.Core.DataTypes.CheckBoxTree
 				values.Add(checkedTreeNode.Value);
 			}
 
-			var comma = Settings.COMMA.ToString();
+			var comma = Constants.Common.COMMA.ToString();
 			var csv = string.Join(comma, values.ToArray());
 
 			if (this.options.OutputFormat == Shared.Settings.OutputFormat.XML)

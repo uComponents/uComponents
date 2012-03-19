@@ -8,8 +8,8 @@ using ClientDependency.Core;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.css", MediaTypeNames.Text.Css)]
-[assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.js", MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.css", Constants.MediaTypeNames.Text.Css)]
+[assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.Core.DataTypes.TextstringArray
 {
@@ -117,7 +117,7 @@ namespace uComponents.Core.DataTypes.TextstringArray
 					{
 						// if cell count is less, then add more cells
 						var diff = this.Options.ItemsPerRow - row.Length;
-						var newCells = new string(Settings.COMMA, diff - 1).Split(new[] { Settings.COMMA }, StringSplitOptions.None);
+						var newCells = new string(Constants.Common.COMMA, diff - 1).Split(new[] { Constants.Common.COMMA }, StringSplitOptions.None);
 						this.values[i] = (row ?? Enumerable.Empty<string>()).Concat(newCells).ToArray();
 					}
 					else if (row.Length > this.Options.ItemsPerRow)
@@ -136,7 +136,7 @@ namespace uComponents.Core.DataTypes.TextstringArray
 				this.values = new List<string[]>();
 			}
 
-			var emptyRow = new string(Settings.COMMA, this.Options.ItemsPerRow - 1).Split(new[] { Settings.COMMA }, StringSplitOptions.None);
+			var emptyRow = new string(Constants.Common.COMMA, this.Options.ItemsPerRow - 1).Split(new[] { Constants.Common.COMMA }, StringSplitOptions.None);
 
 			// check the minimum number allowed, add extra fields.
 			if (this.values.Count < this.Options.MinimumRows && this.Options.MinimumRows > 1)

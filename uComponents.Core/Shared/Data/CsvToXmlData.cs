@@ -51,7 +51,7 @@ namespace uComponents.Core.Shared.Data
 		/// <param name="rootName">Name of the root.</param>
 		/// <param name="elementName">Name of the element.</param>
 		public CsvToXmlData(BaseDataType dataType, string rootName, string elementName)
-			: this(dataType, rootName, elementName, new[] { Settings.COMMA.ToString() })
+			: this(dataType, rootName, elementName, new[] { Constants.Common.COMMA.ToString() })
 		{
 		}
 

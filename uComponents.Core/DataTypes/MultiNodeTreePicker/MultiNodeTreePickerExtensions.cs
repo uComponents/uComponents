@@ -9,8 +9,8 @@ using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
 // embed resources
-[assembly: WebResource("uComponents.Core.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.MultiNodeTreePicker.MultiNodePickerStyles.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.MultiNodeTreePicker.MultiNodePickerStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 
 namespace uComponents.Core.DataTypes.MultiNodeTreePicker
 {

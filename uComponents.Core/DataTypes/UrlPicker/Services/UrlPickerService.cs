@@ -1,10 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.Xml.Linq;
+using uComponents.Core.Shared;
 using umbraco;
-using System.Text.RegularExpressions;
-using System.IO;
 
 namespace uComponents.Core.DataTypes.UrlPicker.Services
 {
@@ -43,7 +43,7 @@ namespace uComponents.Core.DataTypes.UrlPicker.Services
 
             var media = XElement.Parse(library.GetMedia((int)id, false).Current.InnerXml);
 
-            var umbracoFile = media.Element("umbracoFile");
+            var umbracoFile = media.Element(Constants.Umbraco.Media.File);
 
             if (umbracoFile != null)
             {
@@ -85,7 +85,7 @@ namespace uComponents.Core.DataTypes.UrlPicker.Services
         /// </summary>
         internal static void Ensure()
         {
-            var servicePath = Path.Combine(uComponents.Core.Shared.Settings.BaseDir.FullName, "UrlPicker");
+            var servicePath = Path.Combine(Settings.BaseDir.FullName, "UrlPicker");
 
             if (!Directory.Exists(servicePath))
             {
@@ -113,6 +113,5 @@ namespace uComponents.Core.DataTypes.UrlPicker.Services
                 }
             }
         }
-
     }
 }

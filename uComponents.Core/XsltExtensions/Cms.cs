@@ -655,5 +655,16 @@ namespace uComponents.Core.XsltExtensions
 		{
 			return uQuery.IsLegacyXmlSchema();
 		}
+
+		/// <summary>
+		/// Determines whether Umbraco front-end [is in preview mode].
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if Umbraco front-end [is in preview mode]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool InPreviewMode()
+		{
+			return umbraco.presentation.UmbracoContext.Current.InPreviewMode;
+		}
 	}
 }

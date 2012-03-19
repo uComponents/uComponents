@@ -5,11 +5,11 @@ using uComponents.Core.Shared;
 
 // General Information about an assembly is controlled through the following set of attributes.
 // Change these attribute values to modify the information associated with an assembly.
-[assembly: AssemblyTitle(Settings.APPNAME)]
+[assembly: AssemblyTitle(Constants.ApplicationName)]
 [assembly: AssemblyDescription("uComponents is a collaborative project for creating components for Umbraco including data types, XSLT extensions, controls and more.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The Umbraco Community")]
-[assembly: AssemblyProduct(Settings.APPNAME)]
+[assembly: AssemblyProduct(Constants.ApplicationName)]
 [assembly: AssemblyCopyright("Copyright \xa9 The Umbraco Community 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -27,12 +27,12 @@ using uComponents.Core.Shared;
 //[assembly: AssemblyFileVersion("4.0.0.*")]
 
 // tag prefix for custom controls
-[assembly: TagPrefix("uComponents.Core.Controls", Settings.APPNAME)]
+[assembly: TagPrefix("uComponents.Core.Controls", Constants.ApplicationName)]
 
 // shared embedded resources
-[assembly: WebResource(Settings.PrevalueEditorCssResourcePath, MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.tooltip.min.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Images.ucomponents-logo-small.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Images.deleteIcon.gif", MediaTypeNames.Image.Gif)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Images.information.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Images.throbber.gif", MediaTypeNames.Image.Gif)]
+[assembly: WebResource(Settings.PrevalueEditorCssResourcePath, Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.tooltip.min.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Images.ucomponents-logo-small.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Images.deleteIcon.gif", Constants.MediaTypeNames.Image.Gif)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Images.information.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Images.throbber.gif", Constants.MediaTypeNames.Image.Gif)]

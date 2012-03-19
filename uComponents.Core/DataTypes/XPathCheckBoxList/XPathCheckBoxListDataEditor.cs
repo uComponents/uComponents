@@ -118,7 +118,7 @@ namespace uComponents.Core.DataTypes.XPathCheckBoxList
 				else
 				{
 					// Assume a CSV source
-					selectedValues = value.Split(Settings.COMMA).ToList();
+					selectedValues = value.Split(Constants.Common.COMMA).ToList();
 				}
 
 				// Find checkboxes where values match the stored values and set to selected

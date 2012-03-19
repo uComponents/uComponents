@@ -129,7 +129,7 @@ namespace uComponents.Core.Shared.PrevalueEditors
 		/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the server control content.</param>
         protected override void Render(HtmlTextWriter writer)
         {
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, Settings.APPNAME);
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
             writer.RenderBeginTag(HtmlTextWriterTag.Div); //start 'uComponents'
 
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "row clearfix");

@@ -199,7 +199,7 @@ namespace uComponents.Core.XsltExtensions
 			var results = InternalSearch(searchText, useWildcards, providerName);
 			var list = results.Select<SearchResult, string>(r => r.Id.ToString());
 
-			return string.Join(new string(Settings.COMMA, 1), list.ToArray());
+			return string.Join(new string(Constants.Common.COMMA, 1), list.ToArray());
 		}
 
 		/// <summary>
