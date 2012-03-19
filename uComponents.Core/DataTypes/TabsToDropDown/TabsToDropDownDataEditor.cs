@@ -114,10 +114,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                             //TODO: loop though tabs, and if any have 'tabOn' then init with that tab caption
 
 
-
-
-
-                            $(hostTabAnchor).click(function() { changeTabToDropDownView(this, dropDown, '" + tabs.First().Caption + @"', true); });
+                            $(hostTabAnchor).click(function() { changeTabToDropDownView(this, dropDown, $(dropDown).val(), true); });
                             
                             $(dropDown).change(function() { changeTabToDropDownView(hostTabAnchor, this, this.value, true); });                   
                 ");
