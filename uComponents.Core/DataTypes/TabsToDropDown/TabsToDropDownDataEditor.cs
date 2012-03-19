@@ -19,7 +19,7 @@ using System.Text;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.TabsToDropDown.TabsToDropDown.js", MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.TabsToDropDown.TabsToDropDown.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 {
 
