@@ -81,14 +81,11 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         protected override void CreateChildControls()
         {
             this.dropDownList.ID = "dropDownList";
-            this.dropDownList.Attributes["onchange"] = "changeTabToDropDownView(this.value, true)";
-
 
             // NOTE: uQuery.GetCurrentDocument doens't work here, when item unpublished!
             var tabs = uQuery.GetDocument(uQuery.GetIdFromQueryString()).ContentType.getVirtualTabs.Where(x => this.options.TabIds.Contains(x.Id));
 
             // TODO: make sure the tab this property is on isn't added to the drop down list...
-            
 
             if (tabs.Count() > 0)
             {
@@ -107,27 +104,30 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                 
                     <script language='javascript' type='text/javascript'>
 
-                        var hostTab;
-                    
-
                         $(document).ready(function () {
 
                             var dropDown = $('select#" + this.dropDownList.ClientID + @"');
 
-                            hostTab = $('li#' + $(dropDown).parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
-                            
-                            $(hostTab).click(function() { changeTabToDropDownView('" + tabs.First().Caption + @"', true) });
-                            
-                            
+                            var hostTabAnchor = $('li#' + $(dropDown).parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
 
+
+                            // init the first tab - if the host tab is the first (ie lit, then pass in true on last param, so that the tab being rendered is toggled into action)
+                            changeTabToDropDownView(hostTabAnchor, dropDown, '" + tabs.First().Caption + @"', $(hostTabAnchor).parent('li').hasClass('tabOn'));
+
+                            //TODO: loop though tabs, and if any have 'tabOn' then init with that tab caption
+
+
+                            $(hostTabAnchor).click(function() { alert('tab click'); changeTabToDropDownView(this, dropDown, '" + tabs.First().Caption + @"', true); });
+                            
+                            $(dropDown).change(function() { alert('ddl change'); changeTabToDropDownView(hostTabAnchor, this, this.value, true); });
                    
-                        ");
+                ");
 
                 // hide tabs that are to be toggled by the drop down
                 foreach (var tab in tabs)
                 {
                     stringBuilder.Append(@"
-                            $('span > nobr:contains(""" + tab.Caption + @""")').parentsUntil('li', 'a').parent().hide();
+                           $('span > nobr:contains(""" + tab.Caption + @""")').parentsUntil('li', 'a').parent().hide();
                     ");
                 }
 
@@ -135,38 +135,15 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 
                         });
                     
-
-                        function changeTabToDropDownView(tabCaption, reClick) {                        
-
-
-                            var tabsToDropDownProperty = $('select#" + this.dropDownList.ClientID + @"').parentsUntil('div.tabpageContent', 'div.propertypane').parent();
-
-                            var anchor = $('span > nobr:contains(' + tabCaption + ')').parentsUntil('li', 'a');
-                            var tab = $(anchor).parent();
-                            var area = $('div#' + $(tab).attr('id') + 'layer_contentlayer div.tabpageContent');
-
-                            $(tabsToDropDownProperty).moveTo(area);
-    
-                            if (reClick) {
-                                $(anchor).click();
-                            }
-
-                            $('select#" + this.dropDownList.ClientID + @"').val(tabCaption);
-
-                            $(hostTab).parent('li').attr('class', 'tabOn');
-                        }
-
                     </script>
                 ");
 
-                this.literal.Text = stringBuilder.ToString();
+                ScriptManager.RegisterStartupScript(this, typeof(TabsToDropDownDataEditor), this.ClientID + "_init", stringBuilder.ToString(), false);
             }
 
 
 
-            this.Controls.Add(this.dropDownList);
-            this.Controls.Add(this.literal);
-            
+            this.Controls.Add(this.dropDownList);            
         }
 
 
