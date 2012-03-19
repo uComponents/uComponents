@@ -1,25 +1,18 @@
 ﻿using System;
-
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
-
 namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 {
-
+    /// <summary>
+    ///
+    /// </summary>
     public class TabsToDropDownDataType : BaseDataType, IDataType
     {
-
         private TabsToDropDownPreValueEditor preValueEditor;
 
-        /// <summary>
-        /// 
-        /// </summary>
         private IDataEditor dataEditor;
 
-        /// <summary>
-        /// 
-        /// </summary>
         private IData data;
 
         /// <summary>
@@ -33,7 +26,6 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         /// </summary>
         /// <value>The id.</value>
         public override Guid Id { get { return new Guid(DataTypeConstants.TabsToDropDown); } }
-
 
         /// <summary>
         /// Lazy load the associated PreValueEditor instance,
