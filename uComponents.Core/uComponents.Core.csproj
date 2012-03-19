@@ -512,15 +512,15 @@
     <Content Include="Shared\AjaxUpload\AjaxUploadHandler.ashx.txt" />
   </ItemGroup>
   <ItemGroup>
-	  <Compile Include="Shared\Constants-Common.cs">
-		  <DependentUpon>Constants.cs</DependentUpon>
-	  </Compile>
+    <Compile Include="Shared\Constants-Common.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Shared\Constants-MediaTypeNames.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
-	  <Compile Include="Shared\Constants-Umbraco.cs">
-		  <DependentUpon>Constants.cs</DependentUpon>
-	  </Compile>
+    <Compile Include="Shared\Constants-Umbraco.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Shared\Constants.cs" />
     <Compile Include="Shared\Data\CsvToXmlData.cs" />
     <Compile Include="Shared\Data\XmlData.cs" />

@@ -109,14 +109,14 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                             var hostTabAnchor = $('li#' + $(dropDown).parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
 
                             // init the first tab - if the host tab is the first (ie lit, then pass in true on last param, so that the tab being rendered is toggled into action)
-                            changeTabToDropDownView(hostTabAnchor, dropDown, '" + tabs.First().Caption + @"', $(hostTabAnchor).parent('li').hasClass('tabOn'));
+                            changeTabToDropDownView(hostTabAnchor, dropDown, $(hostTabAnchor).parent('li').hasClass('tabOn'));
 
                             //TODO: loop though tabs, and if any have 'tabOn' then init with that tab caption
 
 
-                            $(hostTabAnchor).click(function() { changeTabToDropDownView(this, dropDown, $(dropDown).val(), true); });
+                            $(hostTabAnchor).click(function() { changeTabToDropDownView(this, dropDown, true); });
                             
-                            $(dropDown).change(function() { changeTabToDropDownView(hostTabAnchor, this, this.value, true); });                   
+                            $(dropDown).change(function() { changeTabToDropDownView(hostTabAnchor, this, true); });                   
                 ");
                 
                 foreach (var tab in tabs)
