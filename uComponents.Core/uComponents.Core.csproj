@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\EditProperty.cs" />
     <Compile Include="Controls\GetMedia.cs" />
     <Compile Include="DataTypes\CheckBoxTree\CheckBoxTreeModelBinder.cs" />
     <Compile Include="DataTypes\CountryPicker\CountryPickerModelBinder.cs" />
@@ -512,15 +513,15 @@
     <Content Include="Shared\AjaxUpload\AjaxUploadHandler.ashx.txt" />
   </ItemGroup>
   <ItemGroup>
-	  <Compile Include="Shared\Constants-Common.cs">
-		  <DependentUpon>Constants.cs</DependentUpon>
-	  </Compile>
+    <Compile Include="Shared\Constants-Common.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Shared\Constants-MediaTypeNames.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
-	  <Compile Include="Shared\Constants-Umbraco.cs">
-		  <DependentUpon>Constants.cs</DependentUpon>
-	  </Compile>
+    <Compile Include="Shared\Constants-Umbraco.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Shared\Constants.cs" />
     <Compile Include="Shared\Data\CsvToXmlData.cs" />
     <Compile Include="Shared\Data\XmlData.cs" />
@@ -655,10 +656,6 @@
 			MinifyJavaScript;
 			$(ResGenDependsOn)
 		</ResGenDependsOn>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
     <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">

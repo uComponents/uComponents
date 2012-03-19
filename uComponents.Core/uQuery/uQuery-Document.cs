@@ -88,7 +88,7 @@ namespace uComponents.Core
 			int id;
 			Document document = null;
 
-			if (int.TryParse(documentId, out id))
+			if (!string.IsNullOrWhiteSpace(documentId) && int.TryParse(documentId, out id))
 			{
 				document = uQuery.GetDocument(id);
 			}
