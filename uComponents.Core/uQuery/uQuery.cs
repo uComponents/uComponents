@@ -128,7 +128,7 @@ namespace uComponents.Core
 
 			if (!string.IsNullOrEmpty(csv))
 			{
-				ids = csv.Split(Settings.COMMA).Select(s => s.Trim()).ToArray();
+				ids = csv.Split(Constants.Common.COMMA).Select(s => s.Trim()).ToArray();
 			}
 
 			return ids;

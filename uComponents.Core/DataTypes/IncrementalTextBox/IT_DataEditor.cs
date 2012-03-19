@@ -9,11 +9,11 @@ using ClientDependency.Core;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.Jquery.Increment.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Images.down.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Images.up.png", MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.Jquery.Increment.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Images.down.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Images.up.png", Constants.MediaTypeNames.Image.Png)]
 
 namespace uComponents.Core.DataTypes.IncrementalTextBox
 {

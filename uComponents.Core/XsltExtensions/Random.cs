@@ -80,7 +80,7 @@ namespace uComponents.Core.XsltExtensions
 			var random = library.GetRandom();
 			var sequence = Enumerable.Range(1, count).OrderBy(n => n * n * random.Next()).Select(i => i.ToString());
 
-			return string.Join(new string(Settings.COMMA, 1), sequence.ToArray());
+			return string.Join(new string(Constants.Common.COMMA, 1), sequence.ToArray());
 		}
 
 		/// <summary>

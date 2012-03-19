@@ -682,7 +682,7 @@ namespace uComponents.Core.DataTypes.TextImage
                 return;
             }
 
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, Settings.APPNAME);
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
             writer.RenderBeginTag(HtmlTextWriterTag.Div); //start 'uComponents'
 
             writer.AddPrevalueRow("Server Font", FontNameDropDownList);

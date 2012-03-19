@@ -105,7 +105,7 @@ namespace uComponents.Core.DataTypes.StyledTextBox
             lock (m_Locker)
             {
                 var vals = PreValues.GetPreValues(this.m_DataType.DataTypeDefinitionId);
-				string data = string.Concat(this.WidthTextBox.Text, Settings.COMMA, this.StyleTextBox.Text);
+				string data = string.Concat(this.WidthTextBox.Text, Constants.Common.COMMA, this.StyleTextBox.Text);
 
                 if (vals.Count >= 1)
                 {
@@ -146,12 +146,12 @@ namespace uComponents.Core.DataTypes.StyledTextBox
 
             if (string.IsNullOrEmpty(this.Configuration) == false)
             {
-				var settings = new List<string>(this.Configuration.Split(Settings.COMMA));
+				var settings = new List<string>(this.Configuration.Split(Constants.Common.COMMA));
 
 				if (settings.Count > 1)
 				{
 					this.WidthTextBox.Text = settings[0];
-					this.StyleTextBox.Text = string.Join(new string(Settings.COMMA, 1), settings.Skip(1).ToArray());
+					this.StyleTextBox.Text = string.Join(new string(Constants.Common.COMMA, 1), settings.Skip(1).ToArray());
 				}
             }
 
@@ -193,7 +193,7 @@ namespace uComponents.Core.DataTypes.StyledTextBox
         /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the server control content.</param>
         protected override void Render(HtmlTextWriter writer)
         {
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, Settings.APPNAME);
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
             writer.RenderBeginTag(HtmlTextWriterTag.Div); //// start 'uComponents'
 
             // add property fields

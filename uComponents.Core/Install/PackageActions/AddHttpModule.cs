@@ -22,7 +22,7 @@ namespace uComponents.Core.Install.PackageActions
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
-		internal static readonly string ActionAlias = string.Concat(uc.Settings.APPNAME, "_AddHttpModule");
+		internal static readonly string ActionAlias = string.Concat(uc.Constants.ApplicationName, "_AddHttpModule");
 
 		/// <summary>
 		/// The name of the HttpModule.

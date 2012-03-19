@@ -34,7 +34,7 @@ namespace uComponents.Core.DataTypes.Slider
 			if (!string.IsNullOrEmpty(PropertyData))
 			{
 				int value1, value2;
-				var values = PropertyData.Split(Settings.COMMA).Select(s => s.Trim()).ToList();
+				var values = PropertyData.Split(Constants.Common.COMMA).Select(s => s.Trim()).ToList();
 
 				if (values.Count > 0 && int.TryParse(values[0], out value1))
 				{

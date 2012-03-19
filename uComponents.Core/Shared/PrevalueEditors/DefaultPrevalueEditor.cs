@@ -38,7 +38,7 @@ namespace uComponents.Core.Shared.PrevalueEditors
 		/// <param name="writer">The writer.</param>
 		protected override void Render(HtmlTextWriter writer)
 		{
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, Settings.APPNAME);
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
 			// render the child controls

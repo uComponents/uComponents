@@ -129,7 +129,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns the extension of the specified path string.</returns>
 		public static string GetExtension(string path)
 		{
-			if (path.StartsWith(Settings.HTTP))
+			if (path.StartsWith(Constants.Common.HTTP))
 			{
 				path = GetLocalFilePath(path);
 			}
@@ -144,7 +144,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns the file name and extension of the specified path string.</returns>
 		public static string GetFileName(string path)
 		{
-			if (path.StartsWith(Settings.HTTP))
+			if (path.StartsWith(Constants.Common.HTTP))
 			{
 				path = GetLocalFilePath(path);
 			}
@@ -159,7 +159,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns the file name of the specified path string without the extension.</returns>
 		public static string GetFileNameWithoutExtension(string path)
 		{
-			if (path.StartsWith(Settings.HTTP))
+			if (path.StartsWith(Constants.Common.HTTP))
 			{
 				path = GetLocalFilePath(path);
 			}
@@ -174,7 +174,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns the directory name for the specified path string.</returns>
 		public static string GetDirectoryName(string path)
 		{
-			if (path.StartsWith(Settings.HTTP))
+			if (path.StartsWith(Constants.Common.HTTP))
 			{
 				path = GetLocalFilePath(path);
 			}

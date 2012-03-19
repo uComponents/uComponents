@@ -14,76 +14,86 @@ namespace uComponents.Core.Shared
 		/// <summary>
 		/// Name of the application.
 		/// </summary>
-		public const string APPNAME = "uComponents";
+		[Obsolete("Please use uComponents.Core.Shared.Constants.ApplicationName")]
+		public const string APPNAME = Constants.ApplicationName;
 
 		/// <summary>
 		/// A comma (char).
 		/// </summary>
-		public const char COMMA = ',';
+		[Obsolete("Please use uComponents.Core.Shared.Constants.Common.COMMA")]
+		public const char COMMA = Constants.Common.COMMA;
 
 		/// <summary>
 		/// File extension for ASP.NET webpages.
 		/// </summary>
-		public const string DOTASPX = ".aspx";
+		[Obsolete("Please use uComponents.Core.Shared.Constants.Common.DOTASPX")]
+		public const string DOTASPX = Constants.Common.DOTASPX;
 
 		/// <summary>
 		/// A hash (string).
 		/// </summary>
-		public const string HASH = "#";
+		[Obsolete("Please use uComponents.Core.Shared.Constants.Common.HASH")]
+		public const string HASH = Constants.Common.HASH;
 
 		/// <summary>
 		/// HTTP protocol/prefix.
 		/// </summary>
-		public const string HTTP = "http://";
+		[Obsolete("Please use uComponents.Core.Shared.Constants.Common.HTTP")]
+		public const string HTTP = Constants.Common.HTTP;
 
 		/// <summary>
 		/// HTTPS protocol/prefix.
 		/// </summary>
-		public const string HTTPS = "https://";
+		[Obsolete("Please use uComponents.Core.Shared.Constants.Common.HTTPS")]
+		public const string HTTPS = Constants.Common.HTTPS;
 
 		/// <summary>
 		/// A forward-slash (char).
 		/// </summary>
-		public const char SLASH = '/';
+		[Obsolete("Please use uComponents.Core.Shared.Constants.Common.SLASH")]
+		public const char SLASH = Constants.Common.SLASH;
 
 		/// <summary>
 		/// AppSettings key for UI Modules' drag-n-drop.
 		/// </summary>
-		public const string AppKey_DragAndDrop = "ucomponents:DragAndDrop";
+		[Obsolete("Please use uComponents.Core.Shared.Constants.AppKey_DragAndDrop")]
+		public const string AppKey_DragAndDrop = Constants.AppKey_DragAndDrop;
 
 		/// <summary>
 		/// AppSettings key for UI Modules' keyboard shortcuts.
 		/// </summary>
-		public const string AppKey_KeyboardShortcuts = "ucomponents:KeyboardShortcuts";
+		[Obsolete("Please use uComponents.Core.Shared.Constants.AppKey_KeyboardShortcuts")]
+		public const string AppKey_KeyboardShortcuts = Constants.AppKey_KeyboardShortcuts;
 
 		/// <summary>
 		/// AppSettings key for UI Modules' tray peek.
 		/// </summary>
-		public const string AppKey_TrayPeek = "ucomponents:TrayPeek";
+		[Obsolete("Please use uComponents.Core.Shared.Constants.AppKey_TrayPeek")]
+		public const string AppKey_TrayPeek = Constants.AppKey_TrayPeek;
 
 		/// <summary>
 		/// Dictionary for the UI Modules' appSettings keys.
 		/// </summary>
 		public static readonly Dictionary<string, string> AppKeys_UiModules = new Dictionary<string, string>()
-			{
-				{ AppKey_DragAndDrop, "Drag-n-drop" },
-				{ AppKey_TrayPeek, "Tray Peek" }
-			};
+		{
+			{ Constants.AppKey_DragAndDrop, "Drag-n-drop" },
+			{ Constants.AppKey_TrayPeek, "Tray Peek" }
+		};
 
 		/// <summary>
 		/// The base directory for additional uComponents files.
 		/// </summary>
-		public static readonly string BaseDirName = string.Concat(SystemDirectories.Umbraco, "/plugins/", APPNAME);
+		public static readonly string BaseDirName = string.Concat(SystemDirectories.Umbraco, "/plugins/", Constants.ApplicationName);
 
 		/// <summary>
 		/// The resource path for the favicon.
 		/// </summary>
-		public const string FaviconResourcePath = "uComponents.Core.Shared.Resources.Images.favicon.ico";
+		public const string FaviconResourcePath = Constants.FaviconResourcePath;
 
 		/// <summary>
 		/// The resource path for the Prevalue Editor stylesheet.
 		/// </summary>
-		public const string PrevalueEditorCssResourcePath = "uComponents.Core.Shared.Resources.Styles.PrevalueEditor.css";
+		public const string PrevalueEditorCssResourcePath = Constants.PrevalueEditorCssResourcePath;
 
 		/// <summary>
 		/// The output format for a data-type.

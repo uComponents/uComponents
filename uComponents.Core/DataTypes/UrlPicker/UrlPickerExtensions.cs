@@ -8,8 +8,8 @@ using ClientDependency.Core;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.UrlPicker.UrlPickerScripts.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.UrlPicker.UrlPickerStyles.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.UrlPicker.UrlPickerScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.UrlPicker.UrlPickerStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 namespace uComponents.Core.DataTypes.UrlPicker
 {
     /// <summary>

@@ -299,7 +299,7 @@ namespace uComponents.Core.Controls
 				var excludedDocTypes = new List<string>();
 				if (!string.IsNullOrEmpty(this.ExcludeDocTypesForChildNodes))
 				{
-					excludedDocTypes.AddRange(this.ExcludeDocTypesForChildNodes.Split(Settings.COMMA).Select(s => s.Trim()));
+					excludedDocTypes.AddRange(this.ExcludeDocTypesForChildNodes.Split(Constants.Common.COMMA).Select(s => s.Trim()));
 				}
 
 				if (currentNode != null)

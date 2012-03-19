@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
 using System.Web;
+using uComponents.Core.Shared;
 
 namespace uComponents.Core.DataTypes.TextImage
 {
@@ -247,7 +248,7 @@ namespace uComponents.Core.DataTypes.TextImage
                                                           out RectangleF rectF)
         {
             // set base textImage to background image
-            var umbracoFile = parameters.BackgroundMedia.getProperty("umbracoFile").Value.ToString();
+            var umbracoFile = parameters.BackgroundMedia.getProperty(Constants.Umbraco.Media.File).Value.ToString();
             var serverFile = HttpContext.Current.Server.MapPath(umbracoFile);
             textImage = new Bitmap(serverFile);
             rectF = new RectangleF(0, 0, textImage.Width, textImage.Height);

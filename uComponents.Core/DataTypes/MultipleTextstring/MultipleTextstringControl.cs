@@ -8,8 +8,8 @@ using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 using umbraco;
 
-[assembly: WebResource(MultipleTextstringControl.CssResourcePath, MediaTypeNames.Text.Css)]
-[assembly: WebResource(MultipleTextstringControl.JavaScriptResourcePath, MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource(MultipleTextstringControl.CssResourcePath, Constants.MediaTypeNames.Text.Css)]
+[assembly: WebResource(MultipleTextstringControl.JavaScriptResourcePath, Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.Core.DataTypes.MultipleTextstring
 {
@@ -123,7 +123,7 @@ namespace uComponents.Core.DataTypes.MultipleTextstring
 			// check the minimum number allowed, add extra fields.
 			if (this.values.Count < this.Options.Minimum && this.Options.Minimum > 1)
 			{
-				this.values.AddRange(new string(Settings.COMMA, this.Options.Minimum - 1).Split(new[] { Settings.COMMA }, StringSplitOptions.None));
+				this.values.AddRange(new string(Constants.Common.COMMA, this.Options.Minimum - 1).Split(new[] { Constants.Common.COMMA }, StringSplitOptions.None));
 			}
 
 			// check the maxmimum number allowed, remove the excess.

@@ -135,7 +135,7 @@ namespace uComponents.Core.DataTypes.Slider
 					// the options can only have multiple values if the range is set to 'true'.
 					if (this.Options.Value2 >= this.Options.Value)
 					{
-						options.Append("range: true,values: [").Append(this.Options.Value).Append(Settings.COMMA).Append(this.Options.Value2).Append("],");
+						options.Append("range: true,values: [").Append(this.Options.Value).Append(Constants.Common.COMMA).Append(this.Options.Value2).Append("],");
 						hasMultipleValues = true;
 					}
 				}
@@ -144,26 +144,26 @@ namespace uComponents.Core.DataTypes.Slider
 			// add value - if multiple values have not been already set.
 			if (!hasMultipleValues)
 			{
-				options.Append("value: ").Append(this.Options.Value).Append(Settings.COMMA);
+				options.Append("value: ").Append(this.Options.Value).Append(Constants.Common.COMMA);
 			}
 
 			// add min.max values
 			if (this.Options.MaxValue > this.Options.MinValue)
 			{
-				options.Append("min: ").Append(this.Options.MinValue).Append(Settings.COMMA);
-				options.Append("max: ").Append(this.Options.MaxValue).Append(Settings.COMMA);
+				options.Append("min: ").Append(this.Options.MinValue).Append(Constants.Common.COMMA);
+				options.Append("max: ").Append(this.Options.MaxValue).Append(Constants.Common.COMMA);
 			}
 
 			// add step increments
 			if (this.Options.EnableStep)
 			{
-				options.Append("step: ").Append(this.Options.StepValue).Append(Settings.COMMA);
+				options.Append("step: ").Append(this.Options.StepValue).Append(Constants.Common.COMMA);
 			}
 
 			// add orientation
 			if (!string.IsNullOrEmpty(this.Options.Orientation))
 			{
-				options.Append("orientation: '").Append(this.Options.Orientation).Append("'").Append(Settings.COMMA);
+				options.Append("orientation: '").Append(this.Options.Orientation).Append("'").Append(Constants.Common.COMMA);
 			}
 
 			// add jquery window load event to create the js slider

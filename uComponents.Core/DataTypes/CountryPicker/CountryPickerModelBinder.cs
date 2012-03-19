@@ -23,7 +23,7 @@ namespace uComponents.Core.DataTypes.CountryPicker
 
 			if (!string.IsNullOrEmpty(PropertyData))
 			{
-				foreach (var value in PropertyData.Split(Settings.COMMA))
+				foreach (var value in PropertyData.Split(Constants.Common.COMMA))
 				{
 					values.Add(value);
 				}

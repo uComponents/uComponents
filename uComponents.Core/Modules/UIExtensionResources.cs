@@ -3,18 +3,18 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using uComponents.Core.Shared;
 
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.json2.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.ui.position.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.simulate.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.shortcuts.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.tree.keyboard.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.form.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.shortcuts.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.tree-extensions.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.content-drag-drop.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.item-info-service.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.ie-z-index-fix.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Styles.tree-extras.css", MediaTypeNames.Text.Css)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.json2.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.ui.position.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.simulate.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.shortcuts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.tree.keyboard.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.form.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.shortcuts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.tree-extensions.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.content-drag-drop.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.item-info-service.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.ie-z-index-fix.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Styles.tree-extras.css", Constants.MediaTypeNames.Text.Css)]
 
 namespace uComponents.Core.Modules
 {

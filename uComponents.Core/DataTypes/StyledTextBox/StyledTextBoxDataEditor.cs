@@ -29,7 +29,7 @@ namespace uComponents.Core.DataTypes.StyledTextBox
 
             if (string.IsNullOrEmpty(Configuration) == false)
             {
-                string[] settings = Configuration.Split(Settings.COMMA);
+				string[] settings = Configuration.Split(Constants.Common.COMMA);
 
                 if (settings.Length == 2)
                 {

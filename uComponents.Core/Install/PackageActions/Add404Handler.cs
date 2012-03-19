@@ -19,7 +19,7 @@ namespace uComponents.Core.Install.PackageActions
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
-		internal static readonly string ActionAlias = string.Concat(uc.Settings.APPNAME, "_Add404Handler");
+		internal static readonly string ActionAlias = string.Concat(uc.Constants.ApplicationName, "_Add404Handler");
 
 		/// <summary>
 		/// This Alias must be unique and is used as an identifier that must match the alias in the package action XML

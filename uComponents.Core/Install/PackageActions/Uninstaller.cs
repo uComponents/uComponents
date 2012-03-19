@@ -18,7 +18,7 @@ namespace uComponents.Core.Install.PackageActions
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
-		internal static readonly string ActionAlias = string.Concat(uc.Settings.APPNAME, "_Uninstaller");
+		internal static readonly string ActionAlias = string.Concat(uc.Constants.ApplicationName, "_Uninstaller");
 
 		/// <summary>
 		/// This Alias must be unique and is used as an identifier that must match the alias in the package action XML
@@ -110,7 +110,7 @@ namespace uComponents.Core.Install.PackageActions
 			foreach (XmlNode node in actionsXml.DocumentElement.SelectNodes("//Action"))
 			{
 				// uninstall the components
-				PackageAction.UndoPackageAction(uc.Settings.APPNAME, node.Attributes["alias"].Value, node);
+				PackageAction.UndoPackageAction(uc.Constants.ApplicationName, node.Attributes["alias"].Value, node);
 			}
 
 			return result;

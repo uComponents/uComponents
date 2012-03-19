@@ -9,11 +9,11 @@ using ClientDependency.Core;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.css.uiDropdownchecklist.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.scripts.ui.dropdownchecklist.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.ui.core.js", MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.images.dropdown.png", MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.images.dropdown_hover.png", MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.css.uiDropdownchecklist.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.scripts.ui.dropdownchecklist.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.ui.core.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.images.dropdown.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.images.dropdown_hover.png", Constants.MediaTypeNames.Image.Png)]
 
 namespace uComponents.Core.DataTypes.DropdownCheckList
 {
@@ -106,7 +106,7 @@ namespace uComponents.Core.DataTypes.DropdownCheckList
 		/// <param name="writer">An <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
 		protected override void Render(HtmlTextWriter writer)
 		{
-			var pickedValues = this.PickedValues.Split(new[] { Settings.COMMA }, StringSplitOptions.RemoveEmptyEntries).Select(v => v.Trim()).ToList();
+			var pickedValues = this.PickedValues.Split(new[] { Constants.Common.COMMA }, StringSplitOptions.RemoveEmptyEntries).Select(v => v.Trim()).ToList();
 
 			foreach (object key in this.PreValues.Keys)
 			{

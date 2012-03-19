@@ -25,7 +25,7 @@ namespace uComponents.Core.DataTypes.MultipleDates
 
 			if (!string.IsNullOrEmpty(PropertyData))
 			{
-				var values = PropertyData.Split(Settings.COMMA).Select(s => s.Trim()).ToList();
+				var values = PropertyData.Split(Constants.Common.COMMA).Select(s => s.Trim()).ToList();
 				foreach (var value in values)
 				{
 					DateTime date;

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 using System.Xml.XPath;
+using uComponents.Core.Shared;
 using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.media;
@@ -90,11 +91,11 @@ namespace uComponents.Core.DataTypes.TextImage
             savedImage.GetThumbnailImage((int) (image.Size.Width*.3), (int) (image.Size.Height*.3), null, new IntPtr()).
                 Save(serverMediaThumb);
 
-            mediaItem.getProperty("umbracoWidth").Value = savedImage.Size.Width.ToString();
-            mediaItem.getProperty("umbracoHeight").Value = savedImage.Size.Height.ToString();
-            mediaItem.getProperty("umbracoFile").Value = clientMediaFile;
-            mediaItem.getProperty("umbracoExtension").Value = extension;
-            mediaItem.getProperty("umbracoBytes").Value = File.Exists(serverMediaFile)
+            mediaItem.getProperty(Constants.Umbraco.Media.Width).Value = savedImage.Size.Width.ToString();
+            mediaItem.getProperty(Constants.Umbraco.Media.Height).Value = savedImage.Size.Height.ToString();
+            mediaItem.getProperty(Constants.Umbraco.Media.File).Value = clientMediaFile;
+            mediaItem.getProperty(Constants.Umbraco.Media.Extension).Value = extension;
+            mediaItem.getProperty(Constants.Umbraco.Media.Bytes).Value = File.Exists(serverMediaFile)
                                                               ? new FileInfo(serverMediaFile).Length.ToString()
                                                               : "0";
 
@@ -172,11 +173,14 @@ namespace uComponents.Core.DataTypes.TextImage
         private static string GetUrl(XPathNavigator currentNavigator)
         {
             // Clone navigator to move off axis. 
-            var url = "";
+            var url = string.Empty;
             var member = currentNavigator.Clone();
-            var nodeIterator = member.Select("data[@alias='umbracoFile']");
+            var nodeIterator = member.Select(string.Concat("data[@alias='", Constants.Umbraco.Media.File, "']"));
+            
             while (nodeIterator.MoveNext())
+            {
                 url = nodeIterator.Current.Value;
+            }
 
             return url;
         }
@@ -200,7 +204,7 @@ namespace uComponents.Core.DataTypes.TextImage
                 return "tif";
             if (imageFormat == ImageFormat.Bmp | imageFormat == ImageFormat.MemoryBmp)
                 return "bmp";
-            return "";
+            return string.Empty;
         }
 
         /// <summary>

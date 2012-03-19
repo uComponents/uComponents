@@ -8,7 +8,7 @@ using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 
-[assembly: WebResource("uComponents.Core.Shared.DataTypes.ElasticTextBox.jquery.elastic.js", MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.Shared.DataTypes.ElasticTextBox.jquery.elastic.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.Core.DataTypes.ElasticTextBox
 {

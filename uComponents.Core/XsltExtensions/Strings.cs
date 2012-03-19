@@ -597,7 +597,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		public static string RemoveDuplicateEntries(string list)
 		{
-			return RemoveDuplicateEntries(list, new[] { Settings.COMMA });
+			return RemoveDuplicateEntries(list, new[] { Constants.Common.COMMA });
 		}
 
 		/// <summary>
@@ -635,7 +635,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		public static string RemoveEmptyEntries(string list)
 		{
-			return RemoveEmptyEntries(list, new[] { Settings.COMMA });
+			return RemoveEmptyEntries(list, new[] { Constants.Common.COMMA });
 		}
 
 		/// <summary>

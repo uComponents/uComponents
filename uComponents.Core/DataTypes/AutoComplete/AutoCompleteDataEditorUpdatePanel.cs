@@ -10,7 +10,7 @@ using umbraco.cms.businesslogic.member;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
 
-[assembly: WebResource("uComponents.Core.DataTypes.AutoComplete.css.autocomplete.css", MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Core.DataTypes.AutoComplete.css.autocomplete.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 
 namespace uComponents.Core.DataTypes.AutoComplete
 {
