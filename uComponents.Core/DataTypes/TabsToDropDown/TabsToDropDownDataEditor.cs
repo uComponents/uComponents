@@ -112,11 +112,14 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 
                         $(document).ready(function () {
 
-                            hostTab = $('li#' + $('select#" + this.dropDownList.ClientID + @"').parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
+                            var dropDown = $('select#" + this.dropDownList.ClientID + @"');
+
+                            hostTab = $('li#' + $(dropDown).parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
                             
                             $(hostTab).click(function() { changeTabToDropDownView('" + tabs.First().Caption + @"', true) });
                             
                             
+
                    
                         ");
 
