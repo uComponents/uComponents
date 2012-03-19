@@ -647,10 +647,6 @@
 			$(ResGenDependsOn)
 		</ResGenDependsOn>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
     <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">
       <Output TaskParameter="DestinationFiles" ItemName="EmbeddedJavaScriptResource" />
