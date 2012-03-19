@@ -19,7 +19,7 @@ using System.Text;
 using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.TabsToDropDown.TabsToDropDOwn.js", MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.Core.DataTypes.TabsToDropDown.TabsToDropDown.js", MediaTypeNames.Application.JavaScript)]
 namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 {
 
@@ -84,22 +84,18 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             this.dropDownList.Attributes["onchange"] = "changeTabToDropDownView(this.value, true)";
 
 
-
-            //what tab is this datatype on ?
-
-            //make sure the tab this property is on isn't added to the drop down list...
+            // NOTE: uQuery.GetCurrentDocument doens't work here, when item unpublished!
             var tabs = uQuery.GetDocument(uQuery.GetIdFromQueryString()).ContentType.getVirtualTabs.Where(x => this.options.TabIds.Contains(x.Id));
 
-            // NOTE: uQuery.GetCurrentDocument doens't work here, when item unpublished!
+            // TODO: make sure the tab this property is on isn't added to the drop down list...
+            
 
             if (tabs.Count() > 0)
             {
-
                 foreach (var tab in tabs)
                 {
                     this.dropDownList.Items.Add(new ListItem(tab.Caption));
                 }
-
 
                 this.Controls.Add(this.dropDownList);
 
@@ -114,29 +110,22 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                         var hostTab;
                     
 
-
-
-
-
                         $(document).ready(function () {
 
                             hostTab = $('li#' + $('select#" + this.dropDownList.ClientID + @"').parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
                             
                             $(hostTab).click(function() { changeTabToDropDownView('" + tabs.First().Caption + @"', true) });
+                            
+                            
                    
                         ");
 
-
-                // hide tabs
+                // hide tabs that are to be toggled by the drop down
                 foreach (var tab in tabs)
                 {
                     stringBuilder.Append(@"
-
                             $('span > nobr:contains(""" + tab.Caption + @""")').parentsUntil('li', 'a').parent().hide();
-
                     ");
-
-
                 }
 
                 stringBuilder.Append(@"
