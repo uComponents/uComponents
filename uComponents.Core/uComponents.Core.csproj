@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\EditProperty.cs" />
     <Compile Include="Controls\GetMedia.cs" />
     <Compile Include="DataTypes\CheckBoxTree\CheckBoxTreeModelBinder.cs" />
     <Compile Include="DataTypes\CountryPicker\CountryPickerModelBinder.cs" />
@@ -660,10 +661,6 @@
 			MinifyJavaScript;
 			$(ResGenDependsOn)
 		</ResGenDependsOn>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
     <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">

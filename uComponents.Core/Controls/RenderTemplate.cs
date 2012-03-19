@@ -66,6 +66,7 @@ namespace uComponents.Core.Controls
 		/// Gets or sets the custom property.
 		/// </summary>
 		/// <value>The custom property.</value>
+		[DefaultValue("")]
 		public string CustomProperty { get; set; }
 
 		/// <summary>
