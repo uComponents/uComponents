@@ -120,6 +120,11 @@
 		/// </summary>
 		public const string RelatedLinksWithMediaId = "C9525F23-7B7A-4DAB-BAEB-08F957BDDD50";
 
+        /// <summary>
+        /// Guid for the RelationLinks data-type
+        /// </summary>
+        public const string RelationLinks = "710406AB-9110-49E0-ACCE-6BF88418FD1B";
+
 		/// <summary>
 		/// Guid for the RenderMacro data-type.
 		/// </summary>

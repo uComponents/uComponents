@@ -40,8 +40,8 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         }
 
 
-        public TabsToDropDownPreValueEditor(BaseDataType datatType)
-            : base(datatType, DBTypes.Ntext)
+        public TabsToDropDownPreValueEditor(BaseDataType dataType)
+            : base(dataType, DBTypes.Ntext)
         {
         }
 

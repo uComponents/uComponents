@@ -85,7 +85,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             // NOTE: uQuery.GetCurrentDocument doens't work here, when item unpublished!
             var tabs = uQuery.GetDocument(uQuery.GetIdFromQueryString()).ContentType.getVirtualTabs.Where(x => this.options.TabIds.Contains(x.Id));
 
-            // TODO: make sure the tab this property is on isn't added to the drop down list...
+            // if the tab this datatype is on is in the collection, then report an error
 
             if (tabs.Count() > 0)
             {
@@ -116,7 +116,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 
                             $(hostTabAnchor).click(function() { changeTabToDropDownView(this, dropDown, true); });
                             
-                            $(dropDown).change(function() { changeTabToDropDownView(hostTabAnchor, this, true); });                   
+                            $(dropDown).change(function() { changeTabToDropDownView(hostTabAnchor, this, true); });
                 ");
                 
                 foreach (var tab in tabs)
@@ -136,14 +136,14 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             }
         }
 
-
-
-
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            // Adds the client dependencies.
             this.AddResourceToClientDependency("uComponents.Core.DataTypes.TabsToDropDown.TabsToDropDown.js", ClientDependencyType.Javascript);
         }
 
