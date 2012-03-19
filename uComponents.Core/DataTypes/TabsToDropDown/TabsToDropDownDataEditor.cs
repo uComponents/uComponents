@@ -10,11 +10,16 @@ using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
 using umbraco.DataLayer;
+//using ClientDependency.Core;
 
 using System.Data.SqlClient;
 using System.Data;
 using System.Text;
 
+using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
+
+[assembly: WebResource("uComponents.Core.DataTypes.TabsToDropDown.TabsToDropDOwn.js", MediaTypeNames.Application.JavaScript)]
 namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 {
 
@@ -109,15 +114,6 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                         var hostTab;
                     
 
-                        (function ($) {
-                            $.fn.moveTo = function (selector) {
-                                return this.each(function () {
-                                    var cl = $(this).clone();
-                                    $(cl).prependTo(selector);
-                                    $(this).remove();
-                                });
-                            }
-                        })(jQuery);
 
 
 
@@ -188,8 +184,8 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         {
             base.OnLoad(e);
 
-
-
+            // Adds the client dependencies.
+            this.AddResourceToClientDependency("uComponents.Core.DataTypes.TabsToDropDown.TabsToDropDown.js", ClientDependencyType.Javascript);
         }
 
         public void Save()

@@ -481,6 +481,7 @@
     <EmbeddedResource Include="DataTypes\IncrementalTextBox\Styles\IncrementalTextBox.css" />
     <EmbeddedResource Include="DataTypes\MultipleDates\css\MultipleDates.css" />
     <Content Include="DataTypes\Similarity\Net\README.txt" />
+    <Content Include="DataTypes\TabsToDropDown\TabsToDropDown.js" />
     <Content Include="Install\uComponentsInstaller.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
