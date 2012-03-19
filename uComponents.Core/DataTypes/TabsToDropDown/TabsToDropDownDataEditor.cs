@@ -96,10 +96,8 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 
                 this.Controls.Add(this.dropDownList);
 
-
+                // Build the startup js
                 StringBuilder stringBuilder = new StringBuilder();
-
-
                 stringBuilder.Append(@"
                 
                     <script language='javascript' type='text/javascript'>
@@ -110,40 +108,35 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 
                             var hostTabAnchor = $('li#' + $(dropDown).parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
 
-
                             // init the first tab - if the host tab is the first (ie lit, then pass in true on last param, so that the tab being rendered is toggled into action)
                             changeTabToDropDownView(hostTabAnchor, dropDown, '" + tabs.First().Caption + @"', $(hostTabAnchor).parent('li').hasClass('tabOn'));
 
                             //TODO: loop though tabs, and if any have 'tabOn' then init with that tab caption
 
 
-                            $(hostTabAnchor).click(function() { alert('tab click'); changeTabToDropDownView(this, dropDown, '" + tabs.First().Caption + @"', true); });
-                            
-                            $(dropDown).change(function() { alert('ddl change'); changeTabToDropDownView(hostTabAnchor, this, this.value, true); });
-                   
-                ");
 
-                // hide tabs that are to be toggled by the drop down
+
+
+                            $(hostTabAnchor).click(function() { changeTabToDropDownView(this, dropDown, '" + tabs.First().Caption + @"', true); });
+                            
+                            $(dropDown).change(function() { changeTabToDropDownView(hostTabAnchor, this, this.value, true); });                   
+                ");
+                
                 foreach (var tab in tabs)
                 {
+                    // hide tab
                     stringBuilder.Append(@"
                            $('span > nobr:contains(""" + tab.Caption + @""")').parentsUntil('li', 'a').parent().hide();
                     ");
                 }
 
                 stringBuilder.Append(@"
-
-                        });
-                    
+                        });                    
                     </script>
                 ");
 
                 ScriptManager.RegisterStartupScript(this, typeof(TabsToDropDownDataEditor), this.ClientID + "_init", stringBuilder.ToString(), false);
             }
-
-
-
-            this.Controls.Add(this.dropDownList);            
         }
 
 

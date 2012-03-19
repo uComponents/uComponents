@@ -1,8 +1,9 @@
 ﻿
-
+/// hostTabAnchor is the tab on which the TabsToDropDown datatyp is one
+/// dropDown is the selector to the dropdown list
+/// tanCaption is the item being selected - TODO: remove this param, as can calc from the dropDown
+/// reClick is true if a hidden tab needs to be clicked so as the correct form is shown
 function changeTabToDropDownView(hostTabAnchor, dropDown, tabCaption, reClick) {
-
-    alert('hostTabAnchor = ' + $(hostTabAnchor).find('nobr').html());
 
     // Property where dropdown currently exists
     var dropDownProperty = $(dropDown).parentsUntil('div.tabpageContent', 'div.propertypane').parent();
@@ -12,16 +13,11 @@ function changeTabToDropDownView(hostTabAnchor, dropDown, tabCaption, reClick) {
     var tab = $(tabAnchor).parent();
     var tabArea = $('div#' + $(tab).attr('id') + 'layer_contentlayer div.tabpageContent');
 
-    alert('before move');
     $(dropDownProperty).prependTo(tabArea);
-    alert('after move');
 
     if (reClick) {
-        alert('before reClick');
         $(tabAnchor).click();
-        alert('afte reClick');
+        $(hostTabAnchor).parent('li').attr('class', 'tabOn');
     }
 
-
-    $(hostTabAnchor).parent('li').attr('class', 'tabOn');
 }
