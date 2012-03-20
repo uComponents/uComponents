@@ -2,30 +2,35 @@
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
-namespace uComponents.Core.DataTypes.TabsToDropDownPanel
+namespace uComponents.Core.DataTypes.RelationLinks
 {
-    /// <summary>
-    ///
-    /// </summary>
-    public class TabsToDropDownDataType : BaseDataType, IDataType
-    {
-        private TabsToDropDownPreValueEditor preValueEditor;
 
+    public class RelationLinksDataType : BaseDataType, IDataType
+    {
+        private RelationLinksPreValueEditor preValueEditor;
+
+        /// <summary>
+        /// 
+        /// </summary>
         private IDataEditor dataEditor;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private IData data;
 
         /// <summary>
         /// Gets the name of the data type.
         /// </summary>
         /// <value>The name of the data type.</value>
-        public override string DataTypeName { get { return "uComponents: Tabs to DropDown"; } }
+        public override string DataTypeName { get { return "uComponents: Relation Links"; } }
 
         /// <summary>
         /// Gets the id.
         /// </summary>
         /// <value>The id.</value>
-        public override Guid Id { get { return new Guid(DataTypeConstants.TabsToDropDown); } }
+        public override Guid Id { get { return new Guid(DataTypeConstants.RelationLinks); } }
+
 
         /// <summary>
         /// Lazy load the associated PreValueEditor instance,
@@ -37,7 +42,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             {
                 if (this.preValueEditor == null)
                 {
-                    this.preValueEditor = new TabsToDropDownPreValueEditor(this);
+                    this.preValueEditor = new RelationLinksPreValueEditor(this);
                 }
                 return this.preValueEditor;
             }
@@ -53,7 +58,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             {
                 if (this.dataEditor == null)
                 {
-                    this.dataEditor = new TabsToDropDownDataEditor(this.Data, ((TabsToDropDownPreValueEditor)this.PrevalueEditor).Options);
+                    this.dataEditor = new RelationLinksDataEditor(this.Data, ((RelationLinksPreValueEditor)this.PrevalueEditor).Options);
                 }
                 return this.dataEditor;
             }

@@ -132,6 +132,10 @@
     <Compile Include="DataTypes\PropertyPicker\PropertyPickerDataType.cs" />
     <Compile Include="DataTypes\PropertyPicker\PropertyPickerOptions.cs" />
     <Compile Include="DataTypes\PropertyPicker\PropertyPickerPrevalueEditor.cs" />
+    <Compile Include="DataTypes\RelationLinks\RelationLinksDataEditor.cs" />
+    <Compile Include="DataTypes\RelationLinks\RelationLinksDataType.cs" />
+    <Compile Include="DataTypes\RelationLinks\RelationLinksOptions.cs" />
+    <Compile Include="DataTypes\RelationLinks\RelationLinksPreValueEditor.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroDataEditor.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroDataType.cs" />
     <Compile Include="DataTypes\RenderMacro\RenderMacroOptions.cs" />
@@ -642,6 +646,7 @@
   <ItemGroup>
     <Folder Include="DataTypes\AutoComplete\images\" />
     <Folder Include="DataTypes\AutoComplete\scripts\" />
+    <Folder Include="DataTypes\RelationCounter\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

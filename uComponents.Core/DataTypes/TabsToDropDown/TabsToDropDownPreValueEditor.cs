@@ -1,26 +1,33 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Xml.XPath;
-using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.DataLayer;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 {
-
+    /// <summary>
+    /// Control rendered in the cms when configuring the datatype.
+    /// </summary>
     public class TabsToDropDownPreValueEditor : AbstractJsonPrevalueEditor
     {
-
         private CheckBoxList tabsCheckBoxList = new CheckBoxList();
 
         private TabsToDropDownOptions options = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabsToDropDownPreValueEditor"/> class.
+        /// </summary>
+        /// <param name="dataType">Type of the data.</param>
+        public TabsToDropDownPreValueEditor(BaseDataType dataType)
+            : base(dataType, DBTypes.Ntext)
+        {
+        }
 
+        /// <summary>
+        /// Gets the options.
+        /// </summary>
         internal TabsToDropDownOptions Options
         {
             get
@@ -39,13 +46,9 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             }
         }
 
-
-        public TabsToDropDownPreValueEditor(BaseDataType datatType)
-            : base(datatType, DBTypes.Ntext)
-        {
-        }
-
-
+        /// <summary>
+        /// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
+        /// </summary>
         protected override void CreateChildControls()
         {
             base.CreateChildControls();
@@ -68,6 +71,10 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             this.Controls.Add(this.tabsCheckBoxList);
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -88,7 +95,9 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
 
         }
 
-
+        /// <summary>
+        /// Saves the options
+        /// </summary>
         public override void Save()
         {
             if (this.Page.IsValid)
@@ -115,6 +124,5 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         {
             writer.AddPrevalueRow("Tabs", this.tabsCheckBoxList);
         }
-
     }
 }
