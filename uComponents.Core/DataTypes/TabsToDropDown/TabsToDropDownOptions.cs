@@ -13,11 +13,18 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         public TabsToDropDownOptions()
         {
             this.TabIds = new List<int>();
+            this.ShowLabel = true;
         }
 
         /// <summary>
         /// Gets or sets the tab ids to convert hide and toggle with the drop down
         /// </summary>
         public List<int> TabIds { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the label is shown
+        /// </summary>
+        public bool ShowLabel { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
     {
         private CheckBoxList tabsCheckBoxList = new CheckBoxList();
 
+        private CheckBox showLabelCheckBox = new CheckBox();
+
         private TabsToDropDownOptions options = null;
 
         /// <summary>
@@ -68,7 +70,10 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             this.tabsCheckBoxList.RepeatColumns = 5;
             this.tabsCheckBoxList.RepeatDirection = RepeatDirection.Horizontal;
 
+            this.showLabelCheckBox.ID = "showLabelCheckBox";
+
             this.Controls.Add(this.tabsCheckBoxList);
+            this.Controls.Add(this.showLabelCheckBox);
         }
 
         /// <summary>
@@ -91,6 +96,8 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                         checkBoxListItem.Selected = true;
                     }
                 }
+
+                this.showLabelCheckBox.Checked = this.Options.ShowLabel;
             }
 
         }
@@ -112,6 +119,8 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                     }
                 }
 
+                this.Options.ShowLabel = this.showLabelCheckBox.Checked;
+
                 this.SaveAsJson(this.Options);
             }
         }
@@ -123,6 +132,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         protected override void RenderContents(HtmlTextWriter writer)
         {
             writer.AddPrevalueRow("Tabs", this.tabsCheckBoxList);
+            writer.AddPrevalueRow("Show Label", this.showLabelCheckBox);
         }
     }
 }

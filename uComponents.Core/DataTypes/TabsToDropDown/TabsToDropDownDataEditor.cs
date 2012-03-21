@@ -42,7 +42,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         {
             get
             {
-                return true;
+                return this.options.ShowLabel;
             }
         }
 
