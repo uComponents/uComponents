@@ -52,17 +52,23 @@ namespace uComponents.Core.Controls
 		{
 			base.OnLoad(e);
 
-			// try getting the document from the supplied Id.
-			var document = uQuery.GetDocument(this.NodeId);
-			if (document == null)
+			if (string.IsNullOrWhiteSpace(this.NodeId))
 			{
-				// fall-back on the current page.
-				document = uQuery.GetCurrentDocument();
+				this.NodeId = uQuery.GetIdFromQueryString();
 			}
 
-			if (document != null)
+			// try getting the content from the supplied nodeId.
+			var content = this.GetContent(this.NodeId);
+
+			if (content == null)
 			{
-				var property = document.getProperty(this.Alias);
+				// fall-back on the current page.
+				content = uQuery.GetCurrentDocument();
+			}
+
+			if (content != null)
+			{
+				var property = content.getProperty(this.Alias);
 				if (property != null)
 				{
 					var propertyType = property.PropertyType;
@@ -90,21 +96,27 @@ namespace uComponents.Core.Controls
 		/// <returns></returns>
 		public bool Save(object sender, EventArgs e)
 		{
-			// try getting the document from the supplied Id.
-			var document = uQuery.GetDocument(this.NodeId);
-			if (document == null)
+			if (string.IsNullOrWhiteSpace(this.NodeId))
 			{
-				// fall-back on the current page.
-				document = uQuery.GetCurrentDocument();
+				this.NodeId = uQuery.GetIdFromQueryString();
 			}
 
-			if (document != null)
+			// try getting the content from the supplied Id.
+			var content = this.GetContent(this.NodeId);
+
+			if (content == null)
+			{
+				// fall-back on the current page.
+				content = uQuery.GetCurrentDocument();
+			}
+
+			if (content != null)
 			{
 				// get the data-type from  the private field
 				var dataType = this.m_DataType;
 
 				// get the property value (from the current node)
-				var property = document.getProperty(this.Alias);
+				var property = content.getProperty(this.Alias);
 				if (property != null)
 				{
 					// save the value
@@ -116,6 +128,40 @@ namespace uComponents.Core.Controls
 			}
 
 			return false;
+		}
+
+		/// <summary>
+		/// Gets the content.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
+		private umbraco.cms.businesslogic.Content GetContent(int id)
+		{
+			try
+			{
+				return new umbraco.cms.businesslogic.Content(id);
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// Gets the content.
+		/// </summary>
+		/// <param name="nodeId">The node id.</param>
+		/// <returns></returns>
+		private umbraco.cms.businesslogic.Content GetContent(string nodeId)
+		{
+			int id;
+
+			if (!string.IsNullOrWhiteSpace(nodeId) && int.TryParse(nodeId, out id))
+			{
+				return this.GetContent(id);
+			}
+
+			return null;
 		}
 	}
 }

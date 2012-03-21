@@ -9,6 +9,7 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
+using System.Collections.Generic;
 
 namespace uComponents.Core.DataTypes.PropertyPicker
 {
@@ -128,6 +129,15 @@ namespace uComponents.Core.DataTypes.PropertyPicker
 					{
 						this.dropDownList.Items.Add(new ListItem(propertyType.Name, propertyType.Alias));
 					}
+
+					if (this.options.IncludeDefaultAttributes)
+					{
+						var defaultAttributes = this.GetDefaultAttributes();
+						foreach (var attribute in defaultAttributes)
+						{
+							this.dropDownList.Items.Add(new ListItem(attribute, attribute));
+						}
+					}
 				}
 			}
 
@@ -153,6 +163,33 @@ namespace uComponents.Core.DataTypes.PropertyPicker
 					dropDownListItem.Selected = true;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Gets the default attributes for a content type.
+		/// </summary>
+		/// <returns></returns>
+		private List<string> GetDefaultAttributes()
+		{
+			var defaultAttributes = new List<string>() { "@id", "@version", "@parentID", "@level", "@writerID", "@nodeType", "@template", "@sortOrder", "@createDate", "@updateDate", "@nodeName", "@writerName", "@nodeTypeAlias", "@path", "@urlName" };
+			var guid = Guid.Empty;
+
+			if (Guid.TryParse(this.options.ObjectTypeId, out guid))
+			{
+				var umbracoType = uQuery.GetUmbracoObjectType(guid);
+
+				if (umbracoType == uQuery.UmbracoObjectType.DocumentType)
+				{
+					defaultAttributes.AddRange(new[] { "@createDate", "@creatorName" });
+				}
+
+				if (umbracoType == uQuery.UmbracoObjectType.MemberType)
+				{
+					defaultAttributes.AddRange(new[] { "@loginName", "@email", "@password" });
+				}
+			}
+
+			return defaultAttributes;
 		}
 	}
 }

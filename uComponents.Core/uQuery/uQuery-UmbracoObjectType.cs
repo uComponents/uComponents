@@ -155,6 +155,7 @@ namespace uComponents.Core
 						uQuery.SqlHelper.ExecuteScalar<Guid>(
 							string.Concat("SELECT nodeObjectType FROM umbracoNode WHERE id = ", id)));
 		}
+
 		/// <summary>
 		/// Attribute to associate a GUID string with an UmbracoObjectType Enum value
 		/// </summary>

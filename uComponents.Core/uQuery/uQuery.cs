@@ -203,7 +203,7 @@ namespace uComponents.Core
 			{
 				queryStringId = HttpContext.Current.Request.QueryString["id"];
 			}
-			else if (!string.IsNullOrEmpty(HttpContext.Current.Request.UrlReferrer.Query))
+			else if (HttpContext.Current.Request.UrlReferrer != null && !string.IsNullOrEmpty(HttpContext.Current.Request.UrlReferrer.Query))
 			{
 				// Special case for MNTP CustomTreeService.asmx
 				queryStringId = HttpUtility.ParseQueryString(HttpContext.Current.Request.UrlReferrer.Query)["id"];
