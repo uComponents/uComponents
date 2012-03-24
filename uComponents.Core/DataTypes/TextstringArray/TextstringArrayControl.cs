@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core.Shared;
-using umbraco.IO;
+using umbraco;
 
 [assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.css", MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.js", MediaTypeNames.Application.JavaScript)]
@@ -224,14 +224,12 @@ namespace uComponents.Core.DataTypes.TextstringArray
 					writer.RenderEndTag(); // </div> .textstring-row-field
 				}
 
-				var umbracoPath = IOHelper.ResolveUrl(SystemDirectories.Umbraco);
-
 				// append the add/remove buttons
 				writer.WriteLine("<div class='textstring-row-edit'>");
-				writer.WriteLine("<a href='#add' class='textstring-row-add' title='Add a new row'><img src='{0}/images/small_plus.png' /></a>", umbracoPath);
-				writer.WriteLine("<a href='#remove' class='textstring-row-remove' title='Remove this row'><img src='{0}/images/small_minus.png' /></a>", umbracoPath);
+				writer.WriteLine("<a href='#add' class='textstring-row-add' title='Add a new row'><img src='{0}/images/small_plus.png' /></a>", GlobalSettings.Path);
+				writer.WriteLine("<a href='#remove' class='textstring-row-remove' title='Remove this row'><img src='{0}/images/small_minus.png' /></a>", GlobalSettings.Path);
 				writer.WriteLine("</div>");
-				writer.WriteLine("<div class='textstring-row-sort' title='Re-order this row' style='background: url({0}/images/sort.png) no-repeat 0 2px;'></div>", umbracoPath);
+				writer.WriteLine("<div class='textstring-row-sort' title='Re-order this row' style='background: url({0}/images/sort.png) no-repeat 0 2px;'></div>", GlobalSettings.Path);
 
 				writer.RenderEndTag(); // </div> .textstring-row
 			}

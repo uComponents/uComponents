@@ -2,7 +2,7 @@
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using umbraco.IO;
+using umbraco;
 
 namespace uComponents.Core.DataTypes.FilePicker
 {
@@ -74,15 +74,13 @@ namespace uComponents.Core.DataTypes.FilePicker
 			// add the controls
 			this.Controls.Add(this.TextBoxControl);
 
-			var umbracoPath = IOHelper.ResolveUrl(SystemDirectories.Umbraco);
-
 			// create the image
-			HtmlImage image = new HtmlImage() { Src = string.Concat(umbracoPath, "/images/foldericon.png") };
+			HtmlImage image = new HtmlImage() { Src = string.Concat(GlobalSettings.Path, "/images/foldericon.png") };
 			image.Style.Add("padding-left", "5px");
 
 			// create the anchor link
 			HtmlAnchor anchor = new HtmlAnchor() { HRef = "javascript:void(0);" };
-			anchor.Attributes.Add("onclick", string.Format("javascript:UmbClientMgr.openModalWindow('{0}/developer/packages/directoryBrowser.aspx?target={1}&path={2}', 'Choose a file or a folder', true, 400, 500, 0, 0); return false;", umbracoPath, this.TextBoxControl.ClientID, this.SelectedDirectory));
+			anchor.Attributes.Add("onclick", string.Format("javascript:UmbClientMgr.openModalWindow('{0}/developer/packages/directoryBrowser.aspx?target={1}&path={2}', 'Choose a file or a folder', true, 400, 500, 0, 0); return false;", GlobalSettings.Path, this.TextBoxControl.ClientID, this.SelectedDirectory));
 
 			// add the image to the anchor link
 			anchor.Controls.Add(image);
