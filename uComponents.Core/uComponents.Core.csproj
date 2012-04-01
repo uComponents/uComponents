@@ -148,6 +148,15 @@
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListDataType.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListOptions.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListPreValueEditor.cs" />
+    <Compile Include="DataTypes\SubTabs\SubTabsDataEditor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataTypes\SubTabs\SubTabsDataType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataTypes\SubTabs\SubTabsOptions.cs" />
+    <Compile Include="DataTypes\SubTabs\SubTabsPreValueEditor.cs" />
+    <Compile Include="DataTypes\SubTabs\SubTabType.cs" />
     <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownDataEditor.cs" />
     <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownDataType.cs" />
     <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownOptions.cs" />
@@ -488,6 +497,7 @@
     <EmbeddedResource Include="DataTypes\RelationLinks\RelationLinks.js" />
     <Content Include="DataTypes\Similarity\Net\README.txt" />
     <EmbeddedResource Include="DataTypes\TabsToDropDown\TabsToDropDown.js" />
+    <EmbeddedResource Include="DataTypes\SubTabs\SubTabs.js" />
     <Content Include="Install\uComponentsInstaller.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
@@ -532,6 +542,7 @@
     <Compile Include="Shared\Data\XmlData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
     <Compile Include="Shared\Extensions\ExceptionExtensions.cs" />
     <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
     <Compile Include="Shared\Extensions\PrevalueEditorExtensions.cs" />
@@ -662,6 +673,10 @@
 			MinifyJavaScript;
 			$(ResGenDependsOn)
 		</ResGenDependsOn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
     <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">
