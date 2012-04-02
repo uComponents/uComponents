@@ -1,6 +1,6 @@
 ﻿internal enum SubTabType
 {
-    DropDownList,
+    Buttons,
 
-    Buttons
+    DropDownList,
 }

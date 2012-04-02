@@ -157,10 +157,6 @@
     <Compile Include="DataTypes\SubTabs\SubTabsOptions.cs" />
     <Compile Include="DataTypes\SubTabs\SubTabsPreValueEditor.cs" />
     <Compile Include="DataTypes\SubTabs\SubTabType.cs" />
-    <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownDataEditor.cs" />
-    <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownDataType.cs" />
-    <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownOptions.cs" />
-    <Compile Include="DataTypes\TabsToDropDown\TabsToDropDownPreValueEditor.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayControl.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayDataType.cs" />
     <Compile Include="DataTypes\TextstringArray\TextstringArrayModelBinder.cs" />
@@ -496,7 +492,6 @@
     <EmbeddedResource Include="DataTypes\MultipleDates\css\MultipleDates.css" />
     <EmbeddedResource Include="DataTypes\RelationLinks\RelationLinks.js" />
     <Content Include="DataTypes\Similarity\Net\README.txt" />
-    <EmbeddedResource Include="DataTypes\TabsToDropDown\TabsToDropDown.js" />
     <EmbeddedResource Include="DataTypes\SubTabs\SubTabs.js" />
     <Content Include="Install\uComponentsInstaller.ascx">
       <SubType>ASPXCodeBehind</SubType>

@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace uComponents.Core.DataTypes.RelationLinks
 {
-
     public class RelationLinksPreValueEditor : AbstractJsonPrevalueEditor
     {
         /// <summary>
@@ -48,7 +47,7 @@ namespace uComponents.Core.DataTypes.RelationLinks
             base.CreateChildControls();
 
             this.relationTypeDropDownList.ID = "relationTypeDropDownList";
-            //this.relationTypeDropDownList.AutoPostBack = true;
+            ///this.relationTypeDropDownList.AutoPostBack = true;
             this.relationTypeDropDownList.DataSource = RelationType.GetAll().OrderBy(x => x.Name);
             this.relationTypeDropDownList.DataTextField = "Name";
             this.relationTypeDropDownList.DataValueField = "Id";

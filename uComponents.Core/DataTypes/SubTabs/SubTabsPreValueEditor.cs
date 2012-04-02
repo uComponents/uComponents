@@ -4,7 +4,6 @@ using System.Web.UI.WebControls;
 using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
-using uComponents.Core.Shared.Extensions;
 
 namespace uComponents.Core.DataTypes.SubTabs
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace uComponents.Core.DataTypes
+﻿namespace uComponents.Core.DataTypes
 {
 	/// <summary>
 	/// Defines the Guids for all the DataTypes; e.g. quick access to 3rd-party developers.
@@ -156,12 +154,6 @@ namespace uComponents.Core.DataTypes
         /// Guid for the SubTabs data-type.
         /// </summary>
         public const string SubTabs = "2C787731-CD81-48CD-A94F-4930185BDB58";
-
-        /// <summary>
-        /// Guid for the Tabs to DropDown Panel data-type
-        /// </summary>
-        [Obsolete("Remove when SubTabs is complete")]
-        public const string TabsToDropDown = "D3D353D6-F0F6-42A0-8A98-07E5B5CB4F42";
 
 		/// <summary>
 		/// Guid for the TextImage data-type.

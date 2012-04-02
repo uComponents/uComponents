@@ -81,12 +81,20 @@ namespace uComponents.Core.DataTypes.SubTabs
                 {
                     case SubTabType.Buttons:
 
+                        int counter = 0;
+
                         HtmlButton subTabButton;
                         foreach (var tab in tabs)
                         {
                             subTabButton = new HtmlButton();
-                            subTabButton.InnerText = tab.Caption;
-                            subTabButton.Attributes.Add("onclick", "javascript:alert('" + tab.Caption + "'); return false;");
+                            subTabButton.InnerText = tab.Caption;                            
+                            subTabButton.Attributes.Add("data-tab", tab.Caption); // added an attribute to identify which tab this button relates to, as haven't yet calculated the other parms to pass into activateSubTab()
+                            if (counter == 0)
+                            {
+                                // if it's the first button, then disable it (this means it's active tab)
+                                subTabButton.Disabled = true;
+                            }
+                            counter++;
                             subTabsPanel.Controls.Add(subTabButton);
                         }
 
@@ -107,9 +115,6 @@ namespace uComponents.Core.DataTypes.SubTabs
                 subTabsPanel.ID = "subTabsPanel";
                 this.Controls.Add(subTabsPanel);
 
-
-
-
                 // Build the startup js
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.Append(@"
@@ -118,31 +123,72 @@ namespace uComponents.Core.DataTypes.SubTabs
 
                         $(document).ready(function () {
 
-////                            var subTabsPanel = $('" + subTabsPanel.ClientID + @"');
-////                            var hostTabAnchor = $('li#' + $(subTabsPanel).parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
-////
-////                            // init the first tab
-////                            // if the host tab is already lit, then pass in true on last param, so that it's toggled into action                            
-////
-////                            activateSubTab(hostTabAnchor, subTabsPanel, " + "'undefined'" + @", $(hostTabAnchor).parent('li').hasClass('tabOn')); 
-////
-//////                            //TODO: loop though subtabs, and if any have 'tabOn' then init with that tab caption
-//////
-//////                            // when the defult host tab is clicked
-//////                            //$(hostTabAnchor).click(function() { activateSubTab(this, subTabsPanel, + " + "null" + @", true); });
-//////                            
-//////                            // which is being used - a dropdown or buttons ?
-//////                            //$(dropDown).change(function() { changeTabToDropDownView(hostTabAnchor, this, true); });
+                            // used to identify the containing element for the subTabs dropdown or button controls
+                            var subTabsPanel = $('div#" + subTabsPanel.ClientID + @"');
+
+                            // the main tab anchor in which the sub tabs datatype has been placed
+                            var hostTabAnchor = $('li#' + $(subTabsPanel).parentsUntil('div.tabpagescrollinglayer', 'div.tabpageContent').parent().attr('id').replace('layer_contentlayer', '') + ' > a');
+                            
+                            // init the first sub tab, and if it's already lit (by Umbraco) then pass in true on the last param so that it's toggled into action
+                            activateSubTab(hostTabAnchor, subTabsPanel, '" + this.options.SubTabType.ToString() + @"', $(hostTabAnchor).parent('li').hasClass('tabOn')); 
+
+                            // TODO: loop though subtabs, and if any have 'tabOn' then init with that tab caption
+
+                            // when the defult host tab is clicked - true passed as final param to indicate that the tab is to be activated
+                            $(hostTabAnchor).click(function() { activateSubTab(this, subTabsPanel, '" + this.options.SubTabType.ToString() + @"', true); });
                     ");
 
+                switch (this.options.SubTabType)
+                {
+                    case SubTabType.Buttons:
+
+                        stringBuilder.Append(@"
+
+                            // look for all buttons that are children of the subTabsPanel, and update their click event
+                            $(subTabsPanel).children('button').click(function() {
+                        
+                                // enable all buttons
+                                $(subTabsPanel).children('button').removeAttr('disabled');
+
+                                // disable the button being clicked (this allows us to also identify which tab should be activated within the activateSubTab method - or set a flag ?)
+                                $(this).attr('disabled', true);
+
+                                // activate the sub tab
+                                activateSubTab(hostTabAnchor, subTabsPanel, '" + SubTabType.Buttons.ToString() + @"', true);
+
+                                // prevent the button from causing a submit
+                                return false;
+                            });
+
+                        ");
+
+                        break;
+
+                    case SubTabType.DropDownList:
+
+                        stringBuilder.Append(@"
+
+                            // find the drop down as a child element of the subTabsPanel (there should only be one select element)
+                            $(subTabsPanel).children('select').eq(0).change(function() { 
+
+                                activateSubTab(hostTabAnchor, subTabsPanel, '" + SubTabType.DropDownList.ToString() + @"', true); 
+
+                            });
+
+                        ");
+
+                        break;
+                }
+                            
                 foreach (var tab in tabs)
                 {
-                    // hide the regular Umbraco tabs - TODO: is there a safer way by finding tabs that exactly contain that text ?
+                    // Hide the regular Umbraco tabs - TODO: is there a safer way by finding tabs that exactly contain that text ?
                     stringBuilder.Append(@"
                                $('span > nobr:contains(""" + tab.Caption + @""")').parentsUntil('li', 'a').parent().hide();
                         ");
                 }
 
+                // Close the script string
                 stringBuilder.Append(@"
                             });                    
                         </script>
@@ -150,8 +196,6 @@ namespace uComponents.Core.DataTypes.SubTabs
 
                 ScriptManager.RegisterStartupScript(this, typeof(SubTabsDataEditor), this.ClientID + "_init", stringBuilder.ToString(), false);
             }
-
-
         }
 
         /// <summary>
@@ -170,6 +214,7 @@ namespace uComponents.Core.DataTypes.SubTabs
         /// </summary>
         public void Save()
         {
+            // This datatype doesn't save any data
         }
     }
 }
