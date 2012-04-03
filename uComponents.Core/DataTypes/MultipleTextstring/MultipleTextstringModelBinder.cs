@@ -19,13 +19,17 @@ namespace uComponents.Core.DataTypes.MultipleTextstring
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
-			var xml = new XmlDocument();
-			xml.LoadXml(PropertyData);
-
 			var values = new List<string>();
-			foreach (XmlNode node in xml.SelectNodes("/values/value"))
+
+			if (!string.IsNullOrEmpty(PropertyData))
 			{
-				values.Add(node.InnerText);
+				var xml = new XmlDocument();
+				xml.LoadXml(PropertyData);
+			
+				foreach (XmlNode node in xml.SelectNodes("/values/value"))
+				{
+					values.Add(node.InnerText);
+				}
 			}
 
 			instance = values;

@@ -19,19 +19,23 @@ namespace uComponents.Core.DataTypes.TextstringArray
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
-			var xml = new XmlDocument();
-			xml.LoadXml(PropertyData);
-
 			var values = new List<string[]>();
-			foreach (XmlNode node in xml.SelectNodes("/TextstringArray/values"))
-			{
-				var value = new List<string>();
-				foreach (XmlNode child in node.SelectNodes("value"))
-				{
-					value.Add(child.InnerText);
-				}
 
-				values.Add(value.ToArray());
+			if (!string.IsNullOrEmpty(PropertyData))
+			{
+				var xml = new XmlDocument();
+				xml.LoadXml(PropertyData);
+
+				foreach (XmlNode node in xml.SelectNodes("/TextstringArray/values"))
+				{
+					var value = new List<string>();
+					foreach (XmlNode child in node.SelectNodes("value"))
+					{
+						value.Add(child.InnerText);
+					}
+
+					values.Add(value.ToArray());
+				}
 			}
 
 			instance = values;
