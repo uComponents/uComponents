@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable 0618
+using System;
 using umbraco.cms.businesslogic.member;
 
 namespace uComponents.Core.uQueryExtensions
@@ -18,14 +19,67 @@ namespace uComponents.Core.uQueryExtensions
 			if (string.IsNullOrWhiteSpace(groupName))
 				return;
 
-			var group = MemberGroup.GetByName(groupName);
+			member.AddGroup(MemberGroup.GetByName(groupName));
+		}
 
+		/// <summary>
+		/// Adds a member the group.
+		/// </summary>
+		/// <param name="member">The member.</param>
+		/// <param name="group">The group.</param>
+		public static void AddGroup(this Member member, MemberGroup group)
+		{
 			if (group != null)
 			{
-#pragma warning disable 0618
 				member.AddGroup(group.Id);
-#pragma warning restore 0618
 			}
+		}
+
+		/// <summary>
+		/// Determines whether [is in group] [the specified member].
+		/// </summary>
+		/// <param name="member">The member.</param>
+		/// <param name="groupId">The group id.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is in group] [the specified member]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInGroup(this Member member, int groupId)
+		{
+			return member.Groups.ContainsKey(groupId);
+		}
+
+		/// <summary>
+		/// Determines whether [is in group] [the specified member].
+		/// </summary>
+		/// <param name="member">The member.</param>
+		/// <param name="groupName">Name of the group.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is in group] [the specified member]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInGroup(this Member member, string groupName)
+		{
+			if (string.IsNullOrWhiteSpace(groupName))
+				return false;
+
+			return member.IsInGroup(MemberGroup.GetByName(groupName));
+		}
+
+		/// <summary>
+		/// Determines whether [is in group] [the specified member].
+		/// </summary>
+		/// <param name="member">The member.</param>
+		/// <param name="group">The group.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is in group] [the specified member]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInGroup(this Member member, MemberGroup group)
+		{
+			if (group != null)
+			{
+				return member.IsInGroup(group.Id);
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -38,14 +92,21 @@ namespace uComponents.Core.uQueryExtensions
 			if (string.IsNullOrWhiteSpace(groupName))
 				return;
 
-			var group = MemberGroup.GetByName(groupName);
+			member.RemoveGroup(MemberGroup.GetByName(groupName));
+		}
 
+		/// <summary>
+		/// Removes a member the group.
+		/// </summary>
+		/// <param name="member">The member.</param>
+		/// <param name="group">The group.</param>
+		public static void RemoveGroup(this Member member, MemberGroup group)
+		{
 			if (group != null)
 			{
-#pragma warning disable 0618
 				member.RemoveGroup(group.Id);
-#pragma warning restore 0618
 			}
 		}
 	}
 }
+#pragma warning restore 0618
