@@ -49,7 +49,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
             // Set default value to blank to prevent YSOD
             if (dataType.Data.Value == null)
             {
-                dataType.Data.Value = "";
+                dataType.Data.Value = string.Empty;
             }
         }
     }

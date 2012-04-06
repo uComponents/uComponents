@@ -14,7 +14,7 @@
 				{ "sTitle": "", "bSortable": false, "aTargets": [1] }
 			],
 			"fnDrawCallback": function (oSettings) {
-				ConfigureToolbar($(oSettings.nTableWrapper).parent());
+				ConfigureDtgToolbar($(oSettings.nTableWrapper).parent());
 			}
 		});
 	}
@@ -28,14 +28,6 @@
 	});
 	$(".deleteRowDialog, .editRowDialog, .insertRowDialog, .updateButton, .insertButton").live('mousedown', function () {
 		$(this).addClass("ui-state-active ui-state-focus");
-	});
-
-	// Fix for richtexteditor
-	$(".updateButton, .insertButton").live('click', function () {
-
-		$(".InsertControls .mceEditor").each(function () {
-			$(this).siblings("textarea.tinymceContainer").val($(this).find(".mceContentBody").html());
-		});
 	});
 
 	$(".InsertControls").dialog({
@@ -107,18 +99,11 @@
 	// Reposition dialogs to fix bug with dialog being positioned out of window bounds
 	$(window).trigger('resize');
 
-	// Fix for TinyMCE Editor
-	$(".tinymceContainer").each(function () {
-		if ($(this).find(".dtgTinymceMenu").length == 0) {
-			$(this).before("<div id='umbTinymceMenu_" + $(this).attr("id") + "' class='dtgTinymceMenu'></div>");
-		}
-	});
-
 	function GetContentSorting(element) {
 		var e = "";
 
 		if ($(element).find("input[id$='ContentSorting']").length > 0) {
-		    e = $(element).find("input[id$='ContentSorting']").val();
+			e = $(element).find("input[id$='ContentSorting']").val();
 		}
 
 		return eval(e);
@@ -128,22 +113,33 @@
 		var numberOfRows = 10;
 
 		if ($(element).find("input[id$='NumberOfRows']").length > 0) {
-		    numberOfRows = $(element).find("input[id$='NumberOfRows']").val();
+			numberOfRows = $(element).find("input[id$='NumberOfRows']").val();
 		}
 
 		return numberOfRows;
 	}
 
-	function ConfigureToolbar(element) {
-	    if ($(element).find("input[id$='ShowTableHeader']").val() == "False") {
-		    $(element).find(".fg-toolbar.ui-widget-header:first").hide();
+	function ConfigureDtgToolbar(element) {
+		if ($(element).find("input[id$='ShowTableHeader']").val() == "False") {
+			$(element).find(".fg-toolbar.ui-widget-header:first").hide();
 		}
 
 		if ($(element).find("input[id$='ShowTableFooter']").val() == "False") {
-		    $(element).find(".fg-toolbar.ui-widget-header:last").hide();
+			$(element).find(".fg-toolbar.ui-widget-header:last").hide();
 		}
 	}
 });
+
+function ConfigureTinyMceToolbar(elemId) {
+	$(function () {
+		var elem = $("#" + elemId);
+
+		if (elem.length > 0) {
+
+			$(elem).parents(".dtgTinymceMenu").find('.slh').css('width', '386px');
+		}
+	});
+}
 
 function EnableValidators(elem, enabled) {
 	// Enable validators

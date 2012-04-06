@@ -668,7 +668,8 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void addRowDialog_Click(object sender, EventArgs e)
 		{
-			ClearControls();
+			InsertDataTypes = GetInsertDataTypes();
+			GenerateInsertControls();
 
 			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenInsertDialog_" + this.DataTypeDefinitionId, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
 		}
@@ -719,9 +720,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		protected void deleteRow_Click(object sender, EventArgs e)
 		{
 			var rowToDelete = new StoredValueRow();
-			foreach (
-				StoredValueRow row in Rows.Where(row => row.Id.ToString().Equals(((LinkButton) sender).CommandArgument))
-				)
+			foreach (var row in this.Rows.Where(row => row.Id.ToString().Equals(((LinkButton)sender).CommandArgument)))
 			{
 				rowToDelete = row;
 			}
@@ -766,7 +765,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 						valueRow.Id = int.Parse(container.Attributes["id"].Value);
 					}
 
-					foreach (PreValueRow config in StoredPreValues)
+					foreach (var config in StoredPreValues)
 					{
 						var value = new StoredValue
 										{
@@ -778,20 +777,28 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 						if (datatypeid != 0)
 						{
-							var dtd = DataTypeDefinition.GetDataTypeDefinition(datatypeid);
-							var dt = dtd.DataType;
-							dt.Data.Value = string.Empty;
-							value.Value = dt;
-
-							foreach (XmlNode node in container.ChildNodes)
+							try
 							{
-								if (config.Alias.Equals(node.Name))
-								{
-									value.Value.Data.Value = node.InnerText;
-								}
-							}
+								var dtd = DataTypeDefinition.GetDataTypeDefinition(datatypeid);
+								var dt = dtd.DataType;
+								dt.Data.Value = string.Empty;
+								value.Value = dt;
 
-							valueRow.Cells.Add(value);
+								foreach (XmlNode node in container.ChildNodes)
+								{
+									if (config.Alias.Equals(node.Name))
+									{
+										value.Value.Data.Value = node.InnerText;
+									}
+								}
+
+								valueRow.Cells.Add(value);
+							}
+							catch (Exception ex)
+							{
+								// Cannot understand stored prevalues
+								Log.Add(LogTypes.Error, User.GetUser(0), datatypeid, "uComponents [DataTypeGrid]: Error when parsing stored prevalues: " + ex.Message);
+							}
 						}
 					}
 
@@ -814,17 +821,20 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 			foreach (var config in StoredPreValues)
 			{
-				var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
-				var dt = dtd.DataType;
+				try
+				{
+					var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
+					var dt = dtd.DataType;
 
-				var s = new StoredValue
-							{
-								Name = config.Name, 
-								Alias = config.Alias, 
-								Value = dt
-							};
+					var s = new StoredValue { Name = config.Name, Alias = config.Alias, Value = dt };
 
-				list.Add(s);
+					list.Add(s);
+				}
+				catch (Exception ex)
+				{
+					// Cannot understand stored prevalues
+					Log.Add(LogTypes.Error, User.GetUser(0), config.DataTypeId, "uComponents [DataTypeGrid]: Error parsing stored prevalues when getting insert datatypes: " + ex.Message);
+				}
 			}
 
 			return list;
@@ -847,17 +857,25 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 			{
 				foreach (var config in StoredPreValues)
 				{
-					var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
-					var dt = dtd.DataType;
+					try 
+					{ 
+						var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
+						var dt = dtd.DataType;
 
-					var s = new StoredValue
-								{
-									Name = config.Name, 
-									Alias = config.Alias, 
-									Value = dt
-								};
+						var s = new StoredValue
+									{
+										Name = config.Name, 
+										Alias = config.Alias, 
+										Value = dt
+									};
 
-					list.Add(s);
+						list.Add(s);
+					}
+					catch (Exception ex)
+					{
+						// Cannot understand stored prevalues
+						Log.Add(LogTypes.Error, User.GetUser(0), config.DataTypeId, "uComponents [DataTypeGrid]: Error parsing stored prevalues when getting edit datatypes: " + ex.Message);
+					}
 				}
 			}
 

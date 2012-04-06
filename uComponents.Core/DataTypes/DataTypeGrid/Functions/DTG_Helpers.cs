@@ -205,16 +205,17 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Functions
 		/// </returns>
 		public static List<PreValueRow> GetConfig(int dataTypeDefinitionId)
 		{
-			SortedList prevalues = PreValues.GetPreValues(dataTypeDefinitionId);
+			var prevalues = PreValues.GetPreValues(dataTypeDefinitionId);
 			var sl = new List<PreValueRow>();
 
 			if (prevalues.Count > 1)
 			{
-				for (int i = 1; i < prevalues.Count; i++)
+				for (var i = 1; i < prevalues.Count; i++)
 				{
-					var prevalue = (PreValue) prevalues[i];
-					if (!string.IsNullOrEmpty(prevalue.Value))
-					{
+				    var prevalue = (PreValue)prevalues[i];
+
+				    if (!string.IsNullOrEmpty(prevalue.Value))
+				    {
 						// Get the config
 						var s = GetSingleConfig(prevalue.Value);
 						s.Id = prevalue.Id;

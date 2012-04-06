@@ -6,6 +6,7 @@
 
 namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
 {
+    using System;
     using System.Web.UI;
 
     using uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions;
@@ -28,7 +29,6 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
         /// <returns></returns>
         public static string ToDtgString(this IDataType dataType)
         {
-            var guid = dataType.Id.ToString();
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
             // Dropdown List
@@ -61,6 +61,12 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
                 return MemberPickerDataTypeFunctions.ToDtgString(dataType as umbraco.editorControls.memberpicker.MemberPickerDataType);
             }
 
+            // Markdown Editor
+            if (dataType.Id.Equals(new Guid("7e909384-2543-4aeb-acea-5e256f68c480")))
+            {
+                return MarkdownEditorFunctions.ToDtgString(dataType);
+            }
+
             return value;
         }
 
@@ -72,19 +78,32 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
         public static void ConfigureForDtg(this IDataType dataType, Control container)
         {
             // Date Picker || Date Picker with time
-            if (dataType is DateDataType)
+            if (dataType is DateDataType) 
             {
                 DateDataTypeFunctions.ConfigureForDtg(dataType as DateDataType, container);
             }
+
             // Member picker
-            else if (dataType is umbraco.editorControls.memberpicker.MemberPickerDataType)
+            if (dataType is umbraco.editorControls.memberpicker.MemberPickerDataType)
             {
                 MemberPickerDataTypeFunctions.ConfigureForDtg(dataType as umbraco.editorControls.memberpicker.MemberPickerDataType, container);
+            }
+
+            // TinyMCE Editor
+            else if (dataType is tinyMCE3dataType)
+            {
+                TinyMCE3DataTypeFunctions.ConfigureForDtg(dataType as tinyMCE3dataType, container);
+            }
+
+            // Markdown Editor
+            else if (dataType.Id.Equals(new Guid("7e909384-2543-4aeb-acea-5e256f68c480")))
+            {
+                MarkdownEditorFunctions.ConfigureForDtg(dataType, container);
             }
         }
 
         /// <summary>
-        /// Saves for DTG.
+        /// Save for DTG.
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         public static void SaveForDtg(this IDataType dataType)
@@ -94,6 +113,8 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
             {
                 TinyMCE3DataTypeFunctions.SaveForDtg(dataType as tinyMCE3dataType);
             }
+
+            // Default
             else
             {
                 dataType.DataEditor.Save();

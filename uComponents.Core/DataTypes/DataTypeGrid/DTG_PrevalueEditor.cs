@@ -30,7 +30,9 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 	using uComponents.Core.DataTypes.DataTypeGrid.Functions;
 
+	using umbraco.BusinessLogic;
 	using umbraco.cms.businesslogic.datatype;
+	using umbraco.presentation.channels.businesslogic;
 
 	/// <summary>
 	/// The PreValue Editor for the DTG DataType.
@@ -150,7 +152,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 				this._settings.ContentSorting = this.GetContentSorting(this._preValues);
 				prevalues.Add(this._settings);
 
-				// Add existing prevalues;
+				// Add existing prevalues
 				foreach (var t in this._preValues)
 				{
 					var parsedprevalue = ParsePrevalue(t);
@@ -467,258 +469,241 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 			this._accordionContainer.Controls.Add(addNewProperty);
 
-			// Write stored entries)
+			// Write stored entries
 			foreach (var s in this._preValues)
 			{
-				var editProperty = new Panel() { ID = "editProperty_" + s.Id.ToString(), CssClass = "editProperty" };
-
-				var editPropertyHeader = new Panel()
+				try
 				{
-					CssClass = "propertyHeader"
-				};
-				var editPropertyTitle = new HtmlGenericControl("h3")
+					var editProperty = new Panel() { ID = "editProperty_" + s.Id.ToString(), CssClass = "editProperty" };
+
+					var editPropertyHeader = new Panel() { CssClass = "propertyHeader" };
+					var editPropertyTitle = new HtmlGenericControl("h3")
+						{
+							InnerText =
+								s.Name + " (" + s.Alias + "), " + uQuery.GetDictionaryItem("Type", "Type") + ": "
+								+ ddlNewType.Items.FindByValue(s.DataTypeId.ToString()).Text
+						};
+					editPropertyTitle.Attributes["class"] = "propertyTitle";
+
+					var lnkDelete = new LinkButton
+						{
+							CssClass =
+								"DeleteProperty ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
+							Text =
+								"<span class='ui-button-icon-primary ui-icon ui-icon-close'>&nbsp;</span><span class='ui-button-text'>Delete</span>",
+							OnClientClick =
+								"return confirm('"
+								+
+								uQuery.GetDictionaryItem(
+									"AreYouSureYouWantToDeleteThisColumn", "Are you sure you want to delete this column")
+								+ "?');",
+							CommandArgument = s.Id.ToString(),
+							CommandName = "Delete"
+						};
+					lnkDelete.Command += new CommandEventHandler(this.lnkDelete_Command);
+
+					var icnEditError = new HtmlGenericControl("span") { InnerText = uQuery.GetDictionaryItem("Error", "Error") };
+					icnEditError.Attributes["class"] = "ErrorProperty";
+
+					editPropertyHeader.Controls.Add(editPropertyTitle);
+					editPropertyHeader.Controls.Add(lnkDelete);
+					editPropertyHeader.Controls.Add(icnEditError);
+
+					var editPropertyControls = new Panel() { CssClass = "propertyControls" };
+
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "<ul>" });
+
+					// NAME
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+					// Instantiate controls
+					var txtEditName = new TextBox() { ID = "editName_" + this._preValues.IndexOf(s), CssClass = "editName", Text = s.Name };
+					var lblEditName = new Label() { Text = uQuery.GetDictionaryItem("Name", "Name"), CssClass = "label" };
+					var valEditName = new RequiredFieldValidator()
+						{
+							ID = "editNameValidator_" + this._preValues.IndexOf(s),
+							CssClass = "validator",
+							ControlToValidate = txtEditName.ClientID,
+							Display = ValidatorDisplay.Dynamic,
+							ErrorMessage = "You must specify a name"
+						};
+
+					// Add controls to control
+					editPropertyControls.Controls.Add(lblEditName);
+					editPropertyControls.Controls.Add(txtEditName);
+					editPropertyControls.Controls.Add(valEditName);
+					s.Controls.Add(txtEditName);
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+
+					// ALIAS
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+					// Instantiate controls
+					var txtEditAlias = new TextBox() { ID = "editAlias_" + this._preValues.IndexOf(s), CssClass = "editAlias", Text = s.Alias };
+					var lblEditAlias = new Label() { Text = uQuery.GetDictionaryItem("Alias", "Alias"), CssClass = "label" };
+					var valEditAlias = new RequiredFieldValidator()
+						{
+							ID = "editAliasValidator_" + this._preValues.IndexOf(s),
+							CssClass = "validator",
+							ControlToValidate = txtEditAlias.ClientID,
+							Display = ValidatorDisplay.Dynamic,
+							ErrorMessage = "You must specify an alias"
+						};
+					var valEditAliasExists = new CustomValidator()
+						{
+							ID = "editAliasExistsValidator_" + this._preValues.IndexOf(s),
+							CssClass = "validator exists",
+							ControlToValidate = txtEditAlias.ClientID,
+							Display = ValidatorDisplay.Dynamic,
+							ClientValidationFunction = "ValidateAliasExists",
+							ErrorMessage = "Alias already exists!"
+						};
+					valEditAliasExists.ServerValidate += valEditAliasExists_ServerValidate;
+
+					// Add controls to control
+					editPropertyControls.Controls.Add(lblEditAlias);
+					editPropertyControls.Controls.Add(txtEditAlias);
+					editPropertyControls.Controls.Add(valEditAlias);
+					editPropertyControls.Controls.Add(valEditAliasExists);
+					s.Controls.Add(txtEditAlias);
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+
+					// DATATYPE
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+					// Instantiate controls
+					var ddlEditType = DtgHelpers.GetDataTypeDropDown();
+					ddlEditType.ID = "editDataType_" + this._preValues.IndexOf(s);
+					var lblEditType = new Label() { Text = uQuery.GetDictionaryItem("DataType", "DataType"), CssClass = "label" };
+
+					// Add controls to control
+					editPropertyControls.Controls.Add(lblEditType);
+					ddlEditType.SelectedValue = s.DataTypeId.ToString();
+					editPropertyControls.Controls.Add(ddlEditType);
+					s.Controls.Add(ddlEditType);
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+					// VALIDATION
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+					// Instantiate control
+					var txtEditValidation = new TextBox()
+						{
+							ID = "editValidation_" + this._preValues.IndexOf(s),
+							TextMode = TextBoxMode.MultiLine,
+							Rows = 2,
+							Columns = 20,
+							CssClass = "editValidation",
+							Text = s.ValidationExpression
+						};
+					var lblEditValidation = new Label() { Text = uQuery.GetDictionaryItem("Validation", "Validation"), CssClass = "label" };
+					var lnkEditValidation = new HyperLink
+						{
+							CssClass = "validationLink",
+							NavigateUrl = "#",
+							Text =
+								uQuery.GetDictionaryItem("SearchForARegularExpression", "Search for a regular expression")
+						};
+					var valEditValidation = new CustomValidator()
+						{
+							ID = "editValidationValidator_" + this._preValues.IndexOf(s),
+							CssClass = "validator",
+							ControlToValidate = txtEditValidation.ClientID,
+							Display = ValidatorDisplay.Dynamic,
+							ClientValidationFunction = "ValidateRegex",
+							ErrorMessage =
+								uQuery.GetDictionaryItem("ValidationStringIsNotValid", "Validation string is not valid")
+						};
+					valEditValidation.ServerValidate += valEditValidation_ServerValidate;
+
+					// Add controls to control
+					editPropertyControls.Controls.Add(lblEditValidation);
+					editPropertyControls.Controls.Add(txtEditValidation);
+					editPropertyControls.Controls.Add(valEditValidation);
+					editPropertyControls.Controls.Add(lnkEditValidation);
+					s.Controls.Add(txtEditValidation);
+
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+
+					// CONTENT SORT PRIORITY
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+					// Instantiate controls
+					var ddlEditContentSortPriority = new DropDownList()
+						{
+							ID = "editContentSortPriority_" + this._preValues.IndexOf(s),
+							CssClass = "editContentSortPriority",
+							Text = s.Alias
+						};
+					PopulatePriorityDropDownList(ddlEditContentSortPriority, this._preValues, s.ContentSortPriority);
+
+					var lblEditContentSortPriority = new Label()
+						{
+							Text = uQuery.GetDictionaryItem("ContentSortPriority", "Content Sort Priority"),
+							CssClass = "label"
+						};
+
+					// Add controls to control
+					editPropertyControls.Controls.Add(lblEditContentSortPriority);
+					editPropertyControls.Controls.Add(ddlEditContentSortPriority);
+					s.Controls.Add(ddlEditContentSortPriority);
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+
+					// CONTENT SORT ORDER
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+					// Instantiate controls
+					var ddlEditContentSortOrder = new DropDownList()
+						{
+							ID = "editContentSortOrder_" + this._preValues.IndexOf(s),
+							CssClass = "editContentSortOrder",
+							Text = s.Alias
+						};
+					ddlEditContentSortOrder.Items.Add(new ListItem(string.Empty, string.Empty));
+					ddlEditContentSortOrder.Items.Add(new ListItem("Ascending", "asc"));
+					ddlEditContentSortOrder.Items.Add(new ListItem("Descending", "desc"));
+					ddlEditContentSortOrder.SelectedValue = string.IsNullOrEmpty(s.ContentSortOrder)
+																? string.Empty
+																: s.ContentSortOrder;
+
+					var lblEditContentSortOrder = new Label()
+						{
+							Text = uQuery.GetDictionaryItem("ContentSortOrder", "Content Sort Order"),
+							CssClass = "label"
+						};
+
+					// Add controls to control
+					editPropertyControls.Controls.Add(lblEditContentSortOrder);
+					editPropertyControls.Controls.Add(ddlEditContentSortOrder);
+					s.Controls.Add(ddlEditContentSortOrder);
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+
+					// SORT ORDER
+
+					// Instantiate controls
+					var hdnEditSortOrderWrapper = new Panel() { CssClass = "sortOrder" };
+					var hdnEditSortOrder = new HiddenField() { Value = s.SortOrder.ToString() };
+					hdnEditSortOrderWrapper.Controls.Add(hdnEditSortOrder);
+					editPropertyControls.Controls.Add(hdnEditSortOrderWrapper);
+					s.Controls.Add(hdnEditSortOrder);
+
+					editPropertyControls.Controls.Add(new LiteralControl() { Text = "</ul>" });
+
+					editProperty.Controls.Add(editPropertyHeader);
+					editProperty.Controls.Add(editPropertyControls);
+
+					this._accordionContainer.Controls.Add(editProperty);
+				}
+				catch (Exception ex)
 				{
-					InnerText = s.Name + " (" + s.Alias + "), " + uQuery.GetDictionaryItem("Type", "Type") + ": " + ddlNewType.Items.FindByValue(s.DataTypeId.ToString()).Text
-				};
-				editPropertyTitle.Attributes["class"] = "propertyTitle";
-
-				var lnkDelete = new LinkButton
-				{
-					CssClass = "DeleteProperty ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
-					Text = "<span class='ui-button-icon-primary ui-icon ui-icon-close'>&nbsp;</span><span class='ui-button-text'>Delete</span>",
-					OnClientClick = "return confirm('" + uQuery.GetDictionaryItem("AreYouSureYouWantToDeleteThisColumn", "Are you sure you want to delete this column") + "?');",
-					CommandArgument = s.Id.ToString(),
-					CommandName = "Delete"
-				};
-				lnkDelete.Command += new CommandEventHandler(this.lnkDelete_Command);
-
-				var icnEditError = new HtmlGenericControl("span")
-				{
-					InnerText = uQuery.GetDictionaryItem("Error", "Error")
-				};
-				icnEditError.Attributes["class"] = "ErrorProperty";
-
-				editPropertyHeader.Controls.Add(editPropertyTitle);
-				editPropertyHeader.Controls.Add(lnkDelete);
-				editPropertyHeader.Controls.Add(icnEditError);
-
-				var editPropertyControls = new Panel() { CssClass = "propertyControls" };
-
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "<ul>" });
-
-				// NAME
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-				// Instantiate controls
-				var txtEditName = new TextBox()
-									  {
-										  ID = "editName_" + this._preValues.IndexOf(s),
-										  CssClass = "editName",
-										  Text = s.Name
-									  };
-				var lblEditName = new Label()
-				{
-					Text = uQuery.GetDictionaryItem("Name", "Name"),
-					CssClass = "label"
-				};
-				var valEditName = new RequiredFieldValidator()
-				{
-					ID = "editNameValidator_" + this._preValues.IndexOf(s),
-					CssClass = "validator",
-					ControlToValidate = txtEditName.ClientID,
-					Display = ValidatorDisplay.Dynamic,
-					ErrorMessage = "You must specify a name"
-				};
-
-				// Add controls to control
-				editPropertyControls.Controls.Add(lblEditName);
-				editPropertyControls.Controls.Add(txtEditName);
-				editPropertyControls.Controls.Add(valEditName);
-				s.Controls.Add(txtEditName);
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
-				// ALIAS
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-				// Instantiate controls
-				var txtEditAlias = new TextBox()
-									   {
-										   ID = "editAlias_" + this._preValues.IndexOf(s),
-										   CssClass = "editAlias",
-										   Text = s.Alias
-									   };
-				var lblEditAlias = new Label()
-				{
-					Text = uQuery.GetDictionaryItem("Alias", "Alias"),
-					CssClass = "label"
-				};
-				var valEditAlias = new RequiredFieldValidator()
-				{
-					ID = "editAliasValidator_" + this._preValues.IndexOf(s),
-					CssClass = "validator",
-					ControlToValidate = txtEditAlias.ClientID,
-					Display = ValidatorDisplay.Dynamic,
-					ErrorMessage = "You must specify an alias"
-				};
-				var valEditAliasExists = new CustomValidator()
-				{
-					ID = "editAliasExistsValidator_" + this._preValues.IndexOf(s),
-					CssClass = "validator exists",
-					ControlToValidate = txtEditAlias.ClientID,
-					Display = ValidatorDisplay.Dynamic,
-					ClientValidationFunction = "ValidateAliasExists",
-					ErrorMessage = "Alias already exists!"
-				};
-				valEditAliasExists.ServerValidate += valEditAliasExists_ServerValidate;
-
-				// Add controls to control
-				editPropertyControls.Controls.Add(lblEditAlias);
-				editPropertyControls.Controls.Add(txtEditAlias);
-				editPropertyControls.Controls.Add(valEditAlias);
-				editPropertyControls.Controls.Add(valEditAliasExists);
-				s.Controls.Add(txtEditAlias);
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
-				// DATATYPE
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-				// Instantiate controls
-				var ddlEditType = DtgHelpers.GetDataTypeDropDown();
-				ddlEditType.ID = "editDataType_" + this._preValues.IndexOf(s);
-				var lblEditType = new Label()
-				{
-					Text = uQuery.GetDictionaryItem("DataType", "DataType"),
-					CssClass = "label"
-				};
-
-				// Add controls to control
-				editPropertyControls.Controls.Add(lblEditType);
-				ddlEditType.SelectedValue = s.DataTypeId.ToString();
-				editPropertyControls.Controls.Add(ddlEditType);
-				s.Controls.Add(ddlEditType);
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-				// VALIDATION
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-				// Instantiate control
-				var txtEditValidation = new TextBox()
-									   {
-										   ID = "editValidation_" + this._preValues.IndexOf(s),
-										   TextMode = TextBoxMode.MultiLine, 
-										   Rows = 2, 
-										   Columns = 20,
-										   CssClass = "editValidation",
-										   Text = s.ValidationExpression
-										};
-				var lblEditValidation = new Label()
-				{
-					Text = uQuery.GetDictionaryItem("Validation", "Validation"),
-					CssClass = "label"
-				};
-				var lnkEditValidation = new HyperLink
-				{
-					CssClass = "validationLink",
-					NavigateUrl = "#",
-					Text = uQuery.GetDictionaryItem("SearchForARegularExpression", "Search for a regular expression")
-				};
-				var valEditValidation = new CustomValidator()
-				{
-					ID = "editValidationValidator_" + this._preValues.IndexOf(s),
-					CssClass = "validator",
-					ControlToValidate = txtEditValidation.ClientID,
-					Display = ValidatorDisplay.Dynamic,
-					ClientValidationFunction = "ValidateRegex",
-					ErrorMessage = uQuery.GetDictionaryItem("ValidationStringIsNotValid", "Validation string is not valid")
-				};
-				valEditValidation.ServerValidate += valEditValidation_ServerValidate;
-
-				// Add controls to control
-				editPropertyControls.Controls.Add(lblEditValidation);
-				editPropertyControls.Controls.Add(txtEditValidation);
-				editPropertyControls.Controls.Add(valEditValidation);
-				editPropertyControls.Controls.Add(lnkEditValidation);
-				s.Controls.Add(txtEditValidation);
-
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
-				// CONTENT SORT PRIORITY
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-				// Instantiate controls
-				var ddlEditContentSortPriority = new DropDownList()
-				{
-					ID = "editContentSortPriority_" + this._preValues.IndexOf(s),
-					CssClass = "editContentSortPriority",
-					Text = s.Alias
-				};
-				PopulatePriorityDropDownList(ddlEditContentSortPriority, this._preValues, s.ContentSortPriority);
-
-				var lblEditContentSortPriority = new Label()
-				{
-					Text = uQuery.GetDictionaryItem("ContentSortPriority", "Content Sort Priority"),
-					CssClass = "label"
-				};
-
-				// Add controls to control
-				editPropertyControls.Controls.Add(lblEditContentSortPriority);
-				editPropertyControls.Controls.Add(ddlEditContentSortPriority);
-				s.Controls.Add(ddlEditContentSortPriority);
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
-				// CONTENT SORT ORDER
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-				// Instantiate controls
-				var ddlEditContentSortOrder = new DropDownList()
-				{
-					ID = "editContentSortOrder_" + this._preValues.IndexOf(s),
-					CssClass = "editContentSortOrder",
-					Text = s.Alias
-				};
-				ddlEditContentSortOrder.Items.Add(new ListItem(string.Empty, string.Empty));
-				ddlEditContentSortOrder.Items.Add(new ListItem("Ascending", "asc"));
-				ddlEditContentSortOrder.Items.Add(new ListItem("Descending", "desc"));
-				ddlEditContentSortOrder.SelectedValue = string.IsNullOrEmpty(s.ContentSortOrder) ? string.Empty : s.ContentSortOrder;
-
-				var lblEditContentSortOrder = new Label()
-				{
-					Text = uQuery.GetDictionaryItem("ContentSortOrder", "Content Sort Order"),
-					CssClass = "label"
-				};
-
-				// Add controls to control
-				editPropertyControls.Controls.Add(lblEditContentSortOrder);
-				editPropertyControls.Controls.Add(ddlEditContentSortOrder);
-				s.Controls.Add(ddlEditContentSortOrder);
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
-				// SORT ORDER
-
-				// Instantiate controls
-				var hdnEditSortOrderWrapper = new Panel()
-												  {
-													  CssClass = "sortOrder"
-												  };
-				var hdnEditSortOrder = new HiddenField()
-				{
-					Value = s.SortOrder.ToString()
-				};
-				hdnEditSortOrderWrapper.Controls.Add(hdnEditSortOrder);
-				editPropertyControls.Controls.Add(hdnEditSortOrderWrapper);
-				s.Controls.Add(hdnEditSortOrder);
-
-				editPropertyControls.Controls.Add(new LiteralControl() { Text = "</ul>" });
-
-				editProperty.Controls.Add(editPropertyHeader);
-				editProperty.Controls.Add(editPropertyControls);
-
-				this._accordionContainer.Controls.Add(editProperty);
+					// Cannot understand stored prevalues
+					Log.Add(LogTypes.Error, User.GetUser(0), s.Id, "uComponents [DataTypeGrid]: Error parsing stored prevalues when generating controls: " + ex.Message);
+				}
 			}
 
 			this.Controls.Add(this._showLabel);

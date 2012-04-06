@@ -103,6 +103,7 @@
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_DateDataTypeFunctions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_DropDownListDataTypeExtensions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeExtensions.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_MarkdownEditorFunctions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_MediaPickerDataTypeExtensions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_MemberPickerDataTypeExtensions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_TinyMCE3DataTypeExtensions.cs" />
