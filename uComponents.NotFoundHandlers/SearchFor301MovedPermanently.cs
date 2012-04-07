@@ -4,7 +4,7 @@ using umbraco;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
 
-namespace uComponents.Core.NotFoundHandlers
+namespace uComponents.NotFoundHandlers
 {
 	/// <summary>
 	/// A NotFoundHandler for 301 Moved Permanently requests.

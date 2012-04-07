@@ -1,15 +1,14 @@
 ﻿using System.Net;
 using System.Web;
-using umbraco.cms.businesslogic.web;
+using uComponents.uQueryExtensions;
 using umbraco.interfaces;
-using umbraco.NodeFactory;
 
-namespace uComponents.Core.NotFoundHandlers
+namespace uComponents.NotFoundHandlers
 {
 	/// <summary>
-	/// A NotFoundHandler for multiple web-site set-up.
+	/// NotFoundHandler that checks a 'umbracoPageNotFound' property has been set.
 	/// </summary>
-	public class MultiSitePageNotFoundHandler : INotFoundHandler
+	public class SearchForPageNotFound : INotFoundHandler
 	{
 		/// <summary>
 		/// Field to store the redirect node Id.
@@ -51,30 +50,26 @@ namespace uComponents.Core.NotFoundHandlers
 
 			var success = false;
 
-			// get the current domain name
-			var domain = HttpContext.Current.Request.ServerVariables["SERVER_NAME"];
-
-			// get the root node id of the domain
-			var rootNodeId = Domain.GetRootFromDomain(domain);
-
 			try
 			{
-				if (rootNodeId > 0)
+				// set the XPath query (based on new or legacy schema)
+				var xpath = uQuery.IsLegacyXmlSchema() ? 
+					"descendant::node[@id and normalize-space(data[@alias='umbracoPageNotFound'])][1]" : 
+					"descendant::*[@isDoc and normalize-space(umbracoPageNotFound)][1]";
+
+				// get the nodes
+				var nodes = uQuery.GetNodesByXPath(xpath);
+
+				if (nodes.Count > 0)
 				{
-					// get the node
-					var node = new Node(rootNodeId);
+					// get the first node
+					var node = nodes[0];
 
 					// get the property that holds the node id for the 404 page
-					var property = node.GetProperty("umbracoPageNotFound");
-					if (property != null)
-					{
-						var errorId = property.Value;
-						if (!string.IsNullOrEmpty(errorId))
-						{
-							// if the node id is numeric, then set the redirectId
-							success = int.TryParse(errorId, out this._redirectId);
-						}
-					}
+					var errorId = node.GetPropertyAsString("umbracoPageNotFound");
+
+					// if the node id is numeric, then set the redirectId
+					success = int.TryParse(errorId, out this._redirectId);
 				}
 			}
 			catch

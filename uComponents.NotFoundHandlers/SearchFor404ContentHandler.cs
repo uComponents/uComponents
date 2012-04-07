@@ -3,7 +3,7 @@ using System.Web;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
 
-namespace uComponents.Core.NotFoundHandlers
+namespace uComponents.NotFoundHandlers
 {
 	/// <summary>
 	/// A NotFoundHandler for finding the nearest 404 page.

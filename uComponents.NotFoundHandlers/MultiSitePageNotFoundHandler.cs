@@ -1,14 +1,15 @@
 ﻿using System.Net;
 using System.Web;
-using uComponents.Core.uQueryExtensions;
+using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
+using umbraco.NodeFactory;
 
-namespace uComponents.Core.NotFoundHandlers
+namespace uComponents.NotFoundHandlers
 {
 	/// <summary>
-	/// NotFoundHandler that checks a 'umbracoPageNotFound' property has been set.
+	/// A NotFoundHandler for multiple web-site set-up.
 	/// </summary>
-	public class SearchForPageNotFound : INotFoundHandler
+	public class MultiSitePageNotFoundHandler : INotFoundHandler
 	{
 		/// <summary>
 		/// Field to store the redirect node Id.
@@ -50,26 +51,30 @@ namespace uComponents.Core.NotFoundHandlers
 
 			var success = false;
 
+			// get the current domain name
+			var domain = HttpContext.Current.Request.ServerVariables["SERVER_NAME"];
+
+			// get the root node id of the domain
+			var rootNodeId = Domain.GetRootFromDomain(domain);
+
 			try
 			{
-				// set the XPath query (based on new or legacy schema)
-				var xpath = uQuery.IsLegacyXmlSchema() ? 
-					"descendant::node[@id and normalize-space(data[@alias='umbracoPageNotFound'])][1]" : 
-					"descendant::*[@isDoc and normalize-space(umbracoPageNotFound)][1]";
-
-				// get the nodes
-				var nodes = uQuery.GetNodesByXPath(xpath);
-
-				if (nodes.Count > 0)
+				if (rootNodeId > 0)
 				{
-					// get the first node
-					var node = nodes[0];
+					// get the node
+					var node = new Node(rootNodeId);
 
 					// get the property that holds the node id for the 404 page
-					var errorId = node.GetPropertyAsString("umbracoPageNotFound");
-
-					// if the node id is numeric, then set the redirectId
-					success = int.TryParse(errorId, out this._redirectId);
+					var property = node.GetProperty("umbracoPageNotFound");
+					if (property != null)
+					{
+						var errorId = property.Value;
+						if (!string.IsNullOrEmpty(errorId))
+						{
+							// if the node id is numeric, then set the redirectId
+							success = int.TryParse(errorId, out this._redirectId);
+						}
+					}
 				}
 			}
 			catch
