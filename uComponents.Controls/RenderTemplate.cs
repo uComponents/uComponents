@@ -6,38 +6,37 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.Extensions;
+using uComponents.Core;
 using umbraco;
 using umbraco.NodeFactory;
 
-namespace uComponents.Core.Controls
+namespace uComponents.Controls
 {
 	/// <summary>
 	/// RenderTemplate server control.
 	/// </summary>
 	[DefaultProperty("NodeIds")]
-	[ToolboxBitmap(typeof(ResourceExtensions), Settings.FaviconResourcePath)]
+	[ToolboxBitmap(typeof(Constants), Constants.FaviconResourcePath)]
 	[ToolboxData("<{0}:RenderTemplate runat=server NodeIds=></{0}:RenderTemplate>")]
 	public class RenderTemplate : WebControl
 	{
 		/// <summary>
-		/// Backing field for the <c>uComponents.Core.Controls.RenderTemplate.CurrentPage</c> property.
+		/// Backing field for the <c>uComponents.Controls.RenderTemplate.CurrentPage</c> property.
 		/// </summary>
 		private int currentPage = 0;
 
 		/// <summary>
-		/// Backing field for the <c>uComponents.Core.Controls.RenderTemplate.EntriesPerPage</c> property.
+		/// Backing field for the <c>uComponents.Controls.RenderTemplate.EntriesPerPage</c> property.
 		/// </summary>
 		private int entriesPerPage = 0;
 
 		/// <summary>
-		/// Backing field for the <c>uComponents.Core.Controls.RenderTemplate.AltTemplateId</c> property.
+		/// Backing field for the <c>uComponents.Controls.RenderTemplate.AltTemplateId</c> property.
 		/// </summary>
 		private int altTemplateId = -1;
 
 		/// <summary>
-		/// Backing field for the <c>uComponents.Core.Controls.RenderTemplate.UseChildNodes</c> property.
+		/// Backing field for the <c>uComponents.Controls.RenderTemplate.UseChildNodes</c> property.
 		/// </summary>
 		private bool useChildNodes = false;
 
@@ -160,24 +159,6 @@ namespace uComponents.Core.Controls
 		private List<string> RenderedTemplates { get; set; }
 
 		/// <summary>
-		/// Renders the HTML opening tag of the control to the specified writer. This method is used primarily by control developers.
-		/// </summary>
-		/// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
-		public override void RenderBeginTag(HtmlTextWriter writer)
-		{
-			// base.RenderBeginTag(writer);
-		}
-
-		/// <summary>
-		/// Renders the HTML closing tag of the control into the specified writer. This method is used primarily by control developers.
-		/// </summary>
-		/// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
-		public override void RenderEndTag(HtmlTextWriter writer)
-		{
-			// base.RenderEndTag(writer);
-		}
-
-		/// <summary>
 		/// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
 		/// </summary>
 		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
@@ -248,6 +229,15 @@ namespace uComponents.Core.Controls
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Renders the control to the specified HTML writer.
+		/// </summary>
+		/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the control content.</param>
+		protected override void Render(HtmlTextWriter writer)
+		{
+			this.RenderContents(writer);
 		}
 
 		/// <summary>

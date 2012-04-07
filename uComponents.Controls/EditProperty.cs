@@ -3,17 +3,16 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.Extensions;
+using uComponents.Core;
 using umbraco.interfaces;
 
-namespace uComponents.Core.Controls
+namespace uComponents.Controls
 {
 	/// <summary>
 	/// EditProperty server control.
 	/// </summary>
 	[DefaultProperty("Alias")]
-	[ToolboxBitmap(typeof(ResourceExtensions), Settings.FaviconResourcePath)]
+	[ToolboxBitmap(typeof(Constants), Constants.FaviconResourcePath)]
 	[ToolboxData("<{0}:EditProperty runat=server Alias= NodeId=></{0}:EditProperty>")]
 	public class EditProperty : WebControl
 	{
