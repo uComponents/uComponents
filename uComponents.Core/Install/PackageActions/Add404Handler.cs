@@ -2,8 +2,6 @@
 using System.Xml;
 using umbraco;
 using umbraco.interfaces;
-using spa = umbraco.cms.businesslogic.packager.standardPackageActions;
-using uc = uComponents.Core.Shared;
 
 namespace uComponents.Core.Install.PackageActions
 {
@@ -19,7 +17,7 @@ namespace uComponents.Core.Install.PackageActions
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
-		internal static readonly string ActionAlias = string.Concat(uc.Constants.ApplicationName, "_Add404Handler");
+		internal static readonly string ActionAlias = string.Concat(Constants.ApplicationName, "_Add404Handler");
 
 		/// <summary>
 		/// This Alias must be unique and is used as an identifier that must match the alias in the package action XML
@@ -105,6 +103,7 @@ namespace uComponents.Core.Install.PackageActions
 				// Save the modified configuration file
 				rewriteFile.Save(HttpContext.Current.Server.MapPath(VirtualPathUtility.ToAbsolute("/config/404handlers.config")));
 			}
+
 			result = true;
 
 			return result;
@@ -117,7 +116,7 @@ namespace uComponents.Core.Install.PackageActions
 		public XmlNode SampleXml()
 		{
 			var sample = string.Concat("<Action runat=\"install\" undo=\"true/false\" alias=\"", ActionAlias, "\" assembly=\"assembly\" type=\"type\" />");
-			return spa.helper.parseStringToXmlNode(sample);
+			return umbraco.cms.businesslogic.packager.standardPackageActions.helper.parseStringToXmlNode(sample);
 		}
 	}
 }

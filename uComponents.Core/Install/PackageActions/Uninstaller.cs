@@ -6,7 +6,6 @@ using System.Xml;
 using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
-using uc = uComponents.Core.Shared;
 
 namespace uComponents.Core.Install.PackageActions
 {
@@ -18,7 +17,7 @@ namespace uComponents.Core.Install.PackageActions
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
-		internal static readonly string ActionAlias = string.Concat(uc.Constants.ApplicationName, "_Uninstaller");
+		internal static readonly string ActionAlias = string.Concat(Constants.ApplicationName, "_Uninstaller");
 
 		/// <summary>
 		/// This Alias must be unique and is used as an identifier that must match the alias in the package action XML
@@ -67,7 +66,7 @@ namespace uComponents.Core.Install.PackageActions
 			sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" />", AddHttpModule.ActionAlias);
 
 			// loop through each of the appSettings keys for the UI Modules
-			foreach (var appKey in uc.Settings.AppKeys_UiModules)
+			foreach (var appKey in Settings.AppKeys_UiModules)
 			{
 				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appKey.Key);
 			}
@@ -110,7 +109,7 @@ namespace uComponents.Core.Install.PackageActions
 			foreach (XmlNode node in actionsXml.DocumentElement.SelectNodes("//Action"))
 			{
 				// uninstall the components
-				PackageAction.UndoPackageAction(uc.Constants.ApplicationName, node.Attributes["alias"].Value, node);
+				PackageAction.UndoPackageAction(Constants.ApplicationName, node.Attributes["alias"].Value, node);
 			}
 
 			return result;

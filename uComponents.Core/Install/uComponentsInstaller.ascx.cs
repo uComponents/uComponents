@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
-using uComponents.Core.Shared;
 
 namespace uComponents.Core.Install
 {

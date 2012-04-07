@@ -3,7 +3,6 @@ using System.Web.Configuration;
 using System.Xml;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
-using uc = uComponents.Core.Shared;
 
 namespace uComponents.Core.Install.PackageActions
 {
@@ -19,7 +18,7 @@ namespace uComponents.Core.Install.PackageActions
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
-		internal static readonly string ActionAlias = string.Concat(uc.Constants.ApplicationName, "_AddAppConfigKey");
+		internal static readonly string ActionAlias = string.Concat(Constants.ApplicationName, "_AddAppConfigKey");
 
 		/// <summary>
 		/// This Alias must be unique and is used as an identifier that must match the alias in the package action XML.

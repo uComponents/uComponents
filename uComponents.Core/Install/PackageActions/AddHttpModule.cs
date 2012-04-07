@@ -5,8 +5,6 @@ using umbraco;
 using umbraco.BasePages;
 using umbraco.BusinessLogic;
 using umbraco.interfaces;
-using spa = umbraco.cms.businesslogic.packager.standardPackageActions;
-using uc = uComponents.Core.Shared;
 
 namespace uComponents.Core.Install.PackageActions
 {
@@ -22,7 +20,7 @@ namespace uComponents.Core.Install.PackageActions
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
-		internal static readonly string ActionAlias = string.Concat(uc.Constants.ApplicationName, "_AddHttpModule");
+		internal static readonly string ActionAlias = string.Concat(Constants.ApplicationName, "_AddHttpModule");
 
 		/// <summary>
 		/// The name of the HttpModule.
@@ -81,7 +79,7 @@ namespace uComponents.Core.Install.PackageActions
 			}
 			catch (Exception e)
 			{
-				Log.Add(LogTypes.Error, getUser(), uQuery.RootNodeId, string.Concat("Error at testing AddHttpModule package action: ", e.Message));
+				Log.Add(LogTypes.Error, getUser(), -1, string.Concat("Error at testing AddHttpModule package action: ", e.Message));
 				return false;
 			}
 		}
@@ -168,7 +166,7 @@ namespace uComponents.Core.Install.PackageActions
 			}
 			catch (Exception e)
 			{
-				Log.Add(LogTypes.Error, getUser(), uQuery.RootNodeId, string.Concat("Error at execute ", ActionAlias, " package action: ", e.Message));
+				Log.Add(LogTypes.Error, getUser(), -1, string.Concat("Error at execute ", ActionAlias, " package action: ", e.Message));
 				return false;
 			}
 		}
@@ -252,7 +250,7 @@ namespace uComponents.Core.Install.PackageActions
 				}
 				catch (Exception ex)
 				{
-					Log.Add(LogTypes.Error, getUser(), uQuery.RootNodeId, string.Concat("Error at undo ", ActionAlias, " package action: ", ex.Message));
+					Log.Add(LogTypes.Error, getUser(), -1, string.Concat("Error at undo ", ActionAlias, " package action: ", ex.Message));
 				}
 			}
 
@@ -304,7 +302,7 @@ namespace uComponents.Core.Install.PackageActions
 			}
 			else
 			{
-				Log.Add(LogTypes.Error, getUser(), uQuery.RootNodeId, string.Concat("Error at ", ActionAlias, " package action: Attribute \"", attribute, "\" not found."));
+				Log.Add(LogTypes.Error, getUser(), -1, string.Concat("Error at ", ActionAlias, " package action: Attribute \"", attribute, "\" not found."));
 			}
 
 			return result;
@@ -344,7 +342,7 @@ namespace uComponents.Core.Install.PackageActions
 		public XmlNode SampleXml()
 		{
 			var sample = string.Concat("<Action runat=\"install\" undo=\"true\" alias=\"", ActionAlias, "\" />");
-			return spa.helper.parseStringToXmlNode(sample);
+			return umbraco.cms.businesslogic.packager.standardPackageActions.helper.parseStringToXmlNode(sample);
 		}
 	}
 }
