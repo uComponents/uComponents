@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E83250BD-27B0-4B39-90C8-F07538058938}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>uComponents.DataTypes</RootNamespace>
+    <AssemblyName>uComponents.DataTypes</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic">
+      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientDependency.Core">
+      <HintPath>..\Lib\Umbraco.4.7\ClientDependency.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="cms">
+      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+    </Reference>
+    <Reference Include="controls">
+      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Examine">
+      <HintPath>..\Lib\Umbraco.4.7\Examine.dll</HintPath>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\Lib\Umbraco.4.7\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="umbraco">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.DataLayer">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.DataLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.editorControls">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.editorControls.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.MacroEngines.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.macroRenderings">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.macroRenderings.dll</HintPath>
+    </Reference>
+    <Reference Include="UmbracoExamine">
+      <HintPath>..\Lib\Umbraco.4.7\UmbracoExamine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="AutoComplete\AutoCompleteDataEditorUpdatePanel.cs" />
+    <Compile Include="AutoComplete\AutoCompleteDataType.cs" />
+    <Compile Include="AutoComplete\AutoCompleteOptions.cs" />
+    <Compile Include="AutoComplete\AutoCompletePreValueEditor.cs" />
+    <Compile Include="CharLimit\CharLimitControl.cs" />
+    <Compile Include="CharLimit\CharLimitDataType.cs" />
+    <Compile Include="CharLimit\CharLimitOptions.cs" />
+    <Compile Include="CharLimit\CharLimitPrevalueEditor.cs" />
+    <Compile Include="CheckBoxTree\CheckBoxTreeDataEditor.cs" />
+    <Compile Include="CheckBoxTree\CheckBoxTreeDataType.cs" />
+    <Compile Include="CheckBoxTree\CheckBoxTreeModelBinder.cs" />
+    <Compile Include="CheckBoxTree\CheckBoxTreeOptions.cs" />
+    <Compile Include="CheckBoxTree\CheckBoxTreePreValueEditor.cs" />
+    <Compile Include="CountryPicker\CountryPickerDataEditor.cs" />
+    <Compile Include="CountryPicker\CountryPickerDataType.cs" />
+    <Compile Include="CountryPicker\CountryPickerModelBinder.cs" />
+    <Compile Include="CountryPicker\CountryPickerPreValueEditor.cs" />
+    <Compile Include="DataTypeConstants.cs" />
+    <Compile Include="DataTypeGrid\Configuration\DtgConfiguration.Designer.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DateDataTypeFunctions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DropDownListDataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MediaPickerDataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MemberPickerDataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_TinyMCE3DataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DTG_DataEditor.cs" />
+    <Compile Include="DataTypeGrid\DTG_DataType.cs" />
+    <Compile Include="DataTypeGrid\DTG_ModelBinder.cs" />
+    <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
+    <Compile Include="DataTypeGrid\Extensions\DTG_DataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\Extensions\DTG_DtgDataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_BasePreValueRow.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_PreValueRow.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_StoredValue.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_StoredValueRow.cs" />
+    <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs" />
+    <Compile Include="DataTypeGrid\WebServices\PreValueWebService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DropdownCheckList\DDCList_DataEditor.cs" />
+    <Compile Include="DropdownCheckList\DDCList_DataType.cs" />
+    <Compile Include="ElasticTextBox\ETB_Control.cs" />
+    <Compile Include="ElasticTextBox\ETB_DataType.cs" />
+    <Compile Include="ElasticTextBox\ETB_Options.cs" />
+    <Compile Include="ElasticTextBox\ETB_PrevalueEditor.cs" />
+    <Compile Include="EnumCheckBoxList\EnumCheckBoxListAttribute.cs" />
+    <Compile Include="EnumCheckBoxList\EnumCheckBoxListDataEditor.cs" />
+    <Compile Include="EnumCheckBoxList\EnumCheckBoxListDataType.cs" />
+    <Compile Include="EnumCheckBoxList\EnumCheckBoxListOptions.cs" />
+    <Compile Include="EnumCheckBoxList\EnumCheckBoxListPreValueEditor.cs" />
+    <Compile Include="EnumDropDownList\EnumDropDownListAttribute.cs" />
+    <Compile Include="EnumDropDownList\EnumDropDownListDataEditor.cs" />
+    <Compile Include="EnumDropDownList\EnumDropDownlistDataType.cs" />
+    <Compile Include="EnumDropDownList\EnumDropDownListOptions.cs" />
+    <Compile Include="EnumDropDownList\EnumDropDownListPreValueEditor.cs" />
+    <Compile Include="FileDropDownList\FileDropDownListControl.cs" />
+    <Compile Include="FileDropDownList\FileDropDownListDataType.cs" />
+    <Compile Include="FileDropDownList\FileDropDownListOptions.cs" />
+    <Compile Include="FileDropDownList\FileDropDownListPrevalueEditor.cs" />
+    <Compile Include="FilePicker\FP_Control.cs" />
+    <Compile Include="FilePicker\FP_DataType.cs" />
+    <Compile Include="FilePicker\FP_PrevalueEditor.cs" />
+    <Compile Include="ImageDropdown\ID_DataEditor.cs" />
+    <Compile Include="ImageDropdown\ID_DataType.cs" />
+    <Compile Include="IncrementalTextBox\IT_DataEditor.cs" />
+    <Compile Include="IncrementalTextBox\IT_DataType.cs" />
+    <Compile Include="IncrementalTextBox\IT_PrevalueEditor.cs" />
+    <Compile Include="JsonDropdown\JD_Control.cs" />
+    <Compile Include="JsonDropdown\JD_DataType.cs" />
+    <Compile Include="JsonDropdown\JD_Options.cs" />
+    <Compile Include="JsonDropdown\JD_PrevalueEditor.cs" />
+    <Compile Include="MultiNodeTreePicker\BaseTreeExtensions.cs" />
+    <Compile Include="MultiNodeTreePicker\FilteredContentTree.cs" />
+    <Compile Include="MultiNodeTreePicker\FilteredMediaTree.cs" />
+    <Compile Include="MultiNodeTreePicker\HttpCookieExtensions.cs" />
+    <Compile Include="MultiNodeTreePicker\MNTPResources.Designer.cs" />
+    <Compile Include="MultiNodeTreePicker\MNTP_DataEditor.cs" />
+    <Compile Include="MultiNodeTreePicker\MNTP_DataType.cs" />
+    <Compile Include="MultiNodeTreePicker\MNTP_PrevalueEditor.cs" />
+    <Compile Include="MultiNodeTreePicker\MultiNodeTreePickerExtensions.cs" />
+    <Compile Include="MultiNodeTreePicker\MultiNodeTreePickerModelBinder.cs" />
+    <Compile Include="MultiNodeTreePicker\NodeSelectionType.cs" />
+    <Compile Include="MultiNodeTreePicker\SelectedItemsTemplate.cs" />
+    <Compile Include="MultiNodeTreePicker\XmlTreeNodeExtensions.cs" />
+    <Compile Include="MultiNodeTreePicker\XPathExpressionType.cs" />
+    <Compile Include="MultiNodeTreePicker\XPathFilterType.cs" />
+    <Compile Include="MultiPickerRelations\MultiPickerRelationsDataEditor.cs" />
+    <Compile Include="MultiPickerRelations\MultiPickerRelationsDataType.cs" />
+    <Compile Include="MultiPickerRelations\MultiPickerRelationsEventHandler.cs" />
+    <Compile Include="MultiPickerRelations\MultiPickerRelationsOptions.cs" />
+    <Compile Include="MultiPickerRelations\MultiPickerRelationsPreValueEditor.cs" />
+    <Compile Include="MultipleDates\MD_DataEditor.cs" />
+    <Compile Include="MultipleDates\MD_DataType.cs" />
+    <Compile Include="MultipleDates\MD_ModelBinder.cs" />
+    <Compile Include="MultipleTextstring\MultipleTextstringControl.cs" />
+    <Compile Include="MultipleTextstring\MultipleTextstringDataType.cs" />
+    <Compile Include="MultipleTextstring\MultipleTextstringModelBinder.cs" />
+    <Compile Include="MultipleTextstring\MultipleTextstringOptions.cs" />
+    <Compile Include="MultipleTextstring\MultipleTextstringPrevalueEditor.cs" />
+    <Compile Include="MultiUrlPicker\Dto\MultiUrlPickerSettings.cs" />
+    <Compile Include="MultiUrlPicker\Dto\MultiUrlPickerState.cs" />
+    <Compile Include="MultiUrlPicker\MultiUrlPickerDataEditor.cs" />
+    <Compile Include="MultiUrlPicker\MultiUrlPickerDataType.cs" />
+    <Compile Include="MultiUrlPicker\MultiUrlPickerExtensions.cs" />
+    <Compile Include="MultiUrlPicker\MultiUrlPickerModelBinder.cs" />
+    <Compile Include="MultiUrlPicker\MultiUrlPickerPreValueEditor.cs" />
+    <Compile Include="Notes\NotesDataEditor.cs" />
+    <Compile Include="Notes\NotesDataType.cs" />
+    <Compile Include="Notes\NotesOptions.cs" />
+    <Compile Include="Notes\NotesPrevalueEditor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyPicker\PropertyPickerDataEditor.cs" />
+    <Compile Include="PropertyPicker\PropertyPickerDataType.cs" />
+    <Compile Include="PropertyPicker\PropertyPickerOptions.cs" />
+    <Compile Include="PropertyPicker\PropertyPickerPrevalueEditor.cs" />
+    <Compile Include="RadiobuttonListWithImages\RLWI_DataEditor.cs" />
+    <Compile Include="RadiobuttonListWithImages\RLWI_DataType.cs" />
+    <Compile Include="RelatedLinksWithMedia\PagePickerwMediaDataExtractor.cs" />
+    <Compile Include="RelatedLinksWithMedia\RelatedLinkswMediaData.cs" />
+    <Compile Include="RelatedLinksWithMedia\RelatedLinkswMediaDataEditor.cs" />
+    <Compile Include="RelatedLinksWithMedia\RelatedLinkswMediaDataType.cs" />
+    <Compile Include="RelatedLinksWithMedia\RelatedLinkswMediaPrevalueEditor.cs" />
+    <Compile Include="RelationLinks\RelationLinksDataEditor.cs" />
+    <Compile Include="RelationLinks\RelationLinksDataType.cs" />
+    <Compile Include="RelationLinks\RelationLinksOptions.cs" />
+    <Compile Include="RelationLinks\RelationLinksPreValueEditor.cs" />
+    <Compile Include="RenderMacro\RenderMacroDataEditor.cs" />
+    <Compile Include="RenderMacro\RenderMacroDataType.cs" />
+    <Compile Include="RenderMacro\RenderMacroOptions.cs" />
+    <Compile Include="RenderMacro\RenderMacroPrevalueEditor.cs" />
+    <Compile Include="Shared\AjaxUpload\AjaxUploadHandler.cs" />
+    <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs" />
+    <Compile Include="Shared\Data\CsvToXmlData.cs" />
+    <Compile Include="Shared\Data\XmlData.cs" />
+    <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
+    <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
+    <Compile Include="Shared\Extensions\PrevalueEditorExtensions.cs" />
+    <Compile Include="Shared\PrevalueEditors\AbstractJsonPrevalueEditor.cs" />
+    <Compile Include="Shared\PrevalueEditors\AbstractOptions.cs" />
+    <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />
+    <Compile Include="Shared\PrevalueEditors\DefaultPrevalueEditor.cs" />
+    <Compile Include="Shared\PrevalueEditors\KeyValuePrevalueEditor.cs" />
+    <Compile Include="Shared\PrevalueEditors\MultiImageUpload_PrevalueEditor.cs" />
+    <Compile Include="Shared\PrevalueEditors\NoDBOptionsKeyValuePrevalueEditor.cs" />
+    <Compile Include="Shared\PrevalueEditors\NoOptionsPrevalueEditor.cs" />
+    <Compile Include="Shared\Tree\CustomTreeControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Shared\Tree\CustomTreeService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Shared\Tree\CustomTreeServiceResource.Designer.cs" />
+    <Compile Include="Shared\Tree\NodeInfo.cs" />
+    <Compile Include="Similarity\MoreUmbracoDocsLikeThis.cs" />
+    <Compile Include="Similarity\Net\MoreLikeThis.cs" />
+    <Compile Include="Similarity\Net\SimilarityQueries.cs" />
+    <Compile Include="Similarity\SimilarItemsTemplate.cs" />
+    <Compile Include="Similarity\SimilarityDataEditor.cs" />
+    <Compile Include="Similarity\SimilarityDataType.cs" />
+    <Compile Include="Similarity\SimilarityModelBinder.cs" />
+    <Compile Include="Similarity\SimilarityPreValueEditor.cs" />
+    <Compile Include="Similarity\SimilarityResources.Designer.cs" />
+    <Compile Include="Slider\SliderControl.cs" />
+    <Compile Include="Slider\SliderDataType.cs" />
+    <Compile Include="Slider\SliderModelBinder.cs" />
+    <Compile Include="Slider\SliderOptions.cs" />
+    <Compile Include="Slider\SliderPrevalueEditor.cs" />
+    <Compile Include="SqlDropDownList\SqlDropDownListDataEditor.cs" />
+    <Compile Include="SqlDropDownList\SqlDropDownListDataType.cs" />
+    <Compile Include="SqlDropDownList\SqlDropDownListOptions.cs" />
+    <Compile Include="SqlDropDownList\SqlDropDownListPreValueEditor.cs" />
+    <Compile Include="StyledTextBox\StyledTextBoxDataEditor.cs" />
+    <Compile Include="StyledTextBox\StyledTextBoxDataType.cs" />
+    <Compile Include="StyledTextBox\StyledTextBoxPrevalueEditor.cs" />
+    <Compile Include="SubTabs\SubTabsDataEditor.cs" />
+    <Compile Include="SubTabs\SubTabsDataType.cs" />
+    <Compile Include="SubTabs\SubTabsOptions.cs" />
+    <Compile Include="SubTabs\SubTabsPreValueEditor.cs" />
+    <Compile Include="SubTabs\SubTabType.cs" />
+    <Compile Include="TextImage\Alignment.cs" />
+    <Compile Include="TextImage\DataExtractor.cs" />
+    <Compile Include="TextImage\DocumentHandlers.cs" />
+    <Compile Include="TextImage\DropDownItems.cs" />
+    <Compile Include="TextImage\DropShadow.cs" />
+    <Compile Include="TextImage\Helper.cs" />
+    <Compile Include="TextImage\ImageGenerator.cs" />
+    <Compile Include="TextImage\MediaHelper.cs" />
+    <Compile Include="TextImage\OutputFormat.cs" />
+    <Compile Include="TextImage\TextImageControl.cs" />
+    <Compile Include="TextImage\TextImageDataEditor.cs" />
+    <Compile Include="TextImage\TextImageDataType.cs" />
+    <Compile Include="TextImage\TextImageExtensions.cs" />
+    <Compile Include="TextImage\TextImageParameters.cs" />
+    <Compile Include="TextImage\TextImagePrevalueEditor.cs" />
+    <Compile Include="TextstringArray\TextstringArrayControl.cs" />
+    <Compile Include="TextstringArray\TextstringArrayData.cs" />
+    <Compile Include="TextstringArray\TextstringArrayDataType.cs" />
+    <Compile Include="TextstringArray\TextstringArrayModelBinder.cs" />
+    <Compile Include="TextstringArray\TextstringArrayOptions.cs" />
+    <Compile Include="TextstringArray\TextstringArrayPrevalueEditor.cs" />
+    <Compile Include="ToggleBox\TB_Control.cs" />
+    <Compile Include="ToggleBox\TB_DataType.cs" />
+    <Compile Include="ToggleBox\TB_Options.cs" />
+    <Compile Include="ToggleBox\TB_PrevalueEditor.cs" />
+    <Compile Include="UniqueProperty\UniquePropertyDataEditor.cs" />
+    <Compile Include="UniqueProperty\UniquePropertyDataType.cs" />
+    <Compile Include="UniqueProperty\UniquePropertyPreValueEditor.cs" />
+    <Compile Include="UrlPicker\Dto\UrlPickerSettings.cs" />
+    <Compile Include="UrlPicker\Dto\UrlPickerState.cs" />
+    <Compile Include="UrlPicker\Services\UrlPickerService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UrlPicker\Services\UrlPickerServiceResource.Designer.cs" />
+    <Compile Include="UrlPicker\UrlPickerDataEditor.cs" />
+    <Compile Include="UrlPicker\UrlPickerDataType.cs" />
+    <Compile Include="UrlPicker\UrlPickerExtensions.cs" />
+    <Compile Include="UrlPicker\UrlPickerModelBinder.cs" />
+    <Compile Include="UrlPicker\UrlPickerPreValueEditor.cs" />
+    <Compile Include="UserPicker\UserPickerControl.cs" />
+    <Compile Include="UserPicker\UserPickerDataType.cs" />
+    <Compile Include="UserPicker\UserPickerOptions.cs" />
+    <Compile Include="UserPicker\UserPickerPrevalueEditor.cs" />
+    <Compile Include="XPathCheckBoxList\XPathCheckBoxListDataEditor.cs" />
+    <Compile Include="XPathCheckBoxList\XPathCheckBoxListDataType.cs" />
+    <Compile Include="XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
+    <Compile Include="XPathCheckBoxList\XPathCheckBoxListOptions.cs" />
+    <Compile Include="XPathCheckBoxList\XPathCheckBoxListPreValueEditor.cs" />
+    <Compile Include="XPathDropDownList\XPathDropDownListDataEditor.cs" />
+    <Compile Include="XPathDropDownList\XPathDropDownListDataType.cs" />
+    <Compile Include="XPathDropDownList\XPathDropDownListOptions.cs" />
+    <Compile Include="XPathDropDownList\XPathDropDownListPreValueEditor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AutoComplete\css\autocomplete.css" />
+    <Content Include="AutoComplete\scripts\jquery.autocomplete.min.js" />
+    <Content Include="CharLimit\CharLimit.js" />
+    <Content Include="DataTypeGrid\Css\DTG_DataEditor.css" />
+    <Content Include="DataTypeGrid\Css\DTG_PrevalueEditor.css" />
+    <Content Include="DataTypeGrid\Scripts\DTG_DataEditor.js" />
+    <Content Include="DataTypeGrid\Scripts\DTG_PrevalueEditor.js" />
+    <Content Include="DataTypeGrid\WebServices\PreValueWebService.asmx" />
+    <Content Include="DropdownCheckList\css\uiDropdownchecklist.css" />
+    <Content Include="DropdownCheckList\images\dropdown.png" />
+    <Content Include="DropdownCheckList\images\dropdown_hover.png" />
+    <Content Include="DropdownCheckList\scripts\ui.dropdownchecklist.js" />
+    <Content Include="ElasticTextBox\Scripts\jquery.elastic.js" />
+    <Content Include="ImageDropdown\css\ImageDropdown.css" />
+    <Content Include="ImageDropdown\images\dd_arrow.gif" />
+    <Content Include="ImageDropdown\scripts\jquery.dd.js" />
+    <Content Include="IncrementalTextBox\Images\down.png" />
+    <Content Include="IncrementalTextBox\Images\up.png" />
+    <Content Include="IncrementalTextBox\Scripts\jquery.alphanumeric.js" />
+    <Content Include="IncrementalTextBox\Scripts\Jquery.Increment.js" />
+    <Content Include="IncrementalTextBox\Styles\IncrementalTextBox.css" />
+    <Content Include="MultiNodeTreePicker\MultiNodePickerScripts.js" />
+    <Content Include="MultiNodeTreePicker\MultiNodePickerStyles.css" />
+    <Content Include="MultipleDates\css\MultipleDates.css" />
+    <Content Include="MultipleDates\scripts\main.js" />
+    <Content Include="MultipleTextstring\MultipleTextstring.css" />
+    <Content Include="MultipleTextstring\MultipleTextstring.js" />
+    <Content Include="MultiUrlPicker\MultiUrlPickerScripts.js" />
+    <Content Include="MultiUrlPicker\MultiUrlPickerStyles.css" />
+    <Content Include="RelationLinks\RelationLinks.js" />
+    <Content Include="Shared\AjaxUpload\AjaxUploadHandler.ashx.txt" />
+    <Content Include="Shared\Resources\Images\deleteIcon.gif" />
+    <Content Include="Shared\Resources\Images\information.png" />
+    <Content Include="Shared\Resources\Images\throbber.gif" />
+    <Content Include="Shared\Resources\Scripts\content-drag-drop.js" />
+    <Content Include="Shared\Resources\Scripts\ie-z-index-fix.js" />
+    <Content Include="Shared\Resources\Scripts\item-info-service.js" />
+    <Content Include="Shared\Resources\Scripts\jquery.dataTables.min.js" />
+    <Content Include="Shared\Resources\Scripts\jquery.form.js" />
+    <Content Include="Shared\Resources\Scripts\jquery.shortcuts.js" />
+    <Content Include="Shared\Resources\Scripts\jquery.simulate.js" />
+    <Content Include="Shared\Resources\Scripts\jquery.tooltip.min.js" />
+    <Content Include="Shared\Resources\Scripts\jquery.tree.keyboard.js" />
+    <Content Include="Shared\Resources\Scripts\jquery.ui.position.js" />
+    <Content Include="Shared\Resources\Scripts\json2.js" />
+    <Content Include="Shared\Resources\Scripts\shortcuts.js" />
+    <Content Include="Shared\Resources\Scripts\tree-extensions.js" />
+    <Content Include="Shared\Resources\Scripts\ui.core.js" />
+    <Content Include="Shared\Resources\Styles\PrevalueEditor.css" />
+    <Content Include="Shared\Resources\Styles\tree-extras.css" />
+    <Content Include="Shared\Tree\CustomTreeService.asmx" />
+    <Content Include="Similarity\Net\LICENSE.txt" />
+    <Content Include="Similarity\Net\README.txt" />
+    <Content Include="Similarity\SimilarityScripts.js" />
+    <Content Include="Similarity\SimilarityStyles.css" />
+    <Content Include="SubTabs\SubTabs.js" />
+    <Content Include="TextImage\images\color.png" />
+    <Content Include="TextImage\images\colorpicker.png" />
+    <Content Include="TextImage\images\graybar.jpg" />
+    <Content Include="TextImage\images\grid.gif" />
+    <Content Include="TextImage\images\meta100.png" />
+    <Content Include="TextImage\images\transparentpixel.gif" />
+    <Content Include="TextImage\jquery.simpleColor.js" />
+    <Content Include="TextImage\Scripts\mColorPicker.js" />
+    <Content Include="TextImage\TextImageScripts.js" />
+    <Content Include="TextstringArray\TextstringArray.css" />
+    <Content Include="TextstringArray\TextstringArray.js" />
+    <Content Include="ToggleBox\Images\handle-bg.png" />
+    <Content Include="ToggleBox\Images\handle-left-bg.png" />
+    <Content Include="ToggleBox\Images\handle-right-bg.png" />
+    <Content Include="ToggleBox\Images\shadow-bg.png" />
+    <Content Include="ToggleBox\Scripts\jquery.togglebox.js" />
+    <Content Include="ToggleBox\Styles\ToggleBox.css" />
+    <Content Include="UrlPicker\Services\UrlPickerService.asmx" />
+    <Content Include="UrlPicker\UrlPickerScripts.js" />
+    <Content Include="UrlPicker\UrlPickerStyles.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataTypeGrid\Configuration\DataTypeGrid.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataTypeGrid\Configuration\DtgConfiguration.resx" />
+    <EmbeddedResource Include="DataTypeGrid\WebServices\DtgWebServices.resx" />
+    <EmbeddedResource Include="MultiNodeTreePicker\MNTPResources.resx" />
+    <EmbeddedResource Include="Shared\AjaxUpload\AjaxUploadHandlerResource.resx" />
+    <EmbeddedResource Include="Shared\Tree\CustomTreeServiceResource.resx" />
+    <EmbeddedResource Include="Similarity\SimilarityResources.resx" />
+    <EmbeddedResource Include="UrlPicker\Services\UrlPickerServiceResource.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
+      <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
+      <Name>uComponents.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uQuery\uQuery.csproj">
+      <Project>{7624259D-D940-4113-BBF3-C73C4CD9CF94}</Project>
+      <Name>uQuery</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
