@@ -1,7 +1,7 @@
 ﻿using umbraco;
 using umbraco.cms.businesslogic;
 
-namespace uComponents.Core
+namespace uComponents
 {
 	/// <summary>
 	/// Static helper methods, previously this class was UmbracoHelper

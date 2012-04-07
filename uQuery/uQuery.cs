@@ -4,16 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml;
-using uComponents.Core.Shared;
-using uComponents.Core.uQueryExtensions;
+using uComponents.Core;
+using uComponents.uQueryExtensions;
 using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.DataLayer;
 
-namespace uComponents.Core
+namespace uComponents
 {
 	/// <summary>
-	/// static helper methods, previously this class was UmbracoHelper
+	/// uQuery - static helper methods, previously this class was UmbracoHelper
 	/// </summary>
 	public static partial class uQuery
 	{
@@ -122,7 +122,7 @@ namespace uComponents.Core
 		/// </summary>
 		/// <param name="csv">string of comma seperated values</param>
 		/// <returns>An array of node ids as string.</returns>
-		internal static string[] GetCsvIds(string csv)
+		public static string[] GetCsvIds(string csv)
 		{
 			string[] ids = null;
 

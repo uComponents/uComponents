@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Web;
 using System.Xml.XPath;
-using uComponents.Core.uQueryExtensions;
+using uComponents.Core;
+using uComponents.uQueryExtensions;
 using umbraco;
 using umbraco.NodeFactory;
 
-namespace uComponents.Core
+namespace uComponents
 {
 	/// <summary>
 	/// uQuery sub-class for Nodes
@@ -170,7 +171,53 @@ namespace uComponents.Core
 		/// <remarks>Uses <c>uComponents.Core.XsltExtensions.Nodes.GetNodeIdByUrl</c></remarks>
 		public static Node GetNodeByUrl(string url)
 		{
-			return uQuery.GetNode(XsltExtensions.Nodes.GetNodeIdByUrl(url));
+			return uQuery.GetNode(uQuery.GetNodeIdByUrl(url));
+		}
+
+		/// <summary>
+		/// Gets the node id by path level.
+		/// </summary>
+		/// <param name="path">The path.</param>
+		/// <param name="level">The level.</param>
+		/// <returns>Returns the node id for a given path level.</returns>
+		public static string GetNodeIdByPathLevel(string path, int level)
+		{
+			// TODO: [LK] use uQuery.GetNodeIdByPathLevel
+			var nodeIds = path.Split(Constants.Common.COMMA).ToList();
+
+			if (nodeIds.Count <= level)
+			{
+				return nodeIds[level];
+			}
+
+			return uQuery.RootNodeId.ToString();
+		}
+
+		/// <summary>
+		/// Gets the node Id by URL.
+		/// </summary>
+		/// <param name="url">The URL to get the XML node from.</param>
+		/// <returns>Returns the node Id.</returns>
+		/// <remarks>
+		/// Thanks to Jonas Eriksson http://our.umbraco.org/member/4853
+		/// </remarks>
+		public static int GetNodeIdByUrl(string url)
+		{
+			var xpathQuery = GetXPathQuery(url);
+			var xmlNode = content.Instance.XmlContent.SelectSingleNode(xpathQuery);
+
+			if (xmlNode != null && xmlNode.Attributes.Count > 0)
+			{
+				int nodeId;
+				var id = xmlNode.Attributes.GetNamedItem("id").Value;
+
+				if (int.TryParse(id, out nodeId))
+				{
+					return nodeId;
+				}
+			}
+
+			return uQuery.RootNodeId;
 		}
 
 		/// <summary>
@@ -312,6 +359,22 @@ namespace uComponents.Core
 			}
 
 			return dictionary;
+		}
+
+		/// <summary>
+		/// Gets the XPath query.
+		/// </summary>
+		/// <param name="url">The specified URL.</param>
+		/// <returns>
+		/// Returns an XPath query for the specified URL.
+		/// </returns>
+		private static string GetXPathQuery(string url)
+		{
+			// strip the ASP.NET file-extension from the URL.
+			url = url.Replace(Constants.Common.DOTASPX, string.Empty);
+
+			// return the XPath query.
+			return requestHandler.CreateXPathQuery(url, true);
 		}
 	}
 }

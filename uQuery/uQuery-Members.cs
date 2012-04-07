@@ -3,7 +3,7 @@ using System.Xml;
 using System.Xml.XPath;
 using umbraco.cms.businesslogic.member;
 
-namespace uComponents.Core
+namespace uComponents
 {
 	public static partial class uQuery
 	{

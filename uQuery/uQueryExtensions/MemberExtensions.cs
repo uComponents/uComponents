@@ -2,7 +2,7 @@
 using System;
 using umbraco.cms.businesslogic.member;
 
-namespace uComponents.Core.uQueryExtensions
+namespace uComponents.uQueryExtensions
 {
 	/// <summary>
 	/// uQuery Member extensions.

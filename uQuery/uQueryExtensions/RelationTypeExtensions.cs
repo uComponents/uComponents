@@ -2,7 +2,7 @@
 using System.Linq;
 using umbraco.cms.businesslogic.relation;
 
-namespace uComponents.Core.uQueryExtensions
+namespace uComponents.uQueryExtensions
 {
 	/// <summary>
 	/// uQuery extensions for the RelationType object.

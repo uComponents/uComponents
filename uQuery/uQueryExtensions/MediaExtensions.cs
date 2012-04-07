@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using uComponents.Core.Shared;
+using uComponents.Core;
 using umbraco.cms.businesslogic.media;
 
-namespace uComponents.Core.uQueryExtensions
+namespace uComponents.uQueryExtensions
 {
 	/// <summary>
 	/// Extension methods for umbraco.cms.businesslogic.media.Media
@@ -131,7 +131,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// </summary>
 		/// <param name="media">an umbraco.cms.businesslogic.media.Media object</param>
 		/// <returns>an int representing the depth of the Media object in the tree</returns>
-		[Obsolete("Use Level instead")]
+		[Obsolete("Use umbraco.cms.businesslogic.media.Media.Level instead")]
 		public static int GetDepth(this Media media)
 		{
 			return media.Path.Split(Constants.Common.COMMA).ToList().Count;

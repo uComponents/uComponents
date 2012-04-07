@@ -2,7 +2,7 @@
 using umbraco.cms.businesslogic.web;
 using umbraco.NodeFactory;
 
-namespace uComponents.Core
+namespace uComponents
 {
 	public static partial class uQuery
 	{

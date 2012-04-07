@@ -1,7 +1,7 @@
 ﻿using System;
-using uComponents.Core.uQueryExtensions;
+using uComponents.uQueryExtensions;
 
-namespace uComponents.Core
+namespace uComponents
 {
 	public static partial class uQuery
 	{

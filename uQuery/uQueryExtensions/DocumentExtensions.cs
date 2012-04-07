@@ -6,7 +6,7 @@ using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.web;
 using umbraco.NodeFactory;
 
-namespace uComponents.Core.uQueryExtensions
+namespace uComponents.uQueryExtensions
 {
 	/// <summary>
 	/// uQuery extensions for the Document object
@@ -21,7 +21,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>Returns an ancestor document by path level.</returns>
 		public static Document GetAncestorByPathLevel(this Document document, int level)
 		{
-			var documentId = XsltExtensions.Nodes.GetNodeIdByPathLevel(document.Path, level);
+			var documentId = uQuery.GetNodeIdByPathLevel(document.Path, level);
 			return uQuery.GetDocument(documentId);
 		}
 

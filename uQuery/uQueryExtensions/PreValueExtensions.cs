@@ -1,8 +1,8 @@
-﻿using uComponents.Core.Shared;
-using uComponents.Core.Shared.Extensions;
+﻿//using uComponents.Core.Shared;
+//using uComponents.Core.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 
-namespace uComponents.Core.uQueryExtensions
+namespace uComponents.uQueryExtensions
 {
 	/// <summary>
 	/// uQuery extensions for the PreValue object.
@@ -31,11 +31,9 @@ namespace uComponents.Core.uQueryExtensions
 
 				while (hasRows)
 				{
-					string tmpStr;
-
-					if (reader.TryGetColumnValue("alias", out tmpStr))
+					if (reader.ContainsField("alias") && !reader.IsNull("alias"))
 					{
-						alias = tmpStr;
+						alias = reader.GetString("alias");
 					}
 
 					hasRows = reader.Read();

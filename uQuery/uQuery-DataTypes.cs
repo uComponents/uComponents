@@ -4,7 +4,7 @@ using System.Linq;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
 
-namespace uComponents.Core
+namespace uComponents
 {
 	/// <summary>
 	/// Static helper methods, previously this class was UmbracoHelper

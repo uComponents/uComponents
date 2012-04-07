@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml;
-using uComponents.Core.Shared;
+using uComponents.Core;
 using umbraco.cms.businesslogic.web;
 using umbraco.NodeFactory;
 using umbraco;
 
-namespace uComponents.Core.uQueryExtensions
+namespace uComponents.uQueryExtensions
 {
 	/// <summary>
 	/// uQuery extensions for the Node object.
@@ -23,7 +23,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>Returns an ancestor node by path level.</returns>
 		public static Node GetAncestorByPathLevel(this Node node, int level)
 		{
-			var nodeId = XsltExtensions.Nodes.GetNodeIdByPathLevel(node.Path, level);
+			var nodeId = uQuery.GetNodeIdByPathLevel(node.Path, level);
 			return uQuery.GetNode(nodeId);
 		}
 

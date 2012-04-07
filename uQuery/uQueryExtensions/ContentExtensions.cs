@@ -5,7 +5,7 @@ using System.Linq;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
 
-namespace uComponents.Core.uQueryExtensions
+namespace uComponents.uQueryExtensions
 {
 	/// <summary>
 	/// uQuery extensions for the Content object
