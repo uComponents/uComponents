@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.UI;
-using uComponents.Core.Shared;
+using uComponents.Core;
 
 [assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.json2.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.ui.position.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -16,7 +16,7 @@ using uComponents.Core.Shared;
 [assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.ie-z-index-fix.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.Core.Shared.Resources.Styles.tree-extras.css", Constants.MediaTypeNames.Text.Css)]
 
-namespace uComponents.Core.Modules
+namespace uComponents.UI
 {
 	/// <summary>    
 	/// This control contains the scripts required for the shared ui extensions. They are automatically added to all (relevant) pages by the uComponentsModule
