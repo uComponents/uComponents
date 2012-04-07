@@ -4,12 +4,12 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Web;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
+using uComponents.Core;
 using umbraco;
 using umbraco.cms.helpers;
 using umbraco.NodeFactory;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// Before NiceUrl generated event handler delegate
@@ -201,7 +201,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </summary>
 		/// <param name="url">The URL to get the XML node from.</param>
 		/// <returns>Returns the node Id.</returns>
-		[Obsolete("Please use uComponents.Core.XsltExtensions.Nodes.GetNodeIdByUrl")]
+		[Obsolete("Please use uComponents.XsltExtensions.Nodes.GetNodeIdByUrl")]
 		public static int GetNodeIdByUrl(string url)
 		{
 			return Nodes.GetNodeIdByUrl(url);
@@ -232,7 +232,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </summary>
 		/// <param name="url">The URL to get the XML node from.</param>
 		/// <returns>Returns the XML for the node.</returns>
-		[Obsolete("Please use uComponents.Core.XsltExtensions.Nodes.GetXmlNodeByUrl")]
+		[Obsolete("Please use uComponents.XsltExtensions.Nodes.GetXmlNodeByUrl")]
 		public static XPathNodeIterator GetXmlNodeByUrl(string url)
 		{
 			return Nodes.GetXmlNodeByUrl(url);

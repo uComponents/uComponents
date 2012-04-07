@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
+using uComponents.Core;
 using umbraco;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Random class exposes XSLT extensions to offer extended randomizing functionality.

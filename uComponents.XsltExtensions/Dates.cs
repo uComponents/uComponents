@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.XPath;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Dates class exposes XSLT extensions to offer extended date/time functionality.

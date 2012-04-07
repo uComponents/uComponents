@@ -3,11 +3,11 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.Extensions;
+using uComponents.Core;
+// using uComponents.Core.Shared.Extensions;
 using umbraco.IO;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The IO class exposes XSLT extensions to access data from System.IO.
@@ -206,7 +206,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </summary>
 		/// <param name="path">The path.</param>
 		/// <returns>Returns the physical file path that corresponds to the specified virtual path on the web server.</returns>
-		[Obsolete("Please use uComponents.Core.XsltExtensions.IO.MapPath")]
+		[Obsolete("Please use uComponents.XsltExtensions.IO.MapPath")]
 		public static string GetServerMapPath(string path)
 		{
 			return MapPath(path, true);

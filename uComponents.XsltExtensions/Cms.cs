@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core.Shared.Extensions;
+// using uComponents.Core.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
@@ -13,7 +13,7 @@ using umbraco.cms.businesslogic.member;
 using umbraco.cms.businesslogic.template;
 using umbraco.cms.businesslogic.web;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Cms class exposes XSLT extensions to access data from various parts of the Umbraco framework.

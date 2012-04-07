@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.XPath;
 using umbraco;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Request class exposes XSLT extensions to access data from the HttpRequest object.

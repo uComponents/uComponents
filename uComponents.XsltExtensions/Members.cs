@@ -2,11 +2,11 @@
 using System.Web.Security;
 using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core.Shared.Extensions;
+// using uComponents.Core.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.member;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Members class exposes XSLT extensions to offer extended XML/XSLT functionality.
@@ -197,7 +197,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		public static XPathNodeIterator Search(string searchText, bool useWildcards)
 		{
-			return uComponents.Core.XsltExtensions.Search.QuickSearch(searchText, useWildcards, "InternalMemberSearcher");
+			return uComponents.XsltExtensions.Search.QuickSearch(searchText, useWildcards, "InternalMemberSearcher");
 		}
 	}
 }

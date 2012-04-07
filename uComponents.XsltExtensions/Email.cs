@@ -3,7 +3,7 @@ using System.Net.Mail;
 using umbraco;
 using umbraco.BusinessLogic;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Email class exposes XSLT extensions to offer extended email functionality.
@@ -36,7 +36,7 @@ namespace uComponents.Core.XsltExtensions
 			}
 			catch (Exception ex)
 			{
-				Log.Add(LogTypes.Error, -1, string.Format("uComponents.Core.XsltExtensions.Email.SendMail: Error sending mail. Exception: {0}", ex));
+				Log.Add(LogTypes.Error, -1, string.Format("uComponents.XsltExtensions.Email.SendMail: Error sending mail. Exception: {0}", ex));
 			}
 		}
 	}

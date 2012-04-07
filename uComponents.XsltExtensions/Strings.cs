@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
+using uComponents.Core;
 using umbraco.cms.helpers;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Strings class exposes XSLT extensions to offer extended string functionality.
@@ -118,7 +118,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </summary>
 		/// <param name="input">The input string.</param>
 		/// <returns>Returns a shortened path of the string.</returns>
-		[Obsolete("Please use uComponents.Core.XsltExtensions.IO.PathShortener")]
+		[Obsolete("Please use uComponents.XsltExtensions.IO.PathShortener")]
 		public static string PathShortener(string input)
 		{
 			return IO.PathShortener(input);
@@ -327,7 +327,7 @@ namespace uComponents.Core.XsltExtensions
 		/// </summary>
 		/// <param name="input">The input string.</param>
 		/// <returns>The camelCased string</returns>
-		[Obsolete("Please use uComponents.Core.XsltExtensions.Strings.ToCamelCase")]
+		[Obsolete("Please use uComponents.XsltExtensions.Strings.ToCamelCase")]
 		public static string ConvertToCamelCase(string input)
 		{
 			return ToCamelCase(input);

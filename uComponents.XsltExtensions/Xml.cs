@@ -8,11 +8,11 @@ using System.Web;
 using System.Web.Caching;
 using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.Extensions;
+using uComponents.Core;
+// using uComponents.Core.Shared.Extensions;
 using umbraco;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Xml class exposes XSLT extensions to offer extended XML/XSLT functionality.

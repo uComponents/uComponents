@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
-using uComponents.Core.uQueryExtensions;
+using uComponents.Core;
+using uComponents.uQueryExtensions;
 using umbraco;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Nodes class exposes XSLT extensions to access nodes from Umbraco.
@@ -39,6 +39,8 @@ namespace uComponents.Core.XsltExtensions
 		/// </remarks>
 		public static int GetNodeIdByUrl(string url)
 		{
+			// TODO: [LK] use uQuery
+
 			var xpathQuery = GetXPathQuery(url);
 			var xmlNode = content.Instance.XmlContent.SelectSingleNode(xpathQuery);
 
@@ -178,6 +180,9 @@ namespace uComponents.Core.XsltExtensions
 		/// </returns>
 		private static string GetXPathQuery(string url)
 		{
+			// TODO: [LK] use uQuery
+
+
 			// strip the ASP.NET file-extension from the URL.
 			url = url.Replace(Constants.Common.DOTASPX, string.Empty);
 

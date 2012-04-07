@@ -2,10 +2,10 @@
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core.Shared;
-using uComponents.Core.uQueryExtensions;
+using uComponents.Core;
+using uComponents.uQueryExtensions;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Media class exposes XSLT extensions to access media from Umbraco.

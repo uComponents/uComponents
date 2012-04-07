@@ -7,7 +7,7 @@ using umbraco.cms.businesslogic.member;
 using umbraco.cms.businesslogic.template;
 using umbraco.cms.businesslogic.web;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// A helper class for the XSLT extensions.

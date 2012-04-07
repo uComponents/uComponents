@@ -6,9 +6,9 @@ using System.Web;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Examine;
-using uComponents.Core.Shared;
+using uComponents.Core;
 
-namespace uComponents.Core.XsltExtensions
+namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Search class exposes XSLT extensions to offer extended Examine/Lucene functionality.
