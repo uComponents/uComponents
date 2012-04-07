@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml;
-using uComponents.Core;
 using umbraco.cms.businesslogic.web;
 using umbraco.NodeFactory;
 using umbraco;
@@ -389,7 +388,7 @@ namespace uComponents.uQueryExtensions
 		[Obsolete("Use Level instead")]
 		public static int GetDepth(this Node node)
 		{
-			return node.Path.Split(Constants.Common.COMMA).ToList().Count;
+			return node.Path.Split(',').ToList().Count;
 		}
 
 		/// <summary>
@@ -401,7 +400,7 @@ namespace uComponents.uQueryExtensions
 		/// <returns></returns>
 		public static int Level(this Node node)
 		{
-			return node.Path.Split(Constants.Common.COMMA).Length - 1;
+			return node.Path.Split(',').Length - 1;
 		}
 
 		/// <summary>
@@ -530,7 +529,7 @@ namespace uComponents.uQueryExtensions
 		/// <returns></returns>
 		public static string GetFullNiceUrl(this Node node)
 		{
-			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == Constants.Common.SLASH)
+			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == '/')
 			{
 				return string.Concat(library.RequestServerVariables("HTTP_HOST"), node.NiceUrl);
 			}
@@ -590,12 +589,12 @@ namespace uComponents.uQueryExtensions
 		public static string GetFullNiceUrl(this Node node, Domain domain, bool ssl)
 		{
 			// TODO: [OA] Document on Codeplex
-			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == Constants.Common.SLASH)
+			if (!string.IsNullOrEmpty(node.NiceUrl) && node.NiceUrl[0] == '/')
 			{
-				return (ssl ? Constants.Common.HTTPS : Constants.Common.HTTP) + domain.Name + node.NiceUrl;
+				return (ssl ? "https://" : "http://") + domain.Name + node.NiceUrl;
 			}
 
-			return node.NiceUrl.Replace(library.RequestServerVariables("HTTP_HOST"), string.Concat((ssl ? Constants.Common.HTTPS : Constants.Common.HTTP), domain.Name));
+			return node.NiceUrl.Replace(library.RequestServerVariables("HTTP_HOST"), string.Concat((ssl ? "https://" : "http://"), domain.Name));
 		}
 
 		/// <summary>
@@ -608,7 +607,7 @@ namespace uComponents.uQueryExtensions
 		public static bool IsHiddenFromNavigation(this Node node)
 		{
 			// TODO: [OA] Document on Codeplex. Is this one really necessary?
-			return node.GetPropertyAsBoolean(Constants.Umbraco.Content.NaviHide);
+			return node.GetPropertyAsBoolean("umbracoNaviHide");
 		}
 
 #pragma warning disable 0618

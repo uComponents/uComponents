@@ -145,140 +145,143 @@ namespace uComponents
 			return dictionary;
 		}
 
-		/// <summary>
-		/// Adds the member to group.
-		/// </summary>
-		/// <param name="memberId">The member id.</param>
-		/// <param name="groupId">The group id.</param>
-		public static void AddMemberToGroup(int memberId, int groupId)
+		public static class Members
 		{
-			AddMembersToGroup(new int[] { memberId }, groupId);
-		}
-
-		/// <summary>
-		/// Adds the members to group.
-		/// </summary>
-		/// <param name="memberIds">The member ids.</param>
-		/// <param name="groupId">The group id.</param>
-		public static void AddMembersToGroup(int[] memberIds, int groupId)
-		{
-			AddMembersToGroups(memberIds, new int[] { groupId });
-		}
-
-		/// <summary>
-		/// Adds the members to groups.
-		/// </summary>
-		/// <param name="memberIds">The member ids.</param>
-		/// <param name="groupIds">The group ids.</param>
-		public static void AddMembersToGroups(int[] memberIds, int[] groupIds)
-		{
-			foreach (var memberId in memberIds)
+			/// <summary>
+			/// Adds the member to group.
+			/// </summary>
+			/// <param name="memberId">The member id.</param>
+			/// <param name="groupId">The group id.</param>
+			public static void AddMemberToGroup(int memberId, int groupId)
 			{
-				if (memberId > 0)
-				{
-					var member = GetMember(memberId);
+				AddMembersToGroup(new int[] { memberId }, groupId);
+			}
 
-					if (member != null)
+			/// <summary>
+			/// Adds the members to group.
+			/// </summary>
+			/// <param name="memberIds">The member ids.</param>
+			/// <param name="groupId">The group id.</param>
+			public static void AddMembersToGroup(int[] memberIds, int groupId)
+			{
+				AddMembersToGroups(memberIds, new int[] { groupId });
+			}
+
+			/// <summary>
+			/// Adds the members to groups.
+			/// </summary>
+			/// <param name="memberIds">The member ids.</param>
+			/// <param name="groupIds">The group ids.</param>
+			public static void AddMembersToGroups(int[] memberIds, int[] groupIds)
+			{
+				foreach (var memberId in memberIds)
+				{
+					if (memberId > 0)
 					{
-						foreach (var groupId in groupIds)
+						var member = GetMember(memberId);
+
+						if (member != null)
 						{
+							foreach (var groupId in groupIds)
+							{
 #pragma warning disable 0618
-							member.AddGroup(groupId);
+								member.AddGroup(groupId);
 #pragma warning restore 0618
+							}
 						}
 					}
 				}
 			}
-		}
 
-		/// <summary>
-		/// Adds the members to groups.
-		/// </summary>
-		/// <param name="memberIds">The member ids.</param>
-		/// <param name="groupNames">The group names.</param>
-		public static void AddMembersToGroups(int[] memberIds, string[] groupNames)
-		{
-			var groupIds = new List<int>();
-
-			foreach (var groupName in groupNames)
+			/// <summary>
+			/// Adds the members to groups.
+			/// </summary>
+			/// <param name="memberIds">The member ids.</param>
+			/// <param name="groupNames">The group names.</param>
+			public static void AddMembersToGroups(int[] memberIds, string[] groupNames)
 			{
-				var group = MemberGroup.GetByName(groupName);
+				var groupIds = new List<int>();
 
-				if (group != null)
+				foreach (var groupName in groupNames)
 				{
-					groupIds.Add(group.Id);
+					var group = MemberGroup.GetByName(groupName);
+
+					if (group != null)
+					{
+						groupIds.Add(group.Id);
+					}
 				}
+
+				AddMembersToGroups(memberIds, groupIds.ToArray());
 			}
 
-			AddMembersToGroups(memberIds, groupIds.ToArray());
-		}
-
-		/// <summary>
-		/// Removes the member from group.
-		/// </summary>
-		/// <param name="memberId">The member id.</param>
-		/// <param name="groupId">The group id.</param>
-		public static void RemoveMemberFromGroup(int memberId, int groupId)
-		{
-			RemoveMembersFromGroup(new int[] { memberId }, groupId);
-		}
-
-		/// <summary>
-		/// Removes the members from group.
-		/// </summary>
-		/// <param name="memberIds">The member ids.</param>
-		/// <param name="groupId">The group id.</param>
-		public static void RemoveMembersFromGroup(int[] memberIds, int groupId)
-		{
-			RemoveMembersFromGroups(memberIds, new int[] { groupId });
-		}
-
-		/// <summary>
-		/// Removes the members from groups.
-		/// </summary>
-		/// <param name="memberIds">The member ids.</param>
-		/// <param name="groupIds">The group ids.</param>
-		public static void RemoveMembersFromGroups(int[] memberIds, int[] groupIds)
-		{
-			foreach (var memberId in memberIds)
+			/// <summary>
+			/// Removes the member from group.
+			/// </summary>
+			/// <param name="memberId">The member id.</param>
+			/// <param name="groupId">The group id.</param>
+			public static void RemoveMemberFromGroup(int memberId, int groupId)
 			{
-				if (memberId > 0)
-				{
-					var member = GetMember(memberId);
+				RemoveMembersFromGroup(new int[] { memberId }, groupId);
+			}
 
-					if (member != null)
+			/// <summary>
+			/// Removes the members from group.
+			/// </summary>
+			/// <param name="memberIds">The member ids.</param>
+			/// <param name="groupId">The group id.</param>
+			public static void RemoveMembersFromGroup(int[] memberIds, int groupId)
+			{
+				RemoveMembersFromGroups(memberIds, new int[] { groupId });
+			}
+
+			/// <summary>
+			/// Removes the members from groups.
+			/// </summary>
+			/// <param name="memberIds">The member ids.</param>
+			/// <param name="groupIds">The group ids.</param>
+			public static void RemoveMembersFromGroups(int[] memberIds, int[] groupIds)
+			{
+				foreach (var memberId in memberIds)
+				{
+					if (memberId > 0)
 					{
-						foreach (var groupId in groupIds)
+						var member = GetMember(memberId);
+
+						if (member != null)
 						{
+							foreach (var groupId in groupIds)
+							{
 #pragma warning disable 0618
-							member.RemoveGroup(groupId);
+								member.RemoveGroup(groupId);
 #pragma warning restore 0618
+							}
 						}
 					}
 				}
 			}
-		}
 
-		/// <summary>
-		/// Removes the members from groups.
-		/// </summary>
-		/// <param name="memberIds">The member ids.</param>
-		/// <param name="groupNames">The group names.</param>
-		public static void RemoveMembersFromGroups(int[] memberIds, string[] groupNames)
-		{
-			var groupIds = new List<int>();
-
-			foreach (var groupName in groupNames)
+			/// <summary>
+			/// Removes the members from groups.
+			/// </summary>
+			/// <param name="memberIds">The member ids.</param>
+			/// <param name="groupNames">The group names.</param>
+			public static void RemoveMembersFromGroups(int[] memberIds, string[] groupNames)
 			{
-				var group = MemberGroup.GetByName(groupName);
+				var groupIds = new List<int>();
 
-				if (group != null)
+				foreach (var groupName in groupNames)
 				{
-					groupIds.Add(group.Id);
-				}
-			}
+					var group = MemberGroup.GetByName(groupName);
 
-			RemoveMembersFromGroups(memberIds, groupIds.ToArray());
+					if (group != null)
+					{
+						groupIds.Add(group.Id);
+					}
+				}
+
+				RemoveMembersFromGroups(memberIds, groupIds.ToArray());
+			}
 		}
 	}
 }

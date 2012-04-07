@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace uComponents.Core.Shared
+namespace uComponents.Core
 {
 	public partial class Constants
 	{

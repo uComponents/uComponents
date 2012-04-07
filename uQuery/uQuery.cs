@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml;
-using uComponents.Core;
 using uComponents.uQueryExtensions;
 using umbraco;
 using umbraco.BusinessLogic;
@@ -128,7 +127,7 @@ namespace uComponents
 
 			if (!string.IsNullOrEmpty(csv))
 			{
-				ids = csv.Split(Constants.Common.COMMA).Select(s => s.Trim()).ToArray();
+				ids = csv.Split(',').Select(s => s.Trim()).ToArray();
 			}
 
 			return ids;
@@ -139,7 +138,7 @@ namespace uComponents
 		/// </summary>
 		/// <param name="xml">The Xml</param>
 		/// <returns>An array of node ids as integer.</returns>
-		internal static int[] GetXmlIds(string xml)
+		public static int[] GetXmlIds(string xml)
 		{
 			var ids = new List<int>();
 
@@ -195,7 +194,7 @@ namespace uComponents
 		/// Gets an Id value from the QueryString
 		/// </summary>
 		/// <returns>an id as a string or string.empty</returns>
-		internal static string GetIdFromQueryString()
+		public static string GetIdFromQueryString()
 		{
 			var queryStringId = string.Empty;
 
@@ -217,7 +216,7 @@ namespace uComponents
 		/// </summary>
 		/// <param name="items">The string array.</param>
 		/// <returns>Returns an integer array.</returns>
-		internal static int[] ConvertToIntArray(string[] items)
+		public static int[] ConvertToIntArray(string[] items)
 		{
 			if (items == null)
 				return new int[] { };

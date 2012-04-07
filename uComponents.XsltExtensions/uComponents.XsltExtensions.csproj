@@ -69,8 +69,8 @@
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Cms-Helper.cs">
-		<DependentUpon>Cms.cs</DependentUpon>
-	</Compile>
+      <DependentUpon>Cms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cms.cs" />
     <Compile Include="Dates.cs" />
     <Compile Include="Email.cs" />
@@ -88,6 +88,10 @@
     <Compile Include="Xml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
+      <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
+      <Name>uComponents.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\uQuery\uQuery.csproj">
       <Project>{7624259D-D940-4113-BBF3-C73C4CD9CF94}</Project>
       <Name>uQuery</Name>

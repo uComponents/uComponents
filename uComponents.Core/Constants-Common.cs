@@ -4,10 +4,10 @@ using System.IO;
 using System.Reflection;
 using umbraco.IO;
 
-namespace uComponents.Core.Shared
+namespace uComponents.Core
 {
 	/// <summary>
-	/// Constants class for uComponent specific values.
+	/// Constants class for uQuery specific values.
 	/// </summary>
 	public partial class Constants
 	{

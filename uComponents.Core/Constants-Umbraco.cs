@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace uComponents.Core.Shared
+namespace uComponents.Core
 {
 	/// <summary>
 	/// Constants class for uComponent specific values.
@@ -10,12 +10,12 @@ namespace uComponents.Core.Shared
 		/// <summary>
 		/// Constants for Umbraco property aliases.
 		/// </summary>
-		public struct Umbraco
+		public partial struct Umbraco
 		{
 			/// <summary>
 			/// Constants for Umbraco Content property aliases.
 			/// </summary>
-			public struct Content
+			public partial struct Content
 			{
 				/// <summary>
 				/// Property alias for the Content's Url (internal) redirect.
@@ -46,7 +46,7 @@ namespace uComponents.Core.Shared
 			/// <summary>
 			/// Constants for Umbraco Media property aliases.
 			/// </summary>
-			public struct Media
+			public partial struct Media
 			{
 				/// <summary>
 				/// Property alias for the Media's file name.

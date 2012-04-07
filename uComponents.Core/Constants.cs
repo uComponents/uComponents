@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace uComponents.Core.Shared
+namespace uComponents.Core
 {
 	/// <summary>
 	/// Constants class for uComponent specific values.

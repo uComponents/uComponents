@@ -3,7 +3,7 @@ using System.Web.UI;
 using ClientDependency.Core;
 using umbraco;
 
-namespace uComponents.Core.Shared.Extensions
+namespace uComponents.Core.Extensions
 {
 	/// <summary>
 	/// Extension methods for embedded resources
@@ -29,7 +29,19 @@ namespace uComponents.Core.Shared.Extensions
 		/// <param name="type">The type.</param>
 		public static void AddResourceToClientDependency(this Control ctl, string resourceName, ClientDependencyType type)
 		{
-			ctl.Page.AddResourceToClientDependency(typeof(uComponents.Core.Shared.Extensions.ResourceExtensions), resourceName, type, 100);
+			ctl.AddResourceToClientDependency(ctl.GetType(), resourceName, type);
+		}
+
+		/// <summary>
+		/// Adds the resource to client dependency.
+		/// </summary>
+		/// <param name="ctl">The CTL.</param>
+		/// <param name="resourceContainer">The resource container.</param>
+		/// <param name="resourceName">Name of the resource.</param>
+		/// <param name="type">The type.</param>
+		public static void AddResourceToClientDependency(this Control ctl, Type resourceContainer, string resourceName, ClientDependencyType type)
+		{
+			ctl.Page.AddResourceToClientDependency(resourceContainer, resourceName, type, 100);
 		}
 
 		/// <summary>
@@ -54,12 +66,12 @@ namespace uComponents.Core.Shared.Extensions
 				{
 					case ClientDependencyType.Css:
 						target.Controls.Add(
-							new LiteralControl("<link type='text/css' rel='stylesheet' href='" + page.Server.HtmlEncode(resourceUrl) + "' />"));
+							new LiteralControl(string.Concat("<link type='text/css' rel='stylesheet' href='", page.Server.HtmlEncode(resourceUrl), "' />")));
 						break;
 
 					case ClientDependencyType.Javascript:
 						target.Controls.Add(
-							new LiteralControl("<script type='text/javascript' src='" + page.Server.HtmlEncode(resourceUrl) + "'></script>"));
+							new LiteralControl(string.Concat("<script type='text/javascript' src='", page.Server.HtmlEncode(resourceUrl), "'></script>")));
 						break;
 
 					default:

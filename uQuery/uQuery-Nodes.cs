@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web;
 using System.Xml.XPath;
-using uComponents.Core;
 using uComponents.uQueryExtensions;
 using umbraco;
 using umbraco.NodeFactory;
@@ -183,7 +182,7 @@ namespace uComponents
 		public static string GetNodeIdByPathLevel(string path, int level)
 		{
 			// TODO: [LK] use uQuery.GetNodeIdByPathLevel
-			var nodeIds = path.Split(Constants.Common.COMMA).ToList();
+			var nodeIds = path.Split(',').ToList();
 
 			if (nodeIds.Count <= level)
 			{
@@ -371,7 +370,7 @@ namespace uComponents
 		private static string GetXPathQuery(string url)
 		{
 			// strip the ASP.NET file-extension from the URL.
-			url = url.Replace(Constants.Common.DOTASPX, string.Empty);
+			url = url.Replace(".aspx", string.Empty);
 
 			// return the XPath query.
 			return requestHandler.CreateXPathQuery(url, true);

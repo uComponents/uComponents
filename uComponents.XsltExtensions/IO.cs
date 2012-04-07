@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
-// using uComponents.Core.Shared.Extensions;
 using umbraco.IO;
 
 namespace uComponents.XsltExtensions
