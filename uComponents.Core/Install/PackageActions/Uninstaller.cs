@@ -84,16 +84,16 @@ namespace uComponents.Core.Install.PackageActions
 				}
 
 				// get the NotFoundHandlers
-				if (ns == "uComponents.Core.NotFoundHandlers")
+				if (ns == "uComponents.NotFoundHandlers")
 				{
-					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" assembly=\"uComponents.Core\" type=\"{1}\" />", Add404Handler.ActionAlias, type.FullName.Replace("uComponents.Core.", string.Empty));
+					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" assembly=\"uComponents.NotFoundHandlers\" type=\"{1}\" />", Add404Handler.ActionAlias, type.FullName.Replace("uComponents.Core.", string.Empty));
 					continue;
 				}
 
 				// get the XSLT Extensions
-				if (ns == "uComponents.Core.XsltExtensions" && type.IsPublic && !type.IsSerializable)
+				if (ns == "uComponents.XsltExtensions" && type.IsPublic && !type.IsSerializable)
 				{
-					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"uComponents.Core\" type=\"{0}\" extensionAlias=\"ucomponents.{1}\" />", type.FullName, type.Name.ToLower());
+					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"uComponents.XsltExtensions\" type=\"{0}\" extensionAlias=\"ucomponents.{1}\" />", type.FullName, type.Name.ToLower());
 					continue;
 				}
 			}

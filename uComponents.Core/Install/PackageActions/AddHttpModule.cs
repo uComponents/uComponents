@@ -30,7 +30,7 @@ namespace uComponents.Core.Install.PackageActions
 		/// <summary>
 		/// The type of the HttpModule.
 		/// </summary>
-		public const string Type = "uComponents.Core.Modules.uComponentsModule, uComponents.Core";
+		public const string Type = "uComponents.UI.uComponentsModule, uComponents.UI";
 
 		// Set the web.config full path
 		const string FULL_PATH = "~/Web.config";

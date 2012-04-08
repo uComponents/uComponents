@@ -21,7 +21,7 @@ namespace uComponents.Core.Install
 		{
 			get
 			{
-				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponentsInstaller), "uComponents.Core.Shared.Resources.Images.ucomponents-logo-small.png");
+				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponentsInstaller), "uComponents.Core.Resources.Images.ucomponents-logo-small.png");
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace uComponents.Core.Install
 					continue;
 				}
 
-				////if (ns.StartsWith("uComponents.Core.DataTypes") && (type.IsSubclassOf(typeof(BaseDataType))))
+				////if (ns.StartsWith("uComponents.DataTypes") && (type.IsSubclassOf(typeof(BaseDataType))))
 				////{
 				////    var instance = Activator.CreateInstance(type);
 				////    var name = (string)type.GetProperty("DataTypeName").GetValue(instance, null);
@@ -56,13 +56,13 @@ namespace uComponents.Core.Install
 				////    continue;
 				////}
 
-				if (ns == "uComponents.Core.NotFoundHandlers")
+				if (ns == "uComponents.NotFoundHandlers")
 				{
-					notFoundHandlers.Add(type.FullName.Replace("uComponents.Core.", string.Empty), type.Name);
+					notFoundHandlers.Add(type.FullName.Replace("uComponents.NotFoundHandlers", string.Empty), type.Name);
 					continue;
 				}
 
-				if (ns == "uComponents.Core.XsltExtensions" && type.IsPublic && !type.IsSerializable)
+				if (ns == "uComponents.XsltExtensions" && type.IsPublic && !type.IsSerializable)
 				{
 					xsltExtensions.Add(type.FullName, type.Name);
 					continue;
@@ -140,7 +140,7 @@ namespace uComponents.Core.Install
 				{
 					try
 					{
-						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_Add404Handler\" assembly=\"uComponents.Core\" type=\"{0}\" />", item.Value));
+						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_Add404Handler\" assembly=\"uComponents.NotFoundHandlers\" type=\"{0}\" />", item.Value));
 						umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "uComponents_Add404Handler", xml.FirstChild);
 						successes.Add(item.Text);
 					}
@@ -188,7 +188,7 @@ namespace uComponents.Core.Install
 				{
 					try
 					{
-						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"uComponents.Core\" type=\"{0}\" extensionAlias=\"ucomponents.{1}\" />", item.Value, item.Text.ToLower()));
+						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"uComponents.XsltExtensions\" type=\"{0}\" extensionAlias=\"ucomponents.{1}\" />", item.Value, item.Text.ToLower()));
 						umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "addXsltExtension", xml.FirstChild);
 						successes.Add(item.Text);
 					}

@@ -33,12 +33,12 @@
 	<Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
 		<FileUpdate
 			Encoding="ASCII"
-			Files="$(RootDir)\Properties\AssemblyInfo.cs"
+			Files="$(RootDir)\Properties\SolutionInfo.cs"
 			Regex="AssemblyVersion\(&quot;.*&quot;\)\]"
 			ReplacementText="AssemblyVersion(&quot;$(PackageVersion).*&quot;)]" />
 		<FileUpdate
 			Encoding="ASCII"
-			Files="$(RootDir)\Properties\AssemblyInfo.cs"
+			Files="$(RootDir)\Properties\SolutionInfo.cs"
 			Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]"
 			ReplacementText="AssemblyFileVersion(&quot;$(PackageVersion).*&quot;)]" />
 	</Target>
@@ -52,6 +52,12 @@
 	<Target Name="PrepareFiles" DependsOnTargets="Compile">
 		<ItemGroup>
 			<BinFiles Include="$(RootDir)\bin\Release\$(ProjectName).dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.dll" />
+			<BinFiles Include="$(RootDir)\..\uQuery\bin\Release\uQuery.dll" />
 			<PluginFiles Include="$(RootDir)\Install\*.ascx" />
 			<PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
 			<NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
