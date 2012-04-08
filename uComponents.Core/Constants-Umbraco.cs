@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace uComponents.Core
 {
 	/// <summary>

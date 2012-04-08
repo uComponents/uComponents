@@ -8,7 +8,7 @@ using umbraco.cms.businesslogic;
 using umbraco.cms.presentation.Trees;
 using umbraco.controls.Tree;
 
-namespace uComponents.Core.Shared.Tree
+namespace uComponents.DataTypes.Shared.Tree
 {
 	/// <summary>
 	/// Client side ajax utlities for the tree

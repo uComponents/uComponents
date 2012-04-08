@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml;
+using umbraco;
 using umbraco.cms.businesslogic.web;
 using umbraco.NodeFactory;
-using umbraco;
 
 namespace uComponents.uQueryExtensions
 {

@@ -5,7 +5,7 @@ using System.Web;
 using System.IO;
 using System.Web.Script.Serialization;
 
-namespace uComponents.Core.Shared.AjaxUpload
+namespace uComponents.DataTypes.Shared.AjaxUpload
 {
     /// <summary>
     /// Allows uploading of files to the media folder via a simple http handler.

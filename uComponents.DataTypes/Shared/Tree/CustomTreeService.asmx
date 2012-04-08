@@ -1,1 +1,1 @@
-﻿<%@ WebService language="C#" class="uComponents.Core.Shared.Tree.CustomTreeService" %>
+﻿<%@ WebService language="C#" class="uComponents.DataTypes.Shared.Tree.CustomTreeService" %>

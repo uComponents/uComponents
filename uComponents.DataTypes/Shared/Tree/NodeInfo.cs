@@ -1,4 +1,4 @@
-﻿namespace uComponents.Core.Shared.Tree
+﻿namespace uComponents.DataTypes.Shared.Tree
 {
 	/// <summary>
 	/// Simple data object to hold information about a node

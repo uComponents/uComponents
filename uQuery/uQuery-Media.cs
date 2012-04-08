@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Xml;
-using System.Xml.XPath;
 using umbraco.cms.businesslogic.media;
 
 namespace uComponents

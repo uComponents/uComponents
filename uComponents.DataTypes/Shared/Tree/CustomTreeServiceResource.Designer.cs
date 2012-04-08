@@ -8,7 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace uComponents.Core.Shared.Tree {
+namespace uComponents.DataTypes.Shared.Tree
+{
     using System;
     
     

@@ -1,5 +1,4 @@
 ﻿using System.Web;
-using System.Xml;
 using umbraco;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace uComponents.Core.Shared.AjaxUpload {
+namespace uComponents.DataTypes.Shared.AjaxUpload {
     using System;
     
     

@@ -6,7 +6,7 @@ using ClientDependency.Core;
 using umbraco.controls.Tree;
 using umbraco.IO;
 
-namespace uComponents.Core.Shared.Tree
+namespace uComponents.DataTypes.Shared.Tree
 {
 	/// <summary>
 	/// A custom tree control that uses a custom web service to return the initial node, this is required

@@ -395,7 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataTypeGrid\WebServices\DtgWebServices.resx" />
     <EmbeddedResource Include="MultiNodeTreePicker\MNTPResources.resx" />
-    <EmbeddedResource Include="Shared\AjaxUpload\AjaxUploadHandlerResource.resx" />
+    <EmbeddedResource Include="Shared\AjaxUpload\AjaxUploadHandlerResource.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Shared\Tree\CustomTreeServiceResource.resx" />
     <EmbeddedResource Include="Similarity\SimilarityResources.resx" />
     <EmbeddedResource Include="UrlPicker\Services\UrlPickerServiceResource.resx" />
