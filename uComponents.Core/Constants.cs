@@ -33,11 +33,11 @@ namespace uComponents.Core
 		/// <summary>
 		/// The resource path for the favicon.
 		/// </summary>
-		public const string FaviconResourcePath = "uComponents.Core.Shared.Resources.Images.favicon.ico";
+		public const string FaviconResourcePath = "uComponents.Core.Resources.Images.favicon.ico";
 
 		/// <summary>
 		/// The resource path for the Prevalue Editor stylesheet.
 		/// </summary>
-		public const string PrevalueEditorCssResourcePath = "uComponents.Core.Shared.Resources.Styles.PrevalueEditor.css";
+		public const string PrevalueEditorCssResourcePath = "uComponents.DataTypes.Shared.Resources.Styles.PrevalueEditor.css";
 	}
 }

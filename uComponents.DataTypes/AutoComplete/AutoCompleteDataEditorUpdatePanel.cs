@@ -11,7 +11,7 @@ using umbraco.cms.businesslogic.member;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
 
-[assembly: WebResource("uComponents.Core.DataTypes.AutoComplete.css.autocomplete.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 
 namespace uComponents.DataTypes.AutoComplete
 {
@@ -248,7 +248,7 @@ namespace uComponents.DataTypes.AutoComplete
 			//register autocomplete css
 			//string autocompleteCss = "<link rel='stylesheet' href='/umbraco/plugins/AutoComplete/autocomplete.css'/>";
 			//this.Page.ClientScript.RegisterClientScriptBlock(autocompleteCss.GetType(), "autocompleteCss", autocompleteCss);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.AutoComplete.css.autocomplete.css", ClientDependency.Core.ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", ClientDependency.Core.ClientDependencyType.Css);
 		}
 
 		/// <summary>

@@ -10,7 +10,8 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 using System.Web.UI.HtmlControls;
 
-[assembly: WebResource("uComponents.Core.DataTypes.SubTabs.SubTabs.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.SubTabs.SubTabs.js", Constants.MediaTypeNames.Application.JavaScript)]
+
 namespace uComponents.DataTypes.SubTabs
 {
     /// <summary>
@@ -207,7 +208,7 @@ namespace uComponents.DataTypes.SubTabs
         {
             base.OnLoad(e);
 
-            this.AddResourceToClientDependency("uComponents.Core.DataTypes.SubTabs.SubTabs.js", ClientDependencyType.Javascript);
+            this.AddResourceToClientDependency("uComponents.DataTypes.SubTabs.SubTabs.js", ClientDependencyType.Javascript);
         }
 
         /// <summary>

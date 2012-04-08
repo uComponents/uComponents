@@ -2,10 +2,10 @@
 	height: 20px;
 	border: 1px solid #ddd;
 	border-right: 0;
-	background: #fff url('<%= WebResource("uComponents.Core.DataTypes.DropdownCheckList.images.dropdown.png")%>') no-repeat center right;
+	background: #fff url('<%= WebResource("uComponents.DataTypes.DropdownCheckList.Images.dropdown.png")%>') no-repeat center right;
 }
 .ui-dropdownchecklist-hover, .ui-dropdownchecklist-active {
-	background-image: url('<%= WebResource("uComponents.Core.DataTypes.DropdownCheckList.images.dropdown_hover.png")%>');
+	background-image: url('<%= WebResource("uComponents.DataTypes.DropdownCheckList.Images.dropdown_hover.png")%>');
 	border-color: #5794bf;
 }
 

@@ -4,8 +4,9 @@ using uComponents.Core;
 using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.MultiUrlPicker.MultiUrlPickerScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+
 namespace uComponents.DataTypes.MultiUrlPicker
 {
     /// <summary>
@@ -30,7 +31,7 @@ namespace uComponents.DataTypes.MultiUrlPicker
         /// <param name="ctl"></param>
         public static void AddCssMultiUrlPickerClientDependencies(this Control ctl)
         {
-            var cssName = "uComponents.Core.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css";
+            var cssName = "uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css";
             ctl.AddResourceToClientDependency(cssName, ClientDependencyType.Css);
         }
 
@@ -40,8 +41,8 @@ namespace uComponents.DataTypes.MultiUrlPicker
         /// <param name="ctl"></param>
         public static void AddJsMultiUrlPickerClientDependencies(this Control ctl)
         {
-			ctl.AddResourceToClientDependency("uComponents.Core.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
-            ctl.AddResourceToClientDependency("uComponents.Core.DataTypes.MultiUrlPicker.MultiUrlPickerScripts.js", ClientDependencyType.Javascript);
+			ctl.AddResourceToClientDependency("uComponents.Core.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
+            ctl.AddResourceToClientDependency("uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerScripts.js", ClientDependencyType.Javascript);
         }
     }
 }

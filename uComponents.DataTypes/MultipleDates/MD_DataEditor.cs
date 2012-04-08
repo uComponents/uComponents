@@ -7,8 +7,8 @@ using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.uicontrols.DatePicker;
 
-[assembly: WebResource("uComponents.Core.DataTypes.MultipleDates.css.MultipleDates.css", Constants.MediaTypeNames.Text.Css)]
-[assembly: WebResource("uComponents.Core.DataTypes.MultipleDates.scripts.main.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.MultipleDates.css.MultipleDates.css", Constants.MediaTypeNames.Text.Css)]
+[assembly: WebResource("uComponents.DataTypes.MultipleDates.scripts.main.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.DataTypes.MultipleDates
 {
@@ -68,8 +68,8 @@ namespace uComponents.DataTypes.MultipleDates
 			base.OnLoad(e);
 
 			// get the urls for the embedded resources
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.MultipleDates.scripts.main.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.MultipleDates.css.MultipleDates.css", ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.MultipleDates.scripts.main.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.MultipleDates.css.MultipleDates.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

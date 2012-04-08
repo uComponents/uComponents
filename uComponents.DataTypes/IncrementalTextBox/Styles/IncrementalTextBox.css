@@ -1,6 +1,6 @@
 ﻿.IncrementTextBoxUp
 {
-    background: #fff url('<%= WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Images.up.png")%>') right top no-repeat;
+    background: #fff url('<%= WebResource("uComponents.DataTypes.IncrementalTextBox.Images.up.png")%>') right top no-repeat;
     width:15px;
     height:15px;
     cursor:pointer;
@@ -10,7 +10,7 @@
 
 .IncrementTextBoxDown
 {
-    background: #fff url('<%= WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Images.down.png")%>') right top no-repeat;
+    background: #fff url('<%= WebResource("uComponents.DataTypes.IncrementalTextBox.Images.down.png")%>') right top no-repeat;
     width:15px;
     height:15px;
     cursor:pointer;

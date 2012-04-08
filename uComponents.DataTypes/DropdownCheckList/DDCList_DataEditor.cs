@@ -10,17 +10,17 @@ using uComponents.Core;
 using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.css.uiDropdownchecklist.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.scripts.ui.dropdownchecklist.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.ui.core.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.images.dropdown.png", Constants.MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.DropdownCheckList.images.dropdown_hover.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Styles.uiDropdownchecklist.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Scripts.ui.dropdownchecklist.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Images.dropdown.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Images.dropdown_hover.png", Constants.MediaTypeNames.Image.Png)]
 
 namespace uComponents.DataTypes.DropdownCheckList
 {
 	/// <summary>
 	/// The DataEditor for the DropdownCheckList.
 	/// </summary>
+	[ClientDependency(ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
 	public class DDCList_DataEditor : CompositeControl
 	{
 		/// <summary>
@@ -80,9 +80,8 @@ namespace uComponents.DataTypes.DropdownCheckList
 			base.OnLoad(e);
 
 			// get the urls for the embedded resources
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.DropdownCheckList.css.uiDropdownchecklist.css", ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.DropdownCheckList.scripts.ui.dropdownchecklist.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.Shared.Resources.Scripts.ui.core.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.DropdownCheckList.Styles.uiDropdownchecklist.css", ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.DropdownCheckList.Scripts.ui.dropdownchecklist.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

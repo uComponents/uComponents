@@ -23,12 +23,12 @@ namespace uComponents.DataTypes.MultipleTextstring
 		/// <summary>
 		/// Embedded resource path for the CSS stylesheet.
 		/// </summary>
-		public const string CssResourcePath = "uComponents.Core.DataTypes.MultipleTextstring.MultipleTextstring.css";
+		public const string CssResourcePath = "uComponents.DataTypes.MultipleTextstring.MultipleTextstring.css";
 
 		/// <summary>
 		/// Embedded resource path for the JavaScript file.
 		/// </summary>
-		public const string JavaScriptResourcePath = "uComponents.Core.DataTypes.MultipleTextstring.MultipleTextstring.js";
+		public const string JavaScriptResourcePath = "uComponents.DataTypes.MultipleTextstring.MultipleTextstring.js";
 
 		/// <summary>
 		/// Field for the list of values.

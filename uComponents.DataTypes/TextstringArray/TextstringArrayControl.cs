@@ -10,8 +10,8 @@ using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 
-[assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.css", Constants.MediaTypeNames.Text.Css)]
-[assembly: WebResource("uComponents.Core.DataTypes.TextstringArray.TextstringArray.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.TextstringArray.TextstringArray.css", Constants.MediaTypeNames.Text.Css)]
+[assembly: WebResource("uComponents.DataTypes.TextstringArray.TextstringArray.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.DataTypes.TextstringArray
 {
@@ -91,9 +91,9 @@ namespace uComponents.DataTypes.TextstringArray
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.Core.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.TextstringArray.TextstringArray.css", ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.TextstringArray.TextstringArray.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.Core.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.TextstringArray.TextstringArray.css", ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.TextstringArray.TextstringArray.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

@@ -14,8 +14,8 @@ using uComponents.Core;
 using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
@@ -200,9 +200,9 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 			// Adds the client dependencies.
 			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.Core.Shared.Resources.Scripts.json2.js", ClientDependency.Core.ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", ClientDependency.Core.ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", ClientDependency.Core.ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.Core.Resources.Scripts.json2.js", ClientDependency.Core.ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", ClientDependency.Core.ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", ClientDependency.Core.ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

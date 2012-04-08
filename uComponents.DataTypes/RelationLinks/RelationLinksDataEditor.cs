@@ -9,7 +9,8 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.relation;
 using umbraco.interfaces;
 
-[assembly: WebResource("uComponents.Core.DataTypes.RelationLinks.RelationLinks.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.RelationLinks.RelationLinks.js", Constants.MediaTypeNames.Application.JavaScript)]
+
 namespace uComponents.DataTypes.RelationLinks
 {
     /// <summary>
@@ -161,7 +162,7 @@ namespace uComponents.DataTypes.RelationLinks
         {
             base.OnLoad(e);
 
-            this.AddResourceToClientDependency("uComponents.Core.DataTypes.RelationLinks.RelationLinks.js", ClientDependencyType.Javascript);
+            this.AddResourceToClientDependency("uComponents.DataTypes.RelationLinks.RelationLinks.js", ClientDependencyType.Javascript);
         }
 
         /// <summary>

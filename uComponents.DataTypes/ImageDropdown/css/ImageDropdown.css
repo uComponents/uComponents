@@ -17,7 +17,7 @@
 	width:200px;
 }
 .dd .ddTitle span.arrow {
-	background:url('<%= WebResource("uComponents.Core.DataTypes.ImageDropdown.images.dd_arrow.gif")%>') no-repeat 0 0; float:right; display:inline-block;width:16px; height:16px; cursor:pointer; 
+	background:url('<%= WebResource("uComponents.DataTypes.ImageDropdown.images.dd_arrow.gif")%>') no-repeat 0 0; float:right; display:inline-block;width:16px; height:16px; cursor:pointer; 
 }
 
 .dd .ddTitle span.ddTitleText {text-indent:1px; overflow:hidden; line-height:16px;}

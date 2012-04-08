@@ -150,7 +150,7 @@ namespace uComponents.DataTypes.JsonDropdown
 			}
 			catch (Exception ex)
 			{
-				Log.Add(LogTypes.Error, 0, string.Concat("uComponents.Core.DataTypes.JsonDropdown: ", ex.Message));
+				Log.Add(LogTypes.Error, 0, string.Concat("uComponents.DataTypes.JsonDropdown: ", ex.Message));
 			}
 
 			return pageResponse;

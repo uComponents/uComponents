@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" Class="uComponents.Core.DataTypes.DataTypeGrid.WebServices.PreValueWebService" %>
+﻿<%@ WebService Language="C#" Class="uComponents.DataTypes.DataTypeGrid.WebServices.PreValueWebService" %>

@@ -33,7 +33,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Extensions
         /// <param name="ctl">The CTL.</param>
         public static void AddCssDtgClientDependencies(this DataEditor ctl)
         {
-            ctl.AddResourceToClientDependency("uComponents.Core.DataTypes.DataTypeGrid.Css.DTG_DataEditor.css", ClientDependencyType.Css);
+            ctl.AddResourceToClientDependency("uComponents.DataTypes.DataTypeGrid.Css.DTG_DataEditor.css", ClientDependencyType.Css);
         }
 
         /// <summary>
@@ -42,8 +42,8 @@ namespace uComponents.DataTypes.DataTypeGrid.Extensions
         /// <param name="ctl">The CTL.</param>
         public static void AddJsDtgClientDependencies(this DataEditor ctl)
         {
-            ctl.AddResourceToClientDependency("uComponents.Core.Shared.Resources.Scripts.jquery.dataTables.min.js", ClientDependencyType.Javascript);
-            ctl.AddResourceToClientDependency("uComponents.Core.DataTypes.DataTypeGrid.Scripts.DTG_DataEditor.js", ClientDependencyType.Javascript);
+			ctl.AddResourceToClientDependency("uComponents.DataTypes.DataTypeGrid.Scripts.jquery.dataTables.min.js", ClientDependencyType.Javascript);
+            ctl.AddResourceToClientDependency("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_DataEditor.js", ClientDependencyType.Javascript);
         }
     }
 }

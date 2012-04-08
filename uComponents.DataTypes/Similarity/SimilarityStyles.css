@@ -87,7 +87,7 @@
 	margin-top: 0;
 	text-decoration: none;
 	padding-top: 5px;
-	background: transparent url('<%= WebResource("uComponents.Core.Shared.Resources.Images.deleteIcon.gif")%>') no-repeat 0px 3px;
+	background: transparent url('<%= WebResource("uComponents.DataTypes.Shared.Resources.Images.deleteIcon.gif")%>') no-repeat 0px 3px;
 	width: 15px;
 	height: 15px;
 	display: inline-block;
@@ -129,7 +129,7 @@
 {
 	width: 18px;
 	height: 18px;
-	background: transparent url('<%= WebResource("uComponents.Core.Shared.Resources.Images.information.png")%>') no-repeat 1px 2px;
+	background: transparent url('<%= WebResource("uComponents.DataTypes.Shared.Resources.Images.information.png")%>') no-repeat 1px 2px;
 	float: left;
 }
 .similarity .header
@@ -156,7 +156,7 @@
 {
 	width: 16px;
 	height: 16px;
-	background: transparent url('<%= WebResource("uComponents.Core.Shared.Resources.Images.throbber.gif")%>') no-repeat top left;
+	background: transparent url('<%= WebResource("uComponents.DataTypes.Shared.Resources.Images.throbber.gif")%>') no-repeat top left;
 	display: none;
 }
 #SimilarityTooltip div.tooltipInfo, .tooltip div.tooltipInfo

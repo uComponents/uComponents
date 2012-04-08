@@ -67,8 +67,8 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 		/// <remarks>
 		/// We use the <c>uComponents.RazorModels.DataTypeGrid.StoredValueForModel</c> object 
-		/// instead of the <c>uComponents.Core.DataTypes.DataTypeGrid.Model.StoredValue</c> object 
-		/// to override the <c>uComponents.Core.DataTypes.DataTypeGrid.Model.StoredValue.Value</c> 
+		/// instead of the <c>uComponents.DataTypes.DataTypeGrid.Model.StoredValue</c> object 
+		/// to override the <c>uComponents.DataTypes.DataTypeGrid.Model.StoredValue.Value</c> 
 		/// property, as the type is <c>umbraco.interfaces.IDataType</c>, which we do not need to 
 		/// access at the front-end.
 		/// </remarks>

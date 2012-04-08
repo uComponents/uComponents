@@ -39,7 +39,7 @@ namespace uComponents.DataTypes.Similarity {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.Core.DataTypes.Similarity.SimilarityResources", typeof(SimilarityResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.DataTypes.Similarity.SimilarityResources", typeof(SimilarityResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

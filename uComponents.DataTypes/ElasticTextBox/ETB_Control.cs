@@ -8,7 +8,7 @@ using uComponents.Core;
 using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.DataTypes.ElasticTextBox
 {
@@ -72,7 +72,7 @@ namespace uComponents.DataTypes.ElasticTextBox
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

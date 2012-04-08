@@ -8,9 +8,9 @@ using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 
-[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.css.ImageDropdown.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.scripts.jquery.dd.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.ImageDropdown.images.dd_arrow.gif", Constants.MediaTypeNames.Image.Gif)]
+[assembly: WebResource("uComponents.DataTypes.ImageDropdown.css.ImageDropdown.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.ImageDropdown.scripts.jquery.dd.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.ImageDropdown.images.dd_arrow.gif", Constants.MediaTypeNames.Image.Gif)]
 
 namespace uComponents.DataTypes.ImageDropdown
 {
@@ -89,8 +89,8 @@ namespace uComponents.DataTypes.ImageDropdown
 			base.OnLoad(e);
 
 			// get the urls for the embedded resources
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.ImageDropdown.scripts.jquery.dd.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.ImageDropdown.css.ImageDropdown.css", ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.ImageDropdown.scripts.jquery.dd.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.ImageDropdown.css.ImageDropdown.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

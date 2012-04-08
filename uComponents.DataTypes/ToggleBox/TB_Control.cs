@@ -10,12 +10,12 @@ using uComponents.Core;
 using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Styles.ToggleBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.shadow-bg.png", Constants.MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-bg.png", Constants.MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-left-bg.png", Constants.MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-right-bg.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.ToggleBox.Styles.ToggleBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.ToggleBox.Images.shadow-bg.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.ToggleBox.Images.handle-bg.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.ToggleBox.Images.handle-left-bg.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.ToggleBox.Images.handle-right-bg.png", Constants.MediaTypeNames.Image.Png)]
 
 namespace uComponents.DataTypes.ToggleBox
 {
@@ -78,8 +78,8 @@ namespace uComponents.DataTypes.ToggleBox
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.ToggleBox.Styles.ToggleBox.css", ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.ToggleBox.Styles.ToggleBox.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

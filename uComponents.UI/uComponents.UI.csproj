@@ -74,6 +74,21 @@
       <Name>uComponents.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Styles\tree-extras.css" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Scripts\content-drag-drop.js" />
+    <EmbeddedResource Include="Resources\Scripts\ie-z-index-fix.js" />
+    <EmbeddedResource Include="Resources\Scripts\item-info-service.js" />
+    <EmbeddedResource Include="Resources\Scripts\jquery.shortcuts.js" />
+    <EmbeddedResource Include="Resources\Scripts\jquery.simulate.js" />
+    <EmbeddedResource Include="Resources\Scripts\jquery.tree.keyboard.js" />
+    <EmbeddedResource Include="Resources\Scripts\jquery.ui.position.js" />
+    <EmbeddedResource Include="Resources\Scripts\shortcuts.js" />
+    <EmbeddedResource Include="Resources\Scripts\tree-extensions.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

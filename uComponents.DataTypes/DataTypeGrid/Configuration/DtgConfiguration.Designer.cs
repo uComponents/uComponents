@@ -39,7 +39,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Configuration {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.Core.DataTypes.DataTypeGrid.Configuration.DtgConfiguration", typeof(DtgConfiguration).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.DataTypes.DataTypeGrid.Configuration.DtgConfiguration", typeof(DtgConfiguration).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

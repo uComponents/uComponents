@@ -39,7 +39,7 @@ namespace uComponents.DataTypes.DataTypeGrid.WebServices {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.Core.DataTypes.DataTypeGrid.WebServices.DtgWebServices", typeof(DtgWebServices).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.DataTypes.DataTypeGrid.WebServices.DtgWebServices", typeof(DtgWebServices).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace uComponents.DataTypes.DataTypeGrid.WebServices {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;%@ WebService Language=&quot;C#&quot; Class=&quot;uComponents.Core.DataTypes.DataTypeGrid.WebServices.PreValueWebService&quot; %&gt;.
+        ///   Looks up a localized string similar to &lt;%@ WebService Language=&quot;C#&quot; Class=&quot;uComponents.DataTypes.DataTypeGrid.WebServices.PreValueWebService&quot; %&gt;.
         /// </summary>
         internal static string PreValueWebService {
             get {

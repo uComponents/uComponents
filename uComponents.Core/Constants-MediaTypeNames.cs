@@ -37,6 +37,11 @@ namespace uComponents.Core
 				public const string Gif = System.Net.Mime.MediaTypeNames.Image.Gif;
 
 				/// <summary>
+				/// MIME type for ICO images/icons.
+				/// </summary>
+				public const string Ico = "image/x-icon";
+
+				/// <summary>
 				/// MIME type for JPEG images.
 				/// </summary>
 				public const string Jpeg = System.Net.Mime.MediaTypeNames.Image.Jpeg;

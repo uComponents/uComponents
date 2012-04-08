@@ -318,7 +318,7 @@ namespace uComponents.DataTypes.UrlPicker
                       <li>JSON is best for retrieval by Javascript (you never know!)</li>
                   </ul>
                   To get at the data easily in .NET, you can use the method 
-                  <strong>uComponents.Core.DataTypes.UrlPicker.Dto.UrlPickerState.Deserialize</strong> and pass it the data in any format",
+                  <strong>uComponents.DataTypes.UrlPicker.Dto.UrlPickerState.Deserialize</strong> and pass it the data in any format",
                 this.DataFormatDropDown);
             writer.AddPrevalueRow("Allow link title:", "User can specify a title for the link", this.EnableTitleCheckbox);
             writer.AddPrevalueRow("Allow new window:", "User can specify link to open in new window", this.EnableNewWindowCheckbox);

@@ -90,7 +90,7 @@ Date created: 25th of November, 2010
 }
 .ucomponents-url-picker.loading > ul.mode-views
 {
-    background:white url('<%= WebResource("uComponents.Core.Shared.Resources.Images.throbber.gif")%>') no-repeat center center;
+    background:white url('<%= WebResource("uComponents.DataTypes.Shared.Resources.Images.throbber.gif")%>') no-repeat center center;
     -moz-transition-timing-function: ease-out;
 }
 .ucomponents-url-picker.loading > ul.mode-views > li

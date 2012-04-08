@@ -3,18 +3,16 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using uComponents.Core;
 
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.json2.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.ui.position.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.simulate.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.shortcuts.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.tree.keyboard.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.form.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.shortcuts.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.tree-extensions.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.content-drag-drop.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.item-info-service.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.ie-z-index-fix.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Styles.tree-extras.css", Constants.MediaTypeNames.Text.Css)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.jquery.ui.position.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.jquery.simulate.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.jquery.shortcuts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.jquery.tree.keyboard.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.shortcuts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.tree-extensions.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.content-drag-drop.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.item-info-service.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Scripts.ie-z-index-fix.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.UI.Resources.Styles.tree-extras.css", Constants.MediaTypeNames.Text.Css)]
 
 namespace uComponents.UI
 {
@@ -55,70 +53,70 @@ namespace uComponents.UI
             {
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.jquery.simulate.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.jquery.simulate.js",
                         IsScript = true,
                         Filters = treeTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.jquery.ui.position.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.jquery.ui.position.js",
                         IsScript = true,
                         Filters = treeTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.jquery.shortcuts.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.jquery.shortcuts.js",
                         IsScript = true,
                         Filters = shortcutTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.jquery.tree.keyboard.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.jquery.tree.keyboard.js",
                         IsScript = true,
                         Filters = treeTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.shortcuts.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.shortcuts.js",
                         IsScript = true,
                         Filters = shortcutTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.tree-extensions.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.tree-extensions.js",
                         IsScript = true,
                         Filters = treeTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.content-drag-drop.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.content-drag-drop.js",
                         IsScript = true,
                         Filters = treeTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.item-info-service.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.item-info-service.js",
                         IsScript = true,
                         Filters = treeTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Scripts.ie-z-index-fix.js",
+                        ResourceName = "uComponents.UI.Resources.Scripts.ie-z-index-fix.js",
                         IsScript = true,
                         Filters = editTargets,
                         Purposes = new string[] { "*" }
                     },
                 new ResourceRegistration
                     {
-                        ResourceName = "uComponents.Core.Shared.Resources.Styles.tree-extras.css",
+                        ResourceName = "uComponents.UI.Resources.Styles.tree-extras.css",
                         IsScript = false,
                         Filters = treeTargets,
                         Purposes = new string[] { "*" }

@@ -17,9 +17,9 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 using uComponents.Core;
 
-[assembly: WebResource("uComponents.Core.DataTypes.DataTypeGrid.Css.DTG_DataEditor.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.dataTables.min.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.DataTypeGrid.Scripts.DTG_DataEditor.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Css.DTG_DataEditor.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Scripts.jquery.dataTables.min.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_DataEditor.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.DataTypes.DataTypeGrid
 {

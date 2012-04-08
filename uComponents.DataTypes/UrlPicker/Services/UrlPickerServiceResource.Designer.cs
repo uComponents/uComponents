@@ -39,7 +39,7 @@ namespace uComponents.DataTypes.UrlPicker.Services {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.Core.DataTypes.UrlPicker.Services.UrlPickerServiceResource", typeof(UrlPickerServiceResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.DataTypes.UrlPicker.Services.UrlPickerServiceResource", typeof(UrlPickerServiceResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace uComponents.DataTypes.UrlPicker.Services {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;%@ WebService language=&quot;C#&quot; class=&quot;uComponents.Core.DataTypes.UrlPicker.Services.UrlPickerService&quot; %&gt;.
+        ///   Looks up a localized string similar to &lt;%@ WebService language=&quot;C#&quot; class=&quot;uComponents.DataTypes.UrlPicker.Services.UrlPickerService&quot; %&gt;.
         /// </summary>
         internal static string UrlPickerService {
             get {

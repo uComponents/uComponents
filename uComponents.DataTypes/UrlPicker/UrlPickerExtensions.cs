@@ -45,7 +45,7 @@ namespace uComponents.DataTypes.UrlPicker
         /// <param name="ctl"></param>
         public static void AddJsUrlPickerClientDependencies(this Control ctl)
         {
-            ctl.AddResourceToClientDependency(typeof(Constants), "uComponents.Core.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
+            ctl.AddResourceToClientDependency(typeof(Constants), "uComponents.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
 			ctl.AddResourceToClientDependency(typeof(Constants), "uComponents.Core.Resources.Scripts.jquery.form.js", ClientDependencyType.Javascript);
             ctl.AddResourceToClientDependency("uComponents.DataTypes.UrlPicker.UrlPickerScripts.js", ClientDependencyType.Javascript);
         }

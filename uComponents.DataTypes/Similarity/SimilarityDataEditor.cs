@@ -12,8 +12,8 @@ using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.web;
 using umbraco.IO;
 
-[assembly: WebResource("uComponents.Core.DataTypes.Similarity.SimilarityScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.Similarity.SimilarityStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 
 namespace uComponents.DataTypes.Similarity
 {
@@ -168,9 +168,9 @@ namespace uComponents.DataTypes.Similarity
 			base.OnLoad(e);
 
 			// Adds the client dependencies
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.Similarity.SimilarityStyles.css", ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.Similarity.SimilarityScripts.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.Similarity.SimilarityStyles.css", ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.Similarity.SimilarityScripts.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

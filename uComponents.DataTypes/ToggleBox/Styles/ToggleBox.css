@@ -18,7 +18,7 @@
 .toggleSwitch .switchArea
 {
 	float: left;
-	background: transparent url('<%= WebResource("uComponents.Core.DataTypes.ToggleBox.Images.shadow-bg.png")%>') top left no-repeat;
+	background: transparent url('<%= WebResource("uComponents.DataTypes.ToggleBox.Images.shadow-bg.png")%>') top left no-repeat;
 	width: 64px;
 	height: 24px;
 }
@@ -27,7 +27,7 @@
 {
 	display: block;
 	background: #aaa;
-	background: transparent url('<%= WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-bg.png")%>') top left no-repeat;
+	background: transparent url('<%= WebResource("uComponents.DataTypes.ToggleBox.Images.handle-bg.png")%>') top left no-repeat;
 	width: 30px;
 	height: 100%;
 	cursor: pointer;
@@ -36,10 +36,10 @@
 
 .toggleSwitch .switchHandle.left
 {
-	background-image: url('<%= WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-left-bg.png")%>');
+	background-image: url('<%= WebResource("uComponents.DataTypes.ToggleBox.Images.handle-left-bg.png")%>');
 }
 
 .toggleSwitch .switchHandle.right
 {
-	background-image: url('<%= WebResource("uComponents.Core.DataTypes.ToggleBox.Images.handle-right-bg.png")%>');
+	background-image: url('<%= WebResource("uComponents.DataTypes.ToggleBox.Images.handle-right-bg.png")%>');
 }

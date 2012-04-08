@@ -10,11 +10,11 @@ using uComponents.Core;
 using uComponents.Core.Extensions;
 using uComponents.DataTypes.Shared.Extensions;
 
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.Jquery.Increment.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Images.down.png", Constants.MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.DataTypes.IncrementalTextBox.Images.up.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.increment.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Images.down.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Images.up.png", Constants.MediaTypeNames.Image.Png)]
 
 namespace uComponents.DataTypes.IncrementalTextBox
 {
@@ -75,9 +75,9 @@ namespace uComponents.DataTypes.IncrementalTextBox
             base.OnLoad(e);
 
 			// get the urls for the embedded resources
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.Jquery.Increment.js", ClientDependency.Core.ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependency.Core.ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Core.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", ClientDependency.Core.ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.increment.js", ClientDependency.Core.ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependency.Core.ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", ClientDependency.Core.ClientDependencyType.Css);
         }
 
 		/// <summary>

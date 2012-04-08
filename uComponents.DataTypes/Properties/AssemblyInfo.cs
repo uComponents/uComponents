@@ -9,8 +9,7 @@ using uComponents.Core;
 
 // shared embedded resources
 [assembly: WebResource(Constants.PrevalueEditorCssResourcePath, Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Scripts.jquery.tooltip.min.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Images.ucomponents-logo-small.png", Constants.MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Images.deleteIcon.gif", Constants.MediaTypeNames.Image.Gif)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Images.information.png", Constants.MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.Shared.Resources.Images.throbber.gif", Constants.MediaTypeNames.Image.Gif)]
+[assembly: WebResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.deleteIcon.gif", Constants.MediaTypeNames.Image.Gif)]
+[assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.information.png", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.throbber.gif", Constants.MediaTypeNames.Image.Gif)]

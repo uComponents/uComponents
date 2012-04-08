@@ -185,7 +185,7 @@ http://www.opensource.org/licenses/mit-license.php
 		}).insertAfter($t)
 
 		$(img).attr({
-			'src': '<%= WebResource("uComponents.Core.DataTypes.TextImage.images.color.png") %>'
+			'src': '<%= WebResource("uComponents.DataTypes.TextImage.images.color.png") %>'
 		}).css({
 			'border': 0,
 			'margin': '0 0 0 3px',
@@ -264,7 +264,7 @@ http://www.opensource.org/licenses/mit-license.php
 			'width': '192px',
 			'border': 0,
 			'cursor': 'crosshair',
-			'background-image': 'url(<%= WebResource("uComponents.Core.DataTypes.TextImage.images.colorpicker.png") %>)'
+			'background-image': 'url(<%= WebResource("uComponents.DataTypes.TextImage.images.colorpicker.png") %>)'
 		}).appendTo($w);
 
 		$s.attr({
@@ -298,7 +298,7 @@ http://www.opensource.org/licenses/mit-license.php
 		$f.attr({
 			'id': 'mColorPickerFooter'
 		}).css({
-			'background-image': 'url(<%= WebResource("uComponents.Core.DataTypes.TextImage.images.grid.gif") %>)',
+			'background-image': 'url(<%= WebResource("uComponents.DataTypes.TextImage.images.grid.gif") %>)',
 			'position': 'relative',
 			'height': '26px'
 		}).appendTo($w);
@@ -338,7 +338,7 @@ http://www.opensource.org/licenses/mit-license.php
 		}).appendTo($f);
 
 		$(img).attr({
-			'src': '<%= WebResource("uComponents.Core.DataTypes.TextImage.images.meta100.png") %>',
+			'src': '<%= WebResource("uComponents.DataTypes.TextImage.images.meta100.png") %>',
 			'title': $i.slogan,
 			'alt': $i.slogan
 		}).css({
@@ -404,7 +404,7 @@ http://www.opensource.org/licenses/mit-license.php
 		var $t = $(this),
         css = {
         	'background-color': color,
-        	'background-image': (color == 'transparent') ? 'url(\'<%= WebResource("uComponents.Core.DataTypes.TextImage.images.grid.gif") %>\')' : '',
+        	'background-image': (color == 'transparent') ? 'url(\'<%= WebResource("uComponents.DataTypes.TextImage.images.grid.gif") %>\')' : '',
         	'color': $.fn.mColorPicker.textColor(color)
         };
 
