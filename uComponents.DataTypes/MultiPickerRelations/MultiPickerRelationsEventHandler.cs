@@ -100,7 +100,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 
 							var multiPickerStorageFormat = Settings.OutputFormat.CSV; // Assume default of csv
 
-							if (uQuery.Helper.CouldItBeXml(multiPickerPropertyValue))
+							if (uQuery.Helper.Xml.CouldItBeXml(multiPickerPropertyValue))
 							{
 								multiPickerStorageFormat = Settings.OutputFormat.XML;
 							}

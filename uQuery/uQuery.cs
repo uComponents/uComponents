@@ -101,7 +101,7 @@ namespace uComponents
 		/// <returns>true if using the old XML schema, else false if using the new XML schema</returns>
 		public static bool IsLegacyXmlSchema()
 		{
-			bool isLegacyXmlSchema;
+			var isLegacyXmlSchema = false;
 
 			try
 			{
@@ -109,7 +109,7 @@ namespace uComponents
 			}
 			catch (MissingMethodException)
 			{
-				// Method doens't exist so must be using the legacy schema
+				// Method doesn't exist so must be using the legacy schema
 				isLegacyXmlSchema = true;
 			}
 

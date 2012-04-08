@@ -102,7 +102,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 				if (this.selectedNodes == null)
 				{
 					string value = this.data.Value.ToString();
-					var nodes = uQuery.Helper.CouldItBeXml(value) ? uQuery.GetNodesByXml(value) : uQuery.GetNodesByCsv(value);
+					var nodes = uQuery.Helper.Xml.CouldItBeXml(value) ? uQuery.GetNodesByXml(value) : uQuery.GetNodesByCsv(value);
 					this.selectedNodes = nodes.ToNameIds();
 				}
 
@@ -336,7 +336,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 
 			if (this.options.OutputFormat == Settings.OutputFormat.XML)
 			{
-				this.data.Value = uQuery.Helper.Split(csv, new[] { comma }, "CheckBoxTree", "nodeId").OuterXml;
+				this.data.Value = uQuery.Helper.Xml.Split(csv, new[] { comma }, "CheckBoxTree", "nodeId").OuterXml;
 			}
 			else
 			{

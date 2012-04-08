@@ -18,7 +18,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
-			var nodeIds = uQuery.Helper.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
+			var nodeIds = uQuery.Helper.Xml.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
 			var library = new RazorLibraryCore(null);
 
 			instance = (library.NodesById(nodeIds) as DynamicNodeList);

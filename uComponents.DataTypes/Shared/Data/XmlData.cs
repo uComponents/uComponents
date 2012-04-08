@@ -25,7 +25,7 @@ namespace uComponents.DataTypes.Shared.Data
 		public override XmlNode ToXMl(XmlDocument data)
 		{
 			// check that the value isn't null and starts with an opening angle-bracket.
-			if (this.Value != null && uQuery.Helper.CouldItBeXml(this.Value.ToString()))
+			if (this.Value != null && uQuery.Helper.Xml.CouldItBeXml(this.Value.ToString()))
 			{
 				// load the value into an XML document.
 				var xd = new XmlDocument();

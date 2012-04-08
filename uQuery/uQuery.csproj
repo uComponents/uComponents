@@ -1,102 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<ProductVersion>8.0.30703</ProductVersion>
-		<SchemaVersion>2.0</SchemaVersion>
-		<ProjectGuid>{7624259D-D940-4113-BBF3-C73C4CD9CF94}</ProjectGuid>
-		<OutputType>Library</OutputType>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<RootNamespace>uQuery</RootNamespace>
-		<AssemblyName>uQuery</AssemblyName>
-		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-		<FileAlignment>512</FileAlignment>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>full</DebugType>
-		<Optimize>false</Optimize>
-		<OutputPath>bin\Debug\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>pdbonly</DebugType>
-		<Optimize>true</Optimize>
-		<OutputPath>bin\Release\</OutputPath>
-		<DefineConstants>TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-	</PropertyGroup>
-	<ItemGroup>
-		<Reference Include="businesslogic">
-			<HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
-		</Reference>
-		<Reference Include="cms">
-			<HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
-		</Reference>
-		<Reference Include="interfaces">
-			<HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
-		</Reference>
-		<Reference Include="System" />
-		<Reference Include="System.Core" />
-		<Reference Include="Microsoft.CSharp" />
-		<Reference Include="System.Data" />
-		<Reference Include="System.Web" />
-		<Reference Include="System.Xml" />
-		<Reference Include="umbraco">
-			<HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
-		</Reference>
-		<Reference Include="umbraco.DataLayer">
-			<HintPath>..\Lib\Umbraco.4.7\umbraco.DataLayer.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
-			<Link>Properties\SolutionInfo.cs</Link>
-		</Compile>
-		<Compile Include="uQuery-Helper.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="Properties\AssemblyInfo.cs" />
-		<Compile Include="uQuery-DataTypes.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="uQuery-Dictionary.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="uQuery-Document.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="uQuery-Media.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="uQuery-Members.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="uQuery-Nodes.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="uQuery-PreValues.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="uQuery-UmbracoObjectType.cs">
-			<DependentUpon>uQuery.cs</DependentUpon>
-		</Compile>
-		<Compile Include="uQuery.cs" />
-		<Compile Include="uQueryExtensions\ContentExtensions.cs" />
-		<Compile Include="uQueryExtensions\DocumentExtensions.cs" />
-		<Compile Include="uQueryExtensions\MediaExtensions.cs" />
-		<Compile Include="uQueryExtensions\MemberExtensions.cs" />
-		<Compile Include="uQueryExtensions\NodeExtensions.cs" />
-		<Compile Include="uQueryExtensions\PreValueExtensions.cs" />
-		<Compile Include="uQueryExtensions\RelationTypeExtensions.cs" />
-		<Compile Include="uQueryExtensions\UmbracoObjectTypeExtensions.cs" />
-	</ItemGroup>
-	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7624259D-D940-4113-BBF3-C73C4CD9CF94}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>uQuery</RootNamespace>
+    <AssemblyName>uQuery</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic">
+      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+    </Reference>
+    <Reference Include="cms">
+      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="umbraco">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.DataLayer">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.DataLayer.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+	  <Compile Include="uQuery-Helper-Xml.cs">
+		  <DependentUpon>uQuery-Helper.cs</DependentUpon>
+	  </Compile>
+    <Compile Include="uQuery-Helper.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="uQuery-DataTypes.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery-Dictionary.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery-Document.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery-Media.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery-Members.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery-Nodes.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery-PreValues.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery-UmbracoObjectType.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery.cs" />
+    <Compile Include="uQueryExtensions\ContentExtensions.cs" />
+    <Compile Include="uQueryExtensions\DocumentExtensions.cs" />
+    <Compile Include="uQueryExtensions\MediaExtensions.cs" />
+    <Compile Include="uQueryExtensions\MemberExtensions.cs" />
+    <Compile Include="uQueryExtensions\NodeExtensions.cs" />
+    <Compile Include="uQueryExtensions\PreValueExtensions.cs" />
+    <Compile Include="uQueryExtensions\RelationTypeExtensions.cs" />
+    <Compile Include="uQueryExtensions\UmbracoObjectTypeExtensions.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

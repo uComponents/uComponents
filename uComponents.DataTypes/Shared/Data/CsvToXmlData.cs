@@ -83,7 +83,7 @@ namespace uComponents.DataTypes.Shared.Data
 			if (this.Value != null)
 			{
 				// split the CSV data into an XML document.
-				var xml = uQuery.Helper.Split(new XmlDocument(), this.Value.ToString(), this.separator, this.rootName, this.elementName);
+				var xml = uQuery.Helper.Xml.Split(new XmlDocument(), this.Value.ToString(), this.separator, this.rootName, this.elementName);
 
 				// return the XML node.
 				return data.ImportNode(xml.DocumentElement, true);
