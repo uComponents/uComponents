@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -9,7 +10,6 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
-using System.Collections.Generic;
 
 namespace uComponents.DataTypes.PropertyPicker
 {

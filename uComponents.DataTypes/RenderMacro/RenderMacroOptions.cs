@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 
 namespace uComponents.DataTypes.RenderMacro

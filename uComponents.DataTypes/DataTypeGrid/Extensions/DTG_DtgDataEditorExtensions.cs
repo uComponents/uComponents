@@ -7,11 +7,9 @@
 namespace uComponents.DataTypes.DataTypeGrid.Extensions
 {
     using ClientDependency.Core;
-	using uComponents.Core;
 	using uComponents.Core.Extensions;
-	using uComponents.DataTypes.Shared.Extensions;
 
-    /// <summary>
+	/// <summary>
     /// Extension methods for the DataType Grid DataType
     /// </summary>
     internal static class DtgDataEditorExtensions

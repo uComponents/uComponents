@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using uComponents.Core;
+﻿using System.ComponentModel;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 
 namespace uComponents.DataTypes.XPathCheckBoxList

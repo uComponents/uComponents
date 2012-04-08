@@ -3,11 +3,11 @@ using System.Linq;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using uComponents.DataTypes.Shared.AjaxUpload;
 using uComponents.DataTypes.UrlPicker.Dto;
 using uComponents.DataTypes.UrlPicker.Services;
 using umbraco.controls;
 using umbraco.uicontrols.TreePicker;
-using uComponents.Core.Shared.AjaxUpload;
 
 namespace uComponents.DataTypes.UrlPicker
 {

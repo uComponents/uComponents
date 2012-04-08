@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.Core.Extensions;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
 using umbraco.interfaces;
-using umbraco.NodeFactory;
 
 [assembly: WebResource("uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 

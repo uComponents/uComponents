@@ -17,22 +17,21 @@
  */
 
 using System;
-
-using PriorityQueue = Lucene.Net.Util.PriorityQueue;
+using Analyzer = Lucene.Net.Analysis.Analyzer;
+using BooleanClause = Lucene.Net.Search.BooleanClause;
+using BooleanQuery = Lucene.Net.Search.BooleanQuery;
+using DefaultSimilarity = Lucene.Net.Search.DefaultSimilarity;
+using Document = Lucene.Net.Documents.Document;
+using Hits = Lucene.Net.Search.Hits;
 using IndexReader = Lucene.Net.Index.IndexReader;
+using IndexSearcher = Lucene.Net.Search.IndexSearcher;
+using PriorityQueue = Lucene.Net.Util.PriorityQueue;
+using Query = Lucene.Net.Search.Query;
+using StandardAnalyzer = Lucene.Net.Analysis.Standard.StandardAnalyzer;
 using Term = Lucene.Net.Index.Term;
 using TermFreqVector = Lucene.Net.Index.TermFreqVector;
-using BooleanClause = Lucene.Net.Search.BooleanClause;
-using DefaultSimilarity = Lucene.Net.Search.DefaultSimilarity;
 using TermQuery = Lucene.Net.Search.TermQuery;
-using BooleanQuery = Lucene.Net.Search.BooleanQuery;
-using IndexSearcher = Lucene.Net.Search.IndexSearcher;
-using Query = Lucene.Net.Search.Query;
-using Hits = Lucene.Net.Search.Hits;
-using Analyzer = Lucene.Net.Analysis.Analyzer;
 using TokenStream = Lucene.Net.Analysis.TokenStream;
-using StandardAnalyzer = Lucene.Net.Analysis.Standard.StandardAnalyzer;
-using Document = Lucene.Net.Documents.Document;
 
 namespace uComponents.DataTypes.Similarity.Net
 {

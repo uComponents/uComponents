@@ -8,10 +8,10 @@ using System.Collections;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
-using uComponents.DataTypes.DataTypeGrid.Configuration;
-using uComponents.DataTypes.DataTypeGrid.WebServices;
 using uComponents.Core;
 using uComponents.Core.Extensions;
+using uComponents.DataTypes.DataTypeGrid.Configuration;
+using uComponents.DataTypes.DataTypeGrid.WebServices;
 using uComponents.DataTypes.Shared.Extensions;
 
 [assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
@@ -26,7 +26,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 	using System.Web.UI.HtmlControls;
 	using System.Web.UI.WebControls;
 	using Model;
-	using Shared;
 	using Shared.PrevalueEditors;
 
 	using uComponents.DataTypes.DataTypeGrid.Functions;

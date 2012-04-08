@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Xml;
-
-using umbraco;
-using umbraco.interfaces;
-using umbraco.editorControls;
-using umbraco.cms.businesslogic;
-using umbraco.cms.businesslogic.datatype;
-using umbraco.editorControls.relatedlinks;
-using umbraco.IO;
 using uComponents.Core;
+using umbraco;
+using umbraco.editorControls;
+using umbraco.interfaces;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.RelatedLinksWithMedia
 {

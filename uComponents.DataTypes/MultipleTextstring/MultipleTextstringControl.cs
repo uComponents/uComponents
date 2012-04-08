@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
-using uComponents.DataTypes.MultipleTextstring;
 using uComponents.Core;
 using uComponents.Core.Extensions;
-using uComponents.DataTypes.Shared.Extensions;
+using uComponents.DataTypes.MultipleTextstring;
 using umbraco;
 
 [assembly: WebResource(MultipleTextstringControl.CssResourcePath, Constants.MediaTypeNames.Text.Css)]

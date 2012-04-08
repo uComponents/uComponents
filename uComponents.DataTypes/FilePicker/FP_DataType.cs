@@ -1,7 +1,6 @@
 ﻿using System;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
-using umbraco.IO;
 
 namespace uComponents.DataTypes.FilePicker
 {

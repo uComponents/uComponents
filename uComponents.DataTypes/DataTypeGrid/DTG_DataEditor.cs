@@ -12,10 +12,10 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
+using uComponents.Core;
 using uComponents.DataTypes.DataTypeGrid.Model;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
-using uComponents.Core;
 
 [assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Css.DTG_DataEditor.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Scripts.jquery.dataTables.min.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -25,12 +25,9 @@ namespace uComponents.DataTypes.DataTypeGrid
 {
 	using System.Web;
 
-	using uComponents.DataTypes.DataTypeGrid.DataTypeFunctions;
 	using uComponents.DataTypes.DataTypeGrid.Extensions;
 	using uComponents.DataTypes.DataTypeGrid.Functions;
 
-	using umbraco.BusinessLogic;
-	using umbraco.NodeFactory;
 
 	/// <summary>
 	/// The DataType Grid Control

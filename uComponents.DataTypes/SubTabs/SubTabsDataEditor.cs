@@ -2,13 +2,12 @@
 using System.Linq;
 using System.Text;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.Core.Extensions;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
-using System.Web.UI.HtmlControls;
 
 [assembly: WebResource("uComponents.DataTypes.SubTabs.SubTabs.js", Constants.MediaTypeNames.Application.JavaScript)]
 

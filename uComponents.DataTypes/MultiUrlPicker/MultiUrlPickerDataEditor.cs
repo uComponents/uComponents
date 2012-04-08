@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using uComponents.DataTypes.UrlPicker.Dto;
-using uComponents.DataTypes.UrlPicker.Services;
-using umbraco.controls;
-using umbraco.uicontrols.TreePicker;
-using uComponents.Core.Shared.AjaxUpload;
 using uComponents.DataTypes.MultiUrlPicker.Dto;
 using uComponents.DataTypes.UrlPicker;
 

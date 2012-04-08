@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Xml;
-using uComponents.DataTypes.DataTypeGrid.Functions;
 using uComponents.DataTypes.DataTypeGrid.Model;
 using umbraco.MacroEngines;
-using umbraco.MacroEngines.Library;
 
 namespace uComponents.DataTypes.DataTypeGrid
 {

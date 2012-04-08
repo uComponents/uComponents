@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 
 // TODO: [LK] Replace with uComponents.Core.Shared.Data.XmlData
 

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Xml;
-using uComponents.Core;
-using uComponents.DataTypes.Shared.Data;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 

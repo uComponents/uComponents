@@ -16,11 +16,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 	using System.Web.Script.Serialization;
 	using System.Web.UI.WebControls;
 	using System.Xml;
-
 	using uComponents.DataTypes.DataTypeGrid.Model;
-
-	using umbraco.cms.businesslogic.datatype;
 	using umbraco.BusinessLogic;
+	using umbraco.cms.businesslogic.datatype;
 
 	/// <summary>
 	/// The dtg helpers.

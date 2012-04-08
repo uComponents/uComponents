@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web.UI.WebControls;
 
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;

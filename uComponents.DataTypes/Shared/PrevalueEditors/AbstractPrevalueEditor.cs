@@ -2,10 +2,9 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
-using umbraco.interfaces;
 using uComponents.Core;
 using uComponents.Core.Extensions;
-using uComponents.DataTypes.Shared.Extensions;
+using umbraco.interfaces;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {

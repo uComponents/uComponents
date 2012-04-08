@@ -1,18 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using umbraco;
-using umbraco.BusinessLogic;
-using umbraco.cms.businesslogic;
-using umbraco.cms.businesslogic.datatype;
-using umbraco.cms.businesslogic.property;
-using umbraco.cms.businesslogic.web;
-using umbraco.interfaces;
-using System.Collections.Generic;
+using System.Xml.Linq;
 using uComponents.Core;
+using umbraco;
+using umbraco.interfaces;
 
 namespace uComponents.DataTypes.EnumCheckBoxList
 {

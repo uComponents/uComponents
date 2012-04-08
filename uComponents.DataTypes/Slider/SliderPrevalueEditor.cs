@@ -1,17 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Web.Script.Serialization;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
-using umbraco;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.controls.Tree;
-using umbraco.interfaces;
-using umbraco.IO;
 
 namespace uComponents.DataTypes.Slider
 {

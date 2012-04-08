@@ -3,6 +3,7 @@ using System.IO;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using ClientDependency.Core;
+using uComponents.Core;
 using umbraco.controls.Tree;
 using umbraco.IO;
 

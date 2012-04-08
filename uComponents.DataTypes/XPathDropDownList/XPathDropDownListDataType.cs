@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml;
 
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;

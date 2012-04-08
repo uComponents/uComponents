@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Web;
+using System.Xml;
+using System.Xml.Linq;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
-using System.Xml.Linq;
-using System.Xml;
-using System.Web;
 
 namespace uComponents.DataTypes.MultiNodeTreePicker
 {

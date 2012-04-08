@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using uComponents.DataTypes.Shared.PrevalueEditors;
+﻿using uComponents.DataTypes.Shared.PrevalueEditors;
 
 namespace uComponents.DataTypes.Notes
 {

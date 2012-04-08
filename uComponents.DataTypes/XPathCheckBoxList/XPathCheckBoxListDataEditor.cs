@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using System.Xml.Linq;
 using uComponents.Core;
-
 using umbraco.interfaces;
 
 namespace uComponents.DataTypes.XPathCheckBoxList

@@ -1,6 +1,5 @@
 ﻿using System;
 
-using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 

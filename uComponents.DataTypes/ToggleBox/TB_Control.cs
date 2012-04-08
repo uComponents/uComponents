@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.Core.Extensions;
-using uComponents.DataTypes.Shared.Extensions;
 
 [assembly: WebResource("uComponents.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.ToggleBox.Styles.ToggleBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Xml.XPath;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.DataLayer;
 
 namespace uComponents.DataTypes.SqlDropDownList
 {

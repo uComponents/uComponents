@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
-using System.Xml.Linq;
-using uComponents.DataTypes.Shared.PrevalueEditors;
 
 namespace uComponents.DataTypes.ImageDropdown
 {

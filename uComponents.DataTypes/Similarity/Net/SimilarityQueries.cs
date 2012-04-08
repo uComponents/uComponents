@@ -16,16 +16,15 @@
  * limitations under the License.
  */
 
-using System;
 
 using Analyzer = Lucene.Net.Analysis.Analyzer;
-using TokenStream = Lucene.Net.Analysis.TokenStream;
-using Term = Lucene.Net.Index.Term;
+using BooleanClause = Lucene.Net.Search.BooleanClause;
 using BooleanQuery = Lucene.Net.Search.BooleanQuery;
 using IndexSearcher = Lucene.Net.Search.IndexSearcher;
 using Query = Lucene.Net.Search.Query;
+using Term = Lucene.Net.Index.Term;
 using TermQuery = Lucene.Net.Search.TermQuery;
-using BooleanClause = Lucene.Net.Search.BooleanClause;
+using TokenStream = Lucene.Net.Analysis.TokenStream;
 
 namespace uComponents.DataTypes.Similarity.Net
 {

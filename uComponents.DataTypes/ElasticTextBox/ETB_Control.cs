@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.Core.Extensions;
-using uComponents.DataTypes.Shared.Extensions;
 
 [assembly: WebResource("uComponents.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", Constants.MediaTypeNames.Application.JavaScript)]
 

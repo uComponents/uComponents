@@ -1,8 +1,6 @@
-﻿using System;
-using System.Web.UI;
+﻿using System.Web.UI;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.interfaces;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {

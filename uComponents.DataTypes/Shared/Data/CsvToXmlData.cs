@@ -1,8 +1,6 @@
-﻿using System;
-using System.Xml;
-using umbraco;
-using umbraco.cms.businesslogic.datatype;
+﻿using System.Xml;
 using uComponents.Core;
+using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.DataTypes.Shared.Data
 {

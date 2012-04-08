@@ -7,7 +7,6 @@ using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.Core.Extensions;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 
 [assembly: WebResource("uComponents.DataTypes.TextstringArray.TextstringArray.css", Constants.MediaTypeNames.Text.Css)]

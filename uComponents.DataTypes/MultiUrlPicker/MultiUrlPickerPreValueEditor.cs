@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using uComponents.Core;
-using umbraco;
-using umbraco.cms.businesslogic.datatype;
-using umbraco.interfaces;
-using uComponents.DataTypes.UrlPicker.Dto;
-using uComponents.DataTypes.UrlPicker;
 using uComponents.DataTypes.MultiUrlPicker.Dto;
+using uComponents.DataTypes.UrlPicker;
+using uComponents.DataTypes.UrlPicker.Dto;
+using umbraco.cms.businesslogic.datatype;
 
 
 namespace uComponents.DataTypes.MultiUrlPicker

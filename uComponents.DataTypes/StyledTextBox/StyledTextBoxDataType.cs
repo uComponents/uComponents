@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-using umbraco.interfaces;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.interfaces;
 
 namespace uComponents.DataTypes.StyledTextBox
 {

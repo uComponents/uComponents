@@ -4,7 +4,6 @@ using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.Core.Extensions;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco.uicontrols.DatePicker;
 
 [assembly: WebResource("uComponents.DataTypes.MultipleDates.css.MultipleDates.css", Constants.MediaTypeNames.Text.Css)]

@@ -1,26 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web.UI;
-using umbraco.IO;
-using System.Web.Compilation;
-using umbraco.controls.Tree;
-using System.Web.UI.WebControls;
-using ClientDependency.Core.Controls;
-using System.Web.Script.Serialization;
-using System.Xml.Linq;
-using System.Web.UI.HtmlControls;
-using System.Xml;
-using umbraco.cms.presentation.Trees;
-using System.IO;
 using System.Web;
-using uComponents.Core;
-using umbraco;
-using System.Collections.Specialized;
-using uComponents.Core.Shared.Tree;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Xml.Linq;
 using ClientDependency.Core;
+using uComponents.Core;
+using uComponents.DataTypes.Shared.Tree;
+using umbraco;
+using umbraco.cms.presentation.Trees;
 using umbraco.controls.Images;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.MultiNodeTreePicker
 {
