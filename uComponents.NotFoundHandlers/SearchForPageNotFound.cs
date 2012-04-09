@@ -66,7 +66,7 @@ namespace uComponents.NotFoundHandlers
 					var node = nodes[0];
 
 					// get the property that holds the node id for the 404 page
-					var errorId = node.GetPropertyAsString("umbracoPageNotFound");
+					var errorId = node.GetProperty<string>("umbracoPageNotFound");
 
 					// if the node id is numeric, then set the redirectId
 					success = int.TryParse(errorId, out this._redirectId);

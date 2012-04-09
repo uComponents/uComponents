@@ -261,7 +261,8 @@ namespace uComponents.uQueryExtensions
 			return (property != null);
 		}
 
-		/// <summary>
+#pragma warning disable 0618
+        /// <summary>
 		/// Get a value of type T from a property
 		/// </summary>
 		/// <typeparam name="T">type T to cast to</typeparam>
@@ -269,16 +270,16 @@ namespace uComponents.uQueryExtensions
 		/// <param name="propertyAlias">alias of property to get</param>
 		/// <returns>default(T) or property cast to (T)</returns>
 		public static T GetProperty<T>(this Node node, string propertyAlias)
-		{
-			var typeConverter = TypeDescriptor.GetConverter(typeof(T));
+        {
+            var typeConverter = TypeDescriptor.GetConverter(typeof(T));
 
 			if (typeConverter != null)
 			{
 				if (typeof(T) == typeof(bool))
 				{
-					// Use the GetPropertyAsBoolean method, as this handles true also being stored as "1"
-					return (T)typeConverter.ConvertFrom(node.GetPropertyAsBoolean(propertyAlias).ToString());
-				}
+                    // Use the GetPropertyAsBoolean method, as this handles true also being stored as "1"
+                    return (T)typeConverter.ConvertFrom(node.GetPropertyAsBoolean(propertyAlias).ToString());
+                }
 
 				try
 				{
@@ -292,15 +293,17 @@ namespace uComponents.uQueryExtensions
 			else
 			{
 				return default(T);
-			}
-		}
+            }
+        }
+#pragma warning restore 0618
 
-		/// <summary>
+        /// <summary>
 		/// Get a string value for the supplied property alias
 		/// </summary>
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>empty string, or property value as string</returns>
+        [Obsolete("Use .GetProperty<string>(propertyAlias) instead", false)]
 		public static string GetPropertyAsString(this Node node, string propertyAlias)
 		{
 			var propertyValue = string.Empty;
@@ -320,7 +323,8 @@ namespace uComponents.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>true if can cast value, else false for all other circumstances</returns>
-		public static bool GetPropertyAsBoolean(this Node node, string propertyAlias)
+        [Obsolete("Use .GetProperty<bool>(propertyAlias) instead", false)]
+        public static bool GetPropertyAsBoolean(this Node node, string propertyAlias)
 		{
 			var propertyValue = false;
 			var property = node.GetProperty(propertyAlias);
@@ -347,6 +351,7 @@ namespace uComponents.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>DateTime value or DateTime.MinValue for all other circumstances</returns>
+        [Obsolete("Use .GetProperty<DateTime>(propertyAlias) instead", false)]
 		public static DateTime GetPropertyAsDateTime(this Node node, string propertyAlias)
 		{
 			var propertyValue = DateTime.MinValue;
@@ -365,7 +370,8 @@ namespace uComponents.uQueryExtensions
 		/// </summary>
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
-		/// <returns>int value of property or int.MinValue for all other circumstances</returns>
+		/// <returns>int value of property or int.MinValue for all other circumstances</returns>    
+        [Obsolete("Use .GetProperty<int>(propertyAlias) instead", false)]
 		public static int GetPropertyAsInt(this Node node, string propertyAlias)
 		{
 			var propertyValue = int.MinValue;
@@ -385,7 +391,7 @@ namespace uComponents.uQueryExtensions
 		/// </summary>
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <returns>int for depth, starts at 1</returns>
-		[Obsolete("Use Level instead")]
+		[Obsolete("Use .Level instead")]
 		public static int GetDepth(this Node node)
 		{
 			return node.Path.Split(',').ToList().Count;
@@ -434,7 +440,7 @@ namespace uComponents.uQueryExtensions
 			* 
 			*/
 
-			if (!string.IsNullOrEmpty(node.GetPropertyAsString(propertyAlias)))
+			if (!string.IsNullOrEmpty(node.GetProperty<string>(propertyAlias)))
 			{
 				var xml = node.GetProperty<string>(propertyAlias);
 
@@ -606,8 +612,8 @@ namespace uComponents.uQueryExtensions
 		/// </returns>
 		public static bool IsHiddenFromNavigation(this Node node)
 		{
-			// TODO: [OA] Document on Codeplex. Is this one really necessary?
-			return node.GetPropertyAsBoolean("umbracoNaviHide");
+			// TODO: [OA] Document on Codeplex. Is this one really necessary? - [HR] this one could be confusing as depends on default naming convention
+			return node.GetProperty<bool>("umbracoNaviHide");
 		}
 
 #pragma warning disable 0618
