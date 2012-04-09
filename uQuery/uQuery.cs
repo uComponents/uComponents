@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml;
-using uComponents.uQueryExtensions;
 using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.DataLayer;

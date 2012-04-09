@@ -3,7 +3,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
-using uComponents.uQueryExtensions;
 using umbraco;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;

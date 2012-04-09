@@ -6,8 +6,6 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
-    using uComponents.uQueryExtensions;
-
     using umbraco.cms.businesslogic.media;
     using umbraco.editorControls.mediapicker;
 

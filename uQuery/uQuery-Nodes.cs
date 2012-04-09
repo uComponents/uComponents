@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web;
 using System.Xml.XPath;
-using uComponents.uQueryExtensions;
 using umbraco;
 using umbraco.NodeFactory;
 

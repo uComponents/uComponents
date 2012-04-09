@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
-using uComponents.uQueryExtensions;
-
-using umbraco.cms.businesslogic.datatype; // DefaultData
-using umbraco.cms.businesslogic.property; // Property
-using umbraco.cms.businesslogic.relation; // RelationType
-using umbraco.interfaces; // IDataEditor
+using umbraco.cms.businesslogic.datatype;
+using umbraco.cms.businesslogic.property;
+using umbraco.cms.businesslogic.relation;
+using umbraco.interfaces;
 using UmbracoContent = umbraco.cms.businesslogic.Content; // UmbracoContent defined here so as to differentiate with System.Web.UI.WebControls.Content
 
 namespace uComponents.DataTypes.MultiPickerRelations

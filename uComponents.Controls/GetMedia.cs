@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
-using uComponents.uQueryExtensions;
 
 namespace uComponents.Controls
 {

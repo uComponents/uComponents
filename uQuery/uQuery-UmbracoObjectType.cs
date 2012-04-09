@@ -1,5 +1,4 @@
 ﻿using System;
-using uComponents.uQueryExtensions;
 
 namespace uComponents
 {

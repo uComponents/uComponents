@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Web;
-using uComponents.uQueryExtensions;
 using umbraco.interfaces;
 
 namespace uComponents.NotFoundHandlers

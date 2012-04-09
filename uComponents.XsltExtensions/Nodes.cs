@@ -2,7 +2,6 @@
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
-using uComponents.uQueryExtensions;
 using umbraco;
 
 namespace uComponents.XsltExtensions

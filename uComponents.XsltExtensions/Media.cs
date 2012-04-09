@@ -3,7 +3,6 @@ using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
-using uComponents.uQueryExtensions;
 
 namespace uComponents.XsltExtensions
 {
@@ -155,7 +154,7 @@ namespace uComponents.XsltExtensions
 			if (media != null)
 			{
 				// get the img src
-				var src = media.GetPropertyAsString(Constants.Umbraco.Media.File);
+				var src = media.GetProperty<string>(Constants.Umbraco.Media.File);
 
 				// check that the img src has a value
 				if (!string.IsNullOrEmpty(src))
@@ -164,14 +163,14 @@ namespace uComponents.XsltExtensions
 					var img = "<img src=\"{0}\" alt=\"{1}\" height=\"{2}\" width=\"{3}\" />";
 
 					// get the height
-					var height = media.GetPropertyAsInt(Constants.Umbraco.Media.Height);
+					var height = media.GetProperty<int>(Constants.Umbraco.Media.Height);
 					if (height <= 0)
 					{
 						height = defaultHeight;
 					}
 
 					// get the width
-					var width = media.GetPropertyAsInt(Constants.Umbraco.Media.Width);
+					var width = media.GetProperty<int>(Constants.Umbraco.Media.Width);
 					if (width <= 0)
 					{
 						width = defaultWidth;
