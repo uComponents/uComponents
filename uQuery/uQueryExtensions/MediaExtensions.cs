@@ -130,7 +130,7 @@ namespace uComponents.uQueryExtensions
 		/// </summary>
 		/// <param name="media">an umbraco.cms.businesslogic.media.Media object</param>
 		/// <returns>an int representing the depth of the Media object in the tree</returns>
-		[Obsolete("Use umbraco.cms.businesslogic.media.Media.Level instead")]
+		[Obsolete("Use .Level instead")]
 		public static int GetDepth(this Media media)
 		{
 			return media.Path.Split(',').ToList().Count;
@@ -169,7 +169,7 @@ namespace uComponents.uQueryExtensions
 			* 
 			*/
 
-			if (!string.IsNullOrEmpty(media.GetPropertyAsString(propertyAlias)))
+			if (!string.IsNullOrEmpty(media.GetProperty<string>(propertyAlias)))
 			{
 				var xmlNode = media.getProperty(propertyAlias).ToXml(new XmlDocument());
 				var cropNode = xmlNode.SelectSingleNode(string.Concat("descendant::crops/crop[@name='", cropName, "']"));
@@ -192,7 +192,7 @@ namespace uComponents.uQueryExtensions
 		{
 			if (media.ContentType.Alias.Equals("Image"))
 			{
-				var url = media.GetPropertyAsString("umbracoFile");
+				var url = media.GetProperty<string>("umbracoFile");
 				if (!string.IsNullOrEmpty(url))
 				{
 					return url;
@@ -211,10 +211,10 @@ namespace uComponents.uQueryExtensions
 		{
 			if (media.ContentType.Alias.Equals("Image"))
 			{
-				var url = media.GetPropertyAsString("umbracoFile");
+				var url = media.GetProperty<string>("umbracoFile");
 				if (!string.IsNullOrEmpty(url))
 				{
-					var extension = media.GetPropertyAsString("umbracoExtension");
+					var extension = media.GetProperty<string>("umbracoExtension");
 					return url.Replace(string.Concat(".", extension), "_thumb.jpg");
 				}
 			}

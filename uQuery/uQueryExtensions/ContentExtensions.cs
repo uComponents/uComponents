@@ -8,7 +8,7 @@ using umbraco.cms.businesslogic.datatype;
 namespace uComponents.uQueryExtensions
 {
 	/// <summary>
-	/// uQuery extensions for the Content object
+	/// uQuery extensions for the Content object (the Document / Media and Memeber objects derive from Content, hence these extension methods are available to Documents / Media and Members)
 	/// </summary>
 	public static class ContentExtensions
 	{
@@ -26,7 +26,8 @@ namespace uComponents.uQueryExtensions
 			return (property != null);
 		}
 
-		/// <summary>
+#pragma warning disable 0618
+        /// <summary>
 		/// Get a value (of specified type) from a content item's property.
 		/// </summary>
 		/// <typeparam name="T">The type.</typeparam>
@@ -58,8 +59,9 @@ namespace uComponents.uQueryExtensions
 				return default(T);
 			}
 		}
+#pragma warning restore 0618
 
-		/// <summary>
+        /// <summary>
 		/// Get a string value from a content item's property.
 		/// </summary>
 		/// <param name="item">The content item.</param>
@@ -67,6 +69,7 @@ namespace uComponents.uQueryExtensions
 		/// <returns>
 		/// empty string, or property value as string
 		/// </returns>
+        [Obsolete("Use .GetProperty<string>(propertyAlias) instead", false)]
 		public static string GetPropertyAsString(this Content item, string propertyAlias)
 		{
 			var propertyValue = string.Empty;
@@ -88,6 +91,7 @@ namespace uComponents.uQueryExtensions
 		/// <returns>
 		/// true if can cast value, else false for all other circumstances
 		/// </returns>
+        [Obsolete("Use .GetProperty<bool>(propertyAlias) instead", false)]
 		public static bool GetPropertyAsBoolean(this Content item, string propertyAlias)
 		{
 			var propertyValue = false;
@@ -117,6 +121,7 @@ namespace uComponents.uQueryExtensions
 		/// <returns>
 		/// DateTime value or DateTime.MinValue for all other circumstances
 		/// </returns>
+        [Obsolete("Use .GetProperty<DateTime>(propertyAlias) instead", false)]
 		public static DateTime GetPropertyAsDateTime(this Content item, string propertyAlias)
 		{
 			var propertyValue = DateTime.MinValue;
@@ -138,6 +143,7 @@ namespace uComponents.uQueryExtensions
 		/// <returns>
 		/// int value of property or int.MinValue for all other circumstances
 		/// </returns>
+        [Obsolete("Use .GetProperty<int>(propertyAlias) instead", false)]
 		public static int GetPropertyAsInt(this Content item, string propertyAlias)
 		{
 			var propertyValue = int.MinValue;
