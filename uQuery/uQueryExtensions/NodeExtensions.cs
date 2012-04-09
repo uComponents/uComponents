@@ -7,7 +7,7 @@ using umbraco;
 using umbraco.cms.businesslogic.web;
 using umbraco.NodeFactory;
 
-namespace uComponents.uQueryExtensions
+namespace uComponents
 {
 	/// <summary>
 	/// uQuery extensions for the Node object.

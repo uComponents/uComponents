@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace uComponents.uQueryExtensions
+namespace uComponents
 {
 	/// <summary>
 	/// uQuery extensions for Umbraco object types.

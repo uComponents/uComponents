@@ -5,7 +5,7 @@ using System.Linq;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
 
-namespace uComponents.uQueryExtensions
+namespace uComponents
 {
 	/// <summary>
 	/// uQuery extensions for the Content object (the Document / Media and Memeber objects derive from Content, hence these extension methods are available to Documents / Media and Members)

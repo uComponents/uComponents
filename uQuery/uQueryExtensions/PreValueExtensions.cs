@@ -2,7 +2,7 @@
 //using uComponents.Core.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 
-namespace uComponents.uQueryExtensions
+namespace uComponents
 {
 	/// <summary>
 	/// uQuery extensions for the PreValue object.
