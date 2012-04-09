@@ -92,6 +92,9 @@ namespace uComponents.Core.Install
 			this.cblXsltExtensions.DataTextField = "Value";
 			this.cblXsltExtensions.DataValueField = "Key";
 			this.cblXsltExtensions.DataBind();
+
+			// TODO: [LK] Add the uComponents namespace to the Web.config (system.web/compilation/assemblies)
+			// TODO: [LK] Add the uComponents.Controls namespace to the Web.config (system.web/pages/controls)
 		}
 
 		/// <summary>
