@@ -135,7 +135,6 @@
     <Compile Include="Properties\SolutionInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
   </PropertyGroup>

@@ -57,9 +57,9 @@
     <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
-	  <Compile Include="uQuery-Helper-Xml.cs">
-		  <DependentUpon>uQuery-Helper.cs</DependentUpon>
-	  </Compile>
+    <Compile Include="uQuery-Helper-Xml.cs">
+      <DependentUpon>uQuery-Helper.cs</DependentUpon>
+    </Compile>
     <Compile Include="uQuery-Helper.cs">
       <DependentUpon>uQuery.cs</DependentUpon>
     </Compile>
@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="uQuery.cs" />
     <Compile Include="uQueryExtensions\ContentExtensions.cs" />
+    <Compile Include="uQueryExtensions\ContentTypeExtensions.cs" />
     <Compile Include="uQueryExtensions\DocumentExtensions.cs" />
     <Compile Include="uQueryExtensions\MediaExtensions.cs" />
     <Compile Include="uQueryExtensions\MemberExtensions.cs" />
