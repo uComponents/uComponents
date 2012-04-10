@@ -27,7 +27,7 @@ namespace uComponents
 		}
 
 #pragma warning disable 0618
-        /// <summary>
+		/// <summary>
 		/// Get a value (of specified type) from a content item's property.
 		/// </summary>
 		/// <typeparam name="T">The type.</typeparam>
@@ -43,11 +43,13 @@ namespace uComponents
 				if (typeof(T) == typeof(bool))
 				{
 					return (T)typeConverter.ConvertFrom(item.GetPropertyAsBoolean(propertyAlias).ToString());
+					// TODO: [LK -> HR] Maybe set 'GetPropertyAsBoolean' as a private/internal method?
 				}
 
 				try
 				{
 					return (T)typeConverter.ConvertFromString(item.GetPropertyAsString(propertyAlias));
+					// TODO: [LK -> HR] Maybe set 'GetPropertyAsString' as a private/internal method?
 				}
 				catch
 				{
@@ -61,7 +63,7 @@ namespace uComponents
 		}
 #pragma warning restore 0618
 
-        /// <summary>
+		/// <summary>
 		/// Get a string value from a content item's property.
 		/// </summary>
 		/// <param name="item">The content item.</param>
@@ -69,13 +71,13 @@ namespace uComponents
 		/// <returns>
 		/// empty string, or property value as string
 		/// </returns>
-        [Obsolete("Use .GetProperty<string>(propertyAlias) instead", false)]
+		[Obsolete("Use .GetProperty<string>(propertyAlias) instead.", false)]
 		public static string GetPropertyAsString(this Content item, string propertyAlias)
 		{
 			var propertyValue = string.Empty;
 			var property = item.getProperty(propertyAlias);
 
-			if (property != null)
+			if (property != null && property.Value != null)
 			{
 				propertyValue = Convert.ToString(property.Value);
 			}
@@ -91,13 +93,13 @@ namespace uComponents
 		/// <returns>
 		/// true if can cast value, else false for all other circumstances
 		/// </returns>
-        [Obsolete("Use .GetProperty<bool>(propertyAlias) instead", false)]
+		[Obsolete("Use .GetProperty<bool>(propertyAlias) instead.", false)]
 		public static bool GetPropertyAsBoolean(this Content item, string propertyAlias)
 		{
 			var propertyValue = false;
 			var property = item.getProperty(propertyAlias);
 
-			if (property != null)
+			if (property != null && property.Value != null)
 			{
 				// Umbraco yes / no datatype stores a string value of '1' or '0'
 				if (Convert.ToString(property.Value) == "1")
@@ -121,13 +123,13 @@ namespace uComponents
 		/// <returns>
 		/// DateTime value or DateTime.MinValue for all other circumstances
 		/// </returns>
-        [Obsolete("Use .GetProperty<DateTime>(propertyAlias) instead", false)]
+		[Obsolete("Use .GetProperty<DateTime>(propertyAlias) instead.", false)]
 		public static DateTime GetPropertyAsDateTime(this Content item, string propertyAlias)
 		{
 			var propertyValue = DateTime.MinValue;
 			var property = item.getProperty(propertyAlias);
 
-			if (property != null)
+			if (property != null && property.Value != null)
 			{
 				DateTime.TryParse(Convert.ToString(property.Value), out propertyValue);
 			}
@@ -143,13 +145,13 @@ namespace uComponents
 		/// <returns>
 		/// int value of property or int.MinValue for all other circumstances
 		/// </returns>
-        [Obsolete("Use .GetProperty<int>(propertyAlias) instead", false)]
+		[Obsolete("Use .GetProperty<int>(propertyAlias) instead.", false)]
 		public static int GetPropertyAsInt(this Content item, string propertyAlias)
 		{
 			var propertyValue = int.MinValue;
 			var property = item.getProperty(propertyAlias);
 
-			if (property != null)
+			if (property != null && property.Value != null)
 			{
 				int.TryParse(Convert.ToString(property.Value), out propertyValue);
 			}
@@ -187,6 +189,44 @@ namespace uComponents
 			}
 
 			return items.RandomOrder().Take(numberOfItems);
+		}
+
+		/// <summary>
+		/// Sorts the by property.
+		/// </summary>
+		/// <typeparam name="T">The type of the property.</typeparam>
+		/// <param name="items">The items.</param>
+		/// <param name="propertyAlias">The property alias.</param>
+		/// <returns></returns>
+		public static IEnumerable<Content> OrderByProperty<T>(this IEnumerable<Content> items, string propertyAlias)
+		{
+			return items.OrderBy(x => x.GetProperty<T>(propertyAlias));
+
+			////// [LK] Long-winded way! :-)
+			////var tmp = new Dictionary<Content, T>();
+
+			////foreach (var item in items)
+			////{
+			////    var property = item.GetProperty<T>(propertyAlias);
+			////    if (property != null)
+			////    {
+			////        tmp.Add(item, property);
+			////    }
+			////}
+
+			////return tmp.OrderBy(x => x.Value).Select(x => x.Key);
+		}
+
+		/// <summary>
+		/// Orders the by property descending.
+		/// </summary>
+		/// <typeparam name="T">The type of the property.</typeparam>
+		/// <param name="items">The items.</param>
+		/// <param name="propertyAlias">The property alias.</param>
+		/// <returns></returns>
+		public static IEnumerable<Content> OrderByPropertyDescending<T>(this IEnumerable<Content> items, string propertyAlias)
+		{
+			return items.OrderByDescending(x => x.GetProperty<T>(propertyAlias));
 		}
 
 		/// <summary>
