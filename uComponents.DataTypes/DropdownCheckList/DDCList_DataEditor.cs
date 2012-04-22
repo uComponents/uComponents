@@ -18,6 +18,7 @@ namespace uComponents.DataTypes.DropdownCheckList
 	/// The DataEditor for the DropdownCheckList.
 	/// </summary>
 	[ClientDependency(ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+	[ValidationProperty("PickedValues")]
 	public class DDCList_DataEditor : CompositeControl
 	{
 		/// <summary>
