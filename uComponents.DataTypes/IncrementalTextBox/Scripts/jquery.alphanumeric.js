@@ -52,7 +52,6 @@
 
 		return this.each(function () {
 			$(this).alphanumeric(p);
-			// $(this).keypress(function (e) { e.preventDefault(); });
 		});
 	};
 
