@@ -62,12 +62,12 @@ namespace uComponents.Core.DataTypes.CountryPicker
 			
 			if (this.IsMultiSelect)
 			{
-				this._countryListBox = new ListBox { ID = "countryListBox", CssClass = "umbEditorTextField", SelectionMode = ListSelectionMode.Multiple };
+				this._countryListBox = new ListBox { CssClass = "umbEditorTextField", SelectionMode = ListSelectionMode.Multiple };
 				lst = this._countryListBox;
 			}
 			else
 			{
-				this._countryDropDown = new DropDownList { CssClass = "umbEditorTextField", ID = "countryDropDown" };
+				this._countryDropDown = new DropDownList { CssClass = "umbEditorTextField" };
 				lst = this._countryDropDown;
 			}
 
