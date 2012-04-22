@@ -9,12 +9,14 @@ using System.Web.UI.WebControls;
 using System.Xml;
 
 using umbraco;
+using uComponents.Core.Shared;
 
 namespace uComponents.Core.DataTypes.CountryPicker
 {
 	/// <summary>
 	/// The Data Editor for the Country Picker data-type.
 	/// </summary>
+	[ValidationProperty("IsValid")]
 	public class CountryPickerDataEditor : Panel
 	{
 		/// <summary>
@@ -59,7 +61,7 @@ namespace uComponents.Core.DataTypes.CountryPicker
 		private ListControl GetListControl()
 		{
 			ListControl lst;
-			
+
 			if (this.IsMultiSelect)
 			{
 				this._countryListBox = new ListBox { CssClass = "umbEditorTextField", SelectionMode = ListSelectionMode.Multiple };
@@ -99,8 +101,25 @@ namespace uComponents.Core.DataTypes.CountryPicker
 			{
 				ctrl.Items.Add(new ListItem(country, country));
 			}
-			
+
 			this.SetSelectedListItems(SelectedText);
+		}
+
+		/// <summary>
+		/// Gets the value of IsValid.
+		/// </summary>
+		/// <value>Returns 'Valid' if valid, otherwise an empty string.</value>
+		public string IsValid
+		{
+			get
+			{
+				if (!string.IsNullOrEmpty(this.SelectedValues) && this.SelectedValues != this.ChooseText)
+				{
+					return "Valid";
+				}
+
+				return string.Empty;
+			}
 		}
 
 		/// <summary>
@@ -161,11 +180,10 @@ namespace uComponents.Core.DataTypes.CountryPicker
 
 			foreach (ListItem li in this._countryListBox.Items.Cast<ListItem>().Where(li => li.Selected))
 			{
-				sb.Append(li.Text);
-				sb.Append(",");
+				sb.Append(li.Text).Append(Settings.COMMA);
 			}
 
-			return sb.ToString().TrimEnd(new char[] { ',' });
+			return sb.ToString().TrimEnd(new char[] { Settings.COMMA });
 		}
 
 		/// <summary>
