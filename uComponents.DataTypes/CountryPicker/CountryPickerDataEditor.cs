@@ -2,14 +2,16 @@
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using uComponents.Core;
 
 namespace uComponents.DataTypes.CountryPicker
 {
 	/// <summary>
 	/// The Data Editor for the Country Picker data-type.
 	/// </summary>
+	[ValidationProperty("IsValid")]
 	public class CountryPickerDataEditor : Panel
 	{
 		/// <summary>
@@ -54,7 +56,7 @@ namespace uComponents.DataTypes.CountryPicker
 		private ListControl GetListControl()
 		{
 			ListControl lst;
-			
+
 			if (this.IsMultiSelect)
 			{
 				this._countryListBox = new ListBox { CssClass = "umbEditorTextField", SelectionMode = ListSelectionMode.Multiple };
@@ -94,8 +96,25 @@ namespace uComponents.DataTypes.CountryPicker
 			{
 				ctrl.Items.Add(new ListItem(country, country));
 			}
-			
+
 			this.SetSelectedListItems(SelectedText);
+		}
+
+		/// <summary>
+		/// Gets the value of IsValid.
+		/// </summary>
+		/// <value>Returns 'Valid' if valid, otherwise an empty string.</value>
+		public string IsValid
+		{
+			get
+			{
+				if (!string.IsNullOrEmpty(this.SelectedValues) && this.SelectedValues != this.ChooseText)
+				{
+					return "Valid";
+				}
+
+				return string.Empty;
+			}
 		}
 
 		/// <summary>
@@ -128,7 +147,7 @@ namespace uComponents.DataTypes.CountryPicker
 
 			if (this.IsMultiSelect)
 			{
-				string[] selected = selectedValues.Split(new char[] { ',' });
+				var selected = selectedValues.Split(new char[] { Constants.Common.COMMA });
 				foreach (var s in selected)
 				{
 					this.SetSelected(s, this._countryListBox);
@@ -154,13 +173,12 @@ namespace uComponents.DataTypes.CountryPicker
 		{
 			var sb = new StringBuilder();
 
-			foreach (ListItem li in this._countryListBox.Items.Cast<ListItem>().Where(li => li.Selected))
+			foreach (var li in this._countryListBox.Items.Cast<ListItem>().Where(li => li.Selected))
 			{
-				sb.Append(li.Text);
-				sb.Append(",");
+				sb.Append(li.Text).Append(Constants.Common.COMMA);
 			}
 
-			return sb.ToString().TrimEnd(new char[] { ',' });
+			return sb.ToString().TrimEnd(new char[] { Constants.Common.COMMA });
 		}
 
 		/// <summary>
