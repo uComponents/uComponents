@@ -5,8 +5,9 @@ using umbraco;
 using umbraco.BasePages;
 using umbraco.BusinessLogic;
 using umbraco.interfaces;
+using uComponents.Core;
 
-namespace uComponents.Core.Install.PackageActions
+namespace uComponents.Installer.PackageActions
 {
 	/// <summary>
 	/// This package action will Add a new HTTP Module to the web.config file.

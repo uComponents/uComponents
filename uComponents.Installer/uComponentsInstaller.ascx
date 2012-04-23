@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="uComponentsInstaller.ascx.cs" Inherits="uComponents.Core.Install.uComponentsInstaller" EnableViewState="false" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="uComponentsInstaller.ascx.cs" Inherits="uComponents.Installer.uComponentsInstaller" EnableViewState="false" %>
 <%@ Register Assembly="controls" Namespace="umbraco.uicontrols" TagPrefix="umb" %>
 
 <div style="padding: 10px 10px 0;">

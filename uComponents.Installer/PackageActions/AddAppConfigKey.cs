@@ -3,8 +3,9 @@ using System.Web.Configuration;
 using System.Xml;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
+using uComponents.Core;
 
-namespace uComponents.Core.Install.PackageActions
+namespace uComponents.Installer.PackageActions
 {
 	/// <summary>
 	/// Adds a key to the web.config app settings.

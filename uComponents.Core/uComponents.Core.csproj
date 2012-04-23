@@ -44,55 +44,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="businesslogic">
       <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
     </Reference>
-    <Reference Include="ClientDependency.Core, Version=1.0.0.38358, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Umbraco.4.7\ClientDependency.Core.dll</HintPath>
-    </Reference>
     <Reference Include="cms">
       <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
     </Reference>
-    <Reference Include="controls">
-      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Examine, Version=0.9.2.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Umbraco.4.7\Examine.dll</HintPath>
-    </Reference>
-    <Reference Include="interfaces">
-      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net">
-      <HintPath>..\Lib\Umbraco.4.7\Lucene.Net.dll</HintPath>
-    </Reference>
     <Reference Include="umbraco">
       <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
-    </Reference>
-    <Reference Include="umbraco.DataLayer">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.DataLayer.dll</HintPath>
-    </Reference>
-    <Reference Include="umbraco.editorControls">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.editorControls.dll</HintPath>
-    </Reference>
-    <Reference Include="umbraco.MacroEngines">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.MacroEngines.dll</HintPath>
-    </Reference>
-    <Reference Include="umbraco.macroRenderings">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.macroRenderings.dll</HintPath>
-    </Reference>
-    <Reference Include="UmbracoExamine">
-      <HintPath>..\Lib\Umbraco.4.7\UmbracoExamine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -108,26 +70,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ResourceExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Install\PackageActions\Add404Handler.cs" />
-    <Compile Include="Install\PackageActions\AddAppConfigKey.cs" />
-    <Compile Include="Install\PackageActions\AddHttpModule.cs" />
-    <Compile Include="Install\PackageActions\Uninstaller.cs" />
-    <Compile Include="Install\uComponentsInstaller.ascx.cs">
-      <DependentUpon>uComponentsInstaller.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Install\uComponentsInstaller.ascx.designer.cs">
-      <DependentUpon>uComponentsInstaller.ascx.cs</DependentUpon>
-    </Compile>
-    <Content Include="Install\uComponentsInstaller.ascx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <EmbeddedResource Include="Resources\Scripts\jquery.form.js" />
-    <EmbeddedResource Include="Resources\Scripts\json2.js" />
     <EmbeddedResource Include="Resources\Images\favicon.ico" />
     <EmbeddedResource Include="Resources\Images\ucomponents-logo-small.png" />
   </ItemGroup>

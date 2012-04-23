@@ -5,8 +5,9 @@ using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using uComponents.Core;
 
-namespace uComponents.Core.Install
+namespace uComponents.Installer
 {
 	/// <summary>
 	/// 

@@ -2,8 +2,9 @@
 using System.Xml;
 using umbraco;
 using umbraco.interfaces;
+using uComponents.Core;
 
-namespace uComponents.Core.Install.PackageActions
+namespace uComponents.Installer.PackageActions
 {
 	/// <summary>
 	/// This package action will add a new entry to the 404handlers.config file

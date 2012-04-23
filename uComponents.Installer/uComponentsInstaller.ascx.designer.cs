@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace uComponents.Core.Install {
+namespace uComponents.Installer {
     
     
     public partial class uComponentsInstaller {

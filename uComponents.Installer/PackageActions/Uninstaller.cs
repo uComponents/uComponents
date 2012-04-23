@@ -6,8 +6,9 @@ using System.Xml;
 using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
+using uComponents.Core;
 
-namespace uComponents.Core.Install.PackageActions
+namespace uComponents.Installer.PackageActions
 {
 	/// <summary>
 	/// This package action is a stub for uninstalling uComponents modules.

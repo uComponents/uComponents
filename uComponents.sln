@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.NotFoundHandler
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Controls", "uComponents.Controls\uComponents.Controls.csproj", "{AD0FB53D-8A7B-423C-B591-85BFCBD2E15E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Installer", "uComponents.Installer\uComponents.Installer.csproj", "{EC252C74-2E40-467E-94DD-239F88B006E6}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 1
@@ -97,6 +99,10 @@ Global
 		{AD0FB53D-8A7B-423C-B591-85BFCBD2E15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD0FB53D-8A7B-423C-B591-85BFCBD2E15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD0FB53D-8A7B-423C-B591-85BFCBD2E15E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC252C74-2E40-467E-94DD-239F88B006E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC252C74-2E40-467E-94DD-239F88B006E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC252C74-2E40-467E-94DD-239F88B006E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC252C74-2E40-467E-94DD-239F88B006E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

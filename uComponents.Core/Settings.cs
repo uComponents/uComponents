@@ -12,15 +12,6 @@ namespace uComponents.Core
 	public class Settings
 	{
 		/// <summary>
-		/// Dictionary for the UI Modules' appSettings keys.
-		/// </summary>
-		public static readonly Dictionary<string, string> AppKeys_UiModules = new Dictionary<string, string>()
-		{
-			{ Constants.AppKey_DragAndDrop, "Drag-n-drop" },
-			{ Constants.AppKey_TrayPeek, "Tray Peek" }
-		};
-
-		/// <summary>
 		/// The base directory for additional uComponents files.
 		/// </summary>
 		public static readonly string BaseDirName = string.Concat(SystemDirectories.Umbraco, "/plugins/", Constants.ApplicationName);
