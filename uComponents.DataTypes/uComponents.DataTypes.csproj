@@ -226,6 +226,7 @@
     <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
     <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
     <Compile Include="Shared\Extensions\PrevalueEditorExtensions.cs" />
+    <Compile Include="Shared\Extensions\ResourceExtensions.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractJsonPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractOptions.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />
@@ -360,6 +361,8 @@
     <EmbeddedResource Include="Shared\Resources\Scripts\jquery.tooltip.min.js" />
     <EmbeddedResource Include="Shared\Resources\Styles\PrevalueEditor.css" />
     <EmbeddedResource Include="Shared\Tree\CustomTreeService.asmx" />
+    <EmbeddedResource Include="Shared\Resources\Scripts\jquery.form.js" />
+    <EmbeddedResource Include="Shared\Resources\Scripts\json2.js" />
     <Content Include="Similarity\Net\LICENSE.txt" />
     <Content Include="Similarity\Net\README.txt" />
     <EmbeddedResource Include="Similarity\SimilarityScripts.js" />

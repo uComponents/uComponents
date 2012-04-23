@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core;
-using uComponents.Core.Extensions;
+using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 
 [assembly: WebResource("uComponents.DataTypes.TextstringArray.TextstringArray.css", Constants.MediaTypeNames.Text.Css)]
@@ -90,7 +90,7 @@ namespace uComponents.DataTypes.TextstringArray
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.Core.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
+			this.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
 			this.AddResourceToClientDependency("uComponents.DataTypes.TextstringArray.TextstringArray.css", ClientDependencyType.Css);
 			this.AddResourceToClientDependency("uComponents.DataTypes.TextstringArray.TextstringArray.js", ClientDependencyType.Javascript);
 		}

@@ -8,6 +8,3 @@ using uComponents.Core;
 // embedded resources
 [assembly: WebResource(Constants.FaviconResourcePath, Constants.MediaTypeNames.Image.Ico)]
 [assembly: WebResource("uComponents.Core.Resources.Images.ucomponents-logo-small.png", Constants.MediaTypeNames.Image.Png)]
-
-[assembly: WebResource("uComponents.Core.Resources.Scripts.jquery.form.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Core.Resources.Scripts.json2.js", Constants.MediaTypeNames.Application.JavaScript)]
