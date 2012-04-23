@@ -3,7 +3,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core;
-using uComponents.Core.Extensions;
+using uComponents.DataTypes.Shared.Extensions;
 
 [assembly: WebResource("uComponents.DataTypes.CharLimit.CharLimit.js", Constants.MediaTypeNames.Application.JavaScript)]
 

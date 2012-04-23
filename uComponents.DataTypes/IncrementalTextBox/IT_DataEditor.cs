@@ -2,7 +2,7 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
-using uComponents.Core.Extensions;
+using uComponents.DataTypes.Shared.Extensions;
 
 [assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", Constants.MediaTypeNames.Application.JavaScript)]

@@ -5,7 +5,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core;
-using uComponents.Core.Extensions;
+using uComponents.DataTypes.Shared.Extensions;
 
 namespace uComponents.DataTypes.Slider
 {

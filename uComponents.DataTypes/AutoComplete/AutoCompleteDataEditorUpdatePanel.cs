@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
-using uComponents.Core.Extensions;
+using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
 using umbraco.interfaces;

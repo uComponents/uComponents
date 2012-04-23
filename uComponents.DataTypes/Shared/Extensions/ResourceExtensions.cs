@@ -3,7 +3,7 @@ using System.Web.UI;
 using ClientDependency.Core;
 using umbraco;
 
-namespace uComponents.Core.Extensions
+namespace uComponents.DataTypes.Shared.Extensions
 {
 	/// <summary>
 	/// Extension methods for embedded resources

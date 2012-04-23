@@ -5,7 +5,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using uComponents.Core;
-using uComponents.Core.Extensions;
+using uComponents.DataTypes.Shared.Extensions;
 
 [assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Styles.uiDropdownchecklist.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Scripts.ui.dropdownchecklist.js", Constants.MediaTypeNames.Application.JavaScript)]

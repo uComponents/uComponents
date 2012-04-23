@@ -73,6 +73,10 @@
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
+      <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
+      <Name>uComponents.DataTypes</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Styles\tree-extras.css" />
