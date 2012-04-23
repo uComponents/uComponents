@@ -219,6 +219,7 @@
     <Compile Include="RenderMacro\RenderMacroDataType.cs" />
     <Compile Include="RenderMacro\RenderMacroOptions.cs" />
     <Compile Include="RenderMacro\RenderMacroPrevalueEditor.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandler.cs" />
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs" />
     <Compile Include="Shared\Data\CsvToXmlData.cs" />

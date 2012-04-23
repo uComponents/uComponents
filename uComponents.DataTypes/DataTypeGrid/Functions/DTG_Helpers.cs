@@ -94,7 +94,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 		/// <returns></returns>
 		public static DirectoryInfo EnsureFolderExists(string foldername, object locker)
 		{
-			var path = Path.Combine(uComponents.Core.Settings.BaseDir.FullName, foldername);
+			var path = Path.Combine(Settings.BaseDir.FullName, foldername);
 
 			if (!Directory.Exists(path))
 			{

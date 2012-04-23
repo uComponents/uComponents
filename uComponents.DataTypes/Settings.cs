@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using umbraco.IO;
+using uComponents.Core;
 
-namespace uComponents.Core
+namespace uComponents.DataTypes
 {
 	/// <summary>
 	/// Global settings for uComponents.
@@ -48,18 +49,6 @@ namespace uComponents.Core
 				}
 
 				return dir;
-			}
-		}
-
-		/// <summary>
-		/// Gets the uComponents version number.
-		/// </summary>
-		/// <value>The uComponents version number.</value>
-		public static Version Version
-		{
-			get
-			{
-				return Assembly.GetExecutingAssembly().GetName().Version;
 			}
 		}
 	}

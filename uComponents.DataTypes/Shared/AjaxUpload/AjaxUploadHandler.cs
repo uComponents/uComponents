@@ -176,7 +176,7 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
         /// </summary>
         internal static void Ensure()
         {
-            var handlerPath = Path.Combine(uComponents.Core.Settings.BaseDir.FullName, "Shared/AjaxUpload");
+            var handlerPath = Path.Combine(Settings.BaseDir.FullName, "Shared/AjaxUpload");
 
             if (!Directory.Exists(handlerPath))
             {
