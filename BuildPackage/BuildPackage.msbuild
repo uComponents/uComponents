@@ -54,11 +54,13 @@
 			<BinFiles Include="$(RootDir)\bin\Release\$(ProjectName).dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.dll" />
 			<BinFiles Include="$(RootDir)\..\uQuery\bin\Release\uQuery.dll" />
-			<PluginFiles Include="$(RootDir)\Install\*.ascx" />
+			<PluginFiles Include="$(RootDir)\..\uComponents.Installer\*.ascx" />
 			<PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
 			<NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
 		</ItemGroup>
