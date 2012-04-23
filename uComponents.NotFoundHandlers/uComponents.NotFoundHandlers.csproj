@@ -56,7 +56,6 @@
     <Compile Include="MultiSitePageNotFoundHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchFor301MovedPermanently.cs" />
-    <Compile Include="SearchFor404ContentHandler.cs" />
     <Compile Include="SearchForPageNotFound.cs" />
   </ItemGroup>
   <ItemGroup>

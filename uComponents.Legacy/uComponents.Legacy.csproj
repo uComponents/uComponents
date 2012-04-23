@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>b056c556-0821-4e3f-93bb-ca841e63bd9a</ProjectGuid>
+    <ProjectGuid>{62902194-247B-4DCF-AA4E-062204D8A576}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>uComponents.Legacy</RootNamespace>
@@ -31,17 +31,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="businesslogic">
+      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+    </Reference>
+    <Reference Include="cms">
+      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="umbraco">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="NotFoundHandlers\SearchFor404ContentHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
+      <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
+      <Name>uComponents.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
+      <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
+      <Name>uComponents.DataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uQuery\uQuery.csproj">
+      <Project>{7624259D-D940-4113-BBF3-C73C4CD9CF94}</Project>
+      <Name>uQuery</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataTypes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
