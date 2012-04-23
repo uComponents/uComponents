@@ -34,8 +34,14 @@
     <Reference Include="businesslogic">
       <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
     </Reference>
+    <Reference Include="ClientDependency.Core, Version=1.0.2.37148, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Lib\Umbraco.4.7\ClientDependency.Core.dll</HintPath>
+    </Reference>
     <Reference Include="cms">
       <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+    </Reference>
+    <Reference Include="controls">
+      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
     </Reference>
     <Reference Include="interfaces">
       <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
@@ -45,15 +51,35 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="umbraco">
       <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.editorControls">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.editorControls.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="DataTypes\ImageDropdown\ID_DataEditor.cs" />
+    <Compile Include="DataTypes\ImageDropdown\ID_DataType.cs" />
+    <Compile Include="DataTypes\RadiobuttonListWithImages\RLWI_DataEditor.cs" />
+    <Compile Include="DataTypes\RadiobuttonListWithImages\RLWI_DataType.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\PagePickerwMediaDataExtractor.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaData.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaDataEditor.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaDataType.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaPrevalueEditor.cs" />
+    <Compile Include="DataTypes\Shared\PrevalueEditors\MultiImageUpload_PrevalueEditor.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxDataEditor.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxDataType.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxPrevalueEditor.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyDataEditor.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyDataType.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyPreValueEditor.cs" />
     <Compile Include="NotFoundHandlers\SearchFor404ContentHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,7 +98,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataTypes\" />
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Images\dd_arrow.gif" />
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Scripts\jquery.dd.js" />
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Styles\ImageDropdown.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

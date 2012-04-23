@@ -151,8 +151,6 @@
     <Compile Include="FilePicker\FP_Control.cs" />
     <Compile Include="FilePicker\FP_DataType.cs" />
     <Compile Include="FilePicker\FP_PrevalueEditor.cs" />
-    <Compile Include="ImageDropdown\ID_DataEditor.cs" />
-    <Compile Include="ImageDropdown\ID_DataType.cs" />
     <Compile Include="IncrementalTextBox\IT_DataEditor.cs" />
     <Compile Include="IncrementalTextBox\IT_DataType.cs" />
     <Compile Include="IncrementalTextBox\IT_PrevalueEditor.cs" />
@@ -204,13 +202,6 @@
     <Compile Include="PropertyPicker\PropertyPickerDataType.cs" />
     <Compile Include="PropertyPicker\PropertyPickerOptions.cs" />
     <Compile Include="PropertyPicker\PropertyPickerPrevalueEditor.cs" />
-    <Compile Include="RadiobuttonListWithImages\RLWI_DataEditor.cs" />
-    <Compile Include="RadiobuttonListWithImages\RLWI_DataType.cs" />
-    <Compile Include="RelatedLinksWithMedia\PagePickerwMediaDataExtractor.cs" />
-    <Compile Include="RelatedLinksWithMedia\RelatedLinkswMediaData.cs" />
-    <Compile Include="RelatedLinksWithMedia\RelatedLinkswMediaDataEditor.cs" />
-    <Compile Include="RelatedLinksWithMedia\RelatedLinkswMediaDataType.cs" />
-    <Compile Include="RelatedLinksWithMedia\RelatedLinkswMediaPrevalueEditor.cs" />
     <Compile Include="RelationLinks\RelationLinksDataEditor.cs" />
     <Compile Include="RelationLinks\RelationLinksDataType.cs" />
     <Compile Include="RelationLinks\RelationLinksOptions.cs" />
@@ -233,7 +224,6 @@
     <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\DefaultPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\KeyValuePrevalueEditor.cs" />
-    <Compile Include="Shared\PrevalueEditors\MultiImageUpload_PrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoDBOptionsKeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoOptionsPrevalueEditor.cs" />
     <Compile Include="Shared\Tree\CustomTreeControl.cs">
@@ -262,9 +252,6 @@
     <Compile Include="SqlDropDownList\SqlDropDownListDataType.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListOptions.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListPreValueEditor.cs" />
-    <Compile Include="StyledTextBox\StyledTextBoxDataEditor.cs" />
-    <Compile Include="StyledTextBox\StyledTextBoxDataType.cs" />
-    <Compile Include="StyledTextBox\StyledTextBoxPrevalueEditor.cs" />
     <Compile Include="SubTabs\SubTabsDataEditor.cs" />
     <Compile Include="SubTabs\SubTabsDataType.cs" />
     <Compile Include="SubTabs\SubTabsOptions.cs" />
@@ -295,9 +282,6 @@
     <Compile Include="ToggleBox\TB_DataType.cs" />
     <Compile Include="ToggleBox\TB_Options.cs" />
     <Compile Include="ToggleBox\TB_PrevalueEditor.cs" />
-    <Compile Include="UniqueProperty\UniquePropertyDataEditor.cs" />
-    <Compile Include="UniqueProperty\UniquePropertyDataType.cs" />
-    <Compile Include="UniqueProperty\UniquePropertyPreValueEditor.cs" />
     <Compile Include="UrlPicker\Dto\UrlPickerSettings.cs" />
     <Compile Include="UrlPicker\Dto\UrlPickerState.cs" />
     <Compile Include="UrlPicker\Services\UrlPickerService.cs">
@@ -338,9 +322,6 @@
     <EmbeddedResource Include="DropdownCheckList\Scripts\ui.dropdownchecklist.js" />
     <EmbeddedResource Include="DropdownCheckList\Styles\uiDropdownchecklist.css" />
     <EmbeddedResource Include="ElasticTextBox\Scripts\jquery.elastic.js" />
-    <EmbeddedResource Include="ImageDropdown\css\ImageDropdown.css" />
-    <EmbeddedResource Include="ImageDropdown\images\dd_arrow.gif" />
-    <EmbeddedResource Include="ImageDropdown\scripts\jquery.dd.js" />
     <EmbeddedResource Include="IncrementalTextBox\Images\down.png" />
     <EmbeddedResource Include="IncrementalTextBox\Images\up.png" />
     <EmbeddedResource Include="IncrementalTextBox\Scripts\jquery.alphanumeric.js" />
