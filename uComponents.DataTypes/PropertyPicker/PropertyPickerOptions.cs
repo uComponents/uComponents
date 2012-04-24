@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using uComponents.DataTypes.Shared.PrevalueEditors;
+using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.DataTypes.PropertyPicker
 {

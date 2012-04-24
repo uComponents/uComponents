@@ -5,6 +5,7 @@ using System.Xml.XPath;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
+using umbraco;
 using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.DataTypes.CheckBoxTree

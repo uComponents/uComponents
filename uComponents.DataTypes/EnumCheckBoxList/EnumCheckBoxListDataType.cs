@@ -94,7 +94,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 					if (((EnumCheckBoxListPreValueEditor)this.PrevalueEditor).Options.UseXml)
 					{
 						// Storing an Xml fragment
-						this.data = new Shared.Data.XmlData(this);
+						this.data = new XmlData(this);
 					}
 					else
 					{

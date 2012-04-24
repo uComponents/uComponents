@@ -3,17 +3,15 @@ using System.Text;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using ClientDependency.Core;
-// using uComponents.Core;
-// using uComponents.DataTypes.Shared.Extensions;
+using umbraco.cms.businesslogic.datatype;
 
 namespace umbraco.editorControls.Slider
 {
 	/// <summary>
 	/// The jQuery UI Slider control.
 	/// </summary>
-	[ClientDependency(ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
-	[ClientDependency(ClientDependencyType.Css, "DateTimePicker/datetimepicker.css", "UmbracoClient")]
+	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "DateTimePicker/datetimepicker.css", "UmbracoClient")]
 	[ValidationProperty("Text")]
 	public class SliderControl : PlaceHolder
 	{

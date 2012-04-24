@@ -1,4 +1,5 @@
-﻿using umbraco.MacroEngines;
+﻿using umbraco;
+using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
 
 namespace uComponents.DataTypes.Similarity

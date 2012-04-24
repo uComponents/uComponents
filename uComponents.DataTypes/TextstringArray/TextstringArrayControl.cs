@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
+using umbraco.cms.businesslogic.datatype;
 
 [assembly: WebResource("uComponents.DataTypes.TextstringArray.TextstringArray.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.TextstringArray.TextstringArray.js", Constants.MediaTypeNames.Application.JavaScript)]

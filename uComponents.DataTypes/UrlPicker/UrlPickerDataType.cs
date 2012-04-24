@@ -62,7 +62,7 @@ namespace uComponents.DataTypes.UrlPicker
                 {
                     if (Settings.DataFormat == UrlPickerDataFormat.Xml)
                     {
-                        this.m_Data = new uComponents.DataTypes.Shared.Data.XmlData(this);
+                        this.m_Data = new XmlData(this);
                     }
                     else
                     {

@@ -316,7 +316,7 @@ namespace umbraco.editorControls.MultiNodeTreePicker
             base.OnInit(e);
             this.EnsureChildControls();
 
-			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Styles.PrevalueEditor.css", ClientDependency.Core.ClientDependencyType.Css);
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿using System.Web.UI;
-using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
+using umbraco.cms.businesslogic.datatype;
 
 [assembly: WebResource("uComponents.DataTypes.UrlPicker.UrlPickerScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.UrlPicker.UrlPickerStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]

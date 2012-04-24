@@ -4,9 +4,10 @@ using System.Linq;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
+using umbraco;
+using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.web;
 using umbraco.IO;
 
@@ -18,7 +19,7 @@ namespace uComponents.DataTypes.Similarity
 	/// <summary>
 	/// button to pull items, and second pane to show what is already picked
 	/// </summary>
-	[ClientDependency(ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
 	public class SimilarityDataEditor : Panel
 	{
 

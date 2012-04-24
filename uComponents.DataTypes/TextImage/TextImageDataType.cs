@@ -172,7 +172,7 @@ namespace uComponents.DataTypes.TextImage
 		/// <value>The data.</value>
 		public override IData Data
 		{
-			get { return _data ?? (_data = new Shared.Data.XmlData(this)); }
+			get { return _data ?? (_data = new XmlData(this)); }
 		}
 
 		#endregion

@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
+using umbraco;
 
 namespace uComponents.XsltExtensions
 {

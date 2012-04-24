@@ -6,8 +6,8 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Extensions
 {
-    using ClientDependency.Core;
 	using uComponents.DataTypes.Shared.Extensions;
+	using umbraco.cms.businesslogic.datatype;
 
 	/// <summary>
     /// Extension methods for the DataType Grid DataType

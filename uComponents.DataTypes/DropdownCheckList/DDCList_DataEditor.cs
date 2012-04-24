@@ -3,9 +3,9 @@ using System.Collections;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
+using umbraco.cms.businesslogic.datatype;
 
 [assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Styles.uiDropdownchecklist.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Scripts.ui.dropdownchecklist.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -17,7 +17,7 @@ namespace uComponents.DataTypes.DropdownCheckList
 	/// <summary>
 	/// The DataEditor for the DropdownCheckList.
 	/// </summary>
-	[ClientDependency(ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
 	[ValidationProperty("PickedValues")]
 	public class DDCList_DataEditor : CompositeControl
 	{

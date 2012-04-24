@@ -5,7 +5,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using uComponents.DataTypes.Shared.Data;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 

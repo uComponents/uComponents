@@ -92,6 +92,10 @@
       <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
       <Name>uComponents.DataTypes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\uComponents.Migration\uComponents.Migration.csproj">
+      <Project>{C87AEE87-3DF5-4156-9306-B0F21A5004B3}</Project>
+      <Name>uComponents.Migration</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataTypes\ImageDropdown\Images\dd_arrow.gif" />

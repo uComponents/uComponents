@@ -6,6 +6,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
+using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 

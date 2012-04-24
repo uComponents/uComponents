@@ -1,4 +1,5 @@
-﻿
+﻿using umbraco;
+
 namespace uComponents.DataTypes.AutoComplete
 {
     /// <summary>

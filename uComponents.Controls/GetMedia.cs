@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
+using umbraco;
 
 namespace uComponents.Controls
 {

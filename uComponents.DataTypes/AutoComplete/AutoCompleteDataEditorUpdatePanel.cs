@@ -5,6 +5,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
+using umbraco;
+using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
 using umbraco.interfaces;

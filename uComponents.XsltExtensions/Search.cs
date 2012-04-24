@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Examine;
 using uComponents.Core;
+using umbraco;
 
 namespace uComponents.XsltExtensions
 {

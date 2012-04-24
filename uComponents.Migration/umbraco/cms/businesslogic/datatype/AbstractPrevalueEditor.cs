@@ -48,7 +48,7 @@ namespace umbraco.cms.businesslogic.datatype
 			this.EnsureChildControls();
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+			this.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Styles.PrevalueEditor.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

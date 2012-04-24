@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using uComponents.Core;
-using uComponents.DataTypes.Shared.PrevalueEditors;
+using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.DataTypes.CheckBoxTree
 {

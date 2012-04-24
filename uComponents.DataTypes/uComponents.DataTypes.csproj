@@ -195,9 +195,6 @@
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs" />
     <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
     <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
-    <Compile Include="Shared\PrevalueEditors\AbstractJsonPrevalueEditor.cs" />
-    <Compile Include="Shared\PrevalueEditors\AbstractOptions.cs" />
-    <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\DefaultPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\KeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoDBOptionsKeyValuePrevalueEditor.cs" />
@@ -338,6 +335,10 @@
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.Migration\uComponents.Migration.csproj">
+      <Project>{C87AEE87-3DF5-4156-9306-B0F21A5004B3}</Project>
+      <Name>uComponents.Migration</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

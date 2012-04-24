@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
+using umbraco.cms.businesslogic.datatype;
 
 [assembly: WebResource("uComponents.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", Constants.MediaTypeNames.Application.JavaScript)]
 

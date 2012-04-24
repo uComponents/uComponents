@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
+using umbraco.cms.businesslogic.datatype;
 
 [assembly: WebResource("uComponents.Legacy.DataTypes.ImageDropdown.Styles.ImageDropdown.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.Legacy.DataTypes.ImageDropdown.Scripts.jquery.dd.js", Constants.MediaTypeNames.Application.JavaScript)]

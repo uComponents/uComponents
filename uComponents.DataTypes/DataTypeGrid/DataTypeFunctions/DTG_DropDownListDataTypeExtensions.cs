@@ -7,7 +7,7 @@
 namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
     using System.Linq;
-
+	using umbraco;
     using umbraco.editorControls.dropdownlist;
 
     /// <summary>

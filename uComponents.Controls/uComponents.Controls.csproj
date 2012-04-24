@@ -70,6 +70,10 @@
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\uComponents.Migration\uComponents.Migration.csproj">
+      <Project>{C87AEE87-3DF5-4156-9306-B0F21A5004B3}</Project>
+      <Name>uComponents.Migration</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

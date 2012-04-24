@@ -17,6 +17,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 	using System.Web.UI.WebControls;
 	using System.Xml;
 	using uComponents.DataTypes.DataTypeGrid.Model;
+	using umbraco;
 	using umbraco.BusinessLogic;
 	using umbraco.cms.businesslogic.datatype;
 

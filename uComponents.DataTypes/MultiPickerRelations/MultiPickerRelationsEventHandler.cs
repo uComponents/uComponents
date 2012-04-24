@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using uComponents.Core;
+using umbraco;
 using umbraco.BusinessLogic; // ApplicationBase
 using umbraco.cms.businesslogic; // SaveEventArgs
 using umbraco.cms.businesslogic.media; // Media

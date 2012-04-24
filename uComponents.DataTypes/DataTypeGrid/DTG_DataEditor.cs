@@ -27,6 +27,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 	using uComponents.DataTypes.DataTypeGrid.Extensions;
 	using uComponents.DataTypes.DataTypeGrid.Functions;
+	using umbraco;
 
 
 	/// <summary>

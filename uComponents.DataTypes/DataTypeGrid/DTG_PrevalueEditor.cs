@@ -30,6 +30,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 	using uComponents.DataTypes.DataTypeGrid.Functions;
 
 	using umbraco.cms.businesslogic.datatype;
+	using umbraco;
 
 	/// <summary>
 	/// The PreValue Editor for the DTG DataType.

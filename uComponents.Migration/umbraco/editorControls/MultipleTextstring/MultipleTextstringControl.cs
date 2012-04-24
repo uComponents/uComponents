@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ClientDependency.Core;
-// using uComponents.Core;
-// using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
+using umbraco.cms.businesslogic.datatype;
 
 [assembly: WebResource("umbraco.editorControls.MultipleTextstring.MultipleTextstring.css", "text/css")]
 [assembly: WebResource("umbraco.editorControls.MultipleTextstring.MultipleTextstring.js", "application/x-javascript")]
