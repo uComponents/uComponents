@@ -201,6 +201,7 @@ namespace uComponents.XsltExtensions
 		/// </summary>
 		/// <param name="url">The URL to get the XML node from.</param>
 		/// <returns>Returns the node Id.</returns>
+		// TODO: [LK] Move to uComponents.Legacy project
 		[Obsolete("Please use uComponents.XsltExtensions.Nodes.GetNodeIdByUrl")]
 		public static int GetNodeIdByUrl(string url)
 		{
@@ -232,6 +233,7 @@ namespace uComponents.XsltExtensions
 		/// </summary>
 		/// <param name="url">The URL to get the XML node from.</param>
 		/// <returns>Returns the XML for the node.</returns>
+		// TODO: [LK] Move to uComponents.Legacy project
 		[Obsolete("Please use uComponents.XsltExtensions.Nodes.GetXmlNodeByUrl")]
 		public static XPathNodeIterator GetXmlNodeByUrl(string url)
 		{

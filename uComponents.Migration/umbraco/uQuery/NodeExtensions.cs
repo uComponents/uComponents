@@ -303,7 +303,8 @@ namespace umbraco
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>empty string, or property value as string</returns>
-        [Obsolete("Use .GetProperty<string>(propertyAlias) instead", false)]
+		// TODO: [LK] Move to uComponents.Legacy project
+		[Obsolete("Use .GetProperty<string>(propertyAlias) instead", false)]
 		public static string GetPropertyAsString(this Node node, string propertyAlias)
 		{
 			var propertyValue = string.Empty;
@@ -323,7 +324,8 @@ namespace umbraco
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>true if can cast value, else false for all other circumstances</returns>
-        [Obsolete("Use .GetProperty<bool>(propertyAlias) instead", false)]
+		// TODO: [LK] Move to uComponents.Legacy project
+		[Obsolete("Use .GetProperty<bool>(propertyAlias) instead", false)]
         public static bool GetPropertyAsBoolean(this Node node, string propertyAlias)
 		{
 			var propertyValue = false;
@@ -351,7 +353,8 @@ namespace umbraco
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>DateTime value or DateTime.MinValue for all other circumstances</returns>
-        [Obsolete("Use .GetProperty<DateTime>(propertyAlias) instead", false)]
+		// TODO: [LK] Move to uComponents.Legacy project
+		[Obsolete("Use .GetProperty<DateTime>(propertyAlias) instead", false)]
 		public static DateTime GetPropertyAsDateTime(this Node node, string propertyAlias)
 		{
 			var propertyValue = DateTime.MinValue;
@@ -371,7 +374,8 @@ namespace umbraco
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>int value of property or int.MinValue for all other circumstances</returns>    
-        [Obsolete("Use .GetProperty<int>(propertyAlias) instead", false)]
+		// TODO: [LK] Move to uComponents.Legacy project
+		[Obsolete("Use .GetProperty<int>(propertyAlias) instead", false)]
 		public static int GetPropertyAsInt(this Node node, string propertyAlias)
 		{
 			var propertyValue = int.MinValue;
@@ -391,6 +395,7 @@ namespace umbraco
 		/// </summary>
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <returns>int for depth, starts at 1</returns>
+		// TODO: [LK] Move to uComponents.Legacy project
 		[Obsolete("Use .Level instead")]
 		public static int GetDepth(this Node node)
 		{

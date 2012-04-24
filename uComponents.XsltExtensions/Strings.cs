@@ -118,6 +118,7 @@ namespace uComponents.XsltExtensions
 		/// </summary>
 		/// <param name="input">The input string.</param>
 		/// <returns>Returns a shortened path of the string.</returns>
+		// TODO: [LK] Move to uComponents.Legacy project
 		[Obsolete("Please use uComponents.XsltExtensions.IO.PathShortener")]
 		public static string PathShortener(string input)
 		{
@@ -327,6 +328,7 @@ namespace uComponents.XsltExtensions
 		/// </summary>
 		/// <param name="input">The input string.</param>
 		/// <returns>The camelCased string</returns>
+		// TODO: [LK] Move to uComponents.Legacy project
 		[Obsolete("Please use uComponents.XsltExtensions.Strings.ToCamelCase")]
 		public static string ConvertToCamelCase(string input)
 		{
