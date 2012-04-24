@@ -56,7 +56,7 @@ namespace umbraco.editorControls.Slider
 		{
 			get
 			{
-				return "uComponents: Slider";
+				return "Slider";
 			}
 		}
 

@@ -1,5 +1,4 @@
 ﻿using System;
-
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
@@ -29,13 +28,25 @@ namespace umbraco.editorControls.XPathDropDownList
 		/// Gets the name of the data type.
 		/// </summary>
 		/// <value>The name of the data type.</value>
-		public override string DataTypeName { get { return "uComponents: XPath DropDownList"; } }
+		public override string DataTypeName
+		{
+			get
+			{
+				return "XPath DropDownList";
+			}
+		}
 
 		/// <summary>
 		/// Gets the id.
 		/// </summary>
 		/// <value>The id.</value>
-		public override Guid Id { get { return new Guid(DataTypeConstants.XPathDropDownListId); } }
+		public override Guid Id
+		{
+			get
+			{
+				return new Guid(DataTypeConstants.XPathDropDownListId);
+			}
+		}
 
 		/// <summary>
 		/// Lazy load the associated PreValueEditor instance,

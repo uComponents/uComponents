@@ -53,7 +53,7 @@ namespace umbraco.editorControls.MultiNodeTreePicker
         {
             get
             {
-                return "uComponents: Multi-Node Tree Picker";
+                return "Multi-Node Tree Picker";
             }
         }
 

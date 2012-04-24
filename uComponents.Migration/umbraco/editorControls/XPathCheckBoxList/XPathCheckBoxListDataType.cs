@@ -54,7 +54,7 @@ namespace umbraco.editorControls.XPathCheckBoxList
 		{
 			get
 			{
-				return "uComponents: XPath CheckBoxList";
+				return "XPath CheckBoxList";
 			}
 		}
 

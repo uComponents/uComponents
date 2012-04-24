@@ -59,7 +59,7 @@ namespace umbraco.editorControls.MultipleTextstring
 		{
 			get
 			{
-				return "uComponents: Multiple Textstring";
+				return "Multiple Textstring";
 			}
 		}
 
