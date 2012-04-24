@@ -3,11 +3,10 @@ using System.IO;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using ClientDependency.Core;
-using uComponents.Core;
 using umbraco.controls.Tree;
 using umbraco.IO;
 
-namespace uComponents.DataTypes.Shared.Tree
+namespace umbraco.controls.TreePicker
 {
 	/// <summary>
 	/// A custom tree control that uses a custom web service to return the initial node, this is required
@@ -39,7 +38,7 @@ namespace uComponents.DataTypes.Shared.Tree
 		/// </summary>
 		static CustomTreeControl()
 		{
-			var servicePath = Path.Combine(Settings.BaseDir.FullName, "MultiNodePicker");
+			var servicePath = Path.Combine(SystemDirectories.Umbraco, "plugins", "MultiNodePicker");
 
 			if (!Directory.Exists(servicePath))
 			{
@@ -146,7 +145,7 @@ jQuery(document).ready(function() {
         nodeKey : nodeKey,
         treeMode: """ + Mode.ToString().ToLower() + @""",
         dataUrl: """ + IOHelper.ResolveUrl(SystemDirectories.Umbraco) + @"/webservices/TreeDataService.ashx"",
-        serviceUrl: """ + IOHelper.ResolveUrl(Settings.BaseDirName) + @"/MultiNodePicker/CustomTreeService.asmx/GetInitAppTreeData""});
+        serviceUrl: """ + IOHelper.ResolveUrl(SystemDirectories.Umbraco) + @"/plugins/MultiNodePicker/CustomTreeService.asmx/GetInitAppTreeData""});
         
      //add event handler for ajax errors, this will refresh the whole application
     var mainTree = UmbClientMgr.mainTree();

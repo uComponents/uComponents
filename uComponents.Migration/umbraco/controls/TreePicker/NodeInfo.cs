@@ -1,4 +1,4 @@
-﻿namespace uComponents.DataTypes.Shared.Tree
+﻿namespace umbraco.controls.TreePicker
 {
 	/// <summary>
 	/// Simple data object to hold information about a node
