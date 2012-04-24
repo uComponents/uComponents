@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace uComponents
+namespace umbraco
 {
 	public static partial class uQuery
 	{

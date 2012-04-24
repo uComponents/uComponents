@@ -5,7 +5,7 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.propertytype;
 using umbraco.NodeFactory;
 
-namespace uComponents
+namespace umbraco
 {
 	/// <summary>
 	/// Static helper methods, previously this class was UmbracoHelper

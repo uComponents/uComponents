@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C87AEE87-3DF5-4156-9306-B0F21A5004B3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>uComponents.Migration</RootNamespace>
+    <AssemblyName>uComponents.Migration</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic">
+      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientDependency.Core">
+      <HintPath>..\Lib\Umbraco.4.7\ClientDependency.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="cms">
+      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+    </Reference>
+    <Reference Include="controls">
+      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="umbraco">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.DataLayer">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.DataLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.MacroEngines.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="umbraco\cms\businesslogic\datatype\AbstractJsonPrevalueEditor.cs" />
+    <Compile Include="umbraco\cms\businesslogic\datatype\AbstractOptions.cs" />
+    <Compile Include="umbraco\cms\businesslogic\datatype\AbstractPrevalueEditor.cs" />
+    <Compile Include="umbraco\cms\businesslogic\datatype\CsvToXmlData.cs" />
+    <Compile Include="umbraco\cms\businesslogic\datatype\XmlData.cs" />
+    <Compile Include="umbraco\controls\TreePicker\CustomTreeControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="umbraco\controls\TreePicker\CustomTreeService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="umbraco\controls\TreePicker\CustomTreeServiceResource.Designer.cs" />
+    <Compile Include="umbraco\controls\TreePicker\NodeInfo.cs" />
+    <Compile Include="umbraco\editorControls\DataTypeConstants.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\BaseTreeExtensions.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\FilteredContentTree.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\FilteredMediaTree.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\HttpCookieExtensions.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\MNTPResources.Designer.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\MNTP_DataEditor.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\MNTP_DataType.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\MNTP_PrevalueEditor.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\MultiNodeTreePickerExtensions.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\MultiNodeTreePickerModelBinder.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\NodeSelectionType.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\SelectedItemsTemplate.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\XmlTreeNodeExtensions.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\XPathExpressionType.cs" />
+    <Compile Include="umbraco\editorControls\MultiNodeTreePicker\XPathFilterType.cs" />
+    <Compile Include="umbraco\editorControls\MultipleTextstring\MultipleTextstringControl.cs" />
+    <Compile Include="umbraco\editorControls\MultipleTextstring\MultipleTextstringDataType.cs" />
+    <Compile Include="umbraco\editorControls\MultipleTextstring\MultipleTextstringModelBinder.cs" />
+    <Compile Include="umbraco\editorControls\MultipleTextstring\MultipleTextstringOptions.cs" />
+    <Compile Include="umbraco\editorControls\MultipleTextstring\MultipleTextstringPrevalueEditor.cs" />
+    <Compile Include="umbraco\editorControls\Slider\SliderControl.cs" />
+    <Compile Include="umbraco\editorControls\Slider\SliderDataType.cs" />
+    <Compile Include="umbraco\editorControls\Slider\SliderModelBinder.cs" />
+    <Compile Include="umbraco\editorControls\Slider\SliderOptions.cs" />
+    <Compile Include="umbraco\editorControls\Slider\SliderPrevalueEditor.cs" />
+    <Compile Include="umbraco\editorControls\XPathCheckBoxList\XPathCheckBoxListDataEditor.cs" />
+    <Compile Include="umbraco\editorControls\XPathCheckBoxList\XPathCheckBoxListDataType.cs" />
+    <Compile Include="umbraco\editorControls\XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
+    <Compile Include="umbraco\editorControls\XPathCheckBoxList\XPathCheckBoxListOptions.cs" />
+    <Compile Include="umbraco\editorControls\XPathCheckBoxList\XPathCheckBoxListPreValueEditor.cs" />
+    <Compile Include="umbraco\editorControls\XPathDropDownList\XPathDropDownListDataEditor.cs" />
+    <Compile Include="umbraco\editorControls\XPathDropDownList\XPathDropDownListDataType.cs" />
+    <Compile Include="umbraco\editorControls\XPathDropDownList\XPathDropDownListOptions.cs" />
+    <Compile Include="umbraco\editorControls\XPathDropDownList\XPathDropDownListPreValueEditor.cs" />
+    <Compile Include="umbraco\uQuery\ContentExtensions.cs" />
+    <Compile Include="umbraco\uQuery\ContentTypeExtensions.cs" />
+    <Compile Include="umbraco\uQuery\DocumentExtensions.cs" />
+    <Compile Include="umbraco\uQuery\MediaExtensions.cs" />
+    <Compile Include="umbraco\uQuery\MemberExtensions.cs" />
+    <Compile Include="umbraco\uQuery\NodeExtensions.cs" />
+    <Compile Include="umbraco\uQuery\PreValueExtensions.cs" />
+    <Compile Include="umbraco\uQuery\RelationTypeExtensions.cs" />
+    <Compile Include="umbraco\uQuery\UmbracoObjectTypeExtensions.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-DataTypes.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-Dictionary.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-Document.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-Helper-Xml.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-Helper.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-Media.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-Members.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-Nodes.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-PreValues.cs" />
+    <Compile Include="umbraco\uQuery\uQuery-UmbracoObjectType.cs" />
+    <Compile Include="umbraco\uQuery\uQuery.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="umbraco\controls\TreePicker\CustomTreeServiceResource.resx" />
+    <EmbeddedResource Include="umbraco\editorControls\MultiNodeTreePicker\MNTPResources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="umbraco\editorControls\MultiNodeTreePicker\MultiNodePickerScripts.js" />
+    <EmbeddedResource Include="umbraco\editorControls\MultiNodeTreePicker\MultiNodePickerStyles.css" />
+    <EmbeddedResource Include="umbraco\editorControls\MultipleTextstring\MultipleTextstring.css" />
+    <EmbeddedResource Include="umbraco\editorControls\MultipleTextstring\MultipleTextstring.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="umbraco\controls\TreePicker\CustomTreeService.asmx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

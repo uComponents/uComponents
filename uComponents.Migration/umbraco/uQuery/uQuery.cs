@@ -8,7 +8,7 @@ using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.DataLayer;
 
-namespace uComponents
+namespace umbraco
 {
 	/// <summary>
 	/// uQuery - static helper methods, previously this class was UmbracoHelper

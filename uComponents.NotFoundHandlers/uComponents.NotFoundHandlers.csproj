@@ -58,12 +58,6 @@
     <Compile Include="SearchFor301MovedPermanently.cs" />
     <Compile Include="SearchForPageNotFound.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\uQuery\uQuery.csproj">
-      <Project>{7624259D-D940-4113-BBF3-C73C4CD9CF94}</Project>
-      <Name>uQuery</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -2,7 +2,7 @@
 using System.Xml;
 using umbraco;
 
-namespace uComponents
+namespace umbraco
 {
 	public static partial class uQuery
 	{

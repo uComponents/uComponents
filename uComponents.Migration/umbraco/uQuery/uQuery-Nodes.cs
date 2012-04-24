@@ -5,7 +5,7 @@ using System.Xml.XPath;
 using umbraco;
 using umbraco.NodeFactory;
 
-namespace uComponents
+namespace umbraco
 {
 	/// <summary>
 	/// uQuery sub-class for Nodes

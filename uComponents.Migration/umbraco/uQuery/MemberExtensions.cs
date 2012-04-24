@@ -1,7 +1,7 @@
 ﻿#pragma warning disable 0618
 using umbraco.cms.businesslogic.member;
 
-namespace uComponents
+namespace umbraco
 {
 	/// <summary>
 	/// uQuery Member extensions.

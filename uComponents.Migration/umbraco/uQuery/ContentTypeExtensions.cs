@@ -3,7 +3,7 @@ using System.Linq;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.propertytype;
 
-namespace uComponents
+namespace umbraco
 {
 	/// <summary>
 	/// uQuery extensions for the ContentType object.

@@ -158,21 +158,6 @@
     <Compile Include="JsonDropdown\JD_DataType.cs" />
     <Compile Include="JsonDropdown\JD_Options.cs" />
     <Compile Include="JsonDropdown\JD_PrevalueEditor.cs" />
-    <Compile Include="MultiNodeTreePicker\BaseTreeExtensions.cs" />
-    <Compile Include="MultiNodeTreePicker\FilteredContentTree.cs" />
-    <Compile Include="MultiNodeTreePicker\FilteredMediaTree.cs" />
-    <Compile Include="MultiNodeTreePicker\HttpCookieExtensions.cs" />
-    <Compile Include="MultiNodeTreePicker\MNTPResources.Designer.cs" />
-    <Compile Include="MultiNodeTreePicker\MNTP_DataEditor.cs" />
-    <Compile Include="MultiNodeTreePicker\MNTP_DataType.cs" />
-    <Compile Include="MultiNodeTreePicker\MNTP_PrevalueEditor.cs" />
-    <Compile Include="MultiNodeTreePicker\MultiNodeTreePickerExtensions.cs" />
-    <Compile Include="MultiNodeTreePicker\MultiNodeTreePickerModelBinder.cs" />
-    <Compile Include="MultiNodeTreePicker\NodeSelectionType.cs" />
-    <Compile Include="MultiNodeTreePicker\SelectedItemsTemplate.cs" />
-    <Compile Include="MultiNodeTreePicker\XmlTreeNodeExtensions.cs" />
-    <Compile Include="MultiNodeTreePicker\XPathExpressionType.cs" />
-    <Compile Include="MultiNodeTreePicker\XPathFilterType.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsDataEditor.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsDataType.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsEventHandler.cs" />
@@ -181,11 +166,6 @@
     <Compile Include="MultipleDates\MD_DataEditor.cs" />
     <Compile Include="MultipleDates\MD_DataType.cs" />
     <Compile Include="MultipleDates\MD_ModelBinder.cs" />
-    <Compile Include="MultipleTextstring\MultipleTextstringControl.cs" />
-    <Compile Include="MultipleTextstring\MultipleTextstringDataType.cs" />
-    <Compile Include="MultipleTextstring\MultipleTextstringModelBinder.cs" />
-    <Compile Include="MultipleTextstring\MultipleTextstringOptions.cs" />
-    <Compile Include="MultipleTextstring\MultipleTextstringPrevalueEditor.cs" />
     <Compile Include="MultiUrlPicker\Dto\MultiUrlPickerSettings.cs" />
     <Compile Include="MultiUrlPicker\Dto\MultiUrlPickerState.cs" />
     <Compile Include="MultiUrlPicker\MultiUrlPickerDataEditor.cs" />
@@ -213,8 +193,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandler.cs" />
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs" />
-    <Compile Include="Shared\Data\CsvToXmlData.cs" />
-    <Compile Include="Shared\Data\XmlData.cs" />
     <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
     <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
     <Compile Include="Shared\Extensions\PrevalueEditorExtensions.cs" />
@@ -226,14 +204,6 @@
     <Compile Include="Shared\PrevalueEditors\KeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoDBOptionsKeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoOptionsPrevalueEditor.cs" />
-    <Compile Include="Shared\Tree\CustomTreeControl.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Shared\Tree\CustomTreeService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Shared\Tree\CustomTreeServiceResource.Designer.cs" />
-    <Compile Include="Shared\Tree\NodeInfo.cs" />
     <Compile Include="Similarity\MoreUmbracoDocsLikeThis.cs" />
     <Compile Include="Similarity\Net\MoreLikeThis.cs" />
     <Compile Include="Similarity\Net\SimilarityQueries.cs" />
@@ -243,11 +213,6 @@
     <Compile Include="Similarity\SimilarityModelBinder.cs" />
     <Compile Include="Similarity\SimilarityPreValueEditor.cs" />
     <Compile Include="Similarity\SimilarityResources.Designer.cs" />
-    <Compile Include="Slider\SliderControl.cs" />
-    <Compile Include="Slider\SliderDataType.cs" />
-    <Compile Include="Slider\SliderModelBinder.cs" />
-    <Compile Include="Slider\SliderOptions.cs" />
-    <Compile Include="Slider\SliderPrevalueEditor.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListDataEditor.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListDataType.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListOptions.cs" />
@@ -297,15 +262,6 @@
     <Compile Include="UserPicker\UserPickerDataType.cs" />
     <Compile Include="UserPicker\UserPickerOptions.cs" />
     <Compile Include="UserPicker\UserPickerPrevalueEditor.cs" />
-    <Compile Include="XPathCheckBoxList\XPathCheckBoxListDataEditor.cs" />
-    <Compile Include="XPathCheckBoxList\XPathCheckBoxListDataType.cs" />
-    <Compile Include="XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
-    <Compile Include="XPathCheckBoxList\XPathCheckBoxListOptions.cs" />
-    <Compile Include="XPathCheckBoxList\XPathCheckBoxListPreValueEditor.cs" />
-    <Compile Include="XPathDropDownList\XPathDropDownListDataEditor.cs" />
-    <Compile Include="XPathDropDownList\XPathDropDownListDataType.cs" />
-    <Compile Include="XPathDropDownList\XPathDropDownListOptions.cs" />
-    <Compile Include="XPathDropDownList\XPathDropDownListPreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoComplete\scripts\jquery.autocomplete.min.js" />
@@ -327,12 +283,8 @@
     <EmbeddedResource Include="IncrementalTextBox\Scripts\jquery.alphanumeric.js" />
     <EmbeddedResource Include="IncrementalTextBox\Scripts\jquery.increment.js" />
     <EmbeddedResource Include="IncrementalTextBox\Styles\IncrementalTextBox.css" />
-    <EmbeddedResource Include="MultiNodeTreePicker\MultiNodePickerScripts.js" />
-    <EmbeddedResource Include="MultiNodeTreePicker\MultiNodePickerStyles.css" />
     <EmbeddedResource Include="MultipleDates\css\MultipleDates.css" />
     <EmbeddedResource Include="MultipleDates\scripts\main.js" />
-    <EmbeddedResource Include="MultipleTextstring\MultipleTextstring.css" />
-    <EmbeddedResource Include="MultipleTextstring\MultipleTextstring.js" />
     <EmbeddedResource Include="MultiUrlPicker\MultiUrlPickerScripts.js" />
     <EmbeddedResource Include="MultiUrlPicker\MultiUrlPickerStyles.css" />
     <EmbeddedResource Include="RelationLinks\RelationLinks.js" />
@@ -342,7 +294,6 @@
     <EmbeddedResource Include="Shared\Resources\Images\throbber.gif" />
     <EmbeddedResource Include="Shared\Resources\Scripts\jquery.tooltip.min.js" />
     <EmbeddedResource Include="Shared\Resources\Styles\PrevalueEditor.css" />
-    <EmbeddedResource Include="Shared\Tree\CustomTreeService.asmx" />
     <EmbeddedResource Include="Shared\Resources\Scripts\jquery.form.js" />
     <EmbeddedResource Include="Shared\Resources\Scripts\json2.js" />
     <Content Include="Similarity\Net\LICENSE.txt" />
@@ -379,11 +330,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DataTypeGrid\WebServices\DtgWebServices.resx" />
-    <EmbeddedResource Include="MultiNodeTreePicker\MNTPResources.resx" />
     <EmbeddedResource Include="Shared\AjaxUpload\AjaxUploadHandlerResource.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Shared\Tree\CustomTreeServiceResource.resx" />
     <EmbeddedResource Include="Similarity\SimilarityResources.resx" />
     <EmbeddedResource Include="UrlPicker\Services\UrlPickerServiceResource.resx" />
   </ItemGroup>
@@ -391,10 +340,6 @@
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\uQuery\uQuery.csproj">
-      <Project>{7624259D-D940-4113-BBF3-C73C4CD9CF94}</Project>
-      <Name>uQuery</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml;
 using umbraco.cms.businesslogic.media;
 
-namespace uComponents
+namespace umbraco
 {
 	/// <summary>
 	/// Extension methods for umbraco.cms.businesslogic.media.Media

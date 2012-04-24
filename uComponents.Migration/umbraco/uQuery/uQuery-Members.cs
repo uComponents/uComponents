@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using umbraco.cms.businesslogic.member;
 
-namespace uComponents
+namespace umbraco
 {
 	public static partial class uQuery
 	{
