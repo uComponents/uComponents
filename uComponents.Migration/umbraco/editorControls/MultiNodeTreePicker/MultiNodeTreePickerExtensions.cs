@@ -1,0 +1,46 @@
+﻿using System.Web.UI;
+using ClientDependency.Core;
+// using uComponents.Core;
+// using uComponents.DataTypes.Shared.Extensions;
+
+[assembly: WebResource("uComponents.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", "application/x-javascript")]
+[assembly: WebResource("uComponents.DataTypes.MultiNodeTreePicker.MultiNodePickerStyles.css", "text/css", PerformSubstitution = true)]
+
+namespace umbraco.editorControls.MultiNodeTreePicker
+{
+	/// <summary>
+	/// Extension methods for this namespace
+	/// </summary>
+	public static class MultiNodeTreePickerExtensions
+	{
+		/// <summary>
+		/// Adds the JS/CSS required for the MultiNodeTreePicker
+		/// </summary>
+		/// <param name="ctl"></param>
+		public static void AddAllMNTPClientDependencies(this Control ctl)
+		{
+			//get the urls for the embedded resources
+			AddCssMNTPClientDependencies(ctl);
+			AddJsMNTPClientDependencies(ctl);
+		}
+
+		/// <summary>
+		/// Adds the CSS required for the MultiNodeTreePicker
+		/// </summary>
+		/// <param name="ctl"></param>
+		public static void AddCssMNTPClientDependencies(this Control ctl)
+		{
+			ctl.AddResourceToClientDependency("uComponents.DataTypes.MultiNodeTreePicker.MultiNodePickerStyles.css", ClientDependencyType.Css);
+		}
+
+		/// <summary>
+		/// Adds the JS required for the MultiNodeTreePicker
+		/// </summary>
+		/// <param name="ctl"></param>
+		public static void AddJsMNTPClientDependencies(this Control ctl)
+		{
+			ctl.AddResourceToClientDependency("uComponents.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", ClientDependencyType.Javascript);
+			ctl.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
+		}
+	}
+}
