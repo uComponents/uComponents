@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
-using ClientDependency.Core;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
+using umbraco.cms.businesslogic.datatype;
 using umbraco.presentation;
 
 namespace uComponents.UI
