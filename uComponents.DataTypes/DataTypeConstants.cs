@@ -76,11 +76,6 @@
 		public const string JsonDropdownId = "66F73B88-32B6-4A71-87E2-59DEC023BCDA";
 
 		/// <summary>
-		/// Guid for the MultiNodeTreePicker data-type.
-		/// </summary>
-		public const string MultiNodeTreePickerId = "C2D6894B-E788-4425-BCF2-308568E3D38B";
-
-		/// <summary>
 		/// Guid for the MultiPickerRelations data-type.
 		/// </summary>
 		public const string MultiPickerRelationsId = "16E15241-BFD2-4289-A82B-44EFFA0245C0";
@@ -89,11 +84,6 @@
 		/// Guid for the MultipleDates data-type.
 		/// </summary>
 		public const string MultipleDatesId = "F88229E1-7928-4BED-AA8D-8FC2CA7FDCB5";
-
-		/// <summary>
-		/// Guid for the MultipleTextstring data-type.
-		/// </summary>
-		public const string MultipleTextstringId = "BCE5E3EF-F15A-4484-8E56-38174FEFD579";
 
 		/// <summary>
 		/// Guid for the MultiUrlPicker data-type.
@@ -120,10 +110,10 @@
 		/// </summary>
 		public const string RelatedLinksWithMediaId = "C9525F23-7B7A-4DAB-BAEB-08F957BDDD50";
 
-        /// <summary>
-        /// Guid for the RelationLinks data-type
-        /// </summary>
-        public const string RelationLinks = "710406AB-9110-49E0-ACCE-6BF88418FD1B";
+		/// <summary>
+		/// Guid for the RelationLinks data-type
+		/// </summary>
+		public const string RelationLinks = "710406AB-9110-49E0-ACCE-6BF88418FD1B";
 
 		/// <summary>
 		/// Guid for the RenderMacro data-type.
@@ -136,11 +126,6 @@
 		public const string SimilarityId = "39CF17DB-02E5-4dc5-B6EA-718640328492";
 
 		/// <summary>
-		/// Guid for the Slider data-type.
-		/// </summary>
-		public const string SliderId = "B5BD6E2C-464B-406B-BCCE-A132E7D76981";
-
-		/// <summary>
 		/// Guid for the SqlDropDownList data-type.
 		/// </summary>
 		public const string SqlDropDownListId = "1FAE62CB-919E-4CBC-BC26-641972EC7AE5";
@@ -150,10 +135,10 @@
 		/// </summary>
 		public const string StyledTextBoxId = "551A84BF-1478-4942-90A8-8430E231010F";
 
-        /// <summary>
-        /// Guid for the SubTabs data-type.
-        /// </summary>
-        public const string SubTabs = "2C787731-CD81-48CD-A94F-4930185BDB58";
+		/// <summary>
+		/// Guid for the SubTabs data-type.
+		/// </summary>
+		public const string SubTabs = "2C787731-CD81-48CD-A94F-4930185BDB58";
 
 		/// <summary>
 		/// Guid for the TextImage data-type.
@@ -184,15 +169,5 @@
 		/// Guid for the UserPicker data-type.
 		/// </summary>
 		public const string UserPickerId = "DEC7A504-ABD1-4F35-A136-58B89DCF174C";
-
-		/// <summary>
-		/// Guid for the XPathCheckBoxList data-type.
-		/// </summary>
-		public const string XPathCheckBoxListId = "D2D46927-F4F8-4B1B-ADD7-661CC09A0539";
-
-		/// <summary>
-		/// Guid for the XPathDropDownList data-type.
-		/// </summary>
-		public const string XPathDropDownListId = "57A62843-C488-4C29-8125-52F51873613E";
 	}
 }
