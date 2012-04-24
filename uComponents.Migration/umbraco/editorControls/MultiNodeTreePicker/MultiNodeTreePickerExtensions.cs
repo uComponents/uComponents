@@ -1,10 +1,9 @@
 ﻿using System.Web.UI;
-using ClientDependency.Core;
-// using uComponents.Core;
-// using uComponents.DataTypes.Shared.Extensions;
+using umbraco.cms.businesslogic.datatype;
 
-[assembly: WebResource("uComponents.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", "application/x-javascript")]
-[assembly: WebResource("uComponents.DataTypes.MultiNodeTreePicker.MultiNodePickerStyles.css", "text/css", PerformSubstitution = true)]
+[assembly: WebResource("umbraco.editorControls.MultiNodeTreePicker.jquery.tooltip.min.js", "application/x-javascript")]
+[assembly: WebResource("umbraco.editorControls.MultiNodeTreePicker.MultiNodePickerScripts.js", "application/x-javascript")]
+[assembly: WebResource("umbraco.editorControls.MultiNodeTreePicker.MultiNodePickerStyles.css", "text/css", PerformSubstitution = true)]
 
 namespace umbraco.editorControls.MultiNodeTreePicker
 {
@@ -30,7 +29,7 @@ namespace umbraco.editorControls.MultiNodeTreePicker
 		/// <param name="ctl"></param>
 		public static void AddCssMNTPClientDependencies(this Control ctl)
 		{
-			ctl.AddResourceToClientDependency("uComponents.DataTypes.MultiNodeTreePicker.MultiNodePickerStyles.css", ClientDependencyType.Css);
+			ctl.AddResourceToClientDependency("umbraco.editorControls.MultiNodeTreePicker.MultiNodePickerStyles.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>
@@ -39,8 +38,8 @@ namespace umbraco.editorControls.MultiNodeTreePicker
 		/// <param name="ctl"></param>
 		public static void AddJsMNTPClientDependencies(this Control ctl)
 		{
-			ctl.AddResourceToClientDependency("uComponents.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", ClientDependencyType.Javascript);
-			ctl.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
+			ctl.AddResourceToClientDependency("umbraco.editorControls.MultiNodeTreePicker.MultiNodePickerScripts.js", ClientDependencyType.Javascript);
+			ctl.AddResourceToClientDependency("umbraco.editorControls.MultiNodeTreePicker.jquery.tooltip.min.js", ClientDependencyType.Javascript);
 		}
 	}
 }

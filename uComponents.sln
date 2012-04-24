@@ -42,18 +42,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.XsltExtensions", "uComponents.XsltExtensions\uComponents.XsltExtensions.csproj", "{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.DataTypes", "uComponents.DataTypes\uComponents.DataTypes.csproj", "{E83250BD-27B0-4B39-90C8-F07538058938}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.UI", "uComponents.UI\uComponents.UI.csproj", "{5059DAD4-C57E-4661-B15F-5BA441B1300E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.NotFoundHandlers", "uComponents.NotFoundHandlers\uComponents.NotFoundHandlers.csproj", "{59C5A72A-4BAC-4BBB-AC52-D62E5A092597}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Controls", "uComponents.Controls\uComponents.Controls.csproj", "{AD0FB53D-8A7B-423C-B591-85BFCBD2E15E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Installer", "uComponents.Installer\uComponents.Installer.csproj", "{EC252C74-2E40-467E-94DD-239F88B006E6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Legacy", "uComponents.Legacy\uComponents.Legacy.csproj", "{62902194-247B-4DCF-AA4E-062204D8A576}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Migration", "uComponents.Migration\uComponents.Migration.csproj", "{C87AEE87-3DF5-4156-9306-B0F21A5004B3}"
 EndProject
