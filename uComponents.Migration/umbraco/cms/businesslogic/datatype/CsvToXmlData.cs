@@ -1,8 +1,8 @@
 ﻿using System.Xml;
-using uComponents.Core;
+using umbraco;
 using umbraco.cms.businesslogic.datatype;
 
-namespace uComponents.DataTypes.Shared.Data
+namespace umbraco.cms.businesslogic.datatype
 {
 	/// <summary>
 	/// Overrides the <see cref="umbraco.cms.businesslogic.datatype.DefaultData"/> object to return the value as XML.
@@ -51,7 +51,7 @@ namespace uComponents.DataTypes.Shared.Data
 		/// <param name="rootName">Name of the root.</param>
 		/// <param name="elementName">Name of the element.</param>
 		public CsvToXmlData(BaseDataType dataType, string rootName, string elementName)
-			: this(dataType, rootName, elementName, new[] { Constants.Common.COMMA.ToString() })
+			: this(dataType, rootName, elementName, new[] { "," })
 		{
 		}
 

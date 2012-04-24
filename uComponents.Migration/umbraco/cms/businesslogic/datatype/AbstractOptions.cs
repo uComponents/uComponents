@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace uComponents.DataTypes.Shared.PrevalueEditors
+namespace umbraco.cms.businesslogic.datatype
 {
 	/// <summary>
 	/// Abstract class for the Prevalue Editor options.

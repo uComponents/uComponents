@@ -2,11 +2,9 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClientDependency.Core;
-using uComponents.Core;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco.interfaces;
 
-namespace uComponents.DataTypes.Shared.PrevalueEditors
+namespace umbraco.cms.businesslogic.datatype
 {
 	/// <summary>
 	/// Abstract class for the PreValue Editor.
@@ -59,7 +57,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
 		public override void RenderBeginTag(HtmlTextWriter writer)
 		{
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "uComponents");
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
 			base.RenderBeginTag(writer);
