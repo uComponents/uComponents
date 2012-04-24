@@ -2,7 +2,7 @@
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-namespace uComponents.DataTypes.Shared.Extensions
+namespace umbraco.cms.businesslogic.datatype
 {
 	/// <summary>
 	/// Extension methods for the Prevalue Editor

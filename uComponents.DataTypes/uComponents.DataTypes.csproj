@@ -195,8 +195,6 @@
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs" />
     <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
     <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
-    <Compile Include="Shared\Extensions\PrevalueEditorExtensions.cs" />
-    <Compile Include="Shared\Extensions\ResourceExtensions.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractJsonPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractOptions.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />

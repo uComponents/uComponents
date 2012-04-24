@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Web.UI;
-using ClientDependency.Core;
 using umbraco;
 
-namespace uComponents.DataTypes.Shared.Extensions
+namespace umbraco.cms.businesslogic.datatype
 {
 	/// <summary>
 	/// Extension methods for embedded resources
@@ -16,7 +15,7 @@ namespace uComponents.DataTypes.Shared.Extensions
 		/// <param name="ctl">The control.</param>
 		/// <param name="resourceName">Name of the resource.</param>
 		/// <param name="type">The type.</param>
-		public static void AddResourceToClientDependency(this Control ctl, string resourceName, umbraco.cms.businesslogic.datatype.ClientDependencyType type)
+		public static void AddResourceToClientDependency(this Control ctl, string resourceName, ClientDependency.Core.ClientDependencyType type)
 		{
 			ctl.AddResourceToClientDependency(resourceName, (ClientDependencyType)type);
 		}

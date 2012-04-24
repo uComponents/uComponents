@@ -75,6 +75,8 @@
     <Compile Include="umbraco\cms\businesslogic\datatype\AbstractOptions.cs" />
     <Compile Include="umbraco\cms\businesslogic\datatype\AbstractPrevalueEditor.cs" />
     <Compile Include="umbraco\cms\businesslogic\datatype\CsvToXmlData.cs" />
+    <Compile Include="umbraco\cms\businesslogic\datatype\PrevalueEditorExtensions.cs" />
+    <Compile Include="umbraco\cms\businesslogic\datatype\ResourceExtensions.cs" />
     <Compile Include="umbraco\cms\businesslogic\datatype\XmlData.cs" />
     <Compile Include="umbraco\controls\TreePicker\CustomTreeControl.cs">
       <SubType>ASPXCodeBehind</SubType>
