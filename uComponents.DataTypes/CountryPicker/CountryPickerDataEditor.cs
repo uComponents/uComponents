@@ -7,7 +7,6 @@ using System.Web.UI.WebControls;
 using uComponents.Core;
 
 namespace uComponents.DataTypes.CountryPicker
-using uComponents.Core.Shared;
 {
 	/// <summary>
 	/// The Data Editor for the Country Picker data-type.
