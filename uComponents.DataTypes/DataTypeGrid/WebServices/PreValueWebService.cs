@@ -1,0 +1,33 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+// 10.04.2011 - Created [Ove Andersen]
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System.Web.Script.Services;
+using System.Web.Services;
+using umbraco;
+
+namespace uComponents.DataTypes.DataTypeGrid.WebServices
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    [ScriptService]
+    [WebService]
+    public class PreValueWebService : WebService
+    {
+        /// <summary>
+        /// Reorders the prevalue.
+        /// </summary>
+        /// <param name="preValueId">The prevalue id.</param>
+        /// <param name="sortOrder">The sort order.</param>
+        /// <returns></returns>
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public bool ReorderPreValue(string preValueId, string sortOrder)
+        {
+            return uQuery.ReorderPreValue(int.Parse(preValueId), int.Parse(sortOrder));
+        }
+    }
+}

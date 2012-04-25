@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{62902194-247B-4DCF-AA4E-062204D8A576}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>uComponents.Legacy</RootNamespace>
+    <AssemblyName>uComponents.Legacy</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic">
+      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientDependency.Core, Version=1.0.2.37148, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Lib\Umbraco.4.7\ClientDependency.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="cms">
+      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+    </Reference>
+    <Reference Include="controls">
+      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="umbraco">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.editorControls">
+      <HintPath>..\Lib\Umbraco.4.7\umbraco.editorControls.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="DataTypes\ImageDropdown\ID_DataEditor.cs" />
+    <Compile Include="DataTypes\ImageDropdown\ID_DataType.cs" />
+    <Compile Include="DataTypes\RadiobuttonListWithImages\RLWI_DataEditor.cs" />
+    <Compile Include="DataTypes\RadiobuttonListWithImages\RLWI_DataType.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\PagePickerwMediaDataExtractor.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaData.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaDataEditor.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaDataType.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaPrevalueEditor.cs" />
+    <Compile Include="DataTypes\Shared\PrevalueEditors\MultiImageUpload_PrevalueEditor.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxDataEditor.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxDataType.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxPrevalueEditor.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyDataEditor.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyDataType.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyPreValueEditor.cs" />
+    <Compile Include="NotFoundHandlers\SearchFor404ContentHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
+      <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
+      <Name>uComponents.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
+      <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
+      <Name>uComponents.DataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.Migration\uComponents.Migration.csproj">
+      <Project>{C87AEE87-3DF5-4156-9306-B0F21A5004B3}</Project>
+      <Name>uComponents.Migration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Images\dd_arrow.gif" />
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Scripts\jquery.dd.js" />
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Styles\ImageDropdown.css" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

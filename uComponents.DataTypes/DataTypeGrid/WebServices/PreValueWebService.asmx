@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="C#" Class="uComponents.DataTypes.DataTypeGrid.WebServices.PreValueWebService" %>
