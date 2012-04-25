@@ -126,7 +126,7 @@
                 val += $(this).attr("rel") + ",";
             });
             if (val != "") val = val.substr(0, val.length - 1);
-            hiddenField.val(val);
+            hiddenField.val(val).change();
         };
 
         function doHighlight(node) {
