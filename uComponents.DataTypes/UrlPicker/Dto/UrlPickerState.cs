@@ -75,13 +75,15 @@ namespace uComponents.DataTypes.UrlPicker.Dto
             //}
 
             // The URL is incorrect (failed Ajax call for content node)
-            if (Mode == UrlPickerMode.Content)
-            {
-                if (!NodeId.HasValue || Url != umbraco.library.NiceUrl(NodeId.GetValueOrDefault()))
-                {
-                    return false;
-                }
-            }
+            // EDIT: I think this was causing problems for the MultiURL picker...whatever, not
+            // really required anyway
+            //if (Mode == UrlPickerMode.Content)
+            //{
+            //    if (!NodeId.HasValue || Url != umbraco.library.NiceUrl(NodeId.GetValueOrDefault()))
+            //    {
+            //        return false;
+            //    }
+            //}
 
             return true;
         }

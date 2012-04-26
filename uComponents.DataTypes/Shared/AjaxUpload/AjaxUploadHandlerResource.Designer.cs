@@ -39,7 +39,7 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.Core.Shared.AjaxUpload.AjaxUploadHandlerResource", typeof(AjaxUploadHandlerResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.DataTypes.Shared.AjaxUpload.AjaxUploadHandlerResource", typeof(AjaxUploadHandlerResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

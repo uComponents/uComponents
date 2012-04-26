@@ -103,7 +103,9 @@ namespace uComponents.DataTypes.MultiUrlPicker
         /// <summary>
         /// Initializes a new instance of the <see cref="UrlPickerDataType"/> class.
         /// </summary>
+        /// 
         public MultiUrlPickerDataType()
+            : base()
         {
             RenderControl = m_DataEditor;
 
@@ -148,7 +150,7 @@ namespace uComponents.DataTypes.MultiUrlPicker
         void DataEditorControl_OnSave(EventArgs e)
         {
             var state = m_DataEditor.State;
-
+            
             // Check the state validates
             this.Data.Value = (state == null || !Settings.ValidateState(state))
                 ? null 
