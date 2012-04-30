@@ -27,6 +27,11 @@ namespace uComponents.Core.DataTypes.PropertyPicker
 		private DropDownList contentTypesDropDownList = new DropDownList() { ID = "contentTypesDropDownList" };
 
 		/// <summary>
+		/// CheckBox for whether to include the default attributes for a content type.
+		/// </summary>
+		private CheckBox includeDefaultAttributesCheckBox = new CheckBox() { ID = "includeDefaultAttributesCheckBox" };
+
+		/// <summary>
 		/// Data object used to define the configuration status of this Prevalue Editor.
 		/// </summary>
 		private PropertyPickerOptions options = null;
@@ -73,6 +78,7 @@ namespace uComponents.Core.DataTypes.PropertyPicker
 			{
 				this.Options.ObjectTypeId = this.objectTypesDropDownList.SelectedValue;
 				this.Options.ContentTypeId = this.contentTypesDropDownList.SelectedValue;
+				this.Options.IncludeDefaultAttributes = this.includeDefaultAttributesCheckBox.Checked;
 
 				this.SaveAsJson(this.Options);
 			}
@@ -92,7 +98,7 @@ namespace uComponents.Core.DataTypes.PropertyPicker
 			this.objectTypesDropDownList.Items.Add(new ListItem(uQuery.UmbracoObjectType.MediaType.GetFriendlyName(), uQuery.UmbracoObjectType.MediaType.GetGuid().ToString()));
 			this.objectTypesDropDownList.Items.Add(new ListItem(uQuery.UmbracoObjectType.MemberType.GetFriendlyName(), uQuery.UmbracoObjectType.MemberType.GetGuid().ToString()));
 
-			this.Controls.AddPrevalueControls(this.objectTypesDropDownList, this.contentTypesDropDownList);
+			this.Controls.AddPrevalueControls(this.objectTypesDropDownList, this.contentTypesDropDownList, this.includeDefaultAttributesCheckBox);
 		}
 
 		/// <summary>
@@ -109,6 +115,7 @@ namespace uComponents.Core.DataTypes.PropertyPicker
 				this.objectTypesDropDownList.SelectedValue = this.Options.ObjectTypeId;
 				this.SetSourceContentTypes();
 				this.contentTypesDropDownList.SelectedValue = this.Options.ContentTypeId.ToString();
+				this.includeDefaultAttributesCheckBox.Checked = this.Options.IncludeDefaultAttributes;
 			}
 		}
 
@@ -120,6 +127,7 @@ namespace uComponents.Core.DataTypes.PropertyPicker
 		{
 			writer.AddPrevalueRow("Object Type", this.objectTypesDropDownList);
 			writer.AddPrevalueRow("Content Type", this.contentTypesDropDownList);
+			writer.AddPrevalueRow("Include default attributes?", "This option includes all the default attribute properties for the given content type; e.g. @id, @nodeName, etc.", this.includeDefaultAttributesCheckBox);
 		}
 
 		/// <summary>

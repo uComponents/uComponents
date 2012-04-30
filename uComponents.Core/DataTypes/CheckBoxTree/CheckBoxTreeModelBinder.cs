@@ -1,4 +1,5 @@
-﻿using uComponents.Core.XsltExtensions;
+﻿using System.Linq;
+using uComponents.Core.XsltExtensions;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
 
@@ -22,7 +23,7 @@ namespace uComponents.Core.DataTypes.CheckBoxTree
 			var nodeIds = Xml.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
 			var library = new RazorLibraryCore(null);
 
-			instance = library.NodesById(nodeIds) as DynamicNodeList;
+			instance = library.NodesById(nodeIds.ToList()) as DynamicNodeList;
 
 			return true;
 		}

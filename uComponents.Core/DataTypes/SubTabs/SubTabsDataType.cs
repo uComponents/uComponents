@@ -2,14 +2,14 @@
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
-namespace uComponents.Core.DataTypes.TabsToDropDownPanel
+namespace uComponents.Core.DataTypes.SubTabs
 {
     /// <summary>
     ///
     /// </summary>
-    public class TabsToDropDownDataType : BaseDataType, IDataType
+    public class SubTabsDataType : BaseDataType, IDataType
     {
-        private TabsToDropDownPreValueEditor preValueEditor;
+        private SubTabsPreValueEditor preValueEditor;
 
         private IDataEditor dataEditor;
 
@@ -19,13 +19,13 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         /// Gets the name of the data type.
         /// </summary>
         /// <value>The name of the data type.</value>
-        public override string DataTypeName { get { return "uComponents: Tabs to DropDown"; } }
+        public override string DataTypeName { get { return "uComponents: Sub Tabs"; } }
 
         /// <summary>
         /// Gets the id.
         /// </summary>
         /// <value>The id.</value>
-        public override Guid Id { get { return new Guid(DataTypeConstants.TabsToDropDown); } }
+        public override Guid Id { get { return new Guid(DataTypeConstants.SubTabs); } }
 
         /// <summary>
         /// Lazy load the associated PreValueEditor instance,
@@ -37,7 +37,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             {
                 if (this.preValueEditor == null)
                 {
-                    this.preValueEditor = new TabsToDropDownPreValueEditor(this);
+                    this.preValueEditor = new SubTabsPreValueEditor(this);
                 }
                 return this.preValueEditor;
             }
@@ -53,7 +53,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             {
                 if (this.dataEditor == null)
                 {
-                    this.dataEditor = new TabsToDropDownDataEditor(this.Data, ((TabsToDropDownPreValueEditor)this.PrevalueEditor).Options);
+                    this.dataEditor = new SubTabsDataEditor(this.Data, ((SubTabsPreValueEditor)this.PrevalueEditor).Options);
                 }
                 return this.dataEditor;
             }

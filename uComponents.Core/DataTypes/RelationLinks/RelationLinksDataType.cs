@@ -4,7 +4,9 @@ using umbraco.interfaces;
 
 namespace uComponents.Core.DataTypes.RelationLinks
 {
-
+    /// <summary>
+    /// Related Links datatype (TODO: rename this....)
+    /// </summary>
     public class RelationLinksDataType : BaseDataType, IDataType
     {
         private RelationLinksPreValueEditor preValueEditor;

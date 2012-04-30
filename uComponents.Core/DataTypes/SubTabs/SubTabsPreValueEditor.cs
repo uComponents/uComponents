@@ -5,22 +5,26 @@ using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 
-namespace uComponents.Core.DataTypes.TabsToDropDownPanel
+namespace uComponents.Core.DataTypes.SubTabs
 {
     /// <summary>
     /// Control rendered in the cms when configuring the datatype.
     /// </summary>
-    public class TabsToDropDownPreValueEditor : AbstractJsonPrevalueEditor
+    public class SubTabsPreValueEditor : AbstractJsonPrevalueEditor
     {
         private CheckBoxList tabsCheckBoxList = new CheckBoxList();
 
-        private TabsToDropDownOptions options = null;
+        private DropDownList typeDropDownList = new DropDownList();
+
+        private CheckBox showLabelCheckBox = new CheckBox();
+
+        private SubTabsOptions options = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TabsToDropDownPreValueEditor"/> class.
+        /// Initializes a new instance of the <see cref="SubTabsPreValueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
-        public TabsToDropDownPreValueEditor(BaseDataType dataType)
+        public SubTabsPreValueEditor(BaseDataType dataType)
             : base(dataType, DBTypes.Ntext)
         {
         }
@@ -28,17 +32,17 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         /// <summary>
         /// Gets the options.
         /// </summary>
-        internal TabsToDropDownOptions Options
+        internal SubTabsOptions Options
         {
             get
             {
                 if (this.options == null)
                 {
-                    this.options = this.GetPreValueOptions<TabsToDropDownOptions>();
+                    this.options = this.GetPreValueOptions<SubTabsOptions>();
 
                     if (this.options == null)
                     {
-                        this.options = new TabsToDropDownOptions();
+                        this.options = new SubTabsOptions();
                     }
                 }
 
@@ -52,7 +56,7 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         protected override void CreateChildControls()
         {
             base.CreateChildControls();
-            
+
             this.tabsCheckBoxList.ID = "tabsCheckBoxList";
             this.tabsCheckBoxList.DataSource = uQuery.SqlHelper.ExecuteReader(@"
 
@@ -68,7 +72,16 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
             this.tabsCheckBoxList.RepeatColumns = 5;
             this.tabsCheckBoxList.RepeatDirection = RepeatDirection.Horizontal;
 
+            this.showLabelCheckBox.ID = "showLabelCheckBox";
+
+            this.typeDropDownList.ID = "typeDropDownList";
+            this.typeDropDownList.DataSource = Enum.GetNames(typeof(SubTabType));
+            this.typeDropDownList.DataBind();
+
+
             this.Controls.Add(this.tabsCheckBoxList);
+            this.Controls.Add(this.typeDropDownList);
+            this.Controls.Add(this.showLabelCheckBox);
         }
 
         /// <summary>
@@ -91,8 +104,10 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                         checkBoxListItem.Selected = true;
                     }
                 }
+                
+                this.typeDropDownList.SetSelectedValue(this.Options.SubTabType.ToString());
+                this.showLabelCheckBox.Checked = this.Options.ShowLabel;
             }
-
         }
 
         /// <summary>
@@ -112,6 +127,11 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
                     }
                 }
 
+                // get the sub tab type from the drop down
+                this.Options.SubTabType = (SubTabType)Enum.Parse(typeof(SubTabType), this.typeDropDownList.SelectedValue);
+
+                this.Options.ShowLabel = this.showLabelCheckBox.Checked;
+
                 this.SaveAsJson(this.Options);
             }
         }
@@ -123,6 +143,8 @@ namespace uComponents.Core.DataTypes.TabsToDropDownPanel
         protected override void RenderContents(HtmlTextWriter writer)
         {
             writer.AddPrevalueRow("Tabs", this.tabsCheckBoxList);
+            writer.AddPrevalueRow("Type", this.typeDropDownList);
+            writer.AddPrevalueRow("Show Label", this.showLabelCheckBox);
         }
     }
 }

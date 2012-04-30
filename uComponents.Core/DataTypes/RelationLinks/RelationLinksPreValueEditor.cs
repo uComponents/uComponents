@@ -4,18 +4,19 @@ using System.Web.UI.WebControls;
 using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.cms.businesslogic.relation;
+using System.Linq;
 
 namespace uComponents.Core.DataTypes.RelationLinks
 {
-
     public class RelationLinksPreValueEditor : AbstractJsonPrevalueEditor
     {
-
-        private DropDownList relationTypesDropDownList = new DropDownList();
+        /// <summary>
+        /// drop down list of all relation types
+        /// </summary>
+        private DropDownList relationTypeDropDownList = new DropDownList();
 
         private RelationLinksOptions options = null;
-
-
 
         internal RelationLinksOptions Options
         {
@@ -35,7 +36,6 @@ namespace uComponents.Core.DataTypes.RelationLinks
             }
         }
 
-
         public RelationLinksPreValueEditor(BaseDataType dataType)
             : base(dataType, DBTypes.Ntext)
         {
@@ -46,7 +46,14 @@ namespace uComponents.Core.DataTypes.RelationLinks
         {
             base.CreateChildControls();
 
+            this.relationTypeDropDownList.ID = "relationTypeDropDownList";
+            ///this.relationTypeDropDownList.AutoPostBack = true;
+            this.relationTypeDropDownList.DataSource = RelationType.GetAll().OrderBy(x => x.Name);
+            this.relationTypeDropDownList.DataTextField = "Name";
+            this.relationTypeDropDownList.DataValueField = "Id";
+            this.relationTypeDropDownList.DataBind();
 
+            this.Controls.Add(this.relationTypeDropDownList);
         }
 
 
@@ -54,17 +61,20 @@ namespace uComponents.Core.DataTypes.RelationLinks
         {
             base.OnLoad(e);
 
-            this.relationTypesDropDownList.ID = "relationTypesDropDownList";
-
-
-
-            this.Controls.Add(this.relationTypesDropDownList);
-
+            if (!this.Page.IsPostBack)
+            {
+                if (this.relationTypeDropDownList.Items.FindByValue(this.Options.RelationTypeId.ToString()) != null)
+                {
+                    this.relationTypeDropDownList.SelectedValue = this.Options.RelationTypeId.ToString();
+                }
+            }
         }
 
         public override void Save()
         {
             base.Save();
+
+            this.Options.RelationTypeId = int.Parse(this.relationTypeDropDownList.SelectedValue);
 
             this.SaveAsJson(this.Options);
         }
@@ -72,10 +82,8 @@ namespace uComponents.Core.DataTypes.RelationLinks
 
 
         protected override void RenderContents(HtmlTextWriter writer)
-        {
-            base.RenderContents(writer);
-
-            writer.AddPrevalueRow("Relation Type", this.relationTypesDropDownList);
+        {           
+            writer.AddPrevalueRow("Relation Type", this.relationTypeDropDownList);
         }
     }
 }
