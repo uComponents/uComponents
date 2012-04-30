@@ -284,10 +284,6 @@
     <EmbeddedResource Include="MultiUrlPicker\MultiUrlPickerStyles.css" />
     <EmbeddedResource Include="RelationLinks\RelationLinks.js" />
     <EmbeddedResource Include="Shared\AjaxUpload\AjaxUploadHandler.ashx.txt" />
-    <EmbeddedResource Include="Shared\Resources\Images\deleteIcon.gif" />
-    <EmbeddedResource Include="Shared\Resources\Images\information.png" />
-    <EmbeddedResource Include="Shared\Resources\Images\throbber.gif" />
-    <EmbeddedResource Include="Shared\Resources\Scripts\jquery.tooltip.min.js" />
     <EmbeddedResource Include="Shared\Resources\Styles\PrevalueEditor.css" />
     <EmbeddedResource Include="Shared\Resources\Scripts\jquery.form.js" />
     <EmbeddedResource Include="Shared\Resources\Scripts\json2.js" />
