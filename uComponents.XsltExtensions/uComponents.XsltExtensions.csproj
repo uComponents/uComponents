@@ -71,6 +71,9 @@
     <Compile Include="Cms-Helper.cs">
       <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cms-Users.cs">
+        <DependentUpon>Cms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cms.cs" />
     <Compile Include="Dates.cs" />
     <Compile Include="Email.cs" />

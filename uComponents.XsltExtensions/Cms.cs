@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.XPath;
-// using uComponents.Core.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
@@ -35,6 +34,7 @@ namespace uComponents.XsltExtensions
 				foreach (var language in languages)
 				{
 					var languageNode = language.ToXml(xd);
+
 					xd.DocumentElement.AppendChild(languageNode);
 				}
 
@@ -61,6 +61,7 @@ namespace uComponents.XsltExtensions
 				if (language != null)
 				{
 					var languageNode = language.ToXml(xd);
+
 					xd.AppendChild(languageNode);
 				}
 
@@ -87,6 +88,7 @@ namespace uComponents.XsltExtensions
 				if (language != null)
 				{
 					var languageNode = language.ToXml(xd);
+
 					xd.AppendChild(languageNode);
 				}
 
@@ -355,6 +357,7 @@ namespace uComponents.XsltExtensions
 				foreach (var macro in macros)
 				{
 					var macroNode = macro.ToXml(xd);
+
 					xd.DocumentElement.AppendChild(macroNode);
 				}
 
@@ -381,6 +384,7 @@ namespace uComponents.XsltExtensions
 				if (macro != null)
 				{
 					var macroNode = macro.ToXml(xd);
+
 					xd.AppendChild(macroNode);
 				}
 
@@ -408,6 +412,7 @@ namespace uComponents.XsltExtensions
 				foreach (var dataType in dataTypes)
 				{
 					var dataTypeNode = dataType.ToXml(xd);
+
 					xd.DocumentElement.AppendChild(dataTypeNode);
 				}
 
@@ -435,6 +440,7 @@ namespace uComponents.XsltExtensions
 				if (dataType != null)
 				{
 					var dataTypeNode = dataType.ToXml(xd);
+
 					xd.AppendChild(dataTypeNode);
 				}
 
@@ -462,6 +468,7 @@ namespace uComponents.XsltExtensions
 				if (dataType != null)
 				{
 					var dataTypeNode = dataType.ToXml(xd);
+
 					xd.AppendChild(dataTypeNode);
 				}
 

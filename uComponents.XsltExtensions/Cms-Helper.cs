@@ -4,6 +4,7 @@ using umbraco;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
+using umbraco.cms.businesslogic.propertytype;
 using umbraco.cms.businesslogic.template;
 using umbraco.cms.businesslogic.web;
 
@@ -62,7 +63,7 @@ namespace uComponents.XsltExtensions
 				{
 					var nodePropertyTypes = xmlHelper.addTextNode(xd, "propertyTypes", string.Empty);
 
-					foreach (var propertyType in propertyTypes)
+					foreach (PropertyType propertyType in propertyTypes)
 					{
 						var nodePropertyType = xmlHelper.addTextNode(xd, "propertyType", string.Empty);
 						nodePropertyType.AppendChild(xmlHelper.addCDataNode(xd, "description", propertyType.Description));
