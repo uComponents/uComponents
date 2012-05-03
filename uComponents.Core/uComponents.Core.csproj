@@ -635,7 +635,10 @@
   <ItemGroup>
     <Compile Include="XsltExtensions\Cms.cs" />
     <Compile Include="XsltExtensions\Cms-Helper.cs">
-      <DependentUpon>Cms.cs</DependentUpon>
+        <DependentUpon>Cms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XsltExtensions\Cms-Users.cs">
+        <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
     <Compile Include="XsltExtensions\Dates.cs" />
     <Compile Include="XsltExtensions\Email.cs" />
