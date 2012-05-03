@@ -29,6 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\uComponents.Core.XML</DocumentationFile>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\uComponents.Core.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Shared\Resources\Images\favicon.ico</ApplicationIcon>
@@ -590,10 +592,10 @@
   <ItemGroup>
     <Compile Include="XsltExtensions\Cms.cs" />
     <Compile Include="XsltExtensions\Cms-Helper.cs">
-        <DependentUpon>Cms.cs</DependentUpon>
+      <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
     <Compile Include="XsltExtensions\Cms-Users.cs">
-        <DependentUpon>Cms.cs</DependentUpon>
+      <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
     <Compile Include="XsltExtensions\Dates.cs" />
     <Compile Include="XsltExtensions\Email.cs" />
