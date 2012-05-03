@@ -20,6 +20,7 @@ namespace uComponents.Core.DataTypes.DropdownCheckList
 	/// <summary>
 	/// The DataEditor for the DropdownCheckList.
 	/// </summary>
+	[ValidationProperty("PickedValues")]
 	public class DDCList_DataEditor : CompositeControl
 	{
 		/// <summary>

@@ -23,8 +23,8 @@ using uComponents.Core.Shared;
 
 // Version information for an assembly consists of the following four values:
 // [Major].[Minor].[Build].[Revision]
-[assembly: AssemblyVersion("3.0.3.*")]
-//[assembly: AssemblyFileVersion("3.0.3.*")]
+[assembly: AssemblyVersion("3.1.0.*")]
+//[assembly: AssemblyFileVersion("3.1.0.*")]
 
 // tag prefix for custom controls
 [assembly: TagPrefix("uComponents.Core.Controls", Settings.APPNAME)]

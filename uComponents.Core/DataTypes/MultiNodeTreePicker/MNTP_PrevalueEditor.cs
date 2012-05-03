@@ -509,7 +509,7 @@ namespace uComponents.Core.DataTypes.MultiNodeTreePicker
             {
                 var desc = new HtmlGenericControl("div");
                 var descSpan = new HtmlGenericControl("span");
-                descSpan.InnerText = description;
+                descSpan.InnerHtml = description;
                 desc.Attributes.Add("class", "description");
                 desc.Controls.Add(descSpan);
                 div.Controls.Add(desc);

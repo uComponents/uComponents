@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
-using System.Xml.XPath;
-
-using uComponents.Core.Shared;
 using umbraco;
 using umbraco.cms.businesslogic;
-using umbraco.cms.businesslogic.datatype;
-using umbraco.cms.businesslogic.language;
-using umbraco.cms.businesslogic.macro;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
 using umbraco.cms.businesslogic.propertytype;
@@ -33,7 +25,7 @@ namespace uComponents.Core.XsltExtensions
 		/// <param name="includePropertyTypes">if set to <c>true</c> [include property types].</param>
 		internal static void AppendContentType(XmlDocument xd, string elementName, ContentType contentType, bool includeTabs, bool includePropertyTypes)
 		{
-			XmlNode nodeContentType = xmlHelper.addTextNode(xd, elementName, string.Empty);
+			var nodeContentType = xmlHelper.addTextNode(xd, elementName, string.Empty);
 			nodeContentType.AppendChild(xmlHelper.addCDataNode(xd, "description", contentType.Description));
 			nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "id", contentType.Id.ToString()));
 			nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "name", contentType.Text));
@@ -45,14 +37,14 @@ namespace uComponents.Core.XsltExtensions
 
 			if (includeTabs)
 			{
-				ContentType.TabI[] tabs = contentType.getVirtualTabs;
+				var tabs = contentType.getVirtualTabs;
 				if (tabs != null && tabs.Length > 0)
 				{
-					XmlNode nodeTabs = xmlHelper.addTextNode(xd, "tabs", string.Empty);
+					var nodeTabs = xmlHelper.addTextNode(xd, "tabs", string.Empty);
 
-					foreach (ContentType.TabI tab in tabs)
+					foreach (var tab in tabs)
 					{
-						XmlNode nodeTab = xmlHelper.addTextNode(xd, "tab", string.Empty);
+						var nodeTab = xmlHelper.addTextNode(xd, "tab", string.Empty);
 						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "id", tab.Id.ToString()));
 						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "caption", tab.Caption));
 						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", tab.SortOrder.ToString()));
@@ -66,14 +58,14 @@ namespace uComponents.Core.XsltExtensions
 
 			if (includePropertyTypes)
 			{
-				List<PropertyType> propertyTypes = contentType.PropertyTypes;
+				var propertyTypes = contentType.PropertyTypes;
 				if (propertyTypes != null && propertyTypes.Count > 0)
 				{
-					XmlNode nodePropertyTypes = xmlHelper.addTextNode(xd, "propertyTypes", string.Empty);
+					var nodePropertyTypes = xmlHelper.addTextNode(xd, "propertyTypes", string.Empty);
 
 					foreach (PropertyType propertyType in propertyTypes)
 					{
-						XmlNode nodePropertyType = xmlHelper.addTextNode(xd, "propertyType", string.Empty);
+						var nodePropertyType = xmlHelper.addTextNode(xd, "propertyType", string.Empty);
 						nodePropertyType.AppendChild(xmlHelper.addCDataNode(xd, "description", propertyType.Description));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "id", propertyType.Id.ToString()));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Name));
@@ -115,7 +107,7 @@ namespace uComponents.Core.XsltExtensions
 		{
 			// TODO: Reuse AppendContentType() for the basic XML document, then append doc-type specifics.
 
-			XmlNode nodeDocType = xmlHelper.addTextNode(xd, "DocumentType", string.Empty);
+			var nodeDocType = xmlHelper.addTextNode(xd, "DocumentType", string.Empty);
 			nodeDocType.AppendChild(xmlHelper.addCDataNode(xd, "description", docType.Description));
 			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "id", docType.Id.ToString()));
 			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "name", docType.Text));
@@ -128,14 +120,14 @@ namespace uComponents.Core.XsltExtensions
 
 			if (includeTabs)
 			{
-				ContentType.TabI[] tabs = docType.getVirtualTabs;
+				var tabs = docType.getVirtualTabs;
 				if (tabs != null && tabs.Length > 0)
 				{
-					XmlNode nodeTabs = xmlHelper.addTextNode(xd, "tabs", string.Empty);
+					var nodeTabs = xmlHelper.addTextNode(xd, "tabs", string.Empty);
 
-					foreach (ContentType.TabI tab in tabs)
+					foreach (var tab in tabs)
 					{
-						XmlNode nodeTab = xmlHelper.addTextNode(xd, "tab", string.Empty);
+						var nodeTab = xmlHelper.addTextNode(xd, "tab", string.Empty);
 						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "id", tab.Id.ToString()));
 						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "caption", tab.Caption));
 						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", tab.SortOrder.ToString()));
@@ -149,14 +141,14 @@ namespace uComponents.Core.XsltExtensions
 
 			if (includePropertyTypes)
 			{
-				List<PropertyType> propertyTypes = docType.PropertyTypes;
+				var propertyTypes = docType.PropertyTypes;
 				if (propertyTypes != null && propertyTypes.Count > 0)
 				{
-					XmlNode nodePropertyTypes = xmlHelper.addTextNode(xd, "propertyTypes", string.Empty);
+					var nodePropertyTypes = xmlHelper.addTextNode(xd, "propertyTypes", string.Empty);
 
-					foreach (PropertyType propertyType in propertyTypes)
+					foreach (var propertyType in propertyTypes)
 					{
-						XmlNode nodePropertyType = xmlHelper.addTextNode(xd, "propertyType", string.Empty);
+						var nodePropertyType = xmlHelper.addTextNode(xd, "propertyType", string.Empty);
 						nodePropertyType.AppendChild(xmlHelper.addCDataNode(xd, "description", propertyType.Description));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "id", propertyType.Id.ToString()));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Name));
@@ -177,14 +169,14 @@ namespace uComponents.Core.XsltExtensions
 
 			if (includeAllowedTemplates)
 			{
-				Template[] templates = docType.allowedTemplates;
+				var templates = docType.allowedTemplates;
 				if (templates != null && templates.Length > 0)
 				{
-					XmlNode nodeTemplates = xmlHelper.addTextNode(xd, "allowedTemplates", string.Empty);
+					var nodeTemplates = xmlHelper.addTextNode(xd, "allowedTemplates", string.Empty);
 
-					foreach (Template template in templates)
+					foreach (var template in templates)
 					{
-						XmlNode nodeTemplate = xmlHelper.addTextNode(xd, "template", string.Empty);
+						var nodeTemplate = xmlHelper.addTextNode(xd, "template", string.Empty);
 						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "id", template.Id.ToString()));
 						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "name", template.Text));
 						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "alias", template.Alias));

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml;
 using System.Xml.XPath;
-
 using uComponents.Core.Shared;
 using umbraco;
 using umbraco.cms.businesslogic;
@@ -11,7 +9,6 @@ using umbraco.cms.businesslogic.language;
 using umbraco.cms.businesslogic.macro;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
-using umbraco.cms.businesslogic.propertytype;
 using umbraco.cms.businesslogic.template;
 using umbraco.cms.businesslogic.web;
 
@@ -30,14 +27,14 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<Languages/>");
 
-				IEnumerable<Language> languages = Language.GetAllAsList();
+				var languages = Language.GetAllAsList();
 
-				foreach (Language language in languages)
+				foreach (var language in languages)
 				{
-					XmlNode languageNode = language.ToXml(xd);
+					var languageNode = language.ToXml(xd);
 
 					xd.DocumentElement.AppendChild(languageNode);
 				}
@@ -59,13 +56,12 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
-
-				Language language = new Language(languageId);
+				var xd = new XmlDocument();
+				var language = new Language(languageId);
 
 				if (language != null)
 				{
-					XmlNode languageNode = language.ToXml(xd);
+					var languageNode = language.ToXml(xd);
 
 					xd.AppendChild(languageNode);
 				}
@@ -87,13 +83,12 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
-
-				Language language = Language.GetByCultureCode(cultureCode);
+				var xd = new XmlDocument();
+				var language = Language.GetByCultureCode(cultureCode);
 
 				if (language != null)
 				{
-					XmlNode languageNode = language.ToXml(xd);
+					var languageNode = language.ToXml(xd);
 
 					xd.AppendChild(languageNode);
 				}
@@ -114,7 +109,7 @@ namespace uComponents.Core.XsltExtensions
 		public static XPathNodeIterator GetLanguageByNodeId(int nodeId)
 		{
 			// get the language id by node id.
-			int languageId = GetLanguageIdByNodeId(nodeId);
+			var languageId = GetLanguageIdByNodeId(nodeId);
 
 			// return the language.
 			return GetLanguage(languageId);
@@ -163,12 +158,12 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<DocumentTypes/>");
 
-				List<DocumentType> docTypes = DocumentType.GetAllAsList();
+				var docTypes = DocumentType.GetAllAsList();
 
-				foreach (DocumentType docType in docTypes)
+				foreach (var docType in docTypes)
 				{
 					AppendDocumentType(xd, docType, includeTabs, includePropertyTypes, includeAllowedTemplates);
 				}
@@ -195,9 +190,8 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
-
-				DocumentType docType = new DocumentType(docTypeId);
+				var xd = new XmlDocument();
+				var docType = new DocumentType(docTypeId);
 
 				if (docType != null)
 				{
@@ -235,12 +229,12 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<MediaTypes/>");
 
-				IEnumerable<MediaType> mediaTypes = MediaType.GetAllAsList();
+				var mediaTypes = MediaType.GetAllAsList();
 
-				foreach (MediaType mediaType in mediaTypes)
+				foreach (var mediaType in mediaTypes)
 				{
 					AppendMediaType(xd, mediaType, includeTabs, includePropertyTypes);
 				}
@@ -264,9 +258,8 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
-
-				MediaType mediaType = new MediaType(mediaTypeId);
+				var xd = new XmlDocument();
+				var mediaType = new MediaType(mediaTypeId);
 
 				if (mediaType != null)
 				{
@@ -304,12 +297,12 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<MemberTypes/>");
 
-				IEnumerable<MemberType> memeberTypes = MemberType.GetAll;
+				var memeberTypes = MemberType.GetAll;
 
-				foreach (MemberType memeberType in memeberTypes)
+				foreach (var memeberType in memeberTypes)
 				{
 					AppendMemberType(xd, memeberType, includeTabs, includePropertyTypes);
 				}
@@ -333,9 +326,8 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
-
-				MemberType memberType = new MemberType(memberTypeId);
+				var xd = new XmlDocument();
+				var memberType = new MemberType(memberTypeId);
 
 				if (memberType != null)
 				{
@@ -358,14 +350,14 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<macros/>");
 
-				Macro[] macros = Macro.GetAll();
+				var macros = Macro.GetAll();
 
-				foreach (Macro macro in macros)
+				foreach (var macro in macros)
 				{
-					XmlNode macroNode = macro.ToXml(xd);
+					var macroNode = macro.ToXml(xd);
 
 					xd.DocumentElement.AppendChild(macroNode);
 				}
@@ -387,13 +379,12 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
-
-				Macro macro = new Macro(alias);
+				var xd = new XmlDocument();
+				var macro = new Macro(alias);
 
 				if (macro != null)
 				{
-					XmlNode macroNode = macro.ToXml(xd);
+					var macroNode = macro.ToXml(xd);
 
 					xd.AppendChild(macroNode);
 				}
@@ -414,14 +405,14 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
+				var xd = new XmlDocument();
 				xd.LoadXml("<DataTypes/>");
 
-				DataTypeDefinition[] dataTypes = DataTypeDefinition.GetAll();
+				var dataTypes = DataTypeDefinition.GetAll();
 
-				foreach (DataTypeDefinition dataType in dataTypes)
+				foreach (var dataType in dataTypes)
 				{
-					XmlNode dataTypeNode = dataType.ToXml(xd);
+					var dataTypeNode = dataType.ToXml(xd);
 
 					xd.DocumentElement.AppendChild(dataTypeNode);
 				}
@@ -443,15 +434,13 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				Guid guid = new Guid(dataTypeGuid);
-
-				XmlDocument xd = new XmlDocument();
-
-				DataTypeDefinition dataType = new DataTypeDefinition(guid);
+				var guid = new Guid(dataTypeGuid);
+				var xd = new XmlDocument();
+				var dataType = new DataTypeDefinition(guid);
 
 				if (dataType != null)
 				{
-					XmlNode dataTypeNode = dataType.ToXml(xd);
+					var dataTypeNode = dataType.ToXml(xd);
 
 					xd.AppendChild(dataTypeNode);
 				}
@@ -474,13 +463,12 @@ namespace uComponents.Core.XsltExtensions
 		{
 			try
 			{
-				XmlDocument xd = new XmlDocument();
-
-				DataTypeDefinition dataType = new DataTypeDefinition(dataTypeId);
+				var xd = new XmlDocument();
+				var dataType = new DataTypeDefinition(dataTypeId);
 
 				if (dataType != null)
 				{
-					XmlNode dataTypeNode = dataType.ToXml(xd);
+					var dataTypeNode = dataType.ToXml(xd);
 
 					xd.AppendChild(dataTypeNode);
 				}
@@ -673,6 +661,17 @@ namespace uComponents.Core.XsltExtensions
 		public static bool IsLegacyXmlSchema()
 		{
 			return uQuery.IsLegacyXmlSchema();
+		}
+
+		/// <summary>
+		/// Determines whether Umbraco front-end [is in preview mode].
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if Umbraco front-end [is in preview mode]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool InPreviewMode()
+		{
+			return umbraco.presentation.UmbracoContext.Current.InPreviewMode;
 		}
 	}
 }
