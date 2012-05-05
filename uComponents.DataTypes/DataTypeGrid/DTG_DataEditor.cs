@@ -166,24 +166,42 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// <value>The edit data types.</value>
 		public List<StoredValue> EditDataTypes { get; set; }
 
+		public override string ID
+		{
+			get
+			{
+				return this.id ?? (this.id = "DTG_" + this.dataTypeDefinitionId + "_" + this.instanceId);
+			}
+		}
+
 		#endregion
 
 		#region Private
 
 		/// <summary>
+		/// The control id
+		/// </summary>
+		private string id;
+
+		/// <summary>
+		/// The unique instance id
+		/// </summary>
+		private readonly string instanceId;
+
+		/// <summary>
 		/// Value stored by a datatype instance
 		/// </summary>
-		private readonly IData Data;
+		private readonly IData data;
 
 		/// <summary>
 		/// The datatype definition id
 		/// </summary>
-		private readonly int DataTypeDefinitionId;
+		private readonly int dataTypeDefinitionId;
 
 		/// <summary>
 		/// The settings.
 		/// </summary>
-		private readonly PreValueEditorSettings Settings;
+		private readonly PreValueEditorSettings settings;
 
 		#endregion
 
@@ -196,14 +214,15 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// <param name="settings">
 		/// The settings.
 		/// </param>
-		/// <param name="id">
+		/// <param name="dataTypeDefinitionId">
 		/// The unique id.
 		/// </param>
-		public DataEditor(IData data, PreValueEditorSettings settings, int id)
+		public DataEditor(IData data, PreValueEditorSettings settings, int dataTypeDefinitionId, string instanceId)
 		{
-			Settings = settings;
-			Data = data;
-			DataTypeDefinitionId = id;
+			this.settings = settings;
+			this.data = data;
+			this.dataTypeDefinitionId = dataTypeDefinitionId;
+		    this.instanceId = instanceId;
 		}
 
 		#region IDataEditor Members
@@ -213,7 +232,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		public void Save()
 		{
-			Data.Value = string.IsNullOrEmpty(DataString) ? Data.Value : DataString;
+			this.data.Value = string.IsNullOrEmpty(DataString) ? this.data.Value : DataString;
 
 			// Get new values
 			Rows = GetStoredValues();
@@ -224,7 +243,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 			// Clear input controls
 			ClearControls();
 
-			DtgHelpers.AddLogEntry(string.Format("DTG: Saved the following data to database: {0}", Data.Value));
+			DtgHelpers.AddLogEntry(string.Format("DTG: Saved the following data to database: {0}", this.data.Value));
 		}
 
 		/// <summary>
@@ -287,7 +306,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </value>
 		public virtual bool ShowLabel
 		{
-			get { return Settings.ShowLabel; }
+			get { return this.settings.ShowLabel; }
 		}
 
 		/// <summary>
@@ -656,7 +675,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 			EditDataTypes = GetEditDataTypes();
 			GenerateEditControls();
 
-			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenEditDialog_" + this.DataTypeDefinitionId, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
+			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenEditDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
 		}
 
 		/// <summary>
@@ -668,7 +687,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		{
 			ClearControls();
 
-			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenInsertDialog_" + this.DataTypeDefinitionId, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
+			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenInsertDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
 		}
 
 		/// <summary>
@@ -739,13 +758,13 @@ namespace uComponents.DataTypes.DataTypeGrid
 			var values = new List<StoredValueRow>();
 
 			// Add root element if value is empty
-			if (string.IsNullOrEmpty(Data.Value.ToString()))
+			if (string.IsNullOrEmpty(this.data.Value.ToString()))
 			{
-				Data.Value = "<items></items>";
+				this.data.Value = "<items></items>";
 			}
 
 			var doc = new XmlDocument();
-			doc.LoadXml(Data.Value.ToString());
+			doc.LoadXml(this.data.Value.ToString());
 
 			// Create and add XML declaration. 
 			var xmldecl = doc.CreateXmlDeclaration("1.0", null, null);
@@ -927,7 +946,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		{
 			base.OnLoad(e);
 
-			this.ID = "DTG_" + this.DataTypeDefinitionId;
+		    this.id = "DTG_" + this.dataTypeDefinitionId + "_" + this.instanceId;
 		}
 
 		/// <summary>
@@ -942,25 +961,25 @@ namespace uComponents.DataTypes.DataTypeGrid
 			// this.Data.Value = "<items><item id='1'><name nodeName='Name' nodeType='-88' >Anna</name><age nodeName='Age' nodeType='-51' >25</age><picture nodeName='Picture' nodeType='1035' ></picture></item><item id='6'><name nodeName='Name' nodeType='-88' >Ove</name><gender nodeName='Gender' nodeType='-88'>Male</gender><age nodeName='Age' nodeType='-51' >23</age><picture nodeName='Picture' nodeType='1035' ></picture></item></items>";
 
 			// Set default value if none exists
-			if (Data.Value == null)
+			if (this.data.Value == null)
 			{
 				DtgHelpers.AddLogEntry(string.Format("DTG: No values exist in database for this property"));
 				
-				Data.Value = string.Empty;
+				this.data.Value = string.Empty;
 			}
 			else
 			{
-				DtgHelpers.AddLogEntry(string.Format("DTG: Retrieved the following data from database: {0}", Data.Value));
+				DtgHelpers.AddLogEntry(string.Format("DTG: Retrieved the following data from database: {0}", this.data.Value));
 			}
 
-			ShowTableHeader = new HiddenField() { ID = "ShowTableHeader", Value = Settings.ShowTableHeader.ToString() };
-			ShowTableFooter = new HiddenField() { ID = "ShowTableFooter", Value = Settings.ShowTableFooter.ToString() };
-			NumberOfRows = new HiddenField() { ID ="NumberOfRows", Value = Settings.NumberOfRows.ToString() };
-			ContentSorting = new HiddenField() { ID = "ContentSorting", Value = Settings.ContentSorting };
+			ShowTableHeader = new HiddenField() { ID = "ShowTableHeader", Value = this.settings.ShowTableHeader.ToString() };
+			ShowTableFooter = new HiddenField() { ID = "ShowTableFooter", Value = this.settings.ShowTableFooter.ToString() };
+			NumberOfRows = new HiddenField() { ID ="NumberOfRows", Value = this.settings.NumberOfRows.ToString() };
+			ContentSorting = new HiddenField() { ID = "ContentSorting", Value = this.settings.ContentSorting };
 			Grid = new Table { ID = "tblGrid", CssClass = "display" };
 			Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
-			StoredPreValues = DtgHelpers.GetConfig(DataTypeDefinitionId);
+			StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
 			Rows = GetStoredValues();
 			InsertDataTypes = GetInsertDataTypes();
 			EditDataTypes = GetEditDataTypes();

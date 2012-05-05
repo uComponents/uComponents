@@ -71,8 +71,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             get
             {
-                return m_DataEditor ??
-                       (m_DataEditor = new DataEditor(this.Data, ((PrevalueEditor)PrevalueEditor).Settings, this.DataTypeDefinitionId));
+                return m_DataEditor ?? (m_DataEditor = new DataEditor(this.Data, ((PrevalueEditor)PrevalueEditor).Settings, this.DataTypeDefinitionId, Guid.NewGuid().ToString("N")));
             }
         }
 
