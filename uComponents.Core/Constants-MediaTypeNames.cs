@@ -1,0 +1,74 @@
+﻿using System;
+
+namespace uComponents.Core
+{
+	public partial class Constants
+	{
+		/// <summary>
+		/// Container class for MIME types.
+		/// </summary>
+		/// <remarks>Idea based on the <c>System.Net.Mime.MediaTypeNames</c> class.</remarks>
+		public struct MediaTypeNames
+		{
+			/// <summary>
+			/// Class containing MIME type constants for application files.
+			/// </summary>
+			public struct Application
+			{
+				/// <summary>
+				/// MIME type for JavaScript files/scripts.
+				/// </summary>
+				public const string JavaScript = "application/x-javascript";
+
+				/// <summary>
+				/// MIME type for JSON text.
+				/// </summary>
+				public const string Json = "application/json";
+			}
+
+			/// <summary>
+			/// Class containing MIME type constants for image files.
+			/// </summary>
+			public struct Image
+			{
+				/// <summary>
+				/// MIME type for GIF images.
+				/// </summary>
+				public const string Gif = System.Net.Mime.MediaTypeNames.Image.Gif;
+
+				/// <summary>
+				/// MIME type for ICO images/icons.
+				/// </summary>
+				public const string Ico = "image/x-icon";
+
+				/// <summary>
+				/// MIME type for JPEG images.
+				/// </summary>
+				public const string Jpeg = System.Net.Mime.MediaTypeNames.Image.Jpeg;
+
+				/// <summary>
+				/// MIME type for PNG images.
+				/// </summary>
+				public const string Png = "image/png";
+			}
+
+			/// <summary>
+			/// Class containing MIME type constants for text files.
+			/// </summary>
+			public struct Text
+			{
+				/// <summary>
+				/// MIME type for Cascading StyleSheet files.
+				/// </summary>
+				public const string Css = "text/css";
+
+				/// <summary>
+				/// MIME type for JavaScript files.
+				/// </summary>
+				// TODO: [LK] Move to uComponents.Legacy project
+				[Obsolete("Please use uComponents.Core.Shared.MediaTypeNames.Application.JavaScript", true)]
+				public const string JavaScript = "text/javascript";
+			}
+		}
+	}
+}
