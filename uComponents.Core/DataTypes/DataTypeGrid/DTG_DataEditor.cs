@@ -168,6 +168,17 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		/// <value>The edit data types.</value>
 		public List<StoredValue> EditDataTypes { get; set; }
 
+		/// <summary>
+		/// Gets the control id.
+		/// </summary>
+		public override string ID
+		{
+			get
+			{
+				return "DTG_" + this.dataTypeDefinitionId + "_" + this.instanceId;
+			}
+		}
+
 		#endregion
 
 		#region Private
@@ -180,7 +191,12 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		/// <summary>
 		/// The datatype definition id
 		/// </summary>
-		private readonly int DataTypeDefinitionId;
+		private readonly int dataTypeDefinitionId;
+
+		/// <summary>
+		/// The unique instance id
+		/// </summary>
+		private readonly string instanceId;
 
 		/// <summary>
 		/// The settings.
@@ -192,20 +208,16 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DataEditor"/> class.
 		/// </summary>
-		/// <param name="data">
-		/// The data.
-		/// </param>
-		/// <param name="settings">
-		/// The settings.
-		/// </param>
-		/// <param name="id">
-		/// The unique id.
-		/// </param>
-		public DataEditor(IData data, PreValueEditorSettings settings, int id)
+		/// <param name="data">The data.</param>
+		/// <param name="settings">The settings.</param>
+		/// <param name="dataTypeDefinitionId">The dataType definition id.</param>
+		/// <param name="instanceId">The unique instance id.</param>
+		public DataEditor(IData data, PreValueEditorSettings settings, int dataTypeDefinitionId, string instanceId)
 		{
 			Settings = settings;
 			Data = data;
-			DataTypeDefinitionId = id;
+			this.dataTypeDefinitionId = dataTypeDefinitionId;
+			this.instanceId = instanceId;
 		}
 
 		#region IDataEditor Members
@@ -658,7 +670,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 			EditDataTypes = GetEditDataTypes();
 			GenerateEditControls();
 
-			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenEditDialog_" + this.DataTypeDefinitionId, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
+			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenEditDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
 		}
 
 		/// <summary>
@@ -671,7 +683,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 			InsertDataTypes = GetInsertDataTypes();
 			GenerateInsertControls();
 
-			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenInsertDialog_" + this.DataTypeDefinitionId, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
+			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenInsertDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
 		}
 
 		/// <summary>
@@ -947,7 +959,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		{
 			base.OnLoad(e);
 
-			this.ID = "DTG_" + this.DataTypeDefinitionId;
+			//this.ID = "DTG_" + this.dataTypeDefinitionId + ;
 		}
 
 		/// <summary>
@@ -980,7 +992,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 			Grid = new Table { ID = "tblGrid", CssClass = "display" };
 			Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
-			StoredPreValues = DtgHelpers.GetConfig(DataTypeDefinitionId);
+			StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
 			Rows = GetStoredValues();
 			InsertDataTypes = GetInsertDataTypes();
 			EditDataTypes = GetEditDataTypes();

@@ -10,9 +10,6 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Model
 
 	using umbraco.interfaces;
 
-	/// <summary>
-	/// 
-	/// </summary>
 	[Serializable]
 	public class StoredValue
 	{
