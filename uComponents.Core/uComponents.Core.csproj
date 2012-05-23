@@ -96,13 +96,15 @@
   <ItemGroup>
     <Compile Include="Controls\GetMedia.cs" />
     <Compile Include="DataTypes\DataTypeConstants.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\Factories\DTG_DataTypeFunctionsFactory.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_PagePickerDataTypeFunctionsFunctions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_DateDataTypeFunctions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_DropDownListDataTypeExtensions.cs" />
-    <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeExtensions.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeFunctions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_MediaPickerDataTypeExtensions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_MemberPickerDataTypeExtensions.cs" />
-    <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_TinyMCE3DataTypeExtensions.cs" />
     <Compile Include="DataTypes\DataTypeGrid\Extensions\DTG_DataTypeExtensions.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\Interfaces\DTG_IDataTypeFunctions.cs" />
     <Compile Include="DataTypes\EnumCheckBoxList\EnumCheckBoxListAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
