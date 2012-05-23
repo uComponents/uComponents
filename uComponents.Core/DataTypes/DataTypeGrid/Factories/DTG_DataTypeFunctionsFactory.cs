@@ -1,4 +1,10 @@
-﻿namespace uComponents.Core.DataTypes.DataTypeGrid.Factories
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+// 23.05.2012 - Created [Ove Andersen]
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace uComponents.Core.DataTypes.DataTypeGrid.Factories
 {
     using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
 
