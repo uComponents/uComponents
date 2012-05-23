@@ -15,6 +15,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
     using umbraco.editorControls.dropdownlist;
     using umbraco.editorControls.listbox;
     using umbraco.editorControls.pagepicker;
+    using umbraco.editorControls.radiobuttonlist;
     using umbraco.editorControls.tinyMCE3;
     using umbraco.interfaces;
 
@@ -37,6 +38,12 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
             if (dataType is PagePickerDataType)
             {
                 return DataTypeFunctionsFactory<PagePickerDataTypeFunctions, PagePickerDataType>.Instance.ToDtgString(dataType as PagePickerDataType);
+            }
+
+            // Radio button list
+            if (dataType is RadioButtonListDataType)
+            {
+                return DataTypeFunctionsFactory<RadioButtonListDataTypeFunctions, RadioButtonListDataType>.Instance.ToDtgString(dataType as RadioButtonListDataType);
             }
 
             // Dropdown List
