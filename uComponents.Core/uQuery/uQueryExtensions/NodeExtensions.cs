@@ -178,6 +178,9 @@ namespace uComponents.Core.uQueryExtensions
 		public static IEnumerable<Node> GetDescendantNodesByType(this Node node, string documentTypeAlias)
 		{
 			return node.GetDescendantNodes(n => n.NodeTypeAlias == documentTypeAlias);
+
+            // Get all descendants, and then return only those that match the requested typeAlias
+            //return node.GetDescendantNodes().Where(x => x.NodeTypeAlias == documentTypeAlias);
 		}
 
 		/// <summary>
