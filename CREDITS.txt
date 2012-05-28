@@ -52,8 +52,9 @@ kenny - Kenneth Solberg
 
 mattbrailsford - Matt Brailsford
 	Notes
+	XSLT Extensions
 
-Meniro - Drew
+Meniro - Drew Brigham
 	Bug Fixing / Unit Testing / Collaboration
 
 met67 - Marco Lusini
