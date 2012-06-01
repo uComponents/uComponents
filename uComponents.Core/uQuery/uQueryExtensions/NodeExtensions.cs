@@ -683,5 +683,16 @@ namespace uComponents.Core.uQueryExtensions
 			return nodes.Select(n => new umbraco.presentation.nodeFactory.Node(n.Id));
 		}
 #pragma warning restore 0618
+
+        public static DynamicNode ToDynamicNode(this Node node)
+        {
+            return new DynamicNode(node);
+        }
+
+        // should this extension method ne moved to anther file for groups of nodes ?
+        public static DynamicNodeList ToDynamicNodeList(this IEnumerable<Node> nodes)
+        {
+            return new DynamicNodeList(nodes);
+        }
 	}
 }
