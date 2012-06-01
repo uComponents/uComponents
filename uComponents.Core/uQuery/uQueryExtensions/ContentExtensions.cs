@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
+using System.Xml;
+using umbraco.MacroEngines;
 
 namespace uComponents.Core.uQueryExtensions
 {
@@ -39,15 +41,54 @@ namespace uComponents.Core.uQueryExtensions
 
 			if (typeConverter != null)
 			{
+                // Boolean ---------- ---------- ---------- ----------
 				if (typeof(T) == typeof(bool))
-				{
-					return (T)typeConverter.ConvertFrom(item.GetPropertyAsBoolean(propertyAlias).ToString());
-				}
+                {
+                    #pragma warning disable 0618
+                    return (T)typeConverter.ConvertFrom(item.GetPropertyAsBoolean(propertyAlias).ToString());
+                    #pragma warning restore 0618
+                }
+
+                // XmlDocument  ---------- ---------- ---------- ----------
+                else if (typeof(T) == typeof(XmlDocument))
+                {
+                    XmlDocument xmlDocument = new XmlDocument();
+
+                    try
+                    {
+                        #pragma warning disable 0618
+                        xmlDocument.Load(item.GetPropertyAsString(propertyAlias));
+                        #pragma warning restore 0618
+                    }
+                    catch
+                    {
+                        // xml probably invalid
+                    }
+
+                    return (T)((object)xmlDocument);
+                }
+
+                // DynamicXml  ---------- ---------- ---------- ----------
+                else if (typeof(T) == typeof(DynamicXml)) // Umbraco DynamicXml
+                {
+                    try
+                    {
+                        #pragma warning disable 0618
+                        return (T)((object)new DynamicXml(item.GetPropertyAsString(propertyAlias)));
+                        #pragma warning restore 0618
+                    }
+                    catch
+                    {
+                        return default(T); // return null 
+                    }
+                }
 
 				try
-				{
-					return (T)typeConverter.ConvertFromString(item.GetPropertyAsString(propertyAlias));
-				}
+                {
+                    #pragma warning disable 0618
+                    return (T)typeConverter.ConvertFromString(item.GetPropertyAsString(propertyAlias));
+                    #pragma warning restore 0618
+                }
 				catch
 				{
 					return default(T);
@@ -67,6 +108,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// empty string, or property value as string
 		/// </returns>
+        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<string>(\"propertyAlias\");")]
 		public static string GetPropertyAsString(this Content item, string propertyAlias)
 		{
 			var propertyValue = string.Empty;
@@ -88,6 +130,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// true if can cast value, else false for all other circumstances
 		/// </returns>
+        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<bool>(\"propertyAlias\");")]
 		public static bool GetPropertyAsBoolean(this Content item, string propertyAlias)
 		{
 			var propertyValue = false;
@@ -117,6 +160,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// DateTime value or DateTime.MinValue for all other circumstances
 		/// </returns>
+        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<DateTime>(\"propertyAlias\");")]
 		public static DateTime GetPropertyAsDateTime(this Content item, string propertyAlias)
 		{
 			var propertyValue = DateTime.MinValue;
@@ -138,6 +182,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// int value of property or int.MinValue for all other circumstances
 		/// </returns>
+        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<int>(\"propertyAlias\");")]
 		public static int GetPropertyAsInt(this Content item, string propertyAlias)
 		{
 			var propertyValue = int.MinValue;

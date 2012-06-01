@@ -349,7 +349,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>empty string, or property value as string</returns>
-        [Obsolete("please use the .GetProperty<T>() extension method - eg. node.GetProperty<string>(\"propertyAlias\");")]
+        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<string>(\"propertyAlias\");")]
 		public static string GetPropertyAsString(this Node node, string propertyAlias)
 		{
 			var propertyValue = string.Empty;
@@ -369,7 +369,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>true if can cast value, else false for all other circumstances</returns>
-        [Obsolete("please use the .GetProperty<T>() extension method - eg. node.GetProperty<bool>(\"propertyAlias\");")]
+        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<bool>(\"propertyAlias\");")]
 		public static bool GetPropertyAsBoolean(this Node node, string propertyAlias)
 		{
 			var propertyValue = false;
@@ -397,7 +397,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>DateTime value or DateTime.MinValue for all other circumstances</returns>
-        [Obsolete("please use the .GetProperty<T>() extension method - eg. node.GetProperty<DateTime>(\"propertyAlias\");")]
+        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<DateTime>(\"propertyAlias\");")]
 		public static DateTime GetPropertyAsDateTime(this Node node, string propertyAlias)
 		{
 			var propertyValue = DateTime.MinValue;
@@ -417,7 +417,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>int value of property or int.MinValue for all other circumstances</returns>
-        [Obsolete("please use the .GetProperty<T>() extension method - eg. node.GetProperty<int>(\"propertyAlias\");")]
+        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<int>(\"propertyAlias\");")]
 		public static int GetPropertyAsInt(this Node node, string propertyAlias)
 		{
 			var propertyValue = int.MinValue;
