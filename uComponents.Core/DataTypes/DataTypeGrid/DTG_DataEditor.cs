@@ -36,7 +36,48 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
 	public class DataEditor : Control, INamingContainer, IDataEditor
 	{
-		#region Public
+		#region Fields
+
+		/// <summary>
+		/// Value stored by a datatype instance
+		/// </summary>
+		private readonly IData data;
+
+		/// <summary>
+		/// The datatype definition id
+		/// </summary>
+		private readonly int dataTypeDefinitionId;
+
+		/// <summary>
+		/// The unique instance id
+		/// </summary>
+		private readonly string instanceId;
+
+
+		/// <summary>
+		/// The settings.
+		/// </summary>
+		private readonly PreValueEditorSettings settings;
+
+		#endregion
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DataEditor"/> class.
+		/// </summary>
+		/// <param name="data">The data.</param>
+		/// <param name="settings">The settings.</param>
+		/// <param name="dataTypeDefinitionId">The data type definition id.</param>
+		/// <param name="instanceId">The instance id.</param>
+		public DataEditor(IData data, PreValueEditorSettings settings, int dataTypeDefinitionId, string instanceId)
+		{
+			this.settings = settings;
+			this.data = data;
+
+			this.dataTypeDefinitionId = dataTypeDefinitionId;
+			this.instanceId = instanceId;
+		}
+
+		#region Properties
 
 		/// <summary>
 		/// Gets or sets the configuration.
@@ -78,7 +119,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 			{
 				if (ViewState["CurrentRow"] != null)
 				{
-					return (int) ViewState["CurrentRow"];
+					return (int)ViewState["CurrentRow"];
 				}
 
 				return 0;
@@ -101,7 +142,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 				if (ViewState["DataString"] != null)
 				{
 					DtgHelpers.AddLogEntry(string.Format("DTG: Returned value from ViewState: {0}", ViewState["DataString"]));
-					
+
 					return ViewState["DataString"].ToString();
 				}
 
@@ -166,39 +207,18 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		/// <value>The edit data types.</value>
 		public List<StoredValue> EditDataTypes { get; set; }
 
-		#endregion
-
-		#region Private
-
 		/// <summary>
-		/// Value stored by a datatype instance
+		/// Gets the control id.
 		/// </summary>
-		private readonly IData data;
-
-		/// <summary>
-		/// The datatype definition id
-		/// </summary>
-		private readonly int dataTypeDefinitionId;
-
-		/// <summary>
-		/// The settings.
-		/// </summary>
-		private readonly PreValueEditorSettings settings;
-
-		#endregion
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DataEditor"/> class.
-		/// </summary>
-		/// <param name="data">The data.</param>
-		/// <param name="settings">The settings.</param>
-		/// <param name="id">The unique id.</param>
-		public DataEditor(IData data, PreValueEditorSettings settings, int id)
+		public override string ID
 		{
-			this.settings = settings;
-			this.data = data;
-			this.dataTypeDefinitionId = id;
+			get
+			{
+				return "DTG_" + this.dataTypeDefinitionId + "_" + this.instanceId;
+			}
 		}
+
+		#endregion
 
 		#region IDataEditor Members
 
@@ -307,7 +327,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 		#endregion
 
-		#region Custom
+		#region Functions
 
 		/// <summary>
 		/// Refreshes the grid.
@@ -703,7 +723,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 			this.EditDataTypes = this.GetEditDataTypes();
 			this.GenerateEditControls();
 
-			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenEditDialog_" + this.dataTypeDefinitionId, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
+			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenEditDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
 		}
 
 		/// <summary>
@@ -785,7 +805,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		{
 			this.ClearControls();
 
-			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenInsertDialog_" + this.dataTypeDefinitionId, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
+			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenInsertDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
 		}
 
 		/// <summary>
@@ -1021,6 +1041,8 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 		#endregion
 
+		#region Events
+
 		/// <summary>
 		/// Initialize the control, make sure children are created
 		/// </summary>
@@ -1033,19 +1055,6 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 			// Adds the client dependencies
 			this.AddAllDtgClientDependencies();
-		}
-
-		/// <summary>
-		/// Add the resources (styles/scripts)
-		/// </summary>
-		/// <param name="e">
-		/// The <see cref="T:System.EventArgs"/> object that contains the event data.
-		/// </param>
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-
-			this.ID = "DTG_" + this.dataTypeDefinitionId;
 		}
 
 		/// <summary>
@@ -1073,7 +1082,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 			ShowTableHeader = new HiddenField() { ID = "ShowTableHeader", Value = this.settings.ShowTableHeader.ToString() };
 			ShowTableFooter = new HiddenField() { ID = "ShowTableFooter", Value = this.settings.ShowTableFooter.ToString() };
-			NumberOfRows = new HiddenField() { ID ="NumberOfRows", Value = this.settings.NumberOfRows.ToString() };
+			NumberOfRows = new HiddenField() { ID = "NumberOfRows", Value = this.settings.NumberOfRows.ToString() };
 			ContentSorting = new HiddenField() { ID = "ContentSorting", Value = this.settings.ContentSorting };
 			Grid = new Table { ID = "tblGrid", CssClass = "display" };
 			Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
@@ -1140,5 +1149,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 
 			writer.RenderEndTag();
 		}
+
+		#endregion
 	}
 }

@@ -43,7 +43,10 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
         /// <value>The id of the data-type.</value>
         public override Guid Id
         {
-            get { return new Guid(DataTypeConstants.DataTypeGridId); }
+            get
+            {
+                return new Guid(DataTypeConstants.DataTypeGridId);
+            }
         }
 
         /// <summary>
@@ -52,7 +55,10 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
         /// <value>The name of the data type.</value>
         public override string DataTypeName
         {
-            get { return "uComponents: DataType Grid"; }
+            get
+            {
+                return "uComponents: DataType Grid";
+            }
         }
 
         /// <summary>
@@ -61,7 +67,10 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
         /// <value>The prevalue editor.</value>
         public override IDataPrevalue PrevalueEditor
         {
-            get { return m_PreValueEditor ?? (m_PreValueEditor = new PrevalueEditor(this)); }
+            get
+            {
+                return m_PreValueEditor ?? (m_PreValueEditor = new PrevalueEditor(this));
+            }
         }
 
         /// <summary>
@@ -72,8 +81,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
         {
             get
             {
-                return m_DataEditor ??
-                       (m_DataEditor = new DataEditor(this.Data, ((PrevalueEditor)PrevalueEditor).Settings, this.DataTypeDefinitionId));
+                return m_DataEditor ?? (m_DataEditor = new DataEditor(this.Data, ((PrevalueEditor)PrevalueEditor).Settings, this.DataTypeDefinitionId, Guid.NewGuid().ToString("N")));
             }
         }
 
@@ -83,7 +91,10 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
         /// <value>The data.</value>
         public override IData Data
         {
-            get { return m_Data ?? (m_Data = new XmlData(this)); }
+            get
+            {
+                return m_Data ?? (m_Data = new XmlData(this));
+            }
         }
 
         #endregion

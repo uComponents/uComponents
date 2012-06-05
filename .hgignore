@@ -7,3 +7,4 @@ syntax: regexp
 (.*)_ReSharper.uComponents(.*)
 syntax: glob
 uComponents.ncrunchsolution
+uComponents.ncrunchsolution.user
