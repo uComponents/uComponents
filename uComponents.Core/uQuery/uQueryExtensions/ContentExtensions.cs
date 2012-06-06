@@ -204,7 +204,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// Returns a random content item from a collection of content items.
 		/// </returns>
-		public static TSource GetRandom<TSource>(this IList<TSource> items)
+		public static TSource GetRandom<TSource>(this ICollection<TSource> items)
 		{
 			return items.RandomOrder().First();
 		}
@@ -218,7 +218,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// Returns the specified number of random content items from a collection of content items.
 		/// </returns>
-		public static IEnumerable<TSource> GetRandom<TSource>(this IList<TSource> items, int numberOfItems)
+		public static IEnumerable<TSource> GetRandom<TSource>(this ICollection<TSource> items, int numberOfItems)
 		{
 			if (numberOfItems > items.Count)
 			{
