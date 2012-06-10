@@ -13,6 +13,9 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
 
     using umbraco.editorControls.radiobuttonlist;
 
+    /// <summary>
+    /// Functions for RadionButtonList
+    /// </summary>
     public class RadioButtonListDataTypeFunctions : IDataTypeFunctions<RadioButtonListDataType>
     {
         #region Implementation of IDataTypeFunctions<RadioButtonListDataType>
