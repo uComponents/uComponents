@@ -4,11 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml;
 using uComponents.Core.Shared;
-using umbraco.cms.businesslogic.web;
-using umbraco.NodeFactory;
 using umbraco;
-
+using umbraco.cms.businesslogic.web;
 using umbraco.MacroEngines;
+using umbraco.NodeFactory;
 
 namespace uComponents.Core.uQueryExtensions
 {
@@ -181,8 +180,8 @@ namespace uComponents.Core.uQueryExtensions
 		{
 			return node.GetDescendantNodes(n => n.NodeTypeAlias == documentTypeAlias);
 
-            // Get all descendants, and then return only those that match the requested typeAlias
-            //return node.GetDescendantNodes().Where(x => x.NodeTypeAlias == documentTypeAlias);
+			// Get all descendants, and then return only those that match the requested typeAlias
+			//return node.GetDescendantNodes().Where(x => x.NodeTypeAlias == documentTypeAlias);
 		}
 
 		/// <summary>
@@ -280,67 +279,62 @@ namespace uComponents.Core.uQueryExtensions
 
 			if (typeConverter != null)
 			{
-                // Boolean ---------- ---------- ---------- ----------
+				// Boolean
 				if (typeof(T) == typeof(bool))
 				{
-                    // Use the GetPropertyAsBoolean method, as this handles true also being stored as "1"
+#pragma warning disable 0618
+					// Use the GetPropertyAsBoolean method, as this handles true also being stored as "1"
+					return (T)typeConverter.ConvertFrom(node.GetPropertyAsBoolean(propertyAlias).ToString());
+#pragma warning restore 0618
+				}
 
-                    #pragma warning disable 0618
-                    return (T)typeConverter.ConvertFrom(node.GetPropertyAsBoolean(propertyAlias).ToString());
-                    #pragma warning restore 0618
-                }
+				// XmlDocument
+				else if (typeof(T) == typeof(XmlDocument))
+				{
+					var xmlDocument = new XmlDocument();
 
-                // XmlDocument  ---------- ---------- ---------- ----------
-                else if (typeof(T) == typeof(XmlDocument)) 
-                {
-                    XmlDocument xmlDocument = new XmlDocument();
+					try
+					{
+#pragma warning disable 0618
+						xmlDocument.Load(node.GetPropertyAsString(propertyAlias));
+#pragma warning restore 0618
+					}
+					catch
+					{
+						// xml probably invalid
+					}
 
-                    try
-                    {
-                        #pragma warning disable 0618
-                        xmlDocument.Load(node.GetPropertyAsString(propertyAlias));
-                        #pragma warning restore 0618
-                    }
-                    catch
-                    {
-                        // xml probably invalid
-                    }
+					return (T)((object)xmlDocument);
+				}
 
-                    return (T)((object)xmlDocument);
-                }
-
-                // DynamicXml  ---------- ---------- ---------- ----------
-                else if (typeof(T) == typeof(DynamicXml)) // Umbraco DynamicXml
-                {
-                    try
-                    {
-                        #pragma warning disable 0618
-                        return (T)((object)new DynamicXml(node.GetPropertyAsString(propertyAlias)));
-                        #pragma warning restore 0618
-                    }
-                    catch
-                    {
-                        return default(T); // return null 
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        #pragma warning disable 0618
-                        return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
-                        #pragma warning restore 0618
-                    }
-                    catch
-                    {
-                        return default(T);
-                    }
-                }
+				// umbraco.MacroEngines DynamicXml
+				else if (typeof(T) == typeof(DynamicXml))
+				{
+					try
+					{
+#pragma warning disable 0618
+						return (T)((object)new DynamicXml(node.GetPropertyAsString(propertyAlias)));
+#pragma warning restore 0618
+					}
+					catch
+					{
+					}
+				}
+				else
+				{
+					try
+					{
+#pragma warning disable 0618
+						return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
+#pragma warning restore 0618
+					}
+					catch
+					{
+					}
+				}
 			}
-			else
-			{
-				return default(T);
-			}
+
+			return default(T);
 		}
 
 		/// <summary>
@@ -349,7 +343,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>empty string, or property value as string</returns>
-        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<string>(\"propertyAlias\");")]
+		[Obsolete("Please use the .GetProperty<T>() extension method - eg. .GetProperty<string>(\"propertyAlias\");")]
 		public static string GetPropertyAsString(this Node node, string propertyAlias)
 		{
 			var propertyValue = string.Empty;
@@ -369,7 +363,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>true if can cast value, else false for all other circumstances</returns>
-        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<bool>(\"propertyAlias\");")]
+		[Obsolete("Please use the .GetProperty<T>() extension method - eg. .GetProperty<bool>(\"propertyAlias\");")]
 		public static bool GetPropertyAsBoolean(this Node node, string propertyAlias)
 		{
 			var propertyValue = false;
@@ -397,7 +391,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>DateTime value or DateTime.MinValue for all other circumstances</returns>
-        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<DateTime>(\"propertyAlias\");")]
+		[Obsolete("Please use the .GetProperty<T>() extension method - eg. .GetProperty<DateTime>(\"propertyAlias\");")]
 		public static DateTime GetPropertyAsDateTime(this Node node, string propertyAlias)
 		{
 			var propertyValue = DateTime.MinValue;
@@ -417,7 +411,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <param name="propertyAlias">alias of propety to get</param>
 		/// <returns>int value of property or int.MinValue for all other circumstances</returns>
-        [Obsolete("please use the .GetProperty<T>() extension method - eg. .GetProperty<int>(\"propertyAlias\");")]
+		[Obsolete("Please use the .GetProperty<T>() extension method - eg. .GetProperty<int>(\"propertyAlias\");")]
 		public static int GetPropertyAsInt(this Node node, string propertyAlias)
 		{
 			var propertyValue = int.MinValue;
@@ -437,7 +431,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// </summary>
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <returns>int for depth, starts at 1</returns>
-		[Obsolete("Use Level instead")]
+		[Obsolete("Please use the .Level() extension method")]
 		public static int GetDepth(this Node node)
 		{
 			return node.Path.Split(Constants.Common.COMMA).ToList().Count;
@@ -684,15 +678,15 @@ namespace uComponents.Core.uQueryExtensions
 		}
 #pragma warning restore 0618
 
-        public static DynamicNode ToDynamicNode(this Node node)
-        {
-            return new DynamicNode(node);
-        }
+		public static DynamicNode ToDynamicNode(this Node node)
+		{
+			return new DynamicNode(node);
+		}
 
-        // should this extension method ne moved to anther file for groups of nodes ?
-        public static DynamicNodeList ToDynamicNodeList(this IEnumerable<Node> nodes)
-        {
-            return new DynamicNodeList(nodes);
-        }
+		// should this extension method ne moved to anther file for groups of nodes ?
+		public static DynamicNodeList ToDynamicNodeList(this IEnumerable<Node> nodes)
+		{
+			return new DynamicNodeList(nodes);
+		}
 	}
 }
