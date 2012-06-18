@@ -18,7 +18,6 @@ using System.Web;
 using uComponents.Core;
 using umbraco;
 using System.Collections.Specialized;
-using umbraco.controls.TreePicker;
 using ClientDependency.Core;
 using umbraco.controls.Images;
 

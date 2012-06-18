@@ -10,6 +10,7 @@ using uComponents.DataTypes.UrlPicker.Dto;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.UrlPicker
 {
@@ -21,7 +22,7 @@ namespace uComponents.DataTypes.UrlPicker
         /// <summary>
         /// The underlying base data-type.
         /// </summary>
-        protected readonly BaseDataType DataType;
+        protected readonly umbraco.cms.businesslogic.datatype.BaseDataType DataType;
 
         /// <summary>
         /// 
@@ -33,7 +34,7 @@ namespace uComponents.DataTypes.UrlPicker
         /// Initializes a new instance of the <see cref="UrlPickerPreValueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
-        public UrlPickerPreValueEditor(BaseDataType dataType)
+        public UrlPickerPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
         {
             this.DataType = dataType;
         }
@@ -356,7 +357,7 @@ namespace uComponents.DataTypes.UrlPicker
                     return;
                 }
 
-                DataType.DBType = DBTypes.Ntext;
+                DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Ntext;
 
                 // If none are selected that's no good - you need to have at least one.  So
                 // we shall select all of the modes in this case.

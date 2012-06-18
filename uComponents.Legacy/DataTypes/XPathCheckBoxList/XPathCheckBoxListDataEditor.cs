@@ -4,10 +4,9 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
-using uComponents.Core.Shared;
-
+using uComponents.Core;
 using umbraco.interfaces;
+using umbraco;
 
 namespace uComponents.DataTypes.XPathCheckBoxList
 {
@@ -107,7 +106,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 				string value = this.data.Value.ToString();
 				List<string> selectedValues = new List<string>();
 
-				if (uComponents.Core.XsltExtensions.Xml.CouldItBeXml(value))
+				if (uQuery.Helper.Xml.CouldItBeXml(value))
 				{
 					// build selected values from XML fragment
 					foreach (XElement nodeXElement in XElement.Parse(value).Elements())
@@ -118,7 +117,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 				else
 				{
 					// Assume a CSV source
-					selectedValues = value.Split(Settings.COMMA).ToList();
+					selectedValues = value.Split(Constants.Common.COMMA).ToList();
 				}
 
 				// Find checkboxes where values match the stored values and set to selected

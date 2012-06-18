@@ -2,13 +2,14 @@
 using uComponents.Core;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.CheckBoxTree
 {
 	/// <summary>
 	/// The CheckBoxTree data-type.
 	/// </summary>
-	public class CheckBoxTreeDataType : BaseDataType, IDataType
+	public class CheckBoxTreeDataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
 	{
 		/// <summary>
 		/// Field for the preValueEditor.
@@ -123,7 +124,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 
 						case Settings.OutputFormat.CSV:
 						default:
-							this.data = new DefaultData(this);
+							this.data = new umbraco.cms.businesslogic.datatype.DefaultData(this);
 							break;
 					}
 				}

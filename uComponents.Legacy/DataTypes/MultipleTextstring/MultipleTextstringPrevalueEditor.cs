@@ -2,8 +2,8 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.PrevalueEditors;
+using uComponents.DataTypes.Shared;
+using umbraco.editorControls;
 using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.DataTypes.MultipleTextstring
@@ -27,8 +27,8 @@ namespace uComponents.DataTypes.MultipleTextstring
 		/// Initializes a new instance of the <see cref="MultipleTextstringPrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public MultipleTextstringPrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+		public MultipleTextstringPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

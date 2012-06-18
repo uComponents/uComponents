@@ -5,6 +5,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.IO;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.FilePicker
 {
@@ -16,7 +17,7 @@ namespace uComponents.DataTypes.FilePicker
 		/// <summary>
 		/// The underlying base data-type.
 		/// </summary>
-		private readonly BaseDataType m_DataType;
+		private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
 		/// <summary>
 		/// An object to temporarily lock writing to the database.
@@ -27,7 +28,7 @@ namespace uComponents.DataTypes.FilePicker
 		/// Initializes a new instance of the <see cref="FP_PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public FP_PrevalueEditor(BaseDataType dataType)
+		public FP_PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
 			: base()
 		{
 			this.m_DataType = dataType;
@@ -64,7 +65,7 @@ namespace uComponents.DataTypes.FilePicker
 		/// </summary>
 		public override void Save()
 		{
-			this.m_DataType.DBType = DBTypes.Nvarchar;
+			this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar;
 
 			lock (m_Locker)
 			{

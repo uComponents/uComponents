@@ -43,7 +43,7 @@ namespace umbraco.editorControls.MultiNodeTreePicker
         {
             get
             {
-                return new Guid(DataTypeConstants.MultiNodeTreePickerId);
+                return new Guid(DataTypeGuids.MultiNodeTreePickerId);
             }
         }
 

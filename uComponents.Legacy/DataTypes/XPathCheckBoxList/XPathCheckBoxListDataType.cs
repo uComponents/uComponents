@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.Data;
+using uComponents.Core;
+using umbraco.editorControls;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
@@ -10,7 +10,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 	/// <summary>
 	/// This datatype will render a CheckBoxList where the options are defined by an XPath expression,
 	/// </summary>
-	public class XPathCheckBoxListDataType : BaseDataType, IDataType
+	public class XPathCheckBoxListDataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
 	{
 		/// <summary>
 		/// Field for the preValueEditor.
@@ -119,12 +119,12 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 					if (((XPathCheckBoxListPreValueEditor)this.PrevalueEditor).Options.UseXml)
 					{
 						// Storing an Xml fragment
-						this.data = new Shared.Data.XmlData(this);
+						this.data = new XmlData(this);
 					}
 					else
 					{
 						// Storing a Csv
-						this.data = new DefaultData(this);
+						this.data = new umbraco.cms.businesslogic.datatype.DefaultData(this);
 					}
 				}
 

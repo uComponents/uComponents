@@ -47,7 +47,7 @@ namespace umbraco.editorControls.MultipleTextstring
 		{
 			get
 			{
-				return new Guid(DataTypeConstants.MultipleTextstringId);
+				return new Guid(DataTypeGuids.MultipleTextstringId);
 			}
 		}
 

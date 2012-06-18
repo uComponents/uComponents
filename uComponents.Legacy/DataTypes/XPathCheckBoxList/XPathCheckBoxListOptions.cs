@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.PrevalueEditors;
+using uComponents.Core;
+using uComponents.DataTypes.Shared.PrevalueEditors;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.XPathCheckBoxList
 {

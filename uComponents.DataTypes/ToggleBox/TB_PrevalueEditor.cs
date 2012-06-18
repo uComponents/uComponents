@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.ToggleBox
 {
@@ -43,8 +44,8 @@ namespace uComponents.DataTypes.ToggleBox
 		/// Initializes a new instance of the <see cref="TB_PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public TB_PrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Integer)
+		public TB_PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Integer)
 		{
 		}
 

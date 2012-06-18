@@ -44,7 +44,7 @@ namespace umbraco.editorControls.Slider
 		{
 			get
 			{
-				return new Guid(DataTypeConstants.SliderId);
+				return new Guid(DataTypeGuids.SliderId);
 			}
 		}
 

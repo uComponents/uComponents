@@ -7,6 +7,7 @@ using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.StyledTextBox
 {
@@ -18,7 +19,7 @@ namespace uComponents.DataTypes.StyledTextBox
         /// <summary>
         /// The underlying base data-type.
         /// </summary>
-        private readonly BaseDataType m_DataType;
+        private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
         /// <summary>
         /// An object to temporarily lock writing to the database.
@@ -39,7 +40,7 @@ namespace uComponents.DataTypes.StyledTextBox
         /// Initializes a new instance of the <see cref="StyledTextBoxPrevalueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
-        public StyledTextBoxPrevalueEditor(BaseDataType dataType)
+		public StyledTextBoxPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
         {
             this.m_DataType = dataType;
         }
@@ -100,7 +101,7 @@ namespace uComponents.DataTypes.StyledTextBox
         /// </summary>
         public void Save()
         {
-            this.m_DataType.DBType = DBTypes.Nvarchar;
+			this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar;
 
             lock (m_Locker)
             {

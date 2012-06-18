@@ -5,13 +5,14 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.PrevalueEditors;
+using uComponents.Core;
+using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.controls.Tree;
 using umbraco.interfaces;
 using umbraco.IO;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Slider
 {
@@ -78,7 +79,7 @@ namespace uComponents.DataTypes.Slider
 		/// Initializes a new instance of the <see cref="SliderPrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public SliderPrevalueEditor(BaseDataType dataType)
+		public SliderPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
 			: base(dataType)
 		{
 		}
@@ -89,20 +90,20 @@ namespace uComponents.DataTypes.Slider
 		public override void Save()
 		{
 			// set the database data-type
-			this.m_DataType.DBType = (DBTypes)Enum.Parse(typeof(DBTypes), this.DatabaseDataType.SelectedValue);
+			this.m_DataType.DBType = (umbraco.cms.businesslogic.datatype.DBTypes)Enum.Parse(typeof(umbraco.cms.businesslogic.datatype.DBTypes), this.DatabaseDataType.SelectedValue);
 
-            // parse the integers & doubles
-            double maxValue, minValue, value, value2, stepValue;
-            double.TryParse(this.MaxValue.Text, out maxValue);
-            double.TryParse(this.MinValue.Text, out minValue);
-            double.TryParse(this.Value.Text, out value);
-            double.TryParse(this.Value2.Text, out value2);
-            double.TryParse(this.StepValue.Text, out stepValue);
+			// parse the integers & doubles
+			double maxValue, minValue, value, value2, stepValue;
+			double.TryParse(this.MaxValue.Text, out maxValue);
+			double.TryParse(this.MinValue.Text, out minValue);
+			double.TryParse(this.Value.Text, out value);
+			double.TryParse(this.Value2.Text, out value2);
+			double.TryParse(this.StepValue.Text, out stepValue);
 
 			// set the options
 			var options = new SliderOptions()
 			{
-                DBType = (DBTypes)Enum.Parse(typeof(DBTypes), this.DatabaseDataType.SelectedValue),
+				DBType = (umbraco.cms.businesslogic.datatype.DBTypes)Enum.Parse(typeof(umbraco.cms.businesslogic.datatype.DBTypes), this.DatabaseDataType.SelectedValue),
 				EnableRange = this.EnableRange.Checked,
 				EnableStep = this.EnableStep.Checked,
 				MaxValue = maxValue,
@@ -142,20 +143,20 @@ namespace uComponents.DataTypes.Slider
 			this.DatabaseDataType = new DropDownList() { ID = "DatabaseDataType" };
 			this.EnableRange = new CheckBox() { ID = "EnableRange" };
 			this.EnableStep = new CheckBox() { ID = "EnableStep" };
-            this.MinValue = new TextBox() { ID = "MinValue", CssClass = "guiInputText slider-numeric slider-decimal" };
-            this.MaxValue = new TextBox() { ID = "MaxValue", CssClass = "guiInputText slider-numeric slider-decimal" };
+			this.MinValue = new TextBox() { ID = "MinValue", CssClass = "guiInputText slider-numeric slider-decimal" };
+			this.MaxValue = new TextBox() { ID = "MaxValue", CssClass = "guiInputText slider-numeric slider-decimal" };
 			this.Orientation = new DropDownList() { ID = "Orientation" };
 			this.RangeValue = new DropDownList() { ID = "RangeValue" };
-            this.StepValue = new TextBox() { ID = "StepValue", CssClass = "guiInputText slider-numeric slider-decimal" };
-            this.Value = new TextBox() { ID = "Value", CssClass = "guiInputText slider-numeric slider-decimal" };
-            this.Value2 = new TextBox() { ID = "Value2", CssClass = "guiInputText slider-numeric slider-decimal" };
+			this.StepValue = new TextBox() { ID = "StepValue", CssClass = "guiInputText slider-numeric slider-decimal" };
+			this.Value = new TextBox() { ID = "Value", CssClass = "guiInputText slider-numeric slider-decimal" };
+			this.Value2 = new TextBox() { ID = "Value2", CssClass = "guiInputText slider-numeric slider-decimal" };
 			////this.PreviewSlider = new SliderControl() { ID = "PreviewSlider", Options = new SliderOptions(true) };
 
 			// add the database data-type options
 			this.DatabaseDataType.Items.Clear();
-			this.DatabaseDataType.Items.Add(DBTypes.Integer.ToString());
+			this.DatabaseDataType.Items.Add(umbraco.cms.businesslogic.datatype.DBTypes.Integer.ToString());
 			//this.DatabaseDataType.Items.Add(DBTypes.Ntext.ToString());
-			this.DatabaseDataType.Items.Add(DBTypes.Nvarchar.ToString());
+			this.DatabaseDataType.Items.Add(umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar.ToString());
 
 			// add range options
 			this.RangeValue.Items.Clear();

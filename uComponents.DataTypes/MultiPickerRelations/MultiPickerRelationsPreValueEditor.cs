@@ -7,6 +7,7 @@ using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.relation;
 using umbraco.macroRenderings;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.MultiPickerRelations
 {
@@ -111,8 +112,8 @@ namespace uComponents.DataTypes.MultiPickerRelations
         /// Initialize a new instance of MultiPickerRelationsPreValueEditor
         /// </summary>
         /// <param name="dataType">MultiPickerRelationsDataType</param>
-        public MultiPickerRelationsPreValueEditor(BaseDataType dataType)
-            : base(dataType, DBTypes.Nvarchar)
+        public MultiPickerRelationsPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
         {
         }
 

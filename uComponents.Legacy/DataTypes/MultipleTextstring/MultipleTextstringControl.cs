@@ -6,6 +6,7 @@ using ClientDependency.Core;
 using uComponents.DataTypes.MultipleTextstring;
 using uComponents.Core;
 using umbraco;
+using umbraco.editorControls;
 
 [assembly: WebResource(MultipleTextstringControl.CssResourcePath, Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource(MultipleTextstringControl.JavaScriptResourcePath, Constants.MediaTypeNames.Application.JavaScript)]
@@ -122,7 +123,7 @@ namespace uComponents.DataTypes.MultipleTextstring
 			// check the minimum number allowed, add extra fields.
 			if (this.values.Count < this.Options.Minimum && this.Options.Minimum > 1)
 			{
-				this.values.AddRange(new string(Settings.COMMA, this.Options.Minimum - 1).Split(new[] { Settings.COMMA }, StringSplitOptions.None));
+				this.values.AddRange(new string(Constants.Common.COMMA, this.Options.Minimum - 1).Split(new[] { Constants.Common.COMMA }, StringSplitOptions.None));
 			}
 
 			// check the maxmimum number allowed, remove the excess.

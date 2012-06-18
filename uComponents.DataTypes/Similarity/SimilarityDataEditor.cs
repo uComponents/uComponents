@@ -10,6 +10,7 @@ using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.web;
 using umbraco.IO;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]

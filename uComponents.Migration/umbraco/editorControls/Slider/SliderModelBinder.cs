@@ -7,7 +7,7 @@ namespace umbraco.editorControls.Slider
 	/// <summary>
 	/// Model binder for the Slider data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.SliderId)]
+	[RazorDataTypeModel(DataTypeGuids.SliderId)]
 	public class SliderModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>

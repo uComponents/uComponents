@@ -2,11 +2,11 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
-
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.PrevalueEditors;
-
+using uComponents.Core;
+using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
+using umbraco;
 
 namespace uComponents.DataTypes.XPathCheckBoxList
 {
@@ -79,7 +79,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 		/// Initialize a new instance of XPathCheckBoxlistPreValueEditor
 		/// </summary>
 		/// <param name="dataType">XPathCheckBoxListDataType</param>
-		public XPathCheckBoxListPreValueEditor(BaseDataType dataType)
+		public XPathCheckBoxListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
 			: base(dataType)
 		{
 		}
@@ -90,8 +90,8 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 		protected override void CreateChildControls()
 		{
 			this.dbTypeDropDownList.ID = "dbTypeDropDownList";
-			this.dbTypeDropDownList.Items.Add(new ListItem(DBTypes.Nvarchar.ToString()));
-			this.dbTypeDropDownList.Items.Add(new ListItem(DBTypes.Ntext.ToString()));
+			this.dbTypeDropDownList.Items.Add(new ListItem(umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar.ToString()));
+			this.dbTypeDropDownList.Items.Add(new ListItem(umbraco.cms.businesslogic.datatype.DBTypes.Ntext.ToString()));
 
 			this.xPathTextBox.ID = "xPathTextBox";
 			this.xPathTextBox.CssClass = "umbEditorTextField";
@@ -168,7 +168,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 		{
 			if (this.Page.IsValid)
 			{
-				base.m_DataType.DBType = (DBTypes)Enum.Parse(typeof(DBTypes), this.dbTypeDropDownList.SelectedValue, true);
+				base.m_DataType.DBType = (umbraco.cms.businesslogic.datatype.DBTypes)Enum.Parse(typeof(umbraco.cms.businesslogic.datatype.DBTypes), this.dbTypeDropDownList.SelectedValue, true);
 
 				this.Options.XPath = this.xPathTextBox.Text;
 				this.Options.UseXml = bool.Parse(this.storageTypeRadioButtonList.SelectedValue);

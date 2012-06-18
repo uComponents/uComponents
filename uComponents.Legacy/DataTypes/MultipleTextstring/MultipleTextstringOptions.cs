@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 
-using uComponents.Core.Shared.PrevalueEditors;
+using uComponents.DataTypes.Shared.PrevalueEditors;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.MultipleTextstring
 {

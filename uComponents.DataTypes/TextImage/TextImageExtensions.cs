@@ -2,6 +2,7 @@
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.TextImage.images.color.png", Constants.MediaTypeNames.Image.Png)]
 [assembly: WebResource("uComponents.DataTypes.TextImage.images.colorpicker.png", Constants.MediaTypeNames.Image.Png)]

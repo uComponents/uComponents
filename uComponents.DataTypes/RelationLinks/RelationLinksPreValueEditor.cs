@@ -6,6 +6,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.relation;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.RelationLinks
 {
@@ -36,8 +37,8 @@ namespace uComponents.DataTypes.RelationLinks
             }
         }
 
-        public RelationLinksPreValueEditor(BaseDataType dataType)
-            : base(dataType, DBTypes.Ntext)
+        public RelationLinksPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
         }
 

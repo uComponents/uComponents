@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
-using uComponents.Core.Shared.PrevalueEditors;
+using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Slider
 {
@@ -93,7 +94,7 @@ namespace uComponents.DataTypes.Slider
         /// <summary>
         /// Gets or sets the Database Storage Type 
         /// </summary>
-        [DefaultValue(DBTypes.Integer)]
-        public DBTypes DBType { get; set; }
+        [DefaultValue(umbraco.cms.businesslogic.datatype.DBTypes.Integer)]
+        public umbraco.cms.businesslogic.datatype.DBTypes DBType { get; set; }
 	}
 }

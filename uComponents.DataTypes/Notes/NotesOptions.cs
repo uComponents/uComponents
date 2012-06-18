@@ -1,4 +1,4 @@
-﻿using umbraco.cms.businesslogic.datatype;
+﻿using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Notes
 {

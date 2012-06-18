@@ -1,13 +1,14 @@
 ﻿using System;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.EnumCheckBoxList
 {
 	/// <summary>
 	/// The Enum CheckBoxList data-type.
 	/// </summary>
-	public class EnumCheckBoxListDataType : BaseDataType, IDataType
+	public class EnumCheckBoxListDataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
 	{
 		/// <summary>
 		/// Private field for the Prevalue Editor.
@@ -99,7 +100,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 					else
 					{
 						// Storing a Csv
-						this.data = new DefaultData(this);
+						this.data = new umbraco.cms.businesslogic.datatype.DefaultData(this);
 					}
 				}
 

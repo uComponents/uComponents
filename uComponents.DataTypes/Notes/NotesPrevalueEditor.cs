@@ -6,6 +6,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.IO;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Notes
 {
@@ -34,7 +35,7 @@ namespace uComponents.DataTypes.Notes
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
         public NotesPrevalueEditor(NotesDataType dataType) 
-            : base(dataType, DBTypes.Ntext)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         { }
 
         /// <summary>

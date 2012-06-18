@@ -8,6 +8,7 @@ using umbraco.cms.businesslogic;
 using umbraco.BusinessLogic;
 using umbraco.presentation;
 using uComponents.Core;
+using umbraco;
 
 namespace uComponents.DataTypes.MultiNodeTreePicker
 {
@@ -78,7 +79,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
                 //if the id is -1, then the start node is the user's start node
                 determinedStartNodeId = userStartNode.Id;
             }
-            else if (definedStartNode.Path.Split(Settings.COMMA).Contains(userStartNode.Id.ToString()))
+            else if (definedStartNode.Path.Split(Constants.Common.COMMA).Contains(userStartNode.Id.ToString()))
             {
                 //If User's start node id is found in the defined path, then the start node id
                 //can (allowed) be the defined path.
@@ -86,13 +87,13 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 
                 determinedStartNodeId = definedStartNode.Id;
             }
-			else if (userStartNode.Path.Split(Settings.COMMA).Contains(definedStartNode.Id.ToString()))
+			else if (userStartNode.Path.Split(Constants.Common.COMMA).Contains(definedStartNode.Id.ToString()))
             {
                 //if the defined start node id is found in the user's path, then the start node id
                 //can only be the user's, not the actual start
                 determinedStartNodeId = userStartNode.Id;
             }
-			else if (!definedStartNode.Path.Split(Settings.COMMA).Contains(userStartNode.Id.ToString()))
+			else if (!definedStartNode.Path.Split(Constants.Common.COMMA).Contains(userStartNode.Id.ToString()))
             {
                 //they should not have any access!
                 determinedStartNodeId = NoAccessId;

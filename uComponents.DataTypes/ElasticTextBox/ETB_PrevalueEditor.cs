@@ -6,6 +6,7 @@ using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.Core.Shared.DataTypes.ElasticTextBox.jquery.elastic.js", Constants.MediaTypeNames.Application.JavaScript)]
 
@@ -45,8 +46,8 @@ namespace uComponents.DataTypes.ElasticTextBox
 		/// Initializes a new instance of the <see cref="ETB_PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public ETB_PrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+		public ETB_PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

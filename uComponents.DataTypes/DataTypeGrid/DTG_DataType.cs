@@ -7,13 +7,14 @@
 using System;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
     /// <summary>
     /// The dtg data type.
     /// </summary>
-    public class DataType : BaseDataType, IDataType
+    public class DataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
     {
         #region Declarations
 

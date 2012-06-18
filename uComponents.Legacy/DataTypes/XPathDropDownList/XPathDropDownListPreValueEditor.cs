@@ -2,11 +2,11 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
-
-using uComponents.Core.Shared;
-using uComponents.Core.Shared.PrevalueEditors;
-
+using uComponents.Core;
+using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
+using umbraco;
 
 namespace uComponents.DataTypes.XPathDropDownList
 {
@@ -64,8 +64,8 @@ namespace uComponents.DataTypes.XPathDropDownList
 		/// Initialize a new instance of XPathCheckBoxlistPreValueEditor
 		/// </summary>
 		/// <param name="dataType">XPathCheckBoxListDataType</param>
-		public XPathDropDownListPreValueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Nvarchar)
+		public XPathDropDownListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
 		{
 		}
 

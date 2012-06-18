@@ -3,6 +3,7 @@ using uComponents.DataTypes.MultiUrlPicker.Dto;
 using uComponents.DataTypes.UrlPicker;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.MultiUrlPicker
 {
@@ -67,7 +68,7 @@ namespace uComponents.DataTypes.MultiUrlPicker
                     }
                     else
                     {
-                        this.m_Data = new DefaultData(this);
+                        this.m_Data = new umbraco.cms.businesslogic.datatype.DefaultData(this);
                     }
                 }
 
@@ -137,7 +138,7 @@ namespace uComponents.DataTypes.MultiUrlPicker
         {
             // Fill DataEditor with the prevalue settings and a unique ID
             var settings = Settings;
-            settings.UniquePropertyId = ((DefaultData)this.Data).PropertyId;
+            settings.UniquePropertyId = ((umbraco.cms.businesslogic.datatype.DefaultData)this.Data).PropertyId;
             settings.UrlPickerSettings.UniquePropertyId = settings.UniquePropertyId;
             settings.Standalone = false;
             m_DataEditor.Settings = settings;

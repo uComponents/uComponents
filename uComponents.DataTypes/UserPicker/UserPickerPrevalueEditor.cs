@@ -7,6 +7,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.UserPicker
 {
@@ -29,8 +30,8 @@ namespace uComponents.DataTypes.UserPicker
 		/// Initializes a new instance of the <see cref="UserPickerPrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public UserPickerPrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Integer)
+		public UserPickerPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Integer)
 		{
 		}
 

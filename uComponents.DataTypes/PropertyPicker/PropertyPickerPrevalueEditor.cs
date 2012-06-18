@@ -6,6 +6,7 @@ using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.PropertyPicker
 {
@@ -38,8 +39,8 @@ namespace uComponents.DataTypes.PropertyPicker
 		/// Initializes a new instance of the <see cref="PropertyPickerPrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public PropertyPickerPrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Nvarchar)
+		public PropertyPickerPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
 		{
 		}
 

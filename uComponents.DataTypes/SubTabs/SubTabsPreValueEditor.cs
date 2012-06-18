@@ -5,6 +5,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SubTabs
 {
@@ -25,8 +26,8 @@ namespace uComponents.DataTypes.SubTabs
         /// Initializes a new instance of the <see cref="SubTabsPreValueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
-        public SubTabsPreValueEditor(BaseDataType dataType)
-            : base(dataType, DBTypes.Ntext)
+        public SubTabsPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
         }
 

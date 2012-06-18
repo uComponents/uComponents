@@ -7,6 +7,7 @@ using umbraco.interfaces;
 using System.Xml.Linq;
 using System.Xml;
 using System.Web;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.MultiNodeTreePicker
 {
@@ -68,7 +69,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
             {
                 if (this.m_Data == null)
                 {
-                    m_Data = StoreAsCommaDelimited ? new DefaultData(this) : new Shared.Data.XmlData(this);                    
+                    m_Data = StoreAsCommaDelimited ? new umbraco.cms.businesslogic.datatype.DefaultData(this) : new XmlData(this);                    
                 }
 
                 return m_Data;

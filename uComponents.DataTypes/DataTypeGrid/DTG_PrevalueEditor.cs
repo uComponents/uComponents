@@ -31,6 +31,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 	using umbraco.cms.businesslogic.datatype;
 	using umbraco;
+	using umbraco.editorControls;
 
 	/// <summary>
 	/// The PreValue Editor for the DTG DataType.
@@ -117,8 +118,8 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// Initializes a new instance of the <see cref="PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">The DataType.</param>
-		public PrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+		public PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 			// Ensure settings file exists
 			DtgHelpers.EnsureFileExists(HttpContext.Current.Server.MapPath("~/config/DataTypeGrid.config"), DtgConfiguration.DataTypeGrid, m_Locker);

@@ -2,6 +2,7 @@
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using umbraco.cms.businesslogic.datatype;
 using uComponents.DataTypes.Shared.PrevalueEditors;
-using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.MultipleTextstring
 {

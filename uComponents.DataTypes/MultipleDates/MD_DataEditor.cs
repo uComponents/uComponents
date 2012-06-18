@@ -5,6 +5,7 @@ using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.uicontrols.DatePicker;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.MultipleDates.css.MultipleDates.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.MultipleDates.scripts.main.js", Constants.MediaTypeNames.Application.JavaScript)]

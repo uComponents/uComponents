@@ -10,6 +10,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.presentation;
+using umbraco.editorControls;
 
 namespace uComponents.UI
 {

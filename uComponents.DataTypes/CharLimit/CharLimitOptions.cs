@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Web.UI.WebControls;
-using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.CharLimit
 {

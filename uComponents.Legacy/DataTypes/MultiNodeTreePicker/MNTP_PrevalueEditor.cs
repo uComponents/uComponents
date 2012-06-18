@@ -11,6 +11,7 @@ using System.Collections;
 using umbraco.uicontrols.TreePicker;
 using System.Web.UI.HtmlControls;
 using umbraco;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.MultiNodeTreePicker
 {
@@ -19,7 +20,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
     /// </summary>
     public class MNTP_PrevalueEditor : Control, IDataPrevalue
     {
-        private readonly BaseDataType m_DataType;
+        private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
         private static readonly object Locker = new object();
         private SortedList m_PreValues = null;
 
@@ -306,7 +307,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 		/// Initializes a new instance of the <see cref="MNTP_PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-        public MNTP_PrevalueEditor(BaseDataType dataType)
+        public MNTP_PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
         {
             m_DataType = dataType;
         }
@@ -621,7 +622,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
             if (!Page.IsValid) { return; }
 
             //it will always be text since people may save a huge amount of selected nodes and serializing to xml could be large.
-            m_DataType.DBType = DBTypes.Ntext;
+            m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Ntext;
 
             //need to lock this operation since multiple inserts are happening and if 2 threads reach here at the same time, there 
             //could be issues.

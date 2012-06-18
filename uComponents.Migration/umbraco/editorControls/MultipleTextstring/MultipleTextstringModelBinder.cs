@@ -7,7 +7,7 @@ namespace umbraco.editorControls.MultipleTextstring
 	/// <summary>
 	/// Model binder for the Multiple Textstring data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.MultipleTextstringId)]
+	[RazorDataTypeModel(DataTypeGuids.MultipleTextstringId)]
 	public class MultipleTextstringModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>

@@ -10,6 +10,7 @@ using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 using umbraco.IO;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {           
@@ -21,7 +22,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <summary>
 		/// 
 		/// </summary>
-        private readonly BaseDataType m_DataType;
+        private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
 		/// <summary>
 		/// 
@@ -71,7 +72,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// Initializes a new instance of the <see cref="MultiImageUpload_PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-       public MultiImageUpload_PrevalueEditor(BaseDataType dataType)
+       public MultiImageUpload_PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
         {
             m_DataType = dataType;
         }
@@ -233,7 +234,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// </summary>
         public void Save()
         {            
-            m_DataType.DBType = DBTypes.Ntext;
+            m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Ntext;
             
             if (UploadControl.HasFile)
             {

@@ -66,7 +66,7 @@ namespace umbraco.editorControls.XPathCheckBoxList
 		{
 			get
 			{
-				return new Guid(DataTypeConstants.XPathCheckBoxListId);
+				return new Guid(DataTypeGuids.XPathCheckBoxListId);
 			}
 		}
 
