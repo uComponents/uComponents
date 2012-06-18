@@ -76,6 +76,11 @@
 		public const string JsonDropdownId = "66F73B88-32B6-4A71-87E2-59DEC023BCDA";
 
 		/// <summary>
+		/// Guid for the MultiNodeTreePicker data-type.
+		/// </summary>
+		public const string MultiNodeTreePickerId = "C2D6894B-E788-4425-BCF2-308568E3D38B";
+
+		/// <summary>
 		/// Guid for the MultiPickerRelations data-type.
 		/// </summary>
 		public const string MultiPickerRelationsId = "16E15241-BFD2-4289-A82B-44EFFA0245C0";
@@ -84,6 +89,11 @@
 		/// Guid for the MultipleDates data-type.
 		/// </summary>
 		public const string MultipleDatesId = "F88229E1-7928-4BED-AA8D-8FC2CA7FDCB5";
+
+		/// <summary>
+		/// Guid for the MultipleTextstring data-type.
+		/// </summary>
+		public const string MultipleTextstringId = "BCE5E3EF-F15A-4484-8E56-38174FEFD579";
 
 		/// <summary>
 		/// Guid for the MultiUrlPicker data-type.
@@ -124,6 +134,11 @@
 		/// Guid for the Similarity data-type.
 		/// </summary>
 		public const string SimilarityId = "39CF17DB-02E5-4dc5-B6EA-718640328492";
+
+		/// <summary>
+		/// Guid for the Slider data-type.
+		/// </summary>
+		public const string SliderId = "B5BD6E2C-464B-406B-BCCE-A132E7D76981";
 
 		/// <summary>
 		/// Guid for the SqlDropDownList data-type.
@@ -169,5 +184,15 @@
 		/// Guid for the UserPicker data-type.
 		/// </summary>
 		public const string UserPickerId = "DEC7A504-ABD1-4F35-A136-58B89DCF174C";
+
+		/// <summary>
+		/// Guid for the XPathCheckBoxList data-type.
+		/// </summary>
+		public const string XPathCheckBoxListId = "D2D46927-F4F8-4B1B-ADD7-661CC09A0539";
+
+		/// <summary>
+		/// Guid for the XPathDropDownList data-type.
+		/// </summary>
+		public const string XPathDropDownListId = "57A62843-C488-4C29-8125-52F51873613E";
 	}
 }
