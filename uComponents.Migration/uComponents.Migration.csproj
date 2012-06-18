@@ -71,22 +71,19 @@
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="umbraco\cms\businesslogic\datatype\AbstractJsonPrevalueEditor.cs" />
-    <Compile Include="umbraco\cms\businesslogic\datatype\AbstractOptions.cs" />
-    <Compile Include="umbraco\cms\businesslogic\datatype\AbstractPrevalueEditor.cs" />
-    <Compile Include="umbraco\cms\businesslogic\datatype\CsvToXmlData.cs" />
-    <Compile Include="umbraco\cms\businesslogic\datatype\PrevalueEditorExtensions.cs" />
-    <Compile Include="umbraco\cms\businesslogic\datatype\ResourceExtensions.cs" />
-    <Compile Include="umbraco\cms\businesslogic\datatype\XmlData.cs" />
-    <Compile Include="umbraco\controls\TreePicker\CustomTreeControl.cs">
+    <Compile Include="umbraco\controls\Tree\CustomTreeControl.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="umbraco\controls\TreePicker\CustomTreeService.cs">
+    <Compile Include="umbraco\controls\Tree\CustomTreeService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="umbraco\controls\TreePicker\CustomTreeServiceResource.Designer.cs" />
-    <Compile Include="umbraco\controls\TreePicker\NodeInfo.cs" />
-    <Compile Include="umbraco\editorControls\DataTypeConstants.cs" />
+    <Compile Include="umbraco\controls\Tree\CustomTreeServiceResource.Designer.cs" />
+    <Compile Include="umbraco\controls\Tree\NodeInfo.cs" />
+    <Compile Include="umbraco\editorControls\AbstractJsonPrevalueEditor.cs" />
+    <Compile Include="umbraco\editorControls\AbstractOptions.cs" />
+    <Compile Include="umbraco\editorControls\AbstractPrevalueEditor.cs" />
+    <Compile Include="umbraco\editorControls\CsvToXmlData.cs" />
+    <Compile Include="umbraco\editorControls\DataTypeGuids.cs" />
     <Compile Include="umbraco\editorControls\MultiNodeTreePicker\BaseTreeExtensions.cs" />
     <Compile Include="umbraco\editorControls\MultiNodeTreePicker\FilteredContentTree.cs" />
     <Compile Include="umbraco\editorControls\MultiNodeTreePicker\FilteredMediaTree.cs" />
@@ -107,11 +104,14 @@
     <Compile Include="umbraco\editorControls\MultipleTextstring\MultipleTextstringModelBinder.cs" />
     <Compile Include="umbraco\editorControls\MultipleTextstring\MultipleTextstringOptions.cs" />
     <Compile Include="umbraco\editorControls\MultipleTextstring\MultipleTextstringPrevalueEditor.cs" />
+    <Compile Include="umbraco\editorControls\PrevalueEditorExtensions.cs" />
+    <Compile Include="umbraco\editorControls\ResourceExtensions.cs" />
     <Compile Include="umbraco\editorControls\Slider\SliderControl.cs" />
     <Compile Include="umbraco\editorControls\Slider\SliderDataType.cs" />
     <Compile Include="umbraco\editorControls\Slider\SliderModelBinder.cs" />
     <Compile Include="umbraco\editorControls\Slider\SliderOptions.cs" />
     <Compile Include="umbraco\editorControls\Slider\SliderPrevalueEditor.cs" />
+    <Compile Include="umbraco\editorControls\XmlData.cs" />
     <Compile Include="umbraco\editorControls\XPathCheckBoxList\XPathCheckBoxListDataEditor.cs" />
     <Compile Include="umbraco\editorControls\XPathCheckBoxList\XPathCheckBoxListDataType.cs" />
     <Compile Include="umbraco\editorControls\XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
@@ -143,7 +143,7 @@
     <Compile Include="umbraco\uQuery\uQuery.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="umbraco\controls\TreePicker\CustomTreeServiceResource.resx" />
+    <EmbeddedResource Include="umbraco\controls\Tree\CustomTreeServiceResource.resx" />
     <EmbeddedResource Include="umbraco\editorControls\MultiNodeTreePicker\MNTPResources.resx" />
   </ItemGroup>
   <ItemGroup>
@@ -153,10 +153,10 @@
     <EmbeddedResource Include="umbraco\editorControls\MultipleTextstring\MultipleTextstring.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="umbraco\controls\TreePicker\CustomTreeService.asmx" />
+    <EmbeddedResource Include="umbraco\editorControls\MultiNodeTreePicker\jquery.tooltip.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="umbraco\editorControls\MultiNodeTreePicker\jquery.tooltip.min.js" />
+    <Content Include="umbraco\controls\Tree\CustomTreeService.asmx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

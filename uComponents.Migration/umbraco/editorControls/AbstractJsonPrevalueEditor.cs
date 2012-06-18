@@ -3,7 +3,7 @@ using System.Web.Script.Serialization;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
 
-namespace umbraco.cms.businesslogic.datatype
+namespace umbraco.editorControls
 {
 	/// <summary>
 	/// Abstract class for the PreValue Editor.

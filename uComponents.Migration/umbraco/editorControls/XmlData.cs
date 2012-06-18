@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using umbraco.cms.businesslogic.datatype;
 
-namespace umbraco.cms.businesslogic.datatype
+namespace umbraco.editorControls
 {
 	/// <summary>
 	/// Overrides the <see cref="umbraco.cms.businesslogic.datatype.DefaultData"/> object to return the value as XML.

@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Defines the Guids for all the DataTypes; e.g. quick access to 3rd-party developers.
 	/// </summary>
-	public static class DataTypeConstants
+	public static class DataTypeGuids
 	{
 		/// <summary>
 		/// Guid for the MultiNodeTreePicker data-type.

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Web.UI;
 using umbraco;
+using umbraco.cms.businesslogic.datatype;
 
-namespace umbraco.cms.businesslogic.datatype
+namespace umbraco.editorControls
 {
 	/// <summary>
 	/// Extension methods for embedded resources

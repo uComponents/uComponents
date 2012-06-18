@@ -4,7 +4,7 @@ using System.Web.UI.WebControls;
 using ClientDependency.Core;
 using umbraco.interfaces;
 
-namespace umbraco.cms.businesslogic.datatype
+namespace umbraco.editorControls
 {
 	/// <summary>
 	/// Abstract class for the PreValue Editor.
