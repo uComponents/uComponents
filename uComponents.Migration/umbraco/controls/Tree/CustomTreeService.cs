@@ -6,9 +6,8 @@ using System.Web.Services;
 using umbraco;
 using umbraco.cms.businesslogic;
 using umbraco.cms.presentation.Trees;
-using umbraco.controls.Tree;
 
-namespace umbraco.controls.TreePicker
+namespace umbraco.controls.Tree
 {
 	/// <summary>
 	/// Client side ajax utlities for the tree

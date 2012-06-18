@@ -1,4 +1,4 @@
-﻿namespace umbraco.controls.TreePicker
+﻿namespace umbraco.controls.Tree
 {
 	/// <summary>
 	/// Simple data object to hold information about a node

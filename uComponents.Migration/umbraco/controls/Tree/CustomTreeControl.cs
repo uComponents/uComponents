@@ -3,10 +3,9 @@ using System.IO;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using ClientDependency.Core;
-using umbraco.controls.Tree;
 using umbraco.IO;
 
-namespace umbraco.controls.TreePicker
+namespace umbraco.controls.Tree
 {
 	/// <summary>
 	/// A custom tree control that uses a custom web service to return the initial node, this is required

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace umbraco.controls.TreePicker
+namespace umbraco.controls.Tree
 {
 
 
