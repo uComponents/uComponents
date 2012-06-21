@@ -41,6 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rd Party Assemblies", "3rd
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2ADE05-3906-4DDA-87E3-4D84539AB51C}"
 	ProjectSection(SolutionItems) = preProject
+		CREDITS.txt = CREDITS.txt
 		MIT-LICENSE.txt = MIT-LICENSE.txt
 	EndProjectSection
 EndProject

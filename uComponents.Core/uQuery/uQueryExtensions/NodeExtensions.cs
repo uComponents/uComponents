@@ -278,19 +278,32 @@ namespace uComponents.Core.uQueryExtensions
 					return (T)typeConverter.ConvertFrom(node.GetPropertyAsBoolean(propertyAlias).ToString());
 				}
 
+				// XmlDocument
+				else if (typeof(T) == typeof(XmlDocument))
+				{
+					var xmlDocument = new XmlDocument();
+
+					try
+					{
+						xmlDocument.Load(node.GetPropertyAsString(propertyAlias));
+					}
+					catch
+					{
+					}
+
+					return (T)((object)xmlDocument);
+				}
+
 				try
 				{
 					return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
 				}
 				catch
 				{
-					return default(T);
 				}
 			}
-			else
-			{
-				return default(T);
-			}
+
+			return default(T);
 		}
 
 		/// <summary>
@@ -383,7 +396,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// </summary>
 		/// <param name="node">an umbraco.presentation.nodeFactory.Node object</param>
 		/// <returns>int for depth, starts at 1</returns>
-		[Obsolete("Use Level instead")]
+		[Obsolete("Please use the .Level() extension method")]
 		public static int GetDepth(this Node node)
 		{
 			return node.Path.Split(Settings.COMMA).ToList().Count;
