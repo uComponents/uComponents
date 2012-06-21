@@ -896,11 +896,12 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 				{
 					// <DataTypeGrid>
 					var valueRow = new StoredValueRow();
-					if (container.Attributes != null)
-					{
+					
+					if (container.Attributes["id"] != null)
 						valueRow.Id = int.Parse(container.Attributes["id"].Value);
+
+					if (container.Attributes["sortOrder"] != null)
 						valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
-					}
 
 					foreach (PreValueRow config in this.StoredPreValues)
 					{
@@ -1088,7 +1089,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 			Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
 			StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
-			Rows = GetStoredValues();
+			Rows = this.GetStoredValues();
 			InsertDataTypes = GetInsertDataTypes();
 			EditDataTypes = GetEditDataTypes();
 
