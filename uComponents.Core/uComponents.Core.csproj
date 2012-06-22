@@ -645,9 +645,6 @@
     <Compile Include="XsltExtensions\Cms-Users.cs">
         <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
-    <Compile Include="XsltExtensions\Cms-Users.cs">
-        <DependentUpon>Cms.cs</DependentUpon>
-    </Compile>
     <Compile Include="XsltExtensions\Dates.cs" />
     <Compile Include="XsltExtensions\Email.cs" />
     <Compile Include="XsltExtensions\IO.cs" />

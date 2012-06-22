@@ -319,15 +319,8 @@ namespace uComponents.Core.uQueryExtensions
 					catch
 					{
 					}
-
-					return (T)((object)xmlDocument);
 				}
 				else
-				try
-				{
-					return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
-				}
-				catch
 				{
 					try
 					{
@@ -337,6 +330,15 @@ namespace uComponents.Core.uQueryExtensions
 					}
 					catch
 					{
+						try
+						{
+#pragma warning disable 0618
+							return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
+#pragma warning restore 0618
+						}
+						catch
+						{
+						}
 					}
 				}
 			}
@@ -487,7 +489,7 @@ namespace uComponents.Core.uQueryExtensions
 			* 
 			*/
 
-			if (!string.IsNullOrEmpty(node.GetPropertyAsString(propertyAlias)))
+			if (!string.IsNullOrEmpty(node.GetProperty<string>(propertyAlias)))
 			{
 				var xml = node.GetProperty<string>(propertyAlias);
 
@@ -660,7 +662,7 @@ namespace uComponents.Core.uQueryExtensions
 		public static bool IsHiddenFromNavigation(this Node node)
 		{
 			// TODO: [OA] Document on Codeplex. Is this one really necessary?
-			return node.GetPropertyAsBoolean(Constants.Umbraco.Content.NaviHide);
+			return node.GetProperty<bool>(Constants.Umbraco.Content.NaviHide);
 		}
 
 #pragma warning disable 0618
@@ -685,12 +687,22 @@ namespace uComponents.Core.uQueryExtensions
 		}
 #pragma warning restore 0618
 
+		/// <summary>
+		/// Converts a Node to a DynamicNode.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns></returns>
 		public static DynamicNode ToDynamicNode(this Node node)
 		{
 			return new DynamicNode(node);
 		}
 
-		// should this extension method ne moved to anther file for groups of nodes ?
+		/// <summary>
+		/// Converts a list of Nodes to a list of DynamicNodes.
+		/// </summary>
+		/// <param name="nodes">The nodes.</param>
+		/// <returns></returns>
+		/// <remarks>Should this extension method be moved to another file for groups of nodes?</remarks>
 		public static DynamicNodeList ToDynamicNodeList(this IEnumerable<Node> nodes)
 		{
 			return new DynamicNodeList(nodes);

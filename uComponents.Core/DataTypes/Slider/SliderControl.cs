@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 namespace uComponents.Core.DataTypes.Slider
 {

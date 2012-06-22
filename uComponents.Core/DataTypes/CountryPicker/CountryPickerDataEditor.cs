@@ -180,10 +180,10 @@ namespace uComponents.Core.DataTypes.CountryPicker
 
 			foreach (ListItem li in this._countryListBox.Items.Cast<ListItem>().Where(li => li.Selected))
 			{
-				sb.Append(li.Text).Append(Settings.COMMA);
+				sb.Append(li.Text).Append(Constants.Common.COMMA);
 			}
 
-			return sb.ToString().TrimEnd(new char[] { Settings.COMMA });
+			return sb.ToString().TrimEnd(new char[] { Constants.Common.COMMA });
 		}
 
 		/// <summary>

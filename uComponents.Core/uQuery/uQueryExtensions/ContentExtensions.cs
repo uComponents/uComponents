@@ -57,7 +57,7 @@ namespace uComponents.Core.uQueryExtensions
 					try
 					{
 #pragma warning disable 0618
-						xmlDocument.Load(item.GetPropertyAsString(propertyAlias));
+						xmlDocument.LoadXml(item.GetPropertyAsString(propertyAlias));
 #pragma warning restore 0618
 					}
 					catch

@@ -11,7 +11,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
     using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
 
     using umbraco.editorControls.pagepicker;
-    using umbraco.presentation.nodeFactory;
+    using umbraco.NodeFactory;
 
     internal class PagePickerDataTypeFunctions : IDataTypeFunctions<PagePickerDataType>
     {
