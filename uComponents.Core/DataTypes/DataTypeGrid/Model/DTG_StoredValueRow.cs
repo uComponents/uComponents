@@ -28,7 +28,15 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Model
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        public int Id { get; set; } 
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sort order.
+        /// </summary>
+        /// <value>
+        /// The sort order.
+        /// </value>
+        public int SortOrder { get; set; }
 
         /// <summary>
         /// Gets or sets the values.

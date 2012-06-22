@@ -18,7 +18,7 @@ leekelleher - Lee Kelleher - Project Coordinator
 	Not Found Handlers
 	XSLT Extensions
 	Controls: GetMedia, RenderTemplate
-	Package  Installer
+	Package Installer
 
 Hendy - Hendy Racher - Project Coordinator
 	Auto Complete
@@ -34,6 +34,7 @@ Hendy - Hendy Racher - Project Coordinator
 
 Azzlack - Ove Andersen
 	DataType Grid
+	uQuery
 
 dascoba - Daniel Bardi
 	Text Image

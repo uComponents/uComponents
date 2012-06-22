@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+
+using ClientDependency.Core.Controls;
+
 using uComponents.Core.Shared;
+using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
@@ -94,7 +100,7 @@ namespace uComponents.Core.DataTypes.Slider
 				if (data.Length > 0)
 				{
 					double value1, value2;
-					var values = data.Split(Constants.Common.COMMA);
+					var values = data.Split(Settings.COMMA);
 
 					if (double.TryParse(values[0], out value1))
 					{
@@ -119,8 +125,9 @@ namespace uComponents.Core.DataTypes.Slider
 		private void DataEditorControl_OnSave(EventArgs e)
 		{
 			// set the values (on PostBack)
-			double value1, value2 = 0;
-			var values = this.m_Control.Text.Split(Constants.Common.COMMA);
+			var value1 = this.m_Control.Options.MinValue;
+			var value2 = this.m_Control.Options.MaxValue;
+			var values = this.m_Control.Text.Split(Settings.COMMA);
 
 			if (double.TryParse(values[0], out value1))
 			{
@@ -133,24 +140,23 @@ namespace uComponents.Core.DataTypes.Slider
 			}
 
 			// save the value of the control
-			if (value2 > 0)
+			if (values.Length > 1 && value2 >= this.m_Control.Options.MinValue && value2 <= this.m_Control.Options.MaxValue)
 			{
-				this.Data.Value = string.Concat(value1, Constants.Common.COMMA, value2);
+				this.Data.Value = string.Concat(value1, Settings.COMMA, value2);
 			}
-			else
+			else if (value1 >= this.m_Control.Options.MinValue && value1 <= this.m_Control.Options.MaxValue)
 			{
+				int value1int;
+
 				// return an integer instead of double if applicable
-				if (this.m_Control.Options.DBType == DBTypes.Integer)
+				if (this.m_Control.Options.DBType == DBTypes.Integer && int.TryParse(value1.ToString(), out value1int))
 				{
-					int value1int = 0;
-					int.TryParse(value1.ToString(), out value1int);
 					this.Data.Value = value1int;
 				}
 				else
 				{
 					this.Data.Value = value1;
 				}
-
 			}
 		}
 	}

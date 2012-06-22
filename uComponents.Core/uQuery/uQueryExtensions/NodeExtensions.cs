@@ -319,8 +319,15 @@ namespace uComponents.Core.uQueryExtensions
 					catch
 					{
 					}
+
+					return (T)((object)xmlDocument);
 				}
 				else
+				try
+				{
+					return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
+				}
+				catch
 				{
 					try
 					{
