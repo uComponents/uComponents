@@ -1,5 +1,7 @@
-glob:*.csproj.user
-glob:*.suo
-glob:*/bin/*
-glob:*/obj/*
-glob:*.Cache
+syntax: glob
+*.csproj.user
+*.suo
+*/bin/*
+*/obj/*
+*.Cache
+TestResults/*
