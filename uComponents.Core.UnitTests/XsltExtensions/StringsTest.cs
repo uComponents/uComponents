@@ -1,12 +1,10 @@
-﻿using uComponents.Core.XsltExtensions;
+﻿using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Xml.XPath;
-using System.Xml;
+using uComponents.Core.XsltExtensions;
 
 namespace uComponents.Core.UnitTests.XsltExtensions
 {
-	[TestClass()]
+	[TestClass]
 	public class StringsTest
 	{
 		private TestContext testContextInstance;

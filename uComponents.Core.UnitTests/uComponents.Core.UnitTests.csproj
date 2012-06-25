@@ -66,6 +66,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="XsltExtensions\DatesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XsltExtensions\StringsTest.cs" />
     <Compile Include="XsltExtensions\NodesTest.cs" />
