@@ -30,52 +30,6 @@ namespace uComponents.Core.UnitTests.XsltExtensions
         }
 
 		[TestMethod]
-		public void CoalesceTest()
-		{
-			var arg1 = string.Empty;
-			var arg2 = "hello";
-			var arg3 = "world";
-			var expected = "hello";
-			var actual = Strings.Coalesce(arg1, arg2, arg3);
-			Assert.AreEqual(expected, actual);
-		}
-
-		[TestMethod]
-		public void CoalesceTest1()
-		{
-			var arg1 = string.Empty;
-			var arg2 = "hello";
-			var arg3 = "world";
-			var arg4 = "foo";
-			var expected = "hello";
-			var actual = Strings.Coalesce(arg1, arg2, arg3, arg4);
-			Assert.AreEqual(expected, actual);
-		}
-
-		[TestMethod]
-		public void CoalesceTest2()
-		{
-			var arg1 = string.Empty;
-			var arg2 = "hello";
-			var arg3 = "world";
-			var arg4 = "foo";
-			var arg5 = string.Empty;
-			var expected = "hello";
-			var actual = Strings.Coalesce(arg1, arg2, arg3, arg4, arg5);
-			Assert.AreEqual(expected, actual);
-		}
-
-		[TestMethod]
-		public void CoalesceTest3()
-		{
-			var arg1 = string.Empty;
-			var arg2 = "hello";
-			var expected = "hello";
-			var actual = Strings.Coalesce(arg1, arg2);
-			Assert.AreEqual(expected, actual);
-		}
-
-		[TestMethod]
 		public void ConcatTest()
 		{
 			var xml = new XmlDocument();
