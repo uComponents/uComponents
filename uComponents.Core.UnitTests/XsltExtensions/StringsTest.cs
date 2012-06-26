@@ -10,17 +10,23 @@ namespace uComponents.Core.UnitTests.XsltExtensions
         [TestMethod]
         public void CoalesceTests()
         {
+            var first = "first";
+            var second = "second";
+            var third = "third";
+            var forth = "forth";
+            var fifth = "fifth";
+
             Assert.AreEqual( Strings.Coalesce( null, null ), null, "Should return null if all parameters are null" );
-            Assert.AreEqual( Strings.Coalesce( "first", "second" ), "first", "Should return first value if all strings are not null" );
-            Assert.AreEqual( Strings.Coalesce( null, "second" ), "second", "Should return second value if first parameter is null" );
-            Assert.AreEqual( Strings.Coalesce( "", "second" ), "second", "Should return second value if first parameter is an empty string" );  
-            Assert.AreEqual( Strings.Coalesce( null, null, "third" ), "third", "Should return third parameters if previous are null" );
-            Assert.AreEqual( Strings.Coalesce( null, null, null, "forth" ), "forth", "Should return forth parameters if previous are null" );
-            Assert.AreEqual( Strings.Coalesce( null, null, null, null, "fifth" ), "fifth", "Should return fifth parameters if previous are null" );
-            Assert.AreEqual( Strings.Coalesce( "", "", "", "", "fifth" ), "fifth", "Should return fifth parameters if previous are emptry strings" );
-            Assert.AreEqual( Strings.Coalesce( null, "second", null ), "second", "Should return second parameters even if followed by nulls" );
-            Assert.AreEqual( Strings.Coalesce( null, "second", "third" ), "second", "Should return second parameters as its the first non-null even if followed by valid strings" );
-            Assert.AreEqual( Strings.Coalesce( "first", "second", "third", "forth", "fifth" ), "first", "Should return first parameter as its the first non-null even if followed by valid strings" );
+            Assert.AreEqual( Strings.Coalesce( first, second ), first, "Should return first value if all strings are not null" );
+            Assert.AreEqual( Strings.Coalesce( null, second ), second, "Should return second value if first parameter is null" );
+            Assert.AreEqual( Strings.Coalesce( string.Empty, second ), second, "Should return second value if first parameter is an empty string" );  
+            Assert.AreEqual( Strings.Coalesce( null, null, third ), third, "Should return third parameters if previous are null" );
+            Assert.AreEqual( Strings.Coalesce( null, null, null, forth ), forth, "Should return forth parameters if previous are null" );
+            Assert.AreEqual( Strings.Coalesce( null, null, null, null, fifth ), fifth, "Should return fifth parameters if previous are null" );
+            Assert.AreEqual( Strings.Coalesce( string.Empty, string.Empty, string.Empty, string.Empty, fifth ), fifth, "Should return fifth parameters if previous are emptry strings" );
+            Assert.AreEqual( Strings.Coalesce( null, second, null ), second, "Should return second parameters even if followed by nulls" );
+            Assert.AreEqual( Strings.Coalesce( null, second, "third" ), second, "Should return second parameters as its the first non-null even if followed by valid strings" );
+            Assert.AreEqual( Strings.Coalesce( first, second, third, forth, fifth ), first, "Should return first parameter as its the first non-null even if followed by valid strings" );
         }
 
 		[TestMethod]
