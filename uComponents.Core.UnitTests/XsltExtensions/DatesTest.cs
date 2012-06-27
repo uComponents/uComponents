@@ -192,8 +192,20 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var expected = xml.CreateNavigator().Select("/values");
 			var actual = Dates.ListDates(startDate, endDate);
 
-			Assert.AreEqual<XPathNodeIterator>(expected, actual); // TODO: [LK] How to compare an XPathNodeIterator?
-			Assert.Inconclusive("Verify the correctness of this test method.");
+			// move to first XML node - <values>
+			if (actual.MoveNext() && expected.MoveNext())
+			{
+				// select child nodes
+				var actualValues = actual.Current.SelectChildren(XPathNodeType.Element);
+				var expectedValues = expected.Current.SelectChildren(XPathNodeType.Element);
+
+				// iterate over each of the child nodes - <value>
+				while (actualValues.MoveNext() && expectedValues.MoveNext())
+				{
+					Assert.AreEqual(expectedValues.Current.Name, actualValues.Current.Name, "Should return true if the XML element names are the same");
+					Assert.AreEqual(expectedValues.Current.Value, actualValues.Current.Value, "Should return true if the XML element values are the same");
+				}
+			}
 		}
 
 		[TestMethod]
