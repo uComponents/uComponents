@@ -203,7 +203,7 @@ namespace uComponents.Core.XsltExtensions
 				!string.IsNullOrEmpty(outputFormat) && 
 				DateTime.TryParseExact(date, inputFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
 			{
-				return result.ToString(outputFormat);
+				return FormatDateTime(result, outputFormat);
 			}
 
 			return date;
