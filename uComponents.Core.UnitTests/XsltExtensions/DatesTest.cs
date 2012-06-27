@@ -9,20 +9,6 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 	[TestClass]
 	public class DatesTest
 	{
-		private TestContext testContextInstance;
-
-		public TestContext TestContext
-		{
-			get
-			{
-				return testContextInstance;
-			}
-			set
-			{
-				testContextInstance = value;
-			}
-		}
-
 		[TestMethod]
 		public void AddWorkdaysTest()
 		{
