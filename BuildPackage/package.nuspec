@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
 		<id>uComponents</id>
-		<version>3.1.1</version>
+		<version>3.1.2</version>
 		<title>uComponents</title>
 		<authors>Lee Kelleher,Hendy Racher,Shannon Deminick</authors>
 		<owners>The Umbraco Community</owners>
