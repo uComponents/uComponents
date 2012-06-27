@@ -7,27 +7,27 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 	[TestClass]
 	public class StringsTest
 	{
-        [TestMethod]
-        public void CoalesceTests()
-        {
-            var first = "first";
-            var second = "second";
-            var third = "third";
-            var forth = "forth";
-            var fifth = "fifth";
+		[TestMethod]
+		public void CoalesceTests()
+		{
+			var first = "first";
+			var second = "second";
+			var third = "third";
+			var forth = "forth";
+			var fifth = "fifth";
 
-            Assert.AreEqual( Strings.Coalesce( null, null ), null, "Should return null if all parameters are null" );
-            Assert.AreEqual( Strings.Coalesce( first, second ), first, "Should return first value if all strings are not null" );
-            Assert.AreEqual( Strings.Coalesce( null, second ), second, "Should return second value if first parameter is null" );
-            Assert.AreEqual( Strings.Coalesce( string.Empty, second ), second, "Should return second value if first parameter is an empty string" );  
-            Assert.AreEqual( Strings.Coalesce( null, null, third ), third, "Should return third parameters if previous are null" );
-            Assert.AreEqual( Strings.Coalesce( null, null, null, forth ), forth, "Should return forth parameters if previous are null" );
-            Assert.AreEqual( Strings.Coalesce( null, null, null, null, fifth ), fifth, "Should return fifth parameters if previous are null" );
-            Assert.AreEqual( Strings.Coalesce( string.Empty, string.Empty, string.Empty, string.Empty, fifth ), fifth, "Should return fifth parameters if previous are emptry strings" );
-            Assert.AreEqual( Strings.Coalesce( null, second, null ), second, "Should return second parameters even if followed by nulls" );
-            Assert.AreEqual( Strings.Coalesce( null, second, "third" ), second, "Should return second parameters as its the first non-null even if followed by valid strings" );
-            Assert.AreEqual( Strings.Coalesce( first, second, third, forth, fifth ), first, "Should return first parameter as its the first non-null even if followed by valid strings" );
-        }
+			Assert.AreEqual(Strings.Coalesce(null, null), null, "Should return null if all parameters are null");
+			Assert.AreEqual(Strings.Coalesce(first, second), first, "Should return first value if all strings are not null");
+			Assert.AreEqual(Strings.Coalesce(null, second), second, "Should return second value if first parameter is null");
+			Assert.AreEqual(Strings.Coalesce(string.Empty, second), second, "Should return second value if first parameter is an empty string");
+			Assert.AreEqual(Strings.Coalesce(null, null, third), third, "Should return third parameters if previous are null");
+			Assert.AreEqual(Strings.Coalesce(null, null, null, forth), forth, "Should return forth parameters if previous are null");
+			Assert.AreEqual(Strings.Coalesce(null, null, null, null, fifth), fifth, "Should return fifth parameters if previous are null");
+			Assert.AreEqual(Strings.Coalesce(string.Empty, string.Empty, string.Empty, string.Empty, fifth), fifth, "Should return fifth parameters if previous are emptry strings");
+			Assert.AreEqual(Strings.Coalesce(null, second, null), second, "Should return second parameters even if followed by nulls");
+			Assert.AreEqual(Strings.Coalesce(null, second, "third"), second, "Should return second parameters as its the first non-null even if followed by valid strings");
+			Assert.AreEqual(Strings.Coalesce(first, second, third, forth, fifth), first, "Should return first parameter as its the first non-null even if followed by valid strings");
+		}
 
 		[TestMethod]
 		public void ConcatTest()
@@ -39,7 +39,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var separator = ",";
 			var expected = "hello,world,foo,bar";
 			var actual = Strings.Concat(nodeset, separator);
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return the text values from the XML (string) joined together by commas");
 		}
 
 		[TestMethod]
@@ -53,7 +53,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var arg5 = "nom";
 			var expected = "hello world foo bar nom";
 			var actual = Strings.Format(format, arg1, arg2, arg3, arg4, arg5);
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return the strings in the appropriate format - space separated");
 		}
 
 		[TestMethod]
@@ -64,7 +64,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var arg2 = "world";
 			var expected = "hello world";
 			var actual = Strings.Format(format, arg1, arg2);
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return the strings in the appropriate format - space separated");
 		}
 
 		[TestMethod]
@@ -139,7 +139,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var expected = "<font>Hello world, how are <u>you</u> today?</font>";
 			var actual = Strings.LowerCaseTags(input);
 
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return the HTML string with all the HTML tags in lowercase");
 		}
 
 		[TestMethod]
@@ -149,7 +149,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var expected = "<a href=\"mailto:leekelleher@gmail.com\">leekelleher@gmail.com</a>";
 			var actual = Strings.MakeEmailHyperlink(email);
 
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return a HTML 'mailto' anchor tag for the specified email address");
 		}
 
 		[TestMethod]
@@ -160,7 +160,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var expected = "<a href=\"mailto:leekelleher@gmail.com\">leekelleher@gmail.com</a>";
 			var actual = Strings.MakeEmailHyperlink(email, text);
 
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return a HTML 'mailto' anchor tag for the specified email address");
 		}
 
 		[TestMethod]
@@ -169,7 +169,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var input = "http://our.umbraco.org/";
 			var expected = "<a href=\"http://our.umbraco.org/\" target=\"_blank\">http://our.umbraco.org/</a>";
 			var actual = Strings.MakeUrlHyperlink(input);
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return a HTML anchor tag for the specified URL");
 		}
 
 		[TestMethod]
@@ -178,36 +178,26 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var input = "hello! 'world' #foo ~bar";
 			var expected = "helloworldfoobar";
 			var actual = Strings.RemoveChars(input);
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return the specified string with any non-alphanumeric characters removed");
 		}
 
 		[TestMethod]
 		public void RemoveDuplicateEntriesTest()
 		{
 			var list = "1111,2222,3333,2222,4444,1111";
-			var separators = new[] { ',' };
-			var expected = "1111,2222,3333,4444";
-			var actual = Strings.RemoveDuplicateEntries(list, separators);
-			Assert.AreEqual(expected, actual);
-		}
-
-		[TestMethod]
-		public void RemoveDuplicateEntriesTest1()
-		{
-			var list = "1111,2222,3333,2222,4444,1111";
 			var separator = ",";
 			var expected = "1111,2222,3333,4444";
-			var actual = Strings.RemoveDuplicateEntries(list, separator);
-			Assert.AreEqual(expected, actual);
-		}
 
-		[TestMethod]
-		public void RemoveDuplicateEntriesTest2()
-		{
-			var list = "1111,2222,3333,2222,4444,1111";
-			var expected = "1111,2222,3333,4444";
 			var actual = Strings.RemoveDuplicateEntries(list);
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return a unique list of comma-separated values - no separator specified");
+
+			var actual2 = Strings.RemoveDuplicateEntries(list, separator);
+			Assert.AreEqual(expected, actual2, "Should return a unique list of comma-separated values - single comma separated specified");
+
+			var actual3 = Strings.RemoveDuplicateEntries(list, separator.ToCharArray());
+			Assert.AreEqual(expected, actual3, "Should return a unique list of comma-separated values - single comma separator (in array) specified");
+
+			Assert.IsTrue(actual == actual2 && actual2 == actual3, "All 3 actual values should be equal");
 		}
 
 		[TestMethod]
@@ -295,7 +285,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var input = "<FONT><font face='Ariel'>Hello world</font>, how are <U>you</U> today?</FONT>";
 			var expected = "Hello world, how are <U>you</U> today?";
 			var actual = Strings.StripFontTags(input);
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return the HTML string with the <font> tags removed");
 		}
 
 		[TestMethod]
@@ -304,7 +294,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var input = "<FONT><font face='Ariel'>Hello world</font>, how are <U>you</U> today?</FONT>";
 			var expected = "Hello world, how are you today?";
 			var actual = Strings.StripHTML(input);
-			Assert.AreEqual(expected, actual);
+			Assert.AreEqual(expected, actual, "Should return a plain-text version of the specified HTML string input");
 		}
 
 		[TestMethod]

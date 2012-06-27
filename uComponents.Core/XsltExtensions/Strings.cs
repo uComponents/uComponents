@@ -224,8 +224,8 @@ namespace uComponents.Core.XsltExtensions
 		/// <returns>Returns the string stripped of all &lt;font&gt; tags.</returns>
 		public static string StripFontTags(string input)
 		{
-			var pattern = @"<\/?(font|FONT)[^>]*>";
-			return Regex.Replace(input, pattern, string.Empty);
+			var pattern = @"<\/?(font)[^>]*>";
+			return Regex.Replace(input, pattern, string.Empty, RegexOptions.IgnoreCase);
 		}
 
 		/// <summary>
