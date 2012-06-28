@@ -43,21 +43,17 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void FormatTest()
+		public void FormatTest_With1Argument()
 		{
-			var format = "{0} {1} {2} {3} {4}";
+			var format = "{0}";
 			var arg1 = "hello";
-			var arg2 = "world";
-			var arg3 = "foo";
-			var arg4 = "bar";
-			var arg5 = "nom";
-			var expected = "hello world foo bar nom";
-			var actual = Strings.Format(format, arg1, arg2, arg3, arg4, arg5);
-			Assert.AreEqual(expected, actual, "Should return the strings in the appropriate format - space separated");
+			var expected = "hello";
+			var actual = Strings.Format(format, arg1);
+			Assert.AreEqual(expected, actual);
 		}
 
 		[TestMethod]
-		public void FormatTest1()
+		public void FormatTest_With2Arguments()
 		{
 			var format = "{0} {1}";
 			var arg1 = "hello";
@@ -68,7 +64,19 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void FormatTest2()
+		public void FormatTest_With3Arguments()
+		{
+			var format = "{0} {1} {2}";
+			var arg1 = "hello";
+			var arg2 = "world";
+			var arg3 = "foo";
+			var expected = "hello world foo";
+			var actual = Strings.Format(format, arg1, arg2, arg3);
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void FormatTest_With4Arguments()
 		{
 			var format = "{0} {1} {2} {3}";
 			var arg1 = "hello";
@@ -81,25 +89,17 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void FormatTest3()
+		public void FormatTest_With5Arguments()
 		{
-			var format = "{0}";
-			var arg1 = "hello";
-			var expected = "hello";
-			var actual = Strings.Format(format, arg1);
-			Assert.AreEqual(expected, actual);
-		}
-
-		[TestMethod]
-		public void FormatTest4()
-		{
-			var format = "{0} {1} {2}";
+			var format = "{0} {1} {2} {3} {4}";
 			var arg1 = "hello";
 			var arg2 = "world";
 			var arg3 = "foo";
-			var expected = "hello world foo";
-			var actual = Strings.Format(format, arg1, arg2, arg3);
-			Assert.AreEqual(expected, actual);
+			var arg4 = "bar";
+			var arg5 = "nom";
+			var expected = "hello world foo bar nom";
+			var actual = Strings.Format(format, arg1, arg2, arg3, arg4, arg5);
+			Assert.AreEqual(expected, actual, "Should return the strings in the appropriate format - space separated");
 		}
 
 		[TestMethod]
@@ -122,7 +122,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void GetFirstWordsTest1()
+		public void GetFirstWordsTest_WithCustomAppender()
 		{
 			var text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque luctus urna a lorem consectetur eget cursus sapien porttitor.";
 			var count = 10;
@@ -153,7 +153,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void MakeEmailHyperlinkTest1()
+		public void MakeEmailHyperlinkTest_WithCustomText()
 		{
 			var email = "leekelleher@gmail.com";
 			var text = string.Empty;
@@ -201,7 +201,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void RemoveEmptyEntriesTest()
+		public void RemoveEmptyEntriesTest_WithCharArraySeparator()
 		{
 			var list = "1111,,2222,3333,,4444,";
 			var separators = new[] { ',' };
@@ -211,21 +211,21 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void RemoveEmptyEntriesTest1()
+		public void RemoveEmptyEntriesTest_WithDefaultSeparator()
+		{
+			var list = "1111,,2222,3333,,4444,";
+			var expected = "1111,2222,3333,4444";
+			var actual = Strings.RemoveEmptyEntries(list);
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void RemoveEmptyEntriesTest_WithStringSeparator()
 		{
 			var list = "1111,,2222,3333,,4444,";
 			var separator = ",";
 			var expected = "1111,2222,3333,4444";
 			var actual = Strings.RemoveEmptyEntries(list, separator);
-			Assert.AreEqual(expected, actual);
-		}
-
-		[TestMethod]
-		public void RemoveEmptyEntriesTest2()
-		{
-			var list = "1111,,2222,3333,,4444,";
-			var expected = "1111,2222,3333,4444";
-			var actual = Strings.RemoveEmptyEntries(list);
 			Assert.AreEqual(expected, actual);
 		}
 
@@ -253,20 +253,20 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			var count = 5;
 			var singular = "item";
 			var plural = "items";
-			var prefixCount = true;
-			var expected = "5 items";
-			var actual = Strings.SingularPlural(count, singular, plural, prefixCount);
+			var expected = "items";
+			var actual = Strings.SingularPlural(count, singular, plural);
 			Assert.AreEqual(expected, actual);
 		}
 
 		[TestMethod]
-		public void SingularPluralTest1()
+		public void SingularPluralTest_WithPrefixCount()
 		{
 			var count = 5;
 			var singular = "item";
 			var plural = "items";
-			var expected = "items";
-			var actual = Strings.SingularPlural(count, singular, plural);
+			var prefixCount = true;
+			var expected = "5 items";
+			var actual = Strings.SingularPlural(count, singular, plural, prefixCount);
 			Assert.AreEqual(expected, actual);
 		}
 

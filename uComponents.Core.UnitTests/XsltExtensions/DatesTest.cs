@@ -20,7 +20,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void AddWorkdaysTest1()
+		public void AddWorkdaysTest_WithDateFormat()
 		{
 			var date = "24/06/2012";
 			var days = 10;
@@ -85,7 +85,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void GetFirstDayOfMonthTest1()
+		public void GetFirstDayOfMonthTest_WithDateFormat()
 		{
 			var date = "24/06/2012";
 			var format = "dddd ddS MMMM yyyy";
@@ -104,7 +104,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void GetLastDayOfMonthTest1()
+		public void GetLastDayOfMonthTest_WithDateFormat()
 		{
 			var date = "24/06/2012";
 			var format = "dddd ddS MMMM yyyy";
@@ -135,7 +135,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void GetPrettyDateTest1()
+		public void GetPrettyDateTest_WithDateFormat()
 		{
 			var date = "24/06/2012";
 			var format = "dddd ddS MMMM yyyy";
@@ -219,7 +219,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		}
 
 		[TestMethod]
-		public void ParseExactTest1()
+		public void ParseExactTest_WithDateFormat()
 		{
 			var date = "24 June 2012";
 			var inputFormat = "dd MMMM yyyy";
