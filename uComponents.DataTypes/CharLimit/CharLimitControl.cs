@@ -70,7 +70,7 @@ namespace uComponents.DataTypes.CharLimit
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.DataTypes.CharLimit.CharLimit.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.CharLimit.CharLimit.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

@@ -70,7 +70,7 @@ namespace uComponents.DataTypes.ElasticTextBox
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.ElasticTextBox.Scripts.jquery.elastic.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

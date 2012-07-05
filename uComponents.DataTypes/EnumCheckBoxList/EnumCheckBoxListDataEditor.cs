@@ -172,7 +172,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 				string value = this.data.Value.ToString();
 				List<string> selectedValues = new List<string>();
 
-				if (uQuery.Helper.Xml.CouldItBeXml(value))
+				if (Helper.Xml.CouldItBeXml(value))
 				{
 					// build selected values from XML fragment
 					foreach (XElement nodeXElement in XElement.Parse(value).Elements())

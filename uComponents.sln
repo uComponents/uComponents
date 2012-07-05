@@ -16,24 +16,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildPackage", "BuildPackag
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco Assemblies", "Umbraco Assemblies", "{F1DA5738-9002-44BA-BF5D-271E4068236D}"
 	ProjectSection(SolutionItems) = preProject
-		Lib\Umbraco.4.7\businesslogic.dll = Lib\Umbraco.4.7\businesslogic.dll
-		Lib\Umbraco.4.7\ClientDependency.Core.dll = Lib\Umbraco.4.7\ClientDependency.Core.dll
-		Lib\Umbraco.4.7\cms.dll = Lib\Umbraco.4.7\cms.dll
-		Lib\Umbraco.4.7\controls.dll = Lib\Umbraco.4.7\controls.dll
-		Lib\Umbraco.4.7\Examine.dll = Lib\Umbraco.4.7\Examine.dll
-		Lib\Umbraco.4.7\HtmlAgilityPack.dll = Lib\Umbraco.4.7\HtmlAgilityPack.dll
-		Lib\Umbraco.4.7\ICSharpCode.SharpZipLib.dll = Lib\Umbraco.4.7\ICSharpCode.SharpZipLib.dll
-		Lib\Umbraco.4.7\interfaces.dll = Lib\Umbraco.4.7\interfaces.dll
-		Lib\Umbraco.4.7\Lucene.Net.dll = Lib\Umbraco.4.7\Lucene.Net.dll
-		Lib\Umbraco.4.7\umbraco.DataLayer.dll = Lib\Umbraco.4.7\umbraco.DataLayer.dll
-		Lib\Umbraco.4.7\umbraco.dll = Lib\Umbraco.4.7\umbraco.dll
-		Lib\Umbraco.4.7\umbraco.editorControls.dll = Lib\Umbraco.4.7\umbraco.editorControls.dll
-		Lib\Umbraco.4.7\umbraco.Linq.Core.dll = Lib\Umbraco.4.7\umbraco.Linq.Core.dll
-		Lib\Umbraco.4.7\umbraco.MacroEngines.dll = Lib\Umbraco.4.7\umbraco.MacroEngines.dll
-		Lib\Umbraco.4.7\umbraco.macroRenderings.dll = Lib\Umbraco.4.7\umbraco.macroRenderings.dll
-		Lib\Umbraco.4.7\umbraco.providers.dll = Lib\Umbraco.4.7\umbraco.providers.dll
-		Lib\Umbraco.4.7\umbraco.webservices.dll = Lib\Umbraco.4.7\umbraco.webservices.dll
-		Lib\Umbraco.4.7\UmbracoExamine.dll = Lib\Umbraco.4.7\UmbracoExamine.dll
+		Lib\Umbraco\businesslogic.dll = Lib\Umbraco\businesslogic.dll
+		Lib\Umbraco\ClientDependency.Core.dll = Lib\Umbraco\ClientDependency.Core.dll
+		Lib\Umbraco\cms.dll = Lib\Umbraco\cms.dll
+		Lib\Umbraco\controls.dll = Lib\Umbraco\controls.dll
+		Lib\Umbraco\Examine.dll = Lib\Umbraco\Examine.dll
+		Lib\Umbraco\HtmlAgilityPack.dll = Lib\Umbraco\HtmlAgilityPack.dll
+		Lib\Umbraco\ICSharpCode.SharpZipLib.dll = Lib\Umbraco\ICSharpCode.SharpZipLib.dll
+		Lib\Umbraco\interfaces.dll = Lib\Umbraco\interfaces.dll
+		Lib\Umbraco\Lucene.Net.dll = Lib\Umbraco\Lucene.Net.dll
+		Lib\Umbraco\umbraco.DataLayer.dll = Lib\Umbraco\umbraco.DataLayer.dll
+		Lib\Umbraco\umbraco.dll = Lib\Umbraco\umbraco.dll
+		Lib\Umbraco\umbraco.editorControls.dll = Lib\Umbraco\umbraco.editorControls.dll
+		Lib\Umbraco\umbraco.MacroEngines.dll = Lib\Umbraco\umbraco.MacroEngines.dll
+		Lib\Umbraco\umbraco.macroRenderings.dll = Lib\Umbraco\umbraco.macroRenderings.dll
+		Lib\Umbraco\umbraco.providers.dll = Lib\Umbraco\umbraco.providers.dll
+		Lib\Umbraco\umbraco.webservices.dll = Lib\Umbraco\umbraco.webservices.dll
+		Lib\Umbraco\UmbracoExamine.dll = Lib\Umbraco\UmbracoExamine.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2ADE05-3906-4DDA-87E3-4D84539AB51C}"
@@ -43,41 +42,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.XsltExtensions", "uComponents.XsltExtensions\uComponents.XsltExtensions.csproj", "{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.DataTypes", "uComponents.DataTypes\uComponents.DataTypes.csproj", "{E83250BD-27B0-4B39-90C8-F07538058938}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.UI", "uComponents.UI\uComponents.UI.csproj", "{5059DAD4-C57E-4661-B15F-5BA441B1300E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.NotFoundHandlers", "uComponents.NotFoundHandlers\uComponents.NotFoundHandlers.csproj", "{59C5A72A-4BAC-4BBB-AC52-D62E5A092597}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Controls", "uComponents.Controls\uComponents.Controls.csproj", "{AD0FB53D-8A7B-423C-B591-85BFCBD2E15E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Installer", "uComponents.Installer\uComponents.Installer.csproj", "{EC252C74-2E40-467E-94DD-239F88B006E6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Legacy", "uComponents.Legacy\uComponents.Legacy.csproj", "{62902194-247B-4DCF-AA4E-062204D8A576}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3} = {C87AEE87-3DF5-4156-9306-B0F21A5004B3}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Migration", "uComponents.Migration\uComponents.Migration.csproj", "{C87AEE87-3DF5-4156-9306-B0F21A5004B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.MacroEngines", "uComponents.MacroEngines\uComponents.MacroEngines.csproj", "{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}"
 EndProject
@@ -129,10 +105,6 @@ Global
 		{62902194-247B-4DCF-AA4E-062204D8A576}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62902194-247B-4DCF-AA4E-062204D8A576}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62902194-247B-4DCF-AA4E-062204D8A576}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C87AEE87-3DF5-4156-9306-B0F21A5004B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}.Release|Any CPU.ActiveCfg = Release|Any CPU

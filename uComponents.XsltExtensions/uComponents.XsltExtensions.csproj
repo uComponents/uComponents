@@ -32,19 +32,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="businesslogic">
-      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
     </Reference>
     <Reference Include="cms">
-      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
     </Reference>
     <Reference Include="Examine">
-      <HintPath>..\Lib\Umbraco.4.7\Examine.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\Examine.dll</HintPath>
     </Reference>
     <Reference Include="interfaces">
-      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net">
-      <HintPath>..\Lib\Umbraco.4.7\Lucene.Net.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -55,13 +55,13 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="umbraco">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.DataLayer">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.DataLayer.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.DataLayer.dll</HintPath>
     </Reference>
     <Reference Include="UmbracoExamine">
-      <HintPath>..\Lib\Umbraco.4.7\UmbracoExamine.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\UmbracoExamine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +72,7 @@
       <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
     <Compile Include="Cms-Users.cs">
-        <DependentUpon>Cms.cs</DependentUpon>
+      <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
     <Compile Include="Cms.cs" />
     <Compile Include="Dates.cs" />
@@ -94,10 +94,6 @@
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\uComponents.Migration\uComponents.Migration.csproj">
-      <Project>{C87AEE87-3DF5-4156-9306-B0F21A5004B3}</Project>
-      <Name>uComponents.Migration</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

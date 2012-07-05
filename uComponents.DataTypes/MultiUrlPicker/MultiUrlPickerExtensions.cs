@@ -32,7 +32,7 @@ namespace uComponents.DataTypes.MultiUrlPicker
         public static void AddCssMultiUrlPickerClientDependencies(this Control ctl)
         {
             var cssName = "uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css";
-            ctl.AddResourceToClientDependency(cssName, ClientDependencyType.Css);
+            ctl.RegisterEmbeddedClientResource(cssName, ClientDependencyType.Css);
         }
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace uComponents.DataTypes.MultiUrlPicker
         /// <param name="ctl"></param>
         public static void AddJsMultiUrlPickerClientDependencies(this Control ctl)
         {
-			ctl.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
-            ctl.AddResourceToClientDependency("uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerScripts.js", ClientDependencyType.Javascript);
+            ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
+            ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerScripts.js", ClientDependencyType.Javascript);
         }
     }
 }

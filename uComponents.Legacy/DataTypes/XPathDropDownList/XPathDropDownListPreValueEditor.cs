@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
@@ -123,7 +124,7 @@ namespace uComponents.DataTypes.XPathDropDownList
 
 			try
 			{
-				if (uQuery.GetNodesByXPath(xPath).Count >= 0)
+				if (uQuery.GetNodesByXPath(xPath).Count() >= 0)
 				{
 					isValid = true;
 				}

@@ -107,7 +107,7 @@ namespace uComponents.DataTypes.UniqueProperty
 			this.EnsureChildControls();
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>

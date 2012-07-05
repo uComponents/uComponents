@@ -31,7 +31,7 @@ namespace uComponents.DataTypes.UrlPicker
 		/// <param name="ctl"></param>
 		public static void AddCssUrlPickerClientDependencies(this Control ctl)
 		{
-			ctl.AddResourceToClientDependency("uComponents.DataTypes.UrlPicker.UrlPickerStyles.css", ClientDependencyType.Css);
+			ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.UrlPicker.UrlPickerStyles.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>
@@ -40,9 +40,9 @@ namespace uComponents.DataTypes.UrlPicker
 		/// <param name="ctl"></param>
 		public static void AddJsUrlPickerClientDependencies(this Control ctl)
 		{
-			ctl.AddResourceToClientDependency(typeof(Constants), "uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
-			ctl.AddResourceToClientDependency(typeof(Constants), "uComponents.DataTypes.Shared.Resources.Scripts.jquery.form.js", ClientDependencyType.Javascript);
-			ctl.AddResourceToClientDependency("uComponents.DataTypes.UrlPicker.UrlPickerScripts.js", ClientDependencyType.Javascript);
+			ctl.RegisterEmbeddedClientResource(typeof(Constants), "uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
+			ctl.RegisterEmbeddedClientResource(typeof(Constants), "uComponents.DataTypes.Shared.Resources.Scripts.jquery.form.js", ClientDependencyType.Javascript);
+			ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.UrlPicker.UrlPickerScripts.js", ClientDependencyType.Javascript);
 		}
 	}
 }

@@ -68,8 +68,8 @@ namespace uComponents.DataTypes.MultipleDates
 			base.OnLoad(e);
 
 			// get the urls for the embedded resources
-			this.AddResourceToClientDependency("uComponents.DataTypes.MultipleDates.scripts.main.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.DataTypes.MultipleDates.css.MultipleDates.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.MultipleDates.scripts.main.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.MultipleDates.css.MultipleDates.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

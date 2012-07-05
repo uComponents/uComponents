@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Web;
 using umbraco;
 using umbraco.interfaces;
@@ -58,7 +59,7 @@ namespace uComponents.NotFoundHandlers
 					"descendant::*[@isDoc and normalize-space(umbracoPageNotFound)][1]";
 
 				// get the nodes
-				var nodes = uQuery.GetNodesByXPath(xpath);
+				var nodes = uQuery.GetNodesByXPath(xpath).ToList();
 
 				if (nodes.Count > 0)
 				{

@@ -209,7 +209,7 @@ namespace uComponents.DataTypes.SubTabs
         {
             base.OnLoad(e);
 
-            this.AddResourceToClientDependency("uComponents.DataTypes.SubTabs.SubTabs.js", ClientDependencyType.Javascript);
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.SubTabs.SubTabs.js", ClientDependencyType.Javascript);
         }
 
         /// <summary>

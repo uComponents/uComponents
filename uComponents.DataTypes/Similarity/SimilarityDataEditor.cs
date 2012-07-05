@@ -168,9 +168,9 @@ namespace uComponents.DataTypes.Similarity
 			base.OnLoad(e);
 
 			// Adds the client dependencies
-			this.AddResourceToClientDependency("uComponents.DataTypes.Similarity.SimilarityStyles.css", ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.DataTypes.Similarity.SimilarityScripts.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.Similarity.SimilarityStyles.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.Similarity.SimilarityScripts.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

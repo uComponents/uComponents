@@ -75,8 +75,8 @@ namespace uComponents.DataTypes.ToggleBox
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.DataTypes.ToggleBox.Styles.ToggleBox.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.ToggleBox.Styles.ToggleBox.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

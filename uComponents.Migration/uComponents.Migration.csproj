@@ -32,19 +32,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="businesslogic">
-      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
     </Reference>
     <Reference Include="ClientDependency.Core">
-      <HintPath>..\Lib\Umbraco.4.7\ClientDependency.Core.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\ClientDependency.Core.dll</HintPath>
     </Reference>
     <Reference Include="cms">
-      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
     </Reference>
     <Reference Include="controls">
-      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\controls.dll</HintPath>
     </Reference>
     <Reference Include="interfaces">
-      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,13 +57,13 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="umbraco">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.DataLayer">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.DataLayer.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.DataLayer.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.MacroEngines">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.MacroEngines.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.MacroEngines.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

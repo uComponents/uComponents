@@ -84,7 +84,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 
 			this.EnsureChildControls();
 
-			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>

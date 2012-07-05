@@ -32,16 +32,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="businesslogic">
-      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
     </Reference>
     <Reference Include="cms">
-      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
     </Reference>
     <Reference Include="controls">
-      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\controls.dll</HintPath>
     </Reference>
     <Reference Include="interfaces">
-      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

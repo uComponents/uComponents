@@ -245,11 +245,11 @@ namespace uComponents.DataTypes.AutoComplete
 
 			//updated to use the jquery.autocomplete.js script as found in the default Umbraco install
 			this.Page.ClientScript.RegisterClientScriptInclude("jquery.autocomplete", "/umbraco_client/Application/JQuery/jquery.autocomplete.js");
-
+			
 			//register autocomplete css
 			//string autocompleteCss = "<link rel='stylesheet' href='/umbraco/plugins/AutoComplete/autocomplete.css'/>";
 			//this.Page.ClientScript.RegisterClientScriptBlock(autocompleteCss.GetType(), "autocompleteCss", autocompleteCss);
-			this.AddResourceToClientDependency("uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", ClientDependency.Core.ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

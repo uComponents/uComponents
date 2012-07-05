@@ -32,19 +32,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="businesslogic">
-      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
     </Reference>
-    <Reference Include="ClientDependency.Core, Version=1.0.2.37148, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Lib\Umbraco.4.7\ClientDependency.Core.dll</HintPath>
+    <Reference Include="ClientDependency.Core">
+      <HintPath>..\Lib\Umbraco\ClientDependency.Core.dll</HintPath>
     </Reference>
     <Reference Include="cms">
-      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
     </Reference>
     <Reference Include="controls">
-      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\controls.dll</HintPath>
     </Reference>
     <Reference Include="interfaces">
-      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,10 +55,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="umbraco">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.editorControls">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.editorControls.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.editorControls.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -122,10 +122,6 @@
     <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
       <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
       <Name>uComponents.DataTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\uComponents.Migration\uComponents.Migration.csproj">
-      <Project>{C87AEE87-3DF5-4156-9306-B0F21A5004B3}</Project>
-      <Name>uComponents.Migration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

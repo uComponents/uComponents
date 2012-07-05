@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ClientDependency.Core;
+//using ClientDependency.Core;
 using uComponents.DataTypes.MultipleTextstring;
 using uComponents.Core;
 using umbraco;
 using umbraco.editorControls;
+using umbraco.cms.businesslogic.datatype;
 
 [assembly: WebResource(MultipleTextstringControl.CssResourcePath, Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource(MultipleTextstringControl.JavaScriptResourcePath, Constants.MediaTypeNames.Application.JavaScript)]
@@ -99,8 +100,8 @@ namespace uComponents.DataTypes.MultipleTextstring
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency(CssResourcePath, ClientDependencyType.Css);
-			this.AddResourceToClientDependency(JavaScriptResourcePath, ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource(CssResourcePath, ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource(JavaScriptResourcePath, ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

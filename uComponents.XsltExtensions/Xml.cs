@@ -131,7 +131,7 @@ namespace uComponents.XsltExtensions
 			try
 			{
 				// check if the string could be xml
-				if (!uQuery.Helper.Xml.CouldItBeXml(xml))
+				if (!Helper.Xml.CouldItBeXml(xml))
 				{
 					xml = "<root/>";
 				}
@@ -307,7 +307,7 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns an <c>System.Xml.XPath.XPathNodeIterator</c> representation of the delimited string data.</returns>
 		public static XPathNodeIterator Split(string data, string separator, string rootName, string elementName)
 		{
-			var xd = uQuery.Helper.Xml.Split(data, new[] { separator }, rootName, elementName);
+			var xd = Helper.Xml.Split(data, new[] { separator }, rootName, elementName);
 			return xd.CreateNavigator().Select(string.Concat(Constants.Common.SLASH, rootName));
 		}
 	}

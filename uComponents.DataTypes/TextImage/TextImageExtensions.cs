@@ -15,7 +15,6 @@ using umbraco.editorControls;
 namespace uComponents.DataTypes.TextImage
 {
     using System.Web.UI;
-    using ClientDependency.Core;
 
     /// <summary>
     /// TextImage Extensions
@@ -50,8 +49,8 @@ namespace uComponents.DataTypes.TextImage
         /// <param name="control">The CTL.</param>
         public static void AddJsTextImageClientDependencies(this Control control)
         {
-			control.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
-            control.AddResourceToClientDependency(ColorpickerJs, ClientDependencyType.Javascript);
+            control.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+            control.RegisterEmbeddedClientResource(ColorpickerJs, ClientDependencyType.Javascript);
         }
     }
 }

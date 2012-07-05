@@ -128,7 +128,7 @@ namespace uComponents.UI
 				ucSettings.ToString(), true);
 
 
-			int userPriority = 100; // Core umbraco stuff must be added first
+			//// int userPriority = 100; // Core umbraco stuff must be added first
 
 			var resourcesHtml = new StringBuilder();
 
@@ -139,11 +139,10 @@ namespace uComponents.UI
 				{
 					if (filter(reg))
 					{
-						page.AddResourceToClientDependency(
+						page.RegisterEmbeddedClientResource(
 							set.GetType(),
 							reg.ResourceName,
-							reg.IsScript ? ClientDependencyType.Javascript : ClientDependencyType.Css,
-							++userPriority);
+							reg.IsScript ? ClientDependencyType.Javascript : ClientDependencyType.Css);
 
 						//loader.RegisterDependency(userPriority++, resourceUrl,
 						//    reg.IsScript ? ClientDependencyType.Javascript : ClientDependencyType.Css);

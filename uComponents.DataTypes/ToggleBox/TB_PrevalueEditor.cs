@@ -77,7 +77,7 @@ namespace uComponents.DataTypes.ToggleBox
 			base.OnInit(e);
 			this.EnsureChildControls();
 
-			this.AddResourceToClientDependency(uComponents.DataTypes.TextImage.TextImageExtensions.ColorpickerJs, ClientDependency.Core.ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource(uComponents.DataTypes.TextImage.TextImageExtensions.ColorpickerJs, ClientDependencyType.Javascript);
 		}
 
 		/// <summary>
