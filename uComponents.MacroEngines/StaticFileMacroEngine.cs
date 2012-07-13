@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using umbraco.cms.businesslogic.macro;
 using umbraco.interfaces;
+using umbraco.IO;
 
 namespace uComponents.MacroEngines
 {
@@ -93,7 +95,12 @@ namespace uComponents.MacroEngines
 		/// <returns>Returns a string of the executed macro XSLT.</returns>
 		public string Execute(MacroModel macro, INode currentPage)
 		{
-			throw new NotImplementedException();
+			if (!string.IsNullOrEmpty(macro.ScriptName))
+			{
+				return File.ReadAllText(IOHelper.MapPath(macro.ScriptName));
+			}
+
+			return macro.ScriptCode;
 		}
 	}
 }
