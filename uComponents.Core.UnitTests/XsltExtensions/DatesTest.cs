@@ -42,8 +42,9 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		[TestMethod]
 		public void DateWithinDurationTest()
 		{
-			var date = "24/06/2012";
-			var duration = "P5D";
+			var days = 5;
+			var date = DateTime.UtcNow.AddDays(-days).ToString("dd/MM/yyyy");
+			var duration = string.Concat("P", days, "D");
 			var actual = Dates.DateWithinDuration(date, duration);
 			Assert.IsTrue(actual);
 		}
@@ -51,8 +52,8 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		[TestMethod]
 		public void DateWithinLastDaysTest()
 		{
-			var date = "24/06/2012";
 			var days = 5;
+			var date = DateTime.UtcNow.AddDays(-days).ToString("dd/MM/yyyy");
 			var actual = Dates.DateWithinLastDays(date, days);
 			Assert.IsTrue(actual);
 		}

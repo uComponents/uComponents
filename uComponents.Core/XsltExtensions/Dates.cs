@@ -33,7 +33,7 @@ namespace uComponents.Core.XsltExtensions
 
 			DateTime.TryParse(date, out currentDate);
 
-			return (currentDate > startDate);
+			return (currentDate >= startDate);
 		}
 
 		/// <summary>
@@ -52,7 +52,7 @@ namespace uComponents.Core.XsltExtensions
 
 			DateTime.TryParse(date, out currentDate);
 
-			return (currentDate > startDate);
+			return (currentDate >= startDate);
 		}
 
 		/// <summary>
