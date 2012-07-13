@@ -8,7 +8,10 @@
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
-		<PackageVersion>4.0.0</PackageVersion>
+		<VersionMajor>4</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionPatch>0</VersionPatch>
+		<VersionSuffix>-beta</VersionSuffix>
 		<ProjectName>uComponents.Core</ProjectName>
 	</PropertyGroup>
 
@@ -31,23 +34,24 @@
 
 	<!-- UPDATE ASSEMBLEY VERSION -->
 	<Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
-		<FileUpdate
-			Encoding="ASCII"
-			Files="$(RootDir)\Properties\AssemblyInfo.cs"
-			Regex="AssemblyVersion\(&quot;.*&quot;\)\]"
-			ReplacementText="AssemblyVersion(&quot;$(PackageVersion).*&quot;)]" />
-		<FileUpdate
-			Encoding="ASCII"
-			Files="$(RootDir)\Properties\AssemblyInfo.cs"
-			Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]"
-			ReplacementText="AssemblyFileVersion(&quot;$(PackageVersion).*&quot;)]" />
+		<Version VersionFile="$(RootDir)\Properties\BuildVersion.txt" Major="4" Minor="0" BuildType="Automatic" StartDate="29/06/2010" RevisionType="BuildIncrement">
+			<Output TaskParameter="Major" PropertyName="Major" />
+			<Output TaskParameter="Minor" PropertyName="Minor" />
+			<Output TaskParameter="Build" PropertyName="Build" />
+			<Output TaskParameter="Revision" PropertyName="Revision" />
+		</Version>
+		<AssemblyInfo CodeLanguage="CS"
+			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
+			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
+			AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)"
+			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
 	</Target>
 
 	<!-- COMPILE -->
 	<Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
 		<MSBuild Projects="$(RootDir)\..\uComponents.sln" Properties="Configuration=Release" />
 	</Target>
-	
+
 	<!-- PREPARE FILES -->
 	<Target Name="PrepareFiles" DependsOnTargets="Compile">
 		<ItemGroup>
@@ -79,11 +83,11 @@
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
 			MinimumRequiredUmbracoVersion="4.7.1"
-			PackageVersion="$(PackageVersion)"
+			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Readme="@(Readme->'%(Identity)', '%0a%0d')"
 			Files="@(ManifestFiles)" />
 	</Target>
-	
+
 	<!-- MANIFEST FOR NUGET PACKAGE -->
 	<Target Name="ManifestNuGet" DependsOnTargets="ManifestUmbraco">
 		<ItemGroup>
@@ -92,7 +96,7 @@
 		<MSBuild.NuGet.Tasks.ManifestUpdate
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			WorkingDirectory="$(BuildNuGetDir)"
-			Version="$(PackageVersion)"
+			Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Files="@(ManifestFiles)" />
 	</Target>
 
@@ -113,5 +117,5 @@
 		<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
 		<Delete Files="$(RootDir)\..\uComponents.sln.cache" />
 	</Target>
-	
+
 </Project>

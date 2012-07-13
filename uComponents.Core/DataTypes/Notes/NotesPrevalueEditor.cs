@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -24,11 +21,6 @@ namespace uComponents.Core.DataTypes.Notes
         private TextBox Notes;
 
         /// <summary>
-        /// The Literal control for the TinyMCE initialization script.
-        /// </summary>
-        private Literal Scripts;
-
-        /// <summary>
         /// The Checkbox control to define whether to show the label for the Notes data-type.
         /// </summary>
         private CheckBox ShowLabel;
@@ -37,7 +29,7 @@ namespace uComponents.Core.DataTypes.Notes
         /// Initializes a new instance of the <see cref="NotesPrevalueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
-        public NotesPrevalueEditor(NotesDataType dataType) 
+        public NotesPrevalueEditor(NotesDataType dataType)
             : base(dataType, DBTypes.Ntext)
         { }
 
@@ -77,8 +69,27 @@ namespace uComponents.Core.DataTypes.Notes
         protected override void RenderContents(HtmlTextWriter writer)
         {
             // add property fields
-            writer.AddPrevalueRow("Text to display", this.Notes, this.Scripts);
+            writer.AddPrevalueRow("Text to display", this.Notes);
             writer.AddPrevalueRow("Show label?", this.ShowLabel);
+
+            // write out the JavaScript to initialise TinyMCE
+            var javascript = string.Concat(@"<script type='text/javascript'> 
+tinyMCE.init({
+    mode:'exact',
+    theme:'advanced',
+    umbraco_path:'", IOHelper.ResolveUrl(SystemDirectories.Umbraco), @"',
+    elements:'", this.Notes.ClientID, @"',
+    language:'en',
+    encoding:'xml',
+    theme_advanced_buttons1 : 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,formatselect,bullist,numlist,|,outdent,indent,|,link,unlink,anchor,image,|,code,preview',
+    theme_advanced_buttons2 : '',
+    theme_advanced_buttons3 : '',
+    theme_advanced_toolbar_location : 'top',
+    theme_advanced_toolbar_align : 'left',
+    theme_advanced_resizing : true
+});
+</script>");
+            writer.WriteLine(javascript);
         }
 
         /// <summary>
@@ -94,30 +105,10 @@ namespace uComponents.Core.DataTypes.Notes
             this.Notes.Style.Add("height", "300px");
             this.Notes.EnableViewState = false;
 
-            this.Scripts = new Literal() {ID = "Scripts"};
-            this.Scripts.Text = @"<script type='text/javascript'> 
-tinyMCE.init({
-    mode:'exact',
-    theme:'advanced',
-    umbraco_path:'/umbraco',
-    elements:'body_Notes',
-    language:'en',
-    encoding:'xml',
-    theme_advanced_buttons1 : 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,formatselect,bullist,numlist,|,outdent,indent,|,link,unlink,anchor,image,|,code,preview',
-    theme_advanced_buttons2 : '',
-    theme_advanced_buttons3 : '',      
-    theme_advanced_toolbar_location : 'top',
-    theme_advanced_toolbar_align : 'left',
-    theme_advanced_resizing : true
-});
-</script>";
-
             this.ShowLabel = new CheckBox() { ID = "ShowLabel" };
 
             // add the child controls
-            this.Controls.AddPrevalueControls(this.Notes);
-            this.Controls.AddPrevalueControls(this.Scripts);
-            this.Controls.AddPrevalueControls(this.ShowLabel);
+            this.Controls.AddPrevalueControls(this.Notes, this.ShowLabel);
         }
 
         /// <summary>
@@ -128,7 +119,7 @@ tinyMCE.init({
             // set the options
             var options = new NotesOptions
             {
-                Value = Notes.Text = HttpUtility.HtmlDecode(Notes.Text), // Due to bug in TinyMCE, need to reset Notes.Text to unencoded value
+                Value = Notes.Text = HttpUtility.HtmlDecode(Notes.Text),// Due to bug in TinyMCE, need to reset Notes.Text to unencoded value
                 ShowLabel = ShowLabel.Checked
             };
 

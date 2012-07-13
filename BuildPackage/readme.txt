@@ -28,10 +28,12 @@ DataTypes:
 * Property Picker
 * RadioButton List with Images
 * Related Links with Media
+* Relation Links
 * Render Macro
 * Similarity
 * Slider
 * SQL DropDownList
+* Sub Tabs
 * Styled TextBox
 * TextImage
 * Textstring Array
@@ -72,6 +74,7 @@ UI Enhancements:
 * Tray Peek
 
 Controls
+* EditProperty
 * GetMedia
 * RenderTemplate
 

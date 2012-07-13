@@ -1,44 +1,44 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <summary>
-// 12.01.2012 - Created [Ove Andersen]
+// 23.05.2012 - Created [Ove Andersen]
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
 {
-    using System.Linq;
     using System.Web.UI;
 
     using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
 
-    using umbraco.editorControls.dropdownlist;
+    using umbraco.editorControls.pagepicker;
+    using umbraco.NodeFactory;
 
-    /// <summary>
-    /// /// DTG extensions for the Dropdown List DataType
-    /// </summary>
-    internal class DropdownListDataTypeFunctions : IDataTypeFunctions<DropdownListDataType>
+    internal class PagePickerDataTypeFunctions : IDataTypeFunctions<PagePickerDataType>
     {
-        #region Implementation of IDataTypeFunctions<DropdownListDataType>
+        #region Implementation of IDtgFunctions<PagePickerDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
         /// </summary>
-        /// <param name="dataType">The DataType.</param>
+        /// <param name="dataType">Type of the data.</param>
         /// <returns>A human-readable string</returns>
-        public string ToDtgString(DropdownListDataType dataType)
+        public string ToDtgString(PagePickerDataType dataType)
         {
-            var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
-
-            var p = uQuery.GetPreValues(dataType.DataTypeDefinitionId);
-
-            var v = p.SingleOrDefault(x => x.Id.ToString().Equals(value));
-
-            if (v != null)
+            if (dataType.Data.Value != null)
             {
-                return v.Value;
+                int id;
+
+                if (int.TryParse(dataType.Data.Value.ToString(), out id))
+                {
+                    var node = new Node(id);
+
+                    return node.Name;
+                }
+
+                return dataType.Data.Value.ToString();
             }
 
-            return value;
+            return string.Empty;
         }
 
         /// <summary>
@@ -46,15 +46,15 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(DropdownListDataType dataType, Control container)
+        public void ConfigureForDtg(PagePickerDataType dataType, Control container)
         {
         }
 
         /// <summary>
-        /// Saves the datatype for DTG.
+        /// Saves for DTG.
         /// </summary>
         /// <param name="dataType">The DataType.</param>
-        public void SaveForDtg(DropdownListDataType dataType)
+        public void SaveForDtg(PagePickerDataType dataType)
         {
         }
 

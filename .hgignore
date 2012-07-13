@@ -3,3 +3,9 @@ glob:*.suo
 glob:*/bin/*
 glob:*/obj/*
 glob:*.Cache
+syntax: regexp
+(.*)_ReSharper.uComponents(.*)
+syntax: glob
+uComponents.ncrunchsolution
+uComponents.ncrunchsolution.user
+TestResults/*

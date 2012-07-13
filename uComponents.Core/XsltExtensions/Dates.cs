@@ -33,7 +33,7 @@ namespace uComponents.Core.XsltExtensions
 
 			DateTime.TryParse(date, out currentDate);
 
-			return (currentDate > startDate);
+			return (currentDate >= startDate);
 		}
 
 		/// <summary>
@@ -52,7 +52,7 @@ namespace uComponents.Core.XsltExtensions
 
 			DateTime.TryParse(date, out currentDate);
 
-			return (currentDate > startDate);
+			return (currentDate >= startDate);
 		}
 
 		/// <summary>
@@ -203,7 +203,7 @@ namespace uComponents.Core.XsltExtensions
 				!string.IsNullOrEmpty(outputFormat) && 
 				DateTime.TryParseExact(date, inputFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
 			{
-				return result.ToString(outputFormat);
+				return FormatDateTime(result, outputFormat);
 			}
 
 			return date;

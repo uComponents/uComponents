@@ -175,23 +175,35 @@
 /*
  ** DATA EDITOR CONTROLS
  */
+ 
 .deleteRowDialog:first-child,
-.editRowDialog:first-child 
+.editRowDialog:first-child,
+.moveRowUp:first-child,
+.moveRowDown:first-child
 {
 	margin-left: 0;
 } 
  
 .deleteRowDialog,
-.editRowDialog
+.editRowDialog,
+.moveRowUp,
+.moveRowDown
 {
 	display: inline-block;
 	margin-left: 3px;
 }
  
 .deleteRowDialog span.ui-button-text,
-.editRowDialog span.ui-button-text
+.editRowDialog span.ui-button-text,
+.moveRowUp span.ui-button-text,
+.moveRowDown span.ui-button-text
 {
 	display: none;
+}
+
+.moveRowUp .ui-icon-arrowthick-1-n
+{
+	background-position: 1px -48px;
 }
 
 .insertRowDialog,
