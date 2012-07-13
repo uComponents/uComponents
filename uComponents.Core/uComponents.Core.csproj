@@ -515,6 +515,7 @@
     <Compile Include="NotFoundHandlers\SearchFor404ContentHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -525,6 +526,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AjaxUploadHandlerResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="Properties\BuildVersion.txt" />
     <Content Include="Shared\AjaxUpload\AjaxUploadHandler.ashx.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -643,7 +645,7 @@
       <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
     <Compile Include="XsltExtensions\Cms-Users.cs">
-        <DependentUpon>Cms.cs</DependentUpon>
+      <DependentUpon>Cms.cs</DependentUpon>
     </Compile>
     <Compile Include="XsltExtensions\Dates.cs" />
     <Compile Include="XsltExtensions\Email.cs" />
