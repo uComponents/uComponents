@@ -11,19 +11,23 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
     using System.Web;
     using System.Web.UI;
 
+    using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
+
     using umbraco.editorControls.datepicker;
 
     /// <summary>
     /// DTG extensions for the DateTime DataType
     /// </summary>
-    internal class DateDataTypeFunctions
+    internal class DateDataTypeFunctions : IDataTypeFunctions<DateDataType>
     {
+        #region Implementation of IDtgFunctions<PagePickerDataType>
+
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <returns></returns>
-        public static string ToDtgString(DateDataType dataType)
+        public string ToDtgString(DateDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
@@ -42,7 +46,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public static void ConfigureForDtg(DateDataType dataType, Control container)
+        public void ConfigureForDtg(DateDataType dataType, Control container)
         {
             var e = dataType.DataEditor as umbraco.editorControls.dateField;
 
@@ -61,5 +65,15 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
                 }
             }
         }
+
+        /// <summary>
+        /// Saves for DTG.
+        /// </summary>
+        /// <param name="dataType">The DataType.</param>
+        public void SaveForDtg(DateDataType dataType)
+        {
+        }
+
+        #endregion
     }
 }

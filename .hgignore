@@ -3,5 +3,7 @@ syntax: glob
 *.suo
 */bin/*
 */obj/*
-*.Cache
+*_ReSharper.uComponents*
+uComponents.ncrunchsolution
+uComponents.ncrunchsolution.user
 TestResults/*

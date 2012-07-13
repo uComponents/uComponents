@@ -10,7 +10,7 @@ using System.Web.Services;
 namespace uComponents.Core.DataTypes.DataTypeGrid.WebServices
 {
     /// <summary>
-    /// 
+    /// Web service for Prevalues.
     /// </summary>
     [ScriptService]
     [WebService]

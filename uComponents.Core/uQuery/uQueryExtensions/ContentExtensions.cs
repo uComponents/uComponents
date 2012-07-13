@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
+using System.Xml;
+using umbraco.MacroEngines;
 
 namespace uComponents.Core.uQueryExtensions
 {
@@ -39,24 +41,58 @@ namespace uComponents.Core.uQueryExtensions
 
 			if (typeConverter != null)
 			{
+				// Boolean
 				if (typeof(T) == typeof(bool))
 				{
+#pragma warning disable 0618
 					return (T)typeConverter.ConvertFrom(item.GetPropertyAsBoolean(propertyAlias).ToString());
+#pragma warning restore 0618
+				}
+
+				// XmlDocument
+				else if (typeof(T) == typeof(XmlDocument))
+				{
+					var xmlDocument = new XmlDocument();
+
+					try
+					{
+#pragma warning disable 0618
+						xmlDocument.LoadXml(item.GetPropertyAsString(propertyAlias));
+#pragma warning restore 0618
+					}
+					catch
+					{
+					}
+
+					return (T)((object)xmlDocument);
+				}
+
+				// umbraco.MacroEngines.DynamicXml
+				else if (typeof(T) == typeof(DynamicXml))
+				{
+					try
+					{
+#pragma warning disable 0618
+						return (T)((object)new DynamicXml(item.GetPropertyAsString(propertyAlias)));
+#pragma warning restore 0618
+					}
+					catch
+					{
+					}
 				}
 
 				try
 				{
+#pragma warning disable 0618
 					return (T)typeConverter.ConvertFromString(item.GetPropertyAsString(propertyAlias));
+#pragma warning restore 0618
 				}
 				catch
 				{
-					return default(T);
 				}
 			}
-			else
-			{
-				return default(T);
-			}
+
+			return default(T);
 		}
 
 		/// <summary>
@@ -67,6 +103,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// empty string, or property value as string
 		/// </returns>
+		[Obsolete("Please use the .GetProperty<T>() extension method - eg. .GetProperty<string>(\"propertyAlias\");")]
 		public static string GetPropertyAsString(this Content item, string propertyAlias)
 		{
 			var propertyValue = string.Empty;
@@ -88,6 +125,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// true if can cast value, else false for all other circumstances
 		/// </returns>
+		[Obsolete("Please use the .GetProperty<T>() extension method - eg. .GetProperty<bool>(\"propertyAlias\");")]
 		public static bool GetPropertyAsBoolean(this Content item, string propertyAlias)
 		{
 			var propertyValue = false;
@@ -117,6 +155,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// DateTime value or DateTime.MinValue for all other circumstances
 		/// </returns>
+		[Obsolete("Please use the .GetProperty<T>() extension method - eg. .GetProperty<DateTime>(\"propertyAlias\");")]
 		public static DateTime GetPropertyAsDateTime(this Content item, string propertyAlias)
 		{
 			var propertyValue = DateTime.MinValue;
@@ -138,6 +177,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// int value of property or int.MinValue for all other circumstances
 		/// </returns>
+		[Obsolete("Please use the .GetProperty<T>() extension method - eg. .GetProperty<int>(\"propertyAlias\");")]
 		public static int GetPropertyAsInt(this Content item, string propertyAlias)
 		{
 			var propertyValue = int.MinValue;
@@ -159,7 +199,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// Returns a random content item from a collection of content items.
 		/// </returns>
-		public static TSource GetRandom<TSource>(this IList<TSource> items)
+		public static TSource GetRandom<TSource>(this ICollection<TSource> items)
 		{
 			return items.RandomOrder().First();
 		}
@@ -173,7 +213,7 @@ namespace uComponents.Core.uQueryExtensions
 		/// <returns>
 		/// Returns the specified number of random content items from a collection of content items.
 		/// </returns>
-		public static IEnumerable<TSource> GetRandom<TSource>(this IList<TSource> items, int numberOfItems)
+		public static IEnumerable<TSource> GetRandom<TSource>(this ICollection<TSource> items, int numberOfItems)
 		{
 			if (numberOfItems > items.Count)
 			{

@@ -6,45 +6,34 @@
 
 namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
 {
+    using System.Linq;
     using System.Web.UI;
 
     using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
-    using uComponents.Core.uQueryExtensions;
 
-    using umbraco.cms.businesslogic.media;
-    using umbraco.editorControls.mediapicker;
+    using umbraco.editorControls.listbox;
 
     /// <summary>
-    /// DTG extensions for the MediaPicker DataType
+    /// DTG extensions for the Dropdown List Multiple DataType
     /// </summary>
-    internal class MediaPickerDataTypeFunctions : IDataTypeFunctions<MemberPickerDataType>
+    internal class ListBoxDataTypeFunctions : IDataTypeFunctions<ListBoxDataType>
     {
-        #region Implementation of IDataTypeFunctions<MemberPickerDataType>
+        #region Implementation of IDataTypeFunctions<ListBoxDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <returns>A human-readable string</returns>
-        public string ToDtgString(MemberPickerDataType dataType)
+        public string ToDtgString(ListBoxDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
-            int id;
-            int.TryParse(value, out id);
+            var p = uQuery.GetPreValues(dataType.DataTypeDefinitionId);
 
-            if (id > 0)
-            {
-                var m = new Media(id);
+            var v = p.Where(x => value.Split(',').Contains(x.Id.ToString())).Select(x => x.Value);
 
-                // Return thumbnail if media type is Image
-                if (m.ContentType.Alias.Equals("Image"))
-                {
-                    return string.Format("<img src='{0}' alt='{1}'/>", m.GetImageThumbnailUrl(), m.Text);
-                }
-            }
-
-            return value;
+            return string.Join(", ", v.ToArray());
         }
 
         /// <summary>
@@ -52,7 +41,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(MemberPickerDataType dataType, Control container)
+        public void ConfigureForDtg(ListBoxDataType dataType, Control container)
         {
         }
 
@@ -60,7 +49,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
         /// Saves the datatype for DTG.
         /// </summary>
         /// <param name="dataType">The DataType.</param>
-        public void SaveForDtg(MemberPickerDataType dataType)
+        public void SaveForDtg(ListBoxDataType dataType)
         {
         }
 

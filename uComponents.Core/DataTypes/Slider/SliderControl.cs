@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
 using ClientDependency.Core;
 using uComponents.Core.Shared;
+using uComponents.Core.Shared.Extensions;
 
 namespace uComponents.Core.DataTypes.Slider
 {
@@ -77,6 +75,9 @@ namespace uComponents.Core.DataTypes.Slider
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
+
+			// TODO: [LK] Move 'jquery.alphanumeric.js' into Shared/Resources
+			this.AddResourceToClientDependency("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependency.Core.ClientDependencyType.Javascript);
 		}
 
 		/// <summary>
@@ -99,6 +100,7 @@ namespace uComponents.Core.DataTypes.Slider
 			this.TextBoxControl.ID = this.TextBoxControl.ClientID;
 			this.TextBoxControl.CssClass = "guiInputTextTiny";
 			this.TextBoxControl.Attributes.Add("style", "float:left;width:40px;");
+			this.TextBoxControl.MaxLength = this.Options.EnableRange ? (this.Options.MaxValue.ToString().Length * 2) + 1 : this.Options.MaxValue.ToString().Length;
 			this.Controls.Add(this.TextBoxControl);
 		}
 
@@ -168,11 +170,12 @@ namespace uComponents.Core.DataTypes.Slider
 
 			// add jquery window load event to create the js slider
 			var javascriptMethod = string.Format(
-				"jQuery('#{0}').slider({{ {2} slide: function(e, ui) {{ $('#{1}').val(ui.value{3}); }} }}); $('#{1}').val($('#{0}').slider('value{3}'));",
+				"jQuery('#{0}').slider({{ {2} slide: function(e, ui) {{ $('#{1}').val(ui.value{3}); }} }}); $('#{1}').val($('#{0}').slider('value{3}')); jQuery('#{1}').numeric({4});",
 				this.DivSliderControl.ClientID,
 				this.TextBoxControl.ClientID,
 				options,
-				(hasMultipleValues ? "s" : string.Empty));
+				(hasMultipleValues ? "s" : string.Empty),
+				(hasMultipleValues ? "{ allow: ',' }" : string.Empty));
 			var javascript = string.Concat("<script type='text/javascript'>jQuery(window).load(function(){", javascriptMethod, "});</script>");
 			writer.WriteLine(javascript);
 		}

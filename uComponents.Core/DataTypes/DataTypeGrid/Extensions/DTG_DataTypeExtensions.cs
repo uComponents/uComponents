@@ -9,10 +9,13 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
     using System.Web.UI;
 
     using uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions;
+    using uComponents.Core.DataTypes.DataTypeGrid.Factories;
 
     using umbraco.editorControls.datepicker;
     using umbraco.editorControls.dropdownlist;
     using umbraco.editorControls.listbox;
+    using umbraco.editorControls.pagepicker;
+    using umbraco.editorControls.radiobuttonlist;
     using umbraco.editorControls.tinyMCE3;
     using umbraco.interfaces;
 
@@ -31,34 +34,46 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
             var guid = dataType.Id.ToString();
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
+            // Content Picker
+            if (dataType is PagePickerDataType)
+            {
+                return DataTypeFunctionsFactory<PagePickerDataTypeFunctions, PagePickerDataType>.Instance.ToDtgString(dataType as PagePickerDataType);
+            }
+
+            // Radio button list
+            if (dataType is RadioButtonListDataType)
+            {
+                return DataTypeFunctionsFactory<RadioButtonListDataTypeFunctions, RadioButtonListDataType>.Instance.ToDtgString(dataType as RadioButtonListDataType);
+            }
+
             // Dropdown List
             if (dataType is DropdownListDataType)
             {
-                return DropdownListDataTypeFunctions.ToDtgString(dataType as DropdownListDataType);
+                return DataTypeFunctionsFactory<DropdownListDataTypeFunctions, DropdownListDataType>.Instance.ToDtgString(dataType as DropdownListDataType);
             }
             
             // Dropdown List Multiple
             if (dataType is ListBoxDataType)
             {
-                return ListBoxDataTypeFunctions.ToDtgString(dataType as ListBoxDataType);
+                return DataTypeFunctionsFactory<ListBoxDataTypeFunctions, ListBoxDataType>.Instance.ToDtgString(dataType as ListBoxDataType);
             }
             
             // Media Picker
             if (dataType is umbraco.editorControls.mediapicker.MemberPickerDataType)
             {
-                return MediaPickerDataTypeFunctions.ToDtgString(dataType as umbraco.editorControls.mediapicker.MemberPickerDataType);
+                return DataTypeFunctionsFactory<MediaPickerDataTypeFunctions, umbraco.editorControls.mediapicker.MemberPickerDataType>.Instance.ToDtgString(dataType as umbraco.editorControls.mediapicker.MemberPickerDataType);
             }
 
             // Date Picker || Date Picker with time
             if (dataType is DateDataType) 
             {
-                return DateDataTypeFunctions.ToDtgString(dataType as DateDataType);
+                return DataTypeFunctionsFactory<DateDataTypeFunctions, DateDataType>.Instance.ToDtgString(dataType as DateDataType);
             }
 
             // Member Picker
             if (dataType is umbraco.editorControls.memberpicker.MemberPickerDataType)
             {
-                return MemberPickerDataTypeFunctions.ToDtgString(dataType as umbraco.editorControls.memberpicker.MemberPickerDataType);
+                return DataTypeFunctionsFactory<MemberPickerDataTypeFunctions, umbraco.editorControls.memberpicker.MemberPickerDataType>.Instance.ToDtgString(dataType as umbraco.editorControls.memberpicker.MemberPickerDataType);
             }
 
             return value;
@@ -74,12 +89,12 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
             // Date Picker || Date Picker with time
             if (dataType is DateDataType)
             {
-                DateDataTypeFunctions.ConfigureForDtg(dataType as DateDataType, container);
+                DataTypeFunctionsFactory<DateDataTypeFunctions, DateDataType>.Instance.ConfigureForDtg(dataType as DateDataType, container);
             }
             // Member picker
             else if (dataType is umbraco.editorControls.memberpicker.MemberPickerDataType)
             {
-                MemberPickerDataTypeFunctions.ConfigureForDtg(dataType as umbraco.editorControls.memberpicker.MemberPickerDataType, container);
+                DataTypeFunctionsFactory<MemberPickerDataTypeFunctions, umbraco.editorControls.memberpicker.MemberPickerDataType>.Instance.ConfigureForDtg(dataType as umbraco.editorControls.memberpicker.MemberPickerDataType, container);
             }
         }
 
@@ -92,7 +107,6 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.Extensions
             // Richtext Editor
             if (dataType is tinyMCE3dataType)
             {
-                TinyMCE3DataTypeFunctions.SaveForDtg(dataType as tinyMCE3dataType);
             }
             else
             {

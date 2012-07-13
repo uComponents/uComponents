@@ -170,7 +170,7 @@ namespace uComponents.Core.uQueryExtensions
 			* 
 			*/
 
-			if (!string.IsNullOrEmpty(media.GetPropertyAsString(propertyAlias)))
+			if (!string.IsNullOrEmpty(media.GetProperty<string>(propertyAlias)))
 			{
 				var xmlNode = media.getProperty(propertyAlias).ToXml(new XmlDocument());
 				var cropNode = xmlNode.SelectSingleNode(string.Concat("descendant::crops/crop[@name='", cropName, "']"));
@@ -193,7 +193,7 @@ namespace uComponents.Core.uQueryExtensions
 		{
 			if (media.ContentType.Alias.Equals("Image"))
 			{
-				var url = media.GetPropertyAsString(Constants.Umbraco.Media.File);
+				var url = media.GetProperty<string>(Constants.Umbraco.Media.File);
 				if (!string.IsNullOrEmpty(url))
 				{
 					return url;
@@ -212,10 +212,10 @@ namespace uComponents.Core.uQueryExtensions
 		{
 			if (media.ContentType.Alias.Equals("Image"))
 			{
-				var url = media.GetPropertyAsString(Constants.Umbraco.Media.File);
+				var url = media.GetProperty<string>(Constants.Umbraco.Media.File);
 				if (!string.IsNullOrEmpty(url))
 				{
-					var ext = media.GetPropertyAsString(Constants.Umbraco.Media.Extension);
+					var ext = media.GetProperty<string>(Constants.Umbraco.Media.Extension);
 					return url.Replace("." + ext, "_thumb.jpg");
 				}
 			}
