@@ -661,7 +661,6 @@
   <ItemGroup>
     <Folder Include="DataTypes\AutoComplete\images\" />
     <Folder Include="DataTypes\AutoComplete\scripts\" />
-    <Folder Include="DataTypes\RelationCounter\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
