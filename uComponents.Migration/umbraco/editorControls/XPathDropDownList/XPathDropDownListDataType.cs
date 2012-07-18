@@ -44,7 +44,7 @@ namespace umbraco.editorControls.XPathDropDownList
 		{
 			get
 			{
-				return new Guid(DataTypeConstants.XPathDropDownListId);
+				return new Guid(DataTypeGuids.XPathDropDownListId);
 			}
 		}
 

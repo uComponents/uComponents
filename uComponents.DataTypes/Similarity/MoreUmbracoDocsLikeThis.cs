@@ -71,12 +71,12 @@ namespace uComponents.DataTypes.Similarity
 				{
 					var query = moreLikeThis.Like(currentLuceneDocId);
 					var docs = searcher.Search(query, maxNo);
-					int count = docs.scoreDocs.Length;
+					int count = docs.ScoreDocs.Length;
 					//start at 1 as first item will be current document itself which we dont want
 					for (int i = 1; i < count; i++)
 					{
 
-						var d = reader.Document(docs.scoreDocs[i].doc);
+						var d = reader.Document(docs.ScoreDocs[i].doc);
 						var item = new SearchResultItem
 										{
 											PageName = d.GetField("nodeName").StringValue(),
@@ -109,11 +109,11 @@ namespace uComponents.DataTypes.Similarity
 			var parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_29, "__NodeId", new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29));
 			var query = parser.Parse(docId.ToString());
 			var doc = searcher.Search(query, 1);
-			if (doc.totalHits == 0)
+			if (doc.TotalHits == 0)
 			{
 				return 0;
 			}
-			return doc.scoreDocs[0].doc;
+			return doc.ScoreDocs[0].doc;
 		}
 
 		/// <summary>

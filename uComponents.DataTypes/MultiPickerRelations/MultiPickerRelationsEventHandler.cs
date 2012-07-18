@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using uComponents.Core;
 using umbraco;
-using umbraco.BusinessLogic; // ApplicationBase
-using umbraco.cms.businesslogic; // SaveEventArgs
-using umbraco.cms.businesslogic.media; // Media
-using umbraco.cms.businesslogic.member; // Member
+using umbraco.BusinessLogic;
+using umbraco.businesslogic;
+using umbraco.cms.businesslogic;
+using umbraco.cms.businesslogic.media;
+using umbraco.cms.businesslogic.member;
 using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.relation;
-using umbraco.cms.businesslogic.web; // Documentusing umbraco.cms.businesslogic.propertytype;
+using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
 
 namespace uComponents.DataTypes.MultiPickerRelations
@@ -17,7 +18,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 	/// <summary>
 	/// Event handler that will convert a CSV into Relations
 	/// </summary>
-	public class MultiPickerRelationsEventHandler : ApplicationBase
+	public class MultiPickerRelationsEventHandler : ApplicationStartupHandler
 	{
 		//private enum MultiPickerStorageFormat
 		//{
@@ -98,7 +99,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 
 							var multiPickerStorageFormat = Settings.OutputFormat.CSV; // Assume default of csv
 
-							if (uQuery.Helper.Xml.CouldItBeXml(multiPickerPropertyValue))
+							if (Helper.Xml.CouldItBeXml(multiPickerPropertyValue))
 							{
 								multiPickerStorageFormat = Settings.OutputFormat.XML;
 							}

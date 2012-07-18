@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.ElasticTextBox
 {

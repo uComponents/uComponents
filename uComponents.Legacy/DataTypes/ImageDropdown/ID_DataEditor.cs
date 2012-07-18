@@ -6,6 +6,7 @@ using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.Legacy.DataTypes.ImageDropdown.Styles.ImageDropdown.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.Legacy.DataTypes.ImageDropdown.Scripts.jquery.dd.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -88,8 +89,8 @@ namespace uComponents.DataTypes.ImageDropdown
 			base.OnLoad(e);
 
 			// get the urls for the embedded resources
-			this.AddResourceToClientDependency("uComponents.Legacy.DataTypes.ImageDropdown.Scripts.jquery.dd.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.Legacy.DataTypes.ImageDropdown.Styles.ImageDropdown.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.Legacy.DataTypes.ImageDropdown.Scripts.jquery.dd.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.Legacy.DataTypes.ImageDropdown.Styles.ImageDropdown.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

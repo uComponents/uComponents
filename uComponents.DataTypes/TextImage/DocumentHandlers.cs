@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
+using umbraco.businesslogic;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
@@ -11,7 +12,10 @@ using umbraco.cms.businesslogic.web;
 
 namespace uComponents.DataTypes.TextImage
 {
-    internal class DocumentHandlers : ApplicationBase
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class DocumentHandlers : ApplicationStartupHandler
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref = "DocumentHandlers" /> class.

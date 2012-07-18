@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Styles.uiDropdownchecklist.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.DataTypes.DropdownCheckList.Scripts.ui.dropdownchecklist.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -78,8 +79,8 @@ namespace uComponents.DataTypes.DropdownCheckList
 			base.OnLoad(e);
 
 			// get the urls for the embedded resources
-			this.AddResourceToClientDependency("uComponents.DataTypes.DropdownCheckList.Styles.uiDropdownchecklist.css", ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.DataTypes.DropdownCheckList.Scripts.ui.dropdownchecklist.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.DropdownCheckList.Styles.uiDropdownchecklist.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.DropdownCheckList.Scripts.ui.dropdownchecklist.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

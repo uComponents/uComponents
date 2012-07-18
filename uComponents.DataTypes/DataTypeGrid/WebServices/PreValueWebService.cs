@@ -11,7 +11,7 @@ using umbraco;
 namespace uComponents.DataTypes.DataTypeGrid.WebServices
 {
     /// <summary>
-    /// 
+    /// Web service for Prevalues.
     /// </summary>
     [ScriptService]
     [WebService]

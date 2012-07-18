@@ -7,13 +7,14 @@
 using System;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
     /// <summary>
     /// The dtg data type.
     /// </summary>
-    public class DataType : BaseDataType, IDataType
+    public class DataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
     {
         #region Declarations
 
@@ -42,7 +43,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <value>The id of the data-type.</value>
         public override Guid Id
         {
-            get { return new Guid(DataTypeConstants.DataTypeGridId); }
+            get
+            {
+                return new Guid(DataTypeConstants.DataTypeGridId);
+            }
         }
 
         /// <summary>
@@ -51,7 +55,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <value>The name of the data type.</value>
         public override string DataTypeName
         {
-            get { return "uComponents: DataType Grid"; }
+            get
+            {
+                return "uComponents: DataType Grid";
+            }
         }
 
         /// <summary>
@@ -60,7 +67,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <value>The prevalue editor.</value>
         public override IDataPrevalue PrevalueEditor
         {
-            get { return m_PreValueEditor ?? (m_PreValueEditor = new PrevalueEditor(this)); }
+            get
+            {
+                return m_PreValueEditor ?? (m_PreValueEditor = new PrevalueEditor(this));
+            }
         }
 
         /// <summary>
@@ -81,7 +91,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <value>The data.</value>
         public override IData Data
         {
-            get { return m_Data ?? (m_Data = new XmlData(this)); }
+            get
+            {
+                return m_Data ?? (m_Data = new XmlData(this));
+            }
         }
 
         #endregion

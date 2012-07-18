@@ -8,6 +8,7 @@ using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.TextstringArray.TextstringArray.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.TextstringArray.TextstringArray.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -90,9 +91,9 @@ namespace uComponents.DataTypes.TextstringArray
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.DataTypes.TextstringArray.TextstringArray.css", ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.DataTypes.TextstringArray.TextstringArray.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.TextstringArray.TextstringArray.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.TextstringArray.TextstringArray.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

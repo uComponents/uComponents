@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.CharLimit
 {
@@ -31,8 +32,8 @@ namespace uComponents.DataTypes.CharLimit
 		/// Initializes a new instance of the <see cref="CharLimitPrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public CharLimitPrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+		public CharLimitPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

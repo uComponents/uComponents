@@ -9,6 +9,7 @@ using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {
@@ -20,7 +21,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <summary>
 		/// The underlying base data-type.
 		/// </summary>
-		private readonly BaseDataType m_DataType;
+		private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
 		/// <summary>
 		/// An object to temporarily lock writing to the database.
@@ -61,7 +62,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
 		/// <param name="dbType">Type of the database column.</param>
-		public NoDBOptionsKeyValuePrevalueEditor(BaseDataType dataType, DBTypes dbType)
+		public NoDBOptionsKeyValuePrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType, umbraco.cms.businesslogic.datatype.DBTypes dbType)
 			: base()
 		{
 			this.m_DataType = dataType;
@@ -83,7 +84,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 
 			this.EnsureChildControls();
 
-			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
     using System.Reflection;
     using System.Web.UI;
@@ -34,6 +34,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
             catch (Exception ex)
             {
                 return value;
+				// TODO: [LK->OA] Did you want to capture the exception?
             }
         }
 

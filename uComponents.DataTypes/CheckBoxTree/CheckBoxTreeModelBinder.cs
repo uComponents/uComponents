@@ -2,6 +2,7 @@
 using umbraco;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
+using uComponents.Core;
 
 namespace uComponents.DataTypes.CheckBoxTree
 {
@@ -20,7 +21,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
-			var nodeIds = uQuery.Helper.Xml.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
+			var nodeIds = Helper.Xml.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
 			var library = new RazorLibraryCore(null);
 
 			instance = library.NodesById(nodeIds.ToList()) as DynamicNodeList;

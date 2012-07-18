@@ -193,7 +193,7 @@ namespace umbraco
 		{
 			if (media.ContentType.Alias.Equals("Image"))
 			{
-				var url = media.GetProperty<string>("umbracoFile");
+				var url = media.GetProperty<string>(Constants.Umbraco.Media.File);
 				if (!string.IsNullOrEmpty(url))
 				{
 					return url;
@@ -212,10 +212,10 @@ namespace umbraco
 		{
 			if (media.ContentType.Alias.Equals("Image"))
 			{
-				var url = media.GetProperty<string>("umbracoFile");
+				var url = media.GetProperty<string>(Constants.Umbraco.Media.File);
 				if (!string.IsNullOrEmpty(url))
 				{
-					var extension = media.GetProperty<string>("umbracoExtension");
+					var ext = media.GetProperty<string>(Constants.Umbraco.Media.Extension);
 					return url.Replace(string.Concat(".", extension), "_thumb.jpg");
 				}
 			}

@@ -2,6 +2,7 @@
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.TextImage.images.color.png", Constants.MediaTypeNames.Image.Png)]
 [assembly: WebResource("uComponents.DataTypes.TextImage.images.colorpicker.png", Constants.MediaTypeNames.Image.Png)]
@@ -14,7 +15,6 @@ using umbraco.cms.businesslogic.datatype;
 namespace uComponents.DataTypes.TextImage
 {
     using System.Web.UI;
-    using ClientDependency.Core;
 
     /// <summary>
     /// TextImage Extensions
@@ -49,8 +49,8 @@ namespace uComponents.DataTypes.TextImage
         /// <param name="control">The CTL.</param>
         public static void AddJsTextImageClientDependencies(this Control control)
         {
-			control.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
-            control.AddResourceToClientDependency(ColorpickerJs, ClientDependencyType.Javascript);
+            control.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+            control.RegisterEmbeddedClientResource(ColorpickerJs, ClientDependencyType.Javascript);
         }
     }
 }

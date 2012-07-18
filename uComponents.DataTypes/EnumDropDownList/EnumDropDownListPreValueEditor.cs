@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.EnumDropDownList
 {
@@ -64,8 +65,8 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// Initialize a new instance of EnumCheckBoxlistPreValueEditor
 		/// </summary>
 		/// <param name="dataType">EnumCheckBoxListDataType</param>
-		public EnumDropDownListPreValueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Nvarchar)
+		public EnumDropDownListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
 		{
 		}
 

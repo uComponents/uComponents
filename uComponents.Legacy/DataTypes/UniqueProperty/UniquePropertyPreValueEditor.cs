@@ -5,6 +5,7 @@ using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.UniqueProperty
 {
@@ -16,7 +17,7 @@ namespace uComponents.DataTypes.UniqueProperty
 		/// <summary>
 		/// The underlying base data-type.
 		/// </summary>
-		private readonly BaseDataType m_DataType;
+		private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
 		/// <summary>
 		/// An object to temporarily lock writing to the database.
@@ -27,7 +28,7 @@ namespace uComponents.DataTypes.UniqueProperty
 		/// Initializes a new instance of the <see cref="UniquePropertyPreValueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public UniquePropertyPreValueEditor(BaseDataType dataType)
+		public UniquePropertyPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
 		{
 			this.m_DataType = dataType;
 		}
@@ -77,7 +78,7 @@ namespace uComponents.DataTypes.UniqueProperty
 		/// </summary>
 		public void Save()
 		{
-			this.m_DataType.DBType = DBTypes.Nvarchar;
+			this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar;
 
 			lock (m_Locker)
 			{
@@ -106,7 +107,7 @@ namespace uComponents.DataTypes.UniqueProperty
 			this.EnsureChildControls();
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>

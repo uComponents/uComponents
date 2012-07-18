@@ -32,25 +32,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="businesslogic">
-      <HintPath>..\Lib\Umbraco.4.7\businesslogic.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
     </Reference>
     <Reference Include="ClientDependency.Core">
-      <HintPath>..\Lib\Umbraco.4.7\ClientDependency.Core.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\ClientDependency.Core.dll</HintPath>
     </Reference>
     <Reference Include="cms">
-      <HintPath>..\Lib\Umbraco.4.7\cms.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
     </Reference>
     <Reference Include="controls">
-      <HintPath>..\Lib\Umbraco.4.7\controls.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\controls.dll</HintPath>
     </Reference>
     <Reference Include="Examine">
-      <HintPath>..\Lib\Umbraco.4.7\Examine.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\Examine.dll</HintPath>
     </Reference>
     <Reference Include="interfaces">
-      <HintPath>..\Lib\Umbraco.4.7\interfaces.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net">
-      <HintPath>..\Lib\Umbraco.4.7\Lucene.Net.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -65,27 +65,30 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="umbraco">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.DataLayer">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.DataLayer.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.DataLayer.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.editorControls">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.editorControls.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.editorControls.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.MacroEngines">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.MacroEngines.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.MacroEngines.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.macroRenderings">
-      <HintPath>..\Lib\Umbraco.4.7\umbraco.macroRenderings.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.macroRenderings.dll</HintPath>
     </Reference>
     <Reference Include="UmbracoExamine">
-      <HintPath>..\Lib\Umbraco.4.7\UmbracoExamine.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\UmbracoExamine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="AutoComplete\AutoCompleteDataEditorUpdatePanel.cs" />
     <Compile Include="AutoComplete\AutoCompleteDataType.cs" />
@@ -108,9 +111,12 @@
     <Compile Include="DataTypeGrid\Configuration\DtgConfiguration.Designer.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DateDataTypeFunctions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DropDownListDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeFunctions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MarkdownEditorFunctions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MediaPickerDataTypeExtensions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MemberPickerDataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_PagePickerDataTypeFunctionsFunctions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_RadioButtonListDataTypeFunctions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_TinyMCE3DataTypeExtensions.cs" />
     <Compile Include="DataTypeGrid\DTG_DataEditor.cs" />
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
@@ -118,7 +124,9 @@
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataTypeExtensions.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DtgDataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DataTypeFunctionsFactory.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFunctions.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_BasePreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
@@ -331,10 +339,6 @@
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\uComponents.Migration\uComponents.Migration.csproj">
-      <Project>{C87AEE87-3DF5-4156-9306-B0F21A5004B3}</Project>
-      <Name>uComponents.Migration</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

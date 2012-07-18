@@ -6,7 +6,7 @@ namespace umbraco.editorControls.XPathCheckBoxList
 	/// <summary>
 	/// Model binder for the XPathCheckBoxList data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.XPathCheckBoxListId)]
+	[RazorDataTypeModel(DataTypeGuids.XPathCheckBoxListId)]
 	public class XPathCheckBoxListModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>

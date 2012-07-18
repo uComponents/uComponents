@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -70,9 +71,9 @@ namespace uComponents.DataTypes.IncrementalTextBox
             base.OnLoad(e);
 
 			// get the urls for the embedded resources
-			this.AddResourceToClientDependency("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.increment.js", ClientDependency.Core.ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependency.Core.ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", ClientDependency.Core.ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.increment.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", ClientDependencyType.Css);
         }
 
 		/// <summary>

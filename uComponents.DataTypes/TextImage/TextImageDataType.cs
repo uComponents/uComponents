@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Xml.Linq;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.TextImage
 {

@@ -7,6 +7,7 @@ using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.macro;
 using umbraco.editorControls.macrocontainer;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.RenderMacro
 {
@@ -40,7 +41,7 @@ namespace uComponents.DataTypes.RenderMacro
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
 		public RenderMacroPrevalueEditor(RenderMacroDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

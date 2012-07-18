@@ -67,7 +67,7 @@ namespace uComponents.XsltExtensions
 		{
 			var nodeIds = path.Split(Constants.Common.COMMA).ToList();
 
-			if (nodeIds.Count <= level)
+			if (nodeIds.Count > level)
 			{
 				return nodeIds[level];
 			}

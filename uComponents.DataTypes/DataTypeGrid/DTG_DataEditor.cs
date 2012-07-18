@@ -14,6 +14,8 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
 using uComponents.DataTypes.DataTypeGrid.Model;
+//using uComponents.Core.Shared;
+
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
@@ -29,14 +31,48 @@ namespace uComponents.DataTypes.DataTypeGrid
 	using uComponents.DataTypes.DataTypeGrid.Functions;
 	using umbraco;
 
-
 	/// <summary>
 	/// The DataType Grid Control
 	/// </summary>
 	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
 	public class DataEditor : Control, INamingContainer, IDataEditor
 	{
-		#region Public
+		#region Fields
+
+		/// <summary>
+		/// Value stored by a datatype instance
+		/// </summary>
+		private readonly IData data;
+
+		/// <summary>
+		/// The datatype definition id
+		/// </summary>
+		private readonly int dataTypeDefinitionId;
+
+		/// <summary>
+		/// The settings.
+		/// </summary>
+		private readonly PreValueEditorSettings settings;
+
+		#endregion
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DataEditor"/> class.
+		/// </summary>
+		/// <param name="data">The data.</param>
+		/// <param name="settings">The settings.</param>
+		/// <param name="dataTypeDefinitionId">The data type definition id.</param>
+		/// <param name="instanceId">The instance id.</param>
+		public DataEditor(IData data, PreValueEditorSettings settings, int dataTypeDefinitionId, string instanceId)
+		{
+			this.settings = settings;
+			this.data = data;
+
+			this.dataTypeDefinitionId = dataTypeDefinitionId;
+			this.instanceId = instanceId;
+		}
+
+		#region Properties
 
 		/// <summary>
 		/// Gets or sets the configuration.
@@ -78,7 +114,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 			{
 				if (ViewState["CurrentRow"] != null)
 				{
-					return (int) ViewState["CurrentRow"];
+					return (int)ViewState["CurrentRow"];
 				}
 
 				return 0;
@@ -101,7 +137,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 				if (ViewState["DataString"] != null)
 				{
 					DtgHelpers.AddLogEntry(string.Format("DTG: Returned value from ViewState: {0}", ViewState["DataString"]));
-					
+
 					return ViewState["DataString"].ToString();
 				}
 
@@ -174,12 +210,8 @@ namespace uComponents.DataTypes.DataTypeGrid
 			}
 		}
 
-		#endregion
-
-		#region Private
-
 		/// <summary>
-		/// The control id
+		/// Gets the control id.
 		/// </summary>
 		private string id;
 
@@ -188,42 +220,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		private readonly string instanceId;
 
-		/// <summary>
-		/// Value stored by a datatype instance
-		/// </summary>
-		private readonly IData data;
-
-		/// <summary>
-		/// The datatype definition id
-		/// </summary>
-		private readonly int dataTypeDefinitionId;
-
-		/// <summary>
-		/// The settings.
-		/// </summary>
-		private readonly PreValueEditorSettings settings;
-
 		#endregion
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DataEditor"/> class.
-		/// </summary>
-		/// <param name="data">
-		/// The data.
-		/// </param>
-		/// <param name="settings">
-		/// The settings.
-		/// </param>
-		/// <param name="dataTypeDefinitionId">
-		/// The unique id.
-		/// </param>
-		public DataEditor(IData data, PreValueEditorSettings settings, int dataTypeDefinitionId, string instanceId)
-		{
-			this.settings = settings;
-			this.data = data;
-			this.dataTypeDefinitionId = dataTypeDefinitionId;
-		    this.instanceId = instanceId;
-		}
 
 		#region IDataEditor Members
 
@@ -232,16 +229,16 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		public void Save()
 		{
-			this.data.Value = string.IsNullOrEmpty(DataString) ? this.data.Value : DataString;
+			this.data.Value = string.IsNullOrEmpty(this.DataString) ? this.data.Value : this.DataString;
 
 			// Get new values
-			Rows = GetStoredValues();
+			this.Rows = this.GetStoredValues();
 
 			// Refresh grid
-			RefreshGrid();
+			this.RefreshGrid();
 
 			// Clear input controls
-			ClearControls();
+			this.ClearControls();
 
 			DtgHelpers.AddLogEntry(string.Format("DTG: Saved the following data to database: {0}", this.data.Value));
 		}
@@ -251,14 +248,16 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		public void Store()
 		{
+			// Make sure sort order is correct
+			this.SetRowsSortOrder();
+
 			// Start data
 			var str = "<items>";
 
-			foreach (var container in Rows)
+			foreach (var container in this.Rows.OrderBy(x => x.SortOrder))
 			{
 				// Start
-				str += string.Concat(
-					"<item id='", container.Id.ToString(), "'>");
+				str += string.Concat("<item id='", container.Id.ToString(), "' sortOrder='", container.SortOrder,  "'>");
 
 				foreach (var v in container.Cells)
 				{
@@ -330,7 +329,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 		#endregion
 
-		#region Custom
+		#region Functions
 
 		/// <summary>
 		/// Refreshes the grid.
@@ -360,6 +359,19 @@ namespace uComponents.DataTypes.DataTypeGrid
 		}
 
 		/// <summary>
+		/// Sets the sort order.
+		/// </summary>
+		private void SetRowsSortOrder()
+		{
+			this.Rows = this.Rows.OrderBy(x => x.SortOrder).ToList();
+
+			for (var i = 0; i < this.Rows.Count(); i++)
+			{
+				this.Rows[i].SortOrder = i;
+			}
+		}
+
+		/// <summary>
 		/// Generates the header row.
 		/// </summary>
 		private void GenerateHeaderRow()
@@ -369,7 +381,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 			// Add ID header cell
 			tr.Cells.Add(new TableHeaderCell { Text = uQuery.GetDictionaryItem("ID", "ID") });
 
-			// NOTE: Temporary
 			tr.Cells.Add(new TableHeaderCell { Text = uQuery.GetDictionaryItem("Actions", "Actions") });
 
 			// Add prevalue cells
@@ -387,7 +398,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		private void GenerateValueRows()
 		{
-			foreach (var row in Rows)
+			foreach (var row in this.Rows.OrderBy(x => x.SortOrder))
 			{
 				var tr = new TableRow();
 
@@ -397,7 +408,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 				tr.Cells.Add(id);
 
-				// NOTE: Temporary
+				// Delete button
 				var actions = new TableCell();
 
 				var dInner = new HtmlGenericControl("span");
@@ -419,6 +430,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 				deleteRow.Controls.Add(dIcon);
 				deleteRow.Controls.Add(dInner);
 
+				// Edit button
 				var eInner = new HtmlGenericControl("span");
 				eInner.Attributes["class"] = "ui-button-text";
 				eInner.InnerText = uQuery.GetDictionaryItem("Edit", "Edit");
@@ -432,21 +444,55 @@ namespace uComponents.DataTypes.DataTypeGrid
 									  CssClass = "editRowDialog ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only", 
 									  CommandArgument = row.Id.ToString()
 								  };
-				editRow.Click += editRow_Click;
+				editRow.Click += this.editRow_Click;
 
 				editRow.Controls.Add(eIcon);
 				editRow.Controls.Add(eInner);
 
-				// NOTE: See here for reference
-				// http://www.deviantpoint.com/post/2009/03/12/Using-jQuery-UI-Dialogs-for-confirmation-windows.aspx
-				// http://www.codedigest.com/Articles/ASPNET/314_Multiple_Ways_to_Call_Javascript_Function_from_CodeBehind_in_ASPNet.aspx
+				// Move up button
+				var mUpInner = new HtmlGenericControl("span");
+				mUpInner.Attributes["class"] = "ui-button-text";
+				mUpInner.InnerText = uQuery.GetDictionaryItem("MoveUp", "Move up");
+
+				var mUpIcon = new HtmlGenericControl("span");
+				mUpIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-arrowthick-1-n";
+
+				var moveRowUp = new LinkButton
+				{
+					ID = "MoveUpButton_" + row.Id,
+					CssClass = "moveRowUp ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
+					CommandArgument = row.Id.ToString()
+				};
+				moveRowUp.Click += this.moveRowUp_Click;
+
+				moveRowUp.Controls.Add(mUpIcon);
+				moveRowUp.Controls.Add(mUpInner);
+
+				// Move up button
+				var mDownInner = new HtmlGenericControl("span");
+				mDownInner.Attributes["class"] = "ui-button-text";
+				mDownInner.InnerText = uQuery.GetDictionaryItem("MoveDown", "Move down");
+
+				var mDownIcon = new HtmlGenericControl("span");
+				mDownIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-arrowthick-1-s";
+
+				var moveRowDown = new LinkButton
+				{
+					ID = "MoveDownButton_" + row.Id,
+					CssClass = "moveRowDown ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
+					CommandArgument = row.Id.ToString()
+				};
+				moveRowDown.Click += this.moveRowDown_Click;
+
+				moveRowDown.Controls.Add(mDownIcon);
+				moveRowDown.Controls.Add(mDownInner);
 
 				actions.Controls.Add(deleteRow);
 				actions.Controls.Add(editRow);
+				actions.Controls.Add(moveRowUp);
+				actions.Controls.Add(moveRowDown);
 
 				tr.Cells.Add(actions);
-
-				// NOTE: End Temporary
 
 				// Print stored values
 				foreach (var storedConfig in StoredPreValues)
@@ -575,7 +621,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 			addRow.Controls.Add(iIcon);
 			addRow.Controls.Add(iInner);
 
-			InsertControls.Controls.Add(addRow);
+			this.InsertControls.Controls.Add(addRow);
 		}
 
 		/// <summary>
@@ -589,9 +635,13 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </param>
 		protected void addRow_Click(object sender, EventArgs e)
 		{
-			var row = new StoredValueRow { Id = GetAvailableId() };
+			var row = new StoredValueRow
+				{
+					Id = this.GetAvailableId(),
+					SortOrder = this.Rows.Count() + 1
+				};
 
-			foreach (var t in InsertDataTypes)
+			foreach (var t in this.InsertDataTypes)
 			{
 				// Save value to datatype
 				t.Value.SaveForDtg();
@@ -607,7 +657,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 				row.Cells.Add(v);
 			}
 
-			Rows.Add(row);
+			this.Rows.Add(row);
 
 			Store();
 			Save();
@@ -618,27 +668,27 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		private void GenerateEditControls()
 		{
-			EditControls.Controls.Clear();
+			this.EditControls.Controls.Clear();
 
-			EditControls.Controls.Add(new LiteralControl("<ul>"));
+			this.EditControls.Controls.Add(new LiteralControl("<ul>"));
 
-			foreach (var config in EditDataTypes)
+			foreach (var config in this.EditDataTypes)
 			{
 				var control = config.Value.DataEditor.Editor;
 				control.ID = "Edit" + config.Alias;
 
 				// Configure the datatype so it works with DTG
-				config.Value.ConfigureForDtg(EditControls);
+				config.Value.ConfigureForDtg(this.EditControls);
 
-				EditControls.Controls.Add(new LiteralControl("<li>"));
-				EditControls.Controls.Add(new Label { CssClass = "editControlLabel", Text = config.Name });
-				EditControls.Controls.Add(control);
-				GenerateValidationControls(EditControls, "Edit", config, EditDataTypes);
+				this.EditControls.Controls.Add(new LiteralControl("<li>"));
+				this.EditControls.Controls.Add(new Label { CssClass = "editControlLabel", Text = config.Name });
+				this.EditControls.Controls.Add(control);
+				this.GenerateValidationControls(this.EditControls, "Edit", config, this.EditDataTypes);
 
-				EditControls.Controls.Add(new LiteralControl("</li>"));
+				this.EditControls.Controls.Add(new LiteralControl("</li>"));
 			}
 
-			EditControls.Controls.Add(new LiteralControl("</ul>"));
+			this.EditControls.Controls.Add(new LiteralControl("</ul>"));
 
 			var uInner = new HtmlGenericControl("span") { InnerText = uQuery.GetDictionaryItem("Update", "Update") };
 			uInner.Attributes["class"] = "ui-button-text";
@@ -651,12 +701,12 @@ namespace uComponents.DataTypes.DataTypeGrid
 									ID = "UpdateButton",
 									CssClass = "updateButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
 								};
-			updateRow.Click += updateRow_Click;
+			updateRow.Click += this.updateRow_Click;
 
 			updateRow.Controls.Add(uIcon);
 			updateRow.Controls.Add(uInner);
 
-			EditControls.Controls.Add(updateRow);
+			this.EditControls.Controls.Add(updateRow);
 		}
 
 		/// <summary>
@@ -670,12 +720,82 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </param>
 		protected void editRow_Click(object sender, EventArgs e)
 		{
-			CurrentRow = int.Parse(((LinkButton) sender).CommandArgument);
+			this.CurrentRow = int.Parse(((LinkButton) sender).CommandArgument);
 
-			EditDataTypes = GetEditDataTypes();
-			GenerateEditControls();
+			this.EditDataTypes = this.GetEditDataTypes();
+			this.GenerateEditControls();
 
 			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenEditDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
+		}
+
+		/// <summary>
+		/// Handles the Click event of the moveRowUp control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		protected void moveRowUp_Click(object sender, EventArgs e)
+		{
+			this.CurrentRow = int.Parse(((LinkButton)sender).CommandArgument);
+
+			for (var i = 0; i < this.Rows.Count; i++)
+			{
+				if (this.Rows[i].Id == this.CurrentRow)
+				{
+					// Reorder the specified row
+					if (i > 0)
+					{
+						this.Rows[i].SortOrder--;
+
+						// Move conflicting row
+						this.Rows[i - 1].SortOrder++;
+					}
+					else if (i == 0)
+					{
+						this.Rows[i].SortOrder = this.Rows.Count;
+
+						// Move conflicting row
+						this.Rows[this.Rows.Count - 1].SortOrder = 0;
+					}
+				}
+			}
+
+			this.Store();
+			this.Save();
+		}
+
+		/// <summary>
+		/// Handles the Click event of the moveRowDown control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		protected void moveRowDown_Click(object sender, EventArgs e)
+		{
+			this.CurrentRow = int.Parse(((LinkButton)sender).CommandArgument);
+
+			for (var i = 0; i < this.Rows.Count; i++)
+			{
+				if (this.Rows[i].Id == this.CurrentRow)
+				{
+					// Reorder the specified row
+					if (i < this.Rows.Count - 1) 
+					{ 
+						this.Rows[i].SortOrder++;
+
+						// Move conflicting row
+						this.Rows[i + 1].SortOrder--;
+					}
+					else if (i == this.Rows.Count - 1) 
+					{ 
+						this.Rows[i].SortOrder = 0;
+
+						// Move conflicting row
+						this.Rows[0].SortOrder++;
+					}
+				}
+			}
+
+			this.Store();
+			this.Save();
 		}
 
 		/// <summary>
@@ -685,7 +805,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void addRowDialog_Click(object sender, EventArgs e)
 		{
-			ClearControls();
+			this.ClearControls();
 
 			ScriptManager.RegisterClientScriptBlock(this, GetType(), "OpenInsertDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
 		}
@@ -701,7 +821,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </param>
 		protected void updateRow_Click(object sender, EventArgs e)
 		{
-			foreach (var row in Rows.Where(row => row.Id == CurrentRow))
+			foreach (var row in this.Rows.Where(row => row.Id == this.CurrentRow))
 			{
 				foreach (var cell in row.Cells)
 				{
@@ -710,8 +830,8 @@ namespace uComponents.DataTypes.DataTypeGrid
 				}
 			}
 
-			Store();
-			Save();
+			this.Store();
+			this.Save();
 		}
 
 		/// <summary>
@@ -778,12 +898,14 @@ namespace uComponents.DataTypes.DataTypeGrid
 				{
 					// <DataTypeGrid>
 					var valueRow = new StoredValueRow();
-					if (container.Attributes != null)
-					{
+					
+					if (container.Attributes["id"] != null)
 						valueRow.Id = int.Parse(container.Attributes["id"].Value);
-					}
 
-					foreach (PreValueRow config in StoredPreValues)
+					if (container.Attributes["sortOrder"] != null)
+						valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
+
+					foreach (PreValueRow config in this.StoredPreValues)
 					{
 						var value = new StoredValue
 										{
@@ -856,13 +978,13 @@ namespace uComponents.DataTypes.DataTypeGrid
 		{
 			var list = new List<StoredValue>();
 
-			if (CurrentRow > 0)
+			if (this.CurrentRow > 0)
 			{
-				list = GetStoredValueRow(CurrentRow).Cells;
+				list = this.GetStoredValueRow(this.CurrentRow).Cells;
 			}
 			else
 			{
-				foreach (var config in StoredPreValues)
+				foreach (var config in this.StoredPreValues)
 				{
 					var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
 					var dt = dtd.DataType;
@@ -922,6 +1044,8 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 		#endregion
 
+		#region Events
+
 		/// <summary>
 		/// Initialize the control, make sure children are created
 		/// </summary>
@@ -934,19 +1058,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 			// Adds the client dependencies
 			this.AddAllDtgClientDependencies();
-		}
-
-		/// <summary>
-		/// Add the resources (styles/scripts)
-		/// </summary>
-		/// <param name="e">
-		/// The <see cref="T:System.EventArgs"/> object that contains the event data.
-		/// </param>
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-
-		    this.id = "DTG_" + this.dataTypeDefinitionId + "_" + this.instanceId;
 		}
 
 		/// <summary>
@@ -974,13 +1085,13 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 			ShowTableHeader = new HiddenField() { ID = "ShowTableHeader", Value = this.settings.ShowTableHeader.ToString() };
 			ShowTableFooter = new HiddenField() { ID = "ShowTableFooter", Value = this.settings.ShowTableFooter.ToString() };
-			NumberOfRows = new HiddenField() { ID ="NumberOfRows", Value = this.settings.NumberOfRows.ToString() };
+			NumberOfRows = new HiddenField() { ID = "NumberOfRows", Value = this.settings.NumberOfRows.ToString() };
 			ContentSorting = new HiddenField() { ID = "ContentSorting", Value = this.settings.ContentSorting };
 			Grid = new Table { ID = "tblGrid", CssClass = "display" };
 			Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
 			StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
-			Rows = GetStoredValues();
+			Rows = this.GetStoredValues();
 			InsertDataTypes = GetInsertDataTypes();
 			EditDataTypes = GetEditDataTypes();
 
@@ -1041,5 +1152,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 			writer.RenderEndTag();
 		}
+
+		#endregion
 	}
 }

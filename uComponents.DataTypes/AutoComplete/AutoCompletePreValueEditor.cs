@@ -5,6 +5,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.AutoComplete
 {
@@ -83,8 +84,8 @@ namespace uComponents.DataTypes.AutoComplete
 		/// Initializes a new instance of the <see cref="AutoCompletePreValueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-        public AutoCompletePreValueEditor(BaseDataType dataType)
-            : base(dataType, DBTypes.Nvarchar)
+        public AutoCompletePreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
         {
         }
 

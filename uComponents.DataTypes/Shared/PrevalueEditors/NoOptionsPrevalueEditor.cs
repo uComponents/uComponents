@@ -2,6 +2,8 @@
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 
+using umbraco.editorControls;
+
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {
 	/// <summary>
@@ -12,7 +14,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <summary>
 		/// The underlying base data-type.
 		/// </summary>
-		private readonly BaseDataType m_DataType;
+		private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
 		/// <summary>
 		/// An object to temporarily lock writing to the database.
@@ -24,7 +26,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
 		/// <param name="dbType">Type of the db.</param>
-		public NoOptionsPrevalueEditor(BaseDataType dataType, DBTypes dbType)
+		public NoOptionsPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType, umbraco.cms.businesslogic.datatype.DBTypes dbType)
 			: base()
 		{
 			this.m_DataType = dataType;

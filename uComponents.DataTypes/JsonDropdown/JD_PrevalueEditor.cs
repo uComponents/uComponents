@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.JsonDropdown
 {
@@ -36,8 +37,8 @@ namespace uComponents.DataTypes.JsonDropdown
 		/// Initializes a new instance of the <see cref="JD_PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public JD_PrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+		public JD_PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

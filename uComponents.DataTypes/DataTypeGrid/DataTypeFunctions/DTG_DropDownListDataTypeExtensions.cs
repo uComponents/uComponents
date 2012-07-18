@@ -7,20 +7,25 @@
 namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
     using System.Linq;
-	using umbraco;
+    using System.Web.UI;
+
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using umbraco.editorControls.dropdownlist;
+	using umbraco;
 
     /// <summary>
     /// /// DTG extensions for the Dropdown List DataType
     /// </summary>
-    internal class DropdownListDataTypeFunctions
+    internal class DropdownListDataTypeFunctions : IDataTypeFunctions<DropdownListDataType>
     {
+        #region Implementation of IDataTypeFunctions<DropdownListDataType>
+
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
         /// </summary>
         /// <param name="dataType">The DataType.</param>
-        /// <returns></returns>
-        public static string ToDtgString(DropdownListDataType dataType)
+        /// <returns>A human-readable string</returns>
+        public string ToDtgString(DropdownListDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
@@ -35,5 +40,24 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 
             return value;
         }
+
+        /// <summary>
+        /// Configures the datatype to be compatible with DTG.
+        /// </summary>
+        /// <param name="dataType">The DataType.</param>
+        /// <param name="container">The container.</param>
+        public void ConfigureForDtg(DropdownListDataType dataType, Control container)
+        {
+        }
+
+        /// <summary>
+        /// Saves the datatype for DTG.
+        /// </summary>
+        /// <param name="dataType">The DataType.</param>
+        public void SaveForDtg(DropdownListDataType dataType)
+        {
+        }
+
+        #endregion
     }
 }

@@ -6,21 +6,26 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
-	using umbraco;
+    using System.Web.UI;
+
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
 	using umbraco.cms.businesslogic.media;
     using umbraco.editorControls.mediapicker;
+	using umbraco;
 
     /// <summary>
     /// DTG extensions for the MediaPicker DataType
     /// </summary>
-    internal class MediaPickerDataTypeFunctions
+    internal class MediaPickerDataTypeFunctions : IDataTypeFunctions<MemberPickerDataType>
     {
+        #region Implementation of IDataTypeFunctions<MemberPickerDataType>
+
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
         /// </summary>
         /// <param name="dataType">The DataType.</param>
-        /// <returns></returns>
-        public static string ToDtgString(MemberPickerDataType dataType)
+        /// <returns>A human-readable string</returns>
+        public string ToDtgString(MemberPickerDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
@@ -40,5 +45,24 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 
             return value;
         }
+
+        /// <summary>
+        /// Configures the datatype to be compatible with DTG.
+        /// </summary>
+        /// <param name="dataType">The DataType.</param>
+        /// <param name="container">The container.</param>
+        public void ConfigureForDtg(MemberPickerDataType dataType, Control container)
+        {
+        }
+
+        /// <summary>
+        /// Saves the datatype for DTG.
+        /// </summary>
+        /// <param name="dataType">The DataType.</param>
+        public void SaveForDtg(MemberPickerDataType dataType)
+        {
+        }
+
+        #endregion
     }
 }

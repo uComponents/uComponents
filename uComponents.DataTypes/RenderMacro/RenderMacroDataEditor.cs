@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Web;
 using System.Web.UI;
@@ -98,7 +99,7 @@ namespace uComponents.DataTypes.RenderMacro
 				if (node == null)
 				{
 					// then get the first child node from the XML content root
-					var nodes = uQuery.GetNodesByXPath(string.Concat("descendant::*[@parentID = ", uQuery.RootNodeId, "]"));
+					var nodes = uQuery.GetNodesByXPath(string.Concat("descendant::*[@parentID = ", uQuery.RootNodeId, "]")).ToList();
 					if (nodes != null && nodes.Count > 0)
 					{
 						node = nodes[0];

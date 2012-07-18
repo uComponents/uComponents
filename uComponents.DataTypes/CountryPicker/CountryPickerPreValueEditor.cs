@@ -5,6 +5,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.CountryPicker
 {
@@ -16,7 +17,7 @@ namespace uComponents.DataTypes.CountryPicker
 		/// <summary>
 		/// The underlying base data-type.
 		/// </summary>
-		private readonly BaseDataType m_DataType;
+		private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
 		/// <summary>
 		/// An object to temporarily lock writing to the database.
@@ -27,7 +28,7 @@ namespace uComponents.DataTypes.CountryPicker
 		/// Initializes a new instance of the <see cref="CountryPickerPreValueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public CountryPickerPreValueEditor(BaseDataType dataType)
+		public CountryPickerPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
 		{
 			this.m_DataType = dataType;
 		}
@@ -93,7 +94,7 @@ namespace uComponents.DataTypes.CountryPicker
 		/// </summary>
 		public override void Save()
 		{
-			this.m_DataType.DBType = DBTypes.Ntext;
+			this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Ntext;
 
 			lock (m_Locker)
 			{

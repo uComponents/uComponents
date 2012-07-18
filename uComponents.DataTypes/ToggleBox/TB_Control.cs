@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.ToggleBox.Styles.ToggleBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
@@ -74,8 +75,8 @@ namespace uComponents.DataTypes.ToggleBox
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.DataTypes.ToggleBox.Styles.ToggleBox.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.ToggleBox.Scripts.jquery.togglebox.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.ToggleBox.Styles.ToggleBox.css", ClientDependencyType.Css);
 		}
 
 		/// <summary>

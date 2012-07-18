@@ -31,6 +31,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 	using umbraco.cms.businesslogic.datatype;
 	using umbraco;
+	using umbraco.editorControls;
 
 	/// <summary>
 	/// The PreValue Editor for the DTG DataType.
@@ -117,8 +118,8 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// Initializes a new instance of the <see cref="PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">The DataType.</param>
-		public PrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+		public PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 			// Ensure settings file exists
 			DtgHelpers.EnsureFileExists(HttpContext.Current.Server.MapPath("~/config/DataTypeGrid.config"), DtgConfiguration.DataTypeGrid, m_Locker);
@@ -198,10 +199,10 @@ namespace uComponents.DataTypes.DataTypeGrid
 			this.EnsureChildControls();
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependency.Core.ClientDependencyType.Javascript);
-			this.AddResourceToClientDependency("uComponents.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", ClientDependency.Core.ClientDependencyType.Css);
-			this.AddResourceToClientDependency("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", ClientDependency.Core.ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

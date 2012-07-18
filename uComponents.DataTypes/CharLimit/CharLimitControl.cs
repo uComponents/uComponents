@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.CharLimit.CharLimit.js", Constants.MediaTypeNames.Application.JavaScript)]
 
@@ -69,7 +70,7 @@ namespace uComponents.DataTypes.CharLimit
 			base.OnLoad(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency("uComponents.DataTypes.CharLimit.CharLimit.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.CharLimit.CharLimit.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

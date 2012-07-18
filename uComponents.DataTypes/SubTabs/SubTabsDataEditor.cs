@@ -9,6 +9,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.SubTabs.SubTabs.js", Constants.MediaTypeNames.Application.JavaScript)]
 
@@ -208,7 +209,7 @@ namespace uComponents.DataTypes.SubTabs
         {
             base.OnLoad(e);
 
-            this.AddResourceToClientDependency("uComponents.DataTypes.SubTabs.SubTabs.js", ClientDependencyType.Javascript);
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.SubTabs.SubTabs.js", ClientDependencyType.Javascript);
         }
 
         /// <summary>

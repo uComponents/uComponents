@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using ClientDependency.Core;
 using umbraco.cms.presentation.Trees;
 using umbraco.controls.Images;
-using umbraco.controls.TreePicker;
+using umbraco.controls.Tree;
 using umbraco.IO;
 
 namespace umbraco.editorControls.MultiNodeTreePicker

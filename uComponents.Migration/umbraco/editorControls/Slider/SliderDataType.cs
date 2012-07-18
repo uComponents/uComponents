@@ -1,5 +1,10 @@
 ﻿using System;
 // using uComponents.Core;
+using System.Web.UI.WebControls;
+
+using ClientDependency.Core.Controls;
+
+using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
@@ -44,7 +49,7 @@ namespace umbraco.editorControls.Slider
 		{
 			get
 			{
-				return new Guid(DataTypeConstants.SliderId);
+				return new Guid(DataTypeGuids.SliderId);
 			}
 		}
 

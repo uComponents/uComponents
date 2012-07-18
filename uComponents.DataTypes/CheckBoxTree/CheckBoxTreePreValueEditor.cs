@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
@@ -7,6 +8,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.CheckBoxTree
 {
@@ -119,8 +121,8 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// Initializes a new instance of the <see cref="CheckBoxTreePreValueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public CheckBoxTreePreValueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+		public CheckBoxTreePreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 
@@ -186,7 +188,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 
 			try
 			{
-				if (uQuery.GetNodesByXPath(xPath).Count >= 0)
+				if (uQuery.GetNodesByXPath(xPath).Count() >= 0)
 				{
 					isValid = true;
 				}

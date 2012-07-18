@@ -7,7 +7,7 @@ namespace umbraco.editorControls.MultiNodeTreePicker
 	/// <summary>
 	/// Model binder for the DataTypeGrid data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.MultiNodeTreePickerId)]
+	[RazorDataTypeModel(DataTypeGuids.MultiNodeTreePickerId)]
 	public class MultiNodeTreePickerModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>

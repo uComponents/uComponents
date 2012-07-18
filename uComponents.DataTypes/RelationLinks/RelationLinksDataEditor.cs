@@ -8,6 +8,7 @@ using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.relation;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.RelationLinks.RelationLinks.js", Constants.MediaTypeNames.Application.JavaScript)]
 
@@ -80,7 +81,7 @@ namespace uComponents.DataTypes.RelationLinks
         {
             get
             {
-                return ((DefaultData)this.data).NodeId;
+                return ((umbraco.cms.businesslogic.datatype.DefaultData)this.data).NodeId;
             }
         }
 
@@ -162,7 +163,7 @@ namespace uComponents.DataTypes.RelationLinks
         {
             base.OnLoad(e);
 
-            this.AddResourceToClientDependency("uComponents.DataTypes.RelationLinks.RelationLinks.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.RelationLinks.RelationLinks.js", ClientDependencyType.Javascript);
         }
 
         /// <summary>

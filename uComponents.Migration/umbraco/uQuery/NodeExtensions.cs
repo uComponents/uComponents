@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml;
 using umbraco;
+using umbraco;
 using umbraco.cms.businesslogic.web;
+using umbraco.MacroEngines;
 using umbraco.NodeFactory;
 
 namespace umbraco
@@ -177,6 +179,9 @@ namespace umbraco
 		public static IEnumerable<Node> GetDescendantNodesByType(this Node node, string documentTypeAlias)
 		{
 			return node.GetDescendantNodes(n => n.NodeTypeAlias == documentTypeAlias);
+
+			// Get all descendants, and then return only those that match the requested typeAlias
+			//return node.GetDescendantNodes().Where(x => x.NodeTypeAlias == documentTypeAlias);
 		}
 
 		/// <summary>
@@ -275,27 +280,72 @@ namespace umbraco
 
 			if (typeConverter != null)
 			{
+				// Boolean
 				if (typeof(T) == typeof(bool))
 				{
+#pragma warning disable 0618
                     // Use the GetPropertyAsBoolean method, as this handles true also being stored as "1"
                     return (T)typeConverter.ConvertFrom(node.GetPropertyAsBoolean(propertyAlias).ToString());
+#pragma warning restore 0618
                 }
 
-				try
+				// XmlDocument
+				else if (typeof(T) == typeof(XmlDocument))
 				{
-					return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
+					var xmlDocument = new XmlDocument();
+
+					try
+					{
+#pragma warning disable 0618
+						xmlDocument.LoadXml(node.GetPropertyAsString(propertyAlias));
+#pragma warning restore 0618
+					}
+					catch
+					{
+						// xml probably invalid
+					}
+
+					return (T)((object)xmlDocument);
 				}
-				catch
+
+				// umbraco.MacroEngines DynamicXml
+				else if (typeof(T) == typeof(DynamicXml))
 				{
-					return default(T);
+					try
+					{
+#pragma warning disable 0618
+						return (T)((object)new DynamicXml(node.GetPropertyAsString(propertyAlias)));
+#pragma warning restore 0618
+					}
+					catch
+					{
+					}
+				}
+				else
+				{
+					try
+					{
+#pragma warning disable 0618
+						return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
+#pragma warning restore 0618
+					}
+					catch
+					{
+						try
+						{
+#pragma warning disable 0618
+							return (T)typeConverter.ConvertFromString(node.GetPropertyAsString(propertyAlias));
+#pragma warning restore 0618
+						}
+						catch
+						{
+						}
+					}
 				}
 			}
-			else
-			{
-				return default(T);
-            }
-        }
-#pragma warning restore 0618
+
+			return default(T);
+		}
 
         /// <summary>
 		/// Get a string value for the supplied property alias
@@ -503,7 +553,7 @@ namespace umbraco
 		/// <returns>
 		/// Returns a random node from a collection of nodes.
 		/// </returns>
-		public static Node GetRandom(this List<Node> nodes)
+		public static Node GetRandom(this IList<Node> nodes)
 		{
 			var random = umbraco.library.GetRandom();
 			return nodes[random.Next(0, (nodes.Count - 1))];
@@ -517,7 +567,7 @@ namespace umbraco
 		/// <returns>
 		/// Returns the specified number of random nodes from a collection of nodes.
 		/// </returns>
-		public static IEnumerable<Node> GetRandom(this List<Node> nodes, int numberOfItems)
+		public static IEnumerable<Node> GetRandom(this IList<Node> nodes, int numberOfItems)
 		{
 			var output = new List<Node>(numberOfItems);
 
@@ -618,7 +668,7 @@ namespace umbraco
 		public static bool IsHiddenFromNavigation(this Node node)
 		{
 			// TODO: [OA] Document on Codeplex. Is this one really necessary? - [HR] this one could be confusing as depends on default naming convention
-			return node.GetProperty<bool>("umbracoNaviHide");
+			return node.GetProperty<bool>(Constants.Umbraco.Content.NaviHide);
 		}
 
 #pragma warning disable 0618
@@ -642,5 +692,26 @@ namespace umbraco
 			return nodes.Select(n => new umbraco.presentation.nodeFactory.Node(n.Id));
 		}
 #pragma warning restore 0618
+
+		/// <summary>
+		/// Converts a Node to a DynamicNode.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns></returns>
+		public static DynamicNode ToDynamicNode(this Node node)
+		{
+			return new DynamicNode(node);
+		}
+
+		/// <summary>
+		/// Converts a list of Nodes to a list of DynamicNodes.
+		/// </summary>
+		/// <param name="nodes">The nodes.</param>
+		/// <returns></returns>
+		/// <remarks>Should this extension method be moved to another file for groups of nodes?</remarks>
+		public static DynamicNodeList ToDynamicNodeList(this IEnumerable<Node> nodes)
+		{
+			return new DynamicNodeList(nodes);
+		}
 	}
 }

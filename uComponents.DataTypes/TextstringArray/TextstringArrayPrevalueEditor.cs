@@ -7,6 +7,7 @@ using umbraco.editorControls.MultipleTextstring;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.TextstringArray
 {
@@ -44,8 +45,8 @@ namespace uComponents.DataTypes.TextstringArray
 		/// Initializes a new instance of the <see cref="TextstringArrayPrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public TextstringArrayPrevalueEditor(BaseDataType dataType)
-			: base(dataType, DBTypes.Ntext)
+		public TextstringArrayPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

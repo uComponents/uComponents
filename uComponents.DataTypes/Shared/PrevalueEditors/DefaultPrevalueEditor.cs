@@ -3,6 +3,7 @@ using System.Web.UI;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {
@@ -16,7 +17,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
 		/// <param name="displayTextBox">if set to <c>true</c> [display text box].</param>
-		public DefaultPrevalueEditor(BaseDataType dataType, bool displayTextBox)
+		public DefaultPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType, bool displayTextBox)
 			: base(dataType, displayTextBox)
 		{
 		}
@@ -30,7 +31,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 			base.OnInit(e);
 
 			// Adds the client dependencies.
-			this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>

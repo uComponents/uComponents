@@ -11,6 +11,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.propertytype;
 using umbraco.interfaces;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Similarity
 {
@@ -23,7 +24,7 @@ namespace uComponents.DataTypes.Similarity
         /// <summary>
         /// The underlying base data-type.
         /// </summary>
-        private readonly BaseDataType m_DataType;
+        private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
         /// <summary>
         /// An object to temporarily lock writing to the database.
@@ -42,7 +43,7 @@ namespace uComponents.DataTypes.Similarity
         /// Initializes a new instance of the <see cref="SimilarityPreValueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
-        public SimilarityPreValueEditor(BaseDataType dataType)
+        public SimilarityPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
         {
             this.m_DataType = dataType;
         }
@@ -122,7 +123,7 @@ namespace uComponents.DataTypes.Similarity
         /// </summary>
         public void Save()
         {
-           this.m_DataType.DBType = DBTypes.Ntext;
+           this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Ntext;
 
            lock (m_Locker)
            {
@@ -196,7 +197,7 @@ namespace uComponents.DataTypes.Similarity
             base.OnInit(e);
             this.EnsureChildControls();
             // Adds the client dependencies.
-            this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
+            this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
         }
 
         /// <summary>

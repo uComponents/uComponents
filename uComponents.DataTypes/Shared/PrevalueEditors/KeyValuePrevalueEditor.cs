@@ -3,6 +3,7 @@ using System.Web.UI;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {
@@ -15,7 +16,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
         /// Initializes a new instance of the <see cref="KeyValuePrevalueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
-        public KeyValuePrevalueEditor(BaseDataType dataType)
+        public KeyValuePrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
             : base(dataType)
         {
         }
@@ -29,7 +30,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
             base.OnInit(e);
 
             // Adds the client dependencies.
-            this.AddResourceToClientDependency(Constants.PrevalueEditorCssResourcePath, ClientDependency.Core.ClientDependencyType.Css);
+            this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
         /// <param name="writer">The writer.</param>
         protected override void Render(HtmlTextWriter writer)
         {
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
             // render the child controls

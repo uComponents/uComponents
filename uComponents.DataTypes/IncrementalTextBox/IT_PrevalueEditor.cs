@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.IncrementalTextBox
 {
@@ -16,7 +17,7 @@ namespace uComponents.DataTypes.IncrementalTextBox
 		/// <summary>
 		/// The underlying data-type.
 		/// </summary>
-		private readonly BaseDataType m_DataType;
+		private readonly umbraco.cms.businesslogic.datatype.BaseDataType m_DataType;
 
 		/// <summary>
 		/// 
@@ -142,7 +143,7 @@ namespace uComponents.DataTypes.IncrementalTextBox
 		/// Initializes a new instance of the <see cref="IT_PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public IT_PrevalueEditor(BaseDataType dataType)
+		public IT_PrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
 		{
 			this.m_DataType = dataType;
 		}
@@ -251,7 +252,7 @@ namespace uComponents.DataTypes.IncrementalTextBox
 		public override void Save()
 		{
 			// it will always be text since people may save a huge amount of selected nodes and serializing to xml could be large.
-			this.m_DataType.DBType = DBTypes.Ntext;
+			this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Ntext;
 
 			// need to lock this operation since multiple inserts are happening and if 2 threads reach here at the same time, there could be issues.
 			lock (m_Locker)
