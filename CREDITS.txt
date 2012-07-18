@@ -17,8 +17,9 @@ leekelleher - Lee Kelleher - Project Coordinator
 	User Picker
 	Not Found Handlers
 	XSLT Extensions
-	Controls: GetMedia, RenderTemplate
+	Controls: EditProperty, GetMedia, RenderTemplate
 	Package Installer
+	uQuery
 
 Hendy - Hendy Racher - Project Coordinator
 	Auto Complete
@@ -81,7 +82,8 @@ RonnieHegelund - Ronnie Hegelund
 	Radiobutton List with Images
 
 tomnf - Tom Fulton
-	Bug Fixing / Collaboration / XSLT Extensions
+	XSLT Extensions
+	Bug Fixing / Collaboration
 
 tentonipete - Joel Williams
 	Wiki Editor
