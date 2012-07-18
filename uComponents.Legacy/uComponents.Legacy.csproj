@@ -65,6 +65,9 @@
     <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="DataTypes\ImageDropdown\ID_DataEditor.cs" />
     <Compile Include="DataTypes\ImageDropdown\ID_DataType.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\BaseTreeExtensions.cs" />

@@ -76,6 +76,10 @@
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\uComponents.XsltExtensions\uComponents.XsltExtensions.csproj">
+      <Project>{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}</Project>
+      <Name>uComponents.XsltExtensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

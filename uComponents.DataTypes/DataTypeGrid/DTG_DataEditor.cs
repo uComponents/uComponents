@@ -14,7 +14,7 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
 using uComponents.DataTypes.DataTypeGrid.Model;
-using uComponents.Core.Shared;
+//using uComponents.Core.Shared;
 
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
@@ -48,12 +48,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// The datatype definition id
 		/// </summary>
 		private readonly int dataTypeDefinitionId;
-
-		/// <summary>
-		/// The unique instance id
-		/// </summary>
-		private readonly string instanceId;
-
 
 		/// <summary>
 		/// The settings.
@@ -225,16 +219,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// The unique instance id
 		/// </summary>
 		private readonly string instanceId;
-
-		/// <summary>
-		/// </summary>
-		public override string ID
-		{
-			get
-			{
-				return "DTG_" + this.dataTypeDefinitionId + "_" + this.instanceId;
-			}
-		}
 
 		#endregion
 

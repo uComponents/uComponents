@@ -1,4 +1,4 @@
-﻿using uComponents.Core.XsltExtensions;
+﻿using uComponents.XsltExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Xml.XPath;

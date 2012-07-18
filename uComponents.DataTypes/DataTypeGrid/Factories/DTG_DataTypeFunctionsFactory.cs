@@ -4,9 +4,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.Core.DataTypes.DataTypeGrid.Factories
+namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
-    using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
     using umbraco.interfaces;
 

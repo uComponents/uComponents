@@ -8,9 +8,10 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
     using System.Web.UI;
 
-    using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
 	using umbraco.cms.businesslogic.media;
     using umbraco.editorControls.mediapicker;
+	using umbraco;
 
     /// <summary>
     /// DTG extensions for the MediaPicker DataType

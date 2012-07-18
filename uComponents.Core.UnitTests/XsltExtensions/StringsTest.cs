@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using uComponents.Core.XsltExtensions;
+using uComponents.XsltExtensions;
 
 namespace uComponents.Core.UnitTests.XsltExtensions
 {

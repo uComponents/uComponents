@@ -8,7 +8,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
     using System.Web.UI;
 
-    using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
     using umbraco.cms.businesslogic.member;
     using umbraco.editorControls.memberpicker;

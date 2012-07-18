@@ -4,11 +4,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
     using System.Web.UI;
 
-    using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
     using umbraco.editorControls.pagepicker;
     using umbraco.NodeFactory;

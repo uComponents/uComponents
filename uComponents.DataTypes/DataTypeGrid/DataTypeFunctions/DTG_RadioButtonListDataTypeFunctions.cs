@@ -4,14 +4,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
     using System.Linq;
     using System.Web.UI;
 
-    using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
     using umbraco.editorControls.radiobuttonlist;
+	using umbraco;
 
     /// <summary>
     /// Functions for RadionButtonList

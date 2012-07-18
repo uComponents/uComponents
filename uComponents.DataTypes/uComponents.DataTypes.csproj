@@ -87,6 +87,9 @@
     <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="AutoComplete\AutoCompleteDataEditorUpdatePanel.cs" />
     <Compile Include="AutoComplete\AutoCompleteDataType.cs" />
     <Compile Include="AutoComplete\AutoCompleteOptions.cs" />
@@ -108,9 +111,12 @@
     <Compile Include="DataTypeGrid\Configuration\DtgConfiguration.Designer.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DateDataTypeFunctions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DropDownListDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeFunctions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MarkdownEditorFunctions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MediaPickerDataTypeExtensions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MemberPickerDataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_PagePickerDataTypeFunctionsFunctions.cs" />
+    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_RadioButtonListDataTypeFunctions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_TinyMCE3DataTypeExtensions.cs" />
     <Compile Include="DataTypeGrid\DTG_DataEditor.cs" />
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
@@ -118,7 +124,9 @@
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataTypeExtensions.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DtgDataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DataTypeFunctionsFactory.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFunctions.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_BasePreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />

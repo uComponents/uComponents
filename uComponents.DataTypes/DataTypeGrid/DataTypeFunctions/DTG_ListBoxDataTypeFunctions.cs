@@ -4,14 +4,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 {
     using System.Linq;
     using System.Web.UI;
 
-    using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
     using umbraco.editorControls.listbox;
+	using umbraco;
 
     /// <summary>
     /// DTG extensions for the Dropdown List Multiple DataType

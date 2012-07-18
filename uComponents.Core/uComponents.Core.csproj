@@ -60,14 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants-Common.cs">
-    <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_RadioButtonListDataTypeFunctions.cs" />
-    <Compile Include="DataTypes\DataTypeGrid\Factories\DTG_DataTypeFunctionsFactory.cs" />
-    <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_PagePickerDataTypeFunctionsFunctions.cs" />
-    <Compile Include="DataTypes\DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeExtensions.cs" />
-    <Compile Include="DataTypes\DataTypeGrid\Interfaces\DTG_IDataTypeFunctions.cs" />
-    <Compile Include="Properties\VersionInfo.cs" />
-    <Content Include="Properties\BuildVersion.txt" />
+	<Compile Include="Properties\VersionInfo.cs" />
+	<Content Include="Properties\BuildVersion.txt" />
+	<Compile Include="Constants-Common.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants-Umbraco.cs">
@@ -86,9 +81,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\favicon.ico" />
     <EmbeddedResource Include="Resources\Images\ucomponents-logo-small.png" />
-    <Compile Include="XsltExtensions\Cms-Users.cs">
-      <DependentUpon>Cms.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\SolutionInfo.cs" />

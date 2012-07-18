@@ -4,7 +4,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.Core.DataTypes.DataTypeGrid.Interfaces
+namespace uComponents.DataTypes.DataTypeGrid.Interfaces
 {
     using System.Web.UI;
 
