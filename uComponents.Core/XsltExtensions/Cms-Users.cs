@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.XPath;
+using uComponents.Core.Shared.Extensions;
 using umbraco;
 using umbraco.BusinessLogic;
 
-namespace uComponents.XsltExtensions
+namespace uComponents.Core.XsltExtensions
 {
 	/// <summary>
 	/// A helper class for getting CMS user data.

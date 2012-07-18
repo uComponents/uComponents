@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
+using System.Xml;
+using umbraco.MacroEngines;
 
 namespace umbraco
 {
@@ -40,28 +42,60 @@ namespace umbraco
 
 			if (typeConverter != null)
 			{
+				// Boolean
 				if (typeof(T) == typeof(bool))
 				{
+#pragma warning disable 0618
 					return (T)typeConverter.ConvertFrom(item.GetPropertyAsBoolean(propertyAlias).ToString());
 					// TODO: [LK -> HR] Maybe set 'GetPropertyAsBoolean' as a private/internal method?
 				}
 
+				// XmlDocument
+				else if (typeof(T) == typeof(XmlDocument))
+				{
+					var xmlDocument = new XmlDocument();
+
+					try
+					{
+#pragma warning disable 0618
+					// TODO: [LK -> HR] Maybe set 'GetPropertyAsString' as a private/internal method?
+#pragma warning restore 0618
+					}
+					catch
+					{
+					}
+
+					return (T)((object)xmlDocument);
+				}
+
+				// umbraco.MacroEngines.DynamicXml
+				else if (typeof(T) == typeof(DynamicXml))
+				{
+					try
+					{
+#pragma warning disable 0618
+						return (T)((object)new DynamicXml(item.GetPropertyAsString(propertyAlias)));
+#pragma warning restore 0618
+					}
+					catch
+					{
+					}
+				}
+
 				try
 				{
+#pragma warning disable 0618
 					return (T)typeConverter.ConvertFromString(item.GetPropertyAsString(propertyAlias));
-					// TODO: [LK -> HR] Maybe set 'GetPropertyAsString' as a private/internal method?
+#pragma warning restore 0618
 				}
 				catch
 				{
-					return default(T);
 				}
 			}
-			else
-			{
-				return default(T);
-			}
-		}
 #pragma warning restore 0618
+
+			return default(T);
+		}
 
 		/// <summary>
 		/// Get a string value from a content item's property.
@@ -171,7 +205,7 @@ namespace umbraco
 		/// <returns>
 		/// Returns a random content item from a collection of content items.
 		/// </returns>
-		public static TSource GetRandom<TSource>(this IList<TSource> items)
+		public static TSource GetRandom<TSource>(this ICollection<TSource> items)
 		{
 			return items.RandomOrder().First();
 		}
@@ -185,7 +219,7 @@ namespace umbraco
 		/// <returns>
 		/// Returns the specified number of random content items from a collection of content items.
 		/// </returns>
-		public static IEnumerable<TSource> GetRandom<TSource>(this IList<TSource> items, int numberOfItems)
+		public static IEnumerable<TSource> GetRandom<TSource>(this ICollection<TSource> items, int numberOfItems)
 		{
 			if (numberOfItems > items.Count)
 			{

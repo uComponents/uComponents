@@ -79,7 +79,7 @@ namespace umbraco.editorControls.MultiNodeTreePicker
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nodes can be selected from a parent node (Node Picker) or by an XPath expression. NOTE:When using an XPath expression, only published nodes can be shown..
+        ///   Looks up a localized string similar to Nodes can be selected from a parent node (Node Picker) or by an XPath expression. NOTE: When using an XPath expression, only published nodes can be shown..
         /// </summary>
         public static string Desc_NodeSelectionType {
             get {
@@ -124,7 +124,7 @@ namespace umbraco.editorControls.MultiNodeTreePicker
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This XPath expression is used to select a starting node and depends on the XPath expression type chosen (global or from current). IMPORTANT: This XPath expression should be written to match ONE node, if the expression matches more than one node, then the first node matched will be used as the start node..
+        ///   Looks up a localized string similar to This XPath expression is used to select a starting node and depends on the XPath expression type chosen (global or from current). &lt;u&gt;IMPORTANT&lt;/u&gt;: This XPath expression should be written to match &lt;b&gt;ONE&lt;/b&gt; node, if the expression matches more than one node, then the first node matched will be used as the start node..
         /// </summary>
         public static string Desc_XPathExpression {
             get {
@@ -142,7 +142,7 @@ namespace umbraco.editorControls.MultiNodeTreePicker
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An xpath filter to match nodes that will be either enabled or disabled from being clicked (depending on what is selected for the XPath filter type). This XPath filter is for one node only so it should be formatted to select only one node. The XML to XPath against is the same as the Umbraco XML for one node.&lt;br/&gt;&lt;br/&gt;Example: /*[name()=&apos;myNodeType&apos; or name()=&apos;yourNodeType&apos;] &lt;br/&gt;&lt;br/&gt;The above would make all nodes of types: myNodeType or yourNodeType not selectable in the tree.
+        ///   Looks up a localized string similar to An xpath filter to match nodes that will be either enabled or disabled from being clicked (depending on what is selected for the XPath filter type). This XPath filter is for one node only so it should be formatted to select only one node. The XML to XPath against is the same as the Umbraco XML for one node.&lt;br/&gt;&lt;br/&gt;Example: &lt;code&gt;/*[self::myNodeType or self::yourNodeType]&lt;/code&gt;&lt;br/&gt;&lt;br/&gt;The above would make all nodes of types: myNodeType or yourNodeType not selectable in the tree.
         /// </summary>
         public static string Desc_XPathFilter {
             get {

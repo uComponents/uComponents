@@ -4,8 +4,8 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using umbraco.cms.businesslogic.datatype;
-
 namespace umbraco.editorControls.Slider
+using uComponents.Core.Shared.Extensions;
 {
 	/// <summary>
 	/// The jQuery UI Slider control.

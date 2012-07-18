@@ -4,43 +4,36 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.Core.DataTypes.DataTypeGrid.DataTypeFunctions
 {
+    using System.Linq;
     using System.Web.UI;
 
     using uComponents.Core.DataTypes.DataTypeGrid.Interfaces;
 
-    using umbraco.cms.businesslogic.member;
-    using umbraco.editorControls.memberpicker;
+    using umbraco.editorControls.listbox;
 
     /// <summary>
-    /// DTG extensions for the MemberPicker DataType
+    /// DTG extensions for the Dropdown List Multiple DataType
     /// </summary>
-    internal class MemberPickerDataTypeFunctions : IDataTypeFunctions<MemberPickerDataType>
+    internal class ListBoxDataTypeFunctions : IDataTypeFunctions<ListBoxDataType>
     {
-        #region Implementation of IDataTypeFunctions<MemberPickerDataType>
+        #region Implementation of IDataTypeFunctions<ListBoxDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <returns>A human-readable string</returns>
-        public string ToDtgString(MemberPickerDataType dataType)
+        public string ToDtgString(ListBoxDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
-            int id;
-            int.TryParse(value, out id);
+            var p = uQuery.GetPreValues(dataType.DataTypeDefinitionId);
 
-            if (id > 0)
-            {
-                var m = new Member(id);
+            var v = p.Where(x => value.Split(',').Contains(x.Id.ToString())).Select(x => x.Value);
 
-                // Return member name
-                return m.Text;
-            }
-
-            return value;
+            return string.Join(", ", v.ToArray());
         }
 
         /// <summary>
@@ -48,20 +41,15 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(MemberPickerDataType dataType, Control container)
+        public void ConfigureForDtg(ListBoxDataType dataType, Control container)
         {
-            // Set default value to blank to prevent YSOD
-            if (dataType.Data.Value == null)
-            {
-                dataType.Data.Value = string.Empty;
-            }
         }
 
         /// <summary>
         /// Saves the datatype for DTG.
         /// </summary>
         /// <param name="dataType">The DataType.</param>
-        public void SaveForDtg(MemberPickerDataType dataType)
+        public void SaveForDtg(ListBoxDataType dataType)
         {
         }
 

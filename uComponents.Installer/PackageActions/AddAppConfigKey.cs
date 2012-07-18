@@ -103,6 +103,11 @@ namespace uComponents.Installer.PackageActions
 			var config = WebConfigurationManager.OpenWebConfiguration("~");
 			var appSettings = (AppSettingsSection)config.GetSection("appSettings");
 
+			if (appSettings.Settings[key] != null)
+			{
+				appSettings.Settings.Remove(key);
+			}
+
 			appSettings.Settings.Add(key, value);
 
 			config.Save(ConfigurationSaveMode.Modified);

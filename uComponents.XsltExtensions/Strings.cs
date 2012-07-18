@@ -207,7 +207,7 @@ namespace uComponents.XsltExtensions
 			var sb = new StringBuilder();
 			for (var i = 0; i < input.Length; i++)
 			{
-				if (char.IsUpper(input, i) || char.IsNumber(input, i))
+				if (i > 0 && (char.IsUpper(input, i) || char.IsNumber(input, i)))
 				{
 					sb.Append(space);
 				}
@@ -225,8 +225,8 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns the string stripped of all &lt;font&gt; tags.</returns>
 		public static string StripFontTags(string input)
 		{
-			var pattern = @"<\/?font[^>]*>";
-			return Regex.Replace(input, pattern, string.Empty);
+			var pattern = @"<\/?(font)[^>]*>";
+			return Regex.Replace(input, pattern, string.Empty, RegexOptions.IgnoreCase);
 		}
 
 		/// <summary>
@@ -375,7 +375,7 @@ namespace uComponents.XsltExtensions
 				return string.Empty;
 			}
 
-			var chars = input.ToCharArray();
+			var chars = input.ToLower().ToCharArray();
 			chars[0] = char.ToUpper(chars[0]);
 
 			return new string(chars);
@@ -714,6 +714,9 @@ namespace uComponents.XsltExtensions
 		/// </remarks>
 		public static string TrimStringFromStart(string input, string textToTrim)
 		{
+			if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(textToTrim))
+				return input;
+			
 			while (input.StartsWith(textToTrim))
 			{
 				input = input.Substring(textToTrim.Length);
@@ -735,6 +738,9 @@ namespace uComponents.XsltExtensions
 		/// </remarks>
 		public static string TrimStringFromEnd(string input, string textToTrim)
 		{
+			if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(textToTrim))
+				return input;
+
 			while (input.EndsWith(textToTrim))
 			{
 				input = input.Substring(0, input.Length - textToTrim.Length);
