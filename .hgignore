@@ -1,10 +1,9 @@
-glob:*.csproj.user
-glob:*.suo
-glob:*/bin/*
-glob:*/obj/*
-glob:*.Cache
-syntax: regexp
-(.*)_ReSharper.uComponents(.*)
 syntax: glob
-uComponents.ncrunchsolution
-uComponents.ncrunchsolution.user
+*.csproj.user
+*.suo
+*/bin/*
+*/obj/*
+*.Cache
+*_ReSharper.uComponents*
+uComponents.ncrunch*
+TestResults/*
