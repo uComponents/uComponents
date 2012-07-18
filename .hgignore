@@ -4,6 +4,8 @@ syntax: glob
 */bin/*
 */obj/*
 *_ReSharper.uComponents*
-uComponents.ncrunchsolution
-uComponents.ncrunchsolution.user
+BuildPackage/*
+DLLs/*
+uComponents*
 TestResults/*
+*.testsettings
