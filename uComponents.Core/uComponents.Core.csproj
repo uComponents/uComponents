@@ -60,9 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="Properties\VersionInfo.cs" />
-	<Content Include="Properties\BuildVersion.txt" />
-	<Compile Include="Constants-Common.cs">
+    <Compile Include="Properties\VersionInfo.cs" />
+    <Content Include="Properties\BuildVersion.txt" />
+    <Compile Include="Constants-Common.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants-Umbraco.cs">
@@ -74,13 +74,12 @@
     </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="Helper-Xml.cs">
-        <DependentUpon>Helper.cs</DependentUpon>
+      <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\favicon.ico" />
-    <EmbeddedResource Include="Resources\Images\ucomponents-logo-small.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\SolutionInfo.cs" />

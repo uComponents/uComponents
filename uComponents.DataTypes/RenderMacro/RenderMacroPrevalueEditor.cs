@@ -14,7 +14,7 @@ namespace uComponents.DataTypes.RenderMacro
 	/// <summary>
 	/// The PreValue Editor for the RenderMacro data-type.
 	/// </summary>
-	public class RenderMacroPrevalueEditor : AbstractJsonPrevalueEditor
+	public class RenderMacroPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// Field for the allowed macros list.

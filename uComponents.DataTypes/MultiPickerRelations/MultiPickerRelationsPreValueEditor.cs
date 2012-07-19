@@ -16,7 +16,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 	/// TODO: [HR] min / max selections ?
     /// Uses the shared JsonPreValueEditor as nice way of lightweight serializing a config data class object into a single DB field
     /// </summary>
-    public class MultiPickerRelationsPreValueEditor : AbstractJsonPrevalueEditor
+	public class MultiPickerRelationsPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>
         /// Prepopulated Umbraco Propery Picker, lists all aliases (could refine this by asking for the context in which this relation wire-up will

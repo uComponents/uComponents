@@ -16,7 +16,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 	/// TODO: min / max selections ?
 	/// Uses the shared JsonPreValueEditor as nice way of lightweight serializing a config data class object into a single DB field
 	/// </summary>
-	class XPathCheckBoxListPreValueEditor : AbstractJsonPrevalueEditor
+	class XPathCheckBoxListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// DropDownList for specifying the database column type.

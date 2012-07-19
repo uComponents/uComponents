@@ -68,7 +68,7 @@ namespace uComponents.DataTypes.ImageDropdown
 		{
 			get
 			{
-				return "uComponents: Image DropDownList";
+				return "uComponents (Legacy): Image DropDownList";
 			}
 		}
 

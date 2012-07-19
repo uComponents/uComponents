@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
-using uComponents.Core;
 
 namespace uComponents.Installer
 {
@@ -22,7 +21,7 @@ namespace uComponents.Installer
 		{
 			get
 			{
-				return this.Page.ClientScript.GetWebResourceUrl(typeof(Constants), "uComponents.Core.Resources.Images.ucomponents-logo-small.png");
+				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponents.DataTypes.DataTypeConstants), "uComponents.DataTypes.Shared.Resources.Images.ucomponents-logo-small.png");
 			}
 		}
 

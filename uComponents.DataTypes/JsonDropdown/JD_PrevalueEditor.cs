@@ -11,7 +11,7 @@ namespace uComponents.DataTypes.JsonDropdown
 	/// <summary>
 	/// The PreValue Editor for the JSON DropDown data-type.
 	/// </summary>
-	public class JD_PrevalueEditor : AbstractJsonPrevalueEditor
+	public class JD_PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// TextBox control for the URL.

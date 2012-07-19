@@ -15,7 +15,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 	/// <summary>
 	/// PreValueEditor for the CheckBoxTree data-type.
 	/// </summary>
-	public class CheckBoxTreePreValueEditor : AbstractJsonPrevalueEditor
+	public class CheckBoxTreePreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// Field for the tree start XPath expression.

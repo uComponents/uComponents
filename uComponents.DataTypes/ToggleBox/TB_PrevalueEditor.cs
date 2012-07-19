@@ -11,7 +11,7 @@ namespace uComponents.DataTypes.ToggleBox
 	/// <summary>
 	/// The PreValue Editor for the ToggleBox data-type.
 	/// </summary>
-	public class TB_PrevalueEditor : AbstractJsonPrevalueEditor
+	public class TB_PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
         /// <summary>
         /// The CheckBox control for the default value ('on' or 'off').

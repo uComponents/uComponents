@@ -26,7 +26,7 @@ html[xmlns] .clearfix
 
 .uComponents
 {
-	background: transparent url('<%= WebResource("uComponents.Core.Shared.Resources.Images.ucomponents-logo-small.png")%>') no-repeat right 8px;
+	background: transparent url('<%= WebResource("uComponents.DataTypes.Shared.Resources.Images.ucomponents-logo-small.png")%>') no-repeat right 8px;
 	padding-top: 40px;
 }
 .uComponents div.row

@@ -14,7 +14,7 @@ namespace uComponents.DataTypes.UserPicker
 	/// <summary>
 	/// The PreValue Editor for the User Picker data-type.
 	/// </summary>
-	public class UserPickerPrevalueEditor : AbstractJsonPrevalueEditor
+	public class UserPickerPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// The RadioButtonList control to select the type of ListControl.

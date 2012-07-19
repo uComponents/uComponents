@@ -65,7 +65,7 @@ namespace uComponents.DataTypes.RelatedLinksWithMedia
 		/// <value>The name of the data type.</value>
         public override string DataTypeName
         {
-            get { return "uComponents: Related Links with Media"; }
+			get { return "uComponents (Legacy): Related Links with Media"; }
         }
 
 		/// <summary>

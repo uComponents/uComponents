@@ -13,7 +13,7 @@ namespace uComponents.DataTypes.PropertyPicker
 	/// <summary>
 	/// Prevalue Editor for the Property Picker data-type.
 	/// </summary>
-	public class PropertyPickerPrevalueEditor : AbstractJsonPrevalueEditor
+	public class PropertyPickerPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// DropDownList to list the object types.

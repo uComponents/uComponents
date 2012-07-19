@@ -11,7 +11,7 @@ using umbraco;
 
 namespace uComponents.DataTypes.XPathDropDownList
 {
-	class XPathDropDownListPreValueEditor : AbstractJsonPrevalueEditor
+	class XPathDropDownListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// TextBox control to get the XPath expression

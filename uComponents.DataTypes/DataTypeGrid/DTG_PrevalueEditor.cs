@@ -37,7 +37,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 	/// The PreValue Editor for the DTG DataType.
 	/// </summary>
 	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
-	public class PrevalueEditor : AbstractJsonPrevalueEditor
+	public class PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// An object to temporarily lock writing to the database.

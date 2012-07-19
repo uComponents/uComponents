@@ -21,7 +21,7 @@ namespace uComponents.DataTypes.Slider
 	/// </summary>
 	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
 	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "DateTimePicker/datetimepicker.css", "UmbracoClient")]
-	public class SliderPrevalueEditor : AbstractJsonPrevalueEditor
+	public class SliderPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// The DropDownList for the database data-type.

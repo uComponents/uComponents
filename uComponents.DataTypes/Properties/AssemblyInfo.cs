@@ -13,3 +13,4 @@ using uComponents.Core;
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.deleteIcon.gif", Constants.MediaTypeNames.Image.Gif)]
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.information.png", Constants.MediaTypeNames.Image.Png)]
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.throbber.gif", Constants.MediaTypeNames.Image.Gif)]
+[assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.ucomponents-logo-small.png", Constants.MediaTypeNames.Image.Png)]

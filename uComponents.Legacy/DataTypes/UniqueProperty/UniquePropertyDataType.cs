@@ -38,7 +38,7 @@ namespace uComponents.DataTypes.UniqueProperty
         {
             get
             {
-                return "uComponents: Unique Property";
+                return "uComponents (Legacy): Unique Property";
             }
         }
 

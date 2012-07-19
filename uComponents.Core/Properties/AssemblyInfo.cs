@@ -7,4 +7,3 @@ using uComponents.Core;
 
 // shared embedded resources
 [assembly: WebResource("uComponents.Core.Resources.Images.favicon.ico", Constants.MediaTypeNames.Image.Png)]
-[assembly: WebResource("uComponents.Core.Resources.Images.ucomponents-logo-small.png", Constants.MediaTypeNames.Image.Png)]
