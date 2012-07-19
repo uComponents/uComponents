@@ -22,7 +22,7 @@ namespace uComponents.Installer
 		{
 			get
 			{
-				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponentsInstaller), "uComponents.Core.Resources.Images.ucomponents-logo-small.png");
+				return this.Page.ClientScript.GetWebResourceUrl(typeof(Constants), "uComponents.Core.Resources.Images.ucomponents-logo-small.png");
 			}
 		}
 
@@ -33,66 +33,61 @@ namespace uComponents.Installer
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Page_Init(object sender, EventArgs e)
 		{
-			var types = Assembly.GetExecutingAssembly().GetTypes().ToList();
-			types.Sort(delegate(Type t1, Type t2) { return t1.Name.CompareTo(t2.Name); });
-
-			////var dataTypes = new Dictionary<Guid, string>();
-			var notFoundHandlers = new Dictionary<string, string>();
-			var xsltExtensions = new Dictionary<string, string>();
-
-			foreach (var type in types)
+			// find and bind the NotFoundHandlers
+			var notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
+			var notFoundHandlersAssembly = Assembly.Load(notFoundHandlersNamespace);
+			if (notFoundHandlersAssembly != null)
 			{
-				string ns = type.Namespace;
-				if (string.IsNullOrEmpty(ns))
+				var notFoundHandlersTypes = notFoundHandlersAssembly.GetTypes();
+				if (notFoundHandlersTypes != null)
 				{
-					continue;
-				}
+					var notFoundHandlers = new Dictionary<string, string>();
+					foreach (var type in notFoundHandlersTypes)
+					{
+						if (string.Equals(type.Namespace, notFoundHandlersNamespace))
+						{
+							notFoundHandlers.Add(type.FullName.Replace(notFoundHandlersNamespace, string.Empty), type.Name);
+							continue;
+						}
+					}
 
-				////if (ns.StartsWith("uComponents.DataTypes") && (type.IsSubclassOf(typeof(BaseDataType))))
-				////{
-				////    var instance = Activator.CreateInstance(type);
-				////    var name = (string)type.GetProperty("DataTypeName").GetValue(instance, null);
-				////    var guid = (Guid)type.GetProperty("Id").GetValue(instance, null);
-				////    dataTypes.Add(guid, name.Replace("uComponents: ", string.Empty));
-				////    continue;
-				////}
-
-				if (ns == "uComponents.NotFoundHandlers")
-				{
-					notFoundHandlers.Add(type.FullName.Replace("uComponents.NotFoundHandlers", string.Empty), type.Name);
-					continue;
-				}
-
-				if (ns == "uComponents.XsltExtensions" && type.IsPublic && !type.IsSerializable)
-				{
-					xsltExtensions.Add(type.FullName, type.Name);
-					continue;
+					this.cblNotFoundHandlers.DataSource = notFoundHandlers;
+					this.cblNotFoundHandlers.DataTextField = "Value";
+					this.cblNotFoundHandlers.DataValueField = "Key";
+					this.cblNotFoundHandlers.DataBind();
 				}
 			}
 
-			////// bind the data-types.
-			////this.cblDataTypes.DataSource = dataTypes;
-			////this.cblDataTypes.DataTextField = "Value";
-			////this.cblDataTypes.DataValueField = "Key";
-			////this.cblDataTypes.DataBind();
-
-			// bind the UI Modules options.
+			// bind the UI Modules options
 			this.cblUiModules.DataSource = Settings.AppKeys_UiModules;
 			this.cblUiModules.DataTextField = "Value";
 			this.cblUiModules.DataValueField = "Key";
 			this.cblUiModules.DataBind();
 
-			// bind the data-types.
-			this.cblNotFoundHandlers.DataSource = notFoundHandlers;
-			this.cblNotFoundHandlers.DataTextField = "Value";
-			this.cblNotFoundHandlers.DataValueField = "Key";
-			this.cblNotFoundHandlers.DataBind();
+			// find and bind the XSLT extensions
+			var xsltExtensionsNamespace = "uComponents.XsltExtensions";
+			var xsltExtensionsAssembly = Assembly.Load(xsltExtensionsNamespace);
+			if (xsltExtensionsAssembly != null)
+			{
+				var xsltExtensionsTypes = xsltExtensionsAssembly.GetTypes();
+				if (xsltExtensionsTypes != null)
+				{
+					var xsltExtensions = new Dictionary<string, string>();
+					foreach (var type in xsltExtensionsTypes)
+					{
+						if (string.Equals(type.Namespace, xsltExtensionsNamespace) && type.IsPublic && !type.IsSerializable)
+						{
+							xsltExtensions.Add(type.FullName, type.Name);
+							continue;
+						}
+					}
 
-			// bind the XSLT extensions.
-			this.cblXsltExtensions.DataSource = xsltExtensions;
-			this.cblXsltExtensions.DataTextField = "Value";
-			this.cblXsltExtensions.DataValueField = "Key";
-			this.cblXsltExtensions.DataBind();
+					this.cblXsltExtensions.DataSource = xsltExtensions;
+					this.cblXsltExtensions.DataTextField = "Value";
+					this.cblXsltExtensions.DataValueField = "Key";
+					this.cblXsltExtensions.DataBind();
+				}
+			}
 
 			// TODO: [LK] Add the uComponents namespace to the Web.config (system.web/compilation/assemblies)
 			// TODO: [LK] Add the uComponents.Controls namespace to the Web.config (system.web/pages/controls)
@@ -116,26 +111,7 @@ namespace uComponents.Installer
 		{
 			var successes = new List<string>();
 			var failures = new List<string>();
-
 			var xml = new XmlDocument();
-
-			////// Data Types
-			////foreach (ListItem item in this.cblDataTypes.Items)
-			////{
-			////    if (item.Selected)
-			////    {
-			////        try
-			////        {
-			////            xml.LoadXml(string.Format("<DataType Name=\"{0}\" Id=\"{1}\" Definition=\"{2}\" />", item.Text, item.Value, Guid.NewGuid()));
-			////            var dtd = DataTypeDefinition.Import(xml.FirstChild);
-			////            successes.Add(item.Text);
-			////        }
-			////        catch (Exception ex)
-			////        {
-			////            failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
-			////        }
-			////    }
-			////}
 
 			// Not Found Handlers
 			foreach (ListItem item in this.cblNotFoundHandlers.Items)
