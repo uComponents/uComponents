@@ -162,10 +162,6 @@
     <Compile Include="IncrementalTextBox\IT_DataEditor.cs" />
     <Compile Include="IncrementalTextBox\IT_DataType.cs" />
     <Compile Include="IncrementalTextBox\IT_PrevalueEditor.cs" />
-    <Compile Include="JsonDropdown\JD_Control.cs" />
-    <Compile Include="JsonDropdown\JD_DataType.cs" />
-    <Compile Include="JsonDropdown\JD_Options.cs" />
-    <Compile Include="JsonDropdown\JD_PrevalueEditor.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsDataEditor.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsDataType.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsEventHandler.cs" />
@@ -216,7 +212,7 @@
     <Compile Include="Similarity\SimilarityDataEditor.cs" />
     <Compile Include="Similarity\SimilarityDataType.cs" />
     <Compile Include="Similarity\SimilarityModelBinder.cs" />
-    <Compile Include="Similarity\SimilarityPreValueEditor.cs" />
+    <Compile Include="Similarity\SimilarityPrevalueEditor.cs" />
     <Compile Include="Similarity\SimilarityResources.Designer.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListDataEditor.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListDataType.cs" />
