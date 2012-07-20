@@ -274,27 +274,20 @@ namespace uComponents.DataTypes.UrlPicker
             // set-up controls
             ModeSelector = new ListBox
             {
+                ID = "ModeSelector",
                 CssClass = "umbEditorTextField",
                 SelectionMode = ListSelectionMode.Multiple
             };
-            ModeSelector.ID = ModeSelector.ClientID;
-            this.Controls.Add(ModeSelector);
 
-            DefaultModeDropDown = new DropDownList();
-            DefaultModeDropDown.ID = DefaultModeDropDown.ClientID;
-            this.Controls.Add(DefaultModeDropDown);
+            DefaultModeDropDown = new DropDownList() { ID = "DefaultModeDropDown"};
 
-            DataFormatDropDown = new DropDownList();
-            DataFormatDropDown.ID = DataFormatDropDown.ClientID;
-            this.Controls.Add(DataFormatDropDown);
+            DataFormatDropDown = new DropDownList() { ID = "DataFormatDropDown"};
 
-            EnableTitleCheckbox = new CheckBox();
-            EnableTitleCheckbox.ID = EnableTitleCheckbox.ClientID;
-            this.Controls.Add(EnableTitleCheckbox);
+            EnableTitleCheckbox = new CheckBox() { ID = "EnableTitleCheckbox"};
 
-            EnableNewWindowCheckbox = new CheckBox();
-            EnableNewWindowCheckbox.ID = EnableNewWindowCheckbox.ClientID;
-            this.Controls.Add(EnableNewWindowCheckbox);
+            EnableNewWindowCheckbox = new CheckBox() { ID = "EnableNewWindowCheckbox"};
+
+            this.Controls.AddPrevalueControls(ModeSelector, DefaultModeDropDown, DataFormatDropDown, EnableTitleCheckbox, EnableNewWindowCheckbox);
         }
 
         /// <summary>

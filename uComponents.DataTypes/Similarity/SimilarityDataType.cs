@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using umbraco.cms.businesslogic.datatype;
+using uComponents.Core;
 
 namespace uComponents.DataTypes.Similarity
 {
@@ -18,7 +19,7 @@ namespace uComponents.DataTypes.Similarity
 		/// <summary>
 		/// 
 		/// </summary>
-		private SimilarityPreValueEditor _similarityPickerPreValueEditor;
+		private SimilarityPrevalueEditor _similarityPickerPrevalueEditor;
 
 		/// <summary>
 		/// Gets the id.
@@ -52,9 +53,12 @@ namespace uComponents.DataTypes.Similarity
         {
             get
             {
-                if (_similarityPickerPreValueEditor == null)
-                    _similarityPickerPreValueEditor = new SimilarityPreValueEditor(this);
-                return _similarityPickerPreValueEditor;
+                if (this._similarityPickerPrevalueEditor == null)
+                {
+                    this._similarityPickerPrevalueEditor = new SimilarityPrevalueEditor(this);
+                }
+
+                return this._similarityPickerPrevalueEditor;
             }
         }
 
@@ -63,10 +67,12 @@ namespace uComponents.DataTypes.Similarity
 		/// </summary>
         public SimilarityDataType()
         {
-            RenderControl = _mControl;
-            _mControl.Init += _mControl_Init;
-            DataEditorControl.OnSave += DataEditorControl_OnSave;
-            _mControl.PreRender += _mControl_PreRender;
+            this.RenderControl = this._mControl;
+
+            this._mControl.Init += this._mControl_Init;
+            this._mControl.PreRender += new EventHandler(this._mControl_PreRender);
+
+            this.DataEditorControl.OnSave += new AbstractDataEditorControl.SaveEventHandler(this.DataEditorControl_OnSave);
         }
 
 		/// <summary>
@@ -74,7 +80,7 @@ namespace uComponents.DataTypes.Similarity
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        void _mControl_PreRender(object sender, EventArgs e)
+        private void _mControl_PreRender(object sender, EventArgs e)
         {
             if (base.Data.Value != null)
             {
@@ -86,10 +92,10 @@ namespace uComponents.DataTypes.Similarity
 		/// Datas the editor control_ on save.
 		/// </summary>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        void DataEditorControl_OnSave(EventArgs e)
+        private void DataEditorControl_OnSave(EventArgs e)
         {
             base.Data.Value = _mControl.SelectedNodes;
-            _mControl.DataBind();
+            this._mControl.DataBind();
         }
 
 		/// <summary>
@@ -97,12 +103,13 @@ namespace uComponents.DataTypes.Similarity
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        void _mControl_Init(object sender, EventArgs e)
+        private void _mControl_Init(object sender, EventArgs e)
         {
-            _mControl.IndexToSearch = ((SimilarityPreValueEditor) PrevalueEditor).SelectedIndex;
-            _mControl.MaxResults = ((SimilarityPreValueEditor) PrevalueEditor).MaxNoResults;
-            List<string> properties = ((SimilarityPreValueEditor) PrevalueEditor).SelectedProperties.Split(new[] {','}).ToList();
-            _mControl.PropertiesToSearch = properties;
+            this._mControl.IndexToSearch = ((SimilarityPrevalueEditor) PrevalueEditor).SelectedIndex;
+            this._mControl.MaxResults = ((SimilarityPrevalueEditor)PrevalueEditor).MaxNoResults;
+
+            var properties = ((SimilarityPrevalueEditor)PrevalueEditor).SelectedProperties.Split(new[] { Constants.Common.COMMA }).ToList();
+            this._mControl.PropertiesToSearch = properties;
             
         }
     }
