@@ -70,6 +70,10 @@
     </Compile>
     <Compile Include="DataTypes\ImageDropdown\ID_DataEditor.cs" />
     <Compile Include="DataTypes\ImageDropdown\ID_DataType.cs" />
+    <Compile Include="DataTypes\JsonDropdown\JD_Control.cs" />
+    <Compile Include="DataTypes\JsonDropdown\JD_DataType.cs" />
+    <Compile Include="DataTypes\JsonDropdown\JD_Options.cs" />
+    <Compile Include="DataTypes\JsonDropdown\JD_PrevalueEditor.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\BaseTreeExtensions.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\FilteredContentTree.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\FilteredMediaTree.cs" />

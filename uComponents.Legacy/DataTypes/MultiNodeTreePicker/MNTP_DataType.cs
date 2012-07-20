@@ -57,7 +57,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
         {
             get
             {
-                return "uComponents (Legacy): Multi-Node Tree Picker";
+                return "uComponents: Multi-Node Tree Picker (Legacy)";
             }
         }
 

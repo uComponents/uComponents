@@ -67,7 +67,7 @@ namespace uComponents.DataTypes.StyledTextBox
 		/// <value>The name of the data type.</value>
         public override string DataTypeName
         {
-            get { return "uComponents (Legacy): Styled TextBox"; }
+            get { return "uComponents: Styled TextBox (Legacy)"; }
         }
 
 		/// <summary>

@@ -57,7 +57,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 		{
 			get
 			{
-				return "uComponents (Legacy): XPath CheckBoxList";
+				return "uComponents: XPath CheckBoxList (Legacy)";
 			}
 		}
 

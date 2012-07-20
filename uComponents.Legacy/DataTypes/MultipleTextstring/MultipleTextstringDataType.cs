@@ -63,7 +63,7 @@ namespace uComponents.DataTypes.MultipleTextstring
 		{
 			get
 			{
-				return "uComponents (Legacy): Multiple Textstring";
+				return "uComponents: Multiple Textstring (Legacy)";
 			}
 		}
 
