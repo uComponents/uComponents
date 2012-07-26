@@ -548,7 +548,7 @@ namespace uComponents.Core.uQueryExtensions
 		public static Node GetRandom(this IList<Node> nodes)
 		{
 			var random = umbraco.library.GetRandom();
-			return nodes[random.Next(0, (nodes.Count - 1))];
+			return nodes[random.Next(0, (nodes.Count))];
 		}
 
 		/// <summary>
