@@ -3,207 +3,217 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+
 using uComponents.Core;
-using uComponents.DataTypes.Shared.Extensions;
+
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
-using umbraco.interfaces;
 using umbraco.editorControls;
+using umbraco.interfaces;
 
 [assembly: WebResource("uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 
 namespace uComponents.DataTypes.AutoComplete
 {
-	/// <summary>
-	/// this is the original version of the AutoComplete control, it's replacement (AutoCompleteDataEditor) will be JS and won't use an UpdatePanel
-	/// </summary>
-	internal class AutoCompleteDataEditorUpdatePanel : UpdatePanel, IDataEditor
-	{
-		private IData data;
+    /// <summary>
+    /// this is the original version of the AutoComplete control, it's replacement (AutoCompleteDataEditor) will be JS and won't use an UpdatePanel
+    /// </summary>
+    internal class AutoCompleteDataEditorUpdatePanel : UpdatePanel, IDataEditor
+    {
+        private IData data;
 
-		private AutoCompleteOptions options;
+        private AutoCompleteOptions options;
 
-		private Dictionary<int, string> sourceItems = new Dictionary<int, string>();
+        private Dictionary<int, string> sourceItems = new Dictionary<int, string>();
 
-		private Dictionary<int, string> selectedItems = new Dictionary<int, string>();
+        private Dictionary<int, string> selectedItems = new Dictionary<int, string>();
 
-		private TextBox autoCompleteTextbox = new TextBox();
+        private TextBox autoCompleteTextbox = new TextBox();
 
-		private HiddenField selectedIdHiddenField = new HiddenField();
+        private HiddenField selectedIdHiddenField = new HiddenField();
 
-		private PlaceHolder selectedItemsPlaceHolder = new PlaceHolder();
+        private PlaceHolder selectedItemsPlaceHolder = new PlaceHolder();
 
-		public virtual bool TreatAsRichTextEditor
-		{
-			get
-			{
-				return false;
-			}
-		}
+        public virtual bool TreatAsRichTextEditor
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-		public virtual bool ShowLabel
-		{
-			get
-			{
-				return true;
-			}
-		}
+        public virtual bool ShowLabel
+        {
+            get
+            {
+                return true;
+            }
+        }
 
-		public Control Editor
-		{
-			get
-			{
-				return this;
-			}
-		}
+        public Control Editor
+        {
+            get
+            {
+                return this;
+            }
+        }
 
-		private uQuery.UmbracoObjectType TypeToPick
-		{
-			get { return uQuery.GetUmbracoObjectType(new Guid(this.options.TypeToPick)); }
-		}
+        private uQuery.UmbracoObjectType TypeToPick
+        {
+            get
+            {
+                return uQuery.GetUmbracoObjectType(new Guid(this.options.TypeToPick));
+            }
+        }
 
-		private Dictionary<int, string> SelectedItems
-		{
-			get
-			{
-				if (ViewState["SelectedItems"] == null)
-				{
-					ViewState["SelectedItems"] = this.selectedItems;
-				}
+        private Dictionary<int, string> SelectedItems
+        {
+            get
+            {
+                if (ViewState["SelectedItems"] == null)
+                {
+                    ViewState["SelectedItems"] = this.selectedItems;
+                }
 
-				return (Dictionary<int, string>)ViewState["SelectedItems"];
-			}
-		}
+                return (Dictionary<int, string>)ViewState["SelectedItems"];
+            }
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AutoCompleteDataEditorUpdatePanel"/> class.
-		/// </summary>
-		/// <param name="data">The data.</param>
-		/// <param name="options">The options.</param>
-		public AutoCompleteDataEditorUpdatePanel(IData data, AutoCompleteOptions options)
-		{
-			this.data = data;
-			this.options = options;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoCompleteDataEditorUpdatePanel"/> class.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="options">The options.</param>
+        public AutoCompleteDataEditorUpdatePanel(IData data, AutoCompleteOptions options)
+        {
+            this.data = data;
+            this.options = options;
 
-			string xPath = this.options.XPath;
+            string xPath = this.options.XPath;
 
-			switch (this.TypeToPick)
-			{
-				case uQuery.UmbracoObjectType.Document:
-					this.sourceItems = uQuery.GetNodesByXPath(xPath).ToNameIds();
-					break;
-				case uQuery.UmbracoObjectType.Media:
-					this.sourceItems = uQuery.GetMediaByXPath(xPath).ToNameIds();
-					break;
-				case uQuery.UmbracoObjectType.Member:
-					this.sourceItems = uQuery.GetMembersByXPath(xPath).ToNameIds();
-					break;
-			}
-		}
+            switch (this.TypeToPick)
+            {
+                case uQuery.UmbracoObjectType.Document:
+                    this.sourceItems = uQuery.GetNodesByXPath(xPath).ToNameIds();
+                    break;
+                case uQuery.UmbracoObjectType.Media:
+                    this.sourceItems = uQuery.GetMediaByXPath(xPath).ToNameIds();
+                    break;
+                case uQuery.UmbracoObjectType.Member:
+                    this.sourceItems = uQuery.GetMembersByXPath(xPath).ToNameIds();
+                    break;
+            }
+        }
 
-		protected override void OnInit(EventArgs e)
-		{
-			base.OnInit(e);
-		}
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+        }
 
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
-			//if initial load of this control, then get selected items from data stored
-			if (!this.Page.IsPostBack)
-			{
-				this.selectedItems = BuildIntStringDictionary(this.data.Value.ToString(), this.TypeToPick);
-			}
+            //if initial load of this control, then get selected items from data stored
+            if (!this.Page.IsPostBack)
+            {
+                this.selectedItems = BuildIntStringDictionary(this.data.Value.ToString(), this.TypeToPick);
+            }
 
-			//setup the autocomplete textbox and add button
-			this.BuildAutoCompleteAdd();
+            //setup the autocomplete textbox and add button
+            this.BuildAutoCompleteAdd();
 
-			//build label and delete button for each selected item
-			this.BuildSeletedItemsDelete();
-		}
+            //build label and delete button for each selected item
+            this.BuildSeletedItemsDelete();
+        }
 
-		protected override void CreateChildControls()
-		{
-			//// base.CreateChildControls();
-			//// this.EnsureChildControls();
-		}
+        protected override void CreateChildControls()
+        {
+            //// base.CreateChildControls();
+            //// this.EnsureChildControls();
+        }
 
-		#region helpers
-		private static Dictionary<int, string> BuildIntStringDictionary(string csv, uQuery.UmbracoObjectType umbracoObjectType)
-		{
-			Dictionary<int, string> dictionary = new Dictionary<int, string>();
+        #region helpers
 
-			BuildIntStringDictionary(csv, umbracoObjectType, ref dictionary);
+        private static Dictionary<int, string> BuildIntStringDictionary(
+            string csv, uQuery.UmbracoObjectType umbracoObjectType)
+        {
+            Dictionary<int, string> dictionary = new Dictionary<int, string>();
 
-			return dictionary;
-		}
+            BuildIntStringDictionary(csv, umbracoObjectType, ref dictionary);
 
-		private static void BuildIntStringDictionary(string csv, uQuery.UmbracoObjectType umbracoObjectType, ref Dictionary<int, string> collection)
-		{
-			//for each id, get content item, and add id and name to dictionary
-			if (!string.IsNullOrEmpty(csv))
-			{
-				switch (umbracoObjectType)
-				{
-					case uQuery.UmbracoObjectType.Document:
-						foreach (var node in uQuery.GetNodesByCsv(csv))
-						{
-							collection.Add(node.Id, node.Name);
-						}
+            return dictionary;
+        }
 
-						break;
+        private static void BuildIntStringDictionary(
+            string csv, uQuery.UmbracoObjectType umbracoObjectType, ref Dictionary<int, string> collection)
+        {
+            //for each id, get content item, and add id and name to dictionary
+            if (!string.IsNullOrEmpty(csv))
+            {
+                switch (umbracoObjectType)
+                {
+                    case uQuery.UmbracoObjectType.Document:
+                        foreach (var node in uQuery.GetNodesByCsv(csv))
+                        {
+                            collection.Add(node.Id, node.Name);
+                        }
 
-					case uQuery.UmbracoObjectType.Media:
-						foreach (Media media in uQuery.GetMediaByCsv(csv))
-						{
-							collection.Add(media.Id, media.Text);
-						}
+                        break;
 
-						break;
+                    case uQuery.UmbracoObjectType.Media:
+                        foreach (Media media in uQuery.GetMediaByCsv(csv))
+                        {
+                            collection.Add(media.Id, media.Text);
+                        }
 
-					case uQuery.UmbracoObjectType.Member:
-						foreach (Member member in uQuery.GetMembersByCsv(csv))
-						{
-							collection.Add(member.Id, member.Text);
-						}
+                        break;
 
-						break;
-				}
-			}
-		}
-		#endregion
+                    case uQuery.UmbracoObjectType.Member:
+                        foreach (Member member in uQuery.GetMembersByCsv(csv))
+                        {
+                            collection.Add(member.Id, member.Text);
+                        }
 
-		private static string BuildCsv(Dictionary<int, string> dictionary)
-		{
-			return string.Join(",", dictionary.Keys.Select(i => i.ToString()).ToArray());
-		}
+                        break;
+                }
+            }
+        }
 
-		private void BuildAutoCompleteAdd()
-		{
-			this.autoCompleteTextbox.Text = string.Empty;
+        #endregion
 
-			this.autoCompleteTextbox.CssClass = "umbEditorTextField";
-			base.ContentTemplateContainer.Controls.Add(this.autoCompleteTextbox);
+        private static string BuildCsv(Dictionary<int, string> dictionary)
+        {
+            return string.Join(",", dictionary.Keys.Select(i => i.ToString()).ToArray());
+        }
 
-			this.selectedIdHiddenField.ID = string.Concat(this.ClientID, "SelectedIdHiddenField");
-			base.ContentTemplateContainer.Controls.Add(this.selectedIdHiddenField);
+        private void BuildAutoCompleteAdd()
+        {
+            this.autoCompleteTextbox.Text = string.Empty;
 
-			//if (!this.Page.IsPostBack) {BuildAutoCompletePageScript(); }
-			BuildAutoCompletePageScript();
+            this.autoCompleteTextbox.CssClass = "umbEditorTextField";
+            base.ContentTemplateContainer.Controls.Add(this.autoCompleteTextbox);
 
-			Button addButton = new Button();
-			addButton.Text = "Add";
-			addButton.Click += new EventHandler(this.AddButton_Click);
-			base.ContentTemplateContainer.Controls.Add(addButton);
+            this.selectedIdHiddenField.ID = string.Concat(this.ClientID, "SelectedIdHiddenField");
+            base.ContentTemplateContainer.Controls.Add(this.selectedIdHiddenField);
 
-			// Script to attach jquery autocomplete to textbox
-			string jsAutocomplete = @"  <script type='text/javascript'>
+            //if (!this.Page.IsPostBack) {BuildAutoCompletePageScript(); }
+            BuildAutoCompletePageScript();
+
+            Button addButton = new Button();
+            addButton.Text = uQuery.GetDictionaryItem("", "Add");
+            addButton.Click += new EventHandler(this.AddButton_Click);
+            base.ContentTemplateContainer.Controls.Add(addButton);
+
+            // Script to attach jquery autocomplete to textbox
+            string jsAutocomplete = @"  <script type='text/javascript'>
                                             jQuery(function(){
-                                                jQuery('#" + this.autoCompleteTextbox.ClientID + @"')
-                                                    .autocomplete(" + this.ClientID + @"_autocompleteData, 
+                                                jQuery('#"
+                                    + this.autoCompleteTextbox.ClientID + @"')
+                                                    .autocomplete("
+                                    + this.ClientID + @"_autocompleteData, 
                                                         {
                                                             mustMatch:true, 
                                                             autoFill:true, 
@@ -211,125 +221,131 @@ namespace uComponents.DataTypes.AutoComplete
                                                         })
                                                     .result(function (event, item)
                                                         { 
-                                                            if (item) jQuery('#" + this.selectedIdHiddenField.ClientID + @"').val(item.id); 
+                                                            if (item) jQuery('#"
+                                    + this.selectedIdHiddenField.ClientID + @"').val(item.id); 
                                                         });
                                             });
                                         </script>";
 
-			ScriptManager.RegisterStartupScript(this, typeof(AutoCompleteDataEditorUpdatePanel), this.ClientID + "_autocomplete", jsAutocomplete, false);
-		}
+            ScriptManager.RegisterStartupScript(
+                this, typeof(AutoCompleteDataEditorUpdatePanel), this.ClientID + "_autocomplete", jsAutocomplete, false);
+        }
 
-		private void BuildAutoCompletePageScript()
-		{
-			//build autocomplete data
-			string delimiter = ", ";
-			string autocompleteData = "<script type='text/javascript'>var " + this.ClientID + "_autocompleteData = [";
+        private void BuildAutoCompletePageScript()
+        {
+            //build autocomplete data
+            string delimiter = ", ";
+            string autocompleteData = "<script type='text/javascript'>var " + this.ClientID + "_autocompleteData = [";
 
-			foreach (KeyValuePair<int, string> keyValuePair in this.sourceItems)
-			{
-				if (keyValuePair.Value != null)
-				{
-					autocompleteData += "{"; //start "
-					autocompleteData += "text: '" + keyValuePair.Value.Replace(delimiter, string.Empty).Replace("'", "\\'") + "',";
-					autocompleteData += "id: '" + keyValuePair.Key.ToString() + "'";
-					autocompleteData += "},";  //end ",
-				}
-			}
+            foreach (KeyValuePair<int, string> keyValuePair in this.sourceItems)
+            {
+                if (keyValuePair.Value != null)
+                {
+                    autocompleteData += "{"; //start "
+                    autocompleteData += "text: '"
+                                        + keyValuePair.Value.Replace(delimiter, string.Empty).Replace("'", "\\'") + "',";
+                    autocompleteData += "id: '" + keyValuePair.Key.ToString() + "'";
+                    autocompleteData += "},"; //end ",
+                }
+            }
 
-			autocompleteData = autocompleteData.TrimEnd(',');
-			autocompleteData += "];</script>";
-			this.Page.ClientScript.RegisterClientScriptBlock(autocompleteData.GetType(), this.ClientID + "_autocompleteData", autocompleteData);
+            autocompleteData = autocompleteData.TrimEnd(',');
+            autocompleteData += "];</script>";
+            this.Page.ClientScript.RegisterClientScriptBlock(
+                autocompleteData.GetType(), this.ClientID + "_autocompleteData", autocompleteData);
 
-			//add jquery autocomplete library
-			//this.Page.ClientScript.RegisterClientScriptInclude("jquery.autocomlete.min", "/umbraco/plugins/AutoComplete/jquery.autocomplete.min.js");
+            //add jquery autocomplete library
+            //this.Page.ClientScript.RegisterClientScriptInclude("jquery.autocomlete.min", "/umbraco/plugins/AutoComplete/jquery.autocomplete.min.js");
 
-			//updated to use the jquery.autocomplete.js script as found in the default Umbraco install
-			this.Page.ClientScript.RegisterClientScriptInclude("jquery.autocomplete", "/umbraco_client/Application/JQuery/jquery.autocomplete.js");
-			
-			//register autocomplete css
-			//string autocompleteCss = "<link rel='stylesheet' href='/umbraco/plugins/AutoComplete/autocomplete.css'/>";
-			//this.Page.ClientScript.RegisterClientScriptBlock(autocompleteCss.GetType(), "autocompleteCss", autocompleteCss);
-			this.RegisterEmbeddedClientResource("uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", ClientDependencyType.Css);
-		}
+            //updated to use the jquery.autocomplete.js script as found in the default Umbraco install
+            this.Page.ClientScript.RegisterClientScriptInclude(
+                "jquery.autocomplete", "/umbraco_client/Application/JQuery/jquery.autocomplete.js");
 
-		/// <summary>
-		/// builds the list of selected item controls, each with a delete button
-		/// </summary>
-		private void BuildSeletedItemsDelete()
-		{
-			this.selectedItemsPlaceHolder.Controls.Clear();
+            //register autocomplete css
+            //string autocompleteCss = "<link rel='stylesheet' href='/umbraco/plugins/AutoComplete/autocomplete.css'/>";
+            //this.Page.ClientScript.RegisterClientScriptBlock(autocompleteCss.GetType(), "autocompleteCss", autocompleteCss);
+            this.RegisterEmbeddedClientResource(
+                "uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", ClientDependencyType.Css);
+        }
 
-			foreach (KeyValuePair<int, string> selectedItem in this.SelectedItems)
-			{
-				this.BuildSelectedItem(selectedItem);
-			}
+        /// <summary>
+        /// builds the list of selected item controls, each with a delete button
+        /// </summary>
+        private void BuildSeletedItemsDelete()
+        {
+            this.selectedItemsPlaceHolder.Controls.Clear();
 
-			base.ContentTemplateContainer.Controls.Remove(this.selectedItemsPlaceHolder);
-			base.ContentTemplateContainer.Controls.Add(this.selectedItemsPlaceHolder);
-		}
+            foreach (KeyValuePair<int, string> selectedItem in this.SelectedItems)
+            {
+                this.BuildSelectedItem(selectedItem);
+            }
 
-		private void BuildSelectedItem(KeyValuePair<int, string> selectedItem)
-		{
-			Literal startLiteral = new Literal();
-			startLiteral.Text = "<br/>";
-			this.selectedItemsPlaceHolder.Controls.Add(startLiteral);
+            base.ContentTemplateContainer.Controls.Remove(this.selectedItemsPlaceHolder);
+            base.ContentTemplateContainer.Controls.Add(this.selectedItemsPlaceHolder);
+        }
 
-			Button deleteButton = new Button();
-			deleteButton.ID = this.ClientID + selectedItem.Key.ToString() + "Button";
-			deleteButton.Text = "Delete";
-			deleteButton.CommandArgument = selectedItem.Key.ToString();
-			deleteButton.Click += new EventHandler(this.DeleteButton_Click);
+        private void BuildSelectedItem(KeyValuePair<int, string> selectedItem)
+        {
+            Literal startLiteral = new Literal();
+            startLiteral.Text = "<br/>";
+            this.selectedItemsPlaceHolder.Controls.Add(startLiteral);
 
-			this.selectedItemsPlaceHolder.Controls.Add(deleteButton);
+            Button deleteButton = new Button();
+            deleteButton.ID = this.ClientID + selectedItem.Key.ToString() + "Button";
+            deleteButton.Text = "Delete";
+            deleteButton.CommandArgument = selectedItem.Key.ToString();
+            deleteButton.Click += new EventHandler(this.DeleteButton_Click);
 
-			Literal endLiteral = new Literal();
-			endLiteral.Text = "&nbsp;" + selectedItem.Value;
-			this.selectedItemsPlaceHolder.Controls.Add(endLiteral);
-		}
+            this.selectedItemsPlaceHolder.Controls.Add(deleteButton);
 
-		private void DeleteButton_Click(object sender, EventArgs e)
-		{
-			int id; //command arg of id to remove...
-			if (int.TryParse(((System.Web.UI.WebControls.Button)sender).CommandArgument, out id))
-			{
-				this.DeleteSelectedItem(id);
-				this.BuildSeletedItemsDelete();
-			}
-		}
+            Literal endLiteral = new Literal();
+            endLiteral.Text = "&nbsp;" + selectedItem.Value;
+            this.selectedItemsPlaceHolder.Controls.Add(endLiteral);
+        }
 
-		private void AddButton_Click(object sender, EventArgs e)
-		{
-			int id; //id to add in hidden field
-			if (int.TryParse(this.selectedIdHiddenField.Value, out id))
-			{
-				this.AddSelectedItem(new KeyValuePair<int, string>(id, this.autoCompleteTextbox.Text));
-				this.BuildSeletedItemsDelete();
-			}
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            int id; //command arg of id to remove...
+            if (int.TryParse(((System.Web.UI.WebControls.Button)sender).CommandArgument, out id))
+            {
+                this.DeleteSelectedItem(id);
+                this.BuildSeletedItemsDelete();
+            }
+        }
 
-			this.autoCompleteTextbox.Text = string.Empty;
-		}
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+            int id; //id to add in hidden field
+            if (int.TryParse(this.selectedIdHiddenField.Value, out id))
+            {
+                this.AddSelectedItem(new KeyValuePair<int, string>(id, this.autoCompleteTextbox.Text));
+                this.BuildSeletedItemsDelete();
+            }
 
-		private void AddSelectedItem(KeyValuePair<int, string> selectedItem)
-		{
-			if (!this.SelectedItems.ContainsKey(selectedItem.Key))
-			{
-				this.SelectedItems.Add(selectedItem.Key, selectedItem.Value);
-				this.ViewState["SelectedItems"] = this.SelectedItems;
-			}
-		}
+            this.autoCompleteTextbox.Text = string.Empty;
+        }
 
-		private void DeleteSelectedItem(int id)
-		{
-			if (this.SelectedItems.ContainsKey(id))
-			{
-				this.SelectedItems.Remove(id);
-				this.ViewState["SelectedItems"] = this.SelectedItems;
-			}
-		}
+        private void AddSelectedItem(KeyValuePair<int, string> selectedItem)
+        {
+            if (!this.SelectedItems.ContainsKey(selectedItem.Key))
+            {
+                this.SelectedItems.Add(selectedItem.Key, selectedItem.Value);
+                this.ViewState["SelectedItems"] = this.SelectedItems;
+            }
+        }
 
-		public void Save()
-		{
-			this.data.Value = BuildCsv(this.SelectedItems);
-		}
-	}
+        private void DeleteSelectedItem(int id)
+        {
+            if (this.SelectedItems.ContainsKey(id))
+            {
+                this.SelectedItems.Remove(id);
+                this.ViewState["SelectedItems"] = this.SelectedItems;
+            }
+        }
+
+        public void Save()
+        {
+            this.data.Value = BuildCsv(this.SelectedItems);
+        }
+    }
 }
