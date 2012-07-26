@@ -23,7 +23,7 @@ namespace uComponents.Core
             /// <param name="key">The dictionary item key.</param>
             /// <param name="fallback">The fallback text.</param>
             /// <returns>The dictionary item value as a string.</returns>
-            public string GetDictionaryItem(string key, string fallback)
+            public static string GetDictionaryItem(string key, string fallback)
             {
                 return uQuery.GetDictionaryItem("UC." + key, fallback);
             }

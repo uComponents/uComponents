@@ -203,7 +203,7 @@ namespace uComponents.DataTypes.AutoComplete
             BuildAutoCompletePageScript();
 
             Button addButton = new Button();
-            addButton.Text = uQuery.GetDictionaryItem("", "Add");
+            addButton.Text = Helper.Dictionary.GetDictionaryItem("Add", "Add");
             addButton.Click += new EventHandler(this.AddButton_Click);
             base.ContentTemplateContainer.Controls.Add(addButton);
 
