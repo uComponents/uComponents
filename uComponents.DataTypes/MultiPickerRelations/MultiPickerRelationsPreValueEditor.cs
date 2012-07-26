@@ -11,6 +11,8 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.MultiPickerRelations
 {
+    using uComponents.Core;
+
     /// <summary>
     /// This PreValueEditor will require an XPath expression to define the nodes to pick as CheckBox options,
 	/// TODO: [HR] min / max selections ?
@@ -124,7 +126,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
         {
             this.multiPickerPropertyAliasPicker.ID = "multiPickerPropertyAliasPicker";
 			
-            this.multiPickerPropertyAliasRequiredFieldValidator.Text = " Required";
+            this.multiPickerPropertyAliasRequiredFieldValidator.Text = " " + Helper.Dictionary.GetDictionaryItem("Required", "Required");
             this.multiPickerPropertyAliasRequiredFieldValidator.InitialValue = string.Empty;
             this.multiPickerPropertyAliasRequiredFieldValidator.ControlToValidate = this.multiPickerPropertyAliasPicker.ID;
 
@@ -136,7 +138,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
             this.relationTypeDropDownList.DataBind();
             this.relationTypeDropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
 
-            this.relationTypeRequiredFieldValidator.Text = " Required";
+            this.relationTypeRequiredFieldValidator.Text = " " + Helper.Dictionary.GetDictionaryItem("Required", "Required");
             this.relationTypeRequiredFieldValidator.InitialValue = "-1";
             this.relationTypeRequiredFieldValidator.ControlToValidate = this.relationTypeDropDownList.ID;
 
