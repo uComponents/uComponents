@@ -292,7 +292,7 @@ namespace uComponents.DataTypes.AutoComplete
 
             Button deleteButton = new Button();
             deleteButton.ID = this.ClientID + selectedItem.Key.ToString() + "Button";
-            deleteButton.Text = "Delete";
+            deleteButton.Text = Helper.Dictionary.GetDictionaryItem("Delete", "Delete");
             deleteButton.CommandArgument = selectedItem.Key.ToString();
             deleteButton.Click += new EventHandler(this.DeleteButton_Click);
 
