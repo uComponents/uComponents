@@ -29,7 +29,14 @@ namespace uComponents.DataTypes.CountryPicker
 				}
 			}
 
-			instance = values;
+			if (values.Count == 1)
+			{
+				instance = values[0];
+			}
+			else
+			{
+				instance = values;
+			}
 
 			return true;
 		}
