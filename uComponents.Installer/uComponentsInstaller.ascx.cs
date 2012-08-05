@@ -45,7 +45,7 @@ namespace uComponents.Installer
 					{
 						if (string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace))
 						{
-							notFoundHandlers.Add(type.FullName.Substring(notFoundHandlersNamespace.Length), type.Name);
+							notFoundHandlers.Add(type.FullName.Substring(notFoundHandlersNamespace.Length + 1), type.Name);
 							continue;
 						}
 					}

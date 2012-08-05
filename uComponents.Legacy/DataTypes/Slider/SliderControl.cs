@@ -77,7 +77,7 @@ namespace uComponents.DataTypes.Slider
 			base.OnLoad(e);
 
 			// TODO: [LK] Move 'jquery.alphanumeric.js' into Shared/Resources
-			this.RegisterEmbeddedClientResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>
