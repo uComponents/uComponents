@@ -235,7 +235,7 @@
                                 .appendTo(rightCol) //add the full div to the right col
                                 .find(".closed") //get the li element
                                 .append(jNode) //append the anchor link
-                                .closest(".item"); //get the item div                                
+                                .closest(".item"); //get the item div
 
             if (showTooltip) {
                 inserted.find(".info").tooltip(tooltipOptions) //add the tooltop
@@ -298,7 +298,7 @@
             handle: '.inner'
         });
 
-        //add the tooltips        
+        //add the tooltips
         rightCol.find("a.info").tooltip(tooltipOptions);
 
         //Register drag and drop action
