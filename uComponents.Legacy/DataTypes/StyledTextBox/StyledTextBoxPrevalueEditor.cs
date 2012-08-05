@@ -40,7 +40,7 @@ namespace uComponents.DataTypes.StyledTextBox
         /// Initializes a new instance of the <see cref="StyledTextBoxPrevalueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
-		public StyledTextBoxPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+        public StyledTextBoxPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
         {
             this.m_DataType = dataType;
         }
@@ -101,12 +101,12 @@ namespace uComponents.DataTypes.StyledTextBox
         /// </summary>
         public void Save()
         {
-			this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar;
+            this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar;
 
             lock (m_Locker)
             {
                 var vals = PreValues.GetPreValues(this.m_DataType.DataTypeDefinitionId);
-				string data = string.Concat(this.WidthTextBox.Text, Constants.Common.COMMA, this.StyleTextBox.Text);
+                var data = string.Concat(this.WidthTextBox.Text, Constants.Common.COMMA, this.StyleTextBox.Text);
 
                 if (vals.Count >= 1)
                 {
@@ -147,13 +147,13 @@ namespace uComponents.DataTypes.StyledTextBox
 
             if (string.IsNullOrEmpty(this.Configuration) == false)
             {
-				var settings = new List<string>(this.Configuration.Split(Constants.Common.COMMA));
+                var settings = new List<string>(this.Configuration.Split(Constants.Common.COMMA));
 
-				if (settings.Count > 1)
-				{
-					this.WidthTextBox.Text = settings[0];
-					this.StyleTextBox.Text = string.Join(new string(Constants.Common.COMMA, 1), settings.Skip(1).ToArray());
-				}
+                if (settings.Count > 1)
+                {
+                    this.WidthTextBox.Text = settings[0];
+                    this.StyleTextBox.Text = string.Join(new string(Constants.Common.COMMA, 1), settings.Skip(1).ToArray());
+                }
             }
 
             this.SetPreviewTextbox();
@@ -194,7 +194,7 @@ namespace uComponents.DataTypes.StyledTextBox
         /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the server control content.</param>
         protected override void Render(HtmlTextWriter writer)
         {
-			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
             writer.RenderBeginTag(HtmlTextWriterTag.Div); //// start 'uComponents'
 
             // add property fields

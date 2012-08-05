@@ -130,6 +130,8 @@ namespace uComponents.DataTypes.Slider
 		{
 			base.OnInit(e);
 			this.EnsureChildControls();
+
+			this.RegisterEmbeddedClientResource(typeof(DataTypeConstants), Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>

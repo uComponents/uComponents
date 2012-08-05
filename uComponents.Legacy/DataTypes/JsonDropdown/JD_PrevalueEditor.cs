@@ -5,6 +5,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
+using uComponents.Core;
 
 namespace uComponents.DataTypes.JsonDropdown
 {
@@ -68,6 +69,8 @@ namespace uComponents.DataTypes.JsonDropdown
 		{
 			base.OnInit(e);
 			this.EnsureChildControls();
+
+			this.RegisterEmbeddedClientResource(typeof(DataTypeConstants), Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>

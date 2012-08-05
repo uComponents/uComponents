@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using uComponents.DataTypes.Shared;
 using umbraco.editorControls;
 using umbraco.cms.businesslogic.datatype;
+using uComponents.Core;
 
 namespace uComponents.DataTypes.MultipleTextstring
 {
 	/// <summary>
 	/// The PreValue Editor for the Multiple Textstring data-type.
 	/// </summary>
-	public class MultipleTextstringPrevalueEditor : AbstractJsonPrevalueEditor
+	public class MultipleTextstringPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// The TextBox control for the maximum value of the control.
@@ -81,6 +81,17 @@ namespace uComponents.DataTypes.MultipleTextstring
 
 			// add the child controls
 			this.Controls.AddPrevalueControls(this.TextBoxMaximum, this.TextBoxMinimum);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+		protected override void OnInit(EventArgs e)
+		{
+			base.OnInit(e);
+
+			this.RegisterEmbeddedClientResource(typeof(DataTypeConstants), Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>

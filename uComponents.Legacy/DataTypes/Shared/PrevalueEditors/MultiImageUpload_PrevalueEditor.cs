@@ -84,10 +84,11 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
+
             if (HttpContext.Current.Request.QueryString["delete"] != null)
                 Delete(HttpContext.Current.Request.QueryString["delete"]);
 
-            EnsureChildControls();
+            this.EnsureChildControls();
 
             this.RegisterEmbeddedClientResource(typeof(DataTypeConstants), Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
         }
@@ -99,7 +100,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnLoad(EventArgs e)
         {
-            base.OnLoad(e);                        
+            base.OnLoad(e);
         }
 
 		/// <summary>
@@ -107,22 +108,19 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// </summary>
         protected override void CreateChildControls()
         {
-            base.CreateChildControls();            
+            base.CreateChildControls();
 
-            UploadControl = new FileUpload();
-            UploadControl.ID = "UploadId";
+            this.UploadControl = new FileUpload(){ID = "UploadId"};
+            this.TextControl = new TextBox() { ID = "TextId" };
+            this.UploadRegEx = new RegularExpressionValidator()
+            {
+                ID = "regex",
+                ValidationExpression = @"(.*?)\.(jpg|jpeg|png|gif)$",
+                ErrorMessage = "Upload Jpegs, Pngs and Gifs only.",
+                ControlToValidate = "UploadId"
+            };
 
-            UploadRegEx = new RegularExpressionValidator();
-            UploadRegEx.ID = "regex";
-            UploadRegEx.ValidationExpression = @"(.*?)\.(jpg|jpeg|png|gif)$";
-            UploadRegEx.ErrorMessage = "Upload Jpegs, Pngs and Gifs only.";
-            UploadRegEx.ControlToValidate = "UploadId";
-            TextControl = new TextBox();
-            TextControl.ID = "TextId";
-
-            this.Controls.Add(UploadControl);
-            this.Controls.Add(TextControl);
-            this.Controls.Add(UploadRegEx);
+            this.Controls.AddPrevalueControls(this.UploadControl, this.TextControl, this.UploadRegEx);
         }
 
 		/// <summary>
@@ -160,14 +158,14 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
                     UploadControl.RenderControl(writer);
                     UploadRegEx.RenderControl(writer);
                 writer.RenderEndTag(); //end 'field'
-            writer.RenderEndTag(); //end 'row'                        
+            writer.RenderEndTag(); //end 'row'
 
             if (PreValues.GetPreValues(m_DataType.DataTypeDefinitionId).GetValueList().Count > 0)
             {                
                 writer.RenderBeginTag(HtmlTextWriterTag.Div);
                     writer.RenderBeginTag(HtmlTextWriterTag.Table);
                         foreach (umbraco.cms.businesslogic.datatype.PreValue val in PreValues.GetPreValues(m_DataType.DataTypeDefinitionId).GetValueList())
-                        {                         
+                        {
                             if (string.IsNullOrEmpty(val.Value))
                             {
                                 val.Delete();
@@ -194,7 +192,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
                     writer.RenderEndTag();
                 writer.RenderEndTag();
             }
-            writer.RenderEndTag(); //end 'uComponents'            
+            writer.RenderEndTag(); //end 'uComponents'
         }
 
 		/// <summary>
@@ -206,7 +204,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
             foreach (umbraco.cms.businesslogic.datatype.PreValue val in PreValues.GetPreValues(m_DataType.DataTypeDefinitionId).GetValueList())
             {
                 if(val.Id.ToString() == id)
-                {                                        
+                {
                     FileInfo fi = new FileInfo(IOHelper.MapPath(val.Value.Split('|')[1]));
                     if (fi.Exists)
                     {
