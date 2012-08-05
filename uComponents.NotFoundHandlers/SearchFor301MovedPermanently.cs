@@ -62,9 +62,16 @@ namespace uComponents.NotFoundHandlers
 
 				HttpContext.Current.Trace.Write("umbraco301MovedPermanently", string.Concat("'", str, "'"));
 
-				var domainName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"];
 				var tmp = string.Empty;
 				var xpath = string.Empty;
+				var domainName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"];
+				var port = HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
+
+				// if there is a port number, append it
+				if (!string.IsNullOrEmpty(port) && port != "80")
+				{
+					domainName = string.Concat(domainName, ":", port);
+				}
 
 				if (Domain.Exists(domainName))
 				{

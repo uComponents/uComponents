@@ -53,10 +53,17 @@ namespace uComponents.NotFoundHandlers
 			var success = false;
 
 			// get the current domain name
-			var domain = HttpContext.Current.Request.ServerVariables["SERVER_NAME"];
+			var domainName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"];
+
+			// if there is a port number, append it
+			var port = HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
+			if (!string.IsNullOrEmpty(port) && port != "80")
+			{
+				domainName = string.Concat(domainName, ":", port);
+			}
 
 			// get the root node id of the domain
-			var rootNodeId = Domain.GetRootFromDomain(domain);
+			var rootNodeId = Domain.GetRootFromDomain(domainName);
 
 			try
 			{
