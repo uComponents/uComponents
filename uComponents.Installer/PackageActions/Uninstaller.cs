@@ -72,32 +72,43 @@ namespace uComponents.Installer.PackageActions
 				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appKey.Key);
 			}
 
-			// TODO: [LK] Refactor the uninstaller to load the correct assemblies (e.g. NotFoundHandlers and XsltExtensions)
-
-			// loop through the assembly's types
-			var types = Assembly.GetExecutingAssembly().GetTypes().ToList();
-			types.Sort(delegate(Type t1, Type t2) { return t1.Name.CompareTo(t2.Name); });
-
-			foreach (var type in types)
+			// find the NotFoundHandlers
+			var notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
+			var notFoundHandlersAssembly = Assembly.Load(notFoundHandlersNamespace);
+			if (notFoundHandlersAssembly != null)
 			{
-				string ns = type.Namespace;
-				if (string.IsNullOrEmpty(ns))
+				var notFoundHandlersTypes = notFoundHandlersAssembly.GetTypes();
+				if (notFoundHandlersTypes != null)
 				{
-					continue;
+					var notFoundHandlersAction = "<Action runat=\"install\" undo=\"true\" alias=\"{0}\" assembly=\"{1}\" type=\"{2}\" />";
+					foreach (var type in notFoundHandlersTypes)
+					{
+						if (string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace))
+						{
+							sb.AppendFormat(notFoundHandlersAction, Add404Handler.ActionAlias, notFoundHandlersNamespace, type.FullName.Substring(notFoundHandlersNamespace.Length + 1));
+							continue;
+						}
+					}
 				}
+			}
 
-				// get the NotFoundHandlers
-				if (ns == "uComponents.NotFoundHandlers")
+			// find the XSLT extensions
+			var xsltExtensionsNamespace = "uComponents.XsltExtensions";
+			var xsltExtensionsAssembly = Assembly.Load(xsltExtensionsNamespace);
+			if (xsltExtensionsAssembly != null)
+			{
+				var xsltExtensionsTypes = xsltExtensionsAssembly.GetTypes();
+				if (xsltExtensionsTypes != null)
 				{
-					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" assembly=\"uComponents.NotFoundHandlers\" type=\"{1}\" />", Add404Handler.ActionAlias, type.FullName.Replace("uComponents.NotFoundHandlers.", string.Empty));
-					continue;
-				}
-
-				// get the XSLT Extensions
-				if (ns == "uComponents.XsltExtensions" && type.IsPublic && !type.IsSerializable)
-				{
-					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"uComponents.XsltExtensions\" type=\"{0}\" extensionAlias=\"ucomponents.{1}\" />", type.FullName, type.Name.ToLower());
-					continue;
+					var xsltExtensionsAction = "<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"{0}\" type=\"{1}\" extensionAlias=\"ucomponents.{2}\" />";
+					foreach (var type in xsltExtensionsTypes)
+					{
+						if (string.Equals(type.Namespace, xsltExtensionsNamespace) && type.IsPublic && !type.IsSerializable)
+						{
+							sb.AppendFormat(xsltExtensionsAction, xsltExtensionsNamespace, type.FullName, type.Name.ToLower());
+							continue;
+						}
+					}
 				}
 			}
 
