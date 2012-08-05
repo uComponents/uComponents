@@ -20,8 +20,8 @@ namespace uComponents.DataTypes.Similarity
     /// <summary>
     /// button to pull items, and second pane to show what is already picked
     /// </summary>
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js",
-        "UmbracoClient")]
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jquery.tooltip.min.js", "UmbracoClient")]
     public class SimilarityDataEditor : Panel
     {
 
@@ -170,12 +170,9 @@ namespace uComponents.DataTypes.Similarity
             base.OnLoad(e);
 
             // Adds the client dependencies
-            this.RegisterEmbeddedClientResource(
-                "uComponents.DataTypes.Similarity.SimilarityStyles.css", ClientDependencyType.Css);
-            this.RegisterEmbeddedClientResource(
-                "uComponents.DataTypes.Similarity.SimilarityScripts.js", ClientDependencyType.Javascript);
-            this.RegisterEmbeddedClientResource(
-                "uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.Similarity.SimilarityStyles.css", ClientDependencyType.Css);
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.Similarity.SimilarityScripts.js", ClientDependencyType.Javascript);
+            //this.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
         }
 
         /// <summary>
