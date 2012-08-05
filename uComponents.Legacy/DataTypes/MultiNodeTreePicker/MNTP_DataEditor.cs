@@ -27,7 +27,8 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 	/// <summary>
 	/// The user interface to display to the content editor
 	/// </summary>
-    [ClientDependency( ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+    [ClientDependency(ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+    [ClientDependency(ClientDependencyType.Javascript, "ui/jquery.tooltip.min.js", "UmbracoClient")]
     [ClientDependency(ClientDependencyType.Javascript, "controls/Images/ImageViewer.js", "UmbracoRoot")]
     public class MNTP_DataEditor : Control, INamingContainer
     {

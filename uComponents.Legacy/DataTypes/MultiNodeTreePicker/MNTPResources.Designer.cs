@@ -39,7 +39,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.DataTypes.MultiNodeTreePicker.MNTPResources", typeof(MNTPResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.Legacy.DataTypes.MultiNodeTreePicker.MNTPResources", typeof(MNTPResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

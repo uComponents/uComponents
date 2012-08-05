@@ -321,7 +321,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
             base.OnInit(e);
             this.EnsureChildControls();
 
-            this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+            this.RegisterEmbeddedClientResource(typeof(DataTypeConstants), Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
         }
 
         /// <summary>
@@ -587,7 +587,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 
             base.Render(writer);
 
-            writer.RenderEndTag(); //end 'uComponents'           
+            writer.RenderEndTag(); //end 'uComponents'
 
         }
 
