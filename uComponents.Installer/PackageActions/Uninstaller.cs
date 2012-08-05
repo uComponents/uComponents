@@ -72,6 +72,8 @@ namespace uComponents.Installer.PackageActions
 				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appKey.Key);
 			}
 
+			// TODO: [LK] Refactor the uninstaller to load the correct assemblies (e.g. NotFoundHandlers and XsltExtensions)
+
 			// loop through the assembly's types
 			var types = Assembly.GetExecutingAssembly().GetTypes().ToList();
 			types.Sort(delegate(Type t1, Type t2) { return t1.Name.CompareTo(t2.Name); });
@@ -87,7 +89,7 @@ namespace uComponents.Installer.PackageActions
 				// get the NotFoundHandlers
 				if (ns == "uComponents.NotFoundHandlers")
 				{
-					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" assembly=\"uComponents.NotFoundHandlers\" type=\"{1}\" />", Add404Handler.ActionAlias, type.FullName.Replace("uComponents.Core.", string.Empty));
+					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" assembly=\"uComponents.NotFoundHandlers\" type=\"{1}\" />", Add404Handler.ActionAlias, type.FullName.Replace("uComponents.NotFoundHandlers.", string.Empty));
 					continue;
 				}
 
