@@ -102,12 +102,12 @@ namespace uComponents.DataTypes.UrlPicker.Dto
             AjaxUploadHandlerUrl = IOHelper.ResolveUrl(Settings.BaseDirName) + @"/Shared/AjaxUpload/AjaxUploadHandler.ashx";
         }
 
-		/// <summary>
-		/// Validates a URL Picker state against the settings, to ensure there has been no trickery
-		/// client-side
-		/// </summary>
-		/// <param name="state">The state DTO to validate against</param>
-		/// <returns>Whether the state is valid</returns>
+        /// <summary>
+        /// Validates a URL Picker state against the settings, to ensure there has been no trickery
+        /// client-side
+        /// </summary>
+        /// <param name="state">The state DTO to validate against</param>
+        /// <returns>Whether the state is valid</returns>
         public bool ValidateState(UrlPickerState state)
         {
             // Invalid if:

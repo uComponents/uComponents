@@ -53,11 +53,11 @@ namespace uComponents.DataTypes.MultiUrlPicker.Dto
             Standalone = true;
         }
 
-		/// <summary>
-		/// Checks the state is completely valid
-		/// </summary>
-		/// <param name="state">State to validate</param>
-		/// <returns>Validation success</returns>
+        /// <summary>
+        /// Checks the state is completely valid
+        /// </summary>
+        /// <param name="state">State to validate</param>
+        /// <returns>Validation success</returns>
         public bool ValidateState(MultiUrlPickerState state)
         {
             // Do any items fail validation, or miss a URL?

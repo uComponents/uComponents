@@ -58,7 +58,7 @@ namespace uComponents.DataTypes.UrlPicker
             }
             else if (Settings.AllowedModes.Count() == 0)
             {
-                throw new InvalidOperationException("No modes have been allowed for the URL picker.  See the developer section.");
+                throw new InvalidOperationException("No modes have been allowed for the URL picker. See the developer section.");
             }
 
             this.EnsureAjaxInfrastructure();
@@ -120,8 +120,8 @@ namespace uComponents.DataTypes.UrlPicker
 
             StateHiddenField.RenderControl(writer);
 
-            writer.Write("<label class='title'>Title: <input type='text' /></label>");
-            writer.Write("<label class='new-window'>Open in new window? <input type='checkbox' /></label>");
+            writer.Write("<label class='title'>{0}: <input type='text' /></label>", "Title");
+            writer.Write("<label class='new-window'>{0} <input type='checkbox' /></label>", "Open in new window?");
 
             // Render allowed views.  Let JS/CSS control
             // visibility.
@@ -175,15 +175,17 @@ namespace uComponents.DataTypes.UrlPicker
                     <li data-mode='{0}' class='{1}'>
                         <div class='upload-view'>
                             <input type='file' />
-                            <input type='button' value='Upload' class='upload-button' />
+                            <input type='button' value='{2}' class='upload-button' />
                         </div>
                         <div class='status-view'>
                             <a class='file-url' href=''></a>
-                            <input type='button' value='Delete' class='delete-button' />
+                            <input type='button' value='{3}' class='delete-button' />
                         </div>
                     </li>",
                     (int)UrlPickerMode.Upload,
-                    UrlPickerMode.Upload.ToString().ToLower()
+                    UrlPickerMode.Upload.ToString().ToLower(),
+                    "Upload",
+                    "Delete"
                 ));
             }
             writer.Write(@"</ul>");
