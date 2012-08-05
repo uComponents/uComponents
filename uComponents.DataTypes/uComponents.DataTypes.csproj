@@ -281,7 +281,6 @@
     <EmbeddedResource Include="ElasticTextBox\Scripts\jquery.elastic.js" />
     <EmbeddedResource Include="IncrementalTextBox\Images\down.png" />
     <EmbeddedResource Include="IncrementalTextBox\Images\up.png" />
-    <EmbeddedResource Include="IncrementalTextBox\Scripts\jquery.alphanumeric.js" />
     <EmbeddedResource Include="IncrementalTextBox\Scripts\jquery.increment.js" />
     <EmbeddedResource Include="IncrementalTextBox\Styles\IncrementalTextBox.css" />
     <EmbeddedResource Include="MultipleDates\css\MultipleDates.css" />
