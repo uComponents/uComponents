@@ -205,7 +205,6 @@ namespace uComponents.XsltExtensions
 		/// </summary>
 		/// <param name="path">The path.</param>
 		/// <returns>Returns the physical file path that corresponds to the specified virtual path on the web server.</returns>
-		// TODO: [LK] Move to uComponents.Legacy project
 		[Obsolete("Please use uComponents.XsltExtensions.IO.MapPath")]
 		public static string GetServerMapPath(string path)
 		{

@@ -33,28 +33,9 @@ namespace uComponents.XsltExtensions
 		/// </summary>
 		/// <param name="url">The URL to get the XML node from.</param>
 		/// <returns>Returns the node Id.</returns>
-		/// <remarks>
-		/// Thanks to Jonas Eriksson http://our.umbraco.org/member/4853
-		/// </remarks>
 		public static int GetNodeIdByUrl(string url)
 		{
-			// TODO: [LK] use uQuery
-
-			var xpathQuery = GetXPathQuery(url);
-			var xmlNode = content.Instance.XmlContent.SelectSingleNode(xpathQuery);
-
-			if (xmlNode != null && xmlNode.Attributes.Count > 0)
-			{
-				int nodeId;
-				var id = xmlNode.Attributes.GetNamedItem("id").Value;
-
-				if (int.TryParse(id, out nodeId))
-				{
-					return nodeId;
-				}
-			}
-
-			return uQuery.RootNodeId;
+			return uQuery.GetNodeIdByUrl(url);
 		}
 
 		/// <summary>
@@ -179,9 +160,6 @@ namespace uComponents.XsltExtensions
 		/// </returns>
 		private static string GetXPathQuery(string url)
 		{
-			// TODO: [LK] use uQuery
-
-
 			// strip the ASP.NET file-extension from the URL.
 			url = url.Replace(Constants.Common.DOTASPX, string.Empty);
 

@@ -126,7 +126,7 @@ namespace uComponents.DataTypes.RelationLinks
             HtmlImage img = new HtmlImage();
 
             // Currently supports only Documents (items in the content tree) & Media
-            // TODO: add Members next and then all the other object types
+            // TODO: [HR] add Members next and then all the other object types
 
             switch (uQuery.GetUmbracoObjectType(relatedCMSNode.nodeObjectType))
             {
