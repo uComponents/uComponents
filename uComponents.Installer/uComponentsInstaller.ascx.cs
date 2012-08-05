@@ -43,9 +43,9 @@ namespace uComponents.Installer
 					var notFoundHandlers = new Dictionary<string, string>();
 					foreach (var type in notFoundHandlersTypes)
 					{
-						if (string.Equals(type.Namespace, notFoundHandlersNamespace))
+						if (string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace))
 						{
-							notFoundHandlers.Add(type.FullName.Replace(notFoundHandlersNamespace, string.Empty), type.Name);
+							notFoundHandlers.Add(type.FullName.Substring(notFoundHandlersNamespace.Length), type.Name);
 							continue;
 						}
 					}
@@ -90,15 +90,6 @@ namespace uComponents.Installer
 
 			// TODO: [LK] Add the uComponents namespace to the Web.config (system.web/compilation/assemblies)
 			// TODO: [LK] Add the uComponents.Controls namespace to the Web.config (system.web/pages/controls)
-		}
-
-		/// <summary>
-		/// Handles the Load event of the Page control.
-		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		protected void Page_Load(object sender, EventArgs e)
-		{
 		}
 
 		/// <summary>
