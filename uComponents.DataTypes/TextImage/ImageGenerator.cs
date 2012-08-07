@@ -6,6 +6,7 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Web;
 using uComponents.Core;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.TextImage
 {
@@ -102,7 +103,7 @@ namespace uComponents.DataTypes.TextImage
                 {
                     // try to get custom font file
                     var pfc = new PrivateFontCollection();
-                    pfc.AddFontFile(HttpContext.Current.Server.MapPath(parameters.CustomFontPath));
+                    pfc.AddFontFile(IOHelper.MapPath(parameters.CustomFontPath));
                     fontFamily = pfc.Families[0];
                 }
                 catch
@@ -249,7 +250,7 @@ namespace uComponents.DataTypes.TextImage
         {
             // set base textImage to background image
             var umbracoFile = parameters.BackgroundMedia.getProperty(Constants.Umbraco.Media.File).Value.ToString();
-            var serverFile = HttpContext.Current.Server.MapPath(umbracoFile);
+            var serverFile = IOHelper.MapPath(umbracoFile);
             textImage = new Bitmap(serverFile);
             rectF = new RectangleF(0, 0, textImage.Width, textImage.Height);
 

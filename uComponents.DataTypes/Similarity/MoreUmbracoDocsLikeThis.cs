@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Xml.Linq;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Index;
@@ -10,6 +9,7 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using uComponents.DataTypes.Similarity.Net;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.Similarity
 {
@@ -124,13 +124,13 @@ namespace uComponents.DataTypes.Similarity
 		/// <returns></returns>
 		private string GetIndexPath(string indexToQuery)
 		{
-			string configFile = HttpContext.Current.Server.MapPath("/config/ExamineIndex.Config");
+			string configFile = IOHelper.MapPath("/config/ExamineIndex.Config");
 			// Create the query 
 			var config =
 				XElement.Load(configFile).Elements("IndexSet").Where(
 					c => c.Attribute("SetName").Value == indexToQuery.Replace("Indexer", "IndexSet"));
 
-			return HttpContext.Current.Server.MapPath(config.Attributes("IndexPath").FirstOrDefault().Value + "Index");
+			return IOHelper.MapPath(config.Attributes("IndexPath").FirstOrDefault().Value + "Index");
 		}
 
 		/// <summary>

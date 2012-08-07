@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.TextImage
 {
@@ -133,7 +134,7 @@ namespace uComponents.DataTypes.TextImage
         private void DeleteImage()
         {
             if (_image.ImageUrl == string.Empty) return;
-            File.Delete(HttpContext.Current.Server.MapPath(_image.ImageUrl));
+            File.Delete(IOHelper.MapPath(_image.ImageUrl));
         }
 
         /// <summary>

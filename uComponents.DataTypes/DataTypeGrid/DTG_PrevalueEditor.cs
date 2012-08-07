@@ -32,6 +32,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 	using umbraco.cms.businesslogic.datatype;
 	using umbraco;
 	using umbraco.editorControls;
+	using umbraco.IO;
 
     /// <summary>
     /// The PreValue Editor for the DTG DataType.
@@ -124,7 +125,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             // Ensure settings file exists
             DtgHelpers.EnsureFileExists(
-                HttpContext.Current.Server.MapPath("~/config/DataTypeGrid.config"),
+                IOHelper.MapPath("~/config/DataTypeGrid.config"),
                 DtgConfiguration.DataTypeGrid,
                 m_Locker);
 
