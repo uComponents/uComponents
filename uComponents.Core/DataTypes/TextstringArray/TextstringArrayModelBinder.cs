@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 using umbraco.MacroEngines;
+using uComponents.Core.Shared;
 
 namespace uComponents.Core.DataTypes.TextstringArray
 {
@@ -19,6 +20,12 @@ namespace uComponents.Core.DataTypes.TextstringArray
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var values = new List<string[]>();
 
 			if (!string.IsNullOrEmpty(PropertyData))

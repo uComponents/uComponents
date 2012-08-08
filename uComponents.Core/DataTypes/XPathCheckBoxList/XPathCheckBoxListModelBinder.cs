@@ -1,6 +1,7 @@
 ﻿using uComponents.Core.XsltExtensions;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
+using uComponents.Core.Shared;
 
 namespace uComponents.Core.DataTypes.XPathCheckBoxList
 {
@@ -19,6 +20,12 @@ namespace uComponents.Core.DataTypes.XPathCheckBoxList
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var nodeIds = Xml.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
 			var library = new RazorLibraryCore(null);
 

@@ -36,7 +36,6 @@ namespace uComponents.Core.Install
 			var types = Assembly.GetExecutingAssembly().GetTypes().ToList();
 			types.Sort(delegate(Type t1, Type t2) { return t1.Name.CompareTo(t2.Name); });
 
-			////var dataTypes = new Dictionary<Guid, string>();
 			var notFoundHandlers = new Dictionary<string, string>();
 			var xsltExtensions = new Dictionary<string, string>();
 
@@ -47,15 +46,6 @@ namespace uComponents.Core.Install
 				{
 					continue;
 				}
-
-				////if (ns.StartsWith("uComponents.Core.DataTypes") && (type.IsSubclassOf(typeof(BaseDataType))))
-				////{
-				////    var instance = Activator.CreateInstance(type);
-				////    var name = (string)type.GetProperty("DataTypeName").GetValue(instance, null);
-				////    var guid = (Guid)type.GetProperty("Id").GetValue(instance, null);
-				////    dataTypes.Add(guid, name.Replace("uComponents: ", string.Empty));
-				////    continue;
-				////}
 
 				if (ns == "uComponents.Core.NotFoundHandlers")
 				{
@@ -69,12 +59,6 @@ namespace uComponents.Core.Install
 					continue;
 				}
 			}
-
-			////// bind the data-types.
-			////this.cblDataTypes.DataSource = dataTypes;
-			////this.cblDataTypes.DataTextField = "Value";
-			////this.cblDataTypes.DataValueField = "Key";
-			////this.cblDataTypes.DataBind();
 
 			// bind the UI Modules options.
 			this.cblUiModules.DataSource = Settings.AppKeys_UiModules;
@@ -96,15 +80,6 @@ namespace uComponents.Core.Install
 		}
 
 		/// <summary>
-		/// Handles the Load event of the Page control.
-		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		protected void Page_Load(object sender, EventArgs e)
-		{
-		}
-
-		/// <summary>
 		/// Handles the Click event of the btnActivate control.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
@@ -116,23 +91,17 @@ namespace uComponents.Core.Install
 
 			var xml = new XmlDocument();
 
-			////// Data Types
-			////foreach (ListItem item in this.cblDataTypes.Items)
-			////{
-			////    if (item.Selected)
-			////    {
-			////        try
-			////        {
-			////            xml.LoadXml(string.Format("<DataType Name=\"{0}\" Id=\"{1}\" Definition=\"{2}\" />", item.Text, item.Value, Guid.NewGuid()));
-			////            var dtd = DataTypeDefinition.Import(xml.FirstChild);
-			////            successes.Add(item.Text);
-			////        }
-			////        catch (Exception ex)
-			////        {
-			////            failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
-			////        }
-			////    }
-			////}
+			// Razor Model Binding
+			try
+			{
+				xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_AddAppConfigKey\" key=\"{0}\" value=\"{1}\" />", Constants.AppKey_RazorModelBinding, (!this.cbDisableRazorModelBinding.Checked).ToString().ToLower()));
+				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(this.cbDisableRazorModelBinding.Text, "uComponents_AddAppConfigKey", xml.FirstChild);
+				successes.Add(this.cbDisableRazorModelBinding.Text);
+			}
+			catch (Exception ex)
+			{
+				failures.Add(string.Concat(this.cbDisableRazorModelBinding.Text, " (", ex.Message, ")"));
+			}
 
 			// Not Found Handlers
 			foreach (ListItem item in this.cblNotFoundHandlers.Items)
