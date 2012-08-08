@@ -4,30 +4,30 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.StyledTextBox
 {
-	/// <summary>
-	/// Data Type for the Styled TextBox
-	/// </summary>
+    /// <summary>
+    /// Data Type for the Styled TextBox
+    /// </summary>
     public class StyledTextBoxDataType : BaseDataType, IDataType
     {
-		/// <summary>
-		/// 
-		/// </summary>
+        /// <summary>
+        /// 
+        /// </summary>
         private IDataEditor _editor;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		private IData _baseData;
+        /// <summary>
+        /// 
+        /// </summary>
+        private IData _baseData;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		private StyledTextBoxPrevalueEditor _prevalueEditor;
+        /// <summary>
+        /// 
+        /// </summary>
+        private StyledTextBoxPrevalueEditor _prevalueEditor;
 
-		/// <summary>
-		/// Gets the data editor.
-		/// </summary>
-		/// <value>The data editor.</value>
+        /// <summary>
+        /// Gets the data editor.
+        /// </summary>
+        /// <value>The data editor.</value>
         public override IDataEditor DataEditor
         {
             get
@@ -38,10 +38,10 @@ namespace uComponents.DataTypes.StyledTextBox
             }
         }
 
-		/// <summary>
-		/// Gets the data.
-		/// </summary>
-		/// <value>The data.</value>
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
+        /// <value>The data.</value>
         public override IData Data
         {
             get
@@ -52,35 +52,35 @@ namespace uComponents.DataTypes.StyledTextBox
             }
         }
 
-		/// <summary>
-		/// Gets the id.
-		/// </summary>
-		/// <value>The id.</value>
+        /// <summary>
+        /// Gets the id.
+        /// </summary>
+        /// <value>The id.</value>
         public override Guid Id
         {
             get { return new Guid(DataTypeConstants.StyledTextBoxId); }
         }
 
-		/// <summary>
-		/// Gets the name of the data type.
-		/// </summary>
-		/// <value>The name of the data type.</value>
+        /// <summary>
+        /// Gets the name of the data type.
+        /// </summary>
+        /// <value>The name of the data type.</value>
         public override string DataTypeName
         {
-            get { return "uComponents: Styled TextBox (Legacy)"; }
+            get { return "uComponents-Legacy: Styled TextBox"; }
         }
 
-		/// <summary>
-		/// Gets the prevalue editor.
-		/// </summary>
-		/// <value>The prevalue editor.</value>
+        /// <summary>
+        /// Gets the prevalue editor.
+        /// </summary>
+        /// <value>The prevalue editor.</value>
         public override IDataPrevalue PrevalueEditor
         {
             get
             {
                 if (_prevalueEditor == null)
                     _prevalueEditor = new StyledTextBoxPrevalueEditor(this);
-                return _prevalueEditor;                
+                return _prevalueEditor;
             }
         }
     }

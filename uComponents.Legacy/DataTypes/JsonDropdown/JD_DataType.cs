@@ -56,7 +56,7 @@ namespace uComponents.DataTypes.JsonDropdown
 		{
 			get
 			{
-				return "uComponents: JSON Datasource Drop Down (Legacy)";
+				return "uComponents-Legacy: JSON Datasource Drop Down";
 			}
 		}
 

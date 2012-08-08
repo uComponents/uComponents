@@ -30,7 +30,7 @@ namespace uComponents.DataTypes.XPathDropDownList
 		/// Gets the name of the data type.
 		/// </summary>
 		/// <value>The name of the data type.</value>
-		public override string DataTypeName { get { return "uComponents: XPath DropDownList (Legacy)"; } }
+		public override string DataTypeName { get { return "uComponents-Legacy: XPath DropDownList"; } }
 
 		/// <summary>
 		/// Gets the id.

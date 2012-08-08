@@ -68,7 +68,7 @@ namespace uComponents.DataTypes.RadiobuttonListWithImages
 		{
 			get
 			{
-				return "uComponents: RadioButtonList with Images (Legacy)";
+				return "uComponents-Legacy: RadioButtonList with Images";
 			}
 		}
 		
