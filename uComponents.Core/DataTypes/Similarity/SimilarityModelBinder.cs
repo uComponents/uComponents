@@ -1,6 +1,7 @@
-﻿using umbraco.MacroEngines;
-using umbraco.MacroEngines.Library;
+﻿using System.Linq;
 using uComponents.Core.Shared;
+using umbraco.MacroEngines;
+using umbraco.MacroEngines.Library;
 
 namespace uComponents.Core.DataTypes.Similarity
 {
@@ -28,7 +29,7 @@ namespace uComponents.Core.DataTypes.Similarity
 			var nodeIds = uQuery.GetCsvIds(PropertyData);
 			var library = new RazorLibraryCore(null);
 
-			instance = (library.NodesById(nodeIds) as DynamicNodeList);
+			instance = (library.NodesById(nodeIds.ToList()) as DynamicNodeList);
 
 			return true;
 		}

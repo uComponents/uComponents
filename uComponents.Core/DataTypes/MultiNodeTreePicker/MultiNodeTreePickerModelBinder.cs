@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using uComponents.Core.Shared;
 using uComponents.Core.XsltExtensions;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
-using uComponents.Core.Shared;
 
 namespace uComponents.Core.DataTypes.MultiNodeTreePicker
 {
