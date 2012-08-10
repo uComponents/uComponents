@@ -110,9 +110,9 @@ namespace uComponents.Core.MacroEngines
 			}
 			else if (!string.IsNullOrEmpty(macro.ScriptCode))
 			{
-				string xslt = this.CheckXsltFragment(macro.ScriptCode.Trim());
-				string md5 = library.md5(xslt);
-				string filename = string.Concat("inline-", md5, ".xslt");
+				var xslt = this.CheckXsltFragment(macro.ScriptCode.Trim());
+				var md5 = library.md5(xslt);
+				var filename = string.Concat("inline-", md5, ".xslt");
 				fileLocation = this.CreateTemporaryFile(xslt, filename, true).Replace("~", "..");
 			}
 
