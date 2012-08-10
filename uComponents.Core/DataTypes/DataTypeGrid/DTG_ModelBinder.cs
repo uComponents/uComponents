@@ -6,6 +6,7 @@ using uComponents.Core.DataTypes.DataTypeGrid.Functions;
 using uComponents.Core.DataTypes.DataTypeGrid.Model;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
+using uComponents.Core.Shared;
 
 namespace uComponents.Core.DataTypes.DataTypeGrid
 {
@@ -24,27 +25,32 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var values = new List<StoredValueRow>();
 
 			if (!string.IsNullOrEmpty(PropertyData))
 			{
-			    var doc = new XmlDocument();
-			    doc.LoadXml(PropertyData);
+				var doc = new XmlDocument();
+				doc.LoadXml(PropertyData);
 
 				var items = doc.DocumentElement;
 				if (items.HasChildNodes)
-			    {
-			        foreach (XmlNode item in items.ChildNodes)
-			        {
-			
-			            var valueRow = new StoredValueRow();
+				{
+					foreach (XmlNode item in items.ChildNodes)
+					{
+						var valueRow = new StoredValueRow();
 						if (item.Attributes != null)
-			            {
+						{
 							valueRow.Id = int.Parse(item.Attributes["id"].Value);
-			            }
+						}
 
 						foreach (XmlNode node in item.ChildNodes)
-			            {
+						{
 							var value = new StoredValueForModel();
 							value.Alias = node.Name;
 							value.Name = node.Attributes["nodeName"].Value;
@@ -52,12 +58,11 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 							value.Value = node.InnerText;
 
 							valueRow.Cells.Add(value);
-			            }
+						}
 
-			            values.Add(valueRow);
-			        }
-			    }
-
+						values.Add(valueRow);
+					}
+				}
 			}
 
 			instance = values;

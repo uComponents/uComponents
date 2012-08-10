@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using umbraco.IO;
+using System.Configuration;
 
 namespace uComponents.Core.Shared
 {
@@ -127,6 +128,35 @@ namespace uComponents.Core.Shared
 				}
 
 				return dir;
+			}
+		}
+
+		/// <summary>
+		/// Private static backing field for <c>RazorModelBindingEnabled</c>.
+		/// </summary>
+		private static bool? razorModelBindingEnabled = null;
+
+		/// <summary>
+		/// Gets a value indicating whether [razor model binding enabled].
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [razor model binding enabled]; otherwise, <c>false</c>.
+		/// </value>
+		public static bool RazorModelBindingEnabled
+		{
+			get
+			{
+				if (!razorModelBindingEnabled.HasValue)
+				{
+					var enableRazorModelBinding = true;
+					var appSettingValue = ConfigurationManager.AppSettings[Constants.AppKey_RazorModelBinding] ?? bool.TrueString;
+
+					bool.TryParse(appSettingValue, out enableRazorModelBinding);
+
+					razorModelBindingEnabled = enableRazorModelBinding;
+				}
+
+				return razorModelBindingEnabled.Value;
 			}
 		}
 

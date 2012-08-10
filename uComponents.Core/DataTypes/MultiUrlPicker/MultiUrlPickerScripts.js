@@ -163,11 +163,13 @@ Date modified: 21st of March, 2011
             // Set reference to URL on the controls bar
             $itemContainer.children().each(function () {
                 var $li = $(this),
-                url = getItemState($li).Url || "";
+                itemState = getItemState($li),
+                url = itemState.Url || "";
+                var displayText = itemState.Title || url || "";
 
                 $li.
                     find(".url.button").
-                    text(url).
+                    text(displayText).
                     attr("href", url);
             });
 

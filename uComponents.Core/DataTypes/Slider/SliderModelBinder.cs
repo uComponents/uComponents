@@ -31,6 +31,12 @@ namespace uComponents.Core.DataTypes.Slider
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			if (!string.IsNullOrEmpty(PropertyData))
 			{
 				int value1, value2;

@@ -21,6 +21,12 @@ namespace uComponents.Core.DataTypes.MultipleDates
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var dates = new List<DateTime>();
 
 			if (!string.IsNullOrEmpty(PropertyData))

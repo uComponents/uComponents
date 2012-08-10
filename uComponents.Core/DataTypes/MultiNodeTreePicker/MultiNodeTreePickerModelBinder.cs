@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using uComponents.Core.Shared;
 using uComponents.Core.XsltExtensions;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
@@ -20,6 +21,12 @@ namespace uComponents.Core.DataTypes.MultiNodeTreePicker
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var nodeIds = Xml.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
 			var library = new RazorLibraryCore(null);
 			

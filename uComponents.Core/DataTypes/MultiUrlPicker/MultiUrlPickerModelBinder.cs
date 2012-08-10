@@ -1,5 +1,6 @@
 ﻿using uComponents.Core.DataTypes.MultiUrlPicker.Dto;
 using umbraco.MacroEngines;
+using uComponents.Core.Shared;
 
 namespace uComponents.Core.DataTypes.MultiUrlPicker
 {
@@ -18,6 +19,12 @@ namespace uComponents.Core.DataTypes.MultiUrlPicker
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			MultiUrlPickerState state = null;
 
 			if (!string.IsNullOrEmpty(PropertyData))
