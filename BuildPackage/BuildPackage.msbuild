@@ -9,9 +9,9 @@
 	<!-- PROPERTIES -->
 	<PropertyGroup>
 		<VersionMajor>4</VersionMajor>
-		<VersionMinor>0</VersionMinor>
+		<VersionMinor>1</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-beta</VersionSuffix>
+		<VersionSuffix>-alpha</VersionSuffix>
 		<ProjectName>uComponents.Core</ProjectName>
 	</PropertyGroup>
 

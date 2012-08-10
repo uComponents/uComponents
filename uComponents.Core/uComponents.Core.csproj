@@ -170,6 +170,8 @@
     <Compile Include="DataTypes\TextstringArray\TextstringArrayData.cs" />
     <Compile Include="DataTypes\UrlPicker\UrlPickerModelBinder.cs" />
     <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
+    <Compile Include="MacroEngines\StaticFileMacroEngine.cs" />
+    <Compile Include="MacroEngines\XsltMacroEngine.cs" />
     <Compile Include="NotFoundHandlers\SearchForPageNotFound.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
