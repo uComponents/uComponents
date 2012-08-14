@@ -99,6 +99,9 @@ namespace uComponents.Core.Install.PackageActions
 				}
 			}
 
+			// remove the dashboard control (if exists)
+			sb.Append("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\" />");
+
 			// append the closing tag
 			sb.Append("</Actions>");
 

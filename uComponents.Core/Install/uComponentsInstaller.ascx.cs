@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core.Shared;
+using umbraco;
+using umbraco.IO;
 
 namespace uComponents.Core.Install
 {
@@ -77,6 +79,17 @@ namespace uComponents.Core.Install
 			this.cblXsltExtensions.DataTextField = "Value";
 			this.cblXsltExtensions.DataValueField = "Key";
 			this.cblXsltExtensions.DataBind();
+
+			// disable the dashboard control checkbox
+			try
+			{
+				var dashboardXml = xmlHelper.OpenAsXmlDocument(SystemFiles.DashboardConfig);
+				if (dashboardXml.SelectSingleNode("//section[@alias = 'uComponentsInstaller']") != null)
+				{
+					this.phDashboardControl.Visible = false;
+				}
+			}
+			catch { }
 		}
 
 		/// <summary>
@@ -167,6 +180,14 @@ namespace uComponents.Core.Install
 						failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
 					}
 				}
+			}
+
+			if (this.cbDashboardControl.Checked)
+			{
+				var title = "Dashboard control";
+				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control addPanel=\"true\">/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
+				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
+				successes.Add(title);
 			}
 
 			// set the feedback controls to hidden
