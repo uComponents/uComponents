@@ -34,7 +34,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		public void AgeTest()
 		{
 			var dateOfBirth = "30/07/1978";
-			var expected = 33;
+			var expected = 34;
 			var actual = Dates.Age(dateOfBirth);
 			Assert.AreEqual(expected, actual);
 		}
