@@ -44,6 +44,11 @@
     <ApplicationIcon>Shared\Resources\Images\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClientDependency.Core, Version=1.0.2.37148, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\DLLs\ClientDependency.Core.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -56,44 +61,52 @@
     <Reference Include="System.Xml" />
     <Reference Include="businesslogic">
       <HintPath>..\DLLs\businesslogic.dll</HintPath>
-    </Reference>
-    <Reference Include="ClientDependency.Core, Version=1.0.0.38358, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLLs\ClientDependency.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="cms">
       <HintPath>..\DLLs\cms.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="controls">
       <HintPath>..\DLLs\controls.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Examine, Version=0.9.2.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLLs\Examine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="interfaces">
       <HintPath>..\DLLs\interfaces.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Lucene.Net">
       <HintPath>..\DLLs\Lucene.Net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="umbraco">
       <HintPath>..\DLLs\umbraco.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="umbraco.DataLayer">
       <HintPath>..\DLLs\umbraco.DataLayer.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="umbraco.editorControls">
       <HintPath>..\DLLs\umbraco.editorControls.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="umbraco.MacroEngines">
       <HintPath>..\DLLs\umbraco.MacroEngines.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="umbraco.macroRenderings">
       <HintPath>..\DLLs\umbraco.macroRenderings.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UmbracoExamine">
       <HintPath>..\DLLs\UmbracoExamine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -526,7 +539,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AjaxUploadHandlerResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="Properties\BuildVersion.txt" />
     <Content Include="Shared\AjaxUpload\AjaxUploadHandler.ashx.txt" />
   </ItemGroup>
   <ItemGroup>
