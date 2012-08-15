@@ -5,6 +5,9 @@ using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using umbraco;
+using umbraco.IO;
+using uComponents.Core;
 
 namespace uComponents.Installer
 {
@@ -88,6 +91,17 @@ namespace uComponents.Installer
 				}
 			}
 
+			// disable the dashboard control checkbox
+			try
+			{
+				var dashboardXml = xmlHelper.OpenAsXmlDocument(SystemFiles.DashboardConfig);
+				if (dashboardXml.SelectSingleNode("//section[@alias = 'uComponentsInstaller']") != null)
+				{
+					this.phDashboardControl.Visible = false;
+				}
+			}
+			catch { }
+
 			// TODO: [LK] Add the uComponents namespace to the Web.config (system.web/compilation/assemblies)
 			// TODO: [LK] Add the uComponents.Controls namespace to the Web.config (system.web/pages/controls)
 		}
@@ -102,6 +116,18 @@ namespace uComponents.Installer
 			var successes = new List<string>();
 			var failures = new List<string>();
 			var xml = new XmlDocument();
+
+			// Razor Model Binding
+			try
+			{
+				xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_AddAppConfigKey\" key=\"{0}\" value=\"{1}\" />", Constants.AppKey_RazorModelBinding, (!this.cbDisableRazorModelBinding.Checked).ToString().ToLower()));
+				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(this.cbDisableRazorModelBinding.Text, "uComponents_AddAppConfigKey", xml.FirstChild);
+				successes.Add(this.cbDisableRazorModelBinding.Text);
+			}
+			catch (Exception ex)
+			{
+				failures.Add(string.Concat(this.cbDisableRazorModelBinding.Text, " (", ex.Message, ")"));
+			}
 
 			// Not Found Handlers
 			foreach (ListItem item in this.cblNotFoundHandlers.Items)
@@ -167,6 +193,15 @@ namespace uComponents.Installer
 						failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
 					}
 				}
+			}
+
+			// Dashboard control
+			if (this.cbDashboardControl.Checked)
+			{
+				var title = "Dashboard control";
+				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control addPanel=\"true\">/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
+				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
+				successes.Add(title);
 			}
 
 			// set the feedback controls to hidden

@@ -7,6 +7,7 @@ using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
 using uComponents.Core;
+using System.Collections.Generic;
 
 namespace uComponents.Installer.PackageActions
 {
@@ -62,15 +63,23 @@ namespace uComponents.Installer.PackageActions
 
 			// build XML string for all the installable components
 			var sb = new StringBuilder("<Actions>");
-			
+
+			// list of AppSettings keys to uninstall
+			var appSettingsKeys = new List<string>() {
+				Constants.AppKey_DragAndDrop,
+				Constants.AppKey_KeyboardShortcuts,
+				Constants.AppKey_RazorModelBinding,
+				Constants.AppKey_TrayPeek
+			};
+
+			// loop through each of the appSettings keys (e.g. UI Modules and Razor Model Binding)
+			foreach (var appSettingsKey in appSettingsKeys)
+			{
+				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appSettingsKey);
+			}
+
 			// get the UI Modules
 			sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" />", AddHttpModule.ActionAlias);
-
-			// loop through each of the appSettings keys for the UI Modules
-			foreach (var appKey in Settings.AppKeys_UiModules)
-			{
-				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appKey.Key);
-			}
 
 			// find the NotFoundHandlers
 			var notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
@@ -111,6 +120,9 @@ namespace uComponents.Installer.PackageActions
 					}
 				}
 			}
+
+			// remove the dashboard control (if exists)
+			sb.Append("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\" />");
 
 			// append the closing tag
 			sb.Append("</Actions>");
