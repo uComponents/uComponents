@@ -22,6 +22,11 @@ namespace uComponents.Core
 		public const string AppKey_KeyboardShortcuts = "ucomponents:KeyboardShortcuts";
 
 		/// <summary>
+		/// AppSettings key to disable Razor model binding for data-types.
+		/// </summary>
+		public const string AppKey_RazorModelBinding = "ucomponents:RazorModelBinding";
+
+		/// <summary>
 		/// AppSettings key for UI Modules' tray peek.
 		/// </summary>
 		public const string AppKey_TrayPeek = "ucomponents:TrayPeek";

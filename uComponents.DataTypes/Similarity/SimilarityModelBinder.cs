@@ -19,6 +19,12 @@ namespace uComponents.DataTypes.Similarity
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var nodeIds = uQuery.GetCsvIds(PropertyData);
 			var library = new RazorLibraryCore(null);
 

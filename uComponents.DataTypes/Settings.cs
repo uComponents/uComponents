@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using umbraco.IO;
+using System.Web.Configuration;
 using uComponents.Core;
+using umbraco.IO;
 
 namespace uComponents.DataTypes
 {
@@ -49,6 +48,35 @@ namespace uComponents.DataTypes
 				}
 
 				return dir;
+			}
+		}
+
+		/// <summary>
+		/// Private static backing field for <c>RazorModelBindingEnabled</c>.
+		/// </summary>
+		private static bool? razorModelBindingEnabled = null;
+
+		/// <summary>
+		/// Gets a value indicating whether [razor model binding enabled].
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [razor model binding enabled]; otherwise, <c>false</c>.
+		/// </value>
+		public static bool RazorModelBindingEnabled
+		{
+			get
+			{
+				if (!razorModelBindingEnabled.HasValue)
+				{
+					var enableRazorModelBinding = true;
+					var appSettingValue = WebConfigurationManager.AppSettings[Constants.AppKey_RazorModelBinding] ?? bool.TrueString;
+
+					bool.TryParse(appSettingValue, out enableRazorModelBinding);
+
+					razorModelBindingEnabled = enableRazorModelBinding;
+				}
+
+				return razorModelBindingEnabled.Value;
 			}
 		}
 	}

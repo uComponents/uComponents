@@ -19,6 +19,12 @@ namespace uComponents.DataTypes.TextstringArray
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var values = new List<string[]>();
 
 			if (!string.IsNullOrEmpty(PropertyData))
