@@ -65,7 +65,8 @@ namespace uComponents.Installer.PackageActions
 			var sb = new StringBuilder("<Actions>");
 
 			// list of AppSettings keys to uninstall
-			var appSettingsKeys = new List<string>() {
+			var appSettingsKeys = new List<string>()
+			{
 				Constants.AppKey_DragAndDrop,
 				Constants.AppKey_KeyboardShortcuts,
 				Constants.AppKey_RazorModelBinding,
