@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using uComponents.Core.Shared;
 using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
@@ -62,15 +64,24 @@ namespace uComponents.Core.Install.PackageActions
 
 			// build XML string for all the installable components
 			var sb = new StringBuilder("<Actions>");
-			
+
+			// list of AppSettings keys to uninstall
+			var appSettingsKeys = new List<string>()
+			{
+				Constants.AppKey_DragAndDrop,
+				Constants.AppKey_KeyboardShortcuts,
+				Constants.AppKey_RazorModelBinding,
+				Constants.AppKey_TrayPeek
+			};
+
+			// loop through each of the AppSettings keys (for the UI Modules and Razor Model Binding)
+			foreach (var appSettingsKey in appSettingsKeys)
+			{
+				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appSettingsKey);
+			}
+
 			// get the UI Modules
 			sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" />", AddHttpModule.ActionAlias);
-
-			// loop through each of the appSettings keys for the UI Modules
-			foreach (var appKey in uc.Settings.AppKeys_UiModules)
-			{
-				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appKey.Key);
-			}
 
 			// loop through the assembly's types
 			var types = Assembly.GetExecutingAssembly().GetTypes().ToList();
