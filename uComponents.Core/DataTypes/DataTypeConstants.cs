@@ -140,6 +140,11 @@
 		/// </summary>
 		public const string SliderId = "B5BD6E2C-464B-406B-BCCE-A132E7D76981";
 
+        /// <summary>
+        /// Guid for the SqlDropDownList data-type.
+        /// </summary>
+        public const string SqlCheckBoxListId = "D406BD87-9E1D-45B8-B529-9B67FF63BC0D";
+
 		/// <summary>
 		/// Guid for the SqlDropDownList data-type.
 		/// </summary>

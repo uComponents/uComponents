@@ -162,6 +162,10 @@
     <Compile Include="DataTypes\Similarity\Net\SimilarityQueries.cs" />
     <Compile Include="DataTypes\Similarity\SimilarityModelBinder.cs" />
     <Compile Include="DataTypes\Slider\SliderModelBinder.cs" />
+    <Compile Include="DataTypes\SqlCheckBoxList\SqlCheckBoxListDataEditor.cs" />
+    <Compile Include="DataTypes\SqlCheckBoxList\SqlCheckBoxListDataType.cs" />
+    <Compile Include="DataTypes\SqlCheckBoxList\SqlCheckBoxListOptions.cs" />
+    <Compile Include="DataTypes\SqlCheckBoxList\SqlCheckBoxListPreValueEditor.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListDataEditor.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListDataType.cs" />
     <Compile Include="DataTypes\SqlDropDownList\SqlDropDownListOptions.cs" />
