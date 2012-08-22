@@ -38,6 +38,7 @@ namespace uComponents.Installer.PackageActions
 		/// <returns>Returns <c>true</c> when successful, otherwise <c>false</c>.</returns>
 		public bool Execute(string packageName, XmlNode xmlData)
 		{
+			// TODO: [LK] Check if upgrade from 3.x/4.x, if so, do a clean-up (HttpModules, any references to old "uComponents.Core" namespace, etc)
 			return true;
 		}
 
