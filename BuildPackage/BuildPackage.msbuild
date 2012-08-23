@@ -8,7 +8,10 @@
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
-		<PackageVersion>3.1.2</PackageVersion>
+		<VersionMajor>3</VersionMajor>
+		<VersionMinor>1</VersionMinor>
+		<VersionPatch>3</VersionPatch>
+		<VersionSuffix>-beta</VersionSuffix>
 		<ProjectName>uComponents.Core</ProjectName>
 	</PropertyGroup>
 
@@ -31,16 +34,15 @@
 
 	<!-- UPDATE ASSEMBLEY VERSION -->
 	<Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
-		<FileUpdate
-			Encoding="ASCII"
-			Files="$(RootDir)\Properties\AssemblyInfo.cs"
-			Regex="AssemblyVersion\(&quot;.*&quot;\)\]"
-			ReplacementText="AssemblyVersion(&quot;$(PackageVersion).*&quot;)]" />
-		<FileUpdate
-			Encoding="ASCII"
-			Files="$(RootDir)\Properties\AssemblyInfo.cs"
-			Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]"
-			ReplacementText="AssemblyFileVersion(&quot;$(PackageVersion).*&quot;)]" />
+		<Version Major="$(VersionMajor)" Minor="$(VersionMinor)" BuildType="Automatic" RevisionType="Automatic" StartDate="29/06/2010">
+			<Output TaskParameter="Build" PropertyName="Build" />
+			<Output TaskParameter="Revision" PropertyName="Revision" />
+		</Version>
+		<AssemblyInfo CodeLanguage="CS"
+			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
+			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
+			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
+			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
 	</Target>
 
 	<!-- COMPILE -->
@@ -79,7 +81,7 @@
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
 			MinimumRequiredUmbracoVersion="4.5.2"
-			PackageVersion="$(PackageVersion)"
+			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Readme="@(Readme->'%(Identity)', '%0a%0d')"
 			Files="@(ManifestFiles)" />
 	</Target>
@@ -92,7 +94,7 @@
 		<MSBuild.NuGet.Tasks.ManifestUpdate
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			WorkingDirectory="$(BuildNuGetDir)"
-			Version="$(PackageVersion)"
+			Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Files="@(ManifestFiles)" />
 	</Target>
 

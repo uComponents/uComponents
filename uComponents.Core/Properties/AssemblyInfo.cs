@@ -21,11 +21,6 @@ using uComponents.Core.Shared;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("99D05FD1-5C6D-4E7A-816D-C1C21B0E9D84")]
 
-// Version information for an assembly consists of the following four values:
-// [Major].[Minor].[Build].[Revision]
-[assembly: AssemblyVersion("3.1.2.*")]
-//[assembly: AssemblyFileVersion("3.1.2.*")]
-
 // tag prefix for custom controls
 [assembly: TagPrefix("uComponents.Core.Controls", Settings.APPNAME)]
 
