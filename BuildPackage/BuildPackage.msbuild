@@ -11,7 +11,7 @@
 		<VersionMajor>4</VersionMajor>
 		<VersionMinor>1</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-alpha</VersionSuffix>
+		<VersionSuffix>-beta</VersionSuffix>
 		<ProjectName>uComponents.Core</ProjectName>
 	</PropertyGroup>
 
