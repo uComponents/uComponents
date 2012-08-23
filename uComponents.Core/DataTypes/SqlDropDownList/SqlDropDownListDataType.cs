@@ -1,5 +1,4 @@
 ﻿using System;
-
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
 
@@ -11,17 +10,17 @@ namespace uComponents.Core.DataTypes.SqlDropDownList
 	public class SqlDropDownListDataType : BaseDataType, IDataType
 	{
 		/// <summary>
-		/// 
+		/// Field for the prevalue editor.
 		/// </summary>
 		private SqlDropDownListPreValueEditor preValueEditor;
 
 		/// <summary>
-		/// 
+		/// Field for the data editor.
 		/// </summary>
 		private IDataEditor dataEditor;
 
 		/// <summary>
-		/// 
+		/// Field for the data.
 		/// </summary>
 		private IData data;
 

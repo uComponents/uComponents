@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Xml.XPath;
-using uComponents.Core.Shared;
 using uComponents.Core.Shared.Extensions;
 using uComponents.Core.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.DataLayer;
 
 namespace uComponents.Core.DataTypes.SqlDropDownList
 {
-	class SqlDropDownListPreValueEditor : AbstractJsonPrevalueEditor
+	/// <summary>
+	/// The PreValue Editor for the SQL DropDownList data-type.
+	/// </summary>
+	public class SqlDropDownListPreValueEditor : AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// TextBox control to get the Sql expression
@@ -91,7 +91,7 @@ namespace uComponents.Core.DataTypes.SqlDropDownList
 			this.connectionStringTextBox.ID = "connectionStringTextBox";
 			this.connectionStringTextBox.Columns = 120;
 			this.connectionStringTextBox.TextMode = TextBoxMode.SingleLine;
-			
+
 			this.Controls.Add(this.sqlTextBox);
 			this.Controls.Add(this.sqlRequiredFieldValidator);
 			this.Controls.Add(this.sqlCustomValidator);
@@ -157,6 +157,5 @@ namespace uComponents.Core.DataTypes.SqlDropDownList
 			writer.AddPrevalueRow("SQL Expression", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
 			writer.AddPrevalueRow("Connection String", "(optional)", this.connectionStringTextBox);
 		}
-
 	}
 }

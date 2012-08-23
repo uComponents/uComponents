@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace uComponents.Core.DataTypes.SqlDropDownList
+﻿namespace uComponents.Core.DataTypes.SqlDropDownList
 {
 	/// <summary>
-	/// 
+	/// The options for the SqlDropDownList data-type.
 	/// </summary>
 	internal class SqlDropDownListOptions
 	{

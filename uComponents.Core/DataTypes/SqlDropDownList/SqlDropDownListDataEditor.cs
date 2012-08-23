@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -9,15 +11,11 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
-using umbraco.DataLayer;
-
-using System.Data.SqlClient;
-using System.Data;
 
 namespace uComponents.Core.DataTypes.SqlDropDownList
 {
 	/// <summary>
-	/// XPath configurabale DropDownList Data Type
+	/// SQL configurabale DropDownList Data Type
 	/// </summary>
 	public class SqlDropDownListDataEditor : CompositeControl, IDataEditor
 	{
@@ -111,7 +109,7 @@ namespace uComponents.Core.DataTypes.SqlDropDownList
 			{
 				connectionString = uQuery.SqlHelper.ConnectionString;
 			}
-			
+
 			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
 			{
 				SqlCommand sqlCommand = new SqlCommand()
