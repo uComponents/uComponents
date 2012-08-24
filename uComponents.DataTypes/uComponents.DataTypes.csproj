@@ -214,6 +214,10 @@
     <Compile Include="Similarity\SimilarityModelBinder.cs" />
     <Compile Include="Similarity\SimilarityPrevalueEditor.cs" />
     <Compile Include="Similarity\SimilarityResources.Designer.cs" />
+    <Compile Include="SqlAutoComplete\SqlAutoCompleteDataEditor.cs" />
+    <Compile Include="SqlAutoComplete\SqlAutoCompleteDataType.cs" />
+    <Compile Include="SqlAutoComplete\SqlAutoCompleteOptions.cs" />
+    <Compile Include="SqlAutoComplete\SqlAutoCompletePreValueEditor.cs" />
     <Compile Include="SqlCheckBoxList\SqlCheckBoxListDataEditor.cs" />
     <Compile Include="SqlCheckBoxList\SqlCheckBoxListDataType.cs" />
     <Compile Include="SqlCheckBoxList\SqlCheckBoxListOptions.cs" />
