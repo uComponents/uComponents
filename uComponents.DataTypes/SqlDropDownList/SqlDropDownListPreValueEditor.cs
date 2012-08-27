@@ -8,7 +8,7 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SqlDropDownList
 {
-	class SqlDropDownListPreValueEditor : AbstractJsonPrevalueEditor
+	class SqlDropDownListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// TextBox control to get the Sql expression

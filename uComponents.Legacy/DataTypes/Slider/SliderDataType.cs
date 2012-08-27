@@ -63,7 +63,7 @@ namespace uComponents.DataTypes.Slider
 		{
 			get
 			{
-				return "uComponents: Slider";
+				return "uComponents-Legacy: Slider";
 			}
 		}
 

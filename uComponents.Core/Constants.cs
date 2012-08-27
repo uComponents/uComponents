@@ -22,6 +22,11 @@ namespace uComponents.Core
 		public const string AppKey_KeyboardShortcuts = "ucomponents:KeyboardShortcuts";
 
 		/// <summary>
+		/// AppSettings key to disable Razor model binding for data-types.
+		/// </summary>
+		public const string AppKey_RazorModelBinding = "ucomponents:RazorModelBinding";
+
+		/// <summary>
 		/// AppSettings key for UI Modules' tray peek.
 		/// </summary>
 		public const string AppKey_TrayPeek = "ucomponents:TrayPeek";
@@ -35,5 +40,10 @@ namespace uComponents.Core
 		/// The resource path for the Prevalue Editor stylesheet.
 		/// </summary>
 		public const string PrevalueEditorCssResourcePath = "uComponents.DataTypes.Shared.Resources.Styles.PrevalueEditor.css";
+
+		/// <summary>
+		/// Message for legacy usage of the uQuery extension methods.
+		/// </summary>
+		public const string uQueryLegacyObsoleteMessage = "Please reference the uQuery library from the 'umbraco' assembly.";
 	}
 }

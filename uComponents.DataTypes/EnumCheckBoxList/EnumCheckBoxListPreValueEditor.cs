@@ -12,7 +12,7 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.EnumCheckBoxList
 {
-	class EnumCheckBoxListPreValueEditor : AbstractJsonPrevalueEditor
+	class EnumCheckBoxListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// 

@@ -37,12 +37,12 @@ namespace uComponents.DataTypes.MultiUrlPicker.Dto
             return !Items.Any(x => !x.Validates());
         }
 
-		/// <summary>
-		/// Serializes this state into a number of formats
-		/// </summary>
-		/// <param name="format">The format desired</param>
-		/// <param name="includeEmptyItems">if set to <c>true</c> [include empty items].</param>
-		/// <returns>A serialized string</returns>
+        /// <summary>
+        /// Serializes this state into a number of formats
+        /// </summary>
+        /// <param name="format">The format desired</param>
+        /// <param name="includeEmptyItems">if set to <c>true</c> [include empty items].</param>
+        /// <returns>A serialized string</returns>
         public string Serialize(UrlPickerDataFormat format, bool includeEmptyItems = true)
         {
             // Serialized return string

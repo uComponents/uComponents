@@ -8,11 +8,10 @@
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
-		<PackageVersion>4.8.0</PackageVersion>
+		<VersionMajor>5</VersionMajor>
 		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-beta</VersionSuffix>
-		<ProjectName>uComponents.Core</ProjectName>
+		<VersionSuffix>-alpha2</VersionSuffix>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -34,16 +33,14 @@
 
 	<!-- UPDATE ASSEMBLEY VERSION -->
 	<Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
-		<Version VersionFile="$(RootDir)\Properties\BuildVersion.txt" Major="4" Minor="0" BuildType="Automatic" StartDate="29/06/2010" RevisionType="BuildIncrement">
-			<Output TaskParameter="Major" PropertyName="Major" />
-			Files="$(RootDir)\Properties\SolutionInfo.cs"
+		<Version Major="$(VersionMajor)" Minor="$(VersionMinor)" BuildType="Automatic" RevisionType="Automatic" StartDate="29/06/2010">
 			<Output TaskParameter="Build" PropertyName="Build" />
 			<Output TaskParameter="Revision" PropertyName="Revision" />
 		</Version>
 		<AssemblyInfo CodeLanguage="CS"
-			Files="$(RootDir)\Properties\SolutionInfo.cs"
+			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
 			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
-			AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)"
+			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
 			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
 	</Target>
 
@@ -55,7 +52,7 @@
 	<!-- PREPARE FILES -->
 	<Target Name="PrepareFiles" DependsOnTargets="Compile">
 		<ItemGroup>
-			<BinFiles Include="$(RootDir)\bin\Release\$(ProjectName).dll" />
+			<BinFiles Include="$(RootDir)\bin\Release\uComponents.Core.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.dll" />
@@ -90,7 +87,7 @@
 		</ReadLinesFromFile>
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
-			MinimumRequiredUmbracoVersion="4.7.1"
+			MinimumRequiredUmbracoVersion="4.8.0"
 			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Readme="@(Readme->'%(Identity)', '%0a%0d')"
 			Files="@(ManifestFiles)" />

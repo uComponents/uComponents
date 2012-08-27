@@ -19,6 +19,12 @@ namespace uComponents.DataTypes.CountryPicker
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var values = new List<string>();
 
 			if (!string.IsNullOrEmpty(PropertyData))
@@ -29,7 +35,14 @@ namespace uComponents.DataTypes.CountryPicker
 				}
 			}
 
-			instance = values;
+			if (values.Count == 1)
+			{
+				instance = values[0];
+			}
+			else
+			{
+				instance = values;
+			}
 
 			return true;
 		}

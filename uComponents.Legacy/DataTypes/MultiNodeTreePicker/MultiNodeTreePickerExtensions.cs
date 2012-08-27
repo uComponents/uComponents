@@ -10,7 +10,7 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.Legacy.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.Legacy.DataTypes.MultiNodeTreePicker.MultiNodePickerStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Legacy.DataTypes.MultiNodeTreePicker.MultiNodePickerStyles.css", Constants.MediaTypeNames.Text.Css)]
 
 namespace uComponents.DataTypes.MultiNodeTreePicker
 {
@@ -26,8 +26,8 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 		public static void AddAllMNTPClientDependencies(this Control ctl)
 		{
 			//get the urls for the embedded resources
-			AddCssMNTPClientDependencies(ctl);
-			AddJsMNTPClientDependencies(ctl);
+			ctl.AddCssMNTPClientDependencies();
+			ctl.AddJsMNTPClientDependencies();
 		}
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 		public static void AddJsMNTPClientDependencies(this Control ctl)
 		{
 			ctl.RegisterEmbeddedClientResource("uComponents.Legacy.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", ClientDependencyType.Javascript);
-			ctl.RegisterEmbeddedClientResource("uComponents.Core.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
+			// ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
 		}
 	}
 }

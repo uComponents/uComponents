@@ -9,6 +9,7 @@ using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.web;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.TextImage
 {
@@ -50,7 +51,7 @@ namespace uComponents.DataTypes.TextImage
 
                     // Extract image url from xml and delete file
                     var imageUrl = xDocument.Descendants().Elements("Url").First().Value;
-                    File.Delete(HttpContext.Current.Server.MapPath(imageUrl));
+                    File.Delete(IOHelper.MapPath(imageUrl));
                 }
                 catch
                 {
@@ -87,7 +88,7 @@ namespace uComponents.DataTypes.TextImage
                     if (text == string.Empty) continue;
 
                     var imageUrl = xDocument.Descendants().Elements("Url").First().Value;
-                    var imageFile = HttpContext.Current.Server.MapPath(imageUrl);
+                    var imageFile = IOHelper.MapPath(imageUrl);
                     var imageName = Path.GetFileNameWithoutExtension(imageFile);
 
                     var parameters = GetParameters(text, property.PropertyType.DataTypeDefinition);

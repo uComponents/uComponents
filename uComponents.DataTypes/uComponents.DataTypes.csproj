@@ -162,10 +162,6 @@
     <Compile Include="IncrementalTextBox\IT_DataEditor.cs" />
     <Compile Include="IncrementalTextBox\IT_DataType.cs" />
     <Compile Include="IncrementalTextBox\IT_PrevalueEditor.cs" />
-    <Compile Include="JsonDropdown\JD_Control.cs" />
-    <Compile Include="JsonDropdown\JD_DataType.cs" />
-    <Compile Include="JsonDropdown\JD_Options.cs" />
-    <Compile Include="JsonDropdown\JD_PrevalueEditor.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsDataEditor.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsDataType.cs" />
     <Compile Include="MultiPickerRelations\MultiPickerRelationsEventHandler.cs" />
@@ -203,6 +199,8 @@
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs" />
     <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
     <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
+    <Compile Include="Shared\PrevalueEditors\AbstractJsonPrevalueEditor.cs" />
+    <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\DefaultPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\KeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoDBOptionsKeyValuePrevalueEditor.cs" />
@@ -214,8 +212,12 @@
     <Compile Include="Similarity\SimilarityDataEditor.cs" />
     <Compile Include="Similarity\SimilarityDataType.cs" />
     <Compile Include="Similarity\SimilarityModelBinder.cs" />
-    <Compile Include="Similarity\SimilarityPreValueEditor.cs" />
+    <Compile Include="Similarity\SimilarityPrevalueEditor.cs" />
     <Compile Include="Similarity\SimilarityResources.Designer.cs" />
+    <Compile Include="SqlCheckBoxList\SqlCheckBoxListDataEditor.cs" />
+    <Compile Include="SqlCheckBoxList\SqlCheckBoxListDataType.cs" />
+    <Compile Include="SqlCheckBoxList\SqlCheckBoxListOptions.cs" />
+    <Compile Include="SqlCheckBoxList\SqlCheckBoxListPreValueEditor.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListDataEditor.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListDataType.cs" />
     <Compile Include="SqlDropDownList\SqlDropDownListOptions.cs" />
@@ -283,7 +285,6 @@
     <EmbeddedResource Include="ElasticTextBox\Scripts\jquery.elastic.js" />
     <EmbeddedResource Include="IncrementalTextBox\Images\down.png" />
     <EmbeddedResource Include="IncrementalTextBox\Images\up.png" />
-    <EmbeddedResource Include="IncrementalTextBox\Scripts\jquery.alphanumeric.js" />
     <EmbeddedResource Include="IncrementalTextBox\Scripts\jquery.increment.js" />
     <EmbeddedResource Include="IncrementalTextBox\Styles\IncrementalTextBox.css" />
     <EmbeddedResource Include="MultipleDates\css\MultipleDates.css" />
@@ -295,6 +296,7 @@
     <EmbeddedResource Include="Shared\Resources\Styles\PrevalueEditor.css" />
     <EmbeddedResource Include="Shared\Resources\Scripts\jquery.form.js" />
     <EmbeddedResource Include="Shared\Resources\Scripts\json2.js" />
+    <EmbeddedResource Include="Shared\Resources\Images\ucomponents-logo-small.png" />
     <Content Include="Similarity\Net\LICENSE.txt" />
     <Content Include="Similarity\Net\README.txt" />
     <EmbeddedResource Include="Similarity\SimilarityScripts.js" />

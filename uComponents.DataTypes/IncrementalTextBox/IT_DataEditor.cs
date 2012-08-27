@@ -7,7 +7,6 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
 
 [assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
-[assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.increment.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Images.down.png", Constants.MediaTypeNames.Image.Png)]
 [assembly: WebResource("uComponents.DataTypes.IncrementalTextBox.Images.up.png", Constants.MediaTypeNames.Image.Png)]
@@ -17,6 +16,7 @@ namespace uComponents.DataTypes.IncrementalTextBox
 	/// <summary>
 	/// The DataEditor for the IncrementalTextBox data-type.
 	/// </summary>
+	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jquery.alphanumeric.js", "UmbracoClient")]
     public class IT_DataEditor : CompositeControl 
     {
 		/// <summary>
@@ -72,7 +72,6 @@ namespace uComponents.DataTypes.IncrementalTextBox
 
 			// get the urls for the embedded resources
 			this.RegisterEmbeddedClientResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.increment.js", ClientDependencyType.Javascript);
-			this.RegisterEmbeddedClientResource("uComponents.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependencyType.Javascript);
 			this.RegisterEmbeddedClientResource("uComponents.DataTypes.IncrementalTextBox.Styles.IncrementalTextBox.css", ClientDependencyType.Css);
         }
 

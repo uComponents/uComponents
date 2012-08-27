@@ -11,7 +11,7 @@ namespace uComponents.DataTypes.CharLimit
 	/// <summary>
 	/// The PreValue Editor for the CharLimit data-type.
 	/// </summary>
-	public class CharLimitPrevalueEditor : AbstractJsonPrevalueEditor
+	public class CharLimitPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// The TextBox control for the character limit of the data-type.

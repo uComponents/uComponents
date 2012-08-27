@@ -37,7 +37,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return "~/App_Data/TEMP/Xslt/";
+				return string.Concat(GlobalSettings.StorageDirectory, "/TEMP/MacroEngines/Xslt/");
 			}
 		}
 

@@ -15,6 +15,7 @@ using BaseDataType = umbraco.cms.businesslogic.datatype.BaseDataType;
 using ClientDependencyType = ClientDependency.Core.ClientDependencyType;
 using DBTypes = umbraco.cms.businesslogic.datatype.DBTypes;
 using Image = System.Web.UI.WebControls.Image;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.TextImage
 {
@@ -658,7 +659,7 @@ namespace uComponents.DataTypes.TextImage
                 ImageFormatDropDownList.SelectedValue = OutputFormat.ToString();
 
                 // Image Preview
-                //var image = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath(ImagePreviewUrl));
+                //var image = System.Drawing.Image.FromFile(IOHelper.MapPath(ImagePreviewUrl));
                 ImagePreview.Height = ImageHeight < 1 ? Unit.Empty : Unit.Pixel(ImageHeight);
                 ImagePreview.Width = ImageWidth < 1 ? Unit.Empty : Unit.Pixel(ImageWidth);
                 ImagePreview.ImageUrl = ImagePreviewUrl;

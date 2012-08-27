@@ -27,11 +27,11 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 	/// <summary>
 	/// The user interface to display to the content editor
 	/// </summary>
-    [ClientDependency( ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+    [ClientDependency(ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+    [ClientDependency(ClientDependencyType.Javascript, "ui/jquery.tooltip.min.js", "UmbracoClient")]
     [ClientDependency(ClientDependencyType.Javascript, "controls/Images/ImageViewer.js", "UmbracoRoot")]
     public class MNTP_DataEditor : Control, INamingContainer
     {
-
         #region Static Constructor
         
         /// <summary>
@@ -88,8 +88,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
                     }
                 }
             }
-        } 
-
+        }
         #endregion
 
 		/// <summary>
@@ -102,19 +101,19 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
             TreeToRender = "content";
             MaxNodeCount = -1;
             MinNodeCount = 0;
-			StartNodeId = uQuery.RootNodeId;
+			StartNodeId = umbraco.uQuery.RootNodeId;
             ShowToolTips = true;
             ControlHeight = 200;
         }
 
-        #region Static members
+        #region Static Members
         /// <summary>
         /// Used for locking code blocks
         /// </summary>
         private static readonly object m_Locker = new object(); 
         #endregion
 
-        #region Protected members
+        #region Protected Members
 
 		/// <summary>
 		/// 
@@ -142,7 +141,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 		protected HtmlGenericControl RightColumn; 
         #endregion
 
-        #region public Properties
+        #region Public Properties
 
         /// <summary>
         /// gets/sets the value based on an array of IDs selected
@@ -563,14 +562,14 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
             TreePickerControl.RenderControl(writer);
             writer.RenderEndTag();
 
-            RightColumn.RenderControl(writer);            
+            RightColumn.RenderControl(writer);
 
             //render the hidden field
             PickedValue.RenderControl(writer);
 
             writer.RenderEndTag(); //end multiNodePicker div
 
-            var tooltipAjaxUrl = IOHelper.ResolveUrl(Settings.BaseDirName) + @"/MultiNodePicker/CustomTreeService.asmx/GetNodeInfo";
+            var tooltipAjaxUrl = IOHelper.ResolveUrl(SystemDirectories.Umbraco) + @"/controls/Tree/CustomTreeService.asmx/GetNodeInfo";
 
             //add jquery window load event to create the js tree picker
             var jsMethod = string.Format("jQuery('#{0}').MultiNodeTreePicker('{1}', {2}, '{3}', {4}, {5}, '{6}', '{7}');",
@@ -585,7 +584,6 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
             var js = "jQuery(window).load(function() { " + jsMethod + " });";
                 
             writer.WriteLine("<script type='text/javascript'>" + js + "</script>");
-
         }
 
 		/// <summary>

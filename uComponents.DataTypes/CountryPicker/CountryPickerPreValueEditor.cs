@@ -12,7 +12,7 @@ namespace uComponents.DataTypes.CountryPicker
 	/// <summary>
 	/// The PreValue Editor for the UniqueProperty data-type.
 	/// </summary>
-	public class CountryPickerPreValueEditor : AbstractPrevalueEditor
+	public class CountryPickerPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractPrevalueEditor
 	{
 		/// <summary>
 		/// The underlying base data-type.

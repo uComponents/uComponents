@@ -65,7 +65,6 @@ namespace uComponents.Core
 				/// <summary>
 				/// MIME type for JavaScript files.
 				/// </summary>
-				// TODO: [LK] Move to uComponents.Legacy project
 				[Obsolete("Please use uComponents.Core.Shared.MediaTypeNames.Application.JavaScript", true)]
 				public const string JavaScript = "text/javascript";
 			}

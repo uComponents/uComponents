@@ -1,8 +1,9 @@
 ﻿using System.Web;
 using System.Xml;
+using uComponents.Core;
 using umbraco;
 using umbraco.interfaces;
-using uComponents.Core;
+using umbraco.IO;
 
 namespace uComponents.Installer.PackageActions
 {
@@ -65,7 +66,7 @@ namespace uComponents.Installer.PackageActions
 				handlersRootNode.InsertBefore(newHandlerNode, handlersRootNode.SelectSingleNode("//notFound[@type = 'handle404']"));
 
 				// save the config file
-				handlersFile.Save(HttpContext.Current.Server.MapPath(VirtualPathUtility.ToAbsolute("/config/404handlers.config")));
+				handlersFile.Save(IOHelper.MapPath(VirtualPathUtility.ToAbsolute("/config/404handlers.config")));
 
 				// no errors so the result is true
 				result = true;
@@ -102,7 +103,7 @@ namespace uComponents.Installer.PackageActions
 				handlersRootNode.RemoveChild(handlerEntry);
 
 				// Save the modified configuration file
-				rewriteFile.Save(HttpContext.Current.Server.MapPath(VirtualPathUtility.ToAbsolute("/config/404handlers.config")));
+				rewriteFile.Save(IOHelper.MapPath(VirtualPathUtility.ToAbsolute("/config/404handlers.config")));
 			}
 
 			result = true;

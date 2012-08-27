@@ -12,7 +12,7 @@ namespace uComponents.DataTypes.FilePicker
 	/// <summary>
 	/// The PreValue Editor for the FilePicker data-type.
 	/// </summary>
-	public class FP_PrevalueEditor : AbstractPrevalueEditor
+	public class FP_PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractPrevalueEditor
 	{
 		/// <summary>
 		/// The underlying base data-type.

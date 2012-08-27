@@ -13,7 +13,7 @@ namespace uComponents.DataTypes.Notes
     /// <summary>
     /// The PreValue Editor for the Notes data-type.
     /// </summary>
-    public class NotesPrevalueEditor : AbstractJsonPrevalueEditor
+	public class NotesPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>
         /// The TextBox control for the value of the Notes data-type.

@@ -13,6 +13,7 @@ namespace uComponents.DataTypes.Slider
 	/// The jQuery UI Slider control.
 	/// </summary>
 	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jquery.alphanumeric.js", "UmbracoClient")]
 	[ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "DateTimePicker/datetimepicker.css", "UmbracoClient")]
 	[ValidationProperty("Text")]
 	public class SliderControl : PlaceHolder
@@ -66,18 +67,6 @@ namespace uComponents.DataTypes.Slider
 			base.OnInit(e);
 
 			this.EnsureChildControls();
-		}
-
-		/// <summary>
-		/// Add the resources (sytles/scripts)
-		/// </summary>
-		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-
-			// TODO: [LK] Move 'jquery.alphanumeric.js' into Shared/Resources
-			this.RegisterEmbeddedClientResource("uComponents.Core.DataTypes.IncrementalTextBox.Scripts.jquery.alphanumeric.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>

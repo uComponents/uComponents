@@ -25,18 +25,6 @@ namespace uComponents.MacroEngines
 		}
 
 		/// <summary>
-		/// Gets the temp directory.
-		/// </summary>
-		/// <value>The temp directory.</value>
-		public string StaticFileTempDirectory
-		{
-			get
-			{
-				return "~/App_Data/TEMP/StaticFiles/";
-			}
-		}
-
-		/// <summary>
 		/// Gets the supported extensions.
 		/// </summary>
 		/// <value>The supported extensions.</value>
@@ -44,7 +32,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "txt", "htm", "html" };
+				return new string[] { "text", "txt", "htm", "html" };
 			}
 		}
 
@@ -56,7 +44,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "txt", "htm", "html" };
+				return new string[] { "txt", "html" };
 			}
 		}
 
@@ -80,11 +68,11 @@ namespace uComponents.MacroEngines
 		/// <param name="tempFileName">Name of the temp file.</param>
 		/// <param name="currentPage">The current page.</param>
 		/// <param name="errorMessage">The error message.</param>
-		/// <returns></returns>
-		/// <remarks>Not Implemented.</remarks>
+		/// <returns>Always returns <c>true</c>, as no validation is required.</returns>
 		public bool Validate(string code, string tempFileName, INode currentPage, out string errorMessage)
 		{
-			throw new NotImplementedException();
+			errorMessage = string.Empty;
+			return true;
 		}
 
 		/// <summary>
@@ -92,12 +80,13 @@ namespace uComponents.MacroEngines
 		/// </summary>
 		/// <param name="macro">The macro.</param>
 		/// <param name="currentPage">The current page.</param>
-		/// <returns>Returns a string of the executed macro XSLT.</returns>
+		/// <returns>Returns a string of the executed macro text/HTML.</returns>
 		public string Execute(MacroModel macro, INode currentPage)
 		{
 			if (!string.IsNullOrEmpty(macro.ScriptName))
 			{
-				return File.ReadAllText(IOHelper.MapPath(macro.ScriptName));
+				var fileLocation = macro.ScriptName.StartsWith("~") ? macro.ScriptName : Path.Combine(SystemDirectories.MacroScripts, macro.ScriptName);
+				return File.ReadAllText(IOHelper.MapPath(fileLocation));
 			}
 
 			return macro.ScriptCode;

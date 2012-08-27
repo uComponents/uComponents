@@ -7,6 +7,7 @@ using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
 using uComponents.Core;
+using System.Collections.Generic;
 
 namespace uComponents.Installer.PackageActions
 {
@@ -37,6 +38,7 @@ namespace uComponents.Installer.PackageActions
 		/// <returns>Returns <c>true</c> when successful, otherwise <c>false</c>.</returns>
 		public bool Execute(string packageName, XmlNode xmlData)
 		{
+			// TODO: [LK] Check if upgrade from 3.x/4.x, if so, do a clean-up (HttpModules, any references to old "uComponents.Core" namespace, etc)
 			return true;
 		}
 
@@ -62,42 +64,67 @@ namespace uComponents.Installer.PackageActions
 
 			// build XML string for all the installable components
 			var sb = new StringBuilder("<Actions>");
-			
+
+			// list of AppSettings keys to uninstall
+			var appSettingsKeys = new List<string>()
+			{
+				Constants.AppKey_DragAndDrop,
+				Constants.AppKey_KeyboardShortcuts,
+				Constants.AppKey_RazorModelBinding,
+				Constants.AppKey_TrayPeek
+			};
+
+			// loop through each of the appSettings keys (e.g. UI Modules and Razor Model Binding)
+			foreach (var appSettingsKey in appSettingsKeys)
+			{
+				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appSettingsKey);
+			}
+
 			// get the UI Modules
 			sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" />", AddHttpModule.ActionAlias);
 
-			// loop through each of the appSettings keys for the UI Modules
-			foreach (var appKey in Settings.AppKeys_UiModules)
+			// find the NotFoundHandlers
+			var notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
+			var notFoundHandlersAssembly = Assembly.Load(notFoundHandlersNamespace);
+			if (notFoundHandlersAssembly != null)
 			{
-				sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" key=\"{1}\" value=\"false\" />", AddAppConfigKey.ActionAlias, appKey.Key);
+				var notFoundHandlersTypes = notFoundHandlersAssembly.GetTypes();
+				if (notFoundHandlersTypes != null)
+				{
+					var notFoundHandlersAction = "<Action runat=\"install\" undo=\"true\" alias=\"{0}\" assembly=\"{1}\" type=\"{2}\" />";
+					foreach (var type in notFoundHandlersTypes)
+					{
+						if (string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace))
+						{
+							sb.AppendFormat(notFoundHandlersAction, Add404Handler.ActionAlias, notFoundHandlersNamespace, type.FullName.Substring(notFoundHandlersNamespace.Length + 1));
+							continue;
+						}
+					}
+				}
 			}
 
-			// loop through the assembly's types
-			var types = Assembly.GetExecutingAssembly().GetTypes().ToList();
-			types.Sort(delegate(Type t1, Type t2) { return t1.Name.CompareTo(t2.Name); });
-
-			foreach (var type in types)
+			// find the XSLT extensions
+			var xsltExtensionsNamespace = "uComponents.XsltExtensions";
+			var xsltExtensionsAssembly = Assembly.Load(xsltExtensionsNamespace);
+			if (xsltExtensionsAssembly != null)
 			{
-				string ns = type.Namespace;
-				if (string.IsNullOrEmpty(ns))
+				var xsltExtensionsTypes = xsltExtensionsAssembly.GetTypes();
+				if (xsltExtensionsTypes != null)
 				{
-					continue;
-				}
-
-				// get the NotFoundHandlers
-				if (ns == "uComponents.NotFoundHandlers")
-				{
-					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"{0}\" assembly=\"uComponents.NotFoundHandlers\" type=\"{1}\" />", Add404Handler.ActionAlias, type.FullName.Replace("uComponents.Core.", string.Empty));
-					continue;
-				}
-
-				// get the XSLT Extensions
-				if (ns == "uComponents.XsltExtensions" && type.IsPublic && !type.IsSerializable)
-				{
-					sb.AppendFormat("<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"uComponents.XsltExtensions\" type=\"{0}\" extensionAlias=\"ucomponents.{1}\" />", type.FullName, type.Name.ToLower());
-					continue;
+					var xsltExtensionsAction = "<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"{0}\" type=\"{1}\" extensionAlias=\"ucomponents.{2}\" />";
+					foreach (var type in xsltExtensionsTypes)
+					{
+						if (string.Equals(type.Namespace, xsltExtensionsNamespace) && type.IsPublic && !type.IsSerializable)
+						{
+							sb.AppendFormat(xsltExtensionsAction, xsltExtensionsNamespace, type.FullName, type.Name.ToLower());
+							continue;
+						}
+					}
 				}
 			}
+
+			// remove the dashboard control (if exists)
+			sb.Append("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\" />");
 
 			// append the closing tag
 			sb.Append("</Actions>");

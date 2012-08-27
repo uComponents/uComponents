@@ -15,7 +15,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 	/// <summary>
 	/// Prevalue Editor for the Enum DropDownList data-type.
 	/// </summary>
-	public class EnumDropDownListPreValueEditor : AbstractJsonPrevalueEditor
+	public class EnumDropDownListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// DropDownList to list the assmeblies

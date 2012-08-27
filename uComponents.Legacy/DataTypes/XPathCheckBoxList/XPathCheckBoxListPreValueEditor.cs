@@ -13,10 +13,10 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 {
 	/// <summary>
 	/// This PreValueEditor will require an XPath expression to define the nodes to pick as CheckBox options,
-	/// TODO: min / max selections ?
+	/// TODO: [HR] min / max selections ?
 	/// Uses the shared JsonPreValueEditor as nice way of lightweight serializing a config data class object into a single DB field
 	/// </summary>
-	class XPathCheckBoxListPreValueEditor : AbstractJsonPrevalueEditor
+	class XPathCheckBoxListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// DropDownList for specifying the database column type.
@@ -123,6 +123,17 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 		}
 
 		/// <summary>
+		/// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+		protected override void OnInit(EventArgs e)
+		{
+			base.OnInit(e);
+
+			this.RegisterEmbeddedClientResource(typeof(DataTypeConstants), Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+		}
+
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="e"></param>
@@ -149,7 +160,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 
 			try
 			{
-				if (uQuery.GetNodesByXPath(xPath).Count() >= 0)
+				if (umbraco.uQuery.GetNodesByXPath(xPath).Count() >= 0)
 				{
 					isValid = true;
 				}

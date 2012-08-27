@@ -20,6 +20,12 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			var values = new List<StoredValueRow>();
 
 			if (!string.IsNullOrEmpty(PropertyData))

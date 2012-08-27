@@ -12,7 +12,7 @@ namespace uComponents.DataTypes.IncrementalTextBox
 	/// <summary>
 	/// The PrevalueEditor for the IncrementalTextBox data-type.
 	/// </summary>
-	public class IT_PrevalueEditor : AbstractPrevalueEditor
+	public class IT_PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractPrevalueEditor
 	{
 		/// <summary>
 		/// The underlying data-type.

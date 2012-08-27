@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Web;
 using System.Xml;
+using uComponents.Core;
 using umbraco;
 using umbraco.BasePages;
 using umbraco.BusinessLogic;
 using umbraco.interfaces;
-using uComponents.Core;
+using umbraco.IO;
 
 namespace uComponents.Installer.PackageActions
 {
@@ -49,7 +49,7 @@ namespace uComponents.Installer.PackageActions
 			{
 				var document = new XmlDocument();
 				document.PreserveWhitespace = true;
-				document.Load(HttpContext.Current.Server.MapPath(FULL_PATH));
+				document.Load(IOHelper.MapPath(FULL_PATH));
 				var foundOne = false;
 
 				// See if any of the target contains the module
@@ -103,7 +103,7 @@ namespace uComponents.Installer.PackageActions
 				document.PreserveWhitespace = true;
 
 				// Load the web.config file into the xml document
-				document.Load(HttpContext.Current.Server.MapPath(FULL_PATH));
+				document.Load(IOHelper.MapPath(FULL_PATH));
 
 				// Set modified document default to false
 				bool modified = false;
@@ -157,7 +157,7 @@ namespace uComponents.Installer.PackageActions
 				if (modified)
 				{
 					// Save the Rewrite config file with the new rewerite rule
-					document.Save(HttpContext.Current.Server.MapPath(FULL_PATH));
+					document.Save(IOHelper.MapPath(FULL_PATH));
 
 					// No errors so the result is true
 					result = true;
@@ -210,7 +210,7 @@ namespace uComponents.Installer.PackageActions
 			document.PreserveWhitespace = true;
 
 			// Load the web.config file into the xml document
-			document.Load(HttpContext.Current.Server.MapPath(FULL_PATH));
+			document.Load(IOHelper.MapPath(FULL_PATH));
 
 			// Set modified document default to false
 			var modified = false;
@@ -244,7 +244,7 @@ namespace uComponents.Installer.PackageActions
 				try
 				{
 					// Save the Rewrite config file with the new rewerite rule
-					document.Save(HttpContext.Current.Server.MapPath(FULL_PATH));
+					document.Save(IOHelper.MapPath(FULL_PATH));
 
 					// No errors so the result is true
 					result = true;

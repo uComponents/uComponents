@@ -1,7 +1,5 @@
 ﻿using System.Xml;
 
-// TODO: [LK] Replace with uComponents.Core.Shared.Data.XmlData
-
 namespace uComponents.DataTypes.RelatedLinksWithMedia
 {
 	/// <summary>

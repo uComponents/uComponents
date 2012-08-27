@@ -31,8 +31,7 @@ namespace uComponents.DataTypes.MultiUrlPicker
         /// <param name="ctl"></param>
         public static void AddCssMultiUrlPickerClientDependencies(this Control ctl)
         {
-            var cssName = "uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css";
-            ctl.RegisterEmbeddedClientResource(cssName, ClientDependencyType.Css);
+            ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.MultiUrlPicker.MultiUrlPickerStyles.css", ClientDependencyType.Css);
         }
 
         /// <summary>

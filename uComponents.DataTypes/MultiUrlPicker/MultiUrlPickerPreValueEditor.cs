@@ -8,9 +8,9 @@ using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.DataTypes.MultiUrlPicker
 {
-	/// <summary>
+    /// <summary>
     /// The MultiPreValueEditor for the MultiUrlPicker.
-	/// </summary>
+    /// </summary>
     public class MultiUrlPickerPreValueEditor : UrlPickerPreValueEditor
     {
         private object m_Locker = new object();
@@ -78,9 +78,9 @@ namespace uComponents.DataTypes.MultiUrlPicker
 
         #region IDataPrevalue Members
 
-		/// <summary>
-		/// Saves this instance.
-		/// </summary>
+        /// <summary>
+        /// Saves this instance.
+        /// </summary>
         public new void Save()
         {
             base.Save();

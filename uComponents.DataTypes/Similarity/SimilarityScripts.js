@@ -1,7 +1,7 @@
 ﻿$(function () {
 
     var hiddenField = $('.similarity').find("input[type='hidden']");
-    var tooltipAjaxUrl = 'plugins/uComponents/MultiNodePicker/CustomTreeService.asmx/GetNodeInfo';
+    var tooltipAjaxUrl = 'controls/Tree/CustomTreeService.asmx/GetNodeInfo';
     var umbPath = '/umbraco';
     $('.rightNode li').click(function () {
         var nodeId = $(this).attr('rel');

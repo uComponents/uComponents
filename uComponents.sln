@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Assemblies", "External Assemblies", "{B391F059-19D2-456F-BC27-34D37CAF1B84}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Umbraco\ClientDependency.Core.dll = Lib\Umbraco\ClientDependency.Core.dll
+		Lib\Umbraco\HtmlAgilityPack.dll = Lib\Umbraco\HtmlAgilityPack.dll
+		Lib\Umbraco\ICSharpCode.SharpZipLib.dll = Lib\Umbraco\ICSharpCode.SharpZipLib.dll
+		Lib\Umbraco\Lucene.Net.dll = Lib\Umbraco\Lucene.Net.dll
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Core", "uComponents.Core\uComponents.Core.csproj", "{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}"
 EndProject
@@ -17,14 +23,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco Assemblies", "Umbraco Assemblies", "{F1DA5738-9002-44BA-BF5D-271E4068236D}"
 	ProjectSection(SolutionItems) = preProject
 		Lib\Umbraco\businesslogic.dll = Lib\Umbraco\businesslogic.dll
-		Lib\Umbraco\ClientDependency.Core.dll = Lib\Umbraco\ClientDependency.Core.dll
 		Lib\Umbraco\cms.dll = Lib\Umbraco\cms.dll
 		Lib\Umbraco\controls.dll = Lib\Umbraco\controls.dll
 		Lib\Umbraco\Examine.dll = Lib\Umbraco\Examine.dll
-		Lib\Umbraco\HtmlAgilityPack.dll = Lib\Umbraco\HtmlAgilityPack.dll
-		Lib\Umbraco\ICSharpCode.SharpZipLib.dll = Lib\Umbraco\ICSharpCode.SharpZipLib.dll
 		Lib\Umbraco\interfaces.dll = Lib\Umbraco\interfaces.dll
-		Lib\Umbraco\Lucene.Net.dll = Lib\Umbraco\Lucene.Net.dll
 		Lib\Umbraco\umbraco.DataLayer.dll = Lib\Umbraco\umbraco.DataLayer.dll
 		Lib\Umbraco\umbraco.dll = Lib\Umbraco\umbraco.dll
 		Lib\Umbraco\umbraco.editorControls.dll = Lib\Umbraco\umbraco.editorControls.dll
@@ -37,7 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco Assemblies", "Umbra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2ADE05-3906-4DDA-87E3-4D84539AB51C}"
 	ProjectSection(SolutionItems) = preProject
-		CREDITS.txt = CREDITS.txt
 		MIT-LICENSE.txt = MIT-LICENSE.txt
 		uComponents.vsmdi = uComponents.vsmdi
 	EndProjectSection
@@ -92,6 +93,10 @@ Global
 		{35953BAA-8E67-4E27-B4E5-96D142DC924B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35953BAA-8E67-4E27-B4E5-96D142DC924B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35953BAA-8E67-4E27-B4E5-96D142DC924B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E83250BD-27B0-4B39-90C8-F07538058938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E83250BD-27B0-4B39-90C8-F07538058938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E83250BD-27B0-4B39-90C8-F07538058938}.Release|Any CPU.ActiveCfg = Release|Any CPU

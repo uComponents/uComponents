@@ -40,6 +40,15 @@ namespace uComponents.Installer {
         protected global::umbraco.uicontrols.Feedback Failure;
         
         /// <summary>
+        /// cbDisableRazorModelBinding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbDisableRazorModelBinding;
+        
+        /// <summary>
         /// cbUiModules control.
         /// </summary>
         /// <remarks>
@@ -74,6 +83,24 @@ namespace uComponents.Installer {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBoxList cblXsltExtensions;
+        
+        /// <summary>
+        /// phDashboardControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phDashboardControl;
+        
+        /// <summary>
+        /// cbDashboardControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbDashboardControl;
         
         /// <summary>
         /// btnInstall control.

@@ -15,7 +15,7 @@ namespace uComponents.DataTypes.ElasticTextBox
 	/// <summary>
 	/// The PreValue Editor for the Elastic TextBox data-type.
 	/// </summary>
-	public class ETB_PrevalueEditor : AbstractJsonPrevalueEditor
+	public class ETB_PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// The TextBox control a preview of the data-type.

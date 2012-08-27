@@ -61,7 +61,7 @@
 	color: red;
 	margin: 0;
 	padding: 0px;
-	background: transparent url('<%= WebResource("uComponents.Core.Shared.Resources.Images.deleteIcon.gif")%>') no-repeat 0px 3px;
+	background: transparent url('/umbraco/images/delete.gif') no-repeat 0px 3px;
 	width: 15px;
 	height: 15px;
 	position: absolute;
@@ -107,7 +107,7 @@
 {
 	width: 18px;
 	height: 18px;
-	background: transparent url('<%= WebResource("uComponents.Core.Shared.Resources.Images.information.png")%>') no-repeat 1px 2px;
+	background: transparent url('/umbraco/images/information.png') no-repeat 1px 2px;
 	float: left;
 }
 
@@ -132,7 +132,7 @@
 {
 	width: 16px;
 	height: 16px;
-	background: transparent url('<%= WebResource("uComponents.Core.Shared.Resources.Images.throbber.gif")%>') no-repeat top left;
+	background: transparent url('/umbraco/images/throbber.gif') no-repeat top left;
 	display: none;
 }
 #MNTPTooltip div.tooltipInfo, .tooltip div.tooltipInfo
@@ -162,7 +162,7 @@
 {
 	width: 300px;
 	float: left;
-	clear: none;
+	clear: left;
 	margin-right: 10px;
 	height: 210px;
 }

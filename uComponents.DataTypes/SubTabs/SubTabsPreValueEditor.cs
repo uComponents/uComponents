@@ -12,7 +12,7 @@ namespace uComponents.DataTypes.SubTabs
     /// <summary>
     /// Control rendered in the cms when configuring the datatype.
     /// </summary>
-    public class SubTabsPreValueEditor : AbstractJsonPrevalueEditor
+	public class SubTabsPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         private CheckBoxList tabsCheckBoxList = new CheckBoxList();
 

@@ -20,6 +20,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 	using umbraco;
 	using umbraco.BusinessLogic;
 	using umbraco.cms.businesslogic.datatype;
+	using umbraco.IO;
 
 	/// <summary>
 	/// The dtg helpers.
@@ -53,7 +54,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 		/// <returns></returns>
 		public static XmlDocument OpenDtgSettings()
 		{
-			var filePath = HttpContext.Current.Server.MapPath("~/config/DataTypeGrid.config");
+			var filePath = IOHelper.MapPath("~/config/DataTypeGrid.config");
 			var doc = new XmlDocument();
 
 			var readerSettings = new XmlReaderSettings

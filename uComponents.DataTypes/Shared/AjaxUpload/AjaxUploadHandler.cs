@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Script.Serialization;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.Shared.AjaxUpload
 {
@@ -85,7 +86,7 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
                 if (key.Contains(Guid) && !string.IsNullOrEmpty(file.FileName.Trim()) && file.ContentLength > 0)
                 {
                     // Create the directory for this transaction
-                    var directory = HttpContext.Current.Server.MapPath(path);
+                    var directory = IOHelper.MapPath(path);
 
                     var shortFileName = Path.GetFileName(file.FileName);
                     var fullFileName = directory + shortFileName;

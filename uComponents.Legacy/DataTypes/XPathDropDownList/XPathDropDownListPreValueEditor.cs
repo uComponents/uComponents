@@ -11,7 +11,7 @@ using umbraco;
 
 namespace uComponents.DataTypes.XPathDropDownList
 {
-	class XPathDropDownListPreValueEditor : AbstractJsonPrevalueEditor
+	class XPathDropDownListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// TextBox control to get the XPath expression
@@ -97,6 +97,17 @@ namespace uComponents.DataTypes.XPathDropDownList
 		}
 
 		/// <summary>
+		/// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+		protected override void OnInit(EventArgs e)
+		{
+			base.OnInit(e);
+
+			this.RegisterEmbeddedClientResource(typeof(DataTypeConstants), Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+		}
+
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="e"></param>
@@ -124,7 +135,7 @@ namespace uComponents.DataTypes.XPathDropDownList
 
 			try
 			{
-				if (uQuery.GetNodesByXPath(xPath).Count() >= 0)
+				if (umbraco.uQuery.GetNodesByXPath(xPath).Count() >= 0)
 				{
 					isValid = true;
 				}

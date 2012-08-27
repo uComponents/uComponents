@@ -13,7 +13,7 @@ namespace uComponents.DataTypes.RelationLinks
     /// <summary>
     /// 
     /// </summary>
-    public class RelationLinksPreValueEditor : AbstractJsonPrevalueEditor
+	public class RelationLinksPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>
         /// drop down list of all relation types

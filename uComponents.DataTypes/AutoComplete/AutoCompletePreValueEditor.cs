@@ -12,7 +12,7 @@ namespace uComponents.DataTypes.AutoComplete
     /// <summary>
     /// Pre value editor for the AutoComplete data type
     /// </summary>
-    public class AutoCompletePreValueEditor : AbstractJsonPrevalueEditor
+	public class AutoCompletePreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>
         /// Radio buttons to select type of node to pick from: Content / Media / Members

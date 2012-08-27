@@ -7,14 +7,14 @@ using umbraco.editorControls.MultipleTextstring;
 using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.editorControls;
+ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.TextstringArray
 {
 	/// <summary>
 	/// The PreValue Editor for the Textstring Array data-type.
 	/// </summary>
-	public class TextstringArrayPrevalueEditor : AbstractJsonPrevalueEditor
+	public class TextstringArrayPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
 		/// The TextBox control for the maximum rows value of the control.

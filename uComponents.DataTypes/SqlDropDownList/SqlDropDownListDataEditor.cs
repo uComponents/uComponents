@@ -176,7 +176,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 
 				if (tab != null)
 				{
-					this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Alias, tab.Caption }, User.GetCurrent());
+					this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Name, tab.Caption }, User.GetCurrent());
 				}
 			}
 

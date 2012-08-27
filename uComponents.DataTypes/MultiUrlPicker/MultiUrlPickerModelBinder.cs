@@ -18,6 +18,12 @@ namespace uComponents.DataTypes.MultiUrlPicker
 		/// <returns></returns>
 		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
 		{
+			if (!Settings.RazorModelBindingEnabled)
+			{
+				instance = PropertyData;
+				return true;
+			}
+
 			MultiUrlPickerState state = null;
 
 			if (!string.IsNullOrEmpty(PropertyData))

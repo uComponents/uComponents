@@ -3,26 +3,26 @@ using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.DataTypes.UniqueProperty
 {
-	/// <summary>
-	/// The UniqueProperty data-type.
-	/// </summary>
+    /// <summary>
+    /// The UniqueProperty data-type.
+    /// </summary>
     public class UniquePropertyDataType : AbstractDataEditor
     {
-		/// <summary>
-		/// 
-		/// </summary>
+        /// <summary>
+        /// 
+        /// </summary>
         private UniquePropertyPreValueEditor _cogUniquePreValueEditor;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		private UniquePropertyDataEditor _mControl=new UniquePropertyDataEditor();
+        /// <summary>
+        /// 
+        /// </summary>
+        private UniquePropertyDataEditor _mControl=new UniquePropertyDataEditor();
 
-		/// <summary>
-		/// Gets the id.
-		/// </summary>
-		/// <value>The id.</value>
-		public override Guid Id
+        /// <summary>
+        /// Gets the id.
+        /// </summary>
+        /// <value>The id.</value>
+        public override Guid Id
         {
             get
             {
@@ -30,22 +30,22 @@ namespace uComponents.DataTypes.UniqueProperty
             }
         }
 
-		/// <summary>
-		/// Gets the name of the data type.
-		/// </summary>
-		/// <value>The name of the data type.</value>
+        /// <summary>
+        /// Gets the name of the data type.
+        /// </summary>
+        /// <value>The name of the data type.</value>
         public override string DataTypeName
         {
             get
             {
-                return "uComponents: Unique Property";
+                return "uComponents-Legacy: Unique Property";
             }
         }
 
-		/// <summary>
-		/// Gets the prevalue editor.
-		/// </summary>
-		/// <value>The prevalue editor.</value>
+        /// <summary>
+        /// Gets the prevalue editor.
+        /// </summary>
+        /// <value>The prevalue editor.</value>
         public override umbraco.interfaces.IDataPrevalue PrevalueEditor
         {
             get
@@ -56,9 +56,9 @@ namespace uComponents.DataTypes.UniqueProperty
             }
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="UniquePropertyDataType"/> class.
-		/// </summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UniquePropertyDataType"/> class.
+        /// </summary>
         public UniquePropertyDataType()
         {
             base.RenderControl = _mControl;
@@ -66,21 +66,21 @@ namespace uComponents.DataTypes.UniqueProperty
             base.DataEditorControl.OnSave += DataEditorControl_OnSave;
         }
 
-		/// <summary>
-		/// Ms the control init.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <summary>
+        /// Ms the control init.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         void MControlInit(object sender,EventArgs e) 
         {
             _mControl.Text = base.Data.Value != null ? base.Data.Value.ToString() : "";
             _mControl.FieldAlias = ((UniquePropertyPreValueEditor) PrevalueEditor).SelectedPropertyAlias;
         }
 
-		/// <summary>
-		/// Datas the editor control_ on save.
-		/// </summary>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <summary>
+        /// Datas the editor control_ on save.
+        /// </summary>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         void DataEditorControl_OnSave(EventArgs e)
         {
             base.Data.Value = _mControl.Text;

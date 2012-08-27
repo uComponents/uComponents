@@ -94,7 +94,7 @@ namespace uComponents.DataTypes.MultiUrlPicker
             StateHiddenField.RenderControl(writer);
 
             writer.Write("<ul class='items'> </ul>");
-            writer.Write("<a class='add' href='#'>Add Item</a>");
+            writer.Write("<a class='add' href='#'>{0}</a>", "Add Item");
 
             // Set up JS (only if this ain't a standalone DataEditor)
             if (!Settings.Standalone)

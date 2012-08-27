@@ -23,7 +23,6 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
     /// </summary>
     internal class SelectedItemsTemplate : ITemplate
     {
-
         #region ITemplate Members
 
         /// <summary>

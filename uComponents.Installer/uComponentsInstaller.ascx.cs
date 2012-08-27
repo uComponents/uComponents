@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using umbraco;
+using umbraco.IO;
 using uComponents.Core;
 
 namespace uComponents.Installer
@@ -22,7 +24,7 @@ namespace uComponents.Installer
 		{
 			get
 			{
-				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponentsInstaller), "uComponents.Core.Resources.Images.ucomponents-logo-small.png");
+				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponents.DataTypes.DataTypeConstants), "uComponents.DataTypes.Shared.Resources.Images.ucomponents-logo-small.png");
 			}
 		}
 
@@ -33,78 +35,75 @@ namespace uComponents.Installer
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Page_Init(object sender, EventArgs e)
 		{
-			var types = Assembly.GetExecutingAssembly().GetTypes().ToList();
-			types.Sort(delegate(Type t1, Type t2) { return t1.Name.CompareTo(t2.Name); });
-
-			////var dataTypes = new Dictionary<Guid, string>();
-			var notFoundHandlers = new Dictionary<string, string>();
-			var xsltExtensions = new Dictionary<string, string>();
-
-			foreach (var type in types)
+			// find and bind the NotFoundHandlers
+			var notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
+			var notFoundHandlersAssembly = Assembly.Load(notFoundHandlersNamespace);
+			if (notFoundHandlersAssembly != null)
 			{
-				string ns = type.Namespace;
-				if (string.IsNullOrEmpty(ns))
+				var notFoundHandlersTypes = notFoundHandlersAssembly.GetTypes();
+				if (notFoundHandlersTypes != null)
 				{
-					continue;
-				}
+					var notFoundHandlers = new Dictionary<string, string>();
+					foreach (var type in notFoundHandlersTypes)
+					{
+						if (string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace))
+						{
+							notFoundHandlers.Add(type.FullName.Substring(notFoundHandlersNamespace.Length + 1), type.Name);
+							continue;
+						}
+					}
 
-				////if (ns.StartsWith("uComponents.DataTypes") && (type.IsSubclassOf(typeof(BaseDataType))))
-				////{
-				////    var instance = Activator.CreateInstance(type);
-				////    var name = (string)type.GetProperty("DataTypeName").GetValue(instance, null);
-				////    var guid = (Guid)type.GetProperty("Id").GetValue(instance, null);
-				////    dataTypes.Add(guid, name.Replace("uComponents: ", string.Empty));
-				////    continue;
-				////}
-
-				if (ns == "uComponents.NotFoundHandlers")
-				{
-					notFoundHandlers.Add(type.FullName.Replace("uComponents.NotFoundHandlers", string.Empty), type.Name);
-					continue;
-				}
-
-				if (ns == "uComponents.XsltExtensions" && type.IsPublic && !type.IsSerializable)
-				{
-					xsltExtensions.Add(type.FullName, type.Name);
-					continue;
+					this.cblNotFoundHandlers.DataSource = notFoundHandlers;
+					this.cblNotFoundHandlers.DataTextField = "Value";
+					this.cblNotFoundHandlers.DataValueField = "Key";
+					this.cblNotFoundHandlers.DataBind();
 				}
 			}
 
-			////// bind the data-types.
-			////this.cblDataTypes.DataSource = dataTypes;
-			////this.cblDataTypes.DataTextField = "Value";
-			////this.cblDataTypes.DataValueField = "Key";
-			////this.cblDataTypes.DataBind();
-
-			// bind the UI Modules options.
+			// bind the UI Modules options
 			this.cblUiModules.DataSource = Settings.AppKeys_UiModules;
 			this.cblUiModules.DataTextField = "Value";
 			this.cblUiModules.DataValueField = "Key";
 			this.cblUiModules.DataBind();
 
-			// bind the data-types.
-			this.cblNotFoundHandlers.DataSource = notFoundHandlers;
-			this.cblNotFoundHandlers.DataTextField = "Value";
-			this.cblNotFoundHandlers.DataValueField = "Key";
-			this.cblNotFoundHandlers.DataBind();
+			// find and bind the XSLT extensions
+			var xsltExtensionsNamespace = "uComponents.XsltExtensions";
+			var xsltExtensionsAssembly = Assembly.Load(xsltExtensionsNamespace);
+			if (xsltExtensionsAssembly != null)
+			{
+				var xsltExtensionsTypes = xsltExtensionsAssembly.GetTypes();
+				if (xsltExtensionsTypes != null)
+				{
+					var xsltExtensions = new Dictionary<string, string>();
+					foreach (var type in xsltExtensionsTypes)
+					{
+						if (string.Equals(type.Namespace, xsltExtensionsNamespace) && type.IsPublic && !type.IsSerializable)
+						{
+							xsltExtensions.Add(type.FullName, type.Name);
+							continue;
+						}
+					}
 
-			// bind the XSLT extensions.
-			this.cblXsltExtensions.DataSource = xsltExtensions;
-			this.cblXsltExtensions.DataTextField = "Value";
-			this.cblXsltExtensions.DataValueField = "Key";
-			this.cblXsltExtensions.DataBind();
+					this.cblXsltExtensions.DataSource = xsltExtensions;
+					this.cblXsltExtensions.DataTextField = "Value";
+					this.cblXsltExtensions.DataValueField = "Key";
+					this.cblXsltExtensions.DataBind();
+				}
+			}
+
+			// disable the dashboard control checkbox
+			try
+			{
+				var dashboardXml = xmlHelper.OpenAsXmlDocument(SystemFiles.DashboardConfig);
+				if (dashboardXml.SelectSingleNode("//section[@alias = 'uComponentsInstaller']") != null)
+				{
+					this.phDashboardControl.Visible = false;
+				}
+			}
+			catch { }
 
 			// TODO: [LK] Add the uComponents namespace to the Web.config (system.web/compilation/assemblies)
 			// TODO: [LK] Add the uComponents.Controls namespace to the Web.config (system.web/pages/controls)
-		}
-
-		/// <summary>
-		/// Handles the Load event of the Page control.
-		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		protected void Page_Load(object sender, EventArgs e)
-		{
 		}
 
 		/// <summary>
@@ -116,26 +115,19 @@ namespace uComponents.Installer
 		{
 			var successes = new List<string>();
 			var failures = new List<string>();
-
 			var xml = new XmlDocument();
 
-			////// Data Types
-			////foreach (ListItem item in this.cblDataTypes.Items)
-			////{
-			////    if (item.Selected)
-			////    {
-			////        try
-			////        {
-			////            xml.LoadXml(string.Format("<DataType Name=\"{0}\" Id=\"{1}\" Definition=\"{2}\" />", item.Text, item.Value, Guid.NewGuid()));
-			////            var dtd = DataTypeDefinition.Import(xml.FirstChild);
-			////            successes.Add(item.Text);
-			////        }
-			////        catch (Exception ex)
-			////        {
-			////            failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
-			////        }
-			////    }
-			////}
+			// Razor Model Binding
+			try
+			{
+				xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_AddAppConfigKey\" key=\"{0}\" value=\"{1}\" />", Constants.AppKey_RazorModelBinding, (!this.cbDisableRazorModelBinding.Checked).ToString().ToLower()));
+				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(this.cbDisableRazorModelBinding.Text, "uComponents_AddAppConfigKey", xml.FirstChild);
+				successes.Add(this.cbDisableRazorModelBinding.Text);
+			}
+			catch (Exception ex)
+			{
+				failures.Add(string.Concat(this.cbDisableRazorModelBinding.Text, " (", ex.Message, ")"));
+			}
 
 			// Not Found Handlers
 			foreach (ListItem item in this.cblNotFoundHandlers.Items)
@@ -201,6 +193,15 @@ namespace uComponents.Installer
 						failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
 					}
 				}
+			}
+
+			// Dashboard control
+			if (this.cbDashboardControl.Checked)
+			{
+				var title = "Dashboard control";
+				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control addPanel=\"true\">/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
+				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
+				successes.Add(title);
 			}
 
 			// set the feedback controls to hidden

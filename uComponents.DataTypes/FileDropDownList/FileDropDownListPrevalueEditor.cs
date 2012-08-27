@@ -11,7 +11,7 @@ namespace uComponents.DataTypes.FileDropDownList
 	/// <summary>
 	/// The PreValue Editor for the File DropDownList data-type.
 	/// </summary>
-	public class FileDropDownListPrevalueEditor : AbstractJsonPrevalueEditor
+	public class FileDropDownListPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		private CheckBox CheckBoxUseDirectories;
 

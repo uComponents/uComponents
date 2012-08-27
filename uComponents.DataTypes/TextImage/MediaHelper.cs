@@ -11,6 +11,7 @@ using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.media;
 using umbraco.NodeFactory;
+using umbraco.IO;
 
 namespace uComponents.DataTypes.TextImage
 {
@@ -61,7 +62,7 @@ namespace uComponents.DataTypes.TextImage
             }
 
             var textImageClientFolder = string.Format("~/media/TextImages");
-            var textImageServerFolder = HttpContext.Current.Server.MapPath(textImageClientFolder);
+            var textImageServerFolder = IOHelper.MapPath(textImageClientFolder);
 
             if (!Directory.Exists(textImageServerFolder))
             {
@@ -70,7 +71,7 @@ namespace uComponents.DataTypes.TextImage
 
             var textImageFileName = string.Format("{0}.{1}", imageName, parameters.OutputFormat);
             var textImageClientFile = string.Format("{0}/{1}", textImageClientFolder, textImageFileName);
-            var textImageServerFile = HttpContext.Current.Server.MapPath(textImageClientFile);
+            var textImageServerFile = IOHelper.MapPath(textImageClientFile);
             textImage.Save(textImageServerFile, ConvertToImageFormat(parameters.OutputFormat));
             return textImageClientFile;
         }
@@ -140,9 +141,9 @@ namespace uComponents.DataTypes.TextImage
             var clientMediaThumb = string.Format("{0}/{1}", clientMediaFolder, mediaThumbName);
 
             // Server side Paths
-            var serverMediaFolder = HttpContext.Current.Server.MapPath(clientMediaFolder);
-            var serverMediaFile = HttpContext.Current.Server.MapPath(clientMediaFile);
-            var serverMediaThumb = HttpContext.Current.Server.MapPath(clientMediaThumb);
+            var serverMediaFolder = IOHelper.MapPath(clientMediaFolder);
+            var serverMediaFile = IOHelper.MapPath(clientMediaFile);
+            var serverMediaThumb = IOHelper.MapPath(clientMediaThumb);
 
             var extension = Path.GetExtension(serverMediaFile).ToLower();
 
@@ -181,7 +182,7 @@ namespace uComponents.DataTypes.TextImage
         /// <param name = "image">The image.</param>
         public static void UpdateImageMedia(int mediaId, Image image)
         {
-            var mediaFilePath = HttpContext.Current.Server.MapPath(GetMediaUrl(mediaId));
+            var mediaFilePath = IOHelper.MapPath(GetMediaUrl(mediaId));
             var mediaFolderPath = Path.GetDirectoryName(mediaFilePath);
 
             if (!Directory.Exists(mediaFolderPath))
@@ -210,7 +211,7 @@ namespace uComponents.DataTypes.TextImage
                 }
             }
 
-            var file = HttpContext.Current.Server.MapPath(url);
+            var file = IOHelper.MapPath(url);
             return File.Exists(file) ? url : string.Empty;
         }
 

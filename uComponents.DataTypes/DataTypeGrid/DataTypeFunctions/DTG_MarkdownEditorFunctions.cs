@@ -31,10 +31,10 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
 
                 return (string)type.InvokeMember("Transform", BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null, new object[] { value });
             }
-            catch (Exception ex)
+            catch // (Exception ex)
             {
                 return value;
-				// TODO: [LK->OA] Did you want to capture the exception?
+                // TODO: [LK->OA] Did you want to capture the exception?
             }
         }
 

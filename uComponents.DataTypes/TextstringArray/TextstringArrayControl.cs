@@ -104,7 +104,6 @@ namespace uComponents.DataTypes.TextstringArray
 		{
 			base.OnPreRender(e);
 
-			// TODO: [LK] Review this logic ... seems waaaay complex/overkill?
 			if (!string.IsNullOrEmpty(this.Values))
 			{
 				// load the values into a string array/list.
