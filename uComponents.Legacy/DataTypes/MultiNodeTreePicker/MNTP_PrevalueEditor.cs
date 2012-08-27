@@ -171,8 +171,8 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
                 return GetPreValue(PropertyIndex.StartNodeId, x =>
                 {
                     var max = 0;
-					return int.TryParse(x.Value, out max) ? max : uQuery.RootNodeId;
-				}, uQuery.RootNodeId);
+					return int.TryParse(x.Value, out max) ? max : umbraco.uQuery.RootNodeId;
+				}, umbraco.uQuery.RootNodeId);
             }
         }
 

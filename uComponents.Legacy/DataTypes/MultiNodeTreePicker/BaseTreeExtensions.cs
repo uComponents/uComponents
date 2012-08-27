@@ -67,14 +67,14 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
             }
 
             //the output start node id
-            var determinedStartNodeId = uQuery.RootNodeId;
+            var determinedStartNodeId = umbraco.uQuery.RootNodeId;
 
             if (definedStartNode == null)
             {
                 //if the defined (desired) start node is null (could not be found), return NoChildNodesId
                 determinedStartNodeId = NoChildNodesId;
             }
-			else if (definedStartNode.Id == uQuery.RootNodeId)
+			else if (definedStartNode.Id == umbraco.uQuery.RootNodeId)
             {
                 //if the id is -1, then the start node is the user's start node
                 determinedStartNodeId = userStartNode.Id;

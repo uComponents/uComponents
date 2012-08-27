@@ -57,8 +57,14 @@
     <Reference Include="umbraco">
       <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
     </Reference>
+    <Reference Include="umbraco.DataLayer">
+      <HintPath>..\Lib\Umbraco\umbraco.DataLayer.dll</HintPath>
+    </Reference>
     <Reference Include="umbraco.editorControls">
       <HintPath>..\Lib\Umbraco\umbraco.editorControls.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines, Version=1.0.4583.15511, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Lib\Umbraco\umbraco.MacroEngines.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +126,23 @@
     <Compile Include="DataTypes\XPathDropDownList\XPathDropDownListPreValueEditor.cs" />
     <Compile Include="NotFoundHandlers\SearchFor404ContentHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="uQuery\uQuery-DataTypes.cs" />
+    <Compile Include="uQuery\uQuery-Dictionary.cs" />
+    <Compile Include="uQuery\uQuery-Document.cs" />
+    <Compile Include="uQuery\uQuery-Media.cs" />
+    <Compile Include="uQuery\uQuery-Members.cs" />
+    <Compile Include="uQuery\uQuery-Nodes.cs" />
+    <Compile Include="uQuery\uQuery-PreValues.cs" />
+    <Compile Include="uQuery\uQuery-UmbracoObjectType.cs" />
+    <Compile Include="uQuery\uQuery.cs" />
+    <Compile Include="uQuery\uQueryExtensions\ContentExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\DocumentExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\MediaExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\MemberExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\NodeExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\PreValueExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\RelationTypeExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\UmbracoObjectTypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
@@ -129,6 +152,10 @@
     <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
       <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
       <Name>uComponents.DataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.XsltExtensions\uComponents.XsltExtensions.csproj">
+      <Project>{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}</Project>
+      <Name>uComponents.XsltExtensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

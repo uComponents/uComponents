@@ -101,7 +101,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
             TreeToRender = "content";
             MaxNodeCount = -1;
             MinNodeCount = 0;
-			StartNodeId = uQuery.RootNodeId;
+			StartNodeId = umbraco.uQuery.RootNodeId;
             ShowToolTips = true;
             ControlHeight = 200;
         }
