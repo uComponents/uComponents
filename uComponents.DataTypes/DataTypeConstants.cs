@@ -141,6 +141,11 @@
 		public const string SliderId = "B5BD6E2C-464B-406B-BCCE-A132E7D76981";
 
         /// <summary>
+        /// Guid foor the SqlAutoComplete data-type.
+        /// </summary>
+        public const string SqlAutoCompleteId = "EE395ED1-CE6E-4417-AEEB-BCA780D3E96B";
+
+        /// <summary>
         /// Guid for the SqlCheckBoxList data-type.
         /// </summary>
         public const string SqlCheckBoxListId = "D406BD87-9E1D-45B8-B529-9B67FF63BC0D";
