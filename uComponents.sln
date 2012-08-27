@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco Assemblies", "Umbra
 		DLLs\umbraco.dll = DLLs\umbraco.dll
 		DLLs\umbraco.editorControls.dll = DLLs\umbraco.editorControls.dll
 		DLLs\umbraco.Linq.Core.dll = DLLs\umbraco.Linq.Core.dll
+		DLLs\umbraco.MacroEngines.dll = DLLs\umbraco.MacroEngines.dll
 		DLLs\umbraco.macroRenderings.dll = DLLs\umbraco.macroRenderings.dll
 		DLLs\umbraco.providers.dll = DLLs\umbraco.providers.dll
 		DLLs\umbraco.webservices.dll = DLLs\umbraco.webservices.dll

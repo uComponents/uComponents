@@ -98,7 +98,6 @@
     </Reference>
     <Reference Include="umbraco.MacroEngines">
       <HintPath>..\DLLs\umbraco.MacroEngines.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="umbraco.macroRenderings">
       <HintPath>..\DLLs\umbraco.macroRenderings.dll</HintPath>
@@ -187,7 +186,6 @@
     <Compile Include="DataTypes\TextstringArray\TextstringArrayData.cs" />
     <Compile Include="DataTypes\UrlPicker\UrlPickerModelBinder.cs" />
     <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
-    <Compile Include="MacroEngines\CustomControlMacroEngine.cs" />
     <Compile Include="MacroEngines\StaticFileMacroEngine.cs" />
     <Compile Include="MacroEngines\XsltMacroEngine.cs" />
     <Compile Include="NotFoundHandlers\SearchForPageNotFound.cs" />
@@ -696,10 +694,6 @@
 			MinifyJavaScript;
 			$(ResGenDependsOn)
 		</ResGenDependsOn>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
     <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">
