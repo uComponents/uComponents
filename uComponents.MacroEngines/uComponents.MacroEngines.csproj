@@ -57,6 +57,7 @@
     <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="CustomControlMacroEngine.cs" />
     <Compile Include="StaticFileMacroEngine.cs" />
     <Compile Include="XsltMacroEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
