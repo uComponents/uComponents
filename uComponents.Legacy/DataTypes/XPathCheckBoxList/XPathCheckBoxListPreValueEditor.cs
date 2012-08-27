@@ -160,7 +160,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 
 			try
 			{
-				if (uQuery.GetNodesByXPath(xPath).Count() >= 0)
+				if (umbraco.uQuery.GetNodesByXPath(xPath).Count() >= 0)
 				{
 					isValid = true;
 				}

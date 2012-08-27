@@ -40,5 +40,10 @@ namespace uComponents.Core
 		/// The resource path for the Prevalue Editor stylesheet.
 		/// </summary>
 		public const string PrevalueEditorCssResourcePath = "uComponents.DataTypes.Shared.Resources.Styles.PrevalueEditor.css";
+
+		/// <summary>
+		/// Message for legacy usage of the uQuery extension methods.
+		/// </summary>
+		public const string uQueryLegacyObsoleteMessage = "Please reference the uQuery library from the 'umbraco' assembly.";
 	}
 }
