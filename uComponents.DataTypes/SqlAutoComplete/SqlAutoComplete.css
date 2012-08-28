@@ -1,0 +1,20 @@
+﻿.sql-auto-complete ul
+{
+    list-style-type:none;
+}
+
+.sql-auto-complete li
+{    
+    border:dotted 1px #DCD;
+    width:298px;
+    height:21px;
+    overflow:hidden;
+    background-color:White;
+    margin-bottom:3px;
+    cursor:move;    
+}
+
+.sql-auto-complete li:hover
+{
+    background-color:#F6F6FA;
+}

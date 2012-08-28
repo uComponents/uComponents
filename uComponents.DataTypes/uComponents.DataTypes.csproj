@@ -275,6 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoComplete\scripts\jquery.autocomplete.min.js" />
+    <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.css" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.js" />
     <EmbeddedResource Include="AutoComplete\Styles\autocomplete.css" />
     <EmbeddedResource Include="CharLimit\CharLimit.js" />

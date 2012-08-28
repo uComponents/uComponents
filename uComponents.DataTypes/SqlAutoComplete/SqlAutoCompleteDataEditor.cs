@@ -14,9 +14,9 @@ using System.Web;
 using umbraco.editorControls;
 using umbraco.cms.businesslogic.datatype;
 using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
 using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
 
+[assembly: WebResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.SqlAutoComplete 
 {
@@ -119,21 +119,21 @@ namespace uComponents.DataTypes.SqlAutoComplete
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-            // TODO: Check for @autoComplete token ? would allow sql exression to become more efficient - or - cache the initial query in memory ?
-            // default to caching - then in future add options in configuration to parse for @autoComplete token instead (useful for large datasets that would otherwise occupy memory)
-
+            // TODO: could set these values here and then share sql autocomplete function between data-type instances
             //this.autoCompleteTextBox.Attributes.Add("data-currentId", uQuery.GetIdFromQueryString());
             //this.autoCompleteTextBox.Attributes.Add("data-dataTypeDefinitionId", this.DataTypeDefinitionId.ToString());
 
-            this.Controls.Add(this.autoCompleteTextBox);          
-            this.Controls.Add(this.ul);
+            // containing div so that css styles can be applied
+            HtmlGenericControl div = new HtmlGenericControl("div");
 
-            this.Controls.Add(new Literal() 
-                    { 
-                        Text = @""
-                    });
+            div.Attributes.Add("class", "sql-auto-complete");
+            div.Controls.Add(this.autoCompleteTextBox);
 
-            this.Controls.Add(this.selectedValuesHiddenField);
+            this.ul.Attributes.Add("class", "propertypane");
+            div.Controls.Add(this.ul);
+            div.Controls.Add(this.selectedValuesHiddenField);
+
+            this.Controls.Add(div);
 		}
 
 		/// <summary>
@@ -145,9 +145,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
 			base.OnLoad(e);
 			this.EnsureChildControls();
 
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.js", ClientDependencyType.Javascript);
-
-            //http://umbraco481.local/Base/EE395ED1-CE6E-4417-AEEB-BCA780D3E96B/GetData/1056/1053/anything
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(@"                
@@ -157,6 +156,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
                         // make selection list sortable
                         jQuery('ul#" + this.ul.ClientID + @"').sortable({
+                            axis: 'y',
                             update: function(event, ui) { 
                                 // update the hidden field
                                 //alert ('sorted');
@@ -175,19 +175,22 @@ namespace uComponents.DataTypes.SqlAutoComplete
                                         }
                                 });
                             },
+                            focus: function (event, ui) {
+                                return false; // prevent the autocomplete text box from being populated with the value of the currenly highlighted item
+                            },
                             select: function(event, ui) { 
                                
                                 // is there an id with a matching data-value attribute ?
 
                                 if(jQuery('ul#" + this.ul.ClientID + @" li[data-value=""' + ui.item.value + '""]').length == 0)
                                 {
-                                    jQuery('ul#" + this.ul.ClientID + @"').append('<li data-value=""' + ui.item.value + '"">' + ui.item.label + '</li>');
+                                    jQuery('ul#" + this.ul.ClientID + @"')
+                                        .append('<li data-value=""' + ui.item.value + '"">' + ui.item.label + '<a class=""delete"" title=""remove"" href=""javascrtipt:void(0);"">X</a></li>');
                                 }
                                
-                                // how to return empty textbox ?
-                               // event.target.value = '';
-                               // return '';
-
+                                // return empty textbox                               
+                                event.target.value = '';
+                                return false;
                             }
                         });
                        
