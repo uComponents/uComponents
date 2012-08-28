@@ -68,16 +68,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.MacroEngines", "uComponents.MacroEngines\uComponents.MacroEngines.csproj", "{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs04
-		SccProjectUniqueName0 = uComponents.Core\\uComponents.Core.csproj
-		SccProjectName0 = uComponents.Core
-		SccAuxPath0 = https://tfs.codeplex.com/tfs/tfs04
-		SccLocalPath0 = uComponents.Core
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = uComponents.vsmdi
 	EndGlobalSection
