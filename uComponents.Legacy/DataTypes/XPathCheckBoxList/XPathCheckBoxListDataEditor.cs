@@ -84,7 +84,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			this.checkBoxList.DataSource = uQuery.GetNodesByXPath(this.options.XPath).ToNameIds();
+			this.checkBoxList.DataSource = umbraco.uQuery.GetNodesByXPath(this.options.XPath).ToNameIds();
 			this.checkBoxList.DataTextField = "Value";
 			this.checkBoxList.DataValueField = this.options.UseIds ? "Key" : "Value";
 			this.checkBoxList.DataBind();
