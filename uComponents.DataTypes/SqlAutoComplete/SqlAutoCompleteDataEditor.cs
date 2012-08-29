@@ -34,6 +34,11 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// </summary>
         private SqlAutoCompleteOptions options;
 
+        ///// <summary>
+        ///// Containg div
+        ///// </summary>
+        //private HtmlGenericControl div = new HtmlGenericControl("div");
+
         /// <summary>
         /// AutoComplete TextBox
         /// </summary>
@@ -161,8 +166,11 @@ namespace uComponents.DataTypes.SqlAutoComplete
                         jQuery('ul#" + this.ul.ClientID + @"').sortable({
                             axis: 'y',
                             update: function(event, ui) { 
+
+
                                 // update the hidden field
                                 //alert ('sorted');
+
                             }
                         });
                         
@@ -174,7 +182,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
                                 jQuery.ajax({
                                         type: 'GET',
                                         dataType: 'json',
-                                        url: '/Base/" + DataTypeConstants.SqlAutoCompleteId + "/GetData/" + this.DataTypeDefinitionId.ToString() + "/" + uQuery.GetIdFromQueryString().ToString() + @"/' + request.term,
+                                        url: '/Base/" + DataTypeConstants.SqlAutoCompleteId + "/GetData/" + this.DataTypeDefinitionId.ToString() + "/" + uQuery.GetIdFromQueryString().ToString() + @"/' + encodeURI(request.term),
                                         success: function (data) {                                               
                                             response(data);
                                         }
@@ -198,7 +206,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
                                 if(jQuery('ul#" + this.ul.ClientID + @" li[data-value=""' + ui.item.value + '""]').length == 0)
                                 {
                                     jQuery('ul#" + this.ul.ClientID + @"')
-                                        .append('<li data-value=""' + ui.item.value + '"">' + ui.item.label + '<a class=""delete"" title=""remove"" href=""javascrtipt:void(0);""></a></li>');
+                                        .append('<li data-value=""' + ui.item.value + '"">' + ui.item.label + '<a class=""delete"" title=""remove"" href=""javascript:void(0);"" onClick=""SqlAutoComplete.removeItem(this)""></a></li>');
                                 }
                                
                                 // return empty textbox                               
@@ -207,10 +215,6 @@ namespace uComponents.DataTypes.SqlAutoComplete
                             }
                         });
                        
-
-                        //  
-
-                        
 
 
                     });
