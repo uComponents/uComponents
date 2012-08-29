@@ -20,6 +20,8 @@ using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
 [assembly: WebResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.SqlAutoComplete 
 {
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class SqlAutoCompleteDataEditor : CompositeControl, IDataEditor
     {
         /// <summary>
@@ -127,10 +129,11 @@ namespace uComponents.DataTypes.SqlAutoComplete
             HtmlGenericControl div = new HtmlGenericControl("div");
 
             div.Attributes.Add("class", "sql-auto-complete");
-            div.Controls.Add(this.autoCompleteTextBox);
-
             this.ul.Attributes.Add("class", "propertypane");
+            this.autoCompleteTextBox.CssClass = "umbEditorTextField";
+
             div.Controls.Add(this.ul);
+            div.Controls.Add(this.autoCompleteTextBox);
             div.Controls.Add(this.selectedValuesHiddenField);
 
             this.Controls.Add(div);
@@ -144,7 +147,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
 		{
 			base.OnLoad(e);
 			this.EnsureChildControls();
-
+            
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.js", ClientDependencyType.Javascript);
 
@@ -164,7 +167,9 @@ namespace uComponents.DataTypes.SqlAutoComplete
                         });
                         
                         jQuery('input#" + this.autoCompleteTextBox.ClientID + @"').autocomplete({
+                            
                             minLength: '" + options.LetterCount + @"',
+                            
                             source: function(request, response) {
                                 jQuery.ajax({
                                         type: 'GET',
@@ -175,9 +180,17 @@ namespace uComponents.DataTypes.SqlAutoComplete
                                         }
                                 });
                             },
+
+                            open: function () {
+                                jQuery('input#" + this.autoCompleteTextBox.ClientID + @"').autocomplete('widget').width(300);
+                            },
+    
+                            autoFocus: true,
+
                             focus: function (event, ui) {
                                 return false; // prevent the autocomplete text box from being populated with the value of the currenly highlighted item
                             },
+
                             select: function(event, ui) { 
                                
                                 // is there an id with a matching data-value attribute ?
@@ -185,7 +198,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
                                 if(jQuery('ul#" + this.ul.ClientID + @" li[data-value=""' + ui.item.value + '""]').length == 0)
                                 {
                                     jQuery('ul#" + this.ul.ClientID + @"')
-                                        .append('<li data-value=""' + ui.item.value + '"">' + ui.item.label + '<a class=""delete"" title=""remove"" href=""javascrtipt:void(0);"">X</a></li>');
+                                        .append('<li data-value=""' + ui.item.value + '"">' + ui.item.label + '<a class=""delete"" title=""remove"" href=""javascrtipt:void(0);""></a></li>');
                                 }
                                
                                 // return empty textbox                               
