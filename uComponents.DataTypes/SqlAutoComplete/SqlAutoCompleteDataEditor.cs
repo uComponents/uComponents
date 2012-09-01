@@ -34,23 +34,13 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// </summary>
         private SqlAutoCompleteOptions options;
 
-        ///// <summary>
-        ///// Containg div
-        ///// </summary>
-        //private HtmlGenericControl div = new HtmlGenericControl("div");
-
         /// <summary>
-        /// AutoComplete TextBox
+        /// Containing div that wraps all the other controls - hence only need this id to find the others
         /// </summary>
-        private TextBox autoCompleteTextBox = new TextBox();
+        private HtmlGenericControl div = new HtmlGenericControl("div");
 
         /// <summary>
-        /// ul to inset the selected items
-        /// </summary>
-        private HtmlGenericControl ul = new HtmlGenericControl("ul");
-
-        /// <summary>
-        /// lists the selected values
+        /// Stores the selected values
         /// </summary>
         private HiddenField selectedValuesHiddenField = new HiddenField();
 
@@ -126,19 +116,23 @@ namespace uComponents.DataTypes.SqlAutoComplete
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-            // TODO: could set these values here and then share sql autocomplete function between data-type instances
-            //this.autoCompleteTextBox.Attributes.Add("data-currentId", uQuery.GetIdFromQueryString());
-            //this.autoCompleteTextBox.Attributes.Add("data-dataTypeDefinitionId", this.DataTypeDefinitionId.ToString());
+            // ul list for the selected items
+            HtmlGenericControl ul = new HtmlGenericControl("ul");
 
-            // containing div so that css styles can be applied
-            HtmlGenericControl div = new HtmlGenericControl("div");
+            // textbox to attach the js autocomplete functionality to
+            TextBox autoCompleteTextBox = new TextBox();
 
-            div.Attributes.Add("class", "sql-auto-complete");
-            this.ul.Attributes.Add("class", "propertypane");
-            this.autoCompleteTextBox.CssClass = "umbEditorTextField";
+            this.div.Attributes.Add("class", "sql-auto-complete");
+            this.div.Attributes.Add("data-sql-autocomplete-id", DataTypeConstants.SqlAutoCompleteId); 
+            this.div.Attributes.Add("data-datatype-definition-id", this.DataTypeDefinitionId.ToString());
+            this.div.Attributes.Add("data-current-id", uQuery.GetIdFromQueryString());
+            this.div.Attributes.Add("data-min-length", this.options.LetterCount.ToString());
 
-            div.Controls.Add(this.ul);
-            div.Controls.Add(this.autoCompleteTextBox);
+            ul.Attributes.Add("class", "propertypane");
+            autoCompleteTextBox.CssClass = "umbEditorTextField";
+
+            div.Controls.Add(ul);
+            div.Controls.Add(autoCompleteTextBox);
             div.Controls.Add(this.selectedValuesHiddenField);
 
             this.Controls.Add(div);
@@ -161,61 +155,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
                 <script language='javascript' type='text/javascript'>
 
                     $(document).ready(function () {
-
-                        // make selection list sortable
-                        jQuery('ul#" + this.ul.ClientID + @"').sortable({
-                            axis: 'y',
-                            update: function(event, ui) { 
-
-
-                                // update the hidden field
-                                //alert ('sorted');
-
-                            }
-                        });
-                        
-                        jQuery('input#" + this.autoCompleteTextBox.ClientID + @"').autocomplete({
-                            
-                            minLength: '" + options.LetterCount + @"',
-                            
-                            source: function(request, response) {
-                                jQuery.ajax({
-                                        type: 'GET',
-                                        dataType: 'json',
-                                        url: '/Base/" + DataTypeConstants.SqlAutoCompleteId + "/GetData/" + this.DataTypeDefinitionId.ToString() + "/" + uQuery.GetIdFromQueryString().ToString() + @"/' + encodeURI(request.term),
-                                        success: function (data) {                                               
-                                            response(data);
-                                        }
-                                });
-                            },
-
-                            open: function () {
-                                jQuery('input#" + this.autoCompleteTextBox.ClientID + @"').autocomplete('widget').width(300);
-                            },
-    
-                            autoFocus: true,
-
-                            focus: function (event, ui) {
-                                return false; // prevent the autocomplete text box from being populated with the value of the currenly highlighted item
-                            },
-
-                            select: function(event, ui) { 
-                               
-                                // is there an id with a matching data-value attribute ?
-
-                                if(jQuery('ul#" + this.ul.ClientID + @" li[data-value=""' + ui.item.value + '""]').length == 0)
-                                {
-                                    jQuery('ul#" + this.ul.ClientID + @"')
-                                        .append('<li data-value=""' + ui.item.value + '"">' + ui.item.label + '<a class=""delete"" title=""remove"" href=""javascript:void(0);"" onClick=""SqlAutoComplete.removeItem(this)""></a></li>');
-                                }
-                               
-                                // return empty textbox                               
-                                event.target.value = '';
-                                return false;
-                            }
-                        });
-                       
-
+                    
+                        SqlAutoComplete.init(jQuery('div#" + this.div.ClientID + @"'));
 
                     });
 

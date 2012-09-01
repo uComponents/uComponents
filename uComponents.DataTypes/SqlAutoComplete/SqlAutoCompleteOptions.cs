@@ -33,7 +33,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
 
         [DefaultValue(0)]
-        public int LetterCount { get; set; }
+        public int LetterCount { get; set; } // RENAME THIS TO MinLength
 
         /// <summary>
         /// Defaults to true, where the property value will be stored as an Xml Fragment, else if false, a Csv will be stored
