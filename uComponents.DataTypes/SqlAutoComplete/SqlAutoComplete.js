@@ -71,9 +71,13 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
 
             source: function (request, response) {
                 jQuery.ajax({
-                    type: 'GET',
+                    type: 'POST',
+                    data: {
+                        autoCompleteText : request.term
+                    },
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    url: '/Base/' + sqlAutoCompleteId + '/GetData/' + dataTypeDefinitionId + '/' + currentId,
                     dataType: 'json',
-                    url: '/Base/' + sqlAutoCompleteId + '/GetData/' + dataTypeDefinitionId + '/' + currentId + '/' + encodeURI(request.term),
                     success: function (data) {
                         response(data);
                     }
@@ -164,7 +168,7 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             xml += '<Item Text="' + jQuery(element).data('text') + '" Value="' + jQuery(element).data('value') + '" />';
 
         });
-        
+
         xml += '</SqlAutoComplete>';
 
         hidden.val(xml);

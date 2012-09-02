@@ -29,8 +29,10 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// <param name="autoCompleteText"></param>
         /// <returns>a JSON string collection of Key, Value pairs</returns>
         [RestExtensionMethod(returnXml = false)]
-        public static string GetData(int datatypeDefinitionId, int currentId, string autoCompleteText)
+        public static string GetData(int datatypeDefinitionId, int currentId)
         {
+            string autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];
+
             // default json returned if it wasn't able to get any data
             string json = @"[
                                 { 
