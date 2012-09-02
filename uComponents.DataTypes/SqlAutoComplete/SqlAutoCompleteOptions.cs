@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using umbraco.editorControls;
 using umbraco;
+using System.Configuration;
 
 namespace uComponents.DataTypes.SqlAutoComplete
 {
@@ -29,7 +30,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// Gets or sets an optional connection string (if null then umbraco connection string is used)
         /// </summary>
         [DefaultValue("")]
-        public string ConnectionString { get; set; }
+        public string ConnectionStringName { get; set; }
 
 
         [DefaultValue(3)]
@@ -37,18 +38,17 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
         public string GetConnectionString()
         {
-            string connectionString;
-
-            if (!string.IsNullOrEmpty(this.ConnectionString))
+            if (!string.IsNullOrWhiteSpace(this.ConnectionStringName))
             {
-                connectionString = this.ConnectionString;
-            }
-            else
-            {
-                connectionString = uQuery.SqlHelper.ConnectionString;
+                // attempt to get connection string from the web.config
+                ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
+                if (connectionStringSettings != null)
+                {
+                    return connectionStringSettings.ConnectionString;
+                }
             }
 
-            return connectionString;
+            return uQuery.SqlHelper.ConnectionString; // default if unknown;
         }
     }
 }

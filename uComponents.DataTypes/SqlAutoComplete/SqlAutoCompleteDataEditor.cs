@@ -62,14 +62,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
         {
             get
             {
-                //if (this.data is XmlData)
-                //{
-                    return ((XmlData)this.data).DataTypeDefinitionId;
-                //}
-                //else //if (this.data is DefaultData)
-                //{
-                //    return ((DefaultData)this.data).DataTypeDefinitionId;
-                //}
+                return ((XmlData)this.data).DataTypeDefinitionId;
             }
         }
 
@@ -164,42 +157,10 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
             ScriptManager.RegisterStartupScript(this, typeof(SqlAutoCompleteDataEditor), this.ClientID + "_init", startupScript, false);
 
-            // setup
-            if (!this.Page.IsPostBack)
-            {
-                // put the options obj into cache so that the /base method can request it (where the sql statment is being used)
-                HttpContext.Current.Cache[DataTypeConstants.SqlAutoCompleteId + "_" + this.DataTypeDefinitionId.ToString()] = this.options;
+            // put the options obj into cache so that the /base method can request it (where the sql statment is being used)
+            HttpContext.Current.Cache[DataTypeConstants.SqlAutoCompleteId + "_" + this.DataTypeDefinitionId.ToString()] = this.options;
 
-                // create list items for each value in the hidden list ?
-
-                this.selectedItemsHiddenField.Value = this.data.Value.ToString();
-            }
-
-
-            //if (!this.Page.IsPostBack && this.data.Value != null)
-            //{
-            //    string value = this.data.Value.ToString();
-
-                
-                
-            //    List<string> selectedValues = new List<string>();
-
-            //    if (Helper.Xml.CouldItBeXml(value))
-            //    {
-            //        // build selected values from XML fragment
-            //        foreach (XElement nodeXElement in XElement.Parse(value).Elements())
-            //        {
-            //            selectedValues.Add(nodeXElement.Value);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        // Assume a CSV source
-            //        selectedValues = value.Split(Constants.Common.COMMA).ToList();
-            //    }
-
-            //    //TODO: populate selection list with stored values
-            //}
+            this.selectedItemsHiddenField.Value = this.data.Value.ToString();
 		}
 
 		/// <summary>
@@ -209,11 +170,6 @@ namespace uComponents.DataTypes.SqlAutoComplete
 		{
             // There should be a valid xml fragment (or empty) in the hidden field
             this.data.Value = this.selectedItemsHiddenField.Value;
-
-
-            //IEnumerable<string> selectedOptions = this.selectedItemsHiddenField.Value.Split(',');
-            //this.data.Value = new XElement("SqlAutoComplete",
-            //    selectedOptions.Select(x => new XElement("value", x.ToString()))).ToString();
 		}    
     }
 }
