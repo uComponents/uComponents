@@ -24,11 +24,6 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// </summary>
         private CustomValidator sqlCustomValidator = new CustomValidator();
 
-        ///// <summary>
-        ///// optional connection string (if not specified then the current umbraco db connection string is used
-        ///// </summary>
-        //private TextBox connectionStringTextBox = new TextBox();
-
         /// <summary>
         /// drop down list of all web.config connection strings strings + default of the umbraco app setting connection string
         /// </summary>
@@ -40,6 +35,16 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// </summary>
         private DropDownList minLengthDropDownList = new DropDownList();
 
+        /// <summary>
+        /// Min number of items that must be selected - defaults to 0
+        /// </summary>
+        private TextBox minItemsTextBox = new TextBox();
+
+        /// <summary>
+        /// Max number of items that can be selected - defaults to 0 (anything that's not a +ve integer imposes no limit)
+        /// </summary>
+        private TextBox maxItemsTextBox = new TextBox();
+        
         /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
         /// </summary>
@@ -87,7 +92,6 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.sqlTextBox.TextMode = TextBoxMode.MultiLine;
             this.sqlTextBox.Rows = 10;
             this.sqlTextBox.Columns = 60;
-            // this.sqlTextBox.CssClass = "umbEditorTextField";
 
             this.sqlRequiredFieldValidator.ControlToValidate = this.sqlTextBox.ID;
             this.sqlRequiredFieldValidator.Display = ValidatorDisplay.Dynamic;
@@ -100,7 +104,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.connectionStringDropDownList.ID = "connectionStringDeopDownList";
             this.connectionStringDropDownList.Items.Add(new ListItem("Umbraco (default)", string.Empty));
 
-            foreach (ConnectionStringSettings  connectionStringSettings in ConfigurationManager.ConnectionStrings)
+            foreach (ConnectionStringSettings connectionStringSettings in ConfigurationManager.ConnectionStrings)
             {
                 this.connectionStringDropDownList.Items.Add(new ListItem(connectionStringSettings.Name, connectionStringSettings.Name));
             }
@@ -110,17 +114,27 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.minLengthDropDownList.Items.Add(new ListItem("2", "2"));
             this.minLengthDropDownList.Items.Add(new ListItem("3 (default)", "3"));
             this.minLengthDropDownList.Items.Add(new ListItem("4", "4"));
-            this.minLengthDropDownList.Items.Add(new ListItem("5", "5"));
+            this.minLengthDropDownList.Items.Add(new ListItem("5", "5"));            
+            //this.minLengthDropDownList.Items.Add(new ListItem("First Space", "first-space")); // TODO: potential feature ?
 
-            // TODO: potential feature ?
-            //this.minLengthDropDownList.Items.Add(new ListItem("First Space", "first-space"));
+            this.minItemsTextBox.ID = "minSelectionItemsTextBox";
+            this.minItemsTextBox.Width = 30;
+            this.minItemsTextBox.MaxLength = 2;
+            this.minItemsTextBox.AutoCompleteType = AutoCompleteType.None;
+
+            this.maxItemsTextBox.ID = "maxSelectionItemsTextBox";
+            this.maxItemsTextBox.Width = 30;
+            this.maxItemsTextBox.MaxLength = 2;
+            this.maxItemsTextBox.AutoCompleteType = AutoCompleteType.None;
 
             this.Controls.AddPrevalueControls(
                 this.sqlTextBox,
                 this.sqlRequiredFieldValidator,
                 this.sqlCustomValidator,
                 this.connectionStringDropDownList,
-                this.minLengthDropDownList);
+                this.minLengthDropDownList,
+                this.minItemsTextBox,
+                this.maxItemsTextBox);
         }
 
         /// <summary>
@@ -142,6 +156,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
                 }
 
                 this.minLengthDropDownList.SelectedIndex = this.minLengthDropDownList.Items.IndexOf(this.minLengthDropDownList.Items.FindByValue(this.Options.MinLength.ToString()));
+                this.minItemsTextBox.Text = this.Options.MinItems.ToString();
+                this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
             }
         }
 
@@ -180,6 +196,15 @@ namespace uComponents.DataTypes.SqlAutoComplete
                 this.Options.ConnectionStringName = this.connectionStringDropDownList.SelectedValue;
                 this.Options.MinLength = int.Parse(this.minLengthDropDownList.SelectedValue);
 
+                // ensure min and max items are valid numbers
+                int minItems;
+                int.TryParse(this.minItemsTextBox.Text, out minItems);
+                this.Options.MinItems = minItems;
+
+                int maxItems;
+                int.TryParse(this.maxItemsTextBox.Text, out maxItems);
+                this.Options.MaxItems = maxItems;
+
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
         }
@@ -193,6 +218,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
             writer.AddPrevalueRow("SQL Expression", @" expects a result set with two fields : 'Text' and 'Value' - can include the tokens : @currentId and @autoCompleteText", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
             writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
             writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);
+            writer.AddPrevalueRow("Min Items", "number of items that must be selected - 0 means no limit", this.minItemsTextBox);
+            writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox);
         }
     }
 }
