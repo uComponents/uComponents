@@ -1,35 +1,53 @@
 ﻿/*
-    <div id="body_prop_sQLAutoComplete_ctl00" class="sql-auto-complete" data-sql-autocomplete-id="EE395ED1-CE6E-4417-AEEB-BCA780D3E96B" data-datatypedefinitionid="1056" data-currentid="1051" data-min-length="2">
+    <div class="sql-auto-complete" data-sql-autocomplete-id="EE395ED1-CE6E-4417-AEEB-BCA780D3E96B" data-datatype-definition-id="1056" data-current-id="1051" data-min-length="2">
+
         <ul class="propertypane ui-sortable">
-            <li data-value="2320">hello@hello.com<a class="delete" title="remove" href="javascript:void(0);" onclick="SqlAutoComplete.removeItem(this)"></a></li>
+            <li data-value="1">
+                This is an item
+                <a class="delete" title="remove" href="javascript:void(0);" onclick="SqlAutoComplete.removeItem(this);"></a>
+            </li>
+            <li data-value="7">
+                Another item
+                <a class="delete" title="remove" href="javascript:void(0);" onclick="SqlAutoComplete.removeItem(this);"></a>
+            </li>
         </ul>
-        <input name="ctl00$body$prop_sQLAutoComplete$ctl02" type="text" class="umbEditorTextField ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
-        <input type="hidden" name="ctl00$body$prop_sQLAutoComplete$ctl03" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+            
+        <input name="ctl00$body$prop_sQLAutoComplete$ctl02" type="text" value="" id="body_prop_sQLAutoComplete_ctl02" class="umbEditorTextField ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+        <input type="hidden" name="ctl00$body$prop_sQLAutoComplete$ctl03">
+
     </div>
 */
 
 var SqlAutoComplete = SqlAutoComplete || (function () {
 
-    function init(div) {
+    function init(input) {
 
+        // dom objects
+        var div = input.parent('div.sql-auto-complete');
+        var ul = div.children('ul');
+        //
+        var hidden = div.children('input:hidden');
+
+        // values
         var sqlAutoCompleteId = div.data('sql-autocomplete-id');
         var dataTypeDefinitionId = div.data('datatype-definition-id');
         var currentId = div.data('current-id');
         var minLength = div.data('min-length');
 
 
+        // fromm values in the hidden field, create list items - do it server side or here ? here = single mechanism to create items
+        createList(hidden, ul);
+
+
         // make selection list sortable
-        div.children('ul').sortable({
+        ul.sortable({
             axis: 'y',
             update: function (event, ui) {
-
-                // update the hidden field
-                alert('sorted');
+                updateHidden(ul, hidden);
             }
         });
 
-
-        div.children('input:first').autocomplete({
+        input.autocomplete({
 
             minLength: minLength,
 
@@ -44,8 +62,8 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
                 });
             },
 
-            open: function () {
-                div.children('input:first').autocomplete('widget').width(300);
+            open: function (event, ui) {
+                input.autocomplete('widget').width(300);
 
             },
 
@@ -56,6 +74,7 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             },
 
             select: function (event, ui) {
+
 
                 // is there an li with a matching data-value attribute ?
 
@@ -70,35 +89,59 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
 
         });
 
+    }
 
+    // private
+    function createList(hidden, ul) {
+
+        // for each item in the hidden field create the appropriate list item
+
+        // foreach .... createListItem(ul, text, value);
+    }
+
+    // private
+    function createListItem(ul, text, value) {
 
     }
 
+    // private
+    function addItem(ul, item) {
 
-    function addItem(div, item) {
-
-        // find ul and add item
-
+        // if item doesn't already exist then add (TODO: configuration option to allow duplicates ?)
+        //createListItem(ul, item.label, item.value);
+        //updateHidden(ul, hidden);
     }
+
 
     function removeItem(a) {
 
-        // remove the li that the supplied a is within
+        // walk up the dom from the a to find the div
+        // from the div find the hidden field
+
+
         jQuery(a).parent().remove();
+        //
 
     }
 
-    function updateHiddenField(div) {
+    // private
+    function updateHidden(ul, hidden) {
 
         // find ul, and for each li, add to the hidden field
 
+        // store data as an xml (or json ?) fragment - 
+        // need to put all selected data (as KVP) in the hidden field, as no way of knowing how to get the label for an id wiithout configuring extra sql statements
+
+        alert('updating hidden');
+
     }
+
+
 
 
     return {
         init: init,
-        addItem: addItem,
-        removeItem: removeItem
+        removeItem: removeItem // needs to be public, as call is made from outside the init scope (from the a tag in the selection list)
     };
 
 } ());

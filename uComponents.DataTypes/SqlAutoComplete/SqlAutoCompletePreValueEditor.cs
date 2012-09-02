@@ -31,14 +31,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// Number of characters before data is requested (useful if the list size should visibily shrink as the data set narrows - else use a SELECT TOP x FROM .... clause)
         /// valid range 0 to 5 (where 0 if off - so sending all the data on initial load)
         /// </summary>
-        private DropDownList letterCountDropDownList = new DropDownList();
-
-
-
-        /// <summary>
-        /// Store an Xml fragment or a Csv
-        /// </summary>
-        private RadioButtonList storageTypeRadioButtonList = new RadioButtonList() { RepeatDirection = RepeatDirection.Vertical, RepeatLayout = RepeatLayout.Flow };
+        private DropDownList minLengthDropDownList = new DropDownList();
 
         /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
@@ -46,11 +39,11 @@ namespace uComponents.DataTypes.SqlAutoComplete
         private SqlAutoCompleteOptions options = null;
 
         /// <summary>
-        /// Initialize a new instance of XPathCheckBoxlistPreValueEditor
+        /// Initialize a new instance of SqlAutoCompletePreValueEditor
         /// </summary>
-        /// <param name="dataType">XPathCheckBoxListDataType</param>
+        /// <param name="dataType">SqlAutoCompleteDataType</param>
         public SqlAutoCompletePreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
         }
 
@@ -70,7 +63,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
                     if (this.options == null)
                     {
                         // Create a new Options data object with the default values
-                        this.options = new SqlAutoCompleteOptions();
+                        this.options = new SqlAutoCompleteOptions(true);
                     }
                 }
 
@@ -101,29 +94,19 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.connectionStringTextBox.Columns = 120;
             this.connectionStringTextBox.TextMode = TextBoxMode.SingleLine;
 
-            this.letterCountDropDownList.ID = "keyCountDropDownList";
-            this.letterCountDropDownList.Items.Add(new ListItem("Off", "0"));
-            this.letterCountDropDownList.Items.Add(new ListItem("1", "1"));
-            this.letterCountDropDownList.Items.Add(new ListItem("2", "2"));
-            this.letterCountDropDownList.Items.Add(new ListItem("3", "3"));
-            this.letterCountDropDownList.Items.Add(new ListItem("4", "4"));
-            this.letterCountDropDownList.Items.Add(new ListItem("5", "5"));
-
-
-
-
-
-            this.storageTypeRadioButtonList.ID = "storageTypeRadioButtonList";
-            this.storageTypeRadioButtonList.Items.Add(new ListItem("Xml", bool.TrueString));
-            this.storageTypeRadioButtonList.Items.Add(new ListItem("Csv", bool.FalseString));
+            this.minLengthDropDownList.ID = "minLengthDropDownList";
+            this.minLengthDropDownList.Items.Add(new ListItem("1", "1"));
+            this.minLengthDropDownList.Items.Add(new ListItem("2", "2"));
+            this.minLengthDropDownList.Items.Add(new ListItem("3", "3"));
+            this.minLengthDropDownList.Items.Add(new ListItem("4", "4"));
+            this.minLengthDropDownList.Items.Add(new ListItem("5", "5"));
 
             this.Controls.AddPrevalueControls(
                 this.sqlTextBox,
                 this.sqlRequiredFieldValidator,
                 this.sqlCustomValidator,
                 this.connectionStringTextBox,
-                this.letterCountDropDownList,
-                this.storageTypeRadioButtonList);
+                this.minLengthDropDownList);
         }
 
         /// <summary>
@@ -134,9 +117,12 @@ namespace uComponents.DataTypes.SqlAutoComplete
         {
             base.OnLoad(e);
 
-            this.sqlTextBox.Text = this.Options.Sql;
-            this.connectionStringTextBox.Text = this.Options.ConnectionString;
-            this.storageTypeRadioButtonList.SelectedValue = this.Options.UseXml.ToString();
+            if (!this.Page.IsPostBack)
+            {
+                this.sqlTextBox.Text = this.Options.Sql;
+                this.connectionStringTextBox.Text = this.Options.ConnectionString;
+                this.minLengthDropDownList.SelectedIndex = this.minLengthDropDownList.Items.IndexOf(this.minLengthDropDownList.Items.FindByValue(this.Options.MinLength.ToString()));
+            }
         }
 
         /// <summary>
@@ -172,8 +158,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             {
                 this.Options.Sql = this.sqlTextBox.Text;
                 this.Options.ConnectionString = this.connectionStringTextBox.Text;
-                this.Options.LetterCount = int.Parse(this.letterCountDropDownList.SelectedValue);
-                this.Options.UseXml = bool.Parse(this.storageTypeRadioButtonList.SelectedValue);
+                this.Options.MinLength = int.Parse(this.minLengthDropDownList.SelectedValue);
 
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
@@ -187,10 +172,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
         {
             writer.AddPrevalueRow("SQL Expression", @" expects a result set with two fields : 'Text' and 'Value' - can include the tokens : $currentId and $autcompleteText", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
             writer.AddPrevalueRow("Connection String", "(optional) if empty then the current umbraco connection string is used", this.connectionStringTextBox);
-            writer.AddPrevalueRow("Letter Count", "number of chars in the autocomplete text box before querying for data", this.letterCountDropDownList);
-            writer.AddPrevalueRow("Storage Type", this.storageTypeRadioButtonList);
-
-            // TOOD: Cache or feedback @autoComplete token
+            writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);
         }
     }
 }

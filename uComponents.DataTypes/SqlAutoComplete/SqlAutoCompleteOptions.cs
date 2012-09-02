@@ -32,14 +32,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
         public string ConnectionString { get; set; }
 
 
-        [DefaultValue(0)]
-        public int LetterCount { get; set; } // RENAME THIS TO MinLength
-
-        /// <summary>
-        /// Defaults to true, where the property value will be stored as an Xml Fragment, else if false, a Csv will be stored
-        /// </summary>
-        [DefaultValue(true)]
-        public bool UseXml { get; set; }
+        [DefaultValue(3)]
+        public int MinLength { get; set; }
 
         public string GetConnectionString()
         {

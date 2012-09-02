@@ -35,9 +35,9 @@ namespace uComponents.DataTypes.SqlAutoComplete
         private SqlAutoCompleteOptions options;
 
         /// <summary>
-        /// Containing div that wraps all the other controls - hence only need this id to find the others
+        /// TextBox to attach the js autocompete, using this ClientId we can walk up the dom to the wrapping div to find everything else
         /// </summary>
-        private HtmlGenericControl div = new HtmlGenericControl("div");
+        private TextBox autoCompleteTextBox = new TextBox();
 
         /// <summary>
         /// Stores the selected values
@@ -116,20 +116,21 @@ namespace uComponents.DataTypes.SqlAutoComplete
 		/// </summary>
 		protected override void CreateChildControls()
 		{
+            // wrapping div
+            HtmlGenericControl div = new HtmlGenericControl("div");
+
             // ul list for the selected items
             HtmlGenericControl ul = new HtmlGenericControl("ul");
-
-            // textbox to attach the js autocomplete functionality to
-            TextBox autoCompleteTextBox = new TextBox();
-
-            this.div.Attributes.Add("class", "sql-auto-complete");
-            this.div.Attributes.Add("data-sql-autocomplete-id", DataTypeConstants.SqlAutoCompleteId); 
-            this.div.Attributes.Add("data-datatype-definition-id", this.DataTypeDefinitionId.ToString());
-            this.div.Attributes.Add("data-current-id", uQuery.GetIdFromQueryString());
-            this.div.Attributes.Add("data-min-length", this.options.LetterCount.ToString());
+           
+            div.Attributes.Add("class", "sql-auto-complete");
+            div.Attributes.Add("data-sql-autocomplete-id", DataTypeConstants.SqlAutoCompleteId); 
+            div.Attributes.Add("data-datatype-definition-id", this.DataTypeDefinitionId.ToString());
+            div.Attributes.Add("data-current-id", uQuery.GetIdFromQueryString());
+            div.Attributes.Add("data-min-length", this.options.MinLength.ToString());
 
             ul.Attributes.Add("class", "propertypane");
-            autoCompleteTextBox.CssClass = "umbEditorTextField";
+            
+            this.autoCompleteTextBox.CssClass = "umbEditorTextField";
 
             div.Controls.Add(ul);
             div.Controls.Add(autoCompleteTextBox);
@@ -150,19 +151,18 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.js", ClientDependencyType.Javascript);
 
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(@"                
+            string startupScript = @"                
                 <script language='javascript' type='text/javascript'>
 
                     $(document).ready(function () {
                     
-                        SqlAutoComplete.init(jQuery('div#" + this.div.ClientID + @"'));
+                        SqlAutoComplete.init(jQuery('input#" + this.autoCompleteTextBox.ClientID + @"'));
 
                     });
 
-                </script>");
+                </script>";
 
-            ScriptManager.RegisterStartupScript(this, typeof(SqlAutoCompleteDataEditor), this.ClientID + "_init", stringBuilder.ToString(), false);
+            ScriptManager.RegisterStartupScript(this, typeof(SqlAutoCompleteDataEditor), this.ClientID + "_init", startupScript, false);
 
             // setup
             if (!this.Page.IsPostBack)
@@ -170,7 +170,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
                 // put the options obj into cache so that the /base method can request it (where the sql statment is being used)
                 HttpContext.Current.Cache[DataTypeConstants.SqlAutoCompleteId + "_" + this.DataTypeDefinitionId.ToString()] = this.options;
 
-
+                // create list items for each value in the hidden list ?
             }
 
 
@@ -205,16 +205,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
             //// Get all checked item values
             IEnumerable<string> selectedOptions = this.selectedValuesHiddenField.Value.Split(',');
                                
-            if (this.options.UseXml)
-            {
-                this.data.Value = new XElement("SqlAutoComplete",
-                    selectedOptions.Select(x => new XElement("value", x.ToString()))).ToString();
-            }
-            else
-            {
-                // Save the CSV
-                this.data.Value = string.Join(",", selectedOptions.ToArray());
-            }
+            this.data.Value = new XElement("SqlAutoComplete",
+                selectedOptions.Select(x => new XElement("value", x.ToString()))).ToString();
 		}    
     }
 }

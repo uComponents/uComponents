@@ -43,7 +43,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             SqlAutoCompleteOptions options = GetOptions(datatypeDefinitionId);
 
             // double check, as client shouldn't call this method if invalid
-            if (autoCompleteText.Length >= options.LetterCount)
+            if (autoCompleteText.Length >= options.MinLength)
             {
                 string sql = options.Sql;
 

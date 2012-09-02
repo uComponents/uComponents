@@ -92,23 +92,12 @@ namespace uComponents.DataTypes.SqlAutoComplete
             {
                 if (this.data == null)
                 {
-                    if (this.Options.UseXml)
-                    {
-                        // Storing an Xml fragment
-                        this.data = new XmlData(this);
-                    }
-                    else
-                    {
-                        // Storing a Csv
-                        this.data = new umbraco.cms.businesslogic.datatype.DefaultData(this);
-                    }
+                    // Storing an Xml fragment
+                    this.data = new XmlData(this);
                 }
 
                 return this.data;
             }
         }
-
-
-
     }
 }
