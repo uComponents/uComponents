@@ -86,7 +86,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.sqlTextBox.ID = "sqlTextBox";
             this.sqlTextBox.TextMode = TextBoxMode.MultiLine;
             this.sqlTextBox.Rows = 10;
-            this.sqlTextBox.Columns = 80;
+            this.sqlTextBox.Columns = 60;
             // this.sqlTextBox.CssClass = "umbEditorTextField";
 
             this.sqlRequiredFieldValidator.ControlToValidate = this.sqlTextBox.ID;
@@ -190,7 +190,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// <param name="writer"></param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow("SQL Expression", @" expects a result set with two fields : 'Text' and 'Value' - can include the tokens : $currentId and $autcompleteText", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
+            writer.AddPrevalueRow("SQL Expression", @" expects a result set with two fields : 'Text' and 'Value' - can include the tokens : @currentId and @autoCompleteText", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
             writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
             writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);
         }

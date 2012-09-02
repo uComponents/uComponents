@@ -50,7 +50,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
                 string sql = options.Sql;
 
                 sql = sql.Replace("@currentId", currentId.ToString());
-                sql = sql.Replace("@autoComplete", autoCompleteText);
+                sql = sql.Replace("@autoCompleteText", autoCompleteText);
 
                 using (SqlConnection sqlConnection = new SqlConnection(options.GetConnectionString()))
                 {
