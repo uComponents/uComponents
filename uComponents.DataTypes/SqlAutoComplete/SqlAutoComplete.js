@@ -1,31 +1,39 @@
 ﻿/*
     <div class="sql-auto-complete" data-sql-autocomplete-id="EE395ED1-CE6E-4417-AEEB-BCA780D3E96B" data-datatype-definition-id="1056" data-current-id="1051" data-min-length="2">
 
-        <ul class="propertypane ui-sortable">
-            <li data-value="1">
-                This is an item
+        <ul class="propertypane">
+            <li data-text="ABC" data-value="1">
+                ABC
                 <a class="delete" title="remove" href="javascript:void(0);" onclick="SqlAutoComplete.removeItem(this);"></a>
             </li>
-            <li data-value="7">
-                Another item
+            <li data-text="XYZ" data-value="9">
+                XYZ
                 <a class="delete" title="remove" href="javascript:void(0);" onclick="SqlAutoComplete.removeItem(this);"></a>
             </li>
         </ul>
             
-        <input name="ctl00$body$prop_sQLAutoComplete$ctl02" type="text" value="" id="body_prop_sQLAutoComplete_ctl02" class="umbEditorTextField ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+        <input type="text" name="ctl00$body$prop_sQLAutoComplete$ctl02" id="body_prop_sQLAutoComplete_ctl02" class="umbEditorTextField" value="" >
         <input type="hidden" name="ctl00$body$prop_sQLAutoComplete$ctl03">
 
     </div>
+
+    ----------
+
+    <SqlAutoComplete>
+        <Item Text="ABC" Value="1 />
+        <Item Text="XYZ" Value="9" />
+    </SqlAutoComplete>
 */
 
 var SqlAutoComplete = SqlAutoComplete || (function () {
 
+    // public
     function init(input) {
 
         // dom objects
         var div = input.parent('div.sql-auto-complete');
         var ul = div.children('ul');
-        //
+        // input
         var hidden = div.children('input:hidden');
 
         // values
@@ -34,19 +42,29 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
         var currentId = div.data('current-id');
         var minLength = div.data('min-length');
 
-
-        // fromm values in the hidden field, create list items - do it server side or here ? here = single mechanism to create items
-        createList(hidden, ul);
-
+        createList(hidden, ul); // could pull method back to here ?
 
         // make selection list sortable
         ul.sortable({
+
             axis: 'y',
+
             update: function (event, ui) {
                 updateHidden(ul, hidden);
             }
+
         });
 
+        //        // on typing something into the textbox, prevent the enter key from saving the page -  NOT WORKING
+        //        input.keyup(function (event) {
+        //            if (event.keyCode == 13) {
+        //                event.stopPropagation();
+        //                return false;
+        //            }
+        //        });
+
+
+        // setup jQuery UI AutoComplete
         input.autocomplete({
 
             minLength: minLength,
@@ -63,6 +81,8 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             },
 
             open: function (event, ui) {
+
+                // TODO: can we get at the input field from the event or ui params ?
                 input.autocomplete('widget').width(300);
 
             },
@@ -70,76 +90,89 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             autoFocus: true,
 
             focus: function (event, ui) {
-                return false; // prevent the autocomplete text box from being populated with the value of the currenly highlighted item
+
+                // prevent the autocomplete text box from being populated with the value of the currenly highlighted item
+                return false;
+
             },
 
             select: function (event, ui) {
 
+                addItem(ul, ui.item);
 
-                // is there an li with a matching data-value attribute ?
+                updateHidden(ul, hidden);
 
-                if (div.find('ul li[data-value=' + ui.item.value + ']').length == 0) {
-                    div.children('ul').append('<li data-value="' + ui.item.value + '">' + ui.item.label + '<a class="delete" title="remove" href="javascript:void(0);" onClick="SqlAutoComplete.removeItem(this);"></a></li>');
-                }
-
-                // return empty textbox                               
+                // remove the typed text from the autocomplete textbox
                 event.target.value = '';
+
+                // prevent the selected items value from being put into the autocomplete textbox
                 return false;
             }
+        });
+    }
+
+    // private -- from the xml fragment in the hidden field, recreate the selected items list
+    function createList(hidden, ul) {
+
+        var xml = jQuery.parseXML(hidden.val());
+
+        jQuery(xml).find('Item').each(function (index, element) {
+
+            addItem(
+                ul,
+                {
+                    // return an object that looks like the autocomplete item one
+                    label: jQuery(element).attr('Text'),
+                    value: jQuery(element).attr('Value')
+                }
+            );
 
         });
 
     }
 
-    // private
-    function createList(hidden, ul) {
-
-        // for each item in the hidden field create the appropriate list item
-
-        // foreach .... createListItem(ul, text, value);
-    }
-
-    // private
-    function createListItem(ul, text, value) {
-
-    }
-
-    // private
+    // private -- add a new item to the end of the selected items list
     function addItem(ul, item) {
 
         // if item doesn't already exist then add (TODO: configuration option to allow duplicates ?)
-        //createListItem(ul, item.label, item.value);
-        //updateHidden(ul, hidden);
+        if (ul.children('li[data-value=' + item.value + ']').length == 0) {
+
+            ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '">' + item.label + '<a class="delete" title="remove" href="javascript:void(0);" onClick="SqlAutoComplete.removeItem(this);"></a></li>');
+
+        }
     }
 
-
+    // public -- from the clicked anchor, remove it's <li> and re-generate the hidden field
     function removeItem(a) {
 
-        // walk up the dom from the a to find the div
-        // from the div find the hidden field
+        var ul = jQuery(a).parentsUntil('div.sql-auto-complete', 'ul');
+        var hidden = ul.siblings('input:hidden');
 
-
+        // remove the <li>
         jQuery(a).parent().remove();
-        //
 
+        updateHidden(ul, hidden);
     }
 
-    // private
+    // private -- re-generates the xml fragment of selected items, and stores in the hidden field    
     function updateHidden(ul, hidden) {
 
-        // find ul, and for each li, add to the hidden field
+        var xml = '<SqlAutoComplete>';
 
-        // store data as an xml (or json ?) fragment - 
-        // need to put all selected data (as KVP) in the hidden field, as no way of knowing how to get the label for an id wiithout configuring extra sql statements
+        ul.children().each(function (index, element) {
 
-        alert('updating hidden');
+            xml += '<Item Text="' + jQuery(element).data('text') + '" Value="' + jQuery(element).data('value') + '" />';
 
+        });
+        
+        xml += '</SqlAutoComplete>';
+
+        hidden.val(xml);
     }
 
-
-
-
+    // public interface to the above methods
     return {
+
         init: init,
         removeItem: removeItem // needs to be public, as call is made from outside the init scope (from the a tag in the selection list)
     };

@@ -97,9 +97,12 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.minLengthDropDownList.ID = "minLengthDropDownList";
             this.minLengthDropDownList.Items.Add(new ListItem("1", "1"));
             this.minLengthDropDownList.Items.Add(new ListItem("2", "2"));
-            this.minLengthDropDownList.Items.Add(new ListItem("3", "3"));
+            this.minLengthDropDownList.Items.Add(new ListItem("3 (default)", "3"));
             this.minLengthDropDownList.Items.Add(new ListItem("4", "4"));
             this.minLengthDropDownList.Items.Add(new ListItem("5", "5"));
+
+            // TODO: potential feature ?
+            //this.minLengthDropDownList.Items.Add(new ListItem("First Space", "first-space"));
 
             this.Controls.AddPrevalueControls(
                 this.sqlTextBox,
