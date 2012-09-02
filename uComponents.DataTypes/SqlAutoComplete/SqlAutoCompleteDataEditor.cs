@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
+using System.Web;
 using System.Web.UI;
-using System.Text;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Xml.Linq;
 using uComponents.Core;
 using umbraco;
-using umbraco.interfaces;
-using System.Web;
-using umbraco.editorControls;
 using umbraco.cms.businesslogic.datatype;
-using System.Web.UI.HtmlControls;
-using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
+using umbraco.editorControls;
+using umbraco.interfaces;
 
 [assembly: WebResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -157,10 +150,13 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
             ScriptManager.RegisterStartupScript(this, typeof(SqlAutoCompleteDataEditor), this.ClientID + "_init", startupScript, false);
 
+            if (!this.Page.IsPostBack)
+            {
+                this.selectedItemsHiddenField.Value = this.data.Value.ToString();
+            }
+
             // put the options obj into cache so that the /base method can request it (where the sql statment is being used)
             HttpContext.Current.Cache[DataTypeConstants.SqlAutoCompleteId + "_" + this.DataTypeDefinitionId.ToString()] = this.options;
-
-            this.selectedItemsHiddenField.Value = this.data.Value.ToString();
 		}
 
 		/// <summary>
