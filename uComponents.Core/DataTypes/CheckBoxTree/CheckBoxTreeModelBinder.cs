@@ -23,6 +23,12 @@ namespace uComponents.Core.DataTypes.CheckBoxTree
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
+				if (Xml.CouldItBeXml(PropertyData))
+				{
+					instance = new DynamicXml(PropertyData);
+					return true;
+				}
+
 				instance = PropertyData;
 				return true;
 			}

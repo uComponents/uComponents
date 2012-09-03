@@ -98,6 +98,7 @@
     </Reference>
     <Reference Include="umbraco.MacroEngines">
       <HintPath>..\DLLs\umbraco.MacroEngines.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="umbraco.macroRenderings">
       <HintPath>..\DLLs\umbraco.macroRenderings.dll</HintPath>

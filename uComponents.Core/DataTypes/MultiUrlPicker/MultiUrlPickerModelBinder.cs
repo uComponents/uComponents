@@ -1,6 +1,7 @@
 ﻿using uComponents.Core.DataTypes.MultiUrlPicker.Dto;
 using umbraco.MacroEngines;
 using uComponents.Core.Shared;
+using uComponents.Core.XsltExtensions;
 
 namespace uComponents.Core.DataTypes.MultiUrlPicker
 {
@@ -21,6 +22,12 @@ namespace uComponents.Core.DataTypes.MultiUrlPicker
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
+				if (Xml.CouldItBeXml(PropertyData))
+				{
+					instance = new DynamicXml(PropertyData);
+					return true;
+				}
+
 				instance = PropertyData;
 				return true;
 			}

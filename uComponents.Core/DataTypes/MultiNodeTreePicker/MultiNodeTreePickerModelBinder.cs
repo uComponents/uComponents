@@ -23,13 +23,19 @@ namespace uComponents.Core.DataTypes.MultiNodeTreePicker
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
+				if (Xml.CouldItBeXml(PropertyData))
+				{
+					instance = new DynamicXml(PropertyData);
+					return true;
+				}
+
 				instance = PropertyData;
 				return true;
 			}
 
 			var nodeIds = Xml.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
 			var library = new RazorLibraryCore(null);
-			
+
 			instance = (library.NodesById(nodeIds.ToList()) as DynamicNodeList);
 
 			return true;

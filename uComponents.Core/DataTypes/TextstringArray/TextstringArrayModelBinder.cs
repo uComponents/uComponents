@@ -2,6 +2,7 @@
 using System.Xml;
 using umbraco.MacroEngines;
 using uComponents.Core.Shared;
+using uComponents.Core.XsltExtensions;
 
 namespace uComponents.Core.DataTypes.TextstringArray
 {
@@ -22,7 +23,7 @@ namespace uComponents.Core.DataTypes.TextstringArray
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
-				instance = PropertyData;
+				instance = new DynamicXml(PropertyData);
 				return true;
 			}
 

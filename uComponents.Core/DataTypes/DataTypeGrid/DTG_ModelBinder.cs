@@ -7,6 +7,7 @@ using uComponents.Core.DataTypes.DataTypeGrid.Model;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
 using uComponents.Core.Shared;
+using uComponents.Core.XsltExtensions;
 
 namespace uComponents.Core.DataTypes.DataTypeGrid
 {
@@ -27,7 +28,7 @@ namespace uComponents.Core.DataTypes.DataTypeGrid
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
-				instance = PropertyData;
+				instance = new DynamicXml(PropertyData);
 				return true;
 			}
 
