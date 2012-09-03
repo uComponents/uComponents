@@ -63,7 +63,7 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 					if (this.options == null)
 					{
 						// Create a new Options data object with the default values
-						this.options = new SqlCheckBoxListOptions();
+						this.options = new SqlCheckBoxListOptions(true);
 					}
 				}
 

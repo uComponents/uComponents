@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using umbraco.editorControls;
 using System.Configuration;
 using umbraco;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {

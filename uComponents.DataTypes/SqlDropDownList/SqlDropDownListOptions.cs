@@ -1,32 +1,39 @@
-﻿using System.Configuration;
+﻿using System.ComponentModel;
+using System.Configuration;
 using umbraco;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SqlDropDownList
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	internal class SqlDropDownListOptions
+    /// <summary>
+    /// 
+    /// </summary>
+	internal class SqlDropDownListOptions : AbstractOptions
 	{
-		/// <summary>
+        /// <summary>
+        /// Initializes an instance of SqlDropDownListOptions
+        /// </summary>
+        public SqlDropDownListOptions()
+        {
+        }
+    
+        public SqlDropDownListOptions(bool loadDefaults)
+            : base(loadDefaults)
+        {
+        }
+        
+        /// <summary>
 		/// Sql expression used to get drop down list values
 		/// this expression must return both Text and Value fields
 		/// </summary>
+        [DefaultValue("")]
 		public string Sql { get; set; }
 
 		/// <summary>
 		/// Gets or sets an optional connection string (if null then umbraco connection string is used)
 		/// </summary>
+        [DefaultValue("")]
 		public string ConnectionStringName { get; set; }
-
-		/// <summary>
-		/// Initializes an instance of SqlDropDownListOptions
-		/// </summary>
-		public SqlDropDownListOptions()
-		{
-			this.Sql = string.Empty;
-			this.ConnectionStringName = null;
-		}
 
         /// <summary>
         /// Checks web.config for a matching named connection string, else returns the current Umbraco database connection

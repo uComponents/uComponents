@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using umbraco.editorControls;
-using umbraco;
 using System.Configuration;
+using umbraco;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SqlAutoComplete
 {

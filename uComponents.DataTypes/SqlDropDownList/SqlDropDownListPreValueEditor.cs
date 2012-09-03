@@ -52,7 +52,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 					if (this.options == null)
 					{
 						// Create a new Options data object with the default values
-						this.options = new SqlDropDownListOptions();
+						this.options = new SqlDropDownListOptions(true);
 					}
 				}
 				return this.options;
