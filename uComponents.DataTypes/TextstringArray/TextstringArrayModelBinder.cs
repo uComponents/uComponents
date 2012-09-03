@@ -21,7 +21,7 @@ namespace uComponents.DataTypes.TextstringArray
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
-				instance = PropertyData;
+				instance = new DynamicXml(PropertyData);
 				return true;
 			}
 

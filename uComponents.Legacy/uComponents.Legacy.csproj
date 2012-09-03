@@ -89,6 +89,7 @@
     <Compile Include="DataTypes\MultiNodeTreePicker\MNTP_DataType.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\MNTP_PrevalueEditor.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\MultiNodeTreePickerExtensions.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\MultiNodeTreePickerModelBinder.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\NodeSelectionType.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\SelectedItemsTemplate.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\XmlTreeNodeExtensions.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="DataTypes\MultiNodeTreePicker\XPathFilterType.cs" />
     <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringControl.cs" />
     <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringDataType.cs" />
+    <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringModelBinder.cs" />
     <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringOptions.cs" />
     <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringPrevalueEditor.cs" />
     <Compile Include="DataTypes\RadiobuttonListWithImages\RLWI_DataEditor.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="DataTypes\UniqueProperty\UniquePropertyPreValueEditor.cs" />
     <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListDataEditor.cs" />
     <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListDataType.cs" />
+    <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
     <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListOptions.cs" />
     <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListPreValueEditor.cs" />
     <Compile Include="DataTypes\XPathDropDownList\XPathDropDownListDataEditor.cs" />

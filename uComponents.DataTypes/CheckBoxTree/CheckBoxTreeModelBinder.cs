@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using uComponents.Core;
 using umbraco;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
-using uComponents.Core;
 
 namespace uComponents.DataTypes.CheckBoxTree
 {
@@ -23,6 +23,12 @@ namespace uComponents.DataTypes.CheckBoxTree
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
+				if (Helper.Xml.CouldItBeXml(PropertyData))
+				{
+					instance = new DynamicXml(PropertyData);
+					return true;
+				}
+
 				instance = PropertyData;
 				return true;
 			}
