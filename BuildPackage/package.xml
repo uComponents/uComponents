@@ -28,6 +28,7 @@
 	<DataTypes />
 	<control>/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control>
 	<Actions>
+		<Action runat="install" undo="false" alias="uComponents_LegacyCleanUp" />
 		<Action runat="install" undo="true" alias="uComponents_Uninstaller" />
 	</Actions>
 </umbPackage>
