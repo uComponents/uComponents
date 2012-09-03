@@ -91,7 +91,7 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             select: function (event, ui) {
 
                 // only call add item if the maxItems hasn't been reached
-                if (ul.children('li').length < maxItems) {
+                if (maxItems == 0 || ul.children('li').length < maxItems) {
                     addItem(ul, ui.item);
                 }
 
