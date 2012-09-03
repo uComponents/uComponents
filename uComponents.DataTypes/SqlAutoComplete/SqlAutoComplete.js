@@ -1,5 +1,10 @@
 ﻿/*
-    <div class="sql-auto-complete" data-sql-autocomplete-id="EE395ED1-CE6E-4417-AEEB-BCA780D3E96B" data-datatype-definition-id="1056" data-current-id="1051" data-min-length="2">
+    <div class="sql-auto-complete" 
+         data-sql-autocomplete-id="EE395ED1-CE6E-4417-AEEB-BCA780D3E96B" 
+         data-datatype-definition-id="1056" 
+         data-current-id="1051" 
+         data-min-length="2"
+         data-max-items="3">
 
         <ul class="propertypane">
             <li data-text="ABC" data-value="1">
@@ -12,7 +17,7 @@
             </li>
         </ul>
             
-        <input type="text" name="ctl00$body$prop_sQLAutoComplete$ctl02" id="body_prop_sQLAutoComplete_ctl02" class="umbEditorTextField" value="" >
+        <input type="text" name="ctl00$body$prop_sQLAutoComplete$ctl02" id="body_prop_sQLAutoComplete_ctl02" class="umbEditorTextField">
         <input type="hidden" name="ctl00$body$prop_sQLAutoComplete$ctl03">
 
     </div>
@@ -40,8 +45,9 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
         var dataTypeDefinitionId = div.data('datatype-definition-id');
         var currentId = div.data('current-id');
         var minLength = div.data('min-length');
+        var maxItems = div.data('max-items');
 
-        // create list items from saved xml
+        // create list items from saved xml - ignore max-items here, always add all saved items
         var xml = jQuery.parseXML(hidden.val());
         jQuery(xml).find('Item').each(function (index, element) {
             addItem(ul,
@@ -68,7 +74,7 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             source: function (request, response) {
                 jQuery.ajax({
                     type: 'POST',
-                    data: { autoCompleteText : request.term },
+                    data: { autoCompleteText: request.term },
                     contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     url: '/Base/' + sqlAutoCompleteId + '/GetData/' + dataTypeDefinitionId + '/' + currentId,
                     dataType: 'json',
@@ -83,7 +89,12 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
                 return false; // prevent the autocomplete text box from being populated with the value of the currenly highlighted item
             },
             select: function (event, ui) {
-                addItem(ul, ui.item);
+
+                // only call add item if the maxItems hasn't been reached
+                if (ul.children('li').length < maxItems) {
+                    addItem(ul, ui.item);
+                }
+
                 updateHidden(ul, hidden);
                 event.target.value = ''; // remove the typed text from the autocomplete textbox
                 return false; // prevent the selected items value from being put into the autocomplete textbox

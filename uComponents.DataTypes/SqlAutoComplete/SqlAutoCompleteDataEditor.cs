@@ -3,9 +3,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using System.Xml;
 using uComponents.Core;
 using umbraco;
+using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.cms.businesslogic.property;
 using umbraco.editorControls;
 using umbraco.interfaces;
 
@@ -36,6 +39,11 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// Stores the selected values
         /// </summary>
         private HiddenField selectedItemsHiddenField = new HiddenField();
+
+        /// <summary>
+        /// Ensure number of items selected is within any min and max configuration settings
+        /// </summary>
+        private CustomValidator customValidator = new CustomValidator();
 
         /// <summary>
         /// Initializes a new instance of SqlAutoCompleteDataEditor
@@ -113,6 +121,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
             div.Attributes.Add("data-datatype-definition-id", this.DataTypeDefinitionId.ToString());
             div.Attributes.Add("data-current-id", uQuery.GetIdFromQueryString());
             div.Attributes.Add("data-min-length", this.options.MinLength.ToString());
+            //div.Attributes.Add("data-min-items", this.options.MinItems.ToString()); -- not required client side - TODO: could visually indicate number required ?
+            div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
 
             ul.Attributes.Add("class", "propertypane");
             
@@ -120,9 +130,10 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
             div.Controls.Add(ul);
             div.Controls.Add(autoCompleteTextBox);
-            div.Controls.Add(this.selectedItemsHiddenField);
+            div.Controls.Add(this.selectedItemsHiddenField);            
 
             this.Controls.Add(div);
+            this.Controls.Add(this.customValidator);
 		}
 
 		/// <summary>
@@ -139,13 +150,11 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
             string startupScript = @"                
                 <script language='javascript' type='text/javascript'>
-
                     $(document).ready(function () {
-                    
+
                         SqlAutoComplete.init(jQuery('input#" + this.autoCompleteTextBox.ClientID + @"'));
 
                     });
-
                 </script>";
 
             ScriptManager.RegisterStartupScript(this, typeof(SqlAutoCompleteDataEditor), this.ClientID + "_init", startupScript, false);
@@ -164,8 +173,38 @@ namespace uComponents.DataTypes.SqlAutoComplete
 		/// </summary>
 		public void Save()
 		{
+            string xml = this.selectedItemsHiddenField.Value;
+            int items = 0; // to validate on the number of items selected
+
             // There should be a valid xml fragment (or empty) in the hidden field
-            this.data.Value = this.selectedItemsHiddenField.Value;
+            if (!string.IsNullOrWhiteSpace(xml))
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.LoadXml(xml);
+
+                items = xmlDocument.SelectNodes("//Item").Count;
+            }
+
+            if (this.options.MinItems > 0 && items < this.options.MinItems)
+            {
+                customValidator.IsValid = false;
+            }
+
+            // fail safe check as UI shouldn't allow excess items to be selected (datatype configuration could have been changed since data was stored)
+            if (this.options.MaxItems > 0 && items > this.options.MaxItems)
+            {
+                customValidator.IsValid = false;
+            }
+
+            if (!customValidator.IsValid)
+            {
+                Property property = new Property(((XmlData)this.data).PropertyId);
+                // property.PropertyType.Mandatory - IGNORE, always use the configuration parameters
+					
+                this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorRegExpWithoutTab", property.PropertyType.Name, User.GetCurrent());
+            }
+            
+            this.data.Value = xml;
 		}    
     }
 }
