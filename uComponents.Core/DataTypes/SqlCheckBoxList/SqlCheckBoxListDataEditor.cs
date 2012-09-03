@@ -92,7 +92,7 @@ namespace uComponents.Core.DataTypes.SqlCheckBoxList
 				sql = sql.Replace("@currentId", uQuery.GetIdFromQueryString());
 			}
 
-            using (SqlConnection sqlConnection = new SqlConnection(options.GetConnectionString()))
+			using (SqlConnection sqlConnection = new SqlConnection(options.GetConnectionString()))
 			{
 				SqlCommand sqlCommand = new SqlCommand()
 				{

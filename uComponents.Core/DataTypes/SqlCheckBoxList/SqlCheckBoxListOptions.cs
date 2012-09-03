@@ -44,27 +44,27 @@ namespace uComponents.Core.DataTypes.SqlCheckBoxList
 		{
 		}
 
-        /// <summary>
-        /// Checks web.config for a matching named connection string, else returns the current Umbraco database connection
-        /// </summary>
-        /// <returns>a connection string</returns>
-        public string GetConnectionString()
-        {
-            if (!string.IsNullOrWhiteSpace(this.ConnectionStringName))
-            {
-                // attempt to get connection string from the web.config
-                ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
-                if (connectionStringSettings != null)
-                {
-                    return connectionStringSettings.ConnectionString;
-                }
-                else
-                {
-                    //return this.ConnectionStringName; // relevant for SqlDropDownList which may have the full connection-string stored (previous configuration was via a textbox)
-                }
-            }
+		/// <summary>
+		/// Checks web.config for a matching named connection string, else returns the current Umbraco database connection
+		/// </summary>
+		/// <returns>a connection string</returns>
+		public string GetConnectionString()
+		{
+			if (!string.IsNullOrWhiteSpace(this.ConnectionStringName))
+			{
+				// attempt to get connection string from the web.config
+				ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
+				if (connectionStringSettings != null)
+				{
+					return connectionStringSettings.ConnectionString;
+				}
+				else
+				{
+					//return this.ConnectionStringName; // relevant for SqlDropDownList which may have the full connection-string stored (previous configuration was via a textbox)
+				}
+			}
 
-            return uQuery.SqlHelper.ConnectionString; // default if unknown;
-        }
+			return uQuery.SqlHelper.ConnectionString; // default if unknown;
+		}
 	}
 }
