@@ -4,6 +4,8 @@ using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
 using umbraco;
+using umbraco.IO;
+using System;
 
 namespace uComponents.XsltExtensions
 {
@@ -104,6 +106,31 @@ namespace uComponents.XsltExtensions
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Gets the media Id by URL.
+		/// </summary>
+		/// <param name="url">The URL to get the media id from.</param>
+		/// <returns>Returns the media Id.</returns>
+		public static int GetMediaIdByUrl(string url)
+		{
+			if (!string.IsNullOrWhiteSpace(url))
+			{
+				var mediaPath = IOHelper.ResolveUrl(SystemDirectories.Media);
+				if (url.StartsWith(mediaPath) && url.Length > mediaPath.Length)
+				{
+					var parts = url.Substring(mediaPath.Length).Split(new[] { '/', '-' }, StringSplitOptions.RemoveEmptyEntries);
+					int propertyId;
+
+					if (parts.Length > 1 && int.TryParse(parts[1], out propertyId))
+					{
+						return Cms.GetContentIdByPropertyId(propertyId);
+					}
+				}
+			}
+
+			return uQuery.RootNodeId;
 		}
 
 		/// <summary>

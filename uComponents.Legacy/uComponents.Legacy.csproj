@@ -129,15 +129,34 @@
     <Compile Include="DataTypes\XPathDropDownList\XPathDropDownListPreValueEditor.cs" />
     <Compile Include="NotFoundHandlers\SearchFor404ContentHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="uQuery\uQuery-DataTypes.cs" />
-    <Compile Include="uQuery\uQuery-Dictionary.cs" />
-    <Compile Include="uQuery\uQuery-Document.cs" />
-    <Compile Include="uQuery\uQuery-Media.cs" />
-    <Compile Include="uQuery\uQuery-Members.cs" />
-    <Compile Include="uQuery\uQuery-Nodes.cs" />
-    <Compile Include="uQuery\uQuery-PreValues.cs" />
-    <Compile Include="uQuery\uQuery-UmbracoObjectType.cs" />
     <Compile Include="uQuery\uQuery.cs" />
+    <Compile Include="uQuery\uQuery-DataTypes.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Dictionary.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Content.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Document.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Media.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Members.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Nodes.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-PreValues.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-UmbracoObjectType.cs">
+        <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
     <Compile Include="uQuery\uQueryExtensions\ContentExtensions.cs" />
     <Compile Include="uQuery\uQueryExtensions\DocumentExtensions.cs" />
     <Compile Include="uQuery\uQueryExtensions\MediaExtensions.cs" />
