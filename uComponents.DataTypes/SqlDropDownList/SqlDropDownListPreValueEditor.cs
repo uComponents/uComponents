@@ -5,6 +5,7 @@ using uComponents.DataTypes.Shared.Extensions;
 using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
+using System.Configuration;
 
 namespace uComponents.DataTypes.SqlDropDownList
 {
@@ -25,10 +26,10 @@ namespace uComponents.DataTypes.SqlDropDownList
 		/// </summary>
 		private CustomValidator sqlCustomValidator = new CustomValidator();
 
-		/// <summary>
-		/// optional connection string (if not specified then the current umbraco db connection string is used
-		/// </summary>
-		private TextBox connectionStringTextBox = new TextBox();
+        /// <summary>
+        /// drop down list of all web.config connection strings strings + default of the umbraco app setting connection string
+        /// </summary>
+        private DropDownList connectionStringDropDownList = new DropDownList();
 
 		/// <summary>
 		/// Data object used to define the configuration status of this PreValueEditor
@@ -86,14 +87,18 @@ namespace uComponents.DataTypes.SqlDropDownList
 			this.sqlCustomValidator.Display = ValidatorDisplay.Dynamic;
 			this.sqlCustomValidator.ServerValidate += new ServerValidateEventHandler(this.SqlCustomValidator_ServerValidate);
 
-			this.connectionStringTextBox.ID = "connectionStringTextBox";
-			this.connectionStringTextBox.Columns = 120;
-			this.connectionStringTextBox.TextMode = TextBoxMode.SingleLine;
+            this.connectionStringDropDownList.ID = "connectionStringDeopDownList";
+            this.connectionStringDropDownList.Items.Add(new ListItem("Umbraco (default)", string.Empty));
+
+            foreach (ConnectionStringSettings connectionStringSettings in ConfigurationManager.ConnectionStrings)
+            {
+                this.connectionStringDropDownList.Items.Add(new ListItem(connectionStringSettings.Name, connectionStringSettings.Name));
+            }
 			
 			this.Controls.Add(this.sqlTextBox);
 			this.Controls.Add(this.sqlRequiredFieldValidator);
 			this.Controls.Add(this.sqlCustomValidator);
-			this.Controls.Add(this.connectionStringTextBox);
+			this.Controls.Add(this.connectionStringDropDownList);
 		}
 
 		/// <summary>
@@ -105,7 +110,12 @@ namespace uComponents.DataTypes.SqlDropDownList
 			base.OnLoad(e);
 
 			this.sqlTextBox.Text = this.Options.Sql;
-			this.connectionStringTextBox.Text = this.Options.ConnectionString;
+
+            ListItem selectListItem = this.connectionStringDropDownList.Items.FindByValue(this.options.ConnectionStringName);
+            if (selectListItem != null)
+            {
+                selectListItem.Selected = true;
+            }
 		}
 
 		/// <summary>
@@ -140,7 +150,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 			if (this.Page.IsValid)
 			{
 				this.Options.Sql = this.sqlTextBox.Text;
-				this.Options.ConnectionString = this.connectionStringTextBox.Text;
+				this.Options.ConnectionStringName = this.connectionStringDropDownList.SelectedValue;
 
 				this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
 			}
@@ -153,7 +163,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
 			writer.AddPrevalueRow("SQL Expression", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
-			writer.AddPrevalueRow("Connection String", "(optional)", this.connectionStringTextBox);
+            writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
 		}
 
 	}
