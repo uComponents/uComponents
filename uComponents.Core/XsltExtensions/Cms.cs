@@ -591,6 +591,16 @@ namespace uComponents.Core.XsltExtensions
 		}
 
 		/// <summary>
+		/// Gets the <c>Content</c> Id by property Id.
+		/// </summary>
+		/// <param name="propertyId">The property Id to get the <c>Content</c> Id.</param>
+		/// <returns>Returns the <c>Content</c> Id.</returns>
+		public static int GetContentIdByPropertyId(int propertyId)
+		{
+			return uQuery.GetContentIdByPropertyId(propertyId);
+		}
+
+		/// <summary>
 		/// Gets the dictionary item for the specified language id.
 		/// </summary>
 		/// <param name="key">The key for the dictionary item.</param>
