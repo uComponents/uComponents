@@ -6,6 +6,7 @@ using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
 using System.Configuration;
+using uComponents.DataTypes.Shared.Extensions;
 
 namespace uComponents.DataTypes.SqlDropDownList
 {
@@ -109,13 +110,8 @@ namespace uComponents.DataTypes.SqlDropDownList
 			base.OnLoad(e);
 
 			this.sqlTextBox.Text = this.Options.Sql;
-
-            ListItem selectListItem = this.connectionStringDropDownList.Items.FindByValue(this.options.ConnectionStringName);
-            if (selectListItem != null)
-            {
-                selectListItem.Selected = true;
-            }
-		}
+            this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
+        }
 
 		/// <summary>
 		/// Will run the entered Sql expression to ensure it is valid

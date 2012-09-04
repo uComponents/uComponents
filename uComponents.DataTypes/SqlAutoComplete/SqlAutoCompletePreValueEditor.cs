@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using umbraco.editorControls;
 using umbraco;
 using System.Configuration;
+using uComponents.DataTypes.Shared.Extensions;
 
 namespace uComponents.DataTypes.SqlAutoComplete
 {
@@ -148,14 +149,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
             if (!this.Page.IsPostBack)
             {
                 this.sqlTextBox.Text = this.Options.Sql;
-
-                ListItem selectListItem = this.connectionStringDropDownList.Items.FindByValue(this.options.ConnectionStringName);
-                if (selectListItem != null)
-                {
-                    selectListItem.Selected = true;
-                }
-
-                this.minLengthDropDownList.SelectedIndex = this.minLengthDropDownList.Items.IndexOf(this.minLengthDropDownList.Items.FindByValue(this.Options.MinLength.ToString()));
+                this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
+                this.minLengthDropDownList.SetSelectedValue(this.Options.MinLength.ToString());
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
                 this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
             }

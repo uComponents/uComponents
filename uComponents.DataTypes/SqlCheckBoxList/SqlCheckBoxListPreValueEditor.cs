@@ -3,6 +3,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using umbraco.editorControls;
 using System.Configuration;
+using uComponents.DataTypes.Shared.Extensions;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {
@@ -118,13 +119,7 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 			base.OnLoad(e);
 
 			this.sqlTextBox.Text = this.Options.Sql;
-
-            ListItem selectListItem = this.connectionStringDropDownList.Items.FindByValue(this.options.ConnectionStringName);
-            if (selectListItem != null)
-            {
-                selectListItem.Selected = true;
-            }
-
+            this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
             this.storageTypeRadioButtonList.SelectedValue = this.Options.UseXml.ToString();
 		}
 
