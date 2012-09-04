@@ -9,9 +9,9 @@
 	<!-- PROPERTIES -->
 	<PropertyGroup>
 		<VersionMajor>5</VersionMajor>
-		<VersionMinor>0</VersionMinor>
+		<VersionMinor>1</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-beta</VersionSuffix>
+		<VersionSuffix>-dev</VersionSuffix>
 	</PropertyGroup>
 
 	<PropertyGroup>
