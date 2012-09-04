@@ -1,4 +1,5 @@
-﻿using uComponents.DataTypes.UrlPicker.Dto;
+﻿using uComponents.Core;
+using uComponents.DataTypes.UrlPicker.Dto;
 using umbraco.MacroEngines;
 
 namespace uComponents.DataTypes.UrlPicker
@@ -20,6 +21,12 @@ namespace uComponents.DataTypes.UrlPicker
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
+				if (Helper.Xml.CouldItBeXml(PropertyData))
+				{
+					instance = new DynamicXml(PropertyData);
+					return true;
+				}
+
 				instance = PropertyData;
 				return true;
 			}

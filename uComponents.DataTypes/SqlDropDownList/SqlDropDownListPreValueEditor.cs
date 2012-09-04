@@ -25,9 +25,9 @@ namespace uComponents.DataTypes.SqlDropDownList
 		private CustomValidator sqlCustomValidator = new CustomValidator();
 
         /// <summary>
-        /// drop down list of all web.config connection strings strings + default of the umbraco app setting connection string
+		/// drop down list of all web.config connection strings strings + default of the umbraco app setting connection string
         /// </summary>
-        private DropDownList connectionStringDropDownList = new DropDownList();
+		private DropDownList connectionStringDropDownList = new DropDownList();
 
 		/// <summary>
 		/// Data object used to define the configuration status of this PreValueEditor
@@ -84,14 +84,14 @@ namespace uComponents.DataTypes.SqlDropDownList
 			this.sqlCustomValidator.Display = ValidatorDisplay.Dynamic;
 			this.sqlCustomValidator.ServerValidate += new ServerValidateEventHandler(this.SqlCustomValidator_ServerValidate);
 
-            this.connectionStringDropDownList.ID = "connectionStringDeopDownList";
-            this.connectionStringDropDownList.Items.Add(new ListItem("Umbraco (default)", string.Empty));
+			this.connectionStringDropDownList.ID = "connectionStringDeopDownList";
+			this.connectionStringDropDownList.Items.Add(new ListItem("Umbraco (default)", string.Empty));
 
-            foreach (ConnectionStringSettings connectionStringSettings in ConfigurationManager.ConnectionStrings)
-            {
-                this.connectionStringDropDownList.Items.Add(new ListItem(connectionStringSettings.Name, connectionStringSettings.Name));
-            }
-			
+			foreach (ConnectionStringSettings connectionStringSettings in ConfigurationManager.ConnectionStrings)
+			{
+				this.connectionStringDropDownList.Items.Add(new ListItem(connectionStringSettings.Name, connectionStringSettings.Name));
+			}
+
 			this.Controls.Add(this.sqlTextBox);
 			this.Controls.Add(this.sqlRequiredFieldValidator);
 			this.Controls.Add(this.sqlCustomValidator);
@@ -107,7 +107,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 			base.OnLoad(e);
 
 			this.sqlTextBox.Text = this.Options.Sql;
-            this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
+			this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
         }
 
 		/// <summary>
@@ -155,7 +155,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
 			writer.AddPrevalueRow("SQL Expression", "expects a result set with two fields : 'Text' and 'Value' - can include the token: @currentId", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
-            writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
+			writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
 		}
 
 	}

@@ -7,9 +7,9 @@ using uComponents.DataTypes.Shared.Extensions;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {
-    public class SqlCheckBoxListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
-    {
-        /// <summary>
+	public class SqlCheckBoxListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
+	{
+		/// <summary>
 		/// TextBox control to get the Sql expression
 		/// </summary>
 		private TextBox sqlTextBox = new TextBox();
@@ -25,28 +25,28 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		private CustomValidator sqlCustomValidator = new CustomValidator();
 
         /// <summary>
-        /// drop down list of all web.config connection strings strings + default of the umbraco app setting connection string
+		/// drop down list of all web.config connection strings strings + default of the umbraco app setting connection string
         /// </summary>
-        private DropDownList connectionStringDropDownList = new DropDownList();
+		private DropDownList connectionStringDropDownList = new DropDownList();
 
-        /// <summary>
-        /// Store an Xml fragment or a Csv
-        /// </summary>
-        private RadioButtonList storageTypeRadioButtonList = new RadioButtonList() { RepeatDirection = RepeatDirection.Vertical, RepeatLayout = RepeatLayout.Flow };
+		/// <summary>
+		/// Store an Xml fragment or a Csv
+		/// </summary>
+		private RadioButtonList storageTypeRadioButtonList = new RadioButtonList() { RepeatDirection = RepeatDirection.Vertical, RepeatLayout = RepeatLayout.Flow };
 
 		/// <summary>
 		/// Data object used to define the configuration status of this PreValueEditor
 		/// </summary>
 		private SqlCheckBoxListOptions options = null;
 
-        /// <summary>
-        /// Initialize a new instance of XPathCheckBoxlistPreValueEditor
-        /// </summary>
-        /// <param name="dataType">XPathCheckBoxListDataType</param>
-        public SqlCheckBoxListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
-        {
-        }
+		/// <summary>
+		/// Initialize a new instance of XPathCheckBoxlistPreValueEditor
+		/// </summary>
+		/// <param name="dataType">XPathCheckBoxListDataType</param>
+		public SqlCheckBoxListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
+		{
+		}
 
 		/// <summary>
 		/// Gets the options data object that represents the current state of this datatypes configuration
@@ -90,26 +90,26 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 			this.sqlCustomValidator.Display = ValidatorDisplay.Dynamic;
 			this.sqlCustomValidator.ServerValidate += new ServerValidateEventHandler(this.SqlCustomValidator_ServerValidate);
 
-            this.connectionStringDropDownList.ID = "connectionStringDeopDownList";
-            this.connectionStringDropDownList.Items.Add(new ListItem("Umbraco (default)", string.Empty));
+			this.connectionStringDropDownList.ID = "connectionStringDeopDownList";
+			this.connectionStringDropDownList.Items.Add(new ListItem("Umbraco (default)", string.Empty));
 
-            foreach (ConnectionStringSettings connectionStringSettings in ConfigurationManager.ConnectionStrings)
-            {
-                this.connectionStringDropDownList.Items.Add(new ListItem(connectionStringSettings.Name, connectionStringSettings.Name));
-            }
+			foreach (ConnectionStringSettings connectionStringSettings in ConfigurationManager.ConnectionStrings)
+			{
+				this.connectionStringDropDownList.Items.Add(new ListItem(connectionStringSettings.Name, connectionStringSettings.Name));
+			}
 
-            this.storageTypeRadioButtonList.ID = "storageTypeRadioButtonList";
-            this.storageTypeRadioButtonList.Items.Add(new ListItem("Xml", bool.TrueString));
-            this.storageTypeRadioButtonList.Items.Add(new ListItem("Csv", bool.FalseString));
+			this.storageTypeRadioButtonList.ID = "storageTypeRadioButtonList";
+			this.storageTypeRadioButtonList.Items.Add(new ListItem("Xml", bool.TrueString));
+			this.storageTypeRadioButtonList.Items.Add(new ListItem("Csv", bool.FalseString));
 
-            this.Controls.AddPrevalueControls(
-                this.sqlTextBox,
-                this.sqlRequiredFieldValidator,
-                this.sqlCustomValidator,
-                this.connectionStringDropDownList,
-                this.storageTypeRadioButtonList);
+			this.Controls.AddPrevalueControls(
+				this.sqlTextBox,
+				this.sqlRequiredFieldValidator,
+				this.sqlCustomValidator,
+				this.connectionStringDropDownList,
+				this.storageTypeRadioButtonList);
 		}
-		
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -119,8 +119,9 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 			base.OnLoad(e);
 
 			this.sqlTextBox.Text = this.Options.Sql;
-            this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
-            this.storageTypeRadioButtonList.SelectedValue = this.Options.UseXml.ToString();
+
+			this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
+			this.storageTypeRadioButtonList.SelectedValue = this.Options.UseXml.ToString();
 		}
 
 		/// <summary>
@@ -156,7 +157,7 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 			{
 				this.Options.Sql = this.sqlTextBox.Text;
 				this.Options.ConnectionStringName = this.connectionStringDropDownList.SelectedValue;
-                this.Options.UseXml = bool.Parse(this.storageTypeRadioButtonList.SelectedValue);
+				this.Options.UseXml = bool.Parse(this.storageTypeRadioButtonList.SelectedValue);
 
 				this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
 			}
@@ -169,8 +170,8 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
 			writer.AddPrevalueRow("SQL Expression", "expects a result set with two fields : 'Text' and 'Value' - can include the token: @currentId", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
-            writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
-            writer.AddPrevalueRow("Storage Type", "", this.storageTypeRadioButtonList);
+			writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
+			writer.AddPrevalueRow("Storage Type", "", this.storageTypeRadioButtonList);
 		}
-    }
+	}
 }

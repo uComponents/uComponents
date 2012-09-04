@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using umbraco;
 using umbraco.cms.businesslogic.macro;
 using umbraco.interfaces;
-using umbraco.IO;
 
 namespace uComponents.MacroEngines
 {
 	/// <summary>
-	/// Static File Macro Engine
+	/// Custom Control Macro Engine
 	/// </summary>
-	public class StaticFileMacroEngine : IMacroEngine
+	public class CustomControlMacroEngine : IMacroEngine
 	{
 		/// <summary>
 		/// Gets the name of the macro engine.
@@ -20,7 +25,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return "uComponents: Static File Macro Engine";
+				return "uComponents: Custom Control Macro Engine";
 			}
 		}
 
@@ -32,7 +37,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "text", "txt", "htm", "html" };
+				return new string[] { "control", "dll" };
 			}
 		}
 
@@ -44,7 +49,9 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "txt", "html" };
+				// intentionally returns an empty array,
+				// (as to not display as macro engine in the back-office).
+				return new string[] { };
 			}
 		}
 
@@ -68,11 +75,11 @@ namespace uComponents.MacroEngines
 		/// <param name="tempFileName">Name of the temp file.</param>
 		/// <param name="currentPage">The current page.</param>
 		/// <param name="errorMessage">The error message.</param>
-		/// <returns>Always returns <c>true</c>, as no validation is required.</returns>
+		/// <returns></returns>
+		/// <remarks>Not Implemented.</remarks>
 		public bool Validate(string code, string tempFileName, INode currentPage, out string errorMessage)
 		{
-			errorMessage = string.Empty;
-			return true;
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -83,13 +90,31 @@ namespace uComponents.MacroEngines
 		/// <returns>Returns a string of the executed macro text/HTML.</returns>
 		public string Execute(MacroModel macro, INode currentPage)
 		{
-			if (!string.IsNullOrEmpty(macro.ScriptName))
+			var typeAssembly = "uComponents.Controls";
+			var typeName = "uComponents.Controls.RenderTemplate";
+			
+			var tempMacro = new macro() { };
+			var ctrl = tempMacro.loadControl(typeAssembly, typeName, macro, (Hashtable)HttpContext.Current.Items["pageElements"]);
+
+			return this.RenderControl(ctrl);
+		}
+
+		/// <summary>
+		/// Renders the control.
+		/// </summary>
+		/// <param name="ctrl">The control to render.</param>
+		/// <returns>Returns a string of the rendered control.</returns>
+		private string RenderControl(Control ctrl)
+		{
+			var sb = new StringBuilder();
+
+			using (var tw = new StringWriter(sb))
+			using (var hw = new HtmlTextWriter(tw))
 			{
-				var fileLocation = macro.ScriptName.StartsWith("~") ? macro.ScriptName : Path.Combine(SystemDirectories.MacroScripts, macro.ScriptName);
-				return File.ReadAllText(IOHelper.MapPath(fileLocation));
+				ctrl.RenderControl(hw);
 			}
 
-			return macro.ScriptCode;
+			return sb.ToString();
 		}
 	}
 }

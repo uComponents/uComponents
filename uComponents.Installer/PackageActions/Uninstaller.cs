@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using uComponents.Core;
 using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
-using uComponents.Core;
-using System.Collections.Generic;
+using umbraco.IO;
 
 namespace uComponents.Installer.PackageActions
 {
@@ -16,6 +17,11 @@ namespace uComponents.Installer.PackageActions
 	/// </summary>
 	public class Uninstaller : IPackageAction
 	{
+		/// <summary>
+		/// An object to temporarily lock writing to disk.
+		/// </summary>
+		private static readonly object m_Locker = new object();
+
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
@@ -38,8 +44,8 @@ namespace uComponents.Installer.PackageActions
 		/// <returns>Returns <c>true</c> when successful, otherwise <c>false</c>.</returns>
 		public bool Execute(string packageName, XmlNode xmlData)
 		{
-			// TODO: [LK] Check if upgrade from 3.x/4.x, if so, do a clean-up (HttpModules, any references to old "uComponents.Core" namespace, etc)
-			return true;
+			var result = this.CleanUpLegacyComponents();
+			return result;
 		}
 
 		/// <summary>
@@ -141,6 +147,45 @@ namespace uComponents.Installer.PackageActions
 			}
 
 			return result;
+		}
+
+		/// <summary>
+		/// Cleans up legacy components.
+		/// </summary>
+		/// <returns></returns>
+		private bool CleanUpLegacyComponents()
+		{
+			// remove the legacy HttpModules from Web.config
+			var result = new AddHttpModule().Undo(string.Empty, null);
+
+			// delete legacy files, as they contain references to legacy namespaces
+			var files = new[] { "AjaxUploadHandler.ashx", "CustomTreeService.asmx", "PreValueWebService.asmx", "UrlPickerService.asmx" };
+			foreach (var file in files)
+			{
+				result = this.DeletePluginFile(file);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Deletes the plugin file.
+		/// </summary>
+		/// <param name="file">The file.</param>
+		/// <returns></returns>
+		private bool DeletePluginFile(string file)
+		{
+			var path = IOHelper.MapPath(Path.Combine(uComponents.DataTypes.Settings.BaseDirName, file));
+
+			lock (m_Locker)
+			{
+				if (File.Exists(path))
+				{
+					File.Delete(path);
+				}
+			}
+
+			return true;
 		}
 	}
 }

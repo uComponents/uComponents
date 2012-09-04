@@ -1,14 +1,15 @@
-﻿using uComponents.Core;
-using uComponents.DataTypes.MultiUrlPicker.Dto;
+﻿using System.Linq;
+using uComponents.Core;
 using umbraco.MacroEngines;
+using umbraco.MacroEngines.Library;
 
-namespace uComponents.DataTypes.MultiUrlPicker
+namespace uComponents.DataTypes.MultiNodeTreePicker
 {
 	/// <summary>
-	/// Model binder for the MultiUrlPicker data-type.
+	/// Model binder for the DataTypeGrid data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.MultiUrlPickerId)]
-	public class MultiUrlPickerModelBinder : IRazorDataTypeModel
+	[RazorDataTypeModel(DataTypeConstants.MultiNodeTreePickerId)]
+	public class MultiNodeTreePickerModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>
 		/// Inits the specified current node id.
@@ -31,14 +32,10 @@ namespace uComponents.DataTypes.MultiUrlPicker
 				return true;
 			}
 
-			MultiUrlPickerState state = null;
+			var nodeIds = Helper.Xml.CouldItBeXml(PropertyData) ? umbraco.uQuery.GetXmlIds(PropertyData) : umbraco.uQuery.ConvertToIntArray(umbraco.uQuery.GetCsvIds(PropertyData));
+			var library = new RazorLibraryCore(null);
 
-			if (!string.IsNullOrEmpty(PropertyData))
-			{
-				state = MultiUrlPickerState.Deserialize(PropertyData);
-			}
-
-			instance = state;
+			instance = (library.NodesById(nodeIds.ToList()) as DynamicNodeList);
 
 			return true;
 		}

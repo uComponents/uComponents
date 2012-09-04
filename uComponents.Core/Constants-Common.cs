@@ -17,6 +17,11 @@ namespace uComponents.Core
 			public const char COMMA = ',';
 
 			/// <summary>
+			/// A dot / full-stop / period (char).
+			/// </summary>
+			public const char DOT = '.';
+
+			/// <summary>
 			/// File extension for ASP.NET webpages.
 			/// </summary>
 			public const string DOTASPX = ".aspx";

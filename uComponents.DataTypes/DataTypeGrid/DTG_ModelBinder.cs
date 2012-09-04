@@ -22,7 +22,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
-				instance = PropertyData;
+				instance = new DynamicXml(PropertyData);
 				return true;
 			}
 
