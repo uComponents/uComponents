@@ -116,8 +116,8 @@ namespace uComponents.DataTypes.XPathAutoComplete
             // ul list for the selected items
             HtmlGenericControl ul = new HtmlGenericControl("ul");
 
-            div.Attributes.Add("class", "sql-auto-complete");
-            div.Attributes.Add("data-sql-autocomplete-id", DataTypeConstants.XPathAutoCompleteId);
+            div.Attributes.Add("class", "xpath-auto-complete");
+            div.Attributes.Add("data-xpath-autocomplete-id", DataTypeConstants.XPathAutoCompleteId);
             div.Attributes.Add("data-datatype-definition-id", this.DataTypeDefinitionId.ToString());
             div.Attributes.Add("data-current-id", uQuery.GetIdFromQueryString());
             div.Attributes.Add("data-min-length", this.options.MinLength.ToString());

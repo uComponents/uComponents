@@ -280,8 +280,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoComplete\scripts\jquery.autocomplete.min.js" />
-    <Content Include="XPathAutoComplete\XPathAutoComplete.css" />
-    <Content Include="XPathAutoComplete\XPathAutoComplete.js" />
+    <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.css" />
+    <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.js" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.css" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.js" />
     <EmbeddedResource Include="AutoComplete\Styles\autocomplete.css" />
