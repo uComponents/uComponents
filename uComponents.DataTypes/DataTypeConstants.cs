@@ -195,6 +195,11 @@
 		/// </summary>
 		public const string UserPickerId = "DEC7A504-ABD1-4F35-A136-58B89DCF174C";
 
+        /// <summary>
+        /// Guid for the XPathAutoComplete data-type.
+        /// </summary>
+        public const string XPathAutoCompleteId = "6905F13E-829D-4827-9B9F-72D5A00E7A9E";
+
 		/// <summary>
 		/// Guid for the XPathCheckBoxList data-type.
 		/// </summary>

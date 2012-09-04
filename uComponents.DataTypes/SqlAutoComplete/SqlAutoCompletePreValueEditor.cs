@@ -213,7 +213,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             writer.AddPrevalueRow("SQL Expression", @" expects a result set with two fields : 'Text' and 'Value' - can include the tokens : @currentId and @autoCompleteText", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
             writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
             writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);
-            writer.AddPrevalueRow("Min Items", "number of items that must be selected - 0 means no limit", this.minItemsTextBox);
+            writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox);
         }
     }
