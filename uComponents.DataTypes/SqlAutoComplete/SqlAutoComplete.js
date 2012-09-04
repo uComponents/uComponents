@@ -38,7 +38,7 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
         // dom objects
         var div = input.parent('div.sql-auto-complete');
         var ul = div.children('ul');
-        var hidden = div.children('input:hidden');
+        var hidden = div.children('input[type="hidden"]');
 
         // values
         var sqlAutoCompleteId = div.data('sql-autocomplete-id');
