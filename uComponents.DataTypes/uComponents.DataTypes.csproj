@@ -272,9 +272,16 @@
     <Compile Include="UserPicker\UserPickerDataType.cs" />
     <Compile Include="UserPicker\UserPickerOptions.cs" />
     <Compile Include="UserPicker\UserPickerPrevalueEditor.cs" />
+    <Compile Include="XPathAutoComplete\XPathAutoCompleteBase.cs" />
+    <Compile Include="XPathAutoComplete\XPathAutoCompleteDataEditor.cs" />
+    <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
+    <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
+    <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoComplete\scripts\jquery.autocomplete.min.js" />
+    <Content Include="XPathAutoComplete\XPathAutoComplete.css" />
+    <Content Include="XPathAutoComplete\XPathAutoComplete.js" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.css" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.js" />
     <EmbeddedResource Include="AutoComplete\Styles\autocomplete.css" />
