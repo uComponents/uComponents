@@ -33,10 +33,14 @@ namespace uComponents.Installer.PackageActions
 		/// </summary>
 		public const string Type = "uComponents.UI.uComponentsModule, uComponents.UI";
 
-		// Set the web.config full path
+		/// <summary>
+		/// Set the web.config full path
+		/// </summary>
 		const string FULL_PATH = "~/Web.config";
 
-		// Add the module to the different locations for IIS6 and 7
+		/// <summary>
+		/// Add the module to the different locations for IIS6 and 7
+		/// </summary>
 		private static string[] targets = new[] { "/configuration/system.web/httpModules", "/configuration/system.webServer/modules" };
 
 		/// <summary>

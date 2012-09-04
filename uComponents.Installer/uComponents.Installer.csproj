@@ -58,7 +58,6 @@
     <Compile Include="PackageActions\Add404Handler.cs" />
     <Compile Include="PackageActions\AddAppConfigKey.cs" />
     <Compile Include="PackageActions\AddHttpModule.cs" />
-    <Compile Include="PackageActions\LegacyCleanUp.cs" />
     <Compile Include="PackageActions\Uninstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
