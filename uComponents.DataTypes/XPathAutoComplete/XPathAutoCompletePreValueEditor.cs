@@ -136,9 +136,11 @@ namespace uComponents.DataTypes.XPathAutoComplete
             this.maxItemsTextBox.AutoCompleteType = AutoCompleteType.None;
 
             this.Controls.AddPrevalueControls(
+                this.typeRadioButtonList,
                 this.xPathTextBox,
                 this.xPathRequiredFieldValidator,
                 this.xPathCustomValidator,
+                this.propertyTextBox,
                 this.minLengthDropDownList,
                 this.minItemsTextBox,
                 this.maxItemsTextBox);
@@ -154,9 +156,9 @@ namespace uComponents.DataTypes.XPathAutoComplete
 
             if (!this.Page.IsPostBack)
             {
+                this.typeRadioButtonList.SelectedValue = this.Options.Type;
                 this.xPathTextBox.Text = this.Options.XPath;
-
-                
+                this.propertyTextBox.Text = this.Options.Property;                               
                 this.minLengthDropDownList.SetSelectedValue(this.Options.MinLength.ToString());
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
                 this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
@@ -192,10 +194,9 @@ namespace uComponents.DataTypes.XPathAutoComplete
         {
             if (this.Page.IsValid)
             {
-                this.Options.XPath = this.xPathTextBox.Text;
-                this.Options.Property = this.propertyTextBox.Text;
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
-                
+                this.Options.XPath = this.xPathTextBox.Text;
+                this.Options.Property = this.propertyTextBox.Text;                
                 this.Options.MinLength = int.Parse(this.minLengthDropDownList.SelectedValue);
 
                 // ensure min and max items are valid numbers
@@ -217,8 +218,8 @@ namespace uComponents.DataTypes.XPathAutoComplete
         /// <param name="writer"></param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow("Type", @"", this.typeRadioButtonList);
-            writer.AddPrevalueRow("XPath Expression", @"", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
+            writer.AddPrevalueRow("Type", @"the xml schema to query", this.typeRadioButtonList);
+            writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
             writer.AddPrevalueRow("Property Name", @"value of property to query and use as item labels", this.propertyTextBox);
             writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox);
