@@ -185,9 +185,13 @@ namespace uComponents.DataTypes.SubTabs
                             
                 foreach (var tab in tabs)
                 {
-                    // Hide the regular Umbraco tabs - TODO: is there a safer way by finding tabs that exactly contain that text ?
+                    // Hide the regular Umbraco tabs
                     stringBuilder.Append(@"
-                               $('span > nobr:contains(""" + tab.Caption + @""")').parentsUntil('li', 'a').parent().hide();
+                               $('span > nobr')
+                                    .filter(function () {
+                                        return $(this).html() == '"+ tab.Caption + @"';
+                                    })
+                                    .parentsUntil('li', 'a').parent().hide();
                         ");
                 }
 
