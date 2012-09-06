@@ -41,6 +41,9 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
         /// </summary>
         public static readonly string Guid = "7EEE876C-47BF-4390-97BA-CEDE69F68CD9";
 
+        /// <summary>
+        /// An object to temporarily lock writing to disk.
+        /// </summary>
         private static readonly object m_Locker = new object();
 
         // Constants
@@ -136,10 +139,10 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
             WriteResponseBody(context, savedFiles);
         }
 
-		private void WriteResponseBody(HttpContext context)
-		{
-			WriteResponseBody(context, null);
-		}
+        private void WriteResponseBody(HttpContext context)
+        {
+            WriteResponseBody(context, null);
+        }
 
         private void WriteResponseBody(HttpContext context, List<string> filesSaved)
         {
@@ -169,7 +172,6 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
         {
             if (!umbraco.BasePages.BasePage.ValidateUserContextID(umbraco.BasePages.BasePage.umbracoUserContextID))
                 throw new Exception("Client authorization failed. User is not logged in");
-
         }
 
         /// <summary>

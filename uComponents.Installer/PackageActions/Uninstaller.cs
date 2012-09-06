@@ -158,8 +158,14 @@ namespace uComponents.Installer.PackageActions
 			// remove the legacy HttpModules from Web.config
 			var result = new AddHttpModule().Undo(string.Empty, null);
 
-			// delete legacy files, as they contain references to legacy namespaces
-			var files = new[] { "CustomTreeService.asmx", "DataTypeGrid/PreValueWebService.asmx", "Shared/AjaxUpload/AjaxUploadHandler.ashx", "UrlPicker/UrlPickerService.asmx" };
+			// delete legacy files, as they contain references to legacy namespaces, these will be later recreated.
+			var files = new[]
+			{
+				"DataTypeGrid/PreValueWebService.asmx",
+				"MultiNodePicker/CustomTreeService.asmx",
+				"Shared/AjaxUpload/AjaxUploadHandler.ashx",
+				"UrlPicker/UrlPickerService.asmx"
+			};
 			foreach (var file in files)
 			{
 				result = this.DeletePluginFile(file);
