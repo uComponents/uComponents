@@ -11,7 +11,7 @@
 		<VersionMajor>4</VersionMajor>
 		<VersionMinor>1</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-beta</VersionSuffix>
+		<VersionSuffix></VersionSuffix>
 		<ProjectName>uComponents.Core</ProjectName>
 	</PropertyGroup>
 
@@ -80,7 +80,7 @@
 		</ReadLinesFromFile>
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
-			MinimumRequiredUmbracoVersion="4.7.1"
+			MinimumRequiredUmbracoVersion="4.6.1"
 			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Readme="@(Readme->'%(Identity)', '%0a%0d')"
 			Files="@(ManifestFiles)" />

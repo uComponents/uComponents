@@ -625,7 +625,7 @@
   <ItemGroup>
     <Compile Include="uQuery\uQuery.cs" />
     <Compile Include="uQuery\uQuery-Content.cs">
-        <DependentUpon>uQuery.cs</DependentUpon>
+      <DependentUpon>uQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="uQuery\uQuery-Document.cs">
       <DependentUpon>uQuery.cs</DependentUpon>
