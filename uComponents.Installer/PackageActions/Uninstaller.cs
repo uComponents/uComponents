@@ -171,6 +171,13 @@ namespace uComponents.Installer.PackageActions
 				result = this.DeletePluginFile(file);
 			}
 
+			// NotFoundHandlers - update the assembly reference
+			result = this.UpdateNotFoundHandlersConfig();
+
+			// XsltExtensions - update the assembly and type references
+			result = this.UpdateXsltExtensionsConfig();
+
+
 			return result;
 		}
 
@@ -185,10 +192,88 @@ namespace uComponents.Installer.PackageActions
 
 			lock (m_Locker)
 			{
-				var info = new FileInfo(file);
+				var info = new FileInfo(path);
 				if (info.Exists && !info.IsReadOnly)
 				{
 					info.Delete();
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Updates the not found handlers config.
+		/// </summary>
+		/// <returns></returns>
+		private bool UpdateNotFoundHandlersConfig()
+		{
+			var path = IOHelper.MapPath(SystemFiles.NotFoundhandlersConfig);
+			var config = new XmlDocument() { PreserveWhitespace = true };
+			config.Load(path);
+
+			if (config != null)
+			{
+				var legacyNamespace = "uComponents.Core";
+				var nodes = config.SelectNodes(string.Format("//notFound[@assembly = '{0}']", legacyNamespace));
+				if (nodes != null && nodes.Count > 0)
+				{
+					var newNamespace = "uComponents.NotFoundHandlers";
+					foreach (XmlNode node in nodes)
+					{
+						var assembly = node.Attributes.GetNamedItem("assembly");
+						if (assembly != null)
+						{
+							assembly.Value = newNamespace;
+						}
+
+						var type = node.Attributes.GetNamedItem("type");
+						if (type != null)
+						{
+							type.Value = type.Value.Replace("NotFoundHandlers.", string.Empty);
+						}
+					}
+
+					config.Save(path);
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Updates the XSLT extensions config.
+		/// </summary>
+		/// <returns></returns>
+		private bool UpdateXsltExtensionsConfig()
+		{
+			var path = IOHelper.MapPath(SystemFiles.XsltextensionsConfig);
+			var config = new XmlDocument() { PreserveWhitespace = true };
+			config.Load(path);
+
+			if (config != null)
+			{
+				var legacyNamespace = "uComponents.Core";
+				var nodes = config.SelectNodes(string.Format("//ext[@assembly = '{0}']", legacyNamespace));
+				if (nodes != null && nodes.Count > 0)
+				{
+					var newNamespace = "uComponents.XsltExtensions";
+					foreach (XmlNode node in nodes)
+					{
+						var assembly = node.Attributes.GetNamedItem("assembly");
+						if (assembly != null)
+						{
+							assembly.Value = newNamespace;
+						}
+
+						var type = node.Attributes.GetNamedItem("type");
+						if (type != null)
+						{
+							type.Value = type.Value.Replace("uComponents.Core.XsltExtensions", newNamespace);
+						}
+					}
+
+					config.Save(path);
 				}
 			}
 
