@@ -159,7 +159,7 @@ namespace uComponents.Installer.PackageActions
 			var result = new AddHttpModule().Undo(string.Empty, null);
 
 			// delete legacy files, as they contain references to legacy namespaces
-			var files = new[] { "AjaxUploadHandler.ashx", "CustomTreeService.asmx", "PreValueWebService.asmx", "UrlPickerService.asmx" };
+			var files = new[] { "CustomTreeService.asmx", "DataTypeGrid/PreValueWebService.asmx", "Shared/AjaxUpload/AjaxUploadHandler.ashx", "UrlPicker/UrlPickerService.asmx" };
 			foreach (var file in files)
 			{
 				result = this.DeletePluginFile(file);
@@ -179,9 +179,10 @@ namespace uComponents.Installer.PackageActions
 
 			lock (m_Locker)
 			{
-				if (File.Exists(path))
+				var info = new FileInfo(file);
+				if (info.Exists && !info.IsReadOnly)
 				{
-					File.Delete(path);
+					info.Delete();
 				}
 			}
 
