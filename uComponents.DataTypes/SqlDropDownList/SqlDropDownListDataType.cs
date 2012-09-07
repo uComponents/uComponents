@@ -11,17 +11,17 @@ namespace uComponents.DataTypes.SqlDropDownList
 	public class SqlDropDownListDataType : BaseDataType, IDataType
 	{
 		/// <summary>
-		/// 
+		/// The PreValue Editor for the data-type.
 		/// </summary>
 		private SqlDropDownListPreValueEditor preValueEditor;
 
 		/// <summary>
-		/// 
+		/// The Data- Editor for the data-type.
 		/// </summary>
 		private IDataEditor dataEditor;
 
 		/// <summary>
-		/// 
+		/// The Data object for the data-type.
 		/// </summary>
 		private IData data;
 

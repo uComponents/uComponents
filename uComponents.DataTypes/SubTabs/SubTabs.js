@@ -18,7 +18,12 @@ function activateSubTab(hostTabAnchor, subTabsPanel, subTabsType, reClick) {
             break;
     }
 
-    var tabAnchor = $('span > nobr:contains(' + activeSubTabName + ')').parentsUntil('li', 'a');
+    var tabAnchor = $('span > nobr')
+                        .filter(function (){
+                            return $(this).html() == activeSubTabName;
+                        })
+                        .parentsUntil('li', 'a');
+
     var tab = $(tabAnchor).parent();
     var tabArea = $('div#' + $(tab).attr('id') + 'layer_contentlayer div.tabpageContent');
 

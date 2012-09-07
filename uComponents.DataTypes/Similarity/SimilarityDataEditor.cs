@@ -378,10 +378,7 @@ namespace uComponents.DataTypes.Similarity
                 catch (ArgumentException)
                 {
                     //the node no longer exists, so we display a msg
-                    litSelectNodeName.Text = "<i>"
-                                             +
-                                             Helper.Dictionary.GetDictionaryItem(
-                                                 "NodeNoLongerExists", "NODE NO LONGER EXISTS") + "</i>";
+                    litSelectNodeName.Text = string.Format("<i>{0}</i>", Helper.Dictionary.GetDictionaryItem("NodeNoLongerExists", "NODE NO LONGER EXISTS"));
                 }
             }
         }

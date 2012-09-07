@@ -11,7 +11,7 @@
 		<VersionMajor>5</VersionMajor>
 		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-alpha2</VersionSuffix>
+		<VersionSuffix>-beta</VersionSuffix>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -52,15 +52,15 @@
 	<!-- PREPARE FILES -->
 	<Target Name="PrepareFiles" DependsOnTargets="Compile">
 		<ItemGroup>
-			<BinFiles Include="$(RootDir)\bin\Release\uComponents.Core.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.dll" />
+			<BinFiles Include="$(RootDir)\bin\Release\uComponents.Core.*" />
+			<BinFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.*" />
+			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.*" />
+			<BinFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.*" />
+			<BinFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.*" />
+			<BinFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.*" />
+			<BinFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.*" />
+			<BinFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.*" />
+			<BinFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.*" />
 			<PluginFiles Include="$(RootDir)\..\uComponents.Installer\*.ascx" />
 			<PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
 			<NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />

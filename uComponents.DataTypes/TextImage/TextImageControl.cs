@@ -7,6 +7,9 @@ namespace uComponents.DataTypes.TextImage
 
     #endregion
 
+    /// <summary>
+    /// Control for TextImage data-type
+    /// </summary>
     public class TextImageControl : Panel
     {
         #region Controls

@@ -25,7 +25,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return "XSLT Macro Engine";
+				return "uComponents: XSLT Macro Engine";
 			}
 		}
 

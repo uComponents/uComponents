@@ -99,18 +99,8 @@ namespace uComponents.DataTypes.SqlDropDownList
 			{
 				sql = sql.Replace("@currentId", uQuery.GetIdFromQueryString());
 			}
-
-			string connectionString;
-			if (!string.IsNullOrEmpty(this.options.ConnectionString))
-			{
-				connectionString = this.options.ConnectionString;
-			}
-			else
-			{
-				connectionString = uQuery.SqlHelper.ConnectionString;
-			}
 			
-			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			using (SqlConnection sqlConnection = new SqlConnection(this.options.GetConnectionString()))
 			{
 				SqlCommand sqlCommand = new SqlCommand()
 				{

@@ -12,118 +12,111 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {
-    public class SqlCheckBoxListDataEditor : CompositeControl, IDataEditor
-    {
-        /// <summary>
-        /// Field for the data.
-        /// </summary>
-        private IData data;
+	/// <summary>
+	/// DataEditor for the SQL CheckBoxList data-type.
+	/// </summary>
+	public class SqlCheckBoxListDataEditor : CompositeControl, IDataEditor
+	{
+		/// <summary>
+		/// Field for the data.
+		/// </summary>
+		private IData data;
 
-        /// <summary>
-        /// Field for the options.
-        /// </summary>
-        private SqlCheckBoxListOptions options;
+		/// <summary>
+		/// Field for the options.
+		/// </summary>
+		private SqlCheckBoxListOptions options;
 
-        /// <summary>
-        /// Field for the checkbox list.
-        /// </summary>
-        private CheckBoxList checkBoxList = new CheckBoxList();
+		/// <summary>
+		/// Field for the checkbox list.
+		/// </summary>
+		private CheckBoxList checkBoxList = new CheckBoxList();
 
-        /// <summary>
-        /// Initializes a new instance of SqlCheckBoxListDataEditor
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="options"></param>
-        internal SqlCheckBoxListDataEditor(IData data, SqlCheckBoxListOptions options)
-        {
-            this.data = data;
-            this.options = options;
-        }
+		/// <summary>
+		/// Initializes a new instance of SqlCheckBoxListDataEditor
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="options"></param>
+		internal SqlCheckBoxListDataEditor(IData data, SqlCheckBoxListOptions options)
+		{
+			this.data = data;
+			this.options = options;
+		}
 
-        /// <summary>
-        /// Gets a value indicating whether [treat as rich text editor].
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if [treat as rich text editor]; otherwise, <c>false</c>.
-        /// </value>
-        public virtual bool TreatAsRichTextEditor
-        {
-            get
-            {
-                return false;
-            }
-        }
+		/// <summary>
+		/// Gets a value indicating whether [treat as rich text editor].
+		/// </summary>
+		/// <value>
+		///     <c>true</c> if [treat as rich text editor]; otherwise, <c>false</c>.
+		/// </value>
+		public virtual bool TreatAsRichTextEditor
+		{
+			get
+			{
+				return false;
+			}
+		}
 
-        /// <summary>
-        /// Gets a value indicating whether [show label].
-        /// </summary>
-        /// <value><c>true</c> if [show label]; otherwise, <c>false</c>.</value>
-        public virtual bool ShowLabel
-        {
-            get
-            {
-                return true;
-            }
-        }
+		/// <summary>
+		/// Gets a value indicating whether [show label].
+		/// </summary>
+		/// <value><c>true</c> if [show label]; otherwise, <c>false</c>.</value>
+		public virtual bool ShowLabel
+		{
+			get
+			{
+				return true;
+			}
+		}
 
-        /// <summary>
-        /// Gets the editor.
-        /// </summary>
-        /// <value>The editor.</value>
-        public Control Editor
-        {
-            get
-            {
-                return this;
-            }
-        }
+		/// <summary>
+		/// Gets the editor.
+		/// </summary>
+		/// <value>The editor.</value>
+		public Control Editor
+		{
+			get
+			{
+				return this;
+			}
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-            string sql = this.options.Sql;
+			string sql = this.options.Sql;
 
-            if (sql.Contains("@currentId"))
-            {
-                sql = sql.Replace("@currentId", uQuery.GetIdFromQueryString());
-            }
+			if (sql.Contains("@currentId"))
+			{
+				sql = sql.Replace("@currentId", uQuery.GetIdFromQueryString());
+			}
 
-            string connectionString;
-            if (!string.IsNullOrEmpty(this.options.ConnectionString))
-            {
-                connectionString = this.options.ConnectionString;
-            }
-            else
-            {
-                connectionString = uQuery.SqlHelper.ConnectionString;
-            }
+			using (SqlConnection sqlConnection = new SqlConnection(this.options.GetConnectionString()))
+			{
+				SqlCommand sqlCommand = new SqlCommand()
+				{
+					Connection = sqlConnection,
+					CommandType = CommandType.Text,
+					CommandText = sql
+				};
 
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                SqlCommand sqlCommand = new SqlCommand()
-                {
-                    Connection = sqlConnection,
-                    CommandType = CommandType.Text,
-                    CommandText = sql
-                };
+				sqlConnection.Open();
 
-                sqlConnection.Open();
+				SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+				if (sqlDataReader.HasRows)
+				{
+					this.checkBoxList.DataSource = sqlDataReader;
+					this.checkBoxList.DataTextField = "Text";
+					this.checkBoxList.DataValueField = "Value";
+					this.checkBoxList.DataBind();
+				}
 
-                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-                if (sqlDataReader.HasRows)
-                {
-                    this.checkBoxList.DataSource = sqlDataReader;
-                    this.checkBoxList.DataTextField = "Text";
-                    this.checkBoxList.DataValueField = "Value";
-                    this.checkBoxList.DataBind();
-                }
+				sqlConnection.Close();
+			}
 
-                sqlConnection.Close();
-            }
-
-            this.Controls.Add(this.checkBoxList);
+			this.Controls.Add(this.checkBoxList);
 		}
 
 		/// <summary>
@@ -140,19 +133,19 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 				string value = this.data.Value.ToString();
 				List<string> selectedValues = new List<string>();
 
-                if (Helper.Xml.CouldItBeXml(value))
-                {
-                    // build selected values from XML fragment
-                    foreach (XElement nodeXElement in XElement.Parse(value).Elements())
-                    {
-                        selectedValues.Add(nodeXElement.Value);
-                    }
-                }
-                else
-                {
-                    // Assume a CSV source
-                    selectedValues = value.Split(Constants.Common.COMMA).ToList();
-                }
+				if (Helper.Xml.CouldItBeXml(value))
+				{
+					// build selected values from XML fragment
+					foreach (XElement nodeXElement in XElement.Parse(value).Elements())
+					{
+						selectedValues.Add(nodeXElement.Value);
+					}
+				}
+				else
+				{
+					// Assume a CSV source
+					selectedValues = value.Split(Constants.Common.COMMA).ToList();
+				}
 
 				// Find checkboxes where values match the stored values and set to selected
 				ListItem checkBoxListItem = null;
@@ -177,16 +170,16 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 												  where item.Selected
 												  select item.Value;
 
-            if (this.options.UseXml)
-            {
-                this.data.Value = new XElement("SqlCheckBoxList",
-                    selectedOptions.Select(x => new XElement("value", x.ToString()))).ToString();
-            }
-            else
-            {
-                // Save the CSV
-                this.data.Value = string.Join(",", selectedOptions.ToArray());
-            }
+			if (this.options.UseXml)
+			{
+				this.data.Value = new XElement("SqlCheckBoxList",
+					selectedOptions.Select(x => new XElement("value", x.ToString()))).ToString();
+			}
+			else
+			{
+				// Save the CSV
+				this.data.Value = string.Join(",", selectedOptions.ToArray());
+			}
 		}
-    }
+	}
 }

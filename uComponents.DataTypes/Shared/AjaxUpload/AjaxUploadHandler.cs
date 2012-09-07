@@ -41,6 +41,9 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
         /// </summary>
         public static readonly string Guid = "7EEE876C-47BF-4390-97BA-CEDE69F68CD9";
 
+        /// <summary>
+        /// An object to temporarily lock writing to disk.
+        /// </summary>
         private static readonly object m_Locker = new object();
 
         // Constants
@@ -136,10 +139,10 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
             WriteResponseBody(context, savedFiles);
         }
 
-		private void WriteResponseBody(HttpContext context)
-		{
-			WriteResponseBody(context, null);
-		}
+        private void WriteResponseBody(HttpContext context)
+        {
+            WriteResponseBody(context, null);
+        }
 
         private void WriteResponseBody(HttpContext context, List<string> filesSaved)
         {
@@ -169,7 +172,6 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
         {
             if (!umbraco.BasePages.BasePage.ValidateUserContextID(umbraco.BasePages.BasePage.umbracoUserContextID))
                 throw new Exception("Client authorization failed. User is not logged in");
-
         }
 
         /// <summary>
@@ -177,25 +179,26 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
         /// </summary>
         internal static void Ensure()
         {
-            var handlerPath = Path.Combine(Settings.BaseDir.FullName, "Shared/AjaxUpload");
+            var handlerFile = Path.Combine(Settings.BaseDir.FullName, "Shared/AjaxUpload/AjaxUploadHandler.ashx");
 
-            if (!Directory.Exists(handlerPath))
+            if (!File.Exists(handlerFile))
             {
                 lock (m_Locker)
                 {
-                    //double check locking
-                    if (!Directory.Exists(handlerPath))
+                    // double check locking
+                    if (!File.Exists(handlerFile))
                     {
-                        //now create our new local web service
-                        var wHandlerTxt = AjaxUploadHandlerResource.AjaxUploadHandler_ashx;
-                        var dirUrlPicker = new DirectoryInfo(handlerPath);
-                        if (!dirUrlPicker.Exists)
-                        {
-                            dirUrlPicker.Create();
-                        }
-                        var wHandlerFile = new FileInfo(Path.Combine(dirUrlPicker.FullName, "AjaxUploadHandler.ashx"));
+                        // now create our new local web service
+                        var wHandlerFile = new FileInfo(handlerFile);
                         if (!wHandlerFile.Exists)
                         {
+                            var wHandlerTxt = AjaxUploadHandlerResource.AjaxUploadHandler_ashx;
+
+                            if (!wHandlerFile.Directory.Exists)
+                            {
+                                wHandlerFile.Directory.Create();
+                            }
+
                             using (var sw = new StreamWriter(wHandlerFile.Create()))
                             {
                                 sw.Write(wHandlerTxt);

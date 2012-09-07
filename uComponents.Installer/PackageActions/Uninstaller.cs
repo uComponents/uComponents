@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using uComponents.Core;
 using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
-using uComponents.Core;
-using System.Collections.Generic;
+using umbraco.IO;
 
 namespace uComponents.Installer.PackageActions
 {
@@ -16,6 +17,11 @@ namespace uComponents.Installer.PackageActions
 	/// </summary>
 	public class Uninstaller : IPackageAction
 	{
+		/// <summary>
+		/// An object to temporarily lock writing to disk.
+		/// </summary>
+		private static readonly object m_Locker = new object();
+
 		/// <summary>
 		/// The alias of the action - for internal use only.
 		/// </summary>
@@ -38,8 +44,8 @@ namespace uComponents.Installer.PackageActions
 		/// <returns>Returns <c>true</c> when successful, otherwise <c>false</c>.</returns>
 		public bool Execute(string packageName, XmlNode xmlData)
 		{
-			// TODO: [LK] Check if upgrade from 3.x/4.x, if so, do a clean-up (HttpModules, any references to old "uComponents.Core" namespace, etc)
-			return true;
+			var result = this.CleanUpLegacyComponents();
+			return result;
 		}
 
 		/// <summary>
@@ -141,6 +147,137 @@ namespace uComponents.Installer.PackageActions
 			}
 
 			return result;
+		}
+
+		/// <summary>
+		/// Cleans up legacy components.
+		/// </summary>
+		/// <returns></returns>
+		private bool CleanUpLegacyComponents()
+		{
+			// remove the legacy HttpModules from Web.config
+			var result = new AddHttpModule().Undo(string.Empty, null);
+
+			// delete legacy files, as they contain references to legacy namespaces, these will be later recreated.
+			var files = new[]
+			{
+				"DataTypeGrid/PreValueWebService.asmx",
+				"MultiNodePicker/CustomTreeService.asmx",
+				"Shared/AjaxUpload/AjaxUploadHandler.ashx",
+				"UrlPicker/UrlPickerService.asmx"
+			};
+			foreach (var file in files)
+			{
+				result = this.DeletePluginFile(file);
+			}
+
+			// NotFoundHandlers - update the assembly reference
+			result = this.UpdateNotFoundHandlersConfig();
+
+			// XsltExtensions - update the assembly and type references
+			result = this.UpdateXsltExtensionsConfig();
+
+
+			return result;
+		}
+
+		/// <summary>
+		/// Deletes the plugin file.
+		/// </summary>
+		/// <param name="file">The file.</param>
+		/// <returns></returns>
+		private bool DeletePluginFile(string file)
+		{
+			var path = IOHelper.MapPath(Path.Combine(uComponents.DataTypes.Settings.BaseDirName, file));
+
+			lock (m_Locker)
+			{
+				var info = new FileInfo(path);
+				if (info.Exists && !info.IsReadOnly)
+				{
+					info.Delete();
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Updates the not found handlers config.
+		/// </summary>
+		/// <returns></returns>
+		private bool UpdateNotFoundHandlersConfig()
+		{
+			var path = IOHelper.MapPath(SystemFiles.NotFoundhandlersConfig);
+			var config = new XmlDocument() { PreserveWhitespace = true };
+			config.Load(path);
+
+			if (config != null)
+			{
+				var legacyNamespace = "uComponents.Core";
+				var nodes = config.SelectNodes(string.Format("//notFound[@assembly = '{0}']", legacyNamespace));
+				if (nodes != null && nodes.Count > 0)
+				{
+					var newNamespace = "uComponents.NotFoundHandlers";
+					foreach (XmlNode node in nodes)
+					{
+						var assembly = node.Attributes.GetNamedItem("assembly");
+						if (assembly != null)
+						{
+							assembly.Value = newNamespace;
+						}
+
+						var type = node.Attributes.GetNamedItem("type");
+						if (type != null)
+						{
+							type.Value = type.Value.Replace("NotFoundHandlers.", string.Empty);
+						}
+					}
+
+					config.Save(path);
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Updates the XSLT extensions config.
+		/// </summary>
+		/// <returns></returns>
+		private bool UpdateXsltExtensionsConfig()
+		{
+			var path = IOHelper.MapPath(SystemFiles.XsltextensionsConfig);
+			var config = new XmlDocument() { PreserveWhitespace = true };
+			config.Load(path);
+
+			if (config != null)
+			{
+				var legacyNamespace = "uComponents.Core";
+				var nodes = config.SelectNodes(string.Format("//ext[@assembly = '{0}']", legacyNamespace));
+				if (nodes != null && nodes.Count > 0)
+				{
+					var newNamespace = "uComponents.XsltExtensions";
+					foreach (XmlNode node in nodes)
+					{
+						var assembly = node.Attributes.GetNamedItem("assembly");
+						if (assembly != null)
+						{
+							assembly.Value = newNamespace;
+						}
+
+						var type = node.Attributes.GetNamedItem("type");
+						if (type != null)
+						{
+							type.Value = type.Value.Replace("uComponents.Core.XsltExtensions", newNamespace);
+						}
+					}
+
+					config.Save(path);
+				}
+			}
+
+			return true;
 		}
 	}
 }
