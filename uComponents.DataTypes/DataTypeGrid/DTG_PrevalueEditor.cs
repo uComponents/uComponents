@@ -33,6 +33,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 	using umbraco;
 	using umbraco.editorControls;
 	using umbraco.IO;
+	using System.IO;
 
     /// <summary>
     /// The PreValue Editor for the DTG DataType.
@@ -131,8 +132,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             // Ensure webservice file exists
             var dtgFolder = DtgHelpers.EnsureFolderExists("DataTypeGrid", m_Locker);
-            DtgHelpers.EnsureFileExists(
-                dtgFolder.FullName + "\\PreValueWebService.asmx", DtgWebServices.PreValueWebService, m_Locker);
+            DtgHelpers.EnsureFileExists(Path.Combine(dtgFolder.FullName, "PreValueWebService.asmx"), DtgWebServices.PreValueWebService, m_Locker);
         }
 
         /// <summary>

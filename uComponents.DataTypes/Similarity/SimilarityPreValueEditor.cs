@@ -65,7 +65,7 @@ namespace uComponents.DataTypes.Similarity
         };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimilarityPreValueEditor"/> class.
+        /// Initializes a new instance of the <c>SimilarityPrevalueEditor</c> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
         public SimilarityPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)

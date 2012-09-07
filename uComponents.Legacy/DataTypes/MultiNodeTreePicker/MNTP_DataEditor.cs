@@ -63,7 +63,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
                                 contentTree.Tree.Title,
                                 contentTree.Tree.IconClosed,
                                 contentTree.Tree.IconOpened,
-                                "uComponents.Core",
+                                "uComponents.Legacy",
                                 "DataTypes.MultiNodeTreePicker.FilteredContentTree",
                                 contentTree.Tree.Action),
                             contentTree.App);
@@ -77,7 +77,7 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
                                 contentTree.Tree.Title,
                                 contentTree.Tree.IconClosed,
                                 contentTree.Tree.IconOpened,
-                                "uComponents.Core",
+                                "uComponents.Legacy",
                                 "DataTypes.MultiNodeTreePicker.FilteredMediaTree",
                                 contentTree.Tree.Action),
                             contentTree.App);

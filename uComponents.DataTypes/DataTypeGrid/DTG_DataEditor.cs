@@ -204,11 +204,16 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <value>The edit data types.</value>
         public List<StoredValue> EditDataTypes { get; set; }
 
+        /// <summary>
+        /// Gets or sets the programmatic identifier assigned to the server control.
+        /// </summary>
+        /// <value></value>
+        /// <returns>The programmatic identifier assigned to the control.</returns>
         public override string ID
         {
             get
             {
-                return this.id ?? (this.id = "DTG_" + this.dataTypeDefinitionId + "_" + this.instanceId);
+                return this.id ?? (this.id = string.Concat("DTG_", this.dataTypeDefinitionId, "_", this.instanceId));
             }
         }
 

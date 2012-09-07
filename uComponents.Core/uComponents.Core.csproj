@@ -67,6 +67,7 @@
     <Compile Include="Helper-Dictionary.cs">
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\uComponentsModule.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Content Include="Properties\BuildVersion.txt" />
     <Compile Include="Constants-Common.cs">

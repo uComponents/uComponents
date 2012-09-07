@@ -85,25 +85,26 @@ namespace uComponents.DataTypes.UrlPicker.Services
         /// </summary>
         internal static void Ensure()
         {
-            var servicePath = Path.Combine(Settings.BaseDir.FullName, "UrlPicker");
+            var serviceFile = Path.Combine(Settings.BaseDir.FullName, "UrlPicker/UrlPickerService.asmx");
 
-            if (!Directory.Exists(servicePath))
+            if (!File.Exists(serviceFile))
             {
                 lock (m_Locker)
                 {
-                    //double check locking
-                    if (!Directory.Exists(servicePath))
+                    // double check locking
+                    if (!File.Exists(serviceFile))
                     {
-                        //now create our new local web service
-                        var wServiceTxt = UrlPickerServiceResource.UrlPickerService;
-                        var dirUrlPicker = new DirectoryInfo(servicePath);
-                        if (!dirUrlPicker.Exists)
-                        {
-                            dirUrlPicker.Create();
-                        }
-                        var wServiceFile = new FileInfo(Path.Combine(dirUrlPicker.FullName, "UrlPickerService.asmx"));
+                        // now create our new local web service
+                        var wServiceFile = new FileInfo(serviceFile);
                         if (!wServiceFile.Exists)
                         {
+                            var wServiceTxt = UrlPickerServiceResource.UrlPickerService;
+
+                            if (!wServiceFile.Directory.Exists)
+                            {
+                                wServiceFile.Directory.Create();
+                            }
+
                             using (var sw = new StreamWriter(wServiceFile.Create()))
                             {
                                 sw.Write(wServiceTxt);

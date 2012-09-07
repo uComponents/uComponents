@@ -7,6 +7,9 @@ using uComponents.DataTypes.Shared.Extensions;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {
+	/// <summary>
+	/// Prevalue Editor for SQL CheckBoxList
+	/// </summary>
 	public class SqlCheckBoxListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
 		/// <summary>
