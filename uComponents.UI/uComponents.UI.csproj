@@ -109,4 +109,26 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+	<!-- Minify all JavaScript files that were embedded as resources -->
+	<Import Project="..\BuildPackage\MSBuildTasks\AjaxMin.Tasks.Targets" />
+	<PropertyGroup>
+		<ResGenDependsOn>
+			MinifyJavaScript;
+			$(ResGenDependsOn)
+		</ResGenDependsOn>
+	</PropertyGroup>
+	<Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
+		<Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">
+			<Output TaskParameter="DestinationFiles" ItemName="EmbeddedJavaScriptResource" />
+		</Copy>
+		<Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.css'">
+			<Output TaskParameter="DestinationFiles" ItemName="EmbeddedCssResource" />
+		</Copy>
+		<AjaxMin JsSourceFiles="@(EmbeddedJavaScriptResource)" JsSourceExtensionPattern="\.js$" JsTargetExtension=".js" CssSourceFiles="@(EmbeddedCssResource)" CssSourceExtensionPattern="\.css$" CssTargetExtension=".css" />
+		<ItemGroup>
+			<EmbeddedResource Remove="@(EmbeddedResource)" Condition="'%(Extension)'=='.js' OR '%(Extension)'=='.css'" />
+			<EmbeddedResource Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource)" />
+			<FileWrites Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource" />
+		</ItemGroup>
+	</Target>
 </Project>
