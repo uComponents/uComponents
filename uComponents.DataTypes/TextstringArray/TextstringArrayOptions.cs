@@ -49,14 +49,14 @@ namespace uComponents.DataTypes.TextstringArray
 		/// Gets or sets a value indicating whether [show column labels].
 		/// </summary>
 		/// <value><c>true</c> if [show column labels]; otherwise, <c>false</c>.</value>
-        [DefaultValue(true)]
+		[DefaultValue(true)]
 		public bool ShowColumnLabels { get; set; }
 
 		/// <summary>
 		/// Gets or sets the labels columns (displayed in the header row).
 		/// </summary>
 		/// <value>The column labels.</value>
-        [DefaultValue("")]
+		[DefaultValue("")]
 		public string ColumnLabels { get; set; }
 	}
 }

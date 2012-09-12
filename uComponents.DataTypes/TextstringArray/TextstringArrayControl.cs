@@ -188,27 +188,34 @@ namespace uComponents.DataTypes.TextstringArray
 			writer.AddAttribute(HtmlTextWriterAttribute.Id, this.ClientID);
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-            // render the header row
-            if (this.Options.ShowColumnLabels)
-            {
+			// render the header row
+			if (this.Options.ShowColumnLabels)
+			{
 				var labels = this.Options.ColumnLabels.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
 				if (labels != null && labels.Length > 0)
-                {
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "textstring-header-row");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
+				{
+					writer.AddAttribute(HtmlTextWriterAttribute.Class, "textstring-header-row");
+					writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
 					foreach (string label in labels)
-                    {
-                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "textstring-header-row-col");
-                        writer.RenderBeginTag(HtmlTextWriterTag.Div);
-						writer.WriteLine(label);
-                        writer.RenderEndTag(); // </div> .textstring-header-row-col    
-                    }
+					{
+						var displayLabel = label;
+						if (displayLabel.Length > 3 && displayLabel.StartsWith("[#") && displayLabel.EndsWith("]"))
+						{
+							var key = displayLabel.Substring(2, label.Length - 3);
+							displayLabel = uQuery.GetDictionaryItem(key, key);
+						}
 
-                    writer.RenderEndTag();
-                }
-            }
+						writer.AddAttribute(HtmlTextWriterAttribute.Class, "textstring-header-row-col");
+						writer.RenderBeginTag(HtmlTextWriterTag.Div);
+						writer.WriteLine(displayLabel);
+						writer.RenderEndTag(); // </div> .textstring-header-row-col
+					}
+
+					writer.RenderEndTag();
+				}
+			}
 
 			// loop through each value
 			foreach (string[] row in this.values)

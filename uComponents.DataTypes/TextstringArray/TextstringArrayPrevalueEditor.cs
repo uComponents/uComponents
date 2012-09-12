@@ -155,7 +155,7 @@ namespace uComponents.DataTypes.TextstringArray
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
 			writer.AddPrevalueHeading("Columns");
-			writer.AddPrevalueRow("Show Column Labels?", "Enter a label for each column. (optional - blank labels are acceptable)", this.CheckBoxShowColumnLabels);
+			writer.AddPrevalueRow("Show Column Labels?", "Enter a label for each column; you may also use dictionary item syntax (e.g. <code>[#dictionaryItem]</code>). (Optional - blank labels are acceptable)", this.CheckBoxShowColumnLabels);
 			writer.AddPrevalueRow("Labels:", this.MtcContainer);
 
 			writer.AddPrevalueHeading("Rows");
