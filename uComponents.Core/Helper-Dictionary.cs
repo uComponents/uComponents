@@ -5,7 +5,7 @@ namespace uComponents.Core
 	/// <summary>
 	/// Generic helper methods
 	/// </summary>
-	public static partial class Helper
+	internal static partial class Helper
 	{
 		/// <summary>
 		/// Dictionary helpers
