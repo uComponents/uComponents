@@ -164,8 +164,8 @@ namespace uComponents.DataTypes.XPathAutoComplete
                 this.selectedItemsHiddenField.Value = this.data.Value.ToString();
             }
 
-            // put the options obj into cache so that the /base method can request it (where the sql statment is being used)
-            HttpContext.Current.Cache[DataTypeConstants.XPathAutoCompleteId + "_" + this.DataTypeDefinitionId.ToString()] = this.options;
+            // put the options obj into cache so that the /base method can request it (where the XPath query is being used)
+            HttpContext.Current.Cache[DataTypeConstants.XPathAutoCompleteId + "_options_" + this.DataTypeDefinitionId.ToString()] = this.options;
         }
 
         /// <summary>

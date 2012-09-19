@@ -5,6 +5,7 @@ using umbraco.editorControls;
 using umbraco;
 using System.Configuration;
 using uComponents.DataTypes.Shared.Extensions;
+using System.Web;
 
 namespace uComponents.DataTypes.XPathAutoComplete
 {
@@ -21,11 +22,6 @@ namespace uComponents.DataTypes.XPathAutoComplete
         private TextBox xPathTextBox = new TextBox();
 
         /// <summary>
-        /// Property to use as a text value for the autocomplete to search against - if empty then .Name of (node / media / member ) is used
-        /// </summary>
-        private TextBox propertyTextBox = new TextBox();
-
-        /// <summary>
         /// RequiredFieldValidator to ensure an XPath expression has been entered
         /// </summary>
         private RequiredFieldValidator xPathRequiredFieldValidator = new RequiredFieldValidator();
@@ -34,6 +30,11 @@ namespace uComponents.DataTypes.XPathAutoComplete
         /// Server side validation of XPath expression
         /// </summary>
         private CustomValidator xPathCustomValidator = new CustomValidator();
+
+        /// <summary>
+        /// Property to use as a text value for the autocomplete to search against - if empty then .Name of (node / media / member ) is used
+        /// </summary>
+        private TextBox propertyTextBox = new TextBox();
 
         /// <summary>
         /// Number of characters before data is requested (useful if the list size should visibily shrink as the data set narrows - else use a SELECT TOP x FROM .... clause)
@@ -194,6 +195,10 @@ namespace uComponents.DataTypes.XPathAutoComplete
         {
             if (this.Page.IsValid)
             {
+                // wipe any associated caches incase they refer to old settings
+                HttpContext.Current.Cache.Remove(DataTypeConstants.XPathAutoCompleteId + "_options_" + this.m_DataType.DataTypeDefinitionId.ToString());
+                HttpContext.Current.Cache.Remove(DataTypeConstants.XPathAutoCompleteId + "_index_" + this.m_DataType.DataTypeDefinitionId.ToString());
+
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
                 this.Options.XPath = this.xPathTextBox.Text;
                 this.Options.Property = this.propertyTextBox.Text;                
@@ -220,7 +225,9 @@ namespace uComponents.DataTypes.XPathAutoComplete
         {
             writer.AddPrevalueRow("Type", @"the xml schema to query", this.typeRadioButtonList);
             writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
-            writer.AddPrevalueRow("Property Name", @"value of property to query and use as item labels", this.propertyTextBox);
+
+            // Commented out to simplify for a quick release - will default to using the name of the node / media or member
+            // writer.AddPrevalueRow("Property Name", @"value of property to query and use as item labels", this.propertyTextBox);
             writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox);

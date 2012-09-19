@@ -38,6 +38,9 @@ namespace uComponents.DataTypes.XPathAutoComplete
         [DefaultValue(0)]
         public int MaxItems { get; set; }
 
+        /// <summary>
+        /// Helper to get the UmbracoObjectType from the stored value
+        /// </summary>
         public uQuery.UmbracoObjectType UmbracoObjectType
         {
             get
