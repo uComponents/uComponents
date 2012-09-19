@@ -34,18 +34,13 @@ namespace uComponents.DataTypes.SqlAutoComplete
             string autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];
 
             // default json returned if it wasn't able to get any data
-            string json = @"[
-                                { 
-                                    'label' : '_Error',
-                                    'value' : ''
-                                }
-                            ]";
+            string json = @"[]";
 
             // get the options data for the current datatype instance
             SqlAutoCompleteOptions options = GetOptions(datatypeDefinitionId);
 
             // double check, as client shouldn't call this method if invalid
-            if (autoCompleteText.Length >= options.MinLength)
+            if (options != null && autoCompleteText.Length >= options.MinLength)
             {
                 string sql = options.Sql;
 
