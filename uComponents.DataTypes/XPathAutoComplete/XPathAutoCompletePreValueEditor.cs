@@ -37,6 +37,11 @@ namespace uComponents.DataTypes.XPathAutoComplete
         private TextBox propertyTextBox = new TextBox();
 
         /// <summary>
+        /// Max number of suggestions that should be returned as auto complete suggestions
+        /// </summary>
+        private TextBox maxSuggestionsTextBox = new TextBox();
+
+        /// <summary>
         /// Number of characters before data is requested (useful if the list size should visibily shrink as the data set narrows - else use a SELECT TOP x FROM .... clause)
         /// valid range 0 to 5 (where 0 if off - so sending all the data on initial load)
         /// </summary>
@@ -90,10 +95,6 @@ namespace uComponents.DataTypes.XPathAutoComplete
             }
         }
 
-
-
-
-
         /// <summary>
         /// Creates all of the controls and assigns all of their properties
         /// </summary>
@@ -117,6 +118,11 @@ namespace uComponents.DataTypes.XPathAutoComplete
 
             this.propertyTextBox.ID = "propertyTextBox";
             this.propertyTextBox.CssClass = "umbEditorTextField";
+
+            this.maxSuggestionsTextBox.ID = "maxSuggestionsTextBox";
+            this.maxSuggestionsTextBox.Width = 30;
+            this.maxSuggestionsTextBox.MaxLength = 2;
+            this.maxSuggestionsTextBox.AutoCompleteType = AutoCompleteType.None;
 
             this.minLengthDropDownList.ID = "minLengthDropDownList";
             this.minLengthDropDownList.Items.Add(new ListItem("1", "1"));
@@ -142,6 +148,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
                 this.xPathRequiredFieldValidator,
                 this.xPathCustomValidator,
                 this.propertyTextBox,
+                this.maxSuggestionsTextBox,
                 this.minLengthDropDownList,
                 this.minItemsTextBox,
                 this.maxItemsTextBox);
@@ -159,7 +166,8 @@ namespace uComponents.DataTypes.XPathAutoComplete
             {
                 this.typeRadioButtonList.SelectedValue = this.Options.Type;
                 this.xPathTextBox.Text = this.Options.XPath;
-                this.propertyTextBox.Text = this.Options.Property;                               
+                this.propertyTextBox.Text = this.Options.Property;
+                this.maxSuggestionsTextBox.Text = this.Options.MaxSuggestions.ToString();
                 this.minLengthDropDownList.SetSelectedValue(this.Options.MinLength.ToString());
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
                 this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
@@ -195,13 +203,17 @@ namespace uComponents.DataTypes.XPathAutoComplete
         {
             if (this.Page.IsValid)
             {
-                // wipe any associated caches incase they refer to old settings
+                // wipe cache incase settings have changed
                 HttpContext.Current.Cache.Remove(DataTypeConstants.XPathAutoCompleteId + "_options_" + this.m_DataType.DataTypeDefinitionId.ToString());
-                HttpContext.Current.Cache.Remove(DataTypeConstants.XPathAutoCompleteId + "_index_" + this.m_DataType.DataTypeDefinitionId.ToString());
 
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
                 this.Options.XPath = this.xPathTextBox.Text;
-                this.Options.Property = this.propertyTextBox.Text;                
+                this.Options.Property = this.propertyTextBox.Text;
+
+                int maxSuggestions;
+                int.TryParse(this.maxSuggestionsTextBox.Text, out maxSuggestions);
+                this.Options.MaxSuggestions = maxSuggestions;
+
                 this.Options.MinLength = int.Parse(this.minLengthDropDownList.SelectedValue);
 
                 // ensure min and max items are valid numbers
@@ -228,6 +240,8 @@ namespace uComponents.DataTypes.XPathAutoComplete
 
             // Commented out to simplify for a quick release - will default to using the name of the node / media or member
             // writer.AddPrevalueRow("Property Name", @"value of property to query and use as item labels", this.propertyTextBox);
+
+            writer.AddPrevalueRow("Max Suggestions", "max number of items to return as autocomplete suggestions - 0 means no limit", this.maxSuggestionsTextBox);
             writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox);

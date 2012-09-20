@@ -29,59 +29,45 @@ namespace uComponents.DataTypes.XPathAutoComplete
         /// <returns></returns>
         private static List<KeyValuePair<string, int>> GetIndex(int datatypeDefinitionId)
         {
-            string indexCacheKey = DataTypeConstants.XPathAutoCompleteId + "_index_" + datatypeDefinitionId.ToString();
+            // a sorted list is used for populated, so that it's quick to find duplicates when adding items, and this can be converted to a List for returning (so that a binary search can be used)
+            SortedList<string, int> index = new SortedList<string, int>();
 
-            List<KeyValuePair<string, int>> index = HttpContext.Current.Cache[indexCacheKey] as List<KeyValuePair<string, int>>;
+            // get the options so we know how to retrieve the data
+            XPathAutoCompleteOptions options = XPathAutoCompleteBase.GetOptions(datatypeDefinitionId);
 
-            if (index == null)
+            switch (options.UmbracoObjectType)
             {
-                // a sorted list is used, so that it's quick to find duplicates when adding items
-                SortedList<string,int> sortedList = new SortedList<string, int>();
-
-                // get the options so we know how to retrieve the data
-                XPathAutoCompleteOptions options = XPathAutoCompleteBase.GetOptions(datatypeDefinitionId);
-
-                switch (options.UmbracoObjectType)
-                {
-                    case uQuery.UmbracoObjectType.Document:
+                case uQuery.UmbracoObjectType.Document:
                         
-                        foreach (KeyValuePair<string, int> keyValuePair in uQuery.GetNodesByXPath(options.XPath).Select(x => new KeyValuePair<string, int>(x.Name, x.Id)))
-                        {
-                            XPathAutoCompleteBase.AddToSortedList(ref sortedList, keyValuePair);
-                        }
+                    foreach (KeyValuePair<string, int> keyValuePair in uQuery.GetNodesByXPath(options.XPath).Select(x => new KeyValuePair<string, int>(x.Name, x.Id)))
+                    {
+                        XPathAutoCompleteBase.AddToSortedList(ref index, keyValuePair);
+                    }
 
-                        break;
+                    break;
 
-                    case uQuery.UmbracoObjectType.Media:
+                case uQuery.UmbracoObjectType.Media:
 
-                        foreach (KeyValuePair<string, int> keyValuePair in uQuery.GetMediaByXPath(options.XPath).Select(x => new KeyValuePair<string, int>(x.Text, x.Id)))
-                        {
-                            XPathAutoCompleteBase.AddToSortedList(ref sortedList, keyValuePair);
-                        }
+                    foreach (KeyValuePair<string, int> keyValuePair in uQuery.GetMediaByXPath(options.XPath).Select(x => new KeyValuePair<string, int>(x.Text, x.Id)))
+                    {
+                        XPathAutoCompleteBase.AddToSortedList(ref index, keyValuePair);
+                    }
 
-                        break;
+                    break;
 
-                    case uQuery.UmbracoObjectType.Member:
+                case uQuery.UmbracoObjectType.Member:
 
-                        foreach (KeyValuePair<string, int> keyValuePair in uQuery.GetMembersByXPath(options.XPath).Select(x => new KeyValuePair<string, int>(x.Text, x.Id)))
-                        {
-                            XPathAutoCompleteBase.AddToSortedList(ref sortedList, keyValuePair);
-                        }
+                    foreach (KeyValuePair<string, int> keyValuePair in uQuery.GetMembersByXPath(options.XPath).Select(x => new KeyValuePair<string, int>(x.Text, x.Id)))
+                    {
+                        XPathAutoCompleteBase.AddToSortedList(ref index, keyValuePair);
+                    }
 
-                        break;
-                }
-
-                // convert the SortedList into a regular list, and store that (regular list so that we can do a binary search on it)
-
-                index = sortedList.ToList();
-
-                // do we have to sort ?
-
-                // put into cache 
-                HttpContext.Current.Cache[indexCacheKey] = index;
+                    break;
             }
 
-            return index;
+            // convert the SortedList into a regular list, and store that (regular list so that we can do a binary search on it)
+
+            return index.ToList();
         }
 
         private static void AddToSortedList(ref SortedList<string, int> index, KeyValuePair<string, int> keyValuePair)
@@ -128,10 +114,21 @@ namespace uComponents.DataTypes.XPathAutoComplete
                 // TODO: implement a BinarySearch on the index looking for the first match, and then another binary search looking for the first non match from that point
                 // then serialize that subset (will be much quicker with large datasets as the following string parses every item)
 
+                IEnumerable<KeyValuePair<string, int>> data;
+                
+                if (options.MaxSuggestions > 0)
+                {
+                    data = index.Where(x => x.Key.ToUpper().StartsWith(autoCompleteText.ToUpper())).Take(options.MaxSuggestions);
+                }
+                else
+                {
+                    // max suggestions = 0 so, no limit
+                    data = index.Where(x => x.Key.ToUpper().StartsWith(autoCompleteText.ToUpper()));
+                }
+
                 json = new JavaScriptSerializer().Serialize(
 
-                        from keyValuePair in index
-                        where keyValuePair.Key.ToUpper().StartsWith(autoCompleteText.ToUpper())
+                        from keyValuePair in data
                         select new
                             {
                                 label = keyValuePair.Key,

@@ -29,6 +29,12 @@ namespace uComponents.DataTypes.XPathAutoComplete
         [DefaultValue("")]
         public string Property { get; set; }
 
+        /// <summary>
+        /// 0 means no max
+        /// </summary>
+        [DefaultValue(0)]
+        public int MaxSuggestions { get; set; }
+
         [DefaultValue(3)]
         public int MinLength { get; set; }
 
