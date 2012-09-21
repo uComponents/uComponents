@@ -123,6 +123,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
             div.Attributes.Add("data-min-length", this.options.MinLength.ToString());
             //div.Attributes.Add("data-min-items", this.options.MinItems.ToString()); -- not required client side - TODO: could visually indicate number required ?
             div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
+            div.Attributes.Add("data-allow-duplicates", this.options.AllowDuplicates.ToString());
 
             ul.Attributes.Add("class", "propertypane");
 
