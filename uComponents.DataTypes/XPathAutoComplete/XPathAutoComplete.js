@@ -2,7 +2,8 @@
     <div class="xpath-auto-complete" 
          data-xpath-autocomplete-id="EE395ED1-CE6E-4417-AEEB-BCA780D3E96B" 
          data-datatype-definition-id="1056" 
-         data-current-id="1051" 
+         data-current-id="1051"
+         data-type="Media" 
          data-min-length="2"
          data-max-items="3">
  
@@ -24,13 +25,15 @@
 
 ----------
 
-    <XPathAutoComplete> (TODO: add Type attribute)
+    <XPathAutoComplete Type="Media">
         <Item Text="ABC" Value="1 />
         <Item Text="XYZ" Value="9" />
     </XPathAutoComplete>
 */
 
 var XPathAutoComplete = XPathAutoComplete || (function () {
+
+
 
     // public
     function init(input) {
@@ -44,6 +47,8 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
         var xPathAutoCompleteId = div.data('xpath-autocomplete-id');
         var dataTypeDefinitionId = div.data('datatype-definition-id');
         var currentId = div.data('current-id');
+
+        var type = div.data('type');
         var minLength = div.data('min-length');
         var maxItems = div.data('max-items');
         var allowDuplicates = div.data('allow-duplicates');
@@ -65,7 +70,7 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
         ul.sortable({
             axis: 'y',
             update: function (event, ui) {
-                updateHidden(ul, hidden);
+                updateHidden(ul, hidden, type);
             }
         });
 
@@ -98,7 +103,7 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
                     addItem(ul, ui.item, allowDuplicates);
                 }
 
-                updateHidden(ul, hidden);
+                updateHidden(ul, hidden, type);
                 event.target.value = ''; // remove the typed text from the autocomplete textbox
                 return false; // prevent the selected items value from being put into the autocomplete textbox
             }
@@ -109,7 +114,7 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
     function addItem(ul, item, allowDuplicates) {
 
         // if duplicates are allowed or item doesn't already exist then add
-        if (allowDuplicates == 'True' || 
+        if (allowDuplicates == 'True' ||
             ul.children('li[data-value=' + item.value + ']').length == 0) {
             ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '">' + item.label + '<a class="delete" title="remove" href="javascript:void(0);" onClick="SqlAutoComplete.removeItem(this);"></a></li>');
         }
@@ -120,16 +125,17 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
 
         var ul = jQuery(a).parentsUntil('div.sql-auto-complete', 'ul');
         var hidden = ul.siblings('input:hidden');
+        var type = ul.parent().data('type');
 
         jQuery(a).parent().remove(); // remove the <li>
 
-        updateHidden(ul, hidden);
+        updateHidden(ul, hidden, type);
     }
 
     // private -- re-generates the xml fragment of selected items, and stores in the hidden field    
-    function updateHidden(ul, hidden) {
+    function updateHidden(ul, hidden, type) {
 
-        var xml = '<XPathAutoComplete>';
+        var xml = '<XPathAutoComplete Type="' + type + '">';
         ul.children().each(function (index, element) {
             xml += '<Item Text="' + jQuery(element).data('text') + '" Value="' + jQuery(element).data('value') + '" />';
         });

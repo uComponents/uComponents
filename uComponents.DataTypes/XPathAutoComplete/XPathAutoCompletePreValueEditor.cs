@@ -37,8 +37,8 @@ namespace uComponents.DataTypes.XPathAutoComplete
         private TextBox propertyTextBox = new TextBox();
 
         /// <summary>
-        /// Number of characters before data is requested (useful if the list size should visibily shrink as the data set narrows - else use a SELECT TOP x FROM .... clause)
-        /// valid range 0 to 5 (where 0 if off - so sending all the data on initial load)
+        /// Number of characters before data is requested
+        /// valid range 1 to 5 (TODO: 0 is off - so sending all the data on initial load)
         /// </summary>
         private DropDownList minLengthDropDownList = new DropDownList();
 
@@ -127,7 +127,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
             this.minLengthDropDownList.ID = "minLengthDropDownList";
             this.minLengthDropDownList.Items.Add(new ListItem("1", "1"));
             this.minLengthDropDownList.Items.Add(new ListItem("2", "2"));
-            this.minLengthDropDownList.Items.Add(new ListItem("3 (default)", "3"));
+            this.minLengthDropDownList.Items.Add(new ListItem("3", "3"));
             this.minLengthDropDownList.Items.Add(new ListItem("4", "4"));
             this.minLengthDropDownList.Items.Add(new ListItem("5", "5"));
             //this.minLengthDropDownList.Items.Add(new ListItem("First Space", "first-space")); // TODO: potential feature ?
@@ -170,17 +170,14 @@ namespace uComponents.DataTypes.XPathAutoComplete
         {
             base.OnLoad(e);
 
-            if (!this.Page.IsPostBack)
-            {
-                this.typeRadioButtonList.SelectedValue = this.Options.Type;
-                this.xPathTextBox.Text = this.Options.XPath;
-                this.propertyTextBox.Text = this.Options.Property;
-                this.minLengthDropDownList.SetSelectedValue(this.Options.MinLength.ToString());
-                this.maxSuggestionsTextBox.Text = this.Options.MaxSuggestions.ToString();
-                this.minItemsTextBox.Text = this.Options.MinItems.ToString();
-                this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
-                this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
-            }
+            this.typeRadioButtonList.SelectedValue = this.Options.Type;
+            this.xPathTextBox.Text = this.Options.XPath;
+            this.propertyTextBox.Text = this.Options.Property;
+            this.minLengthDropDownList.SetSelectedValue(this.Options.MinLength.ToString());
+            this.maxSuggestionsTextBox.Text = this.Options.MaxSuggestions.ToString();
+            this.minItemsTextBox.Text = this.Options.MinItems.ToString();
+            this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
+            this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
         }
 
         /// <summary>
@@ -248,8 +245,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
         {
             writer.AddPrevalueRow("Type", @"the xml schema to query", this.typeRadioButtonList);
             writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
-
-            // Commented out to simplify for a quick release - will default to using the name of the node / media or member
+    
             // writer.AddPrevalueRow("Property Name", @"value of property to query and use as item labels", this.propertyTextBox);
 
             writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);

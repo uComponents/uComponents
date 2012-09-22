@@ -20,7 +20,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
         {
         }
 
-        [DefaultValue("")]
+        [DefaultValue("c66ba18e-eaf3-4cff-8a22-41b16d66a972")]
         public string Type { get; set; }
 
         [DefaultValue("//*")]
@@ -29,7 +29,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
         [DefaultValue("")]
         public string Property { get; set; }
 
-        [DefaultValue(3)]
+        [DefaultValue(1)]
         public int MinLength { get; set; }
 
         [DefaultValue(0)]
@@ -45,22 +45,14 @@ namespace uComponents.DataTypes.XPathAutoComplete
         public bool AllowDuplicates { get; set; }
 
         /// <summary>
-        /// Helper to get the UmbracoObjectType from the stored value
+        /// Helper to get the UmbracoObjectType from the stored string guid
         /// </summary>
         public uQuery.UmbracoObjectType UmbracoObjectType
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(this.Type))
-                {
-                    return uQuery.UmbracoObjectType.Document;
-                }
-                else
-                {
-                    return uQuery.GetUmbracoObjectType(new Guid(this.Type));    
-                }
+                return uQuery.GetUmbracoObjectType(new Guid(this.Type));    
             }
         }
-
     }
 }

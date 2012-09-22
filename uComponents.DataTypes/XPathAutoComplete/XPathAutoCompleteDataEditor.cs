@@ -120,6 +120,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
             div.Attributes.Add("data-xpath-autocomplete-id", DataTypeConstants.XPathAutoCompleteId);
             div.Attributes.Add("data-datatype-definition-id", this.DataTypeDefinitionId.ToString());
             div.Attributes.Add("data-current-id", uQuery.GetIdFromQueryString());
+            div.Attributes.Add("data-type", this.options.UmbracoObjectType.GetFriendlyName());
             div.Attributes.Add("data-min-length", this.options.MinLength.ToString());
             //div.Attributes.Add("data-min-items", this.options.MinItems.ToString()); -- not required client side - TODO: could visually indicate number required ?
             div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
