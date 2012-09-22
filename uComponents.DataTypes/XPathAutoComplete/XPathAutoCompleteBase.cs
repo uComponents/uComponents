@@ -98,6 +98,10 @@ namespace uComponents.DataTypes.XPathAutoComplete
         public static string GetData(int datatypeDefinitionId, int currentId)
         {
             string autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];
+            string selectedItemsXml = HttpContext.Current.Request.Form["selectedItems"];
+
+            // parse selectedItemsXml to get unique collection of ids
+            int[] selectedValues = XDocument.Parse(selectedItemsXml).Descendants("Item").Select(x => int.Parse(x.Attribute("Value").Value)).ToArray();
 
             // default json returned if it wasn't able to get any data
             string json = @"[]";
@@ -115,15 +119,14 @@ namespace uComponents.DataTypes.XPathAutoComplete
                 // then serialize that subset (will be much quicker with large datasets as the following string parses every item)
 
                 IEnumerable<KeyValuePair<string, int>> data;
-                
+
+                data = index.Where(x =>
+                                    x.Key.ToUpper().StartsWith(autoCompleteText.ToUpper())
+                                    && (options.AllowDuplicates || !selectedValues.Contains(x.Value)));
+
                 if (options.MaxSuggestions > 0)
                 {
-                    data = index.Where(x => x.Key.ToUpper().StartsWith(autoCompleteText.ToUpper())).Take(options.MaxSuggestions);
-                }
-                else
-                {
-                    // max suggestions = 0 so, no limit
-                    data = index.Where(x => x.Key.ToUpper().StartsWith(autoCompleteText.ToUpper()));
+                    data = data.Take(options.MaxSuggestions);
                 }
 
                 json = new JavaScriptSerializer().Serialize(

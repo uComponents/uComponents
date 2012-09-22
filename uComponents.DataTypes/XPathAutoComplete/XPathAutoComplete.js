@@ -24,7 +24,7 @@
 
 ----------
 
-    <XPathAutoComplete>
+    <XPathAutoComplete> (TODO: add Type attribute)
         <Item Text="ABC" Value="1 />
         <Item Text="XYZ" Value="9" />
     </XPathAutoComplete>
@@ -77,7 +77,7 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
             source: function (request, response) {
                 jQuery.ajax({
                     type: 'POST',
-                    data: { autoCompleteText: request.term },
+                    data: { autoCompleteText: request.term, selectedItems: hidden.val() },
                     contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     url: '/Base/' + xPathAutoCompleteId + '/GetData/' + dataTypeDefinitionId + '/' + currentId,
                     dataType: 'json',

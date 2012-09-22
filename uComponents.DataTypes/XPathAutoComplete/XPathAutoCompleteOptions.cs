@@ -23,7 +23,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
         [DefaultValue("")]
         public string Type { get; set; }
 
-        [DefaultValue("")]
+        [DefaultValue("//*")]
         public string XPath { get; set; }
 
         [DefaultValue("")]
