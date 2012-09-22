@@ -25,7 +25,7 @@
 
 ----------
 
-    <XPathAutoComplete Type="Media">
+    <XPathAutoComplete Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
         <Item Text="ABC" Value="1 />
         <Item Text="XYZ" Value="9" />
     </XPathAutoComplete>
@@ -116,7 +116,7 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
         // if duplicates are allowed or item doesn't already exist then add
         if (allowDuplicates == 'True' ||
             ul.children('li[data-value=' + item.value + ']').length == 0) {
-            ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '">' + item.label + '<a class="delete" title="remove" href="javascript:void(0);" onClick="SqlAutoComplete.removeItem(this);"></a></li>');
+            ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '">' + item.label + '<a class="delete" title="remove" href="javascript:void(0);" onClick="XPathAutoComplete.removeItem(this);"></a></li>');
         }
     }
 
