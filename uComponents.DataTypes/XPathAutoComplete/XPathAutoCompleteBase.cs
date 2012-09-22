@@ -100,8 +100,12 @@ namespace uComponents.DataTypes.XPathAutoComplete
             string autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];
             string selectedItemsXml = HttpContext.Current.Request.Form["selectedItems"];
 
-            // parse selectedItemsXml to get unique collection of ids
-            int[] selectedValues = XDocument.Parse(selectedItemsXml).Descendants("Item").Select(x => int.Parse(x.Attribute("Value").Value)).ToArray();
+            int[] selectedValues = null;            
+            if (!string.IsNullOrWhiteSpace(selectedItemsXml))
+            {
+                // parse selectedItemsXml to get unique collection of ids
+                selectedValues = XDocument.Parse(selectedItemsXml).Descendants("Item").Select(x => int.Parse(x.Attribute("Value").Value)).ToArray();
+            }
 
             // default json returned if it wasn't able to get any data
             string json = @"[]";
@@ -122,7 +126,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
 
                 data = index.Where(x =>
                                     x.Key.ToUpper().StartsWith(autoCompleteText.ToUpper())
-                                    && (options.AllowDuplicates || !selectedValues.Contains(x.Value)));
+                                    && (options.AllowDuplicates || (selectedValues == null || !selectedValues.Contains(x.Value))));
 
                 if (options.MaxSuggestions > 0)
                 {
