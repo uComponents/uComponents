@@ -252,7 +252,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
             writer.AddPrevalueRow("Max Suggestions", "max number of items to return as autocomplete suggestions - 0 means no limit", this.maxSuggestionsTextBox);
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox);
-            writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate items can be selected", this.allowDuplicatesCheckBox);
+            writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate values can be selected", this.allowDuplicatesCheckBox);
         }
     }
 }

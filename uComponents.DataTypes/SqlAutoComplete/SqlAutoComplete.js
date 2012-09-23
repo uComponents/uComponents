@@ -46,15 +46,18 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
         var currentId = div.data('current-id');
         var minLength = div.data('min-length');
         var maxItems = div.data('max-items');
+        var allowDuplicates = div.data('allow-duplicates');
 
         // create list items from saved xml - ignore max-items here, always add all saved items
         var xml = jQuery.parseXML(hidden.val());
         jQuery(xml).find('Item').each(function (index, element) {
-            addItem(ul,
+            addItem(
+                ul,
                 {
                     label: jQuery(element).attr('Text'),
                     value: jQuery(element).attr('Value')
-                }
+                },
+                allowDuplicates
             );
         });
 
@@ -74,7 +77,7 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             source: function (request, response) {
                 jQuery.ajax({
                     type: 'POST',
-                    data: { autoCompleteText: request.term },
+                    data: { autoCompleteText: request.term, selectedItems: hidden.val()},
                     contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     url: '/Base/' + sqlAutoCompleteId + '/GetData/' + dataTypeDefinitionId + '/' + currentId,
                     dataType: 'json',
@@ -92,7 +95,7 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
 
                 // only call add item if the maxItems hasn't been reached
                 if (maxItems == 0 || ul.children('li').length < maxItems) {
-                    addItem(ul, ui.item);
+                    addItem(ul, ui.item, allowDuplicates);
                 }
 
                 updateHidden(ul, hidden);
@@ -103,10 +106,10 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
     }
 
     // private -- add a new item to the end of the selected items list
-    function addItem(ul, item) {
+    function addItem(ul, item, allowDuplicates) {
 
-        // if item doesn't already exist then add (TODO: configuration option to allow duplicates ?)
-        if (ul.children('li[data-value=' + item.value + ']').length == 0) {
+        if (allowDuplicates == 'True' ||        
+            ul.children('li[data-value=' + item.value + ']').length == 0) {
             ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '">' + item.label + '<a class="delete" title="remove" href="javascript:void(0);" onClick="SqlAutoComplete.removeItem(this);"></a></li>');
         }
     }

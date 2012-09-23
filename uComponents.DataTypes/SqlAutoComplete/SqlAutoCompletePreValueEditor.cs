@@ -38,6 +38,11 @@ namespace uComponents.DataTypes.SqlAutoComplete
         private DropDownList minLengthDropDownList = new DropDownList();
 
         /// <summary>
+        /// Max number of suggestions that should be returned as auto complete suggestions
+        /// </summary>
+        private TextBox maxSuggestionsTextBox = new TextBox();
+
+        /// <summary>
         /// Min number of items that must be selected - defaults to 0
         /// </summary>
         private TextBox minItemsTextBox = new TextBox();
@@ -46,7 +51,12 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// Max number of items that can be selected - defaults to 0 (anything that's not a +ve integer imposes no limit)
         /// </summary>
         private TextBox maxItemsTextBox = new TextBox();
-        
+
+        /// <summary>
+        /// if enabled then the same item can be seleted multiple times
+        /// </summary>
+        private CheckBox allowDuplicatesCheckBox = new CheckBox();
+
         /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
         /// </summary>
@@ -114,10 +124,15 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.minLengthDropDownList.ID = "minLengthDropDownList";
             this.minLengthDropDownList.Items.Add(new ListItem("1", "1"));
             this.minLengthDropDownList.Items.Add(new ListItem("2", "2"));
-            this.minLengthDropDownList.Items.Add(new ListItem("3 (default)", "3"));
+            this.minLengthDropDownList.Items.Add(new ListItem("3", "3"));
             this.minLengthDropDownList.Items.Add(new ListItem("4", "4"));
             this.minLengthDropDownList.Items.Add(new ListItem("5", "5"));            
             //this.minLengthDropDownList.Items.Add(new ListItem("First Space", "first-space")); // TODO: potential feature ?
+
+            this.maxSuggestionsTextBox.ID = "maxSuggestionsTextBox";
+            this.maxSuggestionsTextBox.Width = 30;
+            this.maxSuggestionsTextBox.MaxLength = 2;
+            this.maxSuggestionsTextBox.AutoCompleteType = AutoCompleteType.None;
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
             this.minItemsTextBox.Width = 30;
@@ -129,14 +144,18 @@ namespace uComponents.DataTypes.SqlAutoComplete
             this.maxItemsTextBox.MaxLength = 2;
             this.maxItemsTextBox.AutoCompleteType = AutoCompleteType.None;
 
+            this.allowDuplicatesCheckBox.ID = "allowDuplicatesCheckBox";            
+
             this.Controls.AddPrevalueControls(
                 this.sqlTextBox,
                 this.sqlRequiredFieldValidator,
                 this.sqlCustomValidator,
                 this.connectionStringDropDownList,
                 this.minLengthDropDownList,
+                this.maxSuggestionsTextBox,
                 this.minItemsTextBox,
-                this.maxItemsTextBox);
+                this.maxItemsTextBox,
+                this.allowDuplicatesCheckBox);
         }
 
         /// <summary>
@@ -147,14 +166,13 @@ namespace uComponents.DataTypes.SqlAutoComplete
         {
             base.OnLoad(e);
 
-            if (!this.Page.IsPostBack)
-            {
-                this.sqlTextBox.Text = this.Options.Sql;
-                this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
-                this.minLengthDropDownList.SetSelectedValue(this.Options.MinLength.ToString());
-                this.minItemsTextBox.Text = this.Options.MinItems.ToString();
-                this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
-            }
+            this.sqlTextBox.Text = this.Options.Sql;
+            this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
+            this.minLengthDropDownList.SetSelectedValue(this.Options.MinLength.ToString());
+            this.maxSuggestionsTextBox.Text = this.Options.MaxSuggestions.ToString();
+            this.minItemsTextBox.Text = this.Options.MinItems.ToString();
+            this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
+            this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
         }
 
         /// <summary>
@@ -195,6 +213,10 @@ namespace uComponents.DataTypes.SqlAutoComplete
                 this.Options.ConnectionStringName = this.connectionStringDropDownList.SelectedValue;
                 this.Options.MinLength = int.Parse(this.minLengthDropDownList.SelectedValue);
 
+                int maxSuggestions;
+                int.TryParse(this.maxSuggestionsTextBox.Text, out maxSuggestions);
+                this.Options.MaxSuggestions = maxSuggestions;
+
                 // ensure min and max items are valid numbers
                 int minItems;
                 int.TryParse(this.minItemsTextBox.Text, out minItems);
@@ -203,6 +225,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
                 int maxItems;
                 int.TryParse(this.maxItemsTextBox.Text, out maxItems);
                 this.Options.MaxItems = maxItems;
+
+                this.Options.AllowDuplicates = this.allowDuplicatesCheckBox.Checked;
 
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
@@ -217,8 +241,10 @@ namespace uComponents.DataTypes.SqlAutoComplete
             writer.AddPrevalueRow("SQL Expression", @" expects a result set with two fields : 'Text' and 'Value' - can include the tokens : @currentId and @autoCompleteText", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
             writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
             writer.AddPrevalueRow("Min Length", "number of chars in the autocomplete text box before querying for data", this.minLengthDropDownList);
+            writer.AddPrevalueRow("Max Suggestions", "max number of items to return as autocomplete suggestions - 0 means no limit", this.maxSuggestionsTextBox);
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox);
+            writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate values can be selected", this.allowDuplicatesCheckBox);
         }
     }
 }

@@ -32,14 +32,20 @@ namespace uComponents.DataTypes.SqlAutoComplete
         [DefaultValue("")]
         public string ConnectionStringName { get; set; }
 
-        [DefaultValue(3)]
+        [DefaultValue(1)]
         public int MinLength { get; set; }
+
+        [DefaultValue(0)]
+        public int MaxSuggestions { get; set; }
 
         [DefaultValue(0)]
         public int MinItems { get; set; }
 
         [DefaultValue(0)]
         public int MaxItems { get; set; }
+
+        [DefaultValue(false)]
+        public bool AllowDuplicates { get; set; }
 
         /// <summary>
         /// Checks web.config for a matching named connection string, else returns the current Umbraco database connection
