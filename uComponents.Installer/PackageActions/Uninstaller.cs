@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using uComponents.Core;
+using umbraco.cms.businesslogic.macro;
 using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
@@ -177,6 +178,8 @@ namespace uComponents.Installer.PackageActions
 			// XsltExtensions - update the assembly and type references
 			result = this.UpdateXsltExtensionsConfig();
 
+			// Macros - update references for RenderTemplate
+			result = this.UpdateMacroReferences();
 
 			return result;
 		}
@@ -203,7 +206,28 @@ namespace uComponents.Installer.PackageActions
 		}
 
 		/// <summary>
-		/// Updates the not found handlers config.
+		/// Updates the macro references.
+		/// </summary>
+		/// <returns></returns>
+		private bool UpdateMacroReferences()
+		{
+			var macros = Macro.GetAll();
+
+			foreach (var macro in macros)
+			{
+				if (string.Equals(macro.Assembly, "uComponents.Core"))
+				{
+					macro.Assembly = macro.Assembly.Replace(".Core", ".Controls");
+					macro.Type = macro.Type.Replace(".Core", string.Empty);
+					macro.Save();
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Updates the NotFoundHandlers config.
 		/// </summary>
 		/// <returns></returns>
 		private bool UpdateNotFoundHandlersConfig()
