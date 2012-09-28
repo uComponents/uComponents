@@ -26,9 +26,9 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="autoCompleteText"></param>
-        /// <returns>a JSON string collection of Key, Value pairs</returns>
+        /// <param name="datatypeDefinitionId"></param>
+        /// <param name="currentId"></param>
+        /// <returns></returns>
         [RestExtensionMethod(returnXml = false)]
         public static string GetData(int datatypeDefinitionId, int currentId)
         {
@@ -71,7 +71,8 @@ namespace uComponents.DataTypes.SqlAutoComplete
                     
                     data = sqlCommand.ExecuteReader().Cast<DbDataRecord>()
                                                         .Where(x => (options.AllowDuplicates) || (selectedValues == null || !selectedValues.Contains(x["Value"].ToString())))
-                                                        .Select(x => new KeyValuePair<string, string>(x["Text"].ToString(), x["Value"].ToString()));
+                                                        .Select(x => new KeyValuePair<string, string>(x["Text"].ToString(), x["Value"].ToString()))
+                                                        .OrderBy(x => x.Key);
 
                     if (options.MaxSuggestions > 0)
                     {
