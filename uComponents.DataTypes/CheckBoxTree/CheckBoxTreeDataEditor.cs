@@ -11,7 +11,9 @@ using umbraco.interfaces;
 using umbraco.NodeFactory;
 using CmsContentType = umbraco.cms.businesslogic.ContentType;
 using CmsProperty = umbraco.cms.businesslogic.property.Property;
+using umbraco.editorControls;
 
+[assembly: WebResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.CheckBoxTree
 {
 	/// <summary>
@@ -132,7 +134,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 			this.minSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MinSelectionCustomValidator_ServerValidate);
 			this.maxSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MaxSelectionCustomValidator_ServerValidate);
 
-			CmsProperty property = new CmsProperty(((DefaultData)this.data).PropertyId);
+			CmsProperty property = new CmsProperty(((umbraco.cms.businesslogic.datatype.DefaultData)this.data).PropertyId);
 			DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
 			CmsContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
 
@@ -168,6 +170,19 @@ namespace uComponents.DataTypes.CheckBoxTree
 		{
 			base.OnLoad(e);
 			this.EnsureChildControls();
+
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.js", ClientDependencyType.Javascript);
+
+            string startupScript = @"                
+                <script language='javascript' type='text/javascript'>
+                    $(document).ready(function () {
+
+                        CheckBoxTree.init(jQuery('div#" + this.treeView.ClientID + @"'));
+
+                    });
+                </script>";
+
+            ScriptManager.RegisterStartupScript(this, typeof(CheckBoxTreeDataEditor), this.ClientID + "_init", startupScript, false);
 
 			if (!this.Page.IsPostBack)
 			{
