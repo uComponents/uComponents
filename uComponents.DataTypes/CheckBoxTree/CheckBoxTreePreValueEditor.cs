@@ -52,15 +52,10 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		private TextBox maxSelectionTextBox = new TextBox();
 
-		/// <summary>
-		/// Field for the ancestors CheckBox.
-		/// </summary>
-		private CheckBox selectAncestorsCheckBox = new CheckBox();
-
-		/// <summary>
-		/// Field for the descendents CheckBox.
-		/// </summary>
-		private CheckBox toggleDescendentsCheckBox = new CheckBox();
+        /// <summary>
+        /// The auto selection variations
+        /// </summary>
+        private DropDownList autoSelectionDropDownList = new DropDownList();
 
 		/// <summary>
 		/// Field for the show tree-icons CheckBox.
@@ -160,10 +155,14 @@ namespace uComponents.DataTypes.CheckBoxTree
             this.maxSelectionTextBox.MaxLength = 2;
             this.minSelectionTextBox.AutoCompleteType = AutoCompleteType.None;
 
-            // Select Ancestors - automatically select all ancestors of checked nodes
-
-
-            // Toggle Descendants - automatically select or de-select all descendant nodes to match the state of current
+            // Auto Selection Options            
+            this.autoSelectionDropDownList.DataSource = new[]
+                                                            {
+                                                                new ListItem(string.Empty, "0"),
+                                                                new ListItem("Ensure Ancestors", "1"),
+                                                                new ListItem("Ensure Descendants", "2"),
+                                                            };
+            this.autoSelectionDropDownList.DataBind();
 
 
             // ShowTreeIcons
@@ -190,8 +189,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.selectableTreeNodesXPathCustomValidator,
 				this.minSelectionTextBox,
 				this.maxSelectionTextBox,
-				this.selectAncestorsCheckBox,
-				this.toggleDescendentsCheckBox,
+                this.autoSelectionDropDownList,
 				this.showTreeIconsCheckBox,
 				this.selectExpandOptionDropDownList,
 				this.selectOutputFormat);
@@ -236,8 +234,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.selectableTreeNodesXPathTextBox.Text = this.Options.SelectableTreeNodesXPath;
 				this.minSelectionTextBox.Text = this.Options.MinSelection.ToString();
 				this.maxSelectionTextBox.Text = this.Options.MaxSelection.ToString();
-				this.selectAncestorsCheckBox.Checked = this.Options.SelectAncestors;
-				this.toggleDescendentsCheckBox.Checked = this.Options.ToggleDescendents;
+                this.autoSelectionDropDownList.SelectedIndex = (int)this.Options.AutoSelectionOption;
 				this.showTreeIconsCheckBox.Checked = this.Options.ShowTreeIcons;
 				this.selectExpandOptionDropDownList.SelectedIndex = (int)this.Options.ExpandOption;
 				this.selectOutputFormat.SelectedIndex = (int)this.Options.OutputFormat;
@@ -251,23 +248,22 @@ namespace uComponents.DataTypes.CheckBoxTree
 		{
 			if (this.Page.IsValid)
 			{
-				this.Options.SelectAncestors = this.selectAncestorsCheckBox.Checked;
-				this.Options.ToggleDescendents = this.toggleDescendentsCheckBox.Checked;
-				this.Options.StartTreeNodeXPath = this.treeStartNodeXPathTextBox.Text;
-				this.Options.SelectableTreeNodesXPath = this.selectableTreeNodesXPathTextBox.Text;
-				
-				int minSelection;
-				if (int.TryParse(this.minSelectionTextBox.Text, out minSelection))
-				{
-					this.Options.MinSelection = minSelection;
-				}
+                this.Options.StartTreeNodeXPath = this.treeStartNodeXPathTextBox.Text;
+                this.Options.SelectableTreeNodesXPath = this.selectableTreeNodesXPathTextBox.Text;
+                
+                int minSelection;
+                if (int.TryParse(this.minSelectionTextBox.Text, out minSelection))
+                {
+                    this.Options.MinSelection = minSelection;
+                }
 
-				int maxSelection;
-				if (int.TryParse(this.maxSelectionTextBox.Text, out maxSelection))
-				{
-					this.Options.MaxSelection = maxSelection;
-				}
+                int maxSelection;
+                if (int.TryParse(this.maxSelectionTextBox.Text, out maxSelection))
+                {
+                    this.Options.MaxSelection = maxSelection;
+                }
 
+                this.Options.AutoSelectionOption = (CheckBoxTreeOptions.AutoSelectionOptions)this.autoSelectionDropDownList.SelectedIndex;
 				this.Options.ShowTreeIcons = this.showTreeIconsCheckBox.Checked;
 				this.Options.ExpandOption = (CheckBoxTreeOptions.ExpandOptions)this.selectExpandOptionDropDownList.SelectedIndex;
 				this.Options.OutputFormat = (Settings.OutputFormat)this.selectOutputFormat.SelectedIndex;
@@ -286,8 +282,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 			writer.AddPrevalueRow("XPath Filter", "not required - only matched nodes will have checkboxes", this.selectableTreeNodesXPathTextBox, this.selectableTreeNodesXPathCustomValidator);
 			writer.AddPrevalueRow("Min Selection", "0 = no limit", this.minSelectionTextBox);
 			writer.AddPrevalueRow("Max Selection", "0 = no limit", this.maxSelectionTextBox);
-			writer.AddPrevalueRow("Select Ancestors", "select all ancestors of checked nodes (ensures a path to all desdendants)", this.selectAncestorsCheckBox);
-			writer.AddPrevalueRow("Toggle Descendents", "change state of all descendants to match that of the node being checked", this.toggleDescendentsCheckBox);
+            writer.AddPrevalueRow("Auto Selection", "ensure a top down or bottom up tree selection", this.autoSelectionDropDownList);
 			writer.AddPrevalueRow("Show Tree Icons", "(doesn't yet work with sprites)", this.showTreeIconsCheckBox);
 			writer.AddPrevalueRow("Expand Options", "on load, select whether to collapse all, expand all or only selected branches.", this.selectExpandOptionDropDownList);
 			writer.AddPrevalueRow("Output Format", this.selectOutputFormat);

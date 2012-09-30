@@ -146,11 +146,6 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.minSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab requires a minimum of ", this.options.MinSelection.ToString(), " selections<br/>");
 				this.maxSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab has exceeded the maximum number of selections<br/>");
 			}
-
-            //if (this.options.SelectAncestors || this.options.ToggleDescendents)
-            //{
-            //    this.treeView.Attributes.Add("onclick", "OnCheckBoxCheckChanged(event)");
-            //}
 		}
 
 		/// <summary>
@@ -162,8 +157,7 @@ namespace uComponents.DataTypes.CheckBoxTree
             HtmlGenericControl div = new HtmlGenericControl("div");
 
             div.Attributes.Add("class", "check-box-tree");
-            div.Attributes.Add("data-select-ancestors", this.options.SelectAncestors.ToString().ToLower());
-            div.Attributes.Add("data-toggle-descendants", this.options.ToggleDescendents.ToString().ToLower());
+            div.Attributes.Add("data-auto-selection-option", ((int)this.options.AutoSelectionOption).ToString());
 
             div.Controls.Add(this.treeView);
             div.Controls.Add(this.minSelectionCustomValidator);
@@ -360,7 +354,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 			}
 			else
 			{
-				this.data.Value = csv;
+				this.data.Value = csv;                
 			}
 		}
 	}

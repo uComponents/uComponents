@@ -1,7 +1,6 @@
 ﻿/*
     <div class="check-box-tree"
-         data-select-ancestors="true || false"
-         data-toggle-descendants="true || false">
+        data-auto-selection-option="0 || 1 || 2">
 
         <!-- ASP.NET TreeView -->
 
@@ -17,44 +16,69 @@ var CheckBoxTree = CheckBoxTree || (function () {
         var div = treeView.parent('div.check-box-tree');
 
         // values
-        var selectAncestors = div.data('select-ancestors');
-        var toggleDescendants = div.data('toggle-descendants');
+        var autoSelectionOption = div.data('auto-selection-option');
 
         // hook into all checkboxes
         div.find('input[type="checkbox"]')
            .change(function () {
-               checkBoxChanged(jQuery(this), selectAncestors, toggleDescendants);
+               checkBoxChanged(jQuery(this), autoSelectionOption);
            });
     }
 
 
-    function checkBoxChanged(checkBox, selectAncestors, toggleDescendants) {
+    function checkBoxChanged(checkBox, autoSelectionOption) {
 
         var isChecked = checkBox.is(':checked');
 
-        if (selectAncestors) {
-            if (isChecked) {
+        switch (autoSelectionOption) {
 
-                checkBox.parentsUntil('div.check-box-tree', 'div').each(function (index, element) {
-                    jQuery(element).prev('table:first').find('input[type="checkbox"]:first').attr('checked', true);
-                });
+            case 0: // None
+                break;
 
-            } else {
+            case 1: // Ensure Ancestors
 
-                // walk down the tree unchecking - force this by setting toggleDescendants
-                toggleDescendants = true;
-            }
-        }
+                if (isChecked) {
+                    // ensure all ancestors are checked (match) / ignore descendants
+                    toggleAncestors(checkBox);
+                } else {
+                    // ignore ancestors / ensure all descendants (match)
+                    toggleDescendants(checkBox); 
+                }
+                break;
 
-        if (toggleDescendants) {
+            case 2: // Ensure Descendants                
 
-            // walk down the tree and set all checkboxes to match the current
-            checkBox.closest('table').next('div').find('input[type="checkbox"]').attr('checked', isChecked);
+                if (isChecked) {
+                    // ignore ancestors / ensure all descendants are checked (match)
+                    toggleDescendants(checkBox);
+                } else {
+                    // ensure ancestors are unchecked (match) / ignore descendants
+                    toggleAncestors(checkBox); 
+                }
+                break;
         }
     }
 
+    function toggleAncestors(checkBox) {
+
+        // walk up the tree and set all ancestors to match the current
+        checkBox.parentsUntil('div.check-box-tree', 'div').each(function (index, element) {
+            jQuery(element).prev('table:first').find('input[type="checkbox"]:first').attr('checked', checkBox.is(':checked'));
+        });
+
+    }
+
+    function toggleDescendants(checkBox) {
+
+        // walk down the tree and set all checkboxes to match the current
+        checkBox.closest('table').next('div').find('input[type="checkbox"]').attr('checked', checkBox.is(':checked'));
+
+    }
+
     return {
+
         init: init
+
     }
 
 } ());
