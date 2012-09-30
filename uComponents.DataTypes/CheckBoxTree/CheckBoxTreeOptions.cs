@@ -57,7 +57,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// Gets or sets the selectable tree nodes X path.
 		/// </summary>
 		/// <value>The selectable tree nodes X path.</value>
-		[DefaultValue("")]
+		[DefaultValue("//*")]
 		public string SelectableTreeNodesXPath { get; set; }
 
 		/// <summary>
@@ -93,7 +93,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		/// <value><c>true</c> if [select descendents]; otherwise, <c>false</c>.</value>
 		[DefaultValue(false)]
-		public bool SelectDescendents { get; set; }
+		public bool ToggleDescendents { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether [show tree icons].

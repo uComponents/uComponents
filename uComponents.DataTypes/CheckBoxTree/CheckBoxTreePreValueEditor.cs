@@ -237,7 +237,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.minSelectionTextBox.Text = this.Options.MinSelection.ToString();
 				this.maxSelectionTextBox.Text = this.Options.MaxSelection.ToString();
 				this.selectAncestorsCheckBox.Checked = this.Options.SelectAncestors;
-				this.toggleDescendentsCheckBox.Checked = this.Options.SelectDescendents;
+				this.toggleDescendentsCheckBox.Checked = this.Options.ToggleDescendents;
 				this.showTreeIconsCheckBox.Checked = this.Options.ShowTreeIcons;
 				this.selectExpandOptionDropDownList.SelectedIndex = (int)this.Options.ExpandOption;
 				this.selectOutputFormat.SelectedIndex = (int)this.Options.OutputFormat;
@@ -252,7 +252,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 			if (this.Page.IsValid)
 			{
 				this.Options.SelectAncestors = this.selectAncestorsCheckBox.Checked;
-				this.Options.SelectDescendents = this.toggleDescendentsCheckBox.Checked;
+				this.Options.ToggleDescendents = this.toggleDescendentsCheckBox.Checked;
 				this.Options.StartTreeNodeXPath = this.treeStartNodeXPathTextBox.Text;
 				this.Options.SelectableTreeNodesXPath = this.selectableTreeNodesXPathTextBox.Text;
 				

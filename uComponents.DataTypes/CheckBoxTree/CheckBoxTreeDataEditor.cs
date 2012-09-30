@@ -131,10 +131,11 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
 		protected override void OnInit(EventArgs e)
 		{
-			base.OnInit(e);
-
+			base.OnInit(e);            
+            
 			this.minSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MinSelectionCustomValidator_ServerValidate);
 			this.maxSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MaxSelectionCustomValidator_ServerValidate);
+
 
 			CmsProperty property = new CmsProperty(((umbraco.cms.businesslogic.datatype.DefaultData)this.data).PropertyId);
 			DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
@@ -146,10 +147,10 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.maxSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab has exceeded the maximum number of selections<br/>");
 			}
 
-			if (this.options.SelectAncestors || this.options.SelectDescendents)
-			{
-				this.treeView.Attributes.Add("onclick", "OnCheckBoxCheckChanged(event)");
-			}
+            //if (this.options.SelectAncestors || this.options.ToggleDescendents)
+            //{
+            //    this.treeView.Attributes.Add("onclick", "OnCheckBoxCheckChanged(event)");
+            //}
 		}
 
 		/// <summary>
@@ -157,12 +158,12 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			base.CreateChildControls();
-
             // wrapping div
             HtmlGenericControl div = new HtmlGenericControl("div");
 
             div.Attributes.Add("class", "check-box-tree");
+            div.Attributes.Add("data-select-ancestors", this.options.SelectAncestors.ToString().ToLower());
+            div.Attributes.Add("data-toggle-descendants", this.options.ToggleDescendents.ToString().ToLower());
 
             div.Controls.Add(this.treeView);
             div.Controls.Add(this.minSelectionCustomValidator);
@@ -249,7 +250,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 
 					default:
 						break;
-				}
+				}               
 			}
 		}
 
@@ -271,11 +272,11 @@ namespace uComponents.DataTypes.CheckBoxTree
 		}
 
 		/// <summary>
-		/// Gets the tree node.
+		/// Gets an ASP.NET TreeNode from an Umbraco Node
 		/// </summary>
-		/// <param name="node">The node.</param>
-		/// <returns></returns>
-		private TreeNode GetTreeNode(Node node) //// public static explicit operator TreeNode(Node node) ??
+		/// <param name="node">The Umbraco Node.</param>
+		/// <returns>an ASP.NET TreeNode</returns>
+		private TreeNode GetTreeNode(Node node)
 		{
 			TreeNode treeNode = new TreeNode();
 
@@ -362,11 +363,5 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.data.Value = csv;
 			}
 		}
-
-       
-        protected override void Render(HtmlTextWriter writer)
-        {
-            this.treeView.RenderControl(writer);
-        }
 	}
 }
