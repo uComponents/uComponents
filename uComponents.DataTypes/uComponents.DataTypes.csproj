@@ -314,6 +314,7 @@
     <EmbeddedResource Include="Shared\Resources\Scripts\json2.js" />
     <EmbeddedResource Include="Shared\Resources\Images\ucomponents-logo-small.png" />
     <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.js" />
+    <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.css" />
     <Content Include="Similarity\Net\LICENSE.txt" />
     <Content Include="Similarity\Net\README.txt" />
     <EmbeddedResource Include="Similarity\SimilarityScripts.js" />
