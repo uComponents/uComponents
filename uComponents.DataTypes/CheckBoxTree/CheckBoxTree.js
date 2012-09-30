@@ -18,6 +18,18 @@ var CheckBoxTree = CheckBoxTree || (function () {
         // values
         var autoSelectionOption = div.data('auto-selection-option');
 
+        // fix markup - convert spans into labels for any checkboxes (TODO: swap this to server side)
+        treeView.find('span').each(function (index, element) {
+
+            var id = jQuery(element).prev('input[type="checkbox"]:first').attr('id');
+            var text = jQuery(element).text();
+            
+            if (typeof id != 'undefined') {                
+                jQuery(element).replaceWith('<label for="' + id + '">' + text + '</label>');
+            }
+
+        });
+
         // hook into all checkboxes
         div.find('input[type="checkbox"]')
            .change(function () {
@@ -42,7 +54,7 @@ var CheckBoxTree = CheckBoxTree || (function () {
                     toggleAncestors(checkBox);
                 } else {
                     // ignore ancestors / ensure all descendants (match)
-                    toggleDescendants(checkBox); 
+                    toggleDescendants(checkBox);
                 }
                 break;
 
@@ -51,9 +63,13 @@ var CheckBoxTree = CheckBoxTree || (function () {
                 if (isChecked) {
                     // ignore ancestors / ensure all descendants are checked (match)
                     toggleDescendants(checkBox);
+
+                    //expand tree to ensure all newly selected items are visible
+                    expandDescendants(checkBox);
+
                 } else {
                     // ensure ancestors are unchecked (match) / ignore descendants
-                    toggleAncestors(checkBox); 
+                    toggleAncestors(checkBox);
                 }
                 break;
         }
@@ -73,6 +89,13 @@ var CheckBoxTree = CheckBoxTree || (function () {
         // walk down the tree and set all checkboxes to match the current
         checkBox.closest('table').next('div').find('input[type="checkbox"]').attr('checked', checkBox.is(':checked'));
 
+    }
+
+    function expandDescendants(checkBox) {
+
+        checkBox.closest('table').parent().find('div').css('display', 'block');
+
+        // TODO: ensure the +/- icon is also updated
     }
 
     return {
