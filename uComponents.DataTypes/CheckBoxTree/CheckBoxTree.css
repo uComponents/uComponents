@@ -1,6 +1,6 @@
 ﻿
-.check-box-tree
+.check-box-tree td
 {       
-    
+    /* fix for the dotted lines */
+    vertical-align:top !important;
 }
-

@@ -159,6 +159,8 @@ namespace uComponents.DataTypes.CheckBoxTree
             div.Attributes.Add("class", "check-box-tree");
             div.Attributes.Add("data-auto-selection-option", ((int)this.options.AutoSelectionOption).ToString());
 
+            this.treeView.ShowLines = true;            
+            
             div.Controls.Add(this.treeView);
             div.Controls.Add(this.minSelectionCustomValidator);
             div.Controls.Add(this.maxSelectionCustomValidator);
