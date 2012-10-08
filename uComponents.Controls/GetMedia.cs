@@ -5,6 +5,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using umbraco;
+using umbraco.cms.businesslogic.media;
+using System.Text;
 
 namespace uComponents.Controls
 {
@@ -31,13 +33,7 @@ namespace uComponents.Controls
 		{
 			base.OnLoad(e);
 
-			if (!string.IsNullOrEmpty(this.MediaId))
-			{
-				var img = this.GetImageHtml(this.MediaId, (int)this.Height.Value, (int)this.Width.Value);
-				var ltrl = new Literal() { Text = img };
-
-				this.Controls.Add(ltrl);
-			}
+			this.Controls.Add(new Literal() { Text = this.ProcessMedia(this.MediaId) });
 		}
 
 		/// <summary>
@@ -50,17 +46,64 @@ namespace uComponents.Controls
 		}
 
 		/// <summary>
+		/// Gets the HTML for file.
+		/// </summary>
+		/// <param name="media">The media.</param>
+		/// <returns></returns>
+		private string GetHtmlForFile(Media media)
+		{
+			// check that its not null
+			if (media != null)
+			{
+				// get the img src
+				var file = media.GetProperty<string>(Constants.Umbraco.Media.File);
+
+				// check that the file has a value
+				if (!string.IsNullOrEmpty(file))
+				{
+					// define the anchor tag
+					var anchor = "<a href=\"{0}\">{1}</a>";
+
+					// format the anchor tag
+					return string.Format(anchor, file, media.Text);
+				}
+			}
+
+			// fall-back return an empty string
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// Gets the HTML for folder.
+		/// </summary>
+		/// <param name="media">The media.</param>
+		/// <returns></returns>
+		private string GetHtmlForFolder(Media media)
+		{
+			var html = new StringBuilder();
+
+			html.AppendFormat("<dl><dt>{0}</dt>", media.Text);
+
+			if (media.HasChildren)
+			{
+				foreach (var child in media.Children)
+				{
+					html.AppendFormat("<dd>{0}</dd>", this.ProcessMedia(child));
+				}
+			}
+
+			html.Append("</dl>");
+
+			return html.ToString();
+		}
+
+		/// <summary>
 		/// Gets the HTML for an image tag, using the Media Id.
 		/// </summary>
-		/// <param name="mediaId">The media id.</param>
-		/// <param name="defaultHeight">The default height.</param>
-		/// <param name="defaultWidth">The default width.</param>
+		/// <param name="media">The media.</param>
 		/// <returns>Returns a HTML image tag from a Media Id.</returns>
-		private string GetImageHtml(string mediaId, int defaultHeight, int defaultWidth)
+		private string GetHtmlForImage(Media media)
 		{
-			// get the media item
-			var media = uQuery.GetMedia(mediaId);
-
 			// check that its not null
 			if (media != null)
 			{
@@ -77,14 +120,14 @@ namespace uComponents.Controls
 					var height = media.GetProperty<int>(Constants.Umbraco.Media.Height);
 					if (height <= 0)
 					{
-						height = defaultHeight;
+						height = (int)this.Height.Value;
 					}
 
 					// get the width
 					var width = media.GetProperty<int>(Constants.Umbraco.Media.Width);
 					if (width <= 0)
 					{
-						width = defaultWidth;
+						width = (int)this.Width.Value;
 					}
 
 					// if the default dimensions are less then zero...
@@ -101,6 +144,49 @@ namespace uComponents.Controls
 			}
 
 			// fall-back return an empty string
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// Processes the media.
+		/// </summary>
+		/// <returns></returns>
+		private string ProcessMedia(string mediaId)
+		{
+			if (!string.IsNullOrEmpty(mediaId))
+			{
+				return this.ProcessMedia(uQuery.GetMedia(mediaId));
+			}
+
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// Processes the media.
+		/// </summary>
+		/// <param name="media">The media.</param>
+		/// <returns></returns>
+		private string ProcessMedia(Media media)
+		{
+			if (media != null)
+			{
+				switch (media.ContentType.Alias.ToUpper())
+				{
+					case "FILE":
+						return this.GetHtmlForFile(media);
+
+					case "FOLDER":
+						return this.GetHtmlForFolder(media);
+
+					case "IMAGE":
+						return this.GetHtmlForImage(media);
+
+					default:
+						// TODO: [LK] Implement a hook/handler for custom providers // e.g. Provider.GetHtml(media)
+						break;
+				}
+			}
+
 			return string.Empty;
 		}
 	}
