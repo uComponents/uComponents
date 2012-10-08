@@ -84,7 +84,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 
 			this.EnsureChildControls();
 
-			this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource(typeof(NoDBOptionsKeyValuePrevalueEditor), Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
 		}
 
 		/// <summary>
