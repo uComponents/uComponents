@@ -27,13 +27,14 @@ namespace uComponents.Mapping
         /// using unqualified destination class name as the document type alias.
         /// </summary>
         /// <typeparam name="TDestination">The type to map to.</typeparam>
+        /// <returns>Further mapping configuration</returns>
         /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
-        public static void CreateMap<TDestination>()
+        public static NodeMappingExpression<TDestination> CreateMap<TDestination>()
             where TDestination : class, new()
         {
             EnsureMappingEngine();
 
-            _engine.CreateMap<TDestination>();
+            return _engine.CreateMap<TDestination>();
         }
 
         /// <summary>
@@ -41,13 +42,14 @@ namespace uComponents.Mapping
         /// </summary>
         /// <typeparam name="TDestination">The type to map to.</typeparam>
         /// <param name="documentTypeAlias">The alias of the document type to map from.</param>
+        /// <returns>Further mapping configuration</returns>
         /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
-        public static void CreateMap<TDestination>(string documentTypeAlias)
+        public static NodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
             where TDestination : class, new()
         {
             EnsureMappingEngine();
 
-            _engine.CreateMap<TDestination>(documentTypeAlias);
+            return _engine.CreateMap<TDestination>(documentTypeAlias);
         }
 
         /// <summary>
@@ -57,11 +59,30 @@ namespace uComponents.Mapping
         /// <param name="sourceNode">The node to map from.</param>
         /// <param name="includeRelationships">Whether to load relationships to other models.</param>
         /// <returns>A new instance of TDestination, or null if sourceNode is null.</returns>
-        /// <exception cref="MapNotFoundException">If a map has not been created with CreateMap</exception>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
         public static TDestination Map<TDestination>(Node sourceNode, bool includeRelationships = false)
             where TDestination : class, new()
         {
+            EnsureMappingEngine();
+
             return _engine.Map<TDestination>(sourceNode, includeRelationships);
+        }
+
+        /// <summary>
+        /// Gets an Umbraco node as a strongly typed object.
+        /// </summary>
+        /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
+        /// <param name="id">The id of the node</param>
+        /// <returns>Null if the node does not exist.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
+        public static TDestination Get<TDestination>(int id, bool includeRelationships = false)
+            where TDestination : class, new()
+        {
+            EnsureMappingEngine();
+
+            return _engine.Map<TDestination>(new Node(id), includeRelationships);
         }
     }
 }

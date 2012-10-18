@@ -9,7 +9,7 @@ using umbraco;
 
 namespace uComponents.Mapping
 {
-    internal class NodeMap
+    public class NodeMap
     {
         public Type Type { get; set; }
         public List<NodePropertyMap> PropertyMappings { get; set; }
@@ -21,7 +21,7 @@ namespace uComponents.Mapping
         }
     }
 
-    internal class NodeMap<TDestination> : NodeMap
+    public class NodeMap<TDestination> : NodeMap
     {
         public NodeMap()
             : base(typeof(TDestination))
@@ -29,7 +29,7 @@ namespace uComponents.Mapping
         }
     }
 
-    internal class NodePropertyMap
+    public class NodePropertyMap
     {
         public PropertyInfo DestinationInfo { get; set; }
         public string SourceAlias { get; set; }

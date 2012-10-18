@@ -13,18 +13,24 @@ namespace uComponents.Mapping
 {
     public class NodeMappingEngine
     {
-        private readonly static MethodInfo _getNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
-        private Dictionary<Type, NodeMap> _mappings = new Dictionary<Type, NodeMap>();
+        protected readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
 
-        public void CreateMap<TDestination>(string documentTypeAlias)
+        protected Dictionary<Type, NodeMap> Mappings { get; set; }
+
+        public NodeMappingEngine()
+        {
+            this.Mappings = new Dictionary<Type, NodeMap>();
+        }
+
+        public NodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
             where TDestination : class, new()
         {
             var destinationType = typeof(TDestination);
 
             // Already have a mapping
-            if (_mappings.ContainsKey(destinationType))
+            if (Mappings.ContainsKey(destinationType))
             {
-                return;
+                return new NodeMappingExpression<TDestination>(this, (NodeMap<TDestination>)Mappings[destinationType]);
             }
 
             // Get document type
@@ -113,18 +119,20 @@ namespace uComponents.Mapping
                 }
             }
 
-            _mappings[destinationType] = nodeMap;
+            Mappings[destinationType] = nodeMap;
+
+            return new NodeMappingExpression<TDestination>(this, nodeMap);
         }
 
-        public void CreateMap<TDestination>()
+        public NodeMappingExpression<TDestination> CreateMap<TDestination>()
             where TDestination : class, new()
         {
             var destinationType = typeof(TDestination);
 
-            this.CreateMap<TDestination>(destinationType.Name);
+            return this.CreateMap<TDestination>(destinationType.Name);
         }
 
-        private void MapPropertyFromAlias(NodePropertyMap propertyMap, string sourcePropertyAlias)
+        protected internal void MapPropertyFromAlias(NodePropertyMap propertyMap, string sourcePropertyAlias)
         {
             propertyMap.SourceAlias = sourcePropertyAlias;
             var destinationProperty = propertyMap.DestinationInfo;
@@ -187,7 +195,7 @@ namespace uComponents.Mapping
             else if (destinationProperty.PropertyType.Module.ScopeName == "CommonLanguageRuntimeLibrary")
             {
                 // Basic system types
-                var method = _getNodePropertyMethod.MakeGenericMethod(destinationProperty.PropertyType);
+                var method = GetNodePropertyMethod.MakeGenericMethod(destinationProperty.PropertyType);
 
                 propertyMap.Mapping = (node, alias) => method.Invoke(null, new object[] { node, alias });
                 propertyMap.IsRelationship = false;
@@ -197,7 +205,7 @@ namespace uComponents.Mapping
                 // Try to map single relationship
                 propertyMap.Mapping = (node, alias) =>
                 {
-                    if (!_mappings.ContainsKey(destinationProperty.PropertyType))
+                    if (!Mappings.ContainsKey(destinationProperty.PropertyType))
                     {
                         throw new MapNotFoundException(destinationProperty.PropertyType);
                     }
@@ -230,7 +238,7 @@ namespace uComponents.Mapping
         /// False if the collection needs to be instatiated.</returns>
         /// <exception cref="CollectionTypeNotSupported">The collection type cannot be 
         /// instatiated or assigned.</exception>
-        private bool CheckCollectionCanBeAssigned(Type destinationCollectionType, Type sourceCollectionType)
+        protected bool CheckCollectionCanBeAssigned(Type destinationCollectionType, Type sourceCollectionType)
         {
             bool assignCollectionDirectly;
 
@@ -267,7 +275,7 @@ namespace uComponents.Mapping
             return assignCollectionDirectly;
         }
         
-        private object Map(Node sourceNode, Type destinationType, bool includeRelationships)
+        protected object Map(Node sourceNode, Type destinationType, bool includeRelationships)
         {
             if (sourceNode == null
                 || string.IsNullOrEmpty(sourceNode.Name))
@@ -275,12 +283,12 @@ namespace uComponents.Mapping
                 return null;
             }
 
-            if (!_mappings.ContainsKey(destinationType))
+            if (!Mappings.ContainsKey(destinationType))
             {
                 throw new MapNotFoundException(destinationType);
             }
 
-            var mapping = _mappings[destinationType];
+            var mapping = Mappings[destinationType];
             var destination = Activator.CreateInstance(destinationType);
 
             foreach (var propertyMapping in mapping.PropertyMappings)
