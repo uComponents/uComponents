@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="NodeMap.cs" />
     <Compile Include="NodeMappingEngine.cs" />
+    <Compile Include="NodePropertyMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="uMapper.cs" />
   </ItemGroup>
