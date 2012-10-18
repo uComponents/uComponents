@@ -15,9 +15,9 @@ namespace uComponents.Mapping
     public class NodeMappingExpression<TDestination>
     {
         protected NodeMappingEngine Engine { get; set; }
-        protected NodeMap<TDestination> Mapping { get; set; }
+        protected NodeMapper<TDestination> Mapping { get; set; }
 
-        public NodeMappingExpression(NodeMappingEngine engine, NodeMap<TDestination> mapping)
+        public NodeMappingExpression(NodeMappingEngine engine, NodeMapper<TDestination> mapping)
         {
             if (mapping == null)
             {
@@ -51,22 +51,19 @@ namespace uComponents.Mapping
 
             string name = GetPropertyName(destinationProperty);
 
-            var existingPropertyMapping = this.Mapping.PropertyMappings
+            var existingPropertyMapper = this.Mapping.PropertyMappers
                 .SingleOrDefault(x => x.DestinationInfo.Name == name);
 
-            if (existingPropertyMapping != null)
+            if (existingPropertyMapper != null)
             {
-                Mapping.PropertyMappings.Remove(existingPropertyMapping);
+                Mapping.PropertyMappers.Remove(existingPropertyMapper);
             }
 
             if (nodeTypeAlias != null)
             {
-                var newPropertyMapping = existingPropertyMapping == null
-                    ? new NodePropertyMap { DestinationInfo =  }
-                    : existingPropertyMapping;
+                var newPropertyMapper = new NodePropertyMapper(Engine, typeof(TDestination).GetProperty(name), nodeTypeAlias);
 
-                Engine.MapPropertyFromAlias(newPropertyMapping, nodeTypeAlias);
-                Mapping.PropertyMappings.Add(newPropertyMapping);
+                Mapping.PropertyMappers.Add(newPropertyMapper);
             }
 
             return this;
@@ -86,19 +83,23 @@ namespace uComponents.Mapping
             bool isRelationship
             )
         {
-            var existingPropertyMapping = this.GetExistingNodePropertyMap(destinationProperty);
+            string name = GetPropertyName(destinationProperty);
+
+            var existingMapper = this.Mapping.PropertyMappers
+                .SingleOrDefault(x => x.DestinationInfo.Name == name);
+
+            if (existingMapper != null)
+            {
+                Mapping.PropertyMappers.Remove(existingMapper);
+            }
 
             var internalPropertyMapping = propertyMappingExpression.Compile();
-            Func<Node, string, object> newPropertyMapping = (node, alias) =>
-                {
-                    return internalPropertyMapping(node);
-                };
+            Func<Node, string, object> newPropertyMapping = ((node, alias) => internalPropertyMapping(node));
 
-            // Alter property map
-            existingPropertyMapping.SourceAlias = null;
-            existingPropertyMapping.IsRelationship = isRelationship;
-            existingPropertyMapping.Mapping = newPropertyMapping;
+            // Recreate property map
+            var newMapper = new NodePropertyMapper(Engine, typeof(TDestination).GetProperty(name), newPropertyMapping, isRelationship);
 
+            Mapping.PropertyMappers.Add(newMapper);
             return this;
         }
 

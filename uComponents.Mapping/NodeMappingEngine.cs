@@ -14,11 +14,11 @@ namespace uComponents.Mapping
     public class NodeMappingEngine
     {
         public readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
-        protected Dictionary<Type, NodeMap> Mappings { get; set; }
+        public Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
         public NodeMappingEngine()
         {
-            this.Mappings = new Dictionary<Type, NodeMap>();
+            this.NodeMappers = new Dictionary<Type, NodeMapper>();
         }
 
         public NodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
@@ -27,9 +27,9 @@ namespace uComponents.Mapping
             var destinationType = typeof(TDestination);
 
             // Already have a mapping
-            if (Mappings.ContainsKey(destinationType))
+            if (NodeMappers.ContainsKey(destinationType))
             {
-                return new NodeMappingExpression<TDestination>(this, (NodeMap<TDestination>)Mappings[destinationType]);
+                return new NodeMappingExpression<TDestination>(this, (NodeMapper<TDestination>)NodeMappers[destinationType]);
             }
 
             // Get document type
@@ -40,63 +40,63 @@ namespace uComponents.Mapping
                 throw new DocumentTypeNotFoundException(documentTypeAlias);
             }
 
-            var nodeMap = new NodeMap<TDestination>();
+            var nodeMapper = new NodeMapper<TDestination>();
 
             foreach (var destinationProperty in destinationType.GetProperties())
             {
-                var propertyMap = new NodePropertyMap(this);
-                propertyMap.DestinationInfo = destinationProperty;
+                NodePropertyMapper customPropertyMapper = null;
+                Func<Node, string, object> defaultPropertyMapping = null;
 
                 // Default node properties
                 switch (destinationProperty.Name.ToLowerInvariant())
                 {
                     case "createdate":
-                        propertyMap.Mapping = (node, alias) => node.CreateDate;
+                        defaultPropertyMapping = (node, alias) => node.CreateDate;
                         break;
                     case "creatorid":
-                        propertyMap.Mapping = (node, alias) => node.CreatorID;
+                        defaultPropertyMapping = (node, alias) => node.CreatorID;
                         break;
                     case "creatorname":
-                        propertyMap.Mapping = (node, alias) => node.CreatorName;
+                        defaultPropertyMapping = (node, alias) => node.CreatorName;
                         break;
                     case "id":
-                        propertyMap.Mapping = (node, alias) => node.Id;
+                        defaultPropertyMapping = (node, alias) => node.Id;
                         break;
                     case "level":
-                        propertyMap.Mapping = (node, alias) => node.Level;
+                        defaultPropertyMapping = (node, alias) => node.Level;
                         break;
                     case "name":
-                        propertyMap.Mapping = (node, alias) => node.Name;
+                        defaultPropertyMapping = (node, alias) => node.Name;
                         break;
                     case "nodetypealias":
-                        propertyMap.Mapping = (node, alias) => node.NodeTypeAlias;
+                        defaultPropertyMapping = (node, alias) => node.NodeTypeAlias;
                         break;
                     case "path":
-                        propertyMap.Mapping = (node, alias) => node.Path;
+                        defaultPropertyMapping = (node, alias) => node.Path;
                         break;
                     case "sortorder":
-                        propertyMap.Mapping = (node, alias) => node.SortOrder;
+                        defaultPropertyMapping = (node, alias) => node.SortOrder;
                         break;
                     case "template":
-                        propertyMap.Mapping = (node, alias) => node.template;
+                        defaultPropertyMapping = (node, alias) => node.template;
                         break;
                     case "updatedate":
-                        propertyMap.Mapping = (node, alias) => node.UpdateDate;
+                        defaultPropertyMapping = (node, alias) => node.UpdateDate;
                         break;
                     case "url":
-                        propertyMap.Mapping = (node, alias) => node.Url;
+                        defaultPropertyMapping = (node, alias) => node.Url;
                         break;
                     case "urlname":
-                        propertyMap.Mapping = (node, alias) => node.UrlName;
+                        defaultPropertyMapping = (node, alias) => node.UrlName;
                         break;
                     case "version":
-                        propertyMap.Mapping = (node, alias) => node.Version;
+                        defaultPropertyMapping = (node, alias) => node.Version;
                         break;
                     case "writerid":
-                        propertyMap.Mapping = (node, alias) => node.WriterID;
+                        defaultPropertyMapping = (node, alias) => node.WriterID;
                         break;
                     case "writername":
-                        propertyMap.Mapping = (node, alias) => node.WriterName;
+                        defaultPropertyMapping = (node, alias) => node.WriterName;
                         break;
                     default:
                         // Map custom properties
@@ -107,20 +107,25 @@ namespace uComponents.Mapping
 
                         if (sourcePropertyAlias != null)
                         {
-                            propertyMap = new NodePropertyMap(this, destinationProperty, sourcePropertyAlias);
+                            customPropertyMapper = new NodePropertyMapper(this, destinationProperty, sourcePropertyAlias);
                         }
                         break;
                 }
 
-                if (propertyMap.Mapping != null)
+                if (customPropertyMapper != null)
                 {
-                    nodeMap.PropertyMappings.Add(propertyMap);
+                    nodeMapper.PropertyMappers.Add(customPropertyMapper);
+                }
+                else if (defaultPropertyMapping != null)
+                {
+                    var defaultNodePropertyMapper = new NodePropertyMapper(this, destinationProperty, defaultPropertyMapping, false);
+                    nodeMapper.PropertyMappers.Add(defaultNodePropertyMapper);
                 }
             }
 
-            Mappings[destinationType] = nodeMap;
+            NodeMappers[destinationType] = nodeMapper;
 
-            return new NodeMappingExpression<TDestination>(this, nodeMap);
+            return new NodeMappingExpression<TDestination>(this, nodeMapper);
         }
 
         public NodeMappingExpression<TDestination> CreateMap<TDestination>()
@@ -139,20 +144,20 @@ namespace uComponents.Mapping
                 return null;
             }
 
-            if (!Mappings.ContainsKey(destinationType))
+            if (!NodeMappers.ContainsKey(destinationType))
             {
                 throw new MapNotFoundException(destinationType);
             }
 
-            var mapping = Mappings[destinationType];
+            var nodeMapper = NodeMappers[destinationType];
             var destination = Activator.CreateInstance(destinationType);
 
-            foreach (var propertyMapping in mapping.PropertyMappings)
+            foreach (var propertyMapper in nodeMapper.PropertyMappers)
             {
-                if (includeRelationships || !propertyMapping.IsRelationship)
+                if (includeRelationships || !propertyMapper.IsRelationship)
                 {
-                    var destinationValue = propertyMapping.Mapping(sourceNode, propertyMapping.SourceAlias);
-                    propertyMapping.DestinationInfo.SetValue(destination, destinationValue, null);
+                    var destinationValue = propertyMapper.MapProperty(sourceNode);
+                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
                 }
             }
 

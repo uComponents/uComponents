@@ -9,21 +9,21 @@ using umbraco;
 
 namespace uComponents.Mapping
 {
-    public class NodeMap
+    public class NodeMapper
     {
         public Type Type { get; set; }
-        public List<NodePropertyMap> PropertyMappings { get; set; }
+        public List<NodePropertyMapper> PropertyMappers { get; set; }
 
-        public NodeMap(Type destinationType)
+        public NodeMapper(Type destinationType)
         {
             Type = destinationType;
-            PropertyMappings = new List<NodePropertyMap>();
+            PropertyMappers = new List<NodePropertyMapper>();
         }
     }
 
-    public class NodeMap<TDestination> : NodeMap
+    public class NodeMapper<TDestination> : NodeMapper
     {
-        public NodeMap()
+        public NodeMapper()
             : base(typeof(TDestination))
         {
         }

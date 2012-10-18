@@ -9,39 +9,68 @@ using System.Collections;
 
 namespace uComponents.Mapping
 {
-    public class NodePropertyMap
+    /// <summary>
+    /// An immutable mapper for Umbraco Node properties to strongly typed model properties
+    /// </summary>
+    public class NodePropertyMapper
     {
-        public NodeMappingEngine Engine { get; set; }
-        public PropertyInfo DestinationInfo { get; set; }
-        public string SourceAlias { get; set; }
+        public NodeMappingEngine Engine { get; protected set; }
+        public PropertyInfo DestinationInfo { get; protected set; }
+        public string SourceAlias { get; protected set; }
+        public bool IsRelationship { get; protected set; }
 
         /// <summary>
         /// A function taking the node and property alias which returns
         /// the strongly typed property value.
         /// </summary>
-        public Func<Node, string, object> Mapping { get; set; }
-        public bool IsRelationship { get; set; }
+        protected Func<Node, string, object> Mapping { get; set; }
 
-        public NodePropertyMap(NodeMappingEngine engine)
+        /// <summary>
+        /// Use a specific mapping
+        /// </summary>
+        public NodePropertyMapper(NodeMappingEngine engine, PropertyInfo destinationProperty, Func<Node, string, object> mapping, bool isRelationship)
         {
             if (engine == null)
             {
                 throw new ArgumentNullException("engine");
             }
+            else if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+            else if (mapping == null)
+            {
+                throw new ArgumentNullException("mapping");
+            }
 
             Engine = engine;
+            DestinationInfo = destinationProperty;
+            SourceAlias = null;
+            IsRelationship = isRelationship;
+            Mapping = mapping;
         }
 
-        public NodePropertyMap(NodeMappingEngine engine, PropertyInfo destinationProperty, string sourcePropertyAlias)
+        /// <summary>
+        /// Infer a mapping based on the type of the destination property.
+        /// </summary>
+        public NodePropertyMapper(NodeMappingEngine engine, PropertyInfo destinationProperty, string sourcePropertyAlias)
         {
             if (engine == null)
             {
                 throw new ArgumentNullException("engine");
             }
+            else if (string.IsNullOrEmpty(sourcePropertyAlias))
+            {
+                throw new ArgumentException("A source property alias must be specified");
+            }
+            else if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
 
             Engine = engine;
-
             SourceAlias = sourcePropertyAlias;
+            DestinationInfo = destinationProperty;
 
             // Mappings
             if (destinationProperty.PropertyType != typeof(string)
@@ -111,7 +140,7 @@ namespace uComponents.Mapping
                 // Try to map single relationship
                 Mapping = (node, alias) =>
                 {
-                    if (!engine.Mappings.ContainsKey(destinationProperty.PropertyType))
+                    if (!engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
                     {
                         throw new MapNotFoundException(destinationProperty.PropertyType);
                     }
@@ -136,6 +165,21 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
+        /// Maps the property from a node
+        /// </summary>
+        /// <param name="sourceNode">The node to map from</param>
+        /// <returns>The strongly typed, mapped property</returns>
+        public object MapProperty(Node sourceNode)
+        {
+            if (sourceNode == null)
+            {
+                throw new ArgumentNullException("sourceNode");
+            }
+
+            return Mapping(sourceNode, SourceAlias);
+        }
+
+        /// <summary>
         /// Checks collection assignment and instantation
         /// </summary>
         /// <param name="destinationCollectionType">The type of the collection to populate</param>
@@ -144,7 +188,7 @@ namespace uComponents.Mapping
         /// False if the collection needs to be instatiated.</returns>
         /// <exception cref="CollectionTypeNotSupported">The collection type cannot be 
         /// instatiated or assigned.</exception>
-        private bool CheckCollectionCanBeAssigned(Type destinationCollectionType, Type sourceCollectionType)
+        protected bool CheckCollectionCanBeAssigned(Type destinationCollectionType, Type sourceCollectionType)
         {
             bool assignCollectionDirectly;
 
@@ -189,7 +233,7 @@ namespace uComponents.Mapping
         /// <exception cref="RelationPropertyFormatNotSupported">
         /// If propertyValue is not a CSV comma separated list of node IDs.
         /// </exception>
-        public IEnumerable<int> GetNodeIds(Node node)
+        protected IEnumerable<int> GetNodeIds(Node node)
         {
             var csv = node.GetProperty<string>(SourceAlias);
             var ids = new List<int>();
