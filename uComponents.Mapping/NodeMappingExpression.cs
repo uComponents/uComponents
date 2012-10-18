@@ -37,16 +37,21 @@ namespace uComponents.Mapping
         /// </summary>
         /// <param name="destinationProperty">The member of the destination model
         /// to map to.</param>
-        /// <param name="nodeTypeAlias">The new node type alias to map from.
-        /// If null, the mapping is removed.</param>
+        /// <param name="nodeTypeAlias">The new node type alias to map from.</param>
+        /// <exception cref="ArgumentNullException">If destinationProperty is null</exception>
+        /// <exception cref="ArgumentException">If nodeTypeAlias is null or empty</exception>
         public NodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             string nodeTypeAlias
             )
         {
-            if (nodeTypeAlias == string.Empty)
+            if (destinationProperty == null)
             {
-                throw new ArgumentException("Cannot be empty", "nodeTypeAlias");
+                throw new ArgumentNullException("destinationProperty");
+            }
+            else if (string.IsNullOrEmpty(nodeTypeAlias))
+            {
+                throw new ArgumentException("Node type alias cannot be empty or null", "nodeTypeAlias");
             }
 
             string name = GetPropertyName(destinationProperty);
@@ -59,12 +64,8 @@ namespace uComponents.Mapping
                 Mapping.PropertyMappers.Remove(existingPropertyMapper);
             }
 
-            if (nodeTypeAlias != null)
-            {
-                var newPropertyMapper = new NodePropertyMapper(Engine, typeof(TDestination).GetProperty(name), nodeTypeAlias);
-
-                Mapping.PropertyMappers.Add(newPropertyMapper);
-            }
+            var newPropertyMapper = new NodePropertyMapper(Engine, typeof(TDestination).GetProperty(name), nodeTypeAlias);
+            Mapping.PropertyMappers.Add(newPropertyMapper);
 
             return this;
         }
@@ -100,6 +101,33 @@ namespace uComponents.Mapping
             var newMapper = new NodePropertyMapper(Engine, typeof(TDestination).GetProperty(name), newPropertyMapping, isRelationship);
 
             Mapping.PropertyMappers.Add(newMapper);
+            return this;
+        }
+
+        /// <summary>
+        /// Removes the mapping for a property, if any exists.
+        /// </summary>
+        /// <param name="destinationProperty">The property on the model to NOT map to</param>
+        /// <exception cref="ArgumentNullException">If destinationProperty is null</exception>
+        public NodeMappingExpression<TDestination> RemoveMappingForProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty
+            )
+        {
+            if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+
+            string name = GetPropertyName(destinationProperty);
+
+            var existingMapper = this.Mapping.PropertyMappers
+                .SingleOrDefault(x => x.DestinationInfo.Name == name);
+
+            if (existingMapper != null)
+            {
+                Mapping.PropertyMappers.Remove(existingMapper);
+            }
+
             return this;
         }
 

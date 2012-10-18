@@ -11,16 +11,27 @@ using umbraco.NodeFactory;
 
 namespace uComponents.Mapping
 {
+    /// <summary>
+    /// Handles the creation of map and the mapping of Umbraco nodes to strongly typed
+    /// models.
+    /// </summary>
     public class NodeMappingEngine
     {
-        public readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
-        public Dictionary<Type, NodeMapper> NodeMappers { get; set; }
+        internal readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
+        internal Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
         public NodeMappingEngine()
         {
             this.NodeMappers = new Dictionary<Type, NodeMapper>();
         }
 
+        /// <summary>
+        /// Creates a map to a strong type from an Umbraco document type, 
+        /// using unqualified destination class name as the document type alias.
+        /// </summary>
+        /// <typeparam name="TDestination">The type to map to.</typeparam>
+        /// <returns>Further mapping configuration</returns>
+        /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
         public NodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
             where TDestination : class, new()
         {
@@ -128,6 +139,13 @@ namespace uComponents.Mapping
             return new NodeMappingExpression<TDestination>(this, nodeMapper);
         }
 
+        /// <summary>
+        /// Creates a map to a strong type from an Umbraco document type.
+        /// </summary>
+        /// <typeparam name="TDestination">The type to map to.</typeparam>
+        /// <param name="documentTypeAlias">The alias of the document type to map from.</param>
+        /// <returns>Further mapping configuration</returns>
+        /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
         public NodeMappingExpression<TDestination> CreateMap<TDestination>()
             where TDestination : class, new()
         {
@@ -135,7 +153,29 @@ namespace uComponents.Mapping
 
             return this.CreateMap<TDestination>(destinationType.Name);
         }
-        
+
+        /// <summary>
+        /// Removes a map which maps to TDestination, if any exists.
+        /// </summary>
+        /// <typeparam name="TDestination">The model being mapped to</typeparam>
+        public void RemoveMap<TDestination>()
+        {
+            var destinationType = typeof(TDestination);
+            if (NodeMappers.ContainsKey(destinationType))
+            {
+                NodeMappers.Remove(destinationType);
+            }
+        }
+
+        /// <summary>
+        /// Maps an Umbraco node to a strongly typed object.
+        /// </summary>
+        /// <typeparam name="TDestination">The type of object to map to.</typeparam>
+        /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="includeRelationships">Whether to load relationships to other models.</param>
+        /// <returns>A new instance of TDestination, or null if sourceNode is null.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
         public object Map(Node sourceNode, Type destinationType, bool includeRelationships)
         {
             if (sourceNode == null
@@ -164,6 +204,14 @@ namespace uComponents.Mapping
             return destination;
         }
 
+        /// <summary>
+        /// Gets an Umbraco node as a strongly typed object.
+        /// </summary>
+        /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
+        /// <param name="id">The id of the node</param>
+        /// <returns>Null if the node does not exist.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
         public TDestination Map<TDestination>(Node sourceNode, bool includeRelationships)
             where TDestination : class, new()
         {
