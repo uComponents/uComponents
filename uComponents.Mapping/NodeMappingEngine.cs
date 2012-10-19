@@ -117,7 +117,7 @@ namespace uComponents.Mapping
                             .SingleOrDefault();
 
                         if (sourcePropertyAlias != null
-                            || NodePropertyMapper.IsTypeCollection(destinationProperty.PropertyType))
+                            || NodePropertyMapper.IsTypeARelationship(destinationProperty.PropertyType))
                         {
                             customPropertyMapper = new NodePropertyMapper(nodeMapper, destinationProperty, sourcePropertyAlias);
                         }
@@ -214,35 +214,29 @@ namespace uComponents.Mapping
 
     public class DocumentTypeNotFoundException : Exception
     {
-        public string Message { get; private set; }
-
         public DocumentTypeNotFoundException(string documentTypeAlias)
+            : base(string.Format(@"The document type with alias '{0}' could not be found.  
+Consider using the overload of CreateMap which specifies a document type alias", documentTypeAlias))
         {
-            this.Message = string.Format(@"The document type with alias '{0}' could not be found.  
-Consider using the overload of CreateMap which specifies a document type alias", documentTypeAlias);
         }
     }
 
     public class MapNotFoundException : Exception
     {
-        public string Message { get; private set; }
-
         public MapNotFoundException(Type destinationType)
+            : base(string.Format(@"No map could be found for type '{0}'.  Remember
+to run CreateMap for every model type you are using.", destinationType.FullName))
         {
-            this.Message = string.Format(@"No map could be found for type '{0}'.  Remember
-to run CreateMap for every model type you are using.", destinationType.FullName);
         }
     }
 
     public class CollectionTypeNotSupported : Exception
     {
-        public string Message { get; private set; }
-
         public CollectionTypeNotSupported(Type type)
-        {
-            this.Message = string.Format(@"Could not map to collection of type '{0}'.  
+            : base(string.Format(@"Could not map to collection of type '{0}'.  
 Use IEnumerable, or alternatively make sure your collection type has
-a single parameter constructor which takes an IEnumerable (such as List)", type.FullName);
+a single parameter constructor which takes an IEnumerable (such as List)", type.FullName))
+        {
         }
     }
 

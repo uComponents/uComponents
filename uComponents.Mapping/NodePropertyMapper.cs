@@ -65,7 +65,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("destinationProperty");
             }
             else if (string.IsNullOrEmpty(sourcePropertyAlias)
-                && !IsTypeCollection(destinationProperty.PropertyType))
+                && !IsTypeARelationship(destinationProperty.PropertyType))
             {
                 throw new ArgumentException(string.Format(@"Invalid destination property type '{0}' for a null 
 source property alias: A source property alias must be specified when the destination type is not a collection", 
@@ -77,7 +77,7 @@ source property alias: A source property alias must be specified when the destin
             DestinationInfo = destinationProperty;
 
             // Mappings
-            if (IsTypeCollection(destinationProperty.PropertyType))
+            if (IsTypeARelationship(destinationProperty.PropertyType))
             {
                 // A collection
                 var itemType = destinationProperty.PropertyType.GetGenericArguments().FirstOrDefault();
@@ -255,17 +255,22 @@ source property alias: A source property alias must be specified when the destin
         }
 
         /// <summary>
-        /// Checks if a type is a collection (for our purposes).
+        /// Checks if a type is a relationship collection (for our purposes).
         /// </summary>
-        public static bool IsTypeCollection(Type type)
+        public static bool IsTypeARelationship(Type type)
         {
             if (type == null)
             {
                 throw new ArgumentNullException();
             }
 
-            return type != typeof(string)
-                && typeof(IEnumerable).IsAssignableFrom(type);
+            var isString = (type == typeof(string));
+            var isEnumerable = typeof(IEnumerable).IsAssignableFrom(type);
+            var isDictionary = type.FullName.StartsWith(typeof(IDictionary).FullName)
+                || type.FullName.StartsWith(typeof(IDictionary<,>).FullName)
+                || type.FullName.StartsWith(typeof(Dictionary<,>).FullName);
+
+            return !isString && !isDictionary && isEnumerable;
         }
 
         /// <summary>
@@ -325,12 +330,10 @@ source property alias: A source property alias must be specified when the destin
 
     public class RelationPropertyFormatNotSupported : Exception
     {
-        public string Message { get; private set; }
-
         public RelationPropertyFormatNotSupported(string propertyValue, Type destinationType)
+            :base(string.Format(@"Could not parse '{0}' into integer IDs for destination type '{1}'.  
+Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propertyValue, destinationType.FullName))
         {
-            this.Message = string.Format(@"Could not parse '{0}' into integer IDs for destination type '{1}'.  
-Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propertyValue, destinationType.FullName);
         }
     }
 }
