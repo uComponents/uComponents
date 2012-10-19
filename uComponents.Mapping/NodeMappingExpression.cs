@@ -12,10 +12,10 @@ namespace uComponents.Mapping
     /// Fluent configuration for a NodeMap.
     /// </summary>
     /// <typeparam name="TDestination">The destination model type</typeparam>
-    public class NodeMappingExpression<TDestination>
+    internal class NodeMappingExpression<TDestination> : INodeMappingExpression<TDestination>
     {
-        protected NodeMappingEngine Engine { get; set; }
-        protected NodeMapper<TDestination> Mapping { get; set; }
+        private NodeMappingEngine _engine { get; set; }
+        private NodeMapper<TDestination> _mapping { get; set; }
 
         public NodeMappingExpression(NodeMappingEngine engine, NodeMapper<TDestination> mapping)
         {
@@ -28,8 +28,8 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("engine");
             }
 
-            Mapping = mapping;
-            Engine = engine;
+            _mapping = mapping;
+            _engine = engine;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace uComponents.Mapping
         /// <param name="nodeTypeAlias">The new node type alias to map from.</param>
         /// <exception cref="ArgumentNullException">If destinationProperty is null</exception>
         /// <exception cref="ArgumentException">If nodeTypeAlias is null or empty</exception>
-        public NodeMappingExpression<TDestination> ForProperty<TProperty>(
+        public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             string nodeTypeAlias
             )
@@ -56,16 +56,16 @@ namespace uComponents.Mapping
 
             string name = GetPropertyName(destinationProperty);
 
-            var existingPropertyMapper = this.Mapping.PropertyMappers
+            var existingPropertyMapper = this._mapping.PropertyMappers
                 .SingleOrDefault(x => x.DestinationInfo.Name == name);
 
             if (existingPropertyMapper != null)
             {
-                Mapping.PropertyMappers.Remove(existingPropertyMapper);
+                _mapping.PropertyMappers.Remove(existingPropertyMapper);
             }
 
-            var newPropertyMapper = new NodePropertyMapper(Engine, typeof(TDestination).GetProperty(name), nodeTypeAlias);
-            Mapping.PropertyMappers.Add(newPropertyMapper);
+            var newPropertyMapper = new NodePropertyMapper(_engine, typeof(TDestination).GetProperty(name), nodeTypeAlias);
+            _mapping.PropertyMappers.Add(newPropertyMapper);
 
             return this;
         }
@@ -78,7 +78,7 @@ namespace uComponents.Mapping
         /// <param name="propertyMappingExpression">The new mapping.</param>
         /// <param name="isRelationship">Whether the property should be considered
         /// a relationship or not.</param>
-        public NodeMappingExpression<TDestination> ForProperty<TProperty>(
+        public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             Expression<Func<Node, TProperty>> propertyMappingExpression,
             bool isRelationship
@@ -86,21 +86,21 @@ namespace uComponents.Mapping
         {
             string name = GetPropertyName(destinationProperty);
 
-            var existingMapper = this.Mapping.PropertyMappers
+            var existingMapper = this._mapping.PropertyMappers
                 .SingleOrDefault(x => x.DestinationInfo.Name == name);
 
             if (existingMapper != null)
             {
-                Mapping.PropertyMappers.Remove(existingMapper);
+                _mapping.PropertyMappers.Remove(existingMapper);
             }
 
             var internalPropertyMapping = propertyMappingExpression.Compile();
             Func<Node, string, object> newPropertyMapping = ((node, alias) => internalPropertyMapping(node));
 
             // Recreate property map
-            var newMapper = new NodePropertyMapper(Engine, typeof(TDestination).GetProperty(name), newPropertyMapping, isRelationship);
+            var newMapper = new NodePropertyMapper(_engine, typeof(TDestination).GetProperty(name), newPropertyMapping, isRelationship);
 
-            Mapping.PropertyMappers.Add(newMapper);
+            _mapping.PropertyMappers.Add(newMapper);
             return this;
         }
 
@@ -109,7 +109,7 @@ namespace uComponents.Mapping
         /// </summary>
         /// <param name="destinationProperty">The property on the model to NOT map to</param>
         /// <exception cref="ArgumentNullException">If destinationProperty is null</exception>
-        public NodeMappingExpression<TDestination> RemoveMappingForProperty<TProperty>(
+        public INodeMappingExpression<TDestination> RemoveMappingForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty
             )
         {
@@ -120,18 +120,18 @@ namespace uComponents.Mapping
 
             string name = GetPropertyName(destinationProperty);
 
-            var existingMapper = this.Mapping.PropertyMappers
+            var existingMapper = this._mapping.PropertyMappers
                 .SingleOrDefault(x => x.DestinationInfo.Name == name);
 
             if (existingMapper != null)
             {
-                Mapping.PropertyMappers.Remove(existingMapper);
+                _mapping.PropertyMappers.Remove(existingMapper);
             }
 
             return this;
         }
 
-        protected string GetPropertyName<TDestination, TProperty>(
+        private string GetPropertyName<TDestination, TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty
             )
         {

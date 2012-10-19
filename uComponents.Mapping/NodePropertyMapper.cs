@@ -12,18 +12,18 @@ namespace uComponents.Mapping
     /// <summary>
     /// An immutable mapper for Umbraco Node properties to strongly typed model properties
     /// </summary>
-    public class NodePropertyMapper
+    internal class NodePropertyMapper : INodePropertyMapper
     {
-        public NodeMappingEngine Engine { get; protected set; }
-        public PropertyInfo DestinationInfo { get; protected set; }
-        public string SourceAlias { get; protected set; }
-        public bool IsRelationship { get; protected set; }
+        public NodeMappingEngine Engine { get; private set; }
+        public PropertyInfo DestinationInfo { get; private set; }
+        public string SourceAlias { get; private set; }
+        public bool IsRelationship { get; private set; }
 
         /// <summary>
         /// A function taking the node and property alias which returns
         /// the strongly typed property value.
         /// </summary>
-        protected Func<Node, string, object> Mapping { get; set; }
+        private Func<Node, string, object> _mapping { get; set; }
 
         /// <summary>
         /// Use a specific mapping
@@ -47,7 +47,7 @@ namespace uComponents.Mapping
             DestinationInfo = destinationProperty;
             SourceAlias = null;
             IsRelationship = isRelationship;
-            Mapping = mapping;
+            _mapping = mapping;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace uComponents.Mapping
                     // Map IDs
                     bool assignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, typeof(IEnumerable<int>));
 
-                    Mapping = (node, alias) =>
+                    _mapping = (node, alias) =>
                     {
                         var ids = GetNodeIds(node);
 
@@ -101,7 +101,7 @@ namespace uComponents.Mapping
                     var sourceCollectionType = typeof(IEnumerable<>).MakeGenericType(itemType);
                     bool assignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, sourceCollectionType);
 
-                    Mapping = (node, alias) =>
+                    _mapping = (node, alias) =>
                     {
                         var ids = GetNodeIds(node);
                         var sourceListType = typeof(List<>).MakeGenericType(itemType);
@@ -132,13 +132,13 @@ namespace uComponents.Mapping
                 // Basic system types
                 var method = NodeMappingEngine.GetNodePropertyMethod.MakeGenericMethod(destinationProperty.PropertyType);
 
-                Mapping = (node, alias) => method.Invoke(null, new object[] { node, alias });
+                _mapping = (node, alias) => method.Invoke(null, new object[] { node, alias });
                 IsRelationship = false;
             }
             else
             {
                 // Try to map single relationship
-                Mapping = (node, alias) =>
+                _mapping = (node, alias) =>
                 {
                     if (!engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
                     {
@@ -176,7 +176,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("sourceNode");
             }
 
-            return Mapping(sourceNode, SourceAlias);
+            return _mapping(sourceNode, SourceAlias);
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace uComponents.Mapping
         /// False if the collection needs to be instatiated.</returns>
         /// <exception cref="CollectionTypeNotSupported">The collection type cannot be 
         /// instatiated or assigned.</exception>
-        protected bool CheckCollectionCanBeAssigned(Type destinationCollectionType, Type sourceCollectionType)
+        private static bool CheckCollectionCanBeAssigned(Type destinationCollectionType, Type sourceCollectionType)
         {
             bool assignCollectionDirectly;
 
@@ -233,7 +233,7 @@ namespace uComponents.Mapping
         /// <exception cref="RelationPropertyFormatNotSupported">
         /// If propertyValue is not a CSV comma separated list of node IDs.
         /// </exception>
-        protected IEnumerable<int> GetNodeIds(Node node)
+        private IEnumerable<int> GetNodeIds(Node node)
         {
             var csv = node.GetProperty<string>(SourceAlias);
             var ids = new List<int>();

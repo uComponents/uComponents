@@ -8,19 +8,11 @@ using umbraco.NodeFactory;
 namespace uComponents.Mapping
 {
     /// <summary>
-    /// Static convenience class for the NodeMappingEngine
+    /// Maps Umbraco nodes to strongly typed models.
     /// </summary>
     public static class uMapper
     {
-        private static NodeMappingEngine _engine;
-
-        private static void EnsureMappingEngine()
-        {
-            if (_engine == null)
-            {
-                _engine = new NodeMappingEngine();
-            }
-        }
+        private static INodeMappingEngine _engine = new NodeMappingEngine();
 
         /// <summary>
         /// Creates a map to a strong type from an Umbraco document type, 
@@ -29,11 +21,9 @@ namespace uComponents.Mapping
         /// <typeparam name="TDestination">The type to map to.</typeparam>
         /// <returns>Further mapping configuration</returns>
         /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
-        public static NodeMappingExpression<TDestination> CreateMap<TDestination>()
+        public static INodeMappingExpression<TDestination> CreateMap<TDestination>()
             where TDestination : class, new()
         {
-            EnsureMappingEngine();
-
             return _engine.CreateMap<TDestination>();
         }
 
@@ -44,11 +34,9 @@ namespace uComponents.Mapping
         /// <param name="documentTypeAlias">The alias of the document type to map from.</param>
         /// <returns>Further mapping configuration</returns>
         /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
-        public static NodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
+        public static INodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
             where TDestination : class, new()
         {
-            EnsureMappingEngine();
-
             return _engine.CreateMap<TDestination>(documentTypeAlias);
         }
 
@@ -58,7 +46,6 @@ namespace uComponents.Mapping
         /// <typeparam name="TDestination">The model being mapped to</typeparam>
         public static void RemoveMap<TDestination>()
         {
-            EnsureMappingEngine();
             _engine.RemoveMap<TDestination>();
         }
 
@@ -74,8 +61,6 @@ namespace uComponents.Mapping
         public static TDestination Map<TDestination>(Node sourceNode, bool includeRelationships = false)
             where TDestination : class, new()
         {
-            EnsureMappingEngine();
-
             return _engine.Map<TDestination>(sourceNode, includeRelationships);
         }
 
@@ -90,8 +75,6 @@ namespace uComponents.Mapping
         public static TDestination Get<TDestination>(int id, bool includeRelationships = false)
             where TDestination : class, new()
         {
-            EnsureMappingEngine();
-
             return _engine.Map<TDestination>(new Node(id), includeRelationships);
         }
     }

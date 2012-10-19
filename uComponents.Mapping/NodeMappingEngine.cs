@@ -15,10 +15,10 @@ namespace uComponents.Mapping
     /// Handles the creation of map and the mapping of Umbraco nodes to strongly typed
     /// models.
     /// </summary>
-    public class NodeMappingEngine
+    internal class NodeMappingEngine : INodeMappingEngine
     {
-        internal readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
-        internal Dictionary<Type, NodeMapper> NodeMappers { get; set; }
+        public readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
+        public Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
         public NodeMappingEngine()
         {
@@ -32,7 +32,7 @@ namespace uComponents.Mapping
         /// <typeparam name="TDestination">The type to map to.</typeparam>
         /// <returns>Further mapping configuration</returns>
         /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
-        public NodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
+        public INodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
             where TDestination : class, new()
         {
             var destinationType = typeof(TDestination);
@@ -146,7 +146,7 @@ namespace uComponents.Mapping
         /// <param name="documentTypeAlias">The alias of the document type to map from.</param>
         /// <returns>Further mapping configuration</returns>
         /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
-        public NodeMappingExpression<TDestination> CreateMap<TDestination>()
+        public INodeMappingExpression<TDestination> CreateMap<TDestination>()
             where TDestination : class, new()
         {
             var destinationType = typeof(TDestination);
@@ -190,18 +190,8 @@ namespace uComponents.Mapping
             }
 
             var nodeMapper = NodeMappers[destinationType];
-            var destination = Activator.CreateInstance(destinationType);
 
-            foreach (var propertyMapper in nodeMapper.PropertyMappers)
-            {
-                if (includeRelationships || !propertyMapper.IsRelationship)
-                {
-                    var destinationValue = propertyMapper.MapProperty(sourceNode);
-                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
-                }
-            }
-
-            return destination;
+            return nodeMapper.MapNode(sourceNode, includeRelationships);
         }
 
         /// <summary>

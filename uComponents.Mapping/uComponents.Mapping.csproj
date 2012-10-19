@@ -52,6 +52,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="INodeMapper.cs" />
+    <Compile Include="INodeMappingEngine.cs" />
+    <Compile Include="INodeMappingExpression.cs" />
+    <Compile Include="INodePropertyMapper.cs" />
     <Compile Include="NodeMapper.cs" />
     <Compile Include="NodeMappingEngine.cs" />
     <Compile Include="NodeMappingExpression.cs" />
