@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,9 @@ namespace uComponents.Mapping
     /// </summary>
     internal class NodePropertyMapper : INodePropertyMapper
     {
-        public NodeMappingEngine Engine { get; private set; }
+        public NodeMapper NodeMapper { get; private set; }
         public PropertyInfo DestinationInfo { get; private set; }
-        public string SourceAlias { get; private set; }
+        public string SourcePropertyAlias { get; private set; }
         public bool IsRelationship { get; private set; }
 
         /// <summary>
@@ -28,11 +29,11 @@ namespace uComponents.Mapping
         /// <summary>
         /// Use a specific mapping
         /// </summary>
-        public NodePropertyMapper(NodeMappingEngine engine, PropertyInfo destinationProperty, Func<Node, string, object> mapping, bool isRelationship)
+        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, Func<Node, string, object> mapping, bool isRelationship)
         {
-            if (engine == null)
+            if (nodeMapper == null)
             {
-                throw new ArgumentNullException("engine");
+                throw new ArgumentNullException("nodeMapper");
             }
             else if (destinationProperty == null)
             {
@@ -43,9 +44,9 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("mapping");
             }
 
-            Engine = engine;
+            NodeMapper = nodeMapper;
             DestinationInfo = destinationProperty;
-            SourceAlias = null;
+            SourcePropertyAlias = null;
             IsRelationship = isRelationship;
             _mapping = mapping;
         }
@@ -53,28 +54,30 @@ namespace uComponents.Mapping
         /// <summary>
         /// Infer a mapping based on the type of the destination property.
         /// </summary>
-        public NodePropertyMapper(NodeMappingEngine engine, PropertyInfo destinationProperty, string sourcePropertyAlias)
+        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, string sourcePropertyAlias)
         {
-            if (engine == null)
+            if (nodeMapper == null)
             {
-                throw new ArgumentNullException("engine");
-            }
-            else if (string.IsNullOrEmpty(sourcePropertyAlias))
-            {
-                throw new ArgumentException("A source property alias must be specified");
+                throw new ArgumentNullException("nodeMapper");
             }
             else if (destinationProperty == null)
             {
                 throw new ArgumentNullException("destinationProperty");
             }
+            else if (string.IsNullOrEmpty(sourcePropertyAlias)
+                && !IsTypeCollection(destinationProperty.PropertyType))
+            {
+                throw new ArgumentException(string.Format(@"Invalid destination property type '{0}' for a null 
+source property alias: A source property alias must be specified when the destination type is not a collection", 
+                    destinationProperty.PropertyType.FullName));
+            }
 
-            Engine = engine;
-            SourceAlias = sourcePropertyAlias;
+            NodeMapper = nodeMapper;
+            SourcePropertyAlias = sourcePropertyAlias;
             DestinationInfo = destinationProperty;
 
             // Mappings
-            if (destinationProperty.PropertyType != typeof(string)
-                && typeof(IEnumerable).IsAssignableFrom(destinationProperty.PropertyType))
+            if (IsTypeCollection(destinationProperty.PropertyType))
             {
                 // A collection
                 var itemType = destinationProperty.PropertyType.GetGenericArguments().FirstOrDefault();
@@ -86,7 +89,7 @@ namespace uComponents.Mapping
 
                     _mapping = (node, alias) =>
                     {
-                        var ids = GetNodeIds(node);
+                        var ids = GetRelatedNodeIds(node);
 
                         return assignCollectionDirectly
                             ? ids
@@ -103,20 +106,15 @@ namespace uComponents.Mapping
 
                     _mapping = (node, alias) =>
                     {
-                        var ids = GetNodeIds(node);
+                        var relatedNodes = GetRelatedNodes(node, itemType);
                         var sourceListType = typeof(List<>).MakeGenericType(itemType);
                         var items = Activator.CreateInstance(sourceListType);
 
-                        foreach (var id in ids)
+                        foreach (var relatedNode in relatedNodes)
                         {
-                            var itemNode = new Node(id);
-
-                            if (!string.IsNullOrEmpty(node.Name))
-                            {
-                                var item = engine.Map(itemNode, itemType, false);
-                                // items.Add(item) but for generic list
-                                sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
-                            }
+                            var item = nodeMapper.Engine.Map(relatedNode, itemType, false);
+                            // items.Add(item) but for generic list
+                            sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
                         }
 
                         return assignCollectionDirectly
@@ -140,7 +138,7 @@ namespace uComponents.Mapping
                 // Try to map single relationship
                 _mapping = (node, alias) =>
                 {
-                    if (!engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
+                    if (!nodeMapper.Engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
                     {
                         throw new MapNotFoundException(destinationProperty.PropertyType);
                     }
@@ -153,7 +151,7 @@ namespace uComponents.Mapping
 
                         if (!string.IsNullOrEmpty(relatedNode.Name))
                         {
-                            return engine.Map(relatedNode, destinationProperty.PropertyType, false);
+                            return nodeMapper.Engine.Map(relatedNode, destinationProperty.PropertyType, false);
                         }
                     }
 
@@ -176,7 +174,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("sourceNode");
             }
 
-            return _mapping(sourceNode, SourceAlias);
+            return _mapping(sourceNode, SourcePropertyAlias);
         }
 
         /// <summary>
@@ -226,16 +224,16 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Gets the CSV string of node IDs (or null) and gets the
-        /// nodes IDs as integers.  Does not make sure the nodes
-        /// actually exist.
+        /// Parses the CSV string of node IDs (or null) and returns the IDs.
+        /// Does not ensure the IDs exist.
         /// </summary>
         /// <exception cref="RelationPropertyFormatNotSupported">
-        /// If propertyValue is not a CSV comma separated list of node IDs.
+        /// If SourcePropertyAlias is not null and propertyValue is not a valid CSV list of IDs.
         /// </exception>
-        private IEnumerable<int> GetNodeIds(Node node)
+        private IEnumerable<int> GetRelatedNodeIds(Node node)
         {
-            var csv = node.GetProperty<string>(SourceAlias);
+            // Relation defined by property
+            var csv = node.GetProperty<string>(SourcePropertyAlias);
             var ids = new List<int>();
 
             if (!string.IsNullOrWhiteSpace(csv))
@@ -254,6 +252,74 @@ namespace uComponents.Mapping
             }
 
             return ids;
+        }
+
+        /// <summary>
+        /// Checks if a type is a collection (for our purposes).
+        /// </summary>
+        public static bool IsTypeCollection(Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return type != typeof(string)
+                && typeof(IEnumerable).IsAssignableFrom(type);
+        }
+
+        /// <summary>
+        /// If SourcePropertyAlias is specified, parses the CSV string of node IDs (or null) and gets the
+        /// existing nodes.
+        /// 
+        /// If SourcePropertyAlias is null, it gets the descendent nodes which are of the correct node type.
+        /// </summary>
+        /// <exception cref="RelationPropertyFormatNotSupported">
+        /// If SourcePropertyAlias is not null and propertyValue is not a valid CSV list of IDs.
+        /// </exception>
+        private IEnumerable<Node> GetRelatedNodes(Node node, Type relationDestinationType)
+        {
+            if (!NodeMapper.Engine.NodeMappers.ContainsKey(relationDestinationType))
+            {
+                throw new MapNotFoundException(relationDestinationType);
+            }
+
+            var relationNodeTypeAlias = NodeMapper.Engine.NodeMappers[relationDestinationType].SourceNodeTypeAlias;
+
+            if (SourcePropertyAlias == null)
+            {
+                // Relation defined by heirarchy
+                return node.GetDescendantNodesByType(relationNodeTypeAlias)
+                    .ToList();
+            }
+            else
+            {
+                // Relation defined by property
+                var csv = node.GetProperty<string>(SourcePropertyAlias);
+                var nodes = new List<Node>();
+
+                if (!string.IsNullOrWhiteSpace(csv))
+                {
+                    foreach (var idString in csv.Split(','))
+                    {
+                        // Ensure this is actually a list of node IDs
+                        int id;
+                        if (!int.TryParse(idString.Trim(), out id))
+                        {
+                            throw new RelationPropertyFormatNotSupported(csv, DestinationInfo.DeclaringType);
+                        }
+
+                        var relatedNode = new Node(id);
+
+                        if (!string.IsNullOrEmpty(relatedNode.Name))
+                        {
+                            nodes.Add(relatedNode);
+                        }
+                    }
+                }
+
+                return nodes;
+            }
         }
     }
 

@@ -14,12 +14,29 @@ namespace uComponents.Mapping
     /// </summary>
     internal class NodeMapper : INodeMapper
     {
-        public Type Type { get; private set; }
+        public NodeMappingEngine Engine { get; private set; }
+        public Type DestinationType { get; private set; }
         public List<NodePropertyMapper> PropertyMappers { get; private set; }
+        public string SourceNodeTypeAlias { get; private set; }
 
-        public NodeMapper(Type destinationType)
+        public NodeMapper(NodeMappingEngine engine, Type destinationType, string sourceNodeTypeAlias)
         {
-            Type = destinationType;
+            if (string.IsNullOrEmpty(sourceNodeTypeAlias))
+            {
+                throw new ArgumentException("Source node type alias must be specified");
+            }
+            else if (engine == null)
+            {
+                throw new ArgumentNullException("engine");
+            }
+            else if (destinationType == null)
+            {
+                throw new ArgumentNullException("destinationType");
+            }
+
+            SourceNodeTypeAlias = sourceNodeTypeAlias;
+            Engine = engine;
+            DestinationType = destinationType;
             PropertyMappers = new List<NodePropertyMapper>();
         }
 
@@ -33,7 +50,7 @@ namespace uComponents.Mapping
         /// <returns>The strongly typed model</returns>
         public object MapNode(Node sourceNode, bool includeRelationships)
         {
-            var destination = Activator.CreateInstance(Type);
+            var destination = Activator.CreateInstance(DestinationType);
 
             foreach (var propertyMapper in PropertyMappers)
             {
@@ -50,8 +67,8 @@ namespace uComponents.Mapping
 
     internal class NodeMapper<TDestination> : NodeMapper, INodeMapper<TDestination>
     {
-        public NodeMapper()
-            : base(typeof(TDestination))
+        public NodeMapper(NodeMappingEngine engine, string sourceNodeTypeAlias)
+            : base(engine, typeof(TDestination), sourceNodeTypeAlias)
         {
         }
 

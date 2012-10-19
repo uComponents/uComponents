@@ -58,7 +58,7 @@ namespace uComponents.Mapping
         /// <returns>A new instance of TDestination, or null if sourceNode is null.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
         /// been created with CreateMap</exception>
-        public static TDestination Map<TDestination>(Node sourceNode, bool includeRelationships = false)
+        public static TDestination Map<TDestination>(Node sourceNode, bool includeRelationships = true)
             where TDestination : class, new()
         {
             return _engine.Map<TDestination>(sourceNode, includeRelationships);
@@ -72,7 +72,7 @@ namespace uComponents.Mapping
         /// <returns>Null if the node does not exist.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
         /// been created with CreateMap</exception>
-        public static TDestination Get<TDestination>(int id, bool includeRelationships = false)
+        public static TDestination Get<TDestination>(int id, bool includeRelationships = true)
             where TDestination : class, new()
         {
             return _engine.Map<TDestination>(new Node(id), includeRelationships);

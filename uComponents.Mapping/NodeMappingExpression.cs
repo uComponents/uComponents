@@ -15,7 +15,7 @@ namespace uComponents.Mapping
     internal class NodeMappingExpression<TDestination> : INodeMappingExpression<TDestination>
     {
         private NodeMappingEngine _engine { get; set; }
-        private NodeMapper<TDestination> _mapping { get; set; }
+        private NodeMapper<TDestination> _nodeMapper { get; set; }
 
         public NodeMappingExpression(NodeMappingEngine engine, NodeMapper<TDestination> mapping)
         {
@@ -28,7 +28,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("engine");
             }
 
-            _mapping = mapping;
+            _nodeMapper = mapping;
             _engine = engine;
         }
 
@@ -56,16 +56,16 @@ namespace uComponents.Mapping
 
             string name = GetPropertyName(destinationProperty);
 
-            var existingPropertyMapper = this._mapping.PropertyMappers
+            var existingPropertyMapper = this._nodeMapper.PropertyMappers
                 .SingleOrDefault(x => x.DestinationInfo.Name == name);
 
             if (existingPropertyMapper != null)
             {
-                _mapping.PropertyMappers.Remove(existingPropertyMapper);
+                _nodeMapper.PropertyMappers.Remove(existingPropertyMapper);
             }
 
-            var newPropertyMapper = new NodePropertyMapper(_engine, typeof(TDestination).GetProperty(name), nodeTypeAlias);
-            _mapping.PropertyMappers.Add(newPropertyMapper);
+            var newPropertyMapper = new NodePropertyMapper(_nodeMapper, typeof(TDestination).GetProperty(name), nodeTypeAlias);
+            _nodeMapper.PropertyMappers.Add(newPropertyMapper);
 
             return this;
         }
@@ -86,21 +86,21 @@ namespace uComponents.Mapping
         {
             string name = GetPropertyName(destinationProperty);
 
-            var existingMapper = this._mapping.PropertyMappers
+            var existingMapper = this._nodeMapper.PropertyMappers
                 .SingleOrDefault(x => x.DestinationInfo.Name == name);
 
             if (existingMapper != null)
             {
-                _mapping.PropertyMappers.Remove(existingMapper);
+                _nodeMapper.PropertyMappers.Remove(existingMapper);
             }
 
             var internalPropertyMapping = propertyMappingExpression.Compile();
             Func<Node, string, object> newPropertyMapping = ((node, alias) => internalPropertyMapping(node));
 
             // Recreate property map
-            var newMapper = new NodePropertyMapper(_engine, typeof(TDestination).GetProperty(name), newPropertyMapping, isRelationship);
+            var newMapper = new NodePropertyMapper(_nodeMapper, typeof(TDestination).GetProperty(name), newPropertyMapping, isRelationship);
 
-            _mapping.PropertyMappers.Add(newMapper);
+            _nodeMapper.PropertyMappers.Add(newMapper);
             return this;
         }
 
@@ -120,12 +120,12 @@ namespace uComponents.Mapping
 
             string name = GetPropertyName(destinationProperty);
 
-            var existingMapper = this._mapping.PropertyMappers
+            var existingMapper = this._nodeMapper.PropertyMappers
                 .SingleOrDefault(x => x.DestinationInfo.Name == name);
 
             if (existingMapper != null)
             {
-                _mapping.PropertyMappers.Remove(existingMapper);
+                _nodeMapper.PropertyMappers.Remove(existingMapper);
             }
 
             return this;

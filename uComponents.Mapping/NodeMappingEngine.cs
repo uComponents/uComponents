@@ -15,10 +15,10 @@ namespace uComponents.Mapping
     /// Handles the creation of map and the mapping of Umbraco nodes to strongly typed
     /// models.
     /// </summary>
-    internal class NodeMappingEngine : INodeMappingEngine
+    public class NodeMappingEngine : INodeMappingEngine
     {
-        public readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
-        public Dictionary<Type, NodeMapper> NodeMappers { get; set; }
+        internal readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
+        internal Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
         public NodeMappingEngine()
         {
@@ -51,7 +51,7 @@ namespace uComponents.Mapping
                 throw new DocumentTypeNotFoundException(documentTypeAlias);
             }
 
-            var nodeMapper = new NodeMapper<TDestination>();
+            var nodeMapper = new NodeMapper<TDestination>(this, documentTypeAlias);
 
             foreach (var destinationProperty in destinationType.GetProperties())
             {
@@ -116,9 +116,10 @@ namespace uComponents.Mapping
                             .Where(alias => string.Equals(alias, destinationProperty.Name, StringComparison.InvariantCultureIgnoreCase))
                             .SingleOrDefault();
 
-                        if (sourcePropertyAlias != null)
+                        if (sourcePropertyAlias != null
+                            || NodePropertyMapper.IsTypeCollection(destinationProperty.PropertyType))
                         {
-                            customPropertyMapper = new NodePropertyMapper(this, destinationProperty, sourcePropertyAlias);
+                            customPropertyMapper = new NodePropertyMapper(nodeMapper, destinationProperty, sourcePropertyAlias);
                         }
                         break;
                 }
@@ -129,7 +130,7 @@ namespace uComponents.Mapping
                 }
                 else if (defaultPropertyMapping != null)
                 {
-                    var defaultNodePropertyMapper = new NodePropertyMapper(this, destinationProperty, defaultPropertyMapping, false);
+                    var defaultNodePropertyMapper = new NodePropertyMapper(nodeMapper, destinationProperty, defaultPropertyMapping, false);
                     nodeMapper.PropertyMappers.Add(defaultNodePropertyMapper);
                 }
             }
