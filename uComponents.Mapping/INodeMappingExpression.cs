@@ -17,7 +17,7 @@ namespace uComponents.Mapping
         /// <param name="nodeTypeAlias">The new node type alias to map from.</param>
         INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty, 
-            Expression<Func<Node, TProperty>> propertyMappingExpression, 
+            Func<Node, object> propertyMappingExpression, 
             bool isRelationship
             );
 

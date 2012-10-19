@@ -80,10 +80,19 @@ namespace uComponents.Mapping
         /// a relationship or not.</param>
         public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
-            Expression<Func<Node, TProperty>> propertyMappingExpression,
+            Func<Node, object> propertyMapping,
             bool isRelationship
             )
         {
+            if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+            else if (propertyMapping == null)
+            {
+                throw new ArgumentNullException("propertyMapping");
+            }
+
             string name = GetPropertyName(destinationProperty);
 
             var existingMapper = this._nodeMapper.PropertyMappers
@@ -94,11 +103,8 @@ namespace uComponents.Mapping
                 _nodeMapper.PropertyMappers.Remove(existingMapper);
             }
 
-            var internalPropertyMapping = propertyMappingExpression.Compile();
-            Func<Node, string, object> newPropertyMapping = ((node, alias) => internalPropertyMapping(node));
-
             // Recreate property map
-            var newMapper = new NodePropertyMapper(_nodeMapper, typeof(TDestination).GetProperty(name), newPropertyMapping, isRelationship);
+            var newMapper = new NodePropertyMapper(_nodeMapper, typeof(TDestination).GetProperty(name), propertyMapping, isRelationship);
 
             _nodeMapper.PropertyMappers.Add(newMapper);
             return this;

@@ -27,12 +27,6 @@ namespace uComponents.Mapping
             where TDestination : class, new();
 
         /// <summary>
-        /// Removes a map which maps to TDestination, if any exists.
-        /// </summary>
-        /// <typeparam name="TDestination">The model being mapped to</typeparam>
-        void RemoveMap<TDestination>();
-
-        /// <summary>
         /// Maps an Umbraco node to a strongly typed object.
         /// </summary>
         /// <typeparam name="TDestination">The type of object to map to.</typeparam>

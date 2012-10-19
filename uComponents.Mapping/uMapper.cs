@@ -41,15 +41,6 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Removes a map which maps to TDestination, if any exists.
-        /// </summary>
-        /// <typeparam name="TDestination">The model being mapped to</typeparam>
-        public static void RemoveMap<TDestination>()
-        {
-            _engine.RemoveMap<TDestination>();
-        }
-
-        /// <summary>
         /// Maps an Umbraco node to a strongly typed object.
         /// </summary>
         /// <typeparam name="TDestination">The type of object to map to.</typeparam>

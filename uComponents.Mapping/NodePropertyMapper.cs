@@ -21,15 +21,15 @@ namespace uComponents.Mapping
         public bool IsRelationship { get; private set; }
 
         /// <summary>
-        /// A function taking the node and property alias which returns
+        /// A function taking the node which returns
         /// the strongly typed property value.
         /// </summary>
-        private Func<Node, string, object> _mapping { get; set; }
+        private Func<Node, object> _mapping { get; set; }
 
         /// <summary>
         /// Use a specific mapping
         /// </summary>
-        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, Func<Node, string, object> mapping, bool isRelationship)
+        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, Func<Node, object> mapping, bool isRelationship)
         {
             if (nodeMapper == null)
             {
@@ -65,10 +65,11 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("destinationProperty");
             }
             else if (string.IsNullOrEmpty(sourcePropertyAlias)
-                && !IsTypeARelationship(destinationProperty.PropertyType))
+                && !(destinationProperty.PropertyType.IsModelCollection()
+                    || destinationProperty.PropertyType.IsModel()))
             {
                 throw new ArgumentException(string.Format(@"Invalid destination property type '{0}' for a null 
-source property alias: A source property alias must be specified when the destination type is not a collection", 
+source property alias: A source property alias must be specified when the destination type is not a collection",
                     destinationProperty.PropertyType.FullName));
             }
 
@@ -77,7 +78,7 @@ source property alias: A source property alias must be specified when the destin
             DestinationInfo = destinationProperty;
 
             // Mappings
-            if (IsTypeARelationship(destinationProperty.PropertyType))
+            if (destinationProperty.PropertyType.IsModelCollection())
             {
                 // A collection
                 var itemType = destinationProperty.PropertyType.GetGenericArguments().FirstOrDefault();
@@ -87,7 +88,7 @@ source property alias: A source property alias must be specified when the destin
                     // Map IDs
                     bool assignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, typeof(IEnumerable<int>));
 
-                    _mapping = (node, alias) =>
+                    _mapping = (node) =>
                     {
                         var ids = GetRelatedNodeIds(node);
 
@@ -100,58 +101,83 @@ source property alias: A source property alias must be specified when the destin
                 }
                 else
                 {
-                    // Map relationship
+                    // Map model collection
                     var sourceCollectionType = typeof(IEnumerable<>).MakeGenericType(itemType);
                     bool assignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, sourceCollectionType);
 
-                    _mapping = (node, alias) =>
+                    _mapping = (node) =>
                     {
                         var relatedNodes = GetRelatedNodes(node, itemType);
-                        var sourceListType = typeof(List<>).MakeGenericType(itemType);
-                        var items = Activator.CreateInstance(sourceListType);
 
-                        foreach (var relatedNode in relatedNodes)
+                        if (relatedNodes != null)
                         {
-                            var item = nodeMapper.Engine.Map(relatedNode, itemType, false);
-                            // items.Add(item) but for generic list
-                            sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
-                        }
+                            var sourceListType = typeof(List<>).MakeGenericType(itemType);
+                            var items = Activator.CreateInstance(sourceListType);
 
-                        return assignCollectionDirectly
-                            ? items
-                            : Activator.CreateInstance(destinationProperty.PropertyType, items);
+                            foreach (var relatedNode in relatedNodes)
+                            {
+                                var item = nodeMapper.Engine.Map(relatedNode, itemType, false);
+                                // items.Add(item) but for generic list
+                                sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
+                            }
+
+                            return assignCollectionDirectly
+                                ? items
+                                : Activator.CreateInstance(destinationProperty.PropertyType, items);
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     };
 
                     IsRelationship = true;
                 }
             }
-            else if (destinationProperty.PropertyType.Module.ScopeName == "CommonLanguageRuntimeLibrary")
+            else if (destinationProperty.PropertyType.IsSystem())
             {
                 // Basic system types
                 var method = NodeMappingEngine.GetNodePropertyMethod.MakeGenericMethod(destinationProperty.PropertyType);
 
-                _mapping = (node, alias) => method.Invoke(null, new object[] { node, alias });
+                _mapping = (node) => method.Invoke(null, new object[] { node, SourcePropertyAlias });
                 IsRelationship = false;
             }
-            else
+            else if (destinationProperty.PropertyType.IsModel())
             {
-                // Try to map single relationship
-                _mapping = (node, alias) =>
+                // Try to map to model
+                _mapping = (node) =>
                 {
-                    if (!nodeMapper.Engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
+                    if (SourcePropertyAlias != null)
                     {
-                        throw new MapNotFoundException(destinationProperty.PropertyType);
-                    }
-
-                    var id = node.GetProperty<int?>(alias);
-
-                    if (id.HasValue)
-                    {
-                        var relatedNode = new Node(id.Value);
-
-                        if (!string.IsNullOrEmpty(relatedNode.Name))
+                        // Ensure map exists
+                        if (!nodeMapper.Engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
                         {
-                            return nodeMapper.Engine.Map(relatedNode, destinationProperty.PropertyType, false);
+                            throw new MapNotFoundException(destinationProperty.PropertyType);
+                        }
+
+                        // Map to single property relationship
+                        var id = node.GetProperty<int?>(SourcePropertyAlias);
+
+                        if (id.HasValue)
+                        {
+                            var relatedNode = new Node(id.Value);
+
+                            if (!string.IsNullOrEmpty(relatedNode.Name))
+                            {
+                                return nodeMapper.Engine.Map(relatedNode, destinationProperty.PropertyType, false);
+                            }
+                        }
+                    }
+                    else if (nodeMapper.Engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
+                    {
+                        // Map to ancestor (if possible)
+                        var ancestorMapper = nodeMapper.Engine.NodeMappers[destinationProperty.PropertyType];
+                        var ancestorNode = node.GetAncestorNodes()
+                            .FirstOrDefault(x => x.NodeTypeAlias == ancestorMapper.SourceNodeTypeAlias);
+
+                        if (ancestorNode != null)
+                        {
+                            return nodeMapper.Engine.Map(ancestorNode, destinationProperty.PropertyType, false);
                         }
                     }
 
@@ -159,6 +185,10 @@ source property alias: A source property alias must be specified when the destin
                 };
 
                 IsRelationship = true;
+            }
+            else
+            {
+                throw new NotImplementedException("Cannot map to a property that is not a collection, system type or model");
             }
         }
 
@@ -174,7 +204,7 @@ source property alias: A source property alias must be specified when the destin
                 throw new ArgumentNullException("sourceNode");
             }
 
-            return _mapping(sourceNode, SourcePropertyAlias);
+            return _mapping(sourceNode);
         }
 
         /// <summary>
@@ -224,6 +254,69 @@ source property alias: A source property alias must be specified when the destin
         }
 
         /// <summary>
+        /// If SourcePropertyAlias is specified, parses the CSV string of node IDs (or null) and gets the
+        /// existing nodes.
+        /// 
+        /// If SourcePropertyAlias is null, it gets the descendent nodes which are of the correct node type.
+        /// </summary>
+        /// <returns>The collection of nodes, or null if a map does not exist for relationDestinationType</returns>
+        /// <exception cref="RelationPropertyFormatNotSupported">
+        /// If SourcePropertyAlias is not null and propertyValue is not a valid CSV list of IDs.
+        /// </exception>
+        /// <exception cref="MapNotFoundException">If SourcePropertyAlias is not null and
+        /// no map exists for relationDestinationType</exception>
+        private IEnumerable<Node> GetRelatedNodes(Node node, Type relationDestinationType)
+        {
+            if (NodeMapper.Engine.NodeMappers.ContainsKey(relationDestinationType))
+            {
+                var relationNodeTypeAlias = NodeMapper.Engine.NodeMappers[relationDestinationType].SourceNodeTypeAlias;
+
+                if (SourcePropertyAlias != null)
+                {
+                    // Relation defined by property
+                    var csv = node.GetProperty<string>(SourcePropertyAlias);
+                    var nodes = new List<Node>();
+
+                    if (!string.IsNullOrWhiteSpace(csv))
+                    {
+                        foreach (var idString in csv.Split(','))
+                        {
+                            // Ensure this is actually a list of node IDs
+                            int id;
+                            if (!int.TryParse(idString.Trim(), out id))
+                            {
+                                throw new RelationPropertyFormatNotSupported(csv, DestinationInfo.DeclaringType);
+                            }
+
+                            var relatedNode = new Node(id);
+
+                            if (!string.IsNullOrEmpty(relatedNode.Name))
+                            {
+                                nodes.Add(relatedNode);
+                            }
+                        }
+                    }
+
+                    return nodes;
+                }
+                else
+                {
+                    // Relation defined by heirarchy
+                    return node.GetDescendantNodesByType(relationNodeTypeAlias)
+                        .ToList();
+                }
+            }
+            else if (SourcePropertyAlias != null)
+            {
+                throw new MapNotFoundException(relationDestinationType);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Parses the CSV string of node IDs (or null) and returns the IDs.
         /// Does not ensure the IDs exist.
         /// </summary>
@@ -253,11 +346,23 @@ source property alias: A source property alias must be specified when the destin
 
             return ids;
         }
+    }
 
+    public class RelationPropertyFormatNotSupported : Exception
+    {
+        public RelationPropertyFormatNotSupported(string propertyValue, Type destinationType)
+            : base(string.Format(@"Could not parse '{0}' into integer IDs for destination type '{1}'.  
+Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propertyValue, destinationType.FullName))
+        {
+        }
+    }
+
+    internal static class TypeExtensions
+    {
         /// <summary>
         /// Checks if a type is a relationship collection (for our purposes).
         /// </summary>
-        public static bool IsTypeARelationship(Type type)
+        public static bool IsModelCollection(this Type type)
         {
             if (type == null)
             {
@@ -274,66 +379,19 @@ source property alias: A source property alias must be specified when the destin
         }
 
         /// <summary>
-        /// If SourcePropertyAlias is specified, parses the CSV string of node IDs (or null) and gets the
-        /// existing nodes.
-        /// 
-        /// If SourcePropertyAlias is null, it gets the descendent nodes which are of the correct node type.
+        /// Checks if a type comes from the CLR
         /// </summary>
-        /// <exception cref="RelationPropertyFormatNotSupported">
-        /// If SourcePropertyAlias is not null and propertyValue is not a valid CSV list of IDs.
-        /// </exception>
-        private IEnumerable<Node> GetRelatedNodes(Node node, Type relationDestinationType)
+        public static bool IsSystem(this Type type)
         {
-            if (!NodeMapper.Engine.NodeMappers.ContainsKey(relationDestinationType))
-            {
-                throw new MapNotFoundException(relationDestinationType);
-            }
-
-            var relationNodeTypeAlias = NodeMapper.Engine.NodeMappers[relationDestinationType].SourceNodeTypeAlias;
-
-            if (SourcePropertyAlias == null)
-            {
-                // Relation defined by heirarchy
-                return node.GetDescendantNodesByType(relationNodeTypeAlias)
-                    .ToList();
-            }
-            else
-            {
-                // Relation defined by property
-                var csv = node.GetProperty<string>(SourcePropertyAlias);
-                var nodes = new List<Node>();
-
-                if (!string.IsNullOrWhiteSpace(csv))
-                {
-                    foreach (var idString in csv.Split(','))
-                    {
-                        // Ensure this is actually a list of node IDs
-                        int id;
-                        if (!int.TryParse(idString.Trim(), out id))
-                        {
-                            throw new RelationPropertyFormatNotSupported(csv, DestinationInfo.DeclaringType);
-                        }
-
-                        var relatedNode = new Node(id);
-
-                        if (!string.IsNullOrEmpty(relatedNode.Name))
-                        {
-                            nodes.Add(relatedNode);
-                        }
-                    }
-                }
-
-                return nodes;
-            }
+            return type.Module.ScopeName == "CommonLanguageRuntimeLibrary";
         }
-    }
 
-    public class RelationPropertyFormatNotSupported : Exception
-    {
-        public RelationPropertyFormatNotSupported(string propertyValue, Type destinationType)
-            :base(string.Format(@"Could not parse '{0}' into integer IDs for destination type '{1}'.  
-Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propertyValue, destinationType.FullName))
+        /// <summary>
+        /// Checks if a type is a model
+        /// </summary>
+        public static bool IsModel(this Type type)
         {
+            return !type.IsModelCollection() && !type.IsSystem();
         }
     }
 }

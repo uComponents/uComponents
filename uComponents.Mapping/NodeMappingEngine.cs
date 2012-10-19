@@ -37,10 +37,10 @@ namespace uComponents.Mapping
         {
             var destinationType = typeof(TDestination);
 
-            // Already have a mapping
+            // Remove current mapping if any
             if (NodeMappers.ContainsKey(destinationType))
             {
-                return new NodeMappingExpression<TDestination>(this, (NodeMapper<TDestination>)NodeMappers[destinationType]);
+                NodeMappers.Remove(destinationType);
             }
 
             // Get document type
@@ -56,58 +56,58 @@ namespace uComponents.Mapping
             foreach (var destinationProperty in destinationType.GetProperties())
             {
                 NodePropertyMapper customPropertyMapper = null;
-                Func<Node, string, object> defaultPropertyMapping = null;
+                Func<Node, object> defaultPropertyMapping = null;
 
                 // Default node properties
                 switch (destinationProperty.Name.ToLowerInvariant())
                 {
                     case "createdate":
-                        defaultPropertyMapping = (node, alias) => node.CreateDate;
+                        defaultPropertyMapping = node => node.CreateDate;
                         break;
                     case "creatorid":
-                        defaultPropertyMapping = (node, alias) => node.CreatorID;
+                        defaultPropertyMapping = node => node.CreatorID;
                         break;
                     case "creatorname":
-                        defaultPropertyMapping = (node, alias) => node.CreatorName;
+                        defaultPropertyMapping = node => node.CreatorName;
                         break;
                     case "id":
-                        defaultPropertyMapping = (node, alias) => node.Id;
+                        defaultPropertyMapping = node => node.Id;
                         break;
                     case "level":
-                        defaultPropertyMapping = (node, alias) => node.Level;
+                        defaultPropertyMapping = node => node.Level;
                         break;
                     case "name":
-                        defaultPropertyMapping = (node, alias) => node.Name;
+                        defaultPropertyMapping = node => node.Name;
                         break;
                     case "nodetypealias":
-                        defaultPropertyMapping = (node, alias) => node.NodeTypeAlias;
+                        defaultPropertyMapping = node => node.NodeTypeAlias;
                         break;
                     case "path":
-                        defaultPropertyMapping = (node, alias) => node.Path;
+                        defaultPropertyMapping = node => node.Path;
                         break;
                     case "sortorder":
-                        defaultPropertyMapping = (node, alias) => node.SortOrder;
+                        defaultPropertyMapping = node => node.SortOrder;
                         break;
                     case "template":
-                        defaultPropertyMapping = (node, alias) => node.template;
+                        defaultPropertyMapping = node => node.template;
                         break;
                     case "updatedate":
-                        defaultPropertyMapping = (node, alias) => node.UpdateDate;
+                        defaultPropertyMapping = node => node.UpdateDate;
                         break;
                     case "url":
-                        defaultPropertyMapping = (node, alias) => node.Url;
+                        defaultPropertyMapping = node => node.Url;
                         break;
                     case "urlname":
-                        defaultPropertyMapping = (node, alias) => node.UrlName;
+                        defaultPropertyMapping = node => node.UrlName;
                         break;
                     case "version":
-                        defaultPropertyMapping = (node, alias) => node.Version;
+                        defaultPropertyMapping = node => node.Version;
                         break;
                     case "writerid":
-                        defaultPropertyMapping = (node, alias) => node.WriterID;
+                        defaultPropertyMapping = node => node.WriterID;
                         break;
                     case "writername":
-                        defaultPropertyMapping = (node, alias) => node.WriterName;
+                        defaultPropertyMapping = node => node.WriterName;
                         break;
                     default:
                         // Map custom properties
@@ -117,7 +117,8 @@ namespace uComponents.Mapping
                             .SingleOrDefault();
 
                         if (sourcePropertyAlias != null
-                            || NodePropertyMapper.IsTypeARelationship(destinationProperty.PropertyType))
+                            || destinationProperty.PropertyType.IsModelCollection()
+                            || destinationProperty.PropertyType.IsModel())
                         {
                             customPropertyMapper = new NodePropertyMapper(nodeMapper, destinationProperty, sourcePropertyAlias);
                         }
@@ -153,19 +154,6 @@ namespace uComponents.Mapping
             var destinationType = typeof(TDestination);
 
             return this.CreateMap<TDestination>(destinationType.Name);
-        }
-
-        /// <summary>
-        /// Removes a map which maps to TDestination, if any exists.
-        /// </summary>
-        /// <typeparam name="TDestination">The model being mapped to</typeparam>
-        public void RemoveMap<TDestination>()
-        {
-            var destinationType = typeof(TDestination);
-            if (NodeMappers.ContainsKey(destinationType))
-            {
-                NodeMappers.Remove(destinationType);
-            }
         }
 
         /// <summary>
