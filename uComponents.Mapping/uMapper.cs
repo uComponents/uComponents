@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using umbraco.NodeFactory;
+using umbraco;
 
 namespace uComponents.Mapping
 {
@@ -81,6 +82,29 @@ namespace uComponents.Mapping
             where TDestination : class, new()
         {
             return _engine.Map<TDestination>(Node.GetCurrent(), includeRelationships);
+        }
+
+        /// <summary>
+        /// Gets all Umbraco nodes which map to the destination model type.
+        /// </summary>
+        /// <typeparam name="TDestination">The destination model type.</typeparam>
+        /// <param name="includeRelationships">Whether to include relationships.</param>
+        /// <returns>The collection of mapped models.</returns>
+        public static IEnumerable<TDestination> GetAll<TDestination>(bool includeRelationships = true)
+            where TDestination : class, new()
+        {
+            var destinationType = typeof(TDestination);
+
+            if (!_engine.NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            var sourceNodeTypeAlias = _engine.NodeMappers[destinationType].SourceNodeTypeAlias;
+
+            return uQuery.GetNodesByType(sourceNodeTypeAlias)
+                .Select(n => _engine.Map<TDestination>(n, includeRelationships))
+                .ToList();
         }
     }
 }
