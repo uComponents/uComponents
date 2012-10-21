@@ -6,7 +6,6 @@ using System.Text;
 using System.Reflection;
 using umbraco.NodeFactory;
 using umbraco;
-using System.Collections;
 
 namespace uComponents.Mapping
 {
@@ -348,11 +347,17 @@ source property alias: A source property alias must be specified when the destin
         }
     }
 
+    /// <summary>
+    /// The value of a node property which is being mapped by the mapping engine
+    /// cannot be parsed to IDs.
+    /// </summary>
     public class RelationPropertyFormatNotSupported : Exception
     {
-        public RelationPropertyFormatNotSupported(string propertyValue, Type destinationType)
+        /// <param name="propertyValue">The unsupported value of the property.</param>
+        /// <param name="destinationPropertyType">The destination property type.</param>
+        public RelationPropertyFormatNotSupported(string propertyValue, Type destinationPropertyType)
             : base(string.Format(@"Could not parse '{0}' into integer IDs for destination type '{1}'.  
-Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propertyValue, destinationType.FullName))
+Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propertyValue, destinationPropertyType.FullName))
         {
         }
     }

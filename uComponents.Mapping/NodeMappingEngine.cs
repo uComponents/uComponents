@@ -20,6 +20,9 @@ namespace uComponents.Mapping
         internal readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
         internal Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
+        /// <summary>
+        /// Instantiates a new NodeMappingEngine
+        /// </summary>
         public NodeMappingEngine()
         {
             this.NodeMappers = new Dictionary<Type, NodeMapper>();
@@ -148,7 +151,6 @@ namespace uComponents.Mapping
         /// Creates a map to a strong type from an Umbraco document type.
         /// </summary>
         /// <typeparam name="TDestination">The type to map to.</typeparam>
-        /// <param name="documentTypeAlias">The alias of the document type to map from.</param>
         /// <returns>Further mapping configuration</returns>
         /// <exception cref="DocumentTypeNotFoundException">If the source document type could not be found</exception>
         public INodeMappingExpression<TDestination> CreateMap<TDestination>()
@@ -162,8 +164,8 @@ namespace uComponents.Mapping
         /// <summary>
         /// Maps an Umbraco node to a strongly typed object.
         /// </summary>
-        /// <typeparam name="TDestination">The type of object to map to.</typeparam>
         /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="destinationType">The type to map to.</param>
         /// <param name="includeRelationships">Whether to load relationships to other models.</param>
         /// <returns>A new instance of TDestination, or null if sourceNode is null.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
@@ -194,7 +196,8 @@ namespace uComponents.Mapping
         /// Gets an Umbraco node as a strongly typed object.
         /// </summary>
         /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
-        /// <param name="id">The id of the node</param>
+        /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="includeRelationships">Whether to include the node's relationships</param>
         /// <returns>Null if the node does not exist.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
         /// been created with CreateMap</exception>
@@ -207,17 +210,25 @@ namespace uComponents.Mapping
 
     #region Exceptions
 
+    /// <summary>
+    /// The node type alias was not found in the current Umbraco instance.
+    /// </summary>
     public class DocumentTypeNotFoundException : Exception
     {
-        public DocumentTypeNotFoundException(string documentTypeAlias)
+        /// <param name="nodeTypeAlias">The node type alias requested and not found</param>
+        public DocumentTypeNotFoundException(string nodeTypeAlias)
             : base(string.Format(@"The document type with alias '{0}' could not be found.  
-Consider using the overload of CreateMap which specifies a document type alias", documentTypeAlias))
+Consider using the overload of CreateMap which specifies a document type alias", nodeTypeAlias))
         {
         }
     }
 
+    /// <summary>
+    /// No map exists for this engine for the destination type
+    /// </summary>
     public class MapNotFoundException : Exception
     {
+        /// <param name="destinationType">The requested and unfound destination type</param>
         public MapNotFoundException(Type destinationType)
             : base(string.Format(@"No map could be found for type '{0}'.  Remember
 to run CreateMap for every model type you are using.", destinationType.FullName))
@@ -225,8 +236,13 @@ to run CreateMap for every model type you are using.", destinationType.FullName)
         }
     }
 
+    /// <summary>
+    /// Exception for when a node is mapped to an incompatible type.
+    /// </summary>
     public class WrongNodeForMapException : Exception
     {
+        /// <param name="nodeTypeAlias">The node type alias being mapped from.</param>
+        /// <param name="destinationType">The destination type being mapped to.</param>
         public WrongNodeForMapException(string nodeTypeAlias, Type destinationType)
             : base(string.Format(@"Node with node type alias '{0}' does not map to
 model type '{1}'.  Make sure you are mapping the correct node.", 
@@ -237,8 +253,13 @@ model type '{1}'.  Make sure you are mapping the correct node.",
         }
     }
 
+    /// <summary>
+    /// A collection which cannot be instiatated/populated by the mapping engine
+    /// is used.
+    /// </summary>
     public class CollectionTypeNotSupported : Exception
     {
+        /// <param name="type">The unsupported collection type.</param>
         public CollectionTypeNotSupported(Type type)
             : base(string.Format(@"Could not map to collection of type '{0}'.  
 Use IEnumerable, or alternatively make sure your collection type has

@@ -61,6 +61,7 @@ namespace uComponents.Mapping
         /// </summary>
         /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
         /// <param name="id">The id of the node</param>
+        /// <param name="includeRelationships">Whether to include the relationships to the node</param>
         /// <returns>Null if the node does not exist.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
         /// been created with CreateMap</exception>

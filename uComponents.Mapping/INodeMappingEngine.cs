@@ -29,18 +29,19 @@ namespace uComponents.Mapping
         /// <summary>
         /// Maps an Umbraco node to a strongly typed object.
         /// </summary>
-        /// <typeparam name="TDestination">The type of object to map to.</typeparam>
         /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="destinationType">The type to map to.</param>
         /// <param name="includeRelationships">Whether to load relationships to other models.</param>
-        /// <returns>A new instance of TDestination, or null if sourceNode is null.</returns>
+        /// <returns>A new instance of TDestination, or null if sourceNode is null or invalid.</returns>
         object Map(Node sourceNode, Type destinationType, bool includeRelationships);
 
         /// <summary>
         /// Gets an Umbraco node as a strongly typed object.
         /// </summary>
         /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
-        /// <param name="id">The id of the node</param>
-        /// <returns>Null if the node does not exist.</returns>
+        /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="includeRelationships">Whether to include relationships for the node.</param>
+        /// <returns>Null if sourceNode is null or invalid.</returns>
         TDestination Map<TDestination>(Node sourceNode, bool includeRelationships) 
             where TDestination : class, new();
     }

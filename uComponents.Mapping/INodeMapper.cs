@@ -4,7 +4,7 @@ using umbraco.NodeFactory;
 namespace uComponents.Mapping
 {
     /// <summary>
-    /// Mapper which maps from Umbraco Node properties to strongly typed model properties
+    /// Property-wise maps a single type of Umbraco Node to a type of model.
     /// </summary>
     public interface INodeMapper
     {
@@ -19,6 +19,9 @@ namespace uComponents.Mapping
         object MapNode(Node sourceNode, bool includeRelationships);
     }
 
+    /// <summary>
+    /// Property-wise maps a single type of Umbraco Node to an instance of TDestination.
+    /// </summary>
     public interface INodeMapper<TDestination> : INodeMapper
     {
         /// <summary>
@@ -28,6 +31,6 @@ namespace uComponents.Mapping
         /// <param name="includeRelationships">
         /// Whether to include relationships with other nodes
         /// </param>
-        TDestination MapNode(Node sourceNode, bool includeRelationships);
+        new TDestination MapNode(Node sourceNode, bool includeRelationships);
     }
 }

@@ -10,23 +10,25 @@ namespace uComponents.Mapping
     public interface INodeMappingExpression<TDestination>
     {
         /// <summary>
-        /// Allows a different node type alias to be set for a specific member.
+        /// Sets a custom mapping to be used for a the model property.
         /// </summary>
         /// <param name="destinationProperty">The member of the destination model
         /// to map to.</param>
-        /// <param name="nodeTypeAlias">The new node type alias to map from.</param>
+        /// <param name="propertyMapping">The new mapping function.</param>
+        /// <param name="isRelationship">Whether the property should be deemed a relationship
+        /// or not.</param>
         INodeMappingExpression<TDestination> ForProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty, 
-            Func<Node, object> propertyMappingExpression, 
+            Expression<Func<TDestination, TProperty>> destinationProperty,
+            Func<Node, object> propertyMapping, 
             bool isRelationship
             );
 
         /// <summary>
-        /// Allows a different mapping to be used for a specific member.
+        /// Sets a custom property alias to be set for a the model property.
         /// </summary>
         /// <param name="destinationProperty">The member of the destination model
         /// to map to.</param>
-        /// <param name="propertyMappingExpression">The new mapping.</param>
+        /// <param name="nodeTypeAlias">The property alias to map from.</param>
         INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty, 
             string nodeTypeAlias

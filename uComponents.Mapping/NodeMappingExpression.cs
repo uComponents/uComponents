@@ -33,13 +33,11 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Allows a different node type alias to be set for a specific member.
+        /// Sets a custom property alias to be set for a the model property.
         /// </summary>
         /// <param name="destinationProperty">The member of the destination model
         /// to map to.</param>
-        /// <param name="nodeTypeAlias">The new node type alias to map from.</param>
-        /// <exception cref="ArgumentNullException">If destinationProperty is null</exception>
-        /// <exception cref="ArgumentException">If nodeTypeAlias is null or empty</exception>
+        /// <param name="nodeTypeAlias">The property alias to map from.</param>
         public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             string nodeTypeAlias
@@ -71,13 +69,13 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Allows a different mapping to be used for a specific member.
+        /// Sets a custom mapping to be used for a the model property.
         /// </summary>
         /// <param name="destinationProperty">The member of the destination model
         /// to map to.</param>
-        /// <param name="propertyMappingExpression">The new mapping.</param>
-        /// <param name="isRelationship">Whether the property should be considered
-        /// a relationship or not.</param>
+        /// <param name="propertyMapping">The new mapping function.</param>
+        /// <param name="isRelationship">Whether the property should be deemed a relationship
+        /// or not.</param>
         public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             Func<Node, object> propertyMapping,
@@ -137,8 +135,8 @@ namespace uComponents.Mapping
             return this;
         }
 
-        private string GetPropertyName<TDestination, TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty
+        private string GetPropertyName<TDest, TProperty>(
+            Expression<Func<TDest, TProperty>> destinationProperty
             )
         {
             if (destinationProperty == null)
