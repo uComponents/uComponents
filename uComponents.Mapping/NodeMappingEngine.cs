@@ -79,6 +79,9 @@ namespace uComponents.Mapping
                     case "name":
                         defaultPropertyMapping = node => node.Name;
                         break;
+                    case "niceurl":
+                        defaultPropertyMapping = node => node.NiceUrl;
+                        break;
                     case "nodetypealias":
                         defaultPropertyMapping = node => node.NodeTypeAlias;
                         break;
@@ -176,10 +179,11 @@ namespace uComponents.Mapping
             {
                 throw new MapNotFoundException(destinationType);
             }
-            else if (NodeMappers[destinationType].SourceNodeTypeAlias != sourceNode.NodeTypeAlias)
-            {
-                throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
-            }
+            // TODO this prevents mapping nodes which inherit from common doctypes
+            //else if (NodeMappers[destinationType].SourceNodeTypeAlias != sourceNode.NodeTypeAlias)
+            //{
+            //    throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
+            //}
 
             var nodeMapper = NodeMappers[destinationType];
 
