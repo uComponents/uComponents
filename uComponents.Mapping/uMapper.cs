@@ -68,5 +68,19 @@ namespace uComponents.Mapping
         {
             return _engine.Map<TDestination>(new Node(id), includeRelationships);
         }
+
+        /// <summary>
+        /// Gets the current Umbraco node as a strongly typed object.
+        /// </summary>
+        /// <typeparam name="TDestination">
+        /// The type of object that the current Node maps to.
+        /// </typeparam>
+        /// <param name="includeRelationships">Whether to load the node's relationships</param>
+        /// <returns>Null if there is no current node.</returns>
+        public static TDestination GetCurrent<TDestination>(bool includeRelationships = true)
+            where TDestination : class, new()
+        {
+            return _engine.Map<TDestination>(Node.GetCurrent(), includeRelationships);
+        }
     }
 }

@@ -171,11 +171,14 @@ namespace uComponents.Mapping
                 || string.IsNullOrEmpty(sourceNode.Name))
             {
                 return null;
-            }
-
-            if (!NodeMappers.ContainsKey(destinationType))
+            } 
+            else if (!NodeMappers.ContainsKey(destinationType))
             {
                 throw new MapNotFoundException(destinationType);
+            }
+            else if (NodeMappers[destinationType].SourceNodeTypeAlias != sourceNode.NodeTypeAlias)
+            {
+                throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
             }
 
             var nodeMapper = NodeMappers[destinationType];
@@ -214,6 +217,18 @@ Consider using the overload of CreateMap which specifies a document type alias",
         public MapNotFoundException(Type destinationType)
             : base(string.Format(@"No map could be found for type '{0}'.  Remember
 to run CreateMap for every model type you are using.", destinationType.FullName))
+        {
+        }
+    }
+
+    public class WrongNodeForMapException : Exception
+    {
+        public WrongNodeForMapException(string nodeTypeAlias, Type destinationType)
+            : base(string.Format(@"Node with node type alias '{0}' does not map to
+model type '{1}'.  Make sure you are mapping the correct node.", 
+            nodeTypeAlias, 
+            destinationType.FullName
+            ))
         {
         }
     }
