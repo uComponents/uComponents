@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using umbraco.NodeFactory;
 using umbraco;
+using umbraco.cms.businesslogic.web;
 
 namespace uComponents.Mapping
 {
@@ -19,11 +20,11 @@ namespace uComponents.Mapping
         public List<NodePropertyMapper> PropertyMappers { get; private set; }
         public string SourceNodeTypeAlias { get; private set; }
 
-        public NodeMapper(NodeMappingEngine engine, Type destinationType, string sourceNodeTypeAlias)
+        public NodeMapper(NodeMappingEngine engine, Type destinationType, DocumentType sourceDocumentType)
         {
-            if (string.IsNullOrEmpty(sourceNodeTypeAlias))
+            if (sourceDocumentType == null)
             {
-                throw new ArgumentException("Source node type alias must be specified");
+                throw new ArgumentNullException("sourceDocumentType");
             }
             else if (engine == null)
             {
@@ -34,10 +35,97 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("destinationType");
             }
 
-            SourceNodeTypeAlias = sourceNodeTypeAlias;
+            SourceNodeTypeAlias = sourceDocumentType.Alias;
             Engine = engine;
             DestinationType = destinationType;
             PropertyMappers = new List<NodePropertyMapper>();
+
+            // Map properties
+            foreach (var destinationProperty in destinationType.GetProperties())
+            {
+                NodePropertyMapper customPropertyMapper = null;
+                Func<Node, object> defaultPropertyMapping = null;
+
+                // Default node properties
+                switch (destinationProperty.Name.ToLowerInvariant())
+                {
+                    case "createdate":
+                        defaultPropertyMapping = node => node.CreateDate;
+                        break;
+                    case "creatorid":
+                        defaultPropertyMapping = node => node.CreatorID;
+                        break;
+                    case "creatorname":
+                        defaultPropertyMapping = node => node.CreatorName;
+                        break;
+                    case "id":
+                        defaultPropertyMapping = node => node.Id;
+                        break;
+                    case "level":
+                        defaultPropertyMapping = node => node.Level;
+                        break;
+                    case "name":
+                        defaultPropertyMapping = node => node.Name;
+                        break;
+                    case "niceurl":
+                        defaultPropertyMapping = node => node.NiceUrl;
+                        break;
+                    case "nodetypealias":
+                        defaultPropertyMapping = node => node.NodeTypeAlias;
+                        break;
+                    case "path":
+                        defaultPropertyMapping = node => node.Path;
+                        break;
+                    case "sortorder":
+                        defaultPropertyMapping = node => node.SortOrder;
+                        break;
+                    case "template":
+                        defaultPropertyMapping = node => node.template;
+                        break;
+                    case "updatedate":
+                        defaultPropertyMapping = node => node.UpdateDate;
+                        break;
+                    case "url":
+                        defaultPropertyMapping = node => node.Url;
+                        break;
+                    case "urlname":
+                        defaultPropertyMapping = node => node.UrlName;
+                        break;
+                    case "version":
+                        defaultPropertyMapping = node => node.Version;
+                        break;
+                    case "writerid":
+                        defaultPropertyMapping = node => node.WriterID;
+                        break;
+                    case "writername":
+                        defaultPropertyMapping = node => node.WriterName;
+                        break;
+                    default:
+                        // Map custom properties
+                        var sourcePropertyAlias = sourceDocumentType.PropertyTypes
+                            .Select(prop => prop.Alias)
+                            .Where(alias => string.Equals(alias, destinationProperty.Name, StringComparison.InvariantCultureIgnoreCase))
+                            .SingleOrDefault();
+
+                        if (sourcePropertyAlias != null
+                            || destinationProperty.PropertyType.IsModelCollection()
+                            || destinationProperty.PropertyType.IsModel())
+                        {
+                            customPropertyMapper = new NodePropertyMapper(this, destinationProperty, sourcePropertyAlias);
+                        }
+                        break;
+                }
+
+                if (customPropertyMapper != null)
+                {
+                    PropertyMappers.Add(customPropertyMapper);
+                }
+                else if (defaultPropertyMapping != null)
+                {
+                    var defaultNodePropertyMapper = new NodePropertyMapper(this, destinationProperty, defaultPropertyMapping, false);
+                    PropertyMappers.Add(defaultNodePropertyMapper);
+                }
+            }
         }
 
         /// <summary>
@@ -67,8 +155,8 @@ namespace uComponents.Mapping
 
     internal class NodeMapper<TDestination> : NodeMapper, INodeMapper<TDestination>
     {
-        public NodeMapper(NodeMappingEngine engine, string sourceNodeTypeAlias)
-            : base(engine, typeof(TDestination), sourceNodeTypeAlias)
+        public NodeMapper(NodeMappingEngine engine, DocumentType sourceDocumentType)
+            : base(engine, typeof(TDestination), sourceDocumentType)
         {
         }
 
