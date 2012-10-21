@@ -12,7 +12,7 @@ namespace uComponents.Mapping
     /// </summary>
     public static class uMapper
     {
-        private static INodeMappingEngine _engine = new NodeMappingEngine();
+        private static NodeMappingEngine _engine = new NodeMappingEngine();
 
         /// <summary>
         /// Creates a map to a strong type from an Umbraco document type, 
