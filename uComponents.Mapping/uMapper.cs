@@ -104,8 +104,7 @@ namespace uComponents.Mapping
             var sourceNodeTypeAlias = _engine.NodeMappers[destinationType].SourceNodeTypeAlias;
 
             return uQuery.GetNodesByType(sourceNodeTypeAlias)
-                .Select(n => _engine.Map<TDestination>(n, includeRelationships))
-                .ToList();
+                .Select(n => _engine.Map<TDestination>(n, includeRelationships));
         }
     }
 }

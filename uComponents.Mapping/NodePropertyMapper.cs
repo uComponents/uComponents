@@ -301,8 +301,7 @@ source property alias: A source property alias must be specified when the destin
                 else
                 {
                     // Relation defined by heirarchy
-                    return node.GetDescendantNodesByType(relationNodeTypeAlias)
-                        .ToList();
+                    return node.GetDescendantNodesByType(relationNodeTypeAlias);
                 }
             }
             else if (SourcePropertyAlias != null)
