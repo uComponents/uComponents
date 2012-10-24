@@ -17,6 +17,14 @@ namespace uComponents.Mapping
         private static NodeMappingEngine _engine = new NodeMappingEngine();
 
         /// <summary>
+        /// Gets the INodeMappingEngine being used by uMapper.
+        /// </summary>
+        public static INodeMappingEngine Engine
+        {
+            get { return _engine; }
+        }
+
+        /// <summary>
         /// Creates a map to a strong type from an Umbraco document type, 
         /// using unqualified destination class name as the document type alias.
         /// </summary>
@@ -47,7 +55,7 @@ namespace uComponents.Mapping
         /// </summary>
         /// <typeparam name="TDestination">The type of object to map to.</typeparam>
         /// <param name="sourceNode">The node to map from.</param>
-        /// <param name="includeRelationships">Whether to load relationships to other models.</param>
+        /// <param name="includeRelationships">Whether to load all relationships.</param>
         /// <returns>A new instance of TDestination, or null if sourceNode is null.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
         /// been created with CreateMap</exception>
@@ -62,6 +70,7 @@ namespace uComponents.Mapping
         /// </summary>
         /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
         /// <param name="id">The id of the node</param>
+        /// <param name="includeRelationships">Whether to load all the node's relationships</param>
         /// <returns>Null if the node does not exist.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
         /// been created with CreateMap</exception>
@@ -72,17 +81,48 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
+        /// Gets an Umbraco node as TDestination, only including specified relationships.
+        /// </summary>
+        /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
+        /// <param name="id">The id of the node</param>
+        /// <param name="includedRelationships">The relationships to load.</param>
+        /// <returns>Null if the node does not exist.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
+        public static TDestination GetSingle<TDestination>(int id, params Expression<Func<TDestination, object>>[] includedRelationships)
+            where TDestination : class, new()
+        {
+            return _engine.Map<TDestination>(new Node(id), includedRelationships);
+        }
+
+        /// <summary>
         /// Gets the current Umbraco node as TDestination.
         /// </summary>
         /// <typeparam name="TDestination">
         /// The type of object that the current Node maps to.
         /// </typeparam>
-        /// <param name="includeRelationships">Whether to load the node's relationships</param>
+        /// <param name="includeRelationships">Whether to load all the node's relationships</param>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
         /// <returns>Null if there is no current node.</returns>
         public static TDestination GetCurrent<TDestination>(bool includeRelationships = true)
             where TDestination : class, new()
         {
             return _engine.Map<TDestination>(Node.GetCurrent(), includeRelationships);
+        }
+
+        /// <summary>
+        /// Gets the current Umbraco node as TDestination, only including specified relationships.
+        /// </summary>
+        /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
+        /// <param name="includedRelationships">The relationships to load.</param>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
+        /// <returns>Null if the node does not exist.</returns>
+        public static TDestination GetCurrent<TDestination>(params Expression<Func<TDestination, object>>[] includedRelationships)
+            where TDestination : class, new()
+        {
+            return _engine.Map<TDestination>(Node.GetCurrent(), includedRelationships);
         }
 
         /// <summary>
