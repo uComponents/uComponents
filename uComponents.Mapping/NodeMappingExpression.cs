@@ -15,9 +15,9 @@ namespace uComponents.Mapping
     internal class NodeMappingExpression<TDestination> : INodeMappingExpression<TDestination>
     {
         private NodeMappingEngine _engine { get; set; }
-        private NodeMapper<TDestination> _nodeMapper { get; set; }
+        private NodeMapper _nodeMapper { get; set; }
 
-        public NodeMappingExpression(NodeMappingEngine engine, NodeMapper<TDestination> mapping)
+        public NodeMappingExpression(NodeMappingEngine engine, NodeMapper mapping)
         {
             if (mapping == null)
             {
@@ -52,17 +52,17 @@ namespace uComponents.Mapping
                 throw new ArgumentException("Node type alias cannot be empty or null", "nodeTypeAlias");
             }
 
-            string name = GetPropertyName(destinationProperty);
+            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
 
             var existingPropertyMapper = this._nodeMapper.PropertyMappers
-                .SingleOrDefault(x => x.DestinationInfo.Name == name);
+                .SingleOrDefault(x => x.DestinationInfo.Name == destinationPropertyInfo.Name);
 
             if (existingPropertyMapper != null)
             {
                 _nodeMapper.PropertyMappers.Remove(existingPropertyMapper);
             }
 
-            var newPropertyMapper = new NodePropertyMapper(_nodeMapper, typeof(TDestination).GetProperty(name), nodeTypeAlias);
+            var newPropertyMapper = new NodePropertyMapper(_nodeMapper, destinationPropertyInfo, nodeTypeAlias);
             _nodeMapper.PropertyMappers.Add(newPropertyMapper);
 
             return this;
@@ -91,10 +91,10 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("propertyMapping");
             }
 
-            string name = GetPropertyName(destinationProperty);
+            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
 
             var existingMapper = this._nodeMapper.PropertyMappers
-                .SingleOrDefault(x => x.DestinationInfo.Name == name);
+                .SingleOrDefault(x => x.DestinationInfo.Name == destinationPropertyInfo.Name);
 
             if (existingMapper != null)
             {
@@ -102,7 +102,7 @@ namespace uComponents.Mapping
             }
 
             // Recreate property map
-            var newMapper = new NodePropertyMapper(_nodeMapper, typeof(TDestination).GetProperty(name), propertyMapping, isRelationship);
+            var newMapper = new NodePropertyMapper(_nodeMapper, destinationPropertyInfo, propertyMapping, isRelationship);
 
             _nodeMapper.PropertyMappers.Add(newMapper);
             return this;
@@ -122,10 +122,10 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("destinationProperty");
             }
 
-            string name = GetPropertyName(destinationProperty);
+            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
 
             var existingMapper = this._nodeMapper.PropertyMappers
-                .SingleOrDefault(x => x.DestinationInfo.Name == name);
+                .SingleOrDefault(x => x.DestinationInfo.Name == destinationPropertyInfo.Name);
 
             if (existingMapper != null)
             {
@@ -133,19 +133,6 @@ namespace uComponents.Mapping
             }
 
             return this;
-        }
-
-        private string GetPropertyName<TDest, TProperty>(
-            Expression<Func<TDest, TProperty>> destinationProperty
-            )
-        {
-            if (destinationProperty == null)
-            {
-                throw new InvalidOperationException("The destination member must be specified");
-            }
-
-            var expression = (MemberExpression)destinationProperty.Body;
-            return expression.Member.Name;
         }
     }
 }

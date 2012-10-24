@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using umbraco.NodeFactory;
 using umbraco;
+using System.Linq.Expressions;
 
 namespace uComponents.Mapping
 {
@@ -57,22 +58,21 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Gets an Umbraco node as a strongly typed object.
+        /// Gets an Umbraco node as TDestination.
         /// </summary>
         /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
         /// <param name="id">The id of the node</param>
-        /// <param name="includeRelationships">Whether to include the relationships to the node</param>
         /// <returns>Null if the node does not exist.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
         /// been created with CreateMap</exception>
-        public static TDestination Get<TDestination>(int id, bool includeRelationships = true)
+        public static TDestination GetSingle<TDestination>(int id, bool includeRelationships = true)
             where TDestination : class, new()
         {
             return _engine.Map<TDestination>(new Node(id), includeRelationships);
         }
 
         /// <summary>
-        /// Gets the current Umbraco node as a strongly typed object.
+        /// Gets the current Umbraco node as TDestination.
         /// </summary>
         /// <typeparam name="TDestination">
         /// The type of object that the current Node maps to.
@@ -86,10 +86,10 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Gets all Umbraco nodes which map to the destination model type.
+        /// Gets all Umbraco nodes which map to TDestination.
         /// </summary>
         /// <typeparam name="TDestination">The destination model type.</typeparam>
-        /// <param name="includeRelationships">Whether to include relationships.</param>
+        /// <param name="includeRelationships">Whether to include all relationships.</param>
         /// <returns>The collection of mapped models.</returns>
         public static IEnumerable<TDestination> GetAll<TDestination>(bool includeRelationships = true)
             where TDestination : class, new()
@@ -105,6 +105,30 @@ namespace uComponents.Mapping
 
             return uQuery.GetNodesByType(sourceNodeTypeAlias)
                 .Select(n => _engine.Map<TDestination>(n, includeRelationships));
+        }
+
+        /// <summary>
+        /// Gets all Umbraco nodes which map to TDestination, only including specified relationships.
+        /// </summary>
+        /// <typeparam name="TDestination">The type of object that the nodes map to.</typeparam>
+        /// <param name="includedRelationships">The relationship properties to include.</param>
+        /// <returns>Null if the node does not exist.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
+        public static IEnumerable<TDestination> GetAll<TDestination>(params Expression<Func<TDestination, object>>[] includedRelationships)
+            where TDestination : class, new()
+        {
+            var destinationType = typeof(TDestination);
+
+            if (!_engine.NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            var sourceNodeTypeAlias = _engine.NodeMappers[destinationType].SourceNodeTypeAlias;
+
+            return uQuery.GetNodesByType(sourceNodeTypeAlias)
+                .Select(n => _engine.Map<TDestination>(n, includedRelationships));
         }
     }
 }

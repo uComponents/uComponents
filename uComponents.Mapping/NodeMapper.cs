@@ -129,20 +129,36 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Maps a Node to a strongly typed model
+        /// Maps a Node to a strongly typed model, including all relationships.
         /// </summary>
         /// <param name="sourceNode">The node to map from</param>
-        /// <param name="includeRelationships">
-        /// Whether to include relationships with other nodes
-        /// </param>
         /// <returns>The strongly typed model</returns>
-        public object MapNode(Node sourceNode, bool includeRelationships)
+        public object MapNode(Node sourceNode)
         {
             var destination = Activator.CreateInstance(DestinationType);
 
             foreach (var propertyMapper in PropertyMappers)
             {
-                if (includeRelationships || !propertyMapper.IsRelationship)
+                var destinationValue = propertyMapper.MapProperty(sourceNode);
+                propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
+            }
+
+            return destination;
+        }
+
+        /// <summary>
+        /// Maps a Node to a strongly typed model, excluding relationships except those specified.
+        /// </summary>
+        /// <param name="sourceNode">The node to map from</param>
+        /// <param name="includedRelationships">An array of properties on the model which
+        /// relationships should be mapped to.</param>
+        public object MapNode(Node sourceNode, PropertyInfo[] includedRelationships)
+        {
+            var destination = Activator.CreateInstance(DestinationType);
+
+            foreach (var propertyMapper in PropertyMappers)
+            {
+                if (!propertyMapper.IsRelationship || includedRelationships.Contains(propertyMapper.DestinationInfo))
                 {
                     var destinationValue = propertyMapper.MapProperty(sourceNode);
                     propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
@@ -150,26 +166,6 @@ namespace uComponents.Mapping
             }
 
             return destination;
-        }
-    }
-
-    internal class NodeMapper<TDestination> : NodeMapper, INodeMapper<TDestination>
-    {
-        public NodeMapper(NodeMappingEngine engine, DocumentType sourceDocumentType)
-            : base(engine, typeof(TDestination), sourceDocumentType)
-        {
-        }
-
-        /// <summary>
-        /// Maps a Node to an instance of TDestination
-        /// </summary>
-        /// <param name="sourceNode">The node to map from</param>
-        /// <param name="includeRelationships">
-        /// Whether to include relationships with other nodes
-        /// </param>
-        public new TDestination MapNode(Node sourceNode, bool includeRelationships)
-        {
-            return (TDestination)base.MapNode(sourceNode, includeRelationships);
         }
     }
 }

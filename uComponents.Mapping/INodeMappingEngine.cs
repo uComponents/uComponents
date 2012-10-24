@@ -1,5 +1,7 @@
 ﻿using System;
 using umbraco.NodeFactory;
+using System.Linq.Expressions;
+using System.Reflection;
 namespace uComponents.Mapping
 {
     /// <summary>
@@ -34,15 +36,34 @@ namespace uComponents.Mapping
         /// <param name="includeRelationships">Whether to load relationships to other models.</param>
         /// <returns>A new instance of TDestination, or null if sourceNode is null or invalid.</returns>
         object Map(Node sourceNode, Type destinationType, bool includeRelationships);
+        
+        /// <summary>
+        /// Maps an Umbraco node as a strongly typed object, only including specified relationships.
+        /// </summary>
+        /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="destinationType">The type to map to.</param>
+        /// <param name="includedRelationships">The relationship properties to include.</param>
+        /// <returns>Null if the node does not exist.</returns>
+        object Map(Node sourceNode, Type destinationType, PropertyInfo[] includedRelationships);
 
         /// <summary>
-        /// Gets an Umbraco node as a strongly typed object.
+        /// Maps an Umbraco node as TDestination.
         /// </summary>
         /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
         /// <param name="sourceNode">The node to map from.</param>
         /// <param name="includeRelationships">Whether to include relationships for the node.</param>
         /// <returns>Null if sourceNode is null or invalid.</returns>
         TDestination Map<TDestination>(Node sourceNode, bool includeRelationships) 
+            where TDestination : class, new();
+        
+        /// <summary>
+        /// Maps an Umbraco node as TDestination, only including specified relationships.
+        /// </summary>
+        /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
+        /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="includedRelationships">The relationship properties to include.</param>
+        /// <returns>Null if the node does not exist.</returns>
+        TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new();
     }
 }

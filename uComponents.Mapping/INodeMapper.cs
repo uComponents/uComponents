@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using umbraco.NodeFactory;
+using System.Reflection;
 namespace uComponents.Mapping
 {
     /// <summary>
@@ -9,28 +10,18 @@ namespace uComponents.Mapping
     public interface INodeMapper
     {
         /// <summary>
-        /// Maps a Node to a strongly typed model
+        /// Maps a Node to a strongly typed model, including all relationships.
         /// </summary>
         /// <param name="sourceNode">The node to map from</param>
-        /// <param name="includeRelationships">
-        /// Whether to include relationships with other nodes
-        /// </param>
         /// <returns>The strongly typed model</returns>
-        object MapNode(Node sourceNode, bool includeRelationships);
-    }
+        object MapNode(Node sourceNode);
 
-    /// <summary>
-    /// Property-wise maps a single type of Umbraco Node to an instance of TDestination.
-    /// </summary>
-    public interface INodeMapper<TDestination> : INodeMapper
-    {
         /// <summary>
-        /// Maps a Node to an instance of TDestination
+        /// Maps a Node to a strongly typed model, excluding relationships except those specified.
         /// </summary>
         /// <param name="sourceNode">The node to map from</param>
-        /// <param name="includeRelationships">
-        /// Whether to include relationships with other nodes
-        /// </param>
-        new TDestination MapNode(Node sourceNode, bool includeRelationships);
+        /// <param name="includedRelationships">An array of properties on the model which
+        /// relationships should be mapped to.</param>
+        object MapNode(Node sourceNode, PropertyInfo[] includedRelationships);
     }
 }

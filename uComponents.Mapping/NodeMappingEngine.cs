@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using umbraco;
 using umbraco.cms.businesslogic.web;
 using umbraco.NodeFactory;
+using System.Linq.Expressions;
 
 namespace uComponents.Mapping
 {
@@ -54,7 +55,7 @@ namespace uComponents.Mapping
                 throw new DocumentTypeNotFoundException(documentTypeAlias);
             }
 
-            var nodeMapper = new NodeMapper<TDestination>(this, docType);
+            var nodeMapper = new NodeMapper(this, destinationType, docType);
 
             NodeMappers[destinationType] = nodeMapper;
 
@@ -90,7 +91,7 @@ namespace uComponents.Mapping
                 || string.IsNullOrEmpty(sourceNode.Name))
             {
                 return null;
-            } 
+            }
             else if (!NodeMappers.ContainsKey(destinationType))
             {
                 throw new MapNotFoundException(destinationType);
@@ -103,11 +104,70 @@ namespace uComponents.Mapping
 
             var nodeMapper = NodeMappers[destinationType];
 
-            return nodeMapper.MapNode(sourceNode, includeRelationships);
+            if (includeRelationships)
+            {
+                return nodeMapper.MapNode(sourceNode);
+            }
+            else
+            {
+                // Don't include any relationships
+                return nodeMapper.MapNode(sourceNode, new PropertyInfo[0]);
+            }
         }
 
         /// <summary>
-        /// Gets an Umbraco node as a strongly typed object.
+        /// Gets an Umbraco node as a strongly typed object, only including specified relationships.
+        /// </summary>
+        /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="destinationType">The type to map to.</param>
+        /// <param name="includedRelationships">The relationship properties to include.</param>
+        /// <returns>Null if the node does not exist.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for destinationType has not 
+        /// been created with CreateMap</exception>
+        /// <exception cref="ArgumentNullException">If includedRelationships is null</exception>
+        public object Map(Node sourceNode, Type destinationType, PropertyInfo[] includedRelationships)
+        {
+            if (sourceNode == null
+                || string.IsNullOrEmpty(sourceNode.Name))
+            {
+                return null;
+            }
+            else if (includedRelationships == null)
+            {
+                throw new ArgumentNullException("includedRelationships");
+            }
+            else if (!NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            // Check 'includedRelationships' actually refer to relationships
+            var propertyMappers = NodeMappers[destinationType].PropertyMappers;
+            foreach (var relationshipInfo in includedRelationships)
+            {
+                var propertyMapper = propertyMappers.SingleOrDefault(x => x.DestinationInfo == relationshipInfo);
+
+                if (propertyMapper == null)
+                {
+                    throw new ArgumentException(
+                        string.Format(@"The property '{0}' specified by 'includedRelationships' does 
+not have a valid map", relationshipInfo.Name), "includedRelationships"
+                     );
+                }
+                else if (!propertyMapper.IsRelationship)
+                {
+                    throw new ArgumentException(@"One of the properties on 'destinationType' does not 
+refer to a relationship.", "includedRelationships");
+                }
+            }
+
+            var nodeMapper = NodeMappers[destinationType];
+
+            return nodeMapper.MapNode(sourceNode, includedRelationships);
+        }
+
+        /// <summary>
+        /// Gets an Umbraco node as a TDestination.
         /// </summary>
         /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
         /// <param name="sourceNode">The node to map from.</param>
@@ -119,6 +179,24 @@ namespace uComponents.Mapping
             where TDestination : class, new()
         {
             return (TDestination)Map(sourceNode, typeof(TDestination), includeRelationships);
+        }
+
+        /// <summary>
+        /// Gets an Umbraco node as a TDestination, only including specified relationships.
+        /// </summary>
+        /// <typeparam name="TDestination">The type of object that the node maps to.</typeparam>
+        /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="includedRelationships">The relationship properties to include.</param>
+        /// <returns>Null if the node does not exist.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for TDestination has not 
+        /// been created with CreateMap</exception>
+        public TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
+            where TDestination : class, new()
+        {
+            // Get properties from included relationships expression
+            var properties = includedRelationships.Select(e => (e.Body as MemberExpression).Member as PropertyInfo).ToArray();
+
+            return (TDestination)Map(sourceNode, typeof(TDestination), properties);
         }
     }
 
@@ -159,8 +237,8 @@ to run CreateMap for every model type you are using.", destinationType.FullName)
         /// <param name="destinationType">The destination type being mapped to.</param>
         public WrongNodeForMapException(string nodeTypeAlias, Type destinationType)
             : base(string.Format(@"Node with node type alias '{0}' does not map to
-model type '{1}'.  Make sure you are mapping the correct node.", 
-            nodeTypeAlias, 
+model type '{1}'.  Make sure you are mapping the correct node.",
+            nodeTypeAlias,
             destinationType.FullName
             ))
         {
