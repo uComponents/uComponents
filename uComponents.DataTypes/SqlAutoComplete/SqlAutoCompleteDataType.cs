@@ -5,6 +5,9 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.SqlAutoComplete
 {
+    /// <summary>
+    /// SQL AutoComplete data-type
+    /// </summary>
     public class SqlAutoCompleteDataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
     {
 
@@ -29,6 +32,10 @@ namespace uComponents.DataTypes.SqlAutoComplete
             }
         }
 
+        /// <summary>
+        /// Gets the name of the data type.
+        /// </summary>
+        /// <value>The name of the data type.</value>
         public override string DataTypeName
         {
             get

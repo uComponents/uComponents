@@ -9,6 +9,9 @@ using System.Web;
 
 namespace uComponents.DataTypes.SqlAutoComplete
 {
+    /// <summary>
+    /// Prevalue Editor for SQL AutoComplete
+    /// </summary>
     public class SqlAutoCompletePreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>

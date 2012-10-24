@@ -16,6 +16,9 @@ using umbraco.interfaces;
 [assembly: WebResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.SqlAutoComplete 
 {
+    /// <summary>
+    /// DataEditor for the SQL AutoComplete data-type.
+    /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class SqlAutoCompleteDataEditor : CompositeControl, IDataEditor

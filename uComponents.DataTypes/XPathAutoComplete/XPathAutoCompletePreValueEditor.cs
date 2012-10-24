@@ -9,6 +9,9 @@ using System.Web;
 
 namespace uComponents.DataTypes.XPathAutoComplete
 {
+    /// <summary>
+    /// Prevalue Editor for XPath AutoComplete
+    /// </summary>
     public class XPathAutoCompletePreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>

@@ -32,12 +32,18 @@ namespace uComponents.DataTypes.CheckBoxTree
         public enum AutoSelectionOptions
         {
             /// <summary>
-            /// No Auto Selections
+            /// No auto selections
             /// </summary>
             None = 0,
 
+            /// <summary>
+            /// Ensures ancestors sections
+            /// </summary>
             EnsureAncestors = 1,
 
+            /// <summary>
+            /// Ensures descendants sections
+            /// </summary>
             EnsureDescendants = 2,
         }
 

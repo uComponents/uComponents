@@ -5,6 +5,9 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.XPathAutoComplete
 {
+    /// <summary>
+    /// XPath AutoComplete data-type
+    /// </summary>
     public class XPathAutoCompleteDataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
     {
 
@@ -29,6 +32,10 @@ namespace uComponents.DataTypes.XPathAutoComplete
             }
         }
 
+        /// <summary>
+        /// Gets the name of the data type.
+        /// </summary>
+        /// <value>The name of the data type.</value>
         public override string DataTypeName
         {
             get
