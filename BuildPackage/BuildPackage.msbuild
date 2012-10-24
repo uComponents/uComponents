@@ -11,7 +11,7 @@
 		<VersionMajor>5</VersionMajor>
 		<VersionMinor>1</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-dev</VersionSuffix>
+		<VersionSuffix></VersionSuffix>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -62,6 +62,16 @@
 			<BinFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.dll" />
+			<DebugFiles Include="$(RootDir)\bin\Release\uComponents.Core.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.pdb" />
 			<XmlFiles Include="$(RootDir)\bin\Release\uComponents.Core.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.xml" />
