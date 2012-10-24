@@ -92,10 +92,6 @@
     <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="AutoComplete\AutoCompleteDataEditorUpdatePanel.cs" />
-    <Compile Include="AutoComplete\AutoCompleteDataType.cs" />
-    <Compile Include="AutoComplete\AutoCompleteOptions.cs" />
-    <Compile Include="AutoComplete\AutoCompletePreValueEditor.cs" />
     <Compile Include="CharLimit\CharLimitControl.cs" />
     <Compile Include="CharLimit\CharLimitDataType.cs" />
     <Compile Include="CharLimit\CharLimitOptions.cs" />
@@ -281,12 +277,10 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AutoComplete\scripts\jquery.autocomplete.min.js" />
     <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.css" />
     <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.js" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.css" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.js" />
-    <EmbeddedResource Include="AutoComplete\Styles\autocomplete.css" />
     <EmbeddedResource Include="CharLimit\CharLimit.js" />
     <EmbeddedResource Include="DataTypeGrid\Css\DTG_DataEditor.css" />
     <EmbeddedResource Include="DataTypeGrid\Css\DTG_PrevalueEditor.css" />
