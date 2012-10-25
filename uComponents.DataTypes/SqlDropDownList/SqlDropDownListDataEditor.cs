@@ -100,9 +100,11 @@ namespace uComponents.DataTypes.SqlDropDownList
 				sql = sql.Replace("@currentId", uQuery.GetIdFromQueryString());
 			}
 			
-			using (SqlConnection sqlConnection = new SqlConnection(this.options.GetConnectionString()))
+			// TODO: [LK] Change to use uQuery.SqlHelper?
+
+			using (var sqlConnection = new SqlConnection(this.options.GetConnectionString()))
 			{
-				SqlCommand sqlCommand = new SqlCommand()
+				var sqlCommand = new SqlCommand()
 				{
 					Connection = sqlConnection,
 					CommandType = CommandType.Text,
@@ -111,7 +113,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 
 				sqlConnection.Open();
 
-				SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+				var sqlDataReader = sqlCommand.ExecuteReader();
 				if (sqlDataReader.HasRows)
 				{
 					this.dropDownList.DataSource = sqlDataReader;
@@ -124,7 +126,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 			}
 
 			// Add a default please select value
-			this.dropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
+			this.dropDownList.Items.Insert(0, new ListItem(string.Concat(ui.Text("choose"), "..."), string.Empty));
 
 			this.Controls.Add(this.customValidator);
 			this.Controls.Add(this.dropDownList);
@@ -155,14 +157,14 @@ namespace uComponents.DataTypes.SqlDropDownList
 		/// </summary>
 		public void Save()
 		{
-			Property property = new Property(((DefaultData)this.data).PropertyId);
-			if (property.PropertyType.Mandatory && this.dropDownList.SelectedValue == "-1")
+			var property = new Property(((DefaultData)this.data).PropertyId);
+			if (property.PropertyType.Mandatory && this.dropDownList.SelectedIndex == 0)
 			{
 				// Property is mandatory, but no value selected in the DropDownList
 				this.customValidator.IsValid = false;
 
-				DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
-				ContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+				var documentType = new DocumentType(property.PropertyType.ContentTypeId);
+				var tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
 
 				if (tab != null)
 				{

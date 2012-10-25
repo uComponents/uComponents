@@ -84,7 +84,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 			this.sqlCustomValidator.Display = ValidatorDisplay.Dynamic;
 			this.sqlCustomValidator.ServerValidate += new ServerValidateEventHandler(this.SqlCustomValidator_ServerValidate);
 
-			this.connectionStringDropDownList.ID = "connectionStringDeopDownList";
+			this.connectionStringDropDownList.ID = "connectionStringDropDownList";
 			this.connectionStringDropDownList.Items.Add(new ListItem("Umbraco (default)", string.Empty));
 
 			foreach (ConnectionStringSettings connectionStringSettings in ConfigurationManager.ConnectionStrings)
@@ -92,10 +92,10 @@ namespace uComponents.DataTypes.SqlDropDownList
 				this.connectionStringDropDownList.Items.Add(new ListItem(connectionStringSettings.Name, connectionStringSettings.Name));
 			}
 
-			this.Controls.Add(this.sqlTextBox);
-			this.Controls.Add(this.sqlRequiredFieldValidator);
-			this.Controls.Add(this.sqlCustomValidator);
-			this.Controls.Add(this.connectionStringDropDownList);
+			this.Controls.AddPrevalueControls(this.sqlTextBox, 
+				this.sqlRequiredFieldValidator, 
+				this.sqlCustomValidator, 
+				this.connectionStringDropDownList);
 		}
 
 		/// <summary>

@@ -60,10 +60,11 @@ namespace uComponents.DataTypes.SubTabs
             base.CreateChildControls();
 
             this.tabsCheckBoxList.ID = "tabsCheckBoxList";
+			// TODO: [LK->HR] The 'cmsTab' table has been renamed in v4.10 - lets use the API to future-proof this
             this.tabsCheckBoxList.DataSource = uQuery.SqlHelper.ExecuteReader(@"
 
                 SELECT              B.alias + ' - ' + A.text    AS 'Text',
-		                            A.id                        AS 'Value'
+                                    A.id                        AS 'Value'
                 FROM                cmsTab A
                 LEFT OUTER JOIN     cmsContentType B ON A.contenttypeNodeId = B.nodeId
                 ORDER BY            B.alias, A.sortorder

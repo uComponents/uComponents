@@ -44,7 +44,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 			if (!string.IsNullOrWhiteSpace(this.ConnectionStringName))
 			{
 				// attempt to get connection string from the web.config
-				ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
+				var connectionStringSettings = ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
 				if (connectionStringSettings != null)
 				{
 					return connectionStringSettings.ConnectionString;
