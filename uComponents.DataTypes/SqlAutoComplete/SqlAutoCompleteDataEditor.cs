@@ -109,10 +109,10 @@ namespace uComponents.DataTypes.SqlAutoComplete
         }
 
         /// <summary>
-		/// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
-		/// </summary>
-		protected override void CreateChildControls()
-		{
+        /// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
+        /// </summary>
+        protected override void CreateChildControls()
+        {
             // wrapping div
             HtmlGenericControl div = new HtmlGenericControl("div");
 
@@ -138,16 +138,16 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
             this.Controls.Add(div);
             this.Controls.Add(this.customValidator);
-		}
+        }
 
-		/// <summary>
-		/// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
-		/// </summary>
-		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-			this.EnsureChildControls();
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            this.EnsureChildControls();
             
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.SqlAutoComplete.SqlAutoComplete.js", ClientDependencyType.Javascript);
@@ -170,20 +170,20 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
             // put the options obj into cache so that the /base method can request it (where the sql statment is being used)
             HttpContext.Current.Cache[DataTypeConstants.SqlAutoCompleteId + "_options_" + this.DataTypeDefinitionId.ToString()] = this.options;
-		}
+        }
 
-		/// <summary>
-		/// Called by Umbraco when saving the node
-		/// </summary>
-		public void Save()
-		{
-            string xml = this.selectedItemsHiddenField.Value;
-            int items = 0; // to validate on the number of items selected
+        /// <summary>
+        /// Called by Umbraco when saving the node
+        /// </summary>
+        public void Save()
+        {
+            var xml = this.selectedItemsHiddenField.Value;
+            var items = 0; // to validate on the number of items selected
 
             // There should be a valid xml fragment (or empty) in the hidden field
             if (!string.IsNullOrWhiteSpace(xml))
             {
-                XmlDocument xmlDocument = new XmlDocument();
+                var xmlDocument = new XmlDocument();
                 xmlDocument.LoadXml(xml);
 
                 items = xmlDocument.SelectNodes("//Item").Count;
@@ -202,13 +202,13 @@ namespace uComponents.DataTypes.SqlAutoComplete
 
             if (!customValidator.IsValid)
             {
-                Property property = new Property(((XmlData)this.data).PropertyId);
+                var property = new Property(((XmlData)this.data).PropertyId);
                 // property.PropertyType.Mandatory - IGNORE, always use the configuration parameters
-					
+
                 this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorRegExpWithoutTab", property.PropertyType.Name, User.GetCurrent());
             }
             
             this.data.Value = xml;
-		}    
+        }    
     }
 }

@@ -197,6 +197,7 @@
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs" />
     <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
     <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
+    <Compile Include="Shared\Models\AutoCompleteItem.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractJsonPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\AbstractPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\DefaultPrevalueEditor.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Similarity\SimilarityModelBinder.cs" />
     <Compile Include="Similarity\SimilarityPrevalueEditor.cs" />
     <Compile Include="Similarity\SimilarityResources.Designer.cs" />
+    <Compile Include="SqlAutoComplete\SqlAutoCompleteModelBinder.cs" />
     <Compile Include="SqlAutoComplete\SqlAutoCompleteBase.cs" />
     <Compile Include="SqlAutoComplete\SqlAutoCompleteDataEditor.cs" />
     <Compile Include="SqlAutoComplete\SqlAutoCompleteDataType.cs" />
@@ -270,6 +272,7 @@
     <Compile Include="UserPicker\UserPickerDataType.cs" />
     <Compile Include="UserPicker\UserPickerOptions.cs" />
     <Compile Include="UserPicker\UserPickerPrevalueEditor.cs" />
+    <Compile Include="XPathAutoComplete\XPathAutoCompleteModelBinder.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteBase.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataEditor.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />

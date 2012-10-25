@@ -153,12 +153,10 @@ namespace uComponents.DataTypes.XPathAutoComplete
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathAutoComplete.XPathAutoComplete.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathAutoComplete.XPathAutoComplete.js", ClientDependencyType.Javascript);
 
-            string startupScript = @"                
+            string startupScript = @"
                 <script language='javascript' type='text/javascript'>
                     $(document).ready(function () {
-
                         XPathAutoComplete.init(jQuery('input#" + this.autoCompleteTextBox.ClientID + @"'));
-
                     });
                 </script>";
 
@@ -170,7 +168,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
             }
 
             // put the options obj into cache so that the /base method can request it (where the XPath query is being used)
-            HttpContext.Current.Cache[DataTypeConstants.XPathAutoCompleteId + "_options_" + this.DataTypeDefinitionId.ToString()] = this.options;
+            HttpContext.Current.Cache[string.Concat(DataTypeConstants.XPathAutoCompleteId, "_options_", this.DataTypeDefinitionId)] = this.options;
         }
 
         /// <summary>
@@ -178,13 +176,13 @@ namespace uComponents.DataTypes.XPathAutoComplete
         /// </summary>
         public void Save()
         {
-            string xml = this.selectedItemsHiddenField.Value;
-            int items = 0; // to validate on the number of items selected
+            var xml = this.selectedItemsHiddenField.Value;
+            var items = 0; // to validate on the number of items selected
 
             // There should be a valid xml fragment (or empty) in the hidden field
             if (!string.IsNullOrWhiteSpace(xml))
             {
-                XmlDocument xmlDocument = new XmlDocument();
+                var xmlDocument = new XmlDocument();
                 xmlDocument.LoadXml(xml);
 
                 items = xmlDocument.SelectNodes("//Item").Count;
@@ -203,7 +201,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
 
             if (!customValidator.IsValid)
             {
-                Property property = new Property(((XmlData)this.data).PropertyId);
+                var property = new Property(((XmlData)this.data).PropertyId);
                 // property.PropertyType.Mandatory - IGNORE, always use the configuration parameters
 
                 this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorRegExpWithoutTab", property.PropertyType.Name, User.GetCurrent());
