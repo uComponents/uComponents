@@ -76,6 +76,10 @@
     <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="DataTypes\AutoComplete\AutoCompleteDataEditorUpdatePanel.cs" />
+    <Compile Include="DataTypes\AutoComplete\AutoCompleteDataType.cs" />
+    <Compile Include="DataTypes\AutoComplete\AutoCompleteOptions.cs" />
+    <Compile Include="DataTypes\AutoComplete\AutoCompletePreValueEditor.cs" />
     <Compile Include="DataTypes\ImageDropdown\ID_DataEditor.cs" />
     <Compile Include="DataTypes\ImageDropdown\ID_DataType.cs" />
     <Compile Include="DataTypes\JsonDropdown\JD_Control.cs" />
@@ -194,6 +198,10 @@
     <EmbeddedResource Include="DataTypes\MultipleTextstring\MultipleTextstring.css" />
     <EmbeddedResource Include="DataTypes\MultipleTextstring\MultipleTextstring.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataTypes\AutoComplete\Scripts\jquery.autocomplete.min.js" />
+    <EmbeddedResource Include="DataTypes\AutoComplete\Styles\autocomplete.css" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -202,26 +210,26 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-	<!-- Minify all JavaScript files that were embedded as resources -->
-	<Import Project="..\BuildPackage\MSBuildTasks\AjaxMin.Tasks.Targets" />
-	<PropertyGroup>
-		<ResGenDependsOn>
+  <!-- Minify all JavaScript files that were embedded as resources -->
+  <Import Project="..\BuildPackage\MSBuildTasks\AjaxMin.Tasks.Targets" />
+  <PropertyGroup>
+    <ResGenDependsOn>
 			MinifyJavaScript;
 			$(ResGenDependsOn)
 		</ResGenDependsOn>
-	</PropertyGroup>
-	<Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
-		<Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">
-			<Output TaskParameter="DestinationFiles" ItemName="EmbeddedJavaScriptResource" />
-		</Copy>
-		<Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.css'">
-			<Output TaskParameter="DestinationFiles" ItemName="EmbeddedCssResource" />
-		</Copy>
-		<AjaxMin JsSourceFiles="@(EmbeddedJavaScriptResource)" JsSourceExtensionPattern="\.js$" JsTargetExtension=".js" CssSourceFiles="@(EmbeddedCssResource)" CssSourceExtensionPattern="\.css$" CssTargetExtension=".css" />
-		<ItemGroup>
-			<EmbeddedResource Remove="@(EmbeddedResource)" Condition="'%(Extension)'=='.js' OR '%(Extension)'=='.css'" />
-			<EmbeddedResource Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource)" />
-			<FileWrites Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource" />
-		</ItemGroup>
-	</Target>
+  </PropertyGroup>
+  <Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
+    <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">
+      <Output TaskParameter="DestinationFiles" ItemName="EmbeddedJavaScriptResource" />
+    </Copy>
+    <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.css'">
+      <Output TaskParameter="DestinationFiles" ItemName="EmbeddedCssResource" />
+    </Copy>
+    <AjaxMin JsSourceFiles="@(EmbeddedJavaScriptResource)" JsSourceExtensionPattern="\.js$" JsTargetExtension=".js" CssSourceFiles="@(EmbeddedCssResource)" CssSourceExtensionPattern="\.css$" CssTargetExtension=".css" />
+    <ItemGroup>
+      <EmbeddedResource Remove="@(EmbeddedResource)" Condition="'%(Extension)'=='.js' OR '%(Extension)'=='.css'" />
+      <EmbeddedResource Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource)" />
+      <FileWrites Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource" />
+    </ItemGroup>
+  </Target>
 </Project>

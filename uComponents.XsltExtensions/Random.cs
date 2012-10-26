@@ -22,6 +22,35 @@ namespace uComponents.XsltExtensions
 		}
 
 		/// <summary>
+		/// Gets the random items from CSV.
+		/// </summary>
+		/// <param name="csv">The CSV.</param>
+		/// <param name="count">The count.</param>
+		/// <returns>Returns a random selection of items from the original comma-separated values.</returns>
+		public static string GetRandomItemsFromCsv(string csv, int count)
+		{
+			// if empty, return empty
+			if (string.IsNullOrWhiteSpace(csv))
+				return string.Empty;
+
+			// split CSV, load into array
+			var list = csv.Split(new[] { Constants.Common.COMMA }, StringSplitOptions.RemoveEmptyEntries);
+
+			// randomly sort the order of the list (based on GUIDs)
+			var items = list.OrderBy(s => Guid.NewGuid()).ToList();
+
+			// if the number of items is larger than the count...
+			if (items.Count >= count)
+			{
+				// ... then take the first [x] items
+				items = items.Take(count).ToList();
+			}
+
+			// rebuild the CSV
+			return string.Join(new string(Constants.Common.COMMA, 1), items.ToArray());
+		}
+
+		/// <summary>
 		/// Gets the random GUID.
 		/// </summary>
 		/// <returns>Returns a random GUID.</returns>

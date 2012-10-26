@@ -5,9 +5,9 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SqlDropDownList
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
 	internal class SqlDropDownListOptions : AbstractOptions
 	{
 		/// <summary>
@@ -22,7 +22,7 @@ namespace uComponents.DataTypes.SqlDropDownList
 		{
 		}
 
-		/// <summary>
+        /// <summary>
 		/// Sql expression used to get drop down list values
 		/// this expression must return both Text and Value fields
 		/// </summary>
@@ -35,16 +35,16 @@ namespace uComponents.DataTypes.SqlDropDownList
 		[DefaultValue("")]
 		public string ConnectionStringName { get; set; }
 
-		/// <summary>
+        /// <summary>
 		/// Checks web.config for a matching named connection string, else returns the current Umbraco database connection
-		/// </summary>
+        /// </summary>
 		/// <returns>a connection string</returns>
 		public string GetConnectionString()
-		{
+        {
 			if (!string.IsNullOrWhiteSpace(this.ConnectionStringName))
 			{
 				// attempt to get connection string from the web.config
-				ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
+				var connectionStringSettings = ConfigurationManager.ConnectionStrings[this.ConnectionStringName];
 				if (connectionStringSettings != null)
 				{
 					return connectionStringSettings.ConnectionString;
@@ -52,6 +52,6 @@ namespace uComponents.DataTypes.SqlDropDownList
 			}
 
 			return uQuery.SqlHelper.ConnectionString; // default if unknown;
-		}
+        }
 	}
 }

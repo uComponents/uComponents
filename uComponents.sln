@@ -40,7 +40,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2ADE05-3906-4DDA-87E3-4D84539AB51C}"
 	ProjectSection(SolutionItems) = preProject
 		MIT-LICENSE.txt = MIT-LICENSE.txt
-		uComponents.vsmdi = uComponents.vsmdi
+		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Core.UnitTests", "uComponents.Core.UnitTests\uComponents.Core.UnitTests.csproj", "{35953BAA-8E67-4E27-B4E5-96D142DC924B}"
@@ -48,6 +48,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{026CA274-604D-49B5-932B-EB88A1E20BF3}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
+		uComponents.vsmdi = uComponents.vsmdi
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.XsltExtensions", "uComponents.XsltExtensions\uComponents.XsltExtensions.csproj", "{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}"
@@ -66,17 +67,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Legacy", "uComp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.MacroEngines", "uComponents.MacroEngines\uComponents.MacroEngines.csproj", "{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Mapping", "uComponents.Mapping\uComponents.Mapping.csproj", "{8E3F9D04-DF53-42A9-ADF7-3B832E642052}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs04
-		SccProjectUniqueName0 = uComponents.Core\\uComponents.Core.csproj
-		SccProjectName0 = uComponents.Core
-		SccAuxPath0 = https://tfs.codeplex.com/tfs/tfs04
-		SccLocalPath0 = uComponents.Core
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = uComponents.vsmdi
 	EndGlobalSection
@@ -125,6 +118,10 @@ Global
 		{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3837F77-26D5-4907-A0B4-0B38D6BCAD48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E3F9D04-DF53-42A9-ADF7-3B832E642052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E3F9D04-DF53-42A9-ADF7-3B832E642052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E3F9D04-DF53-42A9-ADF7-3B832E642052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E3F9D04-DF53-42A9-ADF7-3B832E642052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

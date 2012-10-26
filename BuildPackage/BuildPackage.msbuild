@@ -9,7 +9,7 @@
 	<!-- PROPERTIES -->
 	<PropertyGroup>
 		<VersionMajor>5</VersionMajor>
-		<VersionMinor>0</VersionMinor>
+		<VersionMinor>1</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionSuffix></VersionSuffix>
 	</PropertyGroup>
@@ -58,9 +58,30 @@
 			<BinFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.dll" />
+			<DebugFiles Include="$(RootDir)\bin\Release\uComponents.Core.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.pdb" />
+			<XmlFiles Include="$(RootDir)\bin\Release\uComponents.Core.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.xml" />
 			<PluginFiles Include="$(RootDir)\..\uComponents.Installer\*.ascx" />
 			<PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
 			<NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
@@ -73,6 +94,7 @@
 		<Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildUmbDir)" />
 		<!-- COPY FOR NUGET PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
+		<Copy SourceFiles="@(XmlFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildNuGetDir)\content\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
 	</Target>

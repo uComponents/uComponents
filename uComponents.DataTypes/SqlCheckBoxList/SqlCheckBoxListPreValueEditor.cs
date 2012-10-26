@@ -27,9 +27,9 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// </summary>
 		private CustomValidator sqlCustomValidator = new CustomValidator();
 
-		/// <summary>
+        /// <summary>
 		/// drop down list of all web.config connection strings strings + default of the umbraco app setting connection string
-		/// </summary>
+        /// </summary>
 		private DropDownList connectionStringDropDownList = new DropDownList();
 
 		/// <summary>

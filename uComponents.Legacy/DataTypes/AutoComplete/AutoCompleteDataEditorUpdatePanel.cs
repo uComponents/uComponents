@@ -13,7 +13,7 @@ using umbraco.cms.businesslogic.member;
 using umbraco.editorControls;
 using umbraco.interfaces;
 
-[assembly: WebResource("uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.Legacy.DataTypes.AutoComplete.Styles.autocomplete.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
 
 namespace uComponents.DataTypes.AutoComplete
 {
@@ -60,11 +60,11 @@ namespace uComponents.DataTypes.AutoComplete
             }
         }
 
-        private uQuery.UmbracoObjectType TypeToPick
+        private umbraco.uQuery.UmbracoObjectType TypeToPick
         {
             get
             {
-                return uQuery.GetUmbracoObjectType(new Guid(this.options.TypeToPick));
+                return umbraco.uQuery.GetUmbracoObjectType(new Guid(this.options.TypeToPick));
             }
         }
 
@@ -95,14 +95,14 @@ namespace uComponents.DataTypes.AutoComplete
 
             switch (this.TypeToPick)
             {
-                case uQuery.UmbracoObjectType.Document:
-                    this.sourceItems = uQuery.GetNodesByXPath(xPath).ToNameIds();
+                case umbraco.uQuery.UmbracoObjectType.Document:
+                    this.sourceItems = umbraco.uQuery.GetNodesByXPath(xPath).ToNameIds();
                     break;
-                case uQuery.UmbracoObjectType.Media:
-                    this.sourceItems = uQuery.GetMediaByXPath(xPath).ToNameIds();
+                case umbraco.uQuery.UmbracoObjectType.Media:
+                    this.sourceItems = umbraco.uQuery.GetMediaByXPath(xPath).ToNameIds();
                     break;
-                case uQuery.UmbracoObjectType.Member:
-                    this.sourceItems = uQuery.GetMembersByXPath(xPath).ToNameIds();
+                case umbraco.uQuery.UmbracoObjectType.Member:
+                    this.sourceItems = umbraco.uQuery.GetMembersByXPath(xPath).ToNameIds();
                     break;
             }
         }
@@ -138,7 +138,7 @@ namespace uComponents.DataTypes.AutoComplete
         #region helpers
 
         private static Dictionary<int, string> BuildIntStringDictionary(
-            string csv, uQuery.UmbracoObjectType umbracoObjectType)
+            string csv, umbraco.uQuery.UmbracoObjectType umbracoObjectType)
         {
             Dictionary<int, string> dictionary = new Dictionary<int, string>();
 
@@ -148,31 +148,31 @@ namespace uComponents.DataTypes.AutoComplete
         }
 
         private static void BuildIntStringDictionary(
-            string csv, uQuery.UmbracoObjectType umbracoObjectType, ref Dictionary<int, string> collection)
+            string csv, umbraco.uQuery.UmbracoObjectType umbracoObjectType, ref Dictionary<int, string> collection)
         {
             //for each id, get content item, and add id and name to dictionary
             if (!string.IsNullOrEmpty(csv))
             {
                 switch (umbracoObjectType)
                 {
-                    case uQuery.UmbracoObjectType.Document:
-                        foreach (var node in uQuery.GetNodesByCsv(csv))
+                    case umbraco.uQuery.UmbracoObjectType.Document:
+                        foreach (var node in umbraco.uQuery.GetNodesByCsv(csv))
                         {
                             collection.Add(node.Id, node.Name);
                         }
 
                         break;
 
-                    case uQuery.UmbracoObjectType.Media:
-                        foreach (Media media in uQuery.GetMediaByCsv(csv))
+                    case umbraco.uQuery.UmbracoObjectType.Media:
+                        foreach (Media media in umbraco.uQuery.GetMediaByCsv(csv))
                         {
                             collection.Add(media.Id, media.Text);
                         }
 
                         break;
 
-                    case uQuery.UmbracoObjectType.Member:
-                        foreach (Member member in uQuery.GetMembersByCsv(csv))
+                    case umbraco.uQuery.UmbracoObjectType.Member:
+                        foreach (Member member in umbraco.uQuery.GetMembersByCsv(csv))
                         {
                             collection.Add(member.Id, member.Text);
                         }
@@ -265,7 +265,7 @@ namespace uComponents.DataTypes.AutoComplete
             //string autocompleteCss = "<link rel='stylesheet' href='/umbraco/plugins/AutoComplete/autocomplete.css'/>";
             //this.Page.ClientScript.RegisterClientScriptBlock(autocompleteCss.GetType(), "autocompleteCss", autocompleteCss);
             this.RegisterEmbeddedClientResource(
-                "uComponents.DataTypes.AutoComplete.Styles.autocomplete.css", ClientDependencyType.Css);
+                "uComponents.Legacy.DataTypes.AutoComplete.Styles.autocomplete.css", ClientDependencyType.Css);
         }
 
         /// <summary>

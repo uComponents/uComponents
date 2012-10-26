@@ -141,6 +141,11 @@
 		public const string SliderId = "B5BD6E2C-464B-406B-BCCE-A132E7D76981";
 
         /// <summary>
+        /// Guid foor the SqlAutoComplete data-type.
+        /// </summary>
+        public const string SqlAutoCompleteId = "EE395ED1-CE6E-4417-AEEB-BCA780D3E96B";
+
+        /// <summary>
         /// Guid for the SqlCheckBoxList data-type.
         /// </summary>
         public const string SqlCheckBoxListId = "D406BD87-9E1D-45B8-B529-9B67FF63BC0D";
@@ -189,6 +194,11 @@
 		/// Guid for the UserPicker data-type.
 		/// </summary>
 		public const string UserPickerId = "DEC7A504-ABD1-4F35-A136-58B89DCF174C";
+
+        /// <summary>
+        /// Guid for the XPathAutoComplete data-type.
+        /// </summary>
+        public const string XPathAutoCompleteId = "6905F13E-829D-4827-9B9F-72D5A00E7A9E";
 
 		/// <summary>
 		/// Guid for the XPathCheckBoxList data-type.

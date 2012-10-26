@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using uComponents.Core;
 using umbraco.editorControls;
+using uComponents.DataTypes.CheckBoxTree;
 
 namespace uComponents.DataTypes.CheckBoxTree
 {
@@ -25,26 +26,47 @@ namespace uComponents.DataTypes.CheckBoxTree
 		{
 		}
 
-		/// <summary>
-		/// The expand options.
-		/// </summary>
-		public enum ExpandOptions
-		{
-			/// <summary>
-			/// Collapse All
-			/// </summary>
-			None = 0,
+        /// <summary>
+        /// defines each combination of options required to configure the main types of tree selection logic
+        /// </summary>
+        public enum AutoSelectionOptions
+        {
+            /// <summary>
+            /// No auto selections
+            /// </summary>
+            None = 0,
 
-			/// <summary>
-			/// Expand All
-			/// </summary>
-			All = 1,
+            /// <summary>
+            /// Ensures ancestors sections
+            /// </summary>
+            EnsureAncestors = 1,
 
-			/// <summary>
-			/// Expand Selected
-			/// </summary>
-			Selected = 2
-		}
+            /// <summary>
+            /// Ensures descendants sections
+            /// </summary>
+            EnsureDescendants = 2,
+        }
+
+        /// <summary>
+        /// The expand options.
+        /// </summary>
+        public enum ExpandOptions
+        {
+            /// <summary>
+            /// Collapse All
+            /// </summary>
+            None = 0,
+
+            /// <summary>
+            /// Expand All
+            /// </summary>
+            All = 1,
+
+            /// <summary>
+            /// Expand Selected
+            /// </summary>
+            Selected = 2
+        }
 
 		/// <summary>
 		/// Gets or sets the start tree node X path.
@@ -57,15 +79,9 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// Gets or sets the selectable tree nodes X path.
 		/// </summary>
 		/// <value>The selectable tree nodes X path.</value>
-		[DefaultValue("")]
+		[DefaultValue("//*")]
 		public string SelectableTreeNodesXPath { get; set; }
 
-		/// <summary>
-		/// Gets or sets the output format.
-		/// </summary>
-		/// <value>The output format.</value>
-		[DefaultValue(Settings.OutputFormat.XML)]
-		public Settings.OutputFormat OutputFormat { get; set; }
 
 		/// <summary>
 		/// Gets or sets the min selection.
@@ -81,19 +97,11 @@ namespace uComponents.DataTypes.CheckBoxTree
 		[DefaultValue(0)]
 		public int MaxSelection { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether [select ancestors].
-		/// </summary>
-		/// <value><c>true</c> if [select ancestors]; otherwise, <c>false</c>.</value>
-		[DefaultValue(false)]
-		public bool SelectAncestors { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether [select descendents].
-		/// </summary>
-		/// <value><c>true</c> if [select descendents]; otherwise, <c>false</c>.</value>
-		[DefaultValue(false)]
-		public bool SelectDescendents { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        [DefaultValue(AutoSelectionOptions.None)]
+        public AutoSelectionOptions AutoSelectionOption { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether [show tree icons].
@@ -108,5 +116,12 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// <value>The expand option.</value>
 		[DefaultValue(ExpandOptions.Selected)]
 		public ExpandOptions ExpandOption { get; set; }
+
+        /// <summary>
+        /// Gets or sets the output format.
+        /// </summary>
+        /// <value>The output format.</value>
+        [DefaultValue(Settings.OutputFormat.XML)]
+        public Settings.OutputFormat OutputFormat { get; set; }
 	}
 }

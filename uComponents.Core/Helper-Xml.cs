@@ -4,10 +4,10 @@ using umbraco;
 
 namespace uComponents.Core
 {
-    /// <summary>
-    /// Generic helper methods
-    /// </summary>
-	public static partial class Helper
+	/// <summary>
+	/// Generic helper methods
+	/// </summary>
+	internal static partial class Helper
 	{
 		/// <summary>
 		/// Xml helper

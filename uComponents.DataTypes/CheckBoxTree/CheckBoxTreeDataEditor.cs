@@ -11,7 +11,11 @@ using umbraco.interfaces;
 using umbraco.NodeFactory;
 using CmsContentType = umbraco.cms.businesslogic.ContentType;
 using CmsProperty = umbraco.cms.businesslogic.property.Property;
+using umbraco.editorControls;
+using System.Web.UI.HtmlControls;
 
+[assembly: WebResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.css", Constants.MediaTypeNames.Text.Css)]
+[assembly: WebResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.CheckBoxTree
 {
 	/// <summary>
@@ -127,12 +131,13 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
 		protected override void OnInit(EventArgs e)
 		{
-			base.OnInit(e);
-
+			base.OnInit(e);            
+            
 			this.minSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MinSelectionCustomValidator_ServerValidate);
 			this.maxSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MaxSelectionCustomValidator_ServerValidate);
 
-			CmsProperty property = new CmsProperty(((DefaultData)this.data).PropertyId);
+
+			CmsProperty property = new CmsProperty(((umbraco.cms.businesslogic.datatype.DefaultData)this.data).PropertyId);
 			DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
 			CmsContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
 
@@ -141,11 +146,6 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.minSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab requires a minimum of ", this.options.MinSelection.ToString(), " selections<br/>");
 				this.maxSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab has exceeded the maximum number of selections<br/>");
 			}
-
-			if (this.options.SelectAncestors || this.options.SelectDescendents)
-			{
-				this.treeView.Attributes.Add("onclick", "OnCheckBoxCheckChanged(event)");
-			}
 		}
 
 		/// <summary>
@@ -153,11 +153,19 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			base.CreateChildControls();
+            // wrapping div
+            HtmlGenericControl div = new HtmlGenericControl("div");
 
-			this.Controls.Add(this.treeView);
-			this.Controls.Add(this.minSelectionCustomValidator);
-			this.Controls.Add(this.maxSelectionCustomValidator);
+            div.Attributes.Add("class", "check-box-tree");
+            div.Attributes.Add("data-auto-selection-option", ((int)this.options.AutoSelectionOption).ToString());
+
+            this.treeView.ShowLines = true;            
+            
+            div.Controls.Add(this.treeView);
+            div.Controls.Add(this.minSelectionCustomValidator);
+            div.Controls.Add(this.maxSelectionCustomValidator);
+
+            this.Controls.Add(div);
 		}
 
 		/// <summary>
@@ -168,6 +176,20 @@ namespace uComponents.DataTypes.CheckBoxTree
 		{
 			base.OnLoad(e);
 			this.EnsureChildControls();
+
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.css", ClientDependencyType.Css);
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.js", ClientDependencyType.Javascript);
+
+            string startupScript = @"                
+                <script language='javascript' type='text/javascript'>
+                    $(document).ready(function () {
+
+                        CheckBoxTree.init(jQuery('div#" + this.treeView.ClientID + @"'));
+
+                    });
+                </script>";
+
+            ScriptManager.RegisterStartupScript(this, typeof(CheckBoxTreeDataEditor), this.ClientID + "_init", startupScript, false);
 
 			if (!this.Page.IsPostBack)
 			{
@@ -224,7 +246,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 
 					default:
 						break;
-				}
+				}               
 			}
 		}
 
@@ -233,30 +255,24 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		/// <param name="parentTreeNode">The parent tree node.</param>
 		/// <param name="node">The node.</param>
-		public void AddTreeNode(TreeNode parentTreeNode, Node node)
+		private void AddTreeNode(TreeNode parentTreeNode, Node node)
 		{
-			//// bool recurseChildren = true;
-
 			TreeNode treeNode = this.GetTreeNode(node);
 
 			parentTreeNode.ChildNodes.Add(treeNode);
 
-			// how do we configure this recurse children setting?
-			// if (recurseChildren)
-			// {
 			foreach (Node childNode in node.GetChildNodes())
 			{
 				this.AddTreeNode(treeNode, childNode);
 			}
-			// }
 		}
 
 		/// <summary>
-		/// Gets the tree node.
+		/// Gets an ASP.NET TreeNode from an Umbraco Node
 		/// </summary>
-		/// <param name="node">The node.</param>
-		/// <returns></returns>
-		private TreeNode GetTreeNode(Node node) //// public static explicit operator TreeNode(Node node) ??
+		/// <param name="node">The Umbraco Node.</param>
+		/// <returns>an ASP.NET TreeNode</returns>
+		private TreeNode GetTreeNode(Node node)
 		{
 			TreeNode treeNode = new TreeNode();
 
@@ -340,102 +356,8 @@ namespace uComponents.DataTypes.CheckBoxTree
 			}
 			else
 			{
-				this.data.Value = csv;
+				this.data.Value = csv;                
 			}
-		}
-
-		/// <summary>
-		/// Writes the <see cref="T:System.Web.UI.WebControls.CompositeControl"/> content to the specified <see cref="T:System.Web.UI.HtmlTextWriter"/> object, for display on the client.
-		/// </summary>
-		/// <param name="writer">An <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
-		protected override void Render(HtmlTextWriter writer)
-		{
-			this.treeView.RenderControl(writer);
-
-			writer.Write(@"
-				<style type='text/css'>
-					div#" + this.ClientID + @" .tree td div {
-						 height: 20px !important;
-					}
-				</style>
-			");
-
-			writer.Write(@"
-				<script type=""text/javascript"">
-
-					function OnCheckBoxCheckChanged(evt) { 
-					
-						var src = window.event != window.undefined ? window.event.srcElement : evt.target; 
-						var isChkBoxClick = (src.tagName.toLowerCase() == 'input' && src.type == 'checkbox'); 
-						if (isChkBoxClick) { 
-
-							var parentTable = GetParentByTagName('table', src);
-							var nxtSibling = parentTable.nextSibling; 
-							if (nxtSibling && nxtSibling.nodeType == 1)//check if nxt sibling is not null & is an element node 
-							{ 
-								if (nxtSibling.tagName.toLowerCase() == 'div') //if node has children 
-								{ 
-									if (!src.checked) {
-										//uncheck children at all levels 
-										CheckUncheckChildren(parentTable.nextSibling, src.checked); 
-									}
-								} 
-							} 
-							//check or uncheck parents at all levels 
-							CheckUncheckParents(src, src.checked); 
-						} 
-					} 
-
-					function CheckUncheckChildren(childContainer, check) { 
-						var childChkBoxes = childContainer.getElementsByTagName('input'); 
-						var childChkBoxCount = childChkBoxes.length; 
-						for (var i = 0; i < childChkBoxCount; i++) { 
-							childChkBoxes[i].checked = check; 
-						} 
-					} 
-
-					function CheckUncheckParents(srcChild, check) { 
-						var parentDiv = GetParentByTagName('div', srcChild); 
-						var parentNodeTable = parentDiv.previousSibling;
-
-						if (parentNodeTable) { 
-							var checkUncheckSwitch;
-
-							if (check) //checkbox checked 
-							{ 
-								checkUncheckSwitch = true;
-							} 
-							else //checkbox unchecked 
-							{ 
-								var isAllSiblingsUnChecked = AreAllSiblingsUnChecked(srcChild);
-								if (!isAllSiblingsUnChecked) {					
-									checkUncheckSwitch = true;
-								} else {
-									checkUncheckSwitch = false;
-								}
-							}
-
-							var inpElemsInParentTable = parentNodeTable.getElementsByTagName('input'); 
-							if (inpElemsInParentTable.length > 0) { 
-								var parentNodeChkBox = inpElemsInParentTable[0]; 
-								parentNodeChkBox.checked = checkUncheckSwitch; 
-								//do the same recursively 
-								CheckUncheckParents(parentNodeChkBox, checkUncheckSwitch); 
-							} 
-						} 
-					} 
-
-					//utility function to get the container of an element by tagname 
-					function GetParentByTagName(parentTagName, childElementObj) { 
-						var parent = childElementObj.parentNode; 
-						while (parent.tagName.toLowerCase() != parentTagName.toLowerCase()) { 
-							parent = parent.parentNode; 
-						} 
-						return parent; 
-					} 
-
-				</script>
-			");
 		}
 	}
 }

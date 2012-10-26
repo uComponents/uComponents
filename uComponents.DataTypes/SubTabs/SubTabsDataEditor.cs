@@ -74,8 +74,7 @@ namespace uComponents.DataTypes.SubTabs
         /// </summary>
         protected override void CreateChildControls()
         {
-            Panel subTabsPanel = new Panel();
-                        
+            var subTabsPanel = new Panel();
             var tabs = uQuery.GetDocument(uQuery.GetIdFromQueryString()).ContentType.getVirtualTabs.Where(x => this.options.TabIds.Contains(x.Id));
 
             if (tabs.Count() > 0)
@@ -90,7 +89,7 @@ namespace uComponents.DataTypes.SubTabs
                         foreach (var tab in tabs)
                         {
                             subTabButton = new HtmlButton();
-                            subTabButton.InnerText = tab.Caption;                            
+                            subTabButton.InnerText = tab.Caption;
                             subTabButton.Attributes.Add("data-tab", tab.Caption); // added an attribute to identify which tab this button relates to, as haven't yet calculated the other parms to pass into activateSubTab()
                             if (counter == 0)
                             {
@@ -105,7 +104,7 @@ namespace uComponents.DataTypes.SubTabs
                     
                     case SubTabType.DropDownList:
 
-                        DropDownList subTabDropDownList = new DropDownList();
+                        var subTabDropDownList = new DropDownList();
                         foreach (var tab in tabs)
                         {
                             subTabDropDownList.Items.Add(new ListItem(tab.Caption));
@@ -119,7 +118,7 @@ namespace uComponents.DataTypes.SubTabs
                 this.Controls.Add(subTabsPanel);
 
                 // Build the startup js
-                StringBuilder stringBuilder = new StringBuilder();
+                var stringBuilder = new StringBuilder();
                 stringBuilder.Append(@"
                 
                     <script language='javascript' type='text/javascript'>

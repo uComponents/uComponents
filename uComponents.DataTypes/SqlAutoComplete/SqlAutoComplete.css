@@ -1,0 +1,46 @@
+﻿.sql-auto-complete
+{
+    width: 625px;
+}
+
+.sql-auto-complete ul
+{
+    list-style-type:none;
+    float:right;
+    margin-top:2px;
+}
+
+.sql-auto-complete li
+{   
+    border:dotted 1px #DCD;
+    width:298px;
+    height:21px;
+    line-height:21px;
+    padding-left:5px;
+    overflow:hidden;
+    background-color:White;
+    margin-bottom:3px;
+    cursor:move;    
+    
+    font-family: Arial,Lucida Grande;
+}
+
+.sql-auto-complete li:hover
+{
+    background-color:#F6F6FA;
+}
+
+.sql-auto-complete li a
+{
+    background: transparent url('/umbraco/images/delete.gif') no-repeat 0px 3px;
+    width:15px;
+    height:15px;
+    float:right;
+    margin-right:20px;
+    margin-top:2px;
+}
+
+.sql-auto-complete input
+{
+    width: 200px;
+}
