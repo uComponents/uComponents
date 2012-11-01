@@ -52,7 +52,7 @@ namespace uComponents.Mapping
             // Map properties
             foreach (var destinationProperty in destinationType.GetProperties())
             {
-                if (PropertyMappers.Any(mapper => mapper.DestinationInfo.PropertyType.Name == destinationProperty.Name))
+                if (PropertyMappers.Any(mapper => mapper.DestinationInfo.Name == destinationProperty.Name))
                 {
                     // A mapping already exists for this property on a base type.
                     continue;

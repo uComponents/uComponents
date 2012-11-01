@@ -133,6 +133,10 @@ namespace uComponents.Mapping
             {
                 return null;
             }
+            else if (destinationType == null)
+            {
+                throw new ArgumentNullException("destinationType");
+            }
             else if (includedRelationships == null)
             {
                 throw new ArgumentNullException("includedRelationships");
@@ -141,11 +145,8 @@ namespace uComponents.Mapping
             {
                 throw new MapNotFoundException(destinationType);
             }
-            // TODO
-            //else if (NodeMappers[destinationType].SourceNodeTypeAlias != sourceNode.NodeTypeAlias)
-            //{
-            //    throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
-            //}
+
+            CheckMapping(sourceNode.NodeTypeAlias, destinationType);
 
             // Check 'includedRelationships' actually refer to relationships
             var propertyMappers = NodeMappers[destinationType].PropertyMappers;
@@ -251,7 +252,8 @@ refer to a relationship.", "includedRelationships");
             var compatibleMappingFound = false;
             foreach (var nodeMapper in NodeMappers)
             {
-                if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType))
+                if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType)
+                    && string.Equals(nodeMapper.Value.SourceNodeTypeAlias, sourceNodeTypeAlias, StringComparison.InvariantCultureIgnoreCase))
                 {
                     compatibleMappingFound = true;
                     break;

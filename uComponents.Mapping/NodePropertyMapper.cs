@@ -14,7 +14,7 @@ namespace uComponents.Mapping
     /// </summary>
     internal class NodePropertyMapper : INodePropertyMapper
     {
-        public NodeMapper NodeMapper { get; private set; }
+        public NodeMappingEngine Engine { get; private set; }
         public PropertyInfo DestinationInfo { get; private set; }
         public string SourcePropertyAlias { get; private set; }
         public bool IsRelationship { get; private set; }
@@ -43,7 +43,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("mapping");
             }
 
-            NodeMapper = nodeMapper;
+            Engine = nodeMapper.Engine;
             DestinationInfo = destinationProperty;
             SourcePropertyAlias = null;
             IsRelationship = isRelationship;
@@ -72,7 +72,7 @@ source property alias: A source property alias must be specified when the destin
                     destinationProperty.PropertyType.FullName));
             }
 
-            NodeMapper = nodeMapper;
+            Engine = nodeMapper.Engine;
             SourcePropertyAlias = sourcePropertyAlias;
             DestinationInfo = destinationProperty;
 
@@ -266,9 +266,9 @@ source property alias: A source property alias must be specified when the destin
         /// no map exists for relationDestinationType</exception>
         private IEnumerable<Node> GetRelatedNodes(Node node, Type relationDestinationType)
         {
-            if (NodeMapper.Engine.NodeMappers.ContainsKey(relationDestinationType))
+            if (Engine.NodeMappers.ContainsKey(relationDestinationType))
             {
-                var relationNodeTypeAlias = NodeMapper.Engine.NodeMappers[relationDestinationType].SourceNodeTypeAlias;
+                var relationNodeTypeAlias = Engine.NodeMappers[relationDestinationType].SourceNodeTypeAlias;
 
                 if (SourcePropertyAlias != null)
                 {
