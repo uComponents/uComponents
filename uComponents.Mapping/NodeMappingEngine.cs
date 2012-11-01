@@ -92,15 +92,16 @@ namespace uComponents.Mapping
             {
                 return null;
             }
+            else if (destinationType == null)
+            {
+                throw new ArgumentNullException("destinationType");
+            }
             else if (!NodeMappers.ContainsKey(destinationType))
             {
                 throw new MapNotFoundException(destinationType);
             }
-            // TODO this prevents mapping nodes which inherit from common doctypes
-            //else if (NodeMappers[destinationType].SourceNodeTypeAlias != sourceNode.NodeTypeAlias)
-            //{
-            //    throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
-            //}
+
+            CheckMapping(sourceNode.NodeTypeAlias, destinationType);
 
             var nodeMapper = NodeMappers[destinationType];
 
@@ -140,6 +141,11 @@ namespace uComponents.Mapping
             {
                 throw new MapNotFoundException(destinationType);
             }
+            // TODO
+            //else if (NodeMappers[destinationType].SourceNodeTypeAlias != sourceNode.NodeTypeAlias)
+            //{
+            //    throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
+            //}
 
             // Check 'includedRelationships' actually refer to relationships
             var propertyMappers = NodeMappers[destinationType].PropertyMappers;
@@ -197,6 +203,65 @@ refer to a relationship.", "includedRelationships");
             var properties = includedRelationships.Select(e => (e.Body as MemberExpression).Member as PropertyInfo).ToArray();
 
             return (TDestination)Map(sourceNode, typeof(TDestination), properties);
+        }
+
+        /// <summary>
+        /// Examines the engine's <see cref="NodeMappers"/> and returns node mapper
+        /// which maps to the closest base class of <paramref name="type"/>.
+        /// </summary>
+        /// <returns>
+        /// <c>null</c>  if there are no mappers which map to a base class of 
+        /// <paramref name="type"/>.
+        /// </returns>
+        internal NodeMapper GetParentNodeMapperForType(Type type)
+        {
+            var ancestorMappers = new List<NodeMapper>();
+
+            foreach (var nodeMapper in NodeMappers)
+            {
+                if (nodeMapper.Value.DestinationType.IsAssignableFrom(type)
+                    && type != nodeMapper.Value.DestinationType)
+                {
+                    ancestorMappers.Add(nodeMapper.Value);
+                }
+            }
+
+            // Sort by inheritance
+            ancestorMappers.Sort((x, y) => 
+                {
+                    return x.DestinationType.IsAssignableFrom(y.DestinationType)
+                        ? 1
+                        : -1;
+                });
+
+            return ancestorMappers.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Checks that there is a valid mapping from <paramref name="sourceNodeTypeAlias"/>
+        /// to <paramref name="destinationType"/>.
+        /// </summary>
+        /// <exception cref="WrongNodeForMapException">
+        /// If no mapping exists from <paramref name="sourceNodeTypeAlias"/> to 
+        /// <paramref name="destinationType"/> or any class derived from 
+        /// <paramref name="destinationType"/>.
+        /// </exception>
+        private void CheckMapping(string sourceNodeTypeAlias, Type destinationType)
+        {
+            var compatibleMappingFound = false;
+            foreach (var nodeMapper in NodeMappers)
+            {
+                if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType))
+                {
+                    compatibleMappingFound = true;
+                    break;
+                }
+            }
+
+            if (!compatibleMappingFound)
+            {
+                throw new WrongNodeForMapException(sourceNodeTypeAlias, destinationType);
+            }
         }
     }
 

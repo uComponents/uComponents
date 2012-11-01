@@ -40,9 +40,24 @@ namespace uComponents.Mapping
             DestinationType = destinationType;
             PropertyMappers = new List<NodePropertyMapper>();
 
+            // See if base properties have been mapped already.
+            var baseNodeMapper = Engine.GetParentNodeMapperForType(destinationType);
+            if (baseNodeMapper != null)
+            {
+                // Use the property mappings of the closest parent
+                // (ideally they will already have the mappings of all their ancestors)
+                PropertyMappers.AddRange(baseNodeMapper.PropertyMappers);
+            }
+
             // Map properties
             foreach (var destinationProperty in destinationType.GetProperties())
             {
+                if (PropertyMappers.Any(mapper => mapper.DestinationInfo.PropertyType.Name == destinationProperty.Name))
+                {
+                    // A mapping already exists for this property on a base type.
+                    continue;
+                }
+
                 NodePropertyMapper customPropertyMapper = null;
                 Func<Node, object> defaultPropertyMapping = null;
 
