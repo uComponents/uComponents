@@ -176,7 +176,8 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Gets all Umbraco <c>Node</c>s which map to <typeparamref name="TDestination"/>.
+        /// Gets all Umbraco <c>Node</c>s which map to <typeparamref name="TDestination"/> (including nodes which
+        /// map to a class which derives from <typeparamref name="TDestination"/>).
         /// </summary>
         /// <typeparam name="TDestination">The type for the <c>Node</c>s to map to.</typeparam>
         /// <param name="includeRelationships">Whether to load all the <c>Node</c>s' relationships</param>
@@ -194,14 +195,19 @@ namespace uComponents.Mapping
                 throw new MapNotFoundException(destinationType);
             }
 
-            var sourceNodeTypeAlias = _engine.NodeMappers[destinationType].SourceNodeTypeAlias;
+            var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
 
-            return uQuery.GetNodesByType(sourceNodeTypeAlias)
-                .Select(n => _engine.Map<TDestination>(n, includeRelationships));
+            return sourceNodeTypeAliases.SelectMany(alias =>
+            {
+                var nodes = uQuery.GetNodesByType(alias);
+
+                return nodes.Select(n => _engine.Map<TDestination>(n, includeRelationships));
+            });
         }
 
         /// <summary>
-        /// Gets all Umbraco <c>Node</c>s which map to <typeparamref name="TDestination"/>,
+        /// Gets all Umbraco <c>Node</c>s which map to <typeparamref name="TDestination"/> (including nodes which
+        /// map to a class which derives from <typeparamref name="TDestination"/>),
         /// only including the specified relationships.
         /// </summary>
         /// <typeparam name="TDestination">The type for the <c>Node</c>s to map to.</typeparam>
@@ -222,10 +228,14 @@ namespace uComponents.Mapping
                 throw new MapNotFoundException(destinationType);
             }
 
-            var sourceNodeTypeAlias = _engine.NodeMappers[destinationType].SourceNodeTypeAlias;
+            var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
 
-            return uQuery.GetNodesByType(sourceNodeTypeAlias)
-                .Select(n => _engine.Map<TDestination>(n, includedRelationships));
+            return sourceNodeTypeAliases.SelectMany(alias =>
+            {
+                var nodes = uQuery.GetNodesByType(alias);
+
+                return nodes.Select(n => _engine.Map<TDestination>(n, includedRelationships));
+            });
         }
     }
 }

@@ -232,6 +232,24 @@ namespace uComponents.Mapping
 
             return null;
         }
+
+        /// <summary>
+        /// Gets all node type aliases which can map to <paramref name="destinationType"/>.
+        /// </summary>
+        internal string[] GetCompatibleNodeTypeAliases(Type destinationType)
+        {
+            var compatibleAliases = new List<string>();
+
+            foreach (var nodeMapper in NodeMappers)
+            {
+                if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType))
+                {
+                    compatibleAliases.Add(nodeMapper.Value.SourceNodeTypeAlias);
+                }
+            }
+
+            return compatibleAliases.Distinct().ToArray();
+        }
     }
 
     #region Exceptions
