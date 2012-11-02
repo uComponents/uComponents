@@ -10,18 +10,11 @@ namespace uComponents.Mapping
     public interface INodeMapper
     {
         /// <summary>
-        /// Maps a Node to a strongly typed model, including all relationships.
-        /// </summary>
-        /// <param name="sourceNode">The node to map from</param>
-        /// <returns>The strongly typed model</returns>
-        object MapNode(Node sourceNode);
-
-        /// <summary>
         /// Maps a Node to a strongly typed model, excluding relationships except those specified.
         /// </summary>
         /// <param name="sourceNode">The node to map from</param>
         /// <param name="includedRelationships">An array of properties on the model which
-        /// relationships should be mapped to.</param>
+        /// relationships should be mapped to, or null to map all properties.</param>
         object MapNode(Node sourceNode, PropertyInfo[] includedRelationships);
     }
 }

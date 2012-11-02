@@ -144,36 +144,42 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Maps a Node to a strongly typed model, including all relationships.
-        /// </summary>
-        /// <param name="sourceNode">The node to map from</param>
-        /// <returns>The strongly typed model</returns>
-        public object MapNode(Node sourceNode)
-        {
-            var destination = Activator.CreateInstance(DestinationType);
-
-            foreach (var propertyMapper in PropertyMappers)
-            {
-                var destinationValue = propertyMapper.MapProperty(sourceNode);
-                propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
-            }
-
-            return destination;
-        }
-
-        /// <summary>
         /// Maps a Node to a strongly typed model, excluding relationships except those specified.
         /// </summary>
         /// <param name="sourceNode">The node to map from</param>
         /// <param name="includedRelationships">An array of properties on the model which
-        /// relationships should be mapped to.</param>
+        /// relationships should be mapped to, or null to map all properties.</param>
         public object MapNode(Node sourceNode, PropertyInfo[] includedRelationships)
         {
             var destination = Activator.CreateInstance(DestinationType);
 
+            if (includedRelationships != null)
+            {
+                // Check relationships actually refer to relationships
+                foreach (var relationshipInfo in includedRelationships)
+                {
+                    var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo == relationshipInfo);
+
+                    if (propertyMapper == null)
+                    {
+                        throw new ArgumentException(
+                            string.Format(@"The property '{0}' specified by 'includedRelationships' does 
+not have a valid map", relationshipInfo.Name), "includedRelationships"
+                         );
+                    }
+                    else if (!propertyMapper.IsRelationship)
+                    {
+                        throw new ArgumentException(@"One of the properties on 'destinationType' does not 
+refer to a relationship.", "includedRelationships");
+                    }
+                }
+            }
+
             foreach (var propertyMapper in PropertyMappers)
             {
-                if (!propertyMapper.IsRelationship || includedRelationships.Contains(propertyMapper.DestinationInfo))
+                if (includedRelationships == null // include all relationships
+                    || !propertyMapper.IsRelationship  // map all non-relationship properties
+                    || includedRelationships.Contains(propertyMapper.DestinationInfo)) // check this relationship is included
                 {
                     var destinationValue = propertyMapper.MapProperty(sourceNode);
                     propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);

@@ -115,7 +115,7 @@ source property alias: A source property alias must be specified when the destin
 
                             foreach (var relatedNode in relatedNodes)
                             {
-                                var item = nodeMapper.Engine.Map(relatedNode, itemType, false);
+                                var item = nodeMapper.Engine.Map(relatedNode, itemType, new PropertyInfo[0]);
                                 // items.Add(item) but for generic list
                                 sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
                             }
@@ -163,7 +163,7 @@ source property alias: A source property alias must be specified when the destin
 
                             if (!string.IsNullOrEmpty(relatedNode.Name))
                             {
-                                return nodeMapper.Engine.Map(relatedNode, destinationProperty.PropertyType, false);
+                                return nodeMapper.Engine.Map(relatedNode, destinationProperty.PropertyType, new PropertyInfo[0]);
                             }
                         }
                     }
@@ -176,7 +176,7 @@ source property alias: A source property alias must be specified when the destin
 
                         if (ancestorNode != null)
                         {
-                            return nodeMapper.Engine.Map(ancestorNode, destinationProperty.PropertyType, false);
+                            return nodeMapper.Engine.Map(ancestorNode, destinationProperty.PropertyType, new PropertyInfo[0]);
                         }
                     }
 
