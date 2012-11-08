@@ -12,7 +12,7 @@ namespace uComponents.Mapping
     /// <summary>
     /// An immutable mapper for Umbraco Node properties to strongly typed model properties
     /// </summary>
-    internal class NodePropertyMapper : INodePropertyMapper
+    internal class NodePropertyMapper
     {
         public NodeMappingEngine Engine { get; private set; }
         public PropertyInfo DestinationInfo { get; private set; }
