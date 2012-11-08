@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="INodeMappingEngine.cs" />
     <Compile Include="INodeMappingExpression.cs" />
+    <Compile Include="INodeQuery`.cs" />
     <Compile Include="NodeMapper.cs" />
     <Compile Include="NodeMappingEngine.cs" />
     <Compile Include="NodeMappingExpression.cs" />
