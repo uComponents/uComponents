@@ -171,14 +171,13 @@ source property alias: A source property alias must be specified when the destin
                     else if (nodeMapper.Engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
                     {
                         // Map to ancestor (if possible)
-                        var ancestorMapper = nodeMapper.Engine.NodeMappers[destinationProperty.PropertyType];
+                        var aliases = nodeMapper.Engine
+                            .GetCompatibleNodeTypeAliases(destinationProperty.PropertyType)
+                            .ToArray();
                         var ancestorNode = node.GetAncestorNodes()
-                            .FirstOrDefault(x => x.NodeTypeAlias == ancestorMapper.SourceNodeTypeAlias);
+                            .FirstOrDefault(x => aliases.Contains(x.NodeTypeAlias));
 
-                        if (ancestorNode != null)
-                        {
-                            return nodeMapper.Engine.Map(ancestorNode, destinationProperty.PropertyType, paths);
-                        }
+                        return nodeMapper.Engine.Map(ancestorNode, destinationProperty.PropertyType, paths);
                     }
 
                     return null;
@@ -273,8 +272,6 @@ source property alias: A source property alias must be specified when the destin
         {
             if (Engine.NodeMappers.ContainsKey(relationDestinationType))
             {
-                var relationNodeTypeAlias = Engine.NodeMappers[relationDestinationType].SourceNodeTypeAlias;
-
                 if (SourcePropertyAlias != null)
                 {
                     // Relation defined by property
@@ -306,7 +303,9 @@ source property alias: A source property alias must be specified when the destin
                 else
                 {
                     // Relation defined by heirarchy
-                    return node.GetDescendantNodesByType(relationNodeTypeAlias);
+                    var aliases = Engine.GetCompatibleNodeTypeAliases(relationDestinationType);
+
+                    return aliases.SelectMany(alias => node.GetDescendantNodesByType(alias));
                 }
             }
             else if (SourcePropertyAlias != null)

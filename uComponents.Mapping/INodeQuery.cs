@@ -26,11 +26,33 @@ namespace uComponents.Mapping
         TDestination Map(Node node);
 
         /// <summary>
-        /// Gets a mapped instance of a node.
+        /// Gets a mapped instance of a node by it's ID.
         /// </summary>
         /// <param name="nodeId">The ID of the node to map.</param>
         /// <returns>The mapped node, or null if it does not exist.</returns>
         TDestination Single(int nodeId);
+
+        /// <summary>
+        /// Gets mapped instances of nodes by their ID.
+        /// </summary>
+        /// <param name="nodeIds">The IDs of the nodes to map.</param>
+        /// <returns>
+        /// A one-to-one collection of mapped nodes to node IDs
+        /// (there will be holes in the collection if some nodes
+        /// do not exist).
+        /// </returns>
+        IEnumerable<TDestination> Many(IEnumerable<int> nodeIds);
+
+        /// <summary>
+        /// Gets mapped instances of <c>Node</c>s.
+        /// </summary>
+        /// <param name="nodes">The nodes to map.</param>
+        /// <returns>
+        /// A one-to-one collection of mapped nodes to nodes
+        /// (there will be holes in the collection if some nodes
+        /// do not exist).
+        /// </returns>
+        IEnumerable<TDestination> Many(IEnumerable<Node> nodes);
 
         /// <summary>
         /// Gets a mapped instance of the current node.
@@ -45,8 +67,26 @@ namespace uComponents.Mapping
         /// Gets mapped instances of every node which can be mapped to 
         /// <typeparamref name="TDestination"/>.
         /// </summary>
-        /// <returns>A collection of mapped nodes</returns>
+        /// <returns>
+        /// A collection of mapped nodes which
+        /// are assignable to <typeparamref name="TDestination"/>.
+        /// </returns>
         IEnumerable<TDestination> All();
+
+        /// <summary>
+        /// Gets mapped instances only of nodes which were mapped to
+        /// <typeparamref name="TDestination"/> using 
+        /// <see cref="INodeMappingEngine.CreateMap()"/>.
+        /// </summary>
+        /// <remarks>
+        /// Will not include node type aliases which map to a model
+        /// which can be cast to <typeparamref name="TDestination"/>.
+        /// </remarks>
+        /// <returns>
+        /// A collection of mapped nodes of type
+        /// <typeparamref name="TDestination"/>.
+        /// </returns>
+        IEnumerable<TDestination> AllExplicit();
 
         /// <summary>
         /// Exposes the engine being used under the hood.  Useful if you want to
@@ -106,5 +146,11 @@ namespace uComponents.Mapping
         /// included.
         /// </returns>
         INodeQuery<TDestination> Include<TProperty>(Expression<Func<TDestination, TProperty>> path);
+
+        /// <summary>
+        /// Includes many relationship paths in the node query
+        /// </summary>
+        /// <seealso cref="Include()"/>
+        INodeQuery<TDestination> IncludeMany(string[] paths);
     }
 }

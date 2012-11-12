@@ -60,6 +60,26 @@ namespace uComponents.Mapping
                 );
         }
 
+        public IEnumerable<TDestination> Many(IEnumerable<int> nodeIds)
+        {
+            if (nodeIds == null)
+            {
+                throw new ArgumentNullException("nodeIds");
+            }
+
+            return nodeIds.Select(id => Single(id));
+        }
+
+        public IEnumerable<TDestination> Many(IEnumerable<Node> nodes)
+        {
+            if (nodes == null)
+            {
+                throw new ArgumentNullException("nodes");
+            }
+
+            return nodes.Select(n => Map(n));
+        }
+
         public TDestination Current()
         {
             return (TDestination)_engine.Map(
@@ -86,6 +106,21 @@ namespace uComponents.Mapping
 
                 return nodes.Select(n => (TDestination)_engine.Map(n, destinationType, _paths.ToArray()));
             });
+        }
+
+        public IEnumerable<TDestination> AllExplicit()
+        {
+            var destinationType = typeof(TDestination);
+
+            if (!_engine.NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            var nodeMapper = _engine.NodeMappers[destinationType];
+
+            return uQuery.GetNodesByType(nodeMapper.SourceNodeTypeAlias)
+                .Select(n => (TDestination)_engine.Map(n, destinationType, _paths.ToArray()));
         }
 
         public INodeQuery<TDestination> Include(string path)
@@ -118,6 +153,21 @@ namespace uComponents.Mapping
             }
 
             return Include(parsedPath);
+        }
+
+        public INodeQuery<TDestination> IncludeMany(string[] paths)
+        {
+            if (paths == null)
+            {
+                throw new ArgumentNullException("paths");
+            }
+
+            foreach (var path in paths)
+            {
+                this.Include(path);
+            }
+
+            return this;
         }
     }
 
