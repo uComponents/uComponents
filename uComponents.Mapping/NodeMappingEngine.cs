@@ -84,6 +84,63 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
+        /// Gets an Umbraco <c>Node</c> as a <paramref name="destinationType"/>, only including 
+        /// specified relationship paths.
+        /// </summary>
+        /// <param name="sourceNode">The <c>Node</c> to map from.</param>
+        /// <param name="destinationType">The type to map to.</param>
+        /// <param name="paths">The relationship paths to include.</param>
+        /// <returns><c>null</c> if the node does not exist.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for <paramref name="destinationType"/> has not 
+        /// been created with <see cref="CreateMap()" />.</exception>
+        /// <exception cref="WrongNodeForMapException">
+        /// If no map could be found for <paramref name="sourceNode"/>'s
+        /// node type alias to <paramref name="destinationType"/> or any class which derives from 
+        /// <paramref name="destinationType"/>
+        /// </exception>
+        public object Map(Node sourceNode, Type destinationType, string[] paths)
+        {
+            if (sourceNode == null
+                || string.IsNullOrEmpty(sourceNode.Name))
+            {
+                return null;
+            }
+            else if (destinationType == null)
+            {
+                throw new ArgumentNullException("destinationType");
+            }
+            else if (!NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            var nodeMapper = GetMapper(sourceNode.NodeTypeAlias, destinationType);
+
+            if (nodeMapper == null)
+            {
+                throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
+            }
+
+            return nodeMapper.MapNode(sourceNode, paths);
+        }
+
+        /// <summary>
+        /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>, only including 
+        /// specified relationship paths.
+        /// </summary>
+        /// <typeparam name="TDestination">
+        /// The type of object that <paramref name="sourceNode"/> maps to.
+        /// </typeparam>
+        /// <param name="sourceNode">The <c>Node</c> to map from.</param>
+        /// <param name="paths">The relationship paths to include.</param>
+        /// <returns><c>null</c> if the node does not exist.</returns>
+        public TDestination Map<TDestination>(Node sourceNode, params string[] paths)
+            where TDestination : class, new()
+        {
+            return (TDestination)Map(sourceNode, typeof(TDestination), paths);
+        }
+
+        /// <summary>
         /// Maps an Umbraco <c>Node</c> as a strongly typed object.
         /// </summary>
         /// <param name="sourceNode">The <c>Node</c> to map from.</param>
@@ -98,6 +155,7 @@ namespace uComponents.Mapping
         /// node type alias to <paramref name="destinationType"/> or any class which derives from 
         /// <paramref name="destinationType"/>
         /// </exception>
+        [Obsolete("Use Map with paths instead")]
         public object Map(Node sourceNode, Type destinationType, PropertyInfo[] includedRelationships)
         {
             if (sourceNode == null
@@ -140,6 +198,7 @@ namespace uComponents.Mapping
         /// node type alias to <typeparamref name="TDestination"/> or any class which derives from 
         /// <typeparamref name="TDestination"/>
         /// </exception>
+        [Obsolete("Use Map with paths instead")]
         public TDestination Map<TDestination>(Node sourceNode, bool includeRelationships)
             where TDestination : class, new()
         {
@@ -148,7 +207,7 @@ namespace uComponents.Mapping
                 typeof(TDestination), 
                 includeRelationships 
                     ? null // all relationships
-                    : new PropertyInfo[0] // no relationships
+                    : new string[0] // no relationships
                 );
         }
 
@@ -169,6 +228,7 @@ namespace uComponents.Mapping
         /// node type alias to <typeparamref name="TDestination"/> or any class which derives from 
         /// <typeparamref name="TDestination"/>
         /// </exception>
+        [Obsolete("Use paths instead")]
         public TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new()
         {
@@ -176,6 +236,19 @@ namespace uComponents.Mapping
             var properties = includedRelationships.Select(e => (e.Body as MemberExpression).Member as PropertyInfo).ToArray();
 
             return (TDestination)Map(sourceNode, typeof(TDestination), properties);
+        }
+
+        /// <summary>
+        /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
+        /// </summary>
+        /// <typeparam name="TDestination">The type to map to.</typeparam>
+        /// <returns>A fluent configuration for the query.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for <typeparamref name="TDestination"/> has not 
+        /// been created with <see cref="CreateMap()" />.</exception>
+        public INodeQuery<TDestination> Query<TDestination>()
+            where TDestination : class, new()
+        {
+            return new NodeQuery<TDestination>(this);
         }
 
         /// <summary>

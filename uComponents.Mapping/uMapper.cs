@@ -129,6 +129,7 @@ namespace uComponents.Mapping
         /// person.Colleagues; // null
         /// </code>
         /// </example>
+        [Obsolete("Use node queries with paths instead")]
         public static TDestination GetSingle<TDestination>(int id, params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new()
         {
@@ -169,6 +170,7 @@ namespace uComponents.Mapping
         /// If no map could be found for the current node to <typeparamref name="TDestination"/> 
         /// or any class which derives from <typeparamref name="TDestination"/>
         /// </exception>
+        [Obsolete("Use node queries with paths instead")]
         public static TDestination GetCurrent<TDestination>(params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new()
         {
@@ -218,6 +220,7 @@ namespace uComponents.Mapping
         /// If a map for <typeparamref name="TDestination"/> has not 
         /// been created with <see cref="CreateMap()" />.
         /// </exception>
+        [Obsolete("Use node queries with paths instead")]
         public static IEnumerable<TDestination> GetAll<TDestination>(params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new()
         {

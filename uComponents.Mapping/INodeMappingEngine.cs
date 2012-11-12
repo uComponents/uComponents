@@ -30,38 +30,24 @@ namespace uComponents.Mapping
             where TDestination : class, new();
 
         /// <summary>
-        /// Maps an Umbraco <c>Node</c> as a strongly typed object.
-        /// </summary>
-        /// <param name="sourceNode">The <c>Node</c> to map from.</param>
-        /// <param name="destinationType">The type to map to.</param>
-        /// <param name="includedRelationships">The relationship properties to include, or <c>null</c> to 
-        /// include all relationships.</param>
-        /// <returns><c>null</c> if the node does not exist.</returns>
-        object Map(Node sourceNode, Type destinationType, PropertyInfo[] includedRelationships);
-
-        /// <summary>
-        /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>.
+        /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>, only including 
+        /// specified relationship paths.
         /// </summary>
         /// <typeparam name="TDestination">
         /// The type of object that <paramref name="sourceNode"/> maps to.
         /// </typeparam>
         /// <param name="sourceNode">The <c>Node</c> to map from.</param>
-        /// <param name="includeRelationships">Whether to include the <c>Node</c>'s relationships</param>
-        /// <returns><c>null</c> if the <c>Node</c> does not exist.</returns>
-        TDestination Map<TDestination>(Node sourceNode, bool includeRelationships) 
+        /// <param name="paths">The relationship paths to include.</param>
+        /// <returns><c>null</c> if the node does not exist.</returns>
+        TDestination Map<TDestination>(Node sourceNode, params string[] paths)
             where TDestination : class, new();
 
         /// <summary>
-        /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>, only including 
-        /// specified relationships.
+        /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
         /// </summary>
-        /// <typeparam name="TDestination">
-        /// The type of object that <paramref name="sourceNode"/> maps to.
-        /// </typeparam>
-        /// <param name="sourceNode">The <c>Node</c> to map from.</param>
-        /// <param name="includedRelationships">The relationship properties to include.</param>
-        /// <returns><c>null</c> if the node does not exist.</returns>
-        TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
+        /// <typeparam name="TDestination">The type to map to.</typeparam>
+        /// <returns>A fluent configuration for the query.</returns>
+        INodeQuery<TDestination> Query<TDestination>()
             where TDestination : class, new();
     }
 }

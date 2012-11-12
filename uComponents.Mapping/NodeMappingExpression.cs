@@ -73,12 +73,15 @@ namespace uComponents.Mapping
         /// </summary>
         /// <param name="destinationProperty">The member of the destination model
         /// to map to.</param>
-        /// <param name="propertyMapping">The new mapping function.</param>
+        /// <param name="propertyMapping">
+        /// The new mapping function, which takes a node to map and an array
+        /// of paths relative to the property.
+        /// </param>
         /// <param name="isRelationship">Whether the property should be deemed a relationship
         /// or not.</param>
         public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
-            Func<Node, object> propertyMapping,
+            Func<Node, string[], object> propertyMapping,
             bool isRelationship
             )
         {

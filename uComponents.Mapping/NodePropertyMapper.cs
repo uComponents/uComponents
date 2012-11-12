@@ -21,14 +21,15 @@ namespace uComponents.Mapping
 
         /// <summary>
         /// A function taking the node which returns
-        /// the strongly typed property value.
+        /// the strongly typed property value, taking into account
+        /// the array of included paths.
         /// </summary>
-        private Func<Node, object> _mapping { get; set; }
+        private Func<Node, string[], object> _mapping { get; set; }
 
         /// <summary>
         /// Use a specific mapping
         /// </summary>
-        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, Func<Node, object> mapping, bool isRelationship)
+        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, Func<Node, string[], object> mapping, bool isRelationship)
         {
             if (nodeMapper == null)
             {
@@ -87,7 +88,7 @@ source property alias: A source property alias must be specified when the destin
                     // Map IDs
                     bool assignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, typeof(IEnumerable<int>));
 
-                    _mapping = (node) =>
+                    _mapping = (node, paths) =>
                     {
                         var ids = GetRelatedNodeIds(node);
 
@@ -104,7 +105,7 @@ source property alias: A source property alias must be specified when the destin
                     var sourceCollectionType = typeof(IEnumerable<>).MakeGenericType(itemType);
                     bool assignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, sourceCollectionType);
 
-                    _mapping = (node) =>
+                    _mapping = (node, paths) =>
                     {
                         var relatedNodes = GetRelatedNodes(node, itemType);
 
@@ -115,7 +116,7 @@ source property alias: A source property alias must be specified when the destin
 
                             foreach (var relatedNode in relatedNodes)
                             {
-                                var item = nodeMapper.Engine.Map(relatedNode, itemType, new PropertyInfo[0]);
+                                var item = nodeMapper.Engine.Map(relatedNode, itemType, paths);
                                 // items.Add(item) but for generic list
                                 sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
                             }
@@ -138,13 +139,13 @@ source property alias: A source property alias must be specified when the destin
                 // Basic system types
                 var method = NodeMappingEngine.GetNodePropertyMethod.MakeGenericMethod(destinationProperty.PropertyType);
 
-                _mapping = (node) => method.Invoke(null, new object[] { node, SourcePropertyAlias });
+                _mapping = (node, paths) => method.Invoke(null, new object[] { node, SourcePropertyAlias });
                 IsRelationship = false;
             }
             else if (destinationProperty.PropertyType.IsModel())
             {
                 // Try to map to model
-                _mapping = (node) =>
+                _mapping = (node, paths) =>
                 {
                     if (SourcePropertyAlias != null)
                     {
@@ -163,7 +164,7 @@ source property alias: A source property alias must be specified when the destin
 
                             if (!string.IsNullOrEmpty(relatedNode.Name))
                             {
-                                return nodeMapper.Engine.Map(relatedNode, destinationProperty.PropertyType, new PropertyInfo[0]);
+                                return nodeMapper.Engine.Map(relatedNode, destinationProperty.PropertyType, paths);
                             }
                         }
                     }
@@ -176,7 +177,7 @@ source property alias: A source property alias must be specified when the destin
 
                         if (ancestorNode != null)
                         {
-                            return nodeMapper.Engine.Map(ancestorNode, destinationProperty.PropertyType, new PropertyInfo[0]);
+                            return nodeMapper.Engine.Map(ancestorNode, destinationProperty.PropertyType, paths);
                         }
                     }
 
@@ -196,6 +197,7 @@ source property alias: A source property alias must be specified when the destin
         /// </summary>
         /// <param name="sourceNode">The node to map from</param>
         /// <returns>The strongly typed, mapped property</returns>
+        [Obsolete("Use paths instead")]
         public object MapProperty(Node sourceNode)
         {
             if (sourceNode == null)
@@ -203,7 +205,26 @@ source property alias: A source property alias must be specified when the destin
                 throw new ArgumentNullException("sourceNode");
             }
 
-            return _mapping(sourceNode);
+            return _mapping(sourceNode, new string[0]);
+        }
+
+        /// <summary>
+        /// Maps the property from a node.
+        /// </summary>
+        /// <param name="sourceNode">The node to map from.</param>
+        /// <param name="paths">
+        /// The paths of the node to map, or null to map
+        /// all relationships for this level and none below.
+        /// </param>
+        /// <returns>The strongly typed, mapped property.</returns>
+        public object MapProperty(Node sourceNode, string[] paths)
+        {
+            if (sourceNode == null)
+            {
+                throw new ArgumentNullException("sourceNode");
+            }
+
+            return _mapping(sourceNode, paths);
         }
 
         /// <summary>
