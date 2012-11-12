@@ -150,7 +150,7 @@ namespace uComponents.Mapping
         /// <param name="sourceNode">The node to map from</param>
         /// <param name="paths">
         /// An array of relationship paths on the model to include, or null
-        /// to include all relationships at the first level and none at the lower levels.
+        /// to include all relationships at the first level and none below.
         /// </param>
         public object MapNode(Node sourceNode, string[] paths)
         {
@@ -184,7 +184,7 @@ refer to a relationship.", "includedRelationships");
 
             foreach (var propertyMapper in PropertyMappers)
             {
-                if (includedRelationships == null // include all relationships
+                if (paths == null // include all relationships
                     || !propertyMapper.IsRelationship  // map all non-relationship properties
                     || includedRelationships.Contains(propertyMapper.DestinationInfo)) // check this relationship is included
                 {
@@ -294,13 +294,14 @@ refer to a relationship.", "includedRelationships");
         /// </summary>
         private string[] GetNextLevelPaths(string relationshipName, string[] paths)
         {
-            if (paths == null)
-            {
-                throw new ArgumentNullException("paths");
-            }
-            else if (string.IsNullOrEmpty(relationshipName))
+            if (string.IsNullOrEmpty(relationshipName))
             {
                 throw new ArgumentException("The property name must be specified", "propertyName");
+            } 
+            else if (paths == null)
+            {
+                // No paths
+                return new string[0];
             }
 
             var pathsForProperty = new List<string>();

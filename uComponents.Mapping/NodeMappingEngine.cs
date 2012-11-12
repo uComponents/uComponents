@@ -89,7 +89,8 @@ namespace uComponents.Mapping
         /// </summary>
         /// <param name="sourceNode">The <c>Node</c> to map from.</param>
         /// <param name="destinationType">The type to map to.</param>
-        /// <param name="paths">The relationship paths to include.</param>
+        /// <param name="paths">The relationship paths to include, or null to include
+        /// all relationship paths at the top level and none below.</param>
         /// <returns><c>null</c> if the node does not exist.</returns>
         /// <exception cref="MapNotFoundException">If a suitable map for <paramref name="destinationType"/> has not 
         /// been created with <see cref="CreateMap()" />.</exception>

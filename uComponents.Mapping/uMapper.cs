@@ -78,7 +78,11 @@ namespace uComponents.Mapping
         public static TDestination Map<TDestination>(Node sourceNode, bool includeRelationships = true)
             where TDestination : class, new()
         {
-            return _engine.Map<TDestination>(sourceNode, includeRelationships);
+            var paths = includeRelationships 
+                ? null // all
+                : new string[0]; // none
+
+            return (TDestination)_engine.Map(sourceNode, typeof(TDestination), paths);
         }
 
         /// <summary>
@@ -99,7 +103,11 @@ namespace uComponents.Mapping
         public static TDestination GetSingle<TDestination>(int id, bool includeRelationships = true)
             where TDestination : class, new()
         {
-            return _engine.Map<TDestination>(new Node(id), includeRelationships);
+            var paths = includeRelationships
+                ? null // all
+                : new string[0]; // none
+
+            return (TDestination)_engine.Map(new Node(id), typeof(TDestination), paths);
         }
 
         /// <summary>
@@ -154,7 +162,11 @@ namespace uComponents.Mapping
         public static TDestination GetCurrent<TDestination>(bool includeRelationships = true)
             where TDestination : class, new()
         {
-            return _engine.Map<TDestination>(Node.GetCurrent(), includeRelationships);
+            var paths = includeRelationships
+                ? null // all
+                : new string[0]; // none
+
+            return (TDestination)_engine.Map(Node.GetCurrent(), typeof(TDestination), paths);
         }
 
         /// <summary>
@@ -191,6 +203,9 @@ namespace uComponents.Mapping
             where TDestination : class, new()
         {
             var destinationType = typeof(TDestination);
+            var paths = includeRelationships
+                ? null // all
+                : new string[0]; // none
 
             if (!_engine.NodeMappers.ContainsKey(destinationType))
             {
@@ -203,7 +218,7 @@ namespace uComponents.Mapping
             {
                 var nodes = uQuery.GetNodesByType(alias);
 
-                return nodes.Select(n => _engine.Map<TDestination>(n, includeRelationships));
+                return nodes.Select(n => (TDestination)_engine.Map(n, destinationType, paths));
             });
         }
 
