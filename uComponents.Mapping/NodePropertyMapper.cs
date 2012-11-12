@@ -193,22 +193,6 @@ source property alias: A source property alias must be specified when the destin
         }
 
         /// <summary>
-        /// Maps the property from a node
-        /// </summary>
-        /// <param name="sourceNode">The node to map from</param>
-        /// <returns>The strongly typed, mapped property</returns>
-        [Obsolete("Use paths instead")]
-        public object MapProperty(Node sourceNode)
-        {
-            if (sourceNode == null)
-            {
-                throw new ArgumentNullException("sourceNode");
-            }
-
-            return _mapping(sourceNode, new string[0]);
-        }
-
-        /// <summary>
         /// Maps the property from a node.
         /// </summary>
         /// <param name="sourceNode">The node to map from.</param>

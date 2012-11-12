@@ -165,7 +165,7 @@ namespace uComponents.Mapping
                 // Check relationships actually refer to relationships
                 foreach (var relationshipInfo in includedRelationships)
                 {
-                    var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo == relationshipInfo);
+                    var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo.Name == relationshipInfo.Name);
 
                     if (propertyMapper == null)
                     {
@@ -186,7 +186,7 @@ refer to a relationship.", "includedRelationships");
             {
                 if (paths == null // include all relationships
                     || !propertyMapper.IsRelationship  // map all non-relationship properties
-                    || includedRelationships.Contains(propertyMapper.DestinationInfo)) // check this relationship is included
+                    || includedRelationships.Any(x => x.Name == propertyMapper.DestinationInfo.Name)) // check this relationship is included
                 {
                     var pathsForProperty = GetNextLevelPaths(propertyMapper.DestinationInfo.Name, paths);
                     var destinationValue = propertyMapper.MapProperty(sourceNode, pathsForProperty);
@@ -206,42 +206,7 @@ refer to a relationship.", "includedRelationships");
         [Obsolete("Use MapNode with paths instead")]
         public object MapNode(Node sourceNode, PropertyInfo[] includedRelationships)
         {
-            var destination = Activator.CreateInstance(DestinationType);
-
-            if (includedRelationships != null)
-            {
-                // Check relationships actually refer to relationships
-                foreach (var relationshipInfo in includedRelationships)
-                {
-                    var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo == relationshipInfo);
-
-                    if (propertyMapper == null)
-                    {
-                        throw new ArgumentException(
-                            string.Format(@"The property '{0}' specified by 'includedRelationships' does 
-not have a valid map", relationshipInfo.Name), "includedRelationships"
-                         );
-                    }
-                    else if (!propertyMapper.IsRelationship)
-                    {
-                        throw new ArgumentException(@"One of the properties on 'destinationType' does not 
-refer to a relationship.", "includedRelationships");
-                    }
-                }
-            }
-
-            foreach (var propertyMapper in PropertyMappers)
-            {
-                if (includedRelationships == null // include all relationships
-                    || !propertyMapper.IsRelationship  // map all non-relationship properties
-                    || includedRelationships.Contains(propertyMapper.DestinationInfo)) // check this relationship is included
-                {
-                    var destinationValue = propertyMapper.MapProperty(sourceNode);
-                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
-                }
-            }
-
-            return destination;
+            return MapNode(sourceNode, includedRelationships.Select(x => x.Name).ToArray());
         }
 
         /// <summary>

@@ -159,28 +159,11 @@ namespace uComponents.Mapping
         [Obsolete("Use Map with paths instead")]
         public object Map(Node sourceNode, Type destinationType, PropertyInfo[] includedRelationships)
         {
-            if (sourceNode == null
-                || string.IsNullOrEmpty(sourceNode.Name))
-            {
-                return null;
-            }
-            else if (destinationType == null)
-            {
-                throw new ArgumentNullException("destinationType");
-            }
-            else if (!NodeMappers.ContainsKey(destinationType))
-            {
-                throw new MapNotFoundException(destinationType);
-            }
-
-            var nodeMapper = GetMapper(sourceNode.NodeTypeAlias, destinationType);
-
-            if (nodeMapper == null)
-            {
-                throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
-            }
-
-            return nodeMapper.MapNode(sourceNode, includedRelationships);
+            return Map(
+                sourceNode, 
+                destinationType, 
+                includedRelationships.Select(x => x.Name).ToArray()
+                );
         }
 
         /// <summary>
@@ -236,7 +219,11 @@ namespace uComponents.Mapping
             // Get properties from included relationships expression
             var properties = includedRelationships.Select(e => (e.Body as MemberExpression).Member as PropertyInfo).ToArray();
 
-            return (TDestination)Map(sourceNode, typeof(TDestination), properties);
+            return (TDestination)Map(
+                sourceNode, 
+                typeof(TDestination), 
+                properties.Select(x => x.Name).ToArray()
+                );
         }
 
         /// <summary>

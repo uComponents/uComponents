@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using umbraco.NodeFactory;
 using umbraco;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace uComponents.Mapping
 {
@@ -78,7 +79,7 @@ namespace uComponents.Mapping
         public static TDestination Map<TDestination>(Node sourceNode, bool includeRelationships = true)
             where TDestination : class, new()
         {
-            var paths = includeRelationships 
+            var paths = includeRelationships
                 ? null // all
                 : new string[0]; // none
 
@@ -203,23 +204,28 @@ namespace uComponents.Mapping
             where TDestination : class, new()
         {
             var destinationType = typeof(TDestination);
-            var paths = includeRelationships
-                ? null // all
-                : new string[0]; // none
 
             if (!_engine.NodeMappers.ContainsKey(destinationType))
             {
                 throw new MapNotFoundException(destinationType);
             }
 
-            var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
+            var paths = includeRelationships
+                ? _engine.NodeMappers[destinationType]
+                    .PropertyMappers
+                    .Where(x => x.IsRelationship)
+                    .Select(x => x.DestinationInfo.Name)
+                    .ToArray() // all
+                : new string[0]; // none
 
-            return sourceNodeTypeAliases.SelectMany(alias =>
+            var query = Query<TDestination>();
+
+            foreach (var path in paths)
             {
-                var nodes = uQuery.GetNodesByType(alias);
+                query.Include(path);
+            }
 
-                return nodes.Select(n => (TDestination)_engine.Map(n, destinationType, paths));
-            });
+            return query.All();
         }
 
         /// <summary>
@@ -239,21 +245,19 @@ namespace uComponents.Mapping
         public static IEnumerable<TDestination> GetAll<TDestination>(params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new()
         {
-            var destinationType = typeof(TDestination);
+            var paths = includedRelationships
+                .Select(e => (e.Body as MemberExpression).Member as PropertyInfo)
+                .Select(x => x.Name)
+                .ToArray();
 
-            if (!_engine.NodeMappers.ContainsKey(destinationType))
+            var query = Query<TDestination>();
+
+            foreach (var path in paths)
             {
-                throw new MapNotFoundException(destinationType);
+                query.Include(path);
             }
 
-            var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
-
-            return sourceNodeTypeAliases.SelectMany(alias =>
-            {
-                var nodes = uQuery.GetNodesByType(alias);
-
-                return nodes.Select(n => _engine.Map<TDestination>(n, includedRelationships));
-            });
+            return query.All();
         }
 
         /// <summary>
