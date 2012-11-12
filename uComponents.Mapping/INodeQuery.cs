@@ -16,6 +16,45 @@ namespace uComponents.Mapping
         where TDestination : class, new()
     {
         /// <summary>
+        /// Gets a mapped instance of a specific instance of a <c>Node</c>.
+        /// </summary>
+        /// <param name="node">The node to map from.</param>
+        /// <returns>
+        /// the mapped node, or null if <paramref name="node"/> is
+        /// the 'empty' node or null.
+        /// </returns>
+        TDestination Map(Node node);
+
+        /// <summary>
+        /// Gets a mapped instance of a node.
+        /// </summary>
+        /// <param name="nodeId">The ID of the node to map.</param>
+        /// <returns>The mapped node, or null if it does not exist.</returns>
+        TDestination Single(int nodeId);
+
+        /// <summary>
+        /// Gets a mapped instance of the current node.
+        /// </summary>
+        /// <returns>
+        /// The mapped node, or null if there is no
+        /// current node.
+        /// </returns>
+        TDestination Current();
+
+        /// <summary>
+        /// Gets mapped instances of every node which can be mapped to 
+        /// <typeparamref name="TDestination"/>.
+        /// </summary>
+        /// <returns>A collection of mapped nodes</returns>
+        IEnumerable<TDestination> All();
+
+        /// <summary>
+        /// Exposes the engine being used under the hood.  Useful if you want to
+        /// write extension methods for <c>INodeQuery`</c>.
+        /// </summary>
+        INodeMappingEngine Engine { get; }
+
+        /// <summary>
         /// Includes a relationship path in the node query.
         /// </summary>
         /// <param name="path">
@@ -67,38 +106,5 @@ namespace uComponents.Mapping
         /// included.
         /// </returns>
         INodeQuery<TDestination> Include<TProperty>(Expression<Func<TDestination, TProperty>> path);
-
-        /// <summary>
-        /// Gets mapped instances of every node which can be mapped to 
-        /// <typeparamref name="TDestination"/>.
-        /// </summary>
-        /// <returns>A collection of mapped nodes</returns>
-        IEnumerable<TDestination> All();
-
-        /// <summary>
-        /// Gets a mapped instance of a node.
-        /// </summary>
-        /// <param name="nodeId">The ID of the node to map.</param>
-        /// <returns>The mapped node, or null if it does not exist.</returns>
-        TDestination Single(int nodeId);
-
-        /// <summary>
-        /// Gets a mapped instance of the current node.
-        /// </summary>
-        /// <returns>
-        /// The mapped node, or null if there is no
-        /// current node.
-        /// </returns>
-        TDestination Current();
-
-        /// <summary>
-        /// Gets a mapped instance of a specific instance of a <c>Node</c>.
-        /// </summary>
-        /// <param name="node">The node to map from.</param>
-        /// <returns>
-        /// the mapped node, or null if <paramref name="node"/> is
-        /// the 'empty' node or null.
-        /// </returns>
-        TDestination Map(Node node);
     }
 }

@@ -248,7 +248,7 @@ refer to a relationship.", "includedRelationships");
         /// Gets the properties of <paramref name="type"/> which are defined
         /// by <paramref name="paths"/>.
         /// </summary>
-        private PropertyInfo[] GetImmediateProperties(Type type, string[] paths)
+        private static PropertyInfo[] GetImmediateProperties(Type type, string[] paths)
         {
             if (type == null)
             {
@@ -292,7 +292,7 @@ refer to a relationship.", "includedRelationships");
         /// <summary>
         /// Gets the paths relative to a relationship.
         /// </summary>
-        private string[] GetNextLevelPaths(string relationshipName, string[] paths)
+        private static string[] GetNextLevelPaths(string relationshipName, string[] paths)
         {
             if (string.IsNullOrEmpty(relationshipName))
             {

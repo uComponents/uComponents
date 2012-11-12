@@ -8,6 +8,13 @@ using umbraco;
 
 namespace uComponents.Mapping
 {
+    /// <summary>
+    /// Represents a query for mapped Umbraco nodes.
+    /// 
+    /// See INodeQuery for comments.
+    /// </summary>
+    /// <typeparam name="TDestination">The type which queried nodes will
+    /// be mapped to.</typeparam>
     internal class NodeQuery<TDestination> : INodeQuery<TDestination>
         where TDestination : class, new()
     {
@@ -25,6 +32,14 @@ namespace uComponents.Mapping
             }
 
             _engine = engine;
+        }
+
+        public INodeMappingEngine Engine
+        {
+            get
+            {
+                return _engine;
+            }
         }
 
         public TDestination Map(Node node)
