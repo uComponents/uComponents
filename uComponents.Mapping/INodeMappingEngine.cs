@@ -43,6 +43,33 @@ namespace uComponents.Mapping
             where TDestination : class, new();
 
         /// <summary>
+        /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>.
+        /// </summary>
+        /// <typeparam name="TDestination">
+        /// The type of object that <paramref name="sourceNode"/> maps to.
+        /// </typeparam>
+        /// <param name="sourceNode">The <c>Node</c> to map from.</param>
+        /// <param name="includeRelationships">Whether to include the <c>Node</c>'s relationships</param>
+        /// <returns><c>null</c> if the <c>Node</c> does not exist.</returns>
+        [Obsolete("Use paths instead")]
+        TDestination Map<TDestination>(Node sourceNode, bool includeRelationships)
+            where TDestination : class, new();
+
+        /// <summary>
+        /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>, only including 
+        /// specified relationships.
+        /// </summary>
+        /// <typeparam name="TDestination">
+        /// The type of object that <paramref name="sourceNode"/> maps to.
+        /// </typeparam>
+        /// <param name="sourceNode">The <c>Node</c> to map from.</param>
+        /// <param name="includedRelationships">The relationship properties to include.</param>
+        /// <returns><c>null</c> if the node does not exist.</returns>
+        [Obsolete("Use paths instead")]
+        TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
+            where TDestination : class, new();
+
+        /// <summary>
         /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
         /// </summary>
         /// <typeparam name="TDestination">The type to map to.</typeparam>

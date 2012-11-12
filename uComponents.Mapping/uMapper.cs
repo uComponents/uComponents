@@ -255,5 +255,20 @@ namespace uComponents.Mapping
                 return nodes.Select(n => _engine.Map<TDestination>(n, includedRelationships));
             });
         }
+
+        /// <summary>
+        /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
+        /// </summary>
+        /// <typeparam name="TDestination">The type to map to.</typeparam>
+        /// <returns>A fluent configuration for the query.</returns>
+        /// <exception cref="MapNotFoundException">
+        /// If a suitable map for <typeparamref name="TDestination"/> has not 
+        /// been created with <see cref="CreateMap()" />.
+        /// </exception>
+        public static INodeQuery<TDestination> Query<TDestination>()
+            where TDestination : class, new()
+        {
+            return _engine.Query<TDestination>();
+        }
     }
 }

@@ -286,7 +286,7 @@ refer to a relationship.", "includedRelationships");
                 }
             }
 
-            return allProperties.ToArray();
+            return chosenProperties.ToArray();
         }
 
         /// <summary>
