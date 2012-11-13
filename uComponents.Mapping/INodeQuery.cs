@@ -150,7 +150,13 @@ namespace uComponents.Mapping
         /// <summary>
         /// Includes many relationship paths in the node query
         /// </summary>
-        /// <seealso cref="Include()"/>
+        /// <seealso cref="Include"/>
         INodeQuery<TDestination> IncludeMany(string[] paths);
+        
+        /// <summary>
+        /// Includes many relationship paths in the node query
+        /// </summary>
+        /// <seealso cref="Include{TProperty}"/>
+        INodeQuery<TDestination> IncludeMany(Expression<Func<TDestination, object>>[] paths);
     }
 }

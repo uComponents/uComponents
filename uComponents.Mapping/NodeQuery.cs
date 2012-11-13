@@ -130,7 +130,10 @@ namespace uComponents.Mapping
                 throw new ArgumentException("The path cannot be null or empty", "path");
             }
 
-            _paths.Add(path);
+            if (!_paths.Contains(path))
+            {
+                _paths.Add(path);
+            }
 
             return this;
         }
@@ -156,6 +159,21 @@ namespace uComponents.Mapping
         }
 
         public INodeQuery<TDestination> IncludeMany(string[] paths)
+        {
+            if (paths == null)
+            {
+                throw new ArgumentNullException("paths");
+            }
+
+            foreach (var path in paths)
+            {
+                this.Include(path);
+            }
+
+            return this;
+        }
+
+        public INodeQuery<TDestination> IncludeMany(Expression<Func<TDestination, object>>[] paths)
         {
             if (paths == null)
             {

@@ -124,7 +124,8 @@ namespace uComponents.Mapping
 
                         if (sourcePropertyAlias != null
                             || destinationProperty.PropertyType.IsModelCollection()
-                            || destinationProperty.PropertyType.IsModel())
+                            || destinationProperty.PropertyType.IsModel()
+                            || destinationProperty.PropertyType.IsEnum)
                         {
                             customPropertyMapper = new NodePropertyMapper(this, destinationProperty, sourcePropertyAlias);
                         }

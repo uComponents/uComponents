@@ -142,6 +142,28 @@ source property alias: A source property alias must be specified when the destin
                 _mapping = (node, paths) => method.Invoke(null, new object[] { node, SourcePropertyAlias });
                 IsRelationship = false;
             }
+            else if (destinationProperty.PropertyType.IsEnum)
+            {
+                // Enum - parse that business!
+                _mapping = (node, paths) =>
+                {
+                    var valueAsString = node.GetProperty<string>(SourcePropertyAlias);
+                    int valueAsInt;
+
+                    if (int.TryParse(valueAsString, out valueAsInt))
+                    {
+                        // Parse as int, easy
+                        return Enum.ToObject(DestinationInfo.PropertyType, valueAsInt);
+                    }
+                    else
+                    {
+                        // Try to parse the string, hopefully stripping the spaces gives a valid enum name...
+                        return Enum.Parse(DestinationInfo.PropertyType, valueAsString.Replace(" ", ""));
+                    }
+                };
+
+                IsRelationship = false;
+            }
             else if (destinationProperty.PropertyType.IsModel())
             {
                 // Try to map to model
@@ -187,7 +209,7 @@ source property alias: A source property alias must be specified when the destin
             }
             else
             {
-                throw new NotImplementedException("Cannot map to a property that is not a collection, system type or model");
+                throw new NotImplementedException("Cannot map to a property that is not a collection, system type, enum or class");
             }
         }
 
@@ -399,7 +421,9 @@ Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propert
         /// </summary>
         public static bool IsModel(this Type type)
         {
-            return !type.IsModelCollection() && !type.IsSystem();
+            return !type.IsModelCollection()
+                && !type.IsSystem()
+                && !type.IsEnum;
         }
     }
 }
