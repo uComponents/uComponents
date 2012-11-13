@@ -134,34 +134,13 @@ source property alias: A source property alias must be specified when the destin
                     IsRelationship = true;
                 }
             }
-            else if (destinationProperty.PropertyType.IsSystem())
+            else if (destinationProperty.PropertyType.IsSystem()
+                || destinationProperty.PropertyType.IsEnum)
             {
                 // Basic system types
                 var method = NodeMappingEngine.GetNodePropertyMethod.MakeGenericMethod(destinationProperty.PropertyType);
 
                 _mapping = (node, paths) => method.Invoke(null, new object[] { node, SourcePropertyAlias });
-                IsRelationship = false;
-            }
-            else if (destinationProperty.PropertyType.IsEnum)
-            {
-                // Enum - parse that business!
-                _mapping = (node, paths) =>
-                {
-                    var valueAsString = node.GetProperty<string>(SourcePropertyAlias);
-                    int valueAsInt;
-
-                    if (int.TryParse(valueAsString, out valueAsInt))
-                    {
-                        // Parse as int, easy
-                        return Enum.ToObject(DestinationInfo.PropertyType, valueAsInt);
-                    }
-                    else
-                    {
-                        // Try to parse the string, hopefully stripping the spaces gives a valid enum name...
-                        return Enum.Parse(DestinationInfo.PropertyType, valueAsString.Replace(" ", ""));
-                    }
-                };
-
                 IsRelationship = false;
             }
             else if (destinationProperty.PropertyType.IsModel())
