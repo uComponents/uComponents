@@ -8,7 +8,7 @@
 		<owners>The Umbraco Community</owners>
 		<licenseUrl>http://ucomponents.codeplex.com/license</licenseUrl>
 		<projectUrl>http://our.umbraco.org/projects/backoffice-extensions/ucomponents</projectUrl>
-		<iconUrl>http://our.umbraco.org/media/wiki/10020/634562685433944000_ucomponents_icon.png</iconUrl>
+		<iconUrl>http://ucomponents.org/apple-touch-icon-114x114-precomposed.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<summary>uComponents is a collaborative project for creating components for Umbraco including data types, XSLT extensions, controls and more.</summary>
 		<description>

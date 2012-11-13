@@ -22,7 +22,7 @@
 		<asp:CheckBox runat="server" ID="cbDisableRazorModelBinding" Text="Disable Razor model binding" Checked="false" /></em>
 
 		<h2>UI Modules</h2>
-		<asp:CheckBox runat="server" ID="cbUiModules" Text="Enable UI Modules" Checked="true" /> <em>(Keyboard shortcuts  are enabled by default)</em>
+		<asp:CheckBox runat="server" ID="cbUiModules" Text="Enable UI Modules" /> <em>(Keyboard shortcuts  are enabled by default)</em>
 		<div style="margin-left:15px;">
 			<asp:CheckBoxList runat="server" ID="cblUiModules"></asp:CheckBoxList>
 		</div>
