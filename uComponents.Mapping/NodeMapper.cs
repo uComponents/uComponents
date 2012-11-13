@@ -170,15 +170,22 @@ namespace uComponents.Mapping
 
                     if (propertyMapper == null)
                     {
-                        throw new ArgumentException(
-                            string.Format(@"The property '{0}' specified by 'includedRelationships' does 
-not have a valid map", relationshipInfo.Name), "includedRelationships"
-                         );
+                        throw new InvalidPathException(
+                            string.Format(
+                                "The property '{0}' on '{1}' is not mapped - check your mappings.", 
+                                relationshipInfo.Name,
+                                relationshipInfo.PropertyType.FullName
+                                ));
                     }
                     else if (!propertyMapper.IsRelationship)
                     {
-                        throw new ArgumentException(@"One of the properties on 'destinationType' does not 
-refer to a relationship.", "includedRelationships");
+                        throw new InvalidPathException(
+                            string.Format(
+                                @"The property '{0}' on '{1}' does not 
+refer to a relationship (do not include it as a path, it will be populated automatically).",
+                                relationshipInfo.Name,
+                                relationshipInfo.PropertyType.FullName
+                                ));
                     }
                 }
             }
@@ -298,8 +305,13 @@ refer to a relationship.", "includedRelationships");
     public class InvalidPathException : Exception
     {
         /// <summary>
-        /// 
+        /// Basic constructor for path exceptions
         /// </summary>
+        public InvalidPathException(string message)
+            : base(message)
+        {
+        }
+
         /// <param name="type">The type where the segment was expected to correspond
         /// to a relationship.</param>
         /// <param name="path">The remaining path.</param>
