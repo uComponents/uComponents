@@ -19,6 +19,9 @@ namespace uComponents.Mapping
         public string SourcePropertyAlias { get; private set; }
         public bool IsRelationship { get; private set; }
 
+        private bool _canAssignCollectionDirectly;
+        private Type _itemType;
+
         /// <summary>
         /// A function taking the node which returns
         /// the strongly typed property value, taking into account
@@ -81,56 +84,23 @@ source property alias: A source property alias must be specified when the destin
             if (destinationProperty.PropertyType.IsModelCollection())
             {
                 // A collection
-                var itemType = destinationProperty.PropertyType.GetGenericArguments().FirstOrDefault();
+                _itemType = destinationProperty.PropertyType.GetGenericArguments().FirstOrDefault();
 
-                if (itemType == null || itemType.IsAssignableFrom(typeof(int)))
+                if (_itemType == null || _itemType.IsAssignableFrom(typeof(int)))
                 {
                     // Map IDs
-                    bool assignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, typeof(IEnumerable<int>));
+                    _canAssignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, typeof(IEnumerable<int>));
 
-                    _mapping = (node, paths) =>
-                    {
-                        var ids = GetRelatedNodeIds(node);
-
-                        return assignCollectionDirectly
-                            ? ids
-                            : Activator.CreateInstance(destinationProperty.PropertyType, ids);
-                    };
-
+                    _mapping = MapCollectionAsIds;
                     IsRelationship = false;
                 }
                 else
                 {
                     // Map model collection
-                    var sourceCollectionType = typeof(IEnumerable<>).MakeGenericType(itemType);
-                    bool assignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, sourceCollectionType);
+                    var sourceCollectionType = typeof(IEnumerable<>).MakeGenericType(_itemType);
+                    _canAssignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, sourceCollectionType);
 
-                    _mapping = (node, paths) =>
-                    {
-                        var relatedNodes = GetRelatedNodes(node, itemType);
-
-                        if (relatedNodes != null)
-                        {
-                            var sourceListType = typeof(List<>).MakeGenericType(itemType);
-                            var items = Activator.CreateInstance(sourceListType);
-
-                            foreach (var relatedNode in relatedNodes)
-                            {
-                                var item = nodeMapper.Engine.Map(relatedNode, itemType, paths);
-                                // items.Add(item) but for generic list
-                                sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
-                            }
-
-                            return assignCollectionDirectly
-                                ? items
-                                : Activator.CreateInstance(destinationProperty.PropertyType, items);
-                        }
-                        else
-                        {
-                            return null;
-                        }
-                    };
-
+                    _mapping = MapCollectionAsModels;
                     IsRelationship = true;
                 }
             }
@@ -146,44 +116,7 @@ source property alias: A source property alias must be specified when the destin
             else if (destinationProperty.PropertyType.IsModel())
             {
                 // Try to map to model
-                _mapping = (node, paths) =>
-                {
-                    if (SourcePropertyAlias != null)
-                    {
-                        // Ensure map exists
-                        if (!nodeMapper.Engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
-                        {
-                            throw new MapNotFoundException(destinationProperty.PropertyType);
-                        }
-
-                        // Map to single property relationship
-                        var id = node.GetProperty<int?>(SourcePropertyAlias);
-
-                        if (id.HasValue)
-                        {
-                            var relatedNode = new Node(id.Value);
-
-                            if (!string.IsNullOrEmpty(relatedNode.Name))
-                            {
-                                return nodeMapper.Engine.Map(relatedNode, destinationProperty.PropertyType, paths);
-                            }
-                        }
-                    }
-                    else if (nodeMapper.Engine.NodeMappers.ContainsKey(destinationProperty.PropertyType))
-                    {
-                        // Map to ancestor (if possible)
-                        var aliases = nodeMapper.Engine
-                            .GetCompatibleNodeTypeAliases(destinationProperty.PropertyType)
-                            .ToArray();
-                        var ancestorNode = node.GetAncestorNodes()
-                            .FirstOrDefault(x => aliases.Contains(x.NodeTypeAlias));
-
-                        return nodeMapper.Engine.Map(ancestorNode, destinationProperty.PropertyType, paths);
-                    }
-
-                    return null;
-                };
-
+                _mapping = MapModel;
                 IsRelationship = true;
             }
             else
@@ -218,7 +151,7 @@ source property alias: A source property alias must be specified when the destin
         /// <param name="sourceCollectionType">The type of collection the items are coming from</param>
         /// <returns>True if the collection can be directly assigned,
         /// False if the collection needs to be instatiated.</returns>
-        /// <exception cref="CollectionTypeNotSupported">The collection type cannot be 
+        /// <exception cref="CollectionTypeNotSupportedException">The collection type cannot be 
         /// instatiated or assigned.</exception>
         private static bool CheckCollectionCanBeAssigned(Type destinationCollectionType, Type sourceCollectionType)
         {
@@ -250,7 +183,7 @@ source property alias: A source property alias must be specified when the destin
                 }
                 else
                 {
-                    throw new CollectionTypeNotSupported(destinationCollectionType);
+                    throw new CollectionTypeNotSupportedException(destinationCollectionType);
                 }
             }
 
@@ -349,6 +282,83 @@ source property alias: A source property alias must be specified when the destin
 
             return ids;
         }
+
+        #region Default property mappings
+
+        private object MapCollectionAsIds(Node node, string[] paths)
+        {
+            var ids = GetRelatedNodeIds(node);
+
+            return _canAssignCollectionDirectly
+                ? ids
+                : Activator.CreateInstance(DestinationInfo.PropertyType, ids);
+        }
+
+        private object MapCollectionAsModels(Node node, string[] paths)
+        {
+            var relatedNodes = GetRelatedNodes(node, _itemType);
+
+            if (relatedNodes != null)
+            {
+                var sourceListType = typeof(List<>).MakeGenericType(_itemType);
+                var items = Activator.CreateInstance(sourceListType);
+
+                foreach (var relatedNode in relatedNodes)
+                {
+                    var item = Engine.Map(relatedNode, _itemType, paths);
+                    // items.Add(item) but for generic list
+                    sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
+                }
+
+                return _canAssignCollectionDirectly
+                    ? items
+                    : Activator.CreateInstance(DestinationInfo.PropertyType, items);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private object MapModel(Node node, string[] paths)
+        {
+            if (SourcePropertyAlias != null)
+            {
+                // Ensure map exists
+                if (!Engine.NodeMappers.ContainsKey(DestinationInfo.PropertyType))
+                {
+                    throw new MapNotFoundException(DestinationInfo.PropertyType);
+                }
+
+                // Map to single property relationship
+                var id = node.GetProperty<int?>(SourcePropertyAlias);
+
+                if (id.HasValue)
+                {
+                    var relatedNode = new Node(id.Value);
+
+                    if (!string.IsNullOrEmpty(relatedNode.Name))
+                    {
+                        return Engine.Map(relatedNode, DestinationInfo.PropertyType, paths);
+                    }
+                }
+            }
+            else if (Engine.NodeMappers.ContainsKey(DestinationInfo.PropertyType))
+            {
+                // Map to ancestor (if possible)
+                var aliases = Engine
+                    .GetCompatibleNodeTypeAliases(DestinationInfo.PropertyType)
+                    .ToArray();
+                var ancestorNode = node.GetAncestorNodes()
+                    .FirstOrDefault(x => aliases.Contains(x.NodeTypeAlias));
+
+                return Engine.Map(ancestorNode, DestinationInfo.PropertyType, paths);
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 
     /// <summary>

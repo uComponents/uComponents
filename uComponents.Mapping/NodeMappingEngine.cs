@@ -362,13 +362,17 @@ model type '{1}'.  Make sure you are mapping the correct node.",
     /// A collection which cannot be instiatated/populated by the mapping engine
     /// is used.
     /// </summary>
-    public class CollectionTypeNotSupported : Exception
+    public class CollectionTypeNotSupportedException : Exception
     {
         /// <param name="type">The unsupported collection type.</param>
-        public CollectionTypeNotSupported(Type type)
-            : base(string.Format(@"Could not map to collection of type '{0}'.  
-Use IEnumerable, or alternatively make sure your collection type has
-a single parameter constructor which takes an IEnumerable (such as List)", type.FullName))
+        public CollectionTypeNotSupportedException(Type type)
+            : base(string.Format(
+            @"Could not map to collection of type '{0}'.  
+The property type must be assignable from IEnumerable<{1}>
+or have a constructor which takes a single argument of IEnumerable<{1}>
+(such as a List<{1}>).", 
+            type.FullName, 
+            type.Name))
         {
         }
     }

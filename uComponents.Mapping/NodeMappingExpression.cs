@@ -74,8 +74,9 @@ namespace uComponents.Mapping
         /// <param name="destinationProperty">The member of the destination model
         /// to map to.</param>
         /// <param name="propertyMapping">
-        /// The new mapping function, which takes a node to map and an array
-        /// of paths relative to the property.
+        /// The new mapping function.  Arguments are the node being mapped, 
+        /// and an array of paths relative to the property being mapped
+        /// (when mapping a relationship).
         /// </param>
         /// <param name="isRelationship">Whether the property should be deemed a relationship
         /// or not.</param>
