@@ -5,16 +5,18 @@ using System.Text;
 using System.Linq.Expressions;
 using umbraco.NodeFactory;
 using umbraco;
+using System.Collections;
 
 namespace uComponents.Mapping
 {
     /// <summary>
-    /// Represents a query for mapped Umbraco nodes.
-    /// 
-    /// See INodeQuery for comments.
+    /// Represents a query for mapped Umbraco nodes.  Enumerating the
+    /// query gets mapped instances of every node which can be mapped to 
+    /// <typeparamref name="TDestination"/>. 
     /// </summary>
-    /// <typeparam name="TDestination">The type which queried nodes will
-    /// be mapped to.</typeparam>
+    /// <typeparam name="TDestination">
+    /// The type which queried nodes will be mapped to.
+    /// </typeparam>
     internal class NodeQuery<TDestination> : INodeQuery<TDestination>
         where TDestination : class, new()
     {
@@ -45,8 +47,8 @@ namespace uComponents.Mapping
         public TDestination Map(Node node)
         {
             return (TDestination)_engine.Map(
-                node, 
-                typeof(TDestination), 
+                node,
+                typeof(TDestination),
                 _paths.ToArray()
                 );
         }
@@ -54,8 +56,8 @@ namespace uComponents.Mapping
         public TDestination Single(int nodeId)
         {
             return (TDestination)_engine.Map(
-                new Node(nodeId), 
-                typeof(TDestination), 
+                new Node(nodeId),
+                typeof(TDestination),
                 _paths.ToArray()
                 );
         }
@@ -89,26 +91,7 @@ namespace uComponents.Mapping
                 );
         }
 
-        public IEnumerable<TDestination> All()
-        {
-            var destinationType = typeof(TDestination);
-
-            if (!_engine.NodeMappers.ContainsKey(destinationType))
-            {
-                throw new MapNotFoundException(destinationType);
-            }
-
-            var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
-
-            return sourceNodeTypeAliases.SelectMany(alias =>
-            {
-                var nodes = uQuery.GetNodesByType(alias);
-
-                return nodes.Select(n => (TDestination)_engine.Map(n, destinationType, _paths.ToArray()));
-            });
-        }
-
-        public IEnumerable<TDestination> AllExplicit()
+        public IEnumerable<TDestination> Explicit()
         {
             var destinationType = typeof(TDestination);
 
@@ -187,6 +170,40 @@ namespace uComponents.Mapping
 
             return this;
         }
+
+        #region IEnumerable
+
+        /// <summary>
+        /// Gets and enumerator of mapped instances of every node which 
+        /// can be mapped to <typeparamref name="TDestination"/>. 
+        /// </summary>
+        public IEnumerator<TDestination> GetEnumerator()
+        {
+            var destinationType = typeof(TDestination);
+
+            if (!_engine.NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
+
+            return sourceNodeTypeAliases
+                .SelectMany(alias =>
+                {
+                    var nodes = uQuery.GetNodesByType(alias);
+
+                    return nodes.Select(n => (TDestination)_engine.Map(n, destinationType, _paths.ToArray()));
+                })
+                .GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
     }
 
     internal static class NodeQueryHelpers

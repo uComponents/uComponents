@@ -8,11 +8,14 @@ using umbraco.NodeFactory;
 namespace uComponents.Mapping
 {
     /// <summary>
-    /// Represents a query for mapped Umbraco nodes.
+    /// Represents a query for mapped Umbraco nodes.  Enumerating the
+    /// query gets mapped instances of every node which can be mapped to 
+    /// <typeparamref name="TDestination"/>. 
     /// </summary>
-    /// <typeparam name="TDestination">The type which queried nodes will
-    /// be mapped to.</typeparam>
-    public interface INodeQuery<TDestination>
+    /// <typeparam name="TDestination">
+    /// The type which queried nodes will be mapped to.
+    /// </typeparam>
+    public interface INodeQuery<TDestination> : IEnumerable<TDestination>
         where TDestination : class, new()
     {
         /// <summary>
@@ -64,16 +67,6 @@ namespace uComponents.Mapping
         TDestination Current();
 
         /// <summary>
-        /// Gets mapped instances of every node which can be mapped to 
-        /// <typeparamref name="TDestination"/>.
-        /// </summary>
-        /// <returns>
-        /// A collection of mapped nodes which
-        /// are assignable to <typeparamref name="TDestination"/>.
-        /// </returns>
-        IEnumerable<TDestination> All();
-
-        /// <summary>
         /// Gets mapped instances only of nodes which were mapped to
         /// <typeparamref name="TDestination"/> using 
         /// <see cref="INodeMappingEngine.CreateMap()"/>.
@@ -86,7 +79,7 @@ namespace uComponents.Mapping
         /// A collection of mapped nodes of type
         /// <typeparamref name="TDestination"/>.
         /// </returns>
-        IEnumerable<TDestination> AllExplicit();
+        IEnumerable<TDestination> Explicit();
 
         /// <summary>
         /// Exposes the engine being used under the hood.  Useful if you want to

@@ -225,7 +225,7 @@ namespace uComponents.Mapping
                 query.Include(path);
             }
 
-            return query.All();
+            return query.AsEnumerable();
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace uComponents.Mapping
                 query.Include(path);
             }
 
-            return query.All();
+            return query.AsEnumerable();
         }
 
         /// <summary>
