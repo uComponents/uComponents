@@ -73,12 +73,16 @@ namespace uComponents.Mapping
         /// </summary>
         /// <param name="destinationProperty">The member of the destination model
         /// to map to.</param>
-        /// <param name="propertyMapping">The new mapping function.</param>
+        /// <param name="propertyMapping">
+        /// The new mapping function.  Arguments are the node being mapped, 
+        /// and an array of paths relative to the property being mapped
+        /// (when mapping a relationship).
+        /// </param>
         /// <param name="isRelationship">Whether the property should be deemed a relationship
         /// or not.</param>
         public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
-            Func<Node, object> propertyMapping,
+            Func<Node, string[], object> propertyMapping,
             bool isRelationship
             )
         {
@@ -106,6 +110,32 @@ namespace uComponents.Mapping
 
             _nodeMapper.PropertyMappers.Add(newMapper);
             return this;
+        }
+
+        /// <summary>
+        /// Sets a custom mapping to be used for a the model property.
+        /// </summary>
+        /// <param name="destinationProperty">The member of the destination model
+        /// to map to.</param>
+        /// <param name="propertyMapping">
+        /// The new mapping function.
+        /// </param>
+        /// <param name="isRelationship">Whether the property should be deemed a relationship
+        /// or not.</param>
+        [Obsolete("Use the overload of ForProperty which takes an array of paths instead")]
+        public INodeMappingExpression<TDestination> ForProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty,
+            Func<Node, object> propertyMapping,
+            bool isRelationship
+            )
+        {
+            Func<Node, string[], object> mapping = (node, paths) => propertyMapping(node);
+
+            return ForProperty(
+                destinationProperty, 
+                mapping, 
+                isRelationship
+                );
         }
 
         /// <summary>
