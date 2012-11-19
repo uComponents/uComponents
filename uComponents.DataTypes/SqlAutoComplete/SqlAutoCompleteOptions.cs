@@ -5,7 +5,10 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SqlAutoComplete
 {
-    internal class SqlAutoCompleteOptions : AbstractOptions
+    /// <summary>
+    /// The options for the SqlAutoCompleteOptions data-type.
+    /// </summary>
+    public class SqlAutoCompleteOptions : AbstractOptions
     {
         /// <summary>
         /// Initializes an instance of SqlAutoCompleteOptions

@@ -5,7 +5,7 @@ namespace uComponents.DataTypes.SubTabs
     /// <summary>
     /// Options as set by using the PreValueEditor
     /// </summary>
-    internal class SubTabsOptions
+    public class SubTabsOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SubTabsOptions"/> class.

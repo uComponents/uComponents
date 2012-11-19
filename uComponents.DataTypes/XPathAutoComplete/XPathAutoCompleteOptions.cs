@@ -6,7 +6,10 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.XPathAutoComplete
 {
-    internal class XPathAutoCompleteOptions : AbstractOptions
+    /// <summary>
+    /// The options for the XPathAutoCompleteOptions data-type.
+    /// </summary>
+    public class XPathAutoCompleteOptions : AbstractOptions
     {
         /// <summary>
         /// Initializes an instance of XPathAutoCompleteOptions
@@ -51,7 +54,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
         {
             get
             {
-                return uQuery.GetUmbracoObjectType(new Guid(this.Type));    
+                return uQuery.GetUmbracoObjectType(new Guid(this.Type));
             }
         }
     }

@@ -604,7 +604,7 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns the <c>Content</c> Id.</returns>
 		public static int GetContentIdByPropertyId(int propertyId)
 		{
-			// TODO: [LK] Change in uComponents 5.1 / Umbraco 4.9.0
+			// TODO: [LK] Change in uComponents 6.0 / Umbraco 6.0
 			// return uQuery.GetContentIdByPropertyId(propertyId);
 
 			if (propertyId > 0)

@@ -1,4 +1,4 @@
-﻿internal enum SubTabType
+﻿public enum SubTabType
 {
     Buttons,
 

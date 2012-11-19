@@ -5,15 +5,22 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {
-	internal class SqlCheckBoxListOptions : AbstractOptions
+	/// <summary>
+	/// The options for the SqlCheckBoxListOptions data-type.
+	/// </summary>
+	public class SqlCheckBoxListOptions : AbstractOptions
 	{
 		/// <summary>
-		/// Initializes an instance of SqlCheckBoxListOptions
+		/// Initializes a new instance of the <see cref="SqlCheckBoxListOptions"/> class.
 		/// </summary>
 		public SqlCheckBoxListOptions()
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SqlCheckBoxListOptions"/> class.
+		/// </summary>
+		/// <param name="loadDefaults">if set to <c>true</c> [load defaults].</param>
 		public SqlCheckBoxListOptions(bool loadDefaults)
 			: base(loadDefaults)
 		{
