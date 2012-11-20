@@ -69,7 +69,8 @@ namespace uComponents.Mapping
             }
 
             // Get document type
-            var docType = DocumentType.GetByAlias(documentTypeAlias);
+            var docType = DocumentType.GetAllAsList()
+                .SingleOrDefault(d => string.Equals(d.Alias, documentTypeAlias, StringComparison.InvariantCultureIgnoreCase));
 
             if (docType == null)
             {
