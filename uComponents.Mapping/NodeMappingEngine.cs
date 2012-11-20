@@ -9,6 +9,7 @@ using umbraco;
 using umbraco.cms.businesslogic.web;
 using umbraco.NodeFactory;
 using System.Linq.Expressions;
+using System.Web.Caching;
 
 namespace uComponents.Mapping
 {
@@ -21,12 +22,32 @@ namespace uComponents.Mapping
         internal readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
         internal Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
+        /// <see cref="INodeMappingEngine.CacheProvider"/>
+        public ICacheProvider CacheProvider { get; set; }
+
         /// <summary>
         /// Instantiates a new NodeMappingEngine
         /// </summary>
         public NodeMappingEngine()
         {
             this.NodeMappers = new Dictionary<Type, NodeMapper>();
+        }
+
+        /// <summary>
+        /// Instantiates a new NodeMappingEngine using a web cache.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="cache"/> is null.
+        /// </exception>
+        public NodeMappingEngine(Cache cache)
+            : base()
+        {
+            if (cache == null)
+            {
+                throw new ArgumentNullException("cache");
+            }
+
+            CacheProvider = new DefaultCacheProvider(cache);
         }
 
         /// <summary>
@@ -160,8 +181,8 @@ namespace uComponents.Mapping
         public object Map(Node sourceNode, Type destinationType, PropertyInfo[] includedRelationships)
         {
             return Map(
-                sourceNode, 
-                destinationType, 
+                sourceNode,
+                destinationType,
                 includedRelationships.Select(x => x.Name).ToArray()
                 );
         }
@@ -187,9 +208,9 @@ namespace uComponents.Mapping
             where TDestination : class, new()
         {
             return (TDestination)Map(
-                sourceNode, 
-                typeof(TDestination), 
-                includeRelationships 
+                sourceNode,
+                typeof(TDestination),
+                includeRelationships
                     ? null // all relationships
                     : new string[0] // no relationships
                 );
@@ -220,8 +241,8 @@ namespace uComponents.Mapping
             var properties = includedRelationships.Select(e => (e.Body as MemberExpression).Member as PropertyInfo).ToArray();
 
             return (TDestination)Map(
-                sourceNode, 
-                typeof(TDestination), 
+                sourceNode,
+                typeof(TDestination),
                 properties.Select(x => x.Name).ToArray()
                 );
         }
@@ -261,7 +282,7 @@ namespace uComponents.Mapping
             }
 
             // Sort by inheritance
-            ancestorMappers.Sort((x, y) => 
+            ancestorMappers.Sort((x, y) =>
                 {
                     return x.DestinationType.IsAssignableFrom(y.DestinationType)
                         ? 1
@@ -370,8 +391,8 @@ model type '{1}'.  Make sure you are mapping the correct node.",
             @"Could not map to collection of type '{0}'.  
 The property type must be assignable from IEnumerable<{1}>
 or have a constructor which takes a single argument of IEnumerable<{1}>
-(such as a List<{1}>).", 
-            type.FullName, 
+(such as a List<{1}>).",
+            type.FullName,
             type.Name))
         {
         }

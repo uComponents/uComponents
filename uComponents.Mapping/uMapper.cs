@@ -7,6 +7,7 @@ using umbraco.NodeFactory;
 using umbraco;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web;
 
 namespace uComponents.Mapping
 {
@@ -27,6 +28,30 @@ namespace uComponents.Mapping
         public static INodeMappingEngine Engine
         {
             get { return _engine; }
+        }
+
+        /// <summary>
+        /// Enables or disables caching, using the <c>HttpContext.Current.Cache</c>
+        /// object.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// If <c>HttpContext.Current</c> is not set.
+        /// </exception>
+        public static bool CachingEnabled
+        {
+            get
+            {
+                return _engine.CacheProvider != null;
+            }
+            set
+            {
+                if (HttpContext.Current == null)
+                {
+                    throw new InvalidOperationException("The current HttpContext is not available - caching cannot be enabled");
+                }
+
+                _engine.CacheProvider = new DefaultCacheProvider(HttpContext.Current.Cache);
+            }
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using umbraco.NodeFactory;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web.Caching;
 namespace uComponents.Mapping
 {
     /// <summary>
@@ -28,6 +29,12 @@ namespace uComponents.Mapping
         /// <returns>Further mapping configuration</returns>
         INodeMappingExpression<TDestination> CreateMap<TDestination>(string documentTypeAlias)
             where TDestination : class, new();
+
+        /// <summary>
+        /// Sets the cache provider for the engine to use. Set as null to
+        /// disable caching.
+        /// </summary>
+        ICacheProvider CacheProvider { get; set; }
 
         /// <summary>
         /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>, only including 
