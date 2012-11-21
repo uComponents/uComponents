@@ -24,5 +24,10 @@ namespace uComponents.Mapping
         /// null if there is no object with the specified <paramref name="key"/>
         /// </returns>
         object Get(string key);
+
+        /// <summary>
+        /// Clears the cache.
+        /// </summary>
+        void Clear();
     }
 }

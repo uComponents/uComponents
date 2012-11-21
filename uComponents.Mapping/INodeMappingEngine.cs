@@ -31,10 +31,10 @@ namespace uComponents.Mapping
             where TDestination : class, new();
 
         /// <summary>
-        /// Sets the cache provider for the engine to use. Set as null to
-        /// disable caching.
+        /// Sets the cache provider for the engine to use. This will clear any existing
+        /// cache provider.  Set as null to disable caching.
         /// </summary>
-        ICacheProvider CacheProvider { get; set; }
+        void SetCacheProvider(ICacheProvider cacheProvider);
 
         /// <summary>
         /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>, only including 

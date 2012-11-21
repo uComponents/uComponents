@@ -190,6 +190,14 @@ refer to a relationship (do not include it as a path, it will be populated autom
                 }
             }
 
+            if (Engine.IsCachingEnabled)
+            {
+                var cache = Engine.CacheProvider;
+
+                // TODO
+                throw new NotImplementedException();
+            }
+
             foreach (var propertyMapper in PropertyMappers)
             {
                 if (paths == null // include all relationships

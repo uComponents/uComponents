@@ -22,8 +22,8 @@ namespace uComponents.Mapping
         internal readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
         internal Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
-        /// <see cref="INodeMappingEngine.CacheProvider"/>
-        public ICacheProvider CacheProvider { get; set; }
+        private ICacheProvider _cacheProvider;
+        private content.DocumentCacheEventHandler _documentCacheEventHandler;
 
         /// <summary>
         /// Instantiates a new NodeMappingEngine
@@ -32,6 +32,8 @@ namespace uComponents.Mapping
         {
             this.NodeMappers = new Dictionary<Type, NodeMapper>();
         }
+
+        #region Caching
 
         /// <summary>
         /// Instantiates a new NodeMappingEngine using a web cache.
@@ -47,8 +49,61 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("cache");
             }
 
-            CacheProvider = new DefaultCacheProvider(cache);
+            SetCacheProvider(new DefaultCacheProvider(cache));
         }
+
+        internal bool IsCachingEnabled
+        {
+            get
+            {
+                return _cacheProvider != null;
+            }
+        }
+
+        internal ICacheProvider CacheProvider
+        {
+            get
+            {
+                return _cacheProvider;
+            }
+        }
+
+        /// <see cref="INodeMappingEngine.SetCacheProvider()"/>
+        public void SetCacheProvider(ICacheProvider cacheProvider)
+        {
+            if (_cacheProvider != null)
+            {
+                _cacheProvider.Clear();
+
+                content.AfterUpdateDocumentCache -= _documentCacheEventHandler;
+                content.AfterClearDocumentCache -= _documentCacheEventHandler;
+
+                _documentCacheEventHandler = null;
+            }
+
+            if (cacheProvider != null)
+            {
+                _documentCacheEventHandler = (sender, e) => cacheProvider.Clear();
+
+                // TODO test this
+
+                content.AfterUpdateDocumentCache += _documentCacheEventHandler;
+                content.AfterClearDocumentCache += _documentCacheEventHandler;
+
+                // uMapper doesn't support the below events...yet
+                //Media.AfterSave += Media_AfterSave;
+                //Media.AfterDelete += Media_AfterDelete;
+                //CMSNode.AfterMove += Media_AfterMove;
+                //Member.AfterSave += Member_AfterSave;
+                //Member.AfterDelete += Member_AfterDelete;
+            }
+
+            _cacheProvider = cacheProvider;
+        }
+
+        #endregion
+
+        #region Creating maps
 
         /// <summary>
         /// Creates a map to a strong type from an Umbraco document type
@@ -103,6 +158,10 @@ namespace uComponents.Mapping
 
             return new NodeMappingExpression<TDestination>(this, nodeMapper);
         }
+
+        #endregion
+
+        #region Mapping
 
         /// <summary>
         /// Gets an Umbraco <c>Node</c> as a <paramref name="destinationType"/>, only including 
@@ -248,19 +307,6 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
-        /// </summary>
-        /// <typeparam name="TDestination">The type to map to.</typeparam>
-        /// <returns>A fluent configuration for the query.</returns>
-        /// <exception cref="MapNotFoundException">If a suitable map for <typeparamref name="TDestination"/> has not 
-        /// been created with <see cref="CreateMap()" />.</exception>
-        public INodeQuery<TDestination> Query<TDestination>()
-            where TDestination : class, new()
-        {
-            return new NodeQuery<TDestination>(this);
-        }
-
-        /// <summary>
         /// Examines the engine's <see cref="NodeMappers"/> and returns node mapper
         /// which maps to the closest base class of <paramref name="type"/>.
         /// </summary>
@@ -283,11 +329,11 @@ namespace uComponents.Mapping
 
             // Sort by inheritance
             ancestorMappers.Sort((x, y) =>
-                {
-                    return x.DestinationType.IsAssignableFrom(y.DestinationType)
-                        ? 1
-                        : -1;
-                });
+            {
+                return x.DestinationType.IsAssignableFrom(y.DestinationType)
+                    ? 1
+                    : -1;
+            });
 
             return ancestorMappers.FirstOrDefault();
         }
@@ -331,6 +377,21 @@ namespace uComponents.Mapping
             }
 
             return compatibleAliases.Distinct().ToArray();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
+        /// </summary>
+        /// <typeparam name="TDestination">The type to map to.</typeparam>
+        /// <returns>A fluent configuration for the query.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for <typeparamref name="TDestination"/> has not 
+        /// been created with <see cref="CreateMap()" />.</exception>
+        public INodeQuery<TDestination> Query<TDestination>()
+            where TDestination : class, new()
+        {
+            return new NodeQuery<TDestination>(this);
         }
     }
 

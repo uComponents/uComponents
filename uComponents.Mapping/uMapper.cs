@@ -41,16 +41,23 @@ namespace uComponents.Mapping
         {
             get
             {
-                return _engine.CacheProvider != null;
+                return _engine.IsCachingEnabled;
             }
             set
             {
-                if (HttpContext.Current == null)
+                if (value)
                 {
-                    throw new InvalidOperationException("The current HttpContext is not available - caching cannot be enabled");
-                }
+                    if (HttpContext.Current == null)
+                    {
+                        throw new InvalidOperationException("The current HttpContext is not available - caching cannot be enabled");
+                    }
 
-                _engine.CacheProvider = new DefaultCacheProvider(HttpContext.Current.Cache);
+                    _engine.SetCacheProvider(new DefaultCacheProvider(HttpContext.Current.Cache));
+                }
+                else
+                {
+                    _engine.SetCacheProvider(null);
+                }
             }
         }
 
