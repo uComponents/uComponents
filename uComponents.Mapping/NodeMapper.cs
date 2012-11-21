@@ -155,62 +155,102 @@ namespace uComponents.Mapping
         /// </param>
         public object MapNode(Node sourceNode, string[] paths)
         {
-            var destination = Activator.CreateInstance(DestinationType);
+            object destination = null;
 
-            PropertyInfo[] includedRelationships = null;
-
-            if (paths != null)
-            {
-                includedRelationships = GetImmediateProperties(DestinationType, paths);
-
-                // Check relationships actually refer to relationships
-                foreach (var relationshipInfo in includedRelationships)
-                {
-                    var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo.Name == relationshipInfo.Name);
-
-                    if (propertyMapper == null)
-                    {
-                        throw new InvalidPathException(
-                            string.Format(
-                                "The property '{0}' on '{1}' is not mapped - check your mappings.", 
-                                relationshipInfo.Name,
-                                relationshipInfo.PropertyType.FullName
-                                ));
-                    }
-                    else if (!propertyMapper.IsRelationship)
-                    {
-                        throw new InvalidPathException(
-                            string.Format(
-                                @"The property '{0}' on '{1}' does not 
-refer to a relationship (do not include it as a path, it will be populated automatically).",
-                                relationshipInfo.Name,
-                                relationshipInfo.PropertyType.FullName
-                                ));
-                    }
-                }
-            }
-
+            // Check for cached model
             if (Engine.IsCachingEnabled)
             {
-                var cache = Engine.CacheProvider;
+                var cachedModel = Engine.CacheProvider.Get(sourceNode.Id.ToString());
 
-                // TODO
-                throw new NotImplementedException();
-            }
-
-            foreach (var propertyMapper in PropertyMappers)
-            {
-                if (paths == null // include all relationships
-                    || !propertyMapper.IsRelationship  // map all non-relationship properties
-                    || includedRelationships.Any(x => x.Name == propertyMapper.DestinationInfo.Name)) // check this relationship is included
+                if (cachedModel != null)
                 {
-                    var pathsForProperty = GetNextLevelPaths(propertyMapper.DestinationInfo.Name, paths);
-                    var destinationValue = propertyMapper.MapProperty(sourceNode, pathsForProperty);
-                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
+                    // TODO copy to destination
                 }
             }
 
+            if (destination == null)
+            {
+                destination = Activator.CreateInstance(DestinationType);
+
+                // Map non-relationships
+                foreach (var propertyMapper in PropertyMappers.Where(x => !x.IsRelationship))
+                {
+                    var destinationValue = propertyMapper.MapProperty(sourceNode, new string[0]);
+                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
+                }
+
+                // TODO copy to cache...
+
+                MapPaths(destination, paths);
+
+                return destination;
+            }
+
+//            PropertyInfo[] includedRelationships = null;
+
+//            if (paths != null)
+//            {
+//                includedRelationships = GetImmediateProperties(DestinationType, paths);
+
+//                // Check relationships actually refer to relationships
+//                foreach (var relationshipInfo in includedRelationships)
+//                {
+//                    var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo.Name == relationshipInfo.Name);
+
+//                    if (propertyMapper == null)
+//                    {
+//                        throw new InvalidPathException(
+//                            string.Format(
+//                                "The property '{0}' on '{1}' is not mapped - check your mappings.", 
+//                                relationshipInfo.Name,
+//                                relationshipInfo.PropertyType.FullName
+//                                ));
+//                    }
+//                    else if (!propertyMapper.IsRelationship)
+//                    {
+//                        throw new InvalidPathException(
+//                            string.Format(
+//                                @"The property '{0}' on '{1}' does not 
+//refer to a relationship (do not include it as a path, it will be populated automatically).",
+//                                relationshipInfo.Name,
+//                                relationshipInfo.PropertyType.FullName
+//                                ));
+//                    }
+//                }
+//            }
+
+//            if (Engine.IsCachingEnabled)
+//            {
+//                var cache = Engine.CacheProvider;
+
+//                // TODO
+//                throw new NotImplementedException();
+//            }
+
+//            foreach (var propertyMapper in PropertyMappers)
+//            {
+//                if (paths == null // include all relationships
+//                    || !propertyMapper.IsRelationship  // map all non-relationship properties
+//                    || includedRelationships.Any(x => x.Name == propertyMapper.DestinationInfo.Name)) // check this relationship is included
+//                {
+//                    var pathsForProperty = GetNextLevelPaths(propertyMapper.DestinationInfo.Name, paths);
+//                    var destinationValue = propertyMapper.MapProperty(sourceNode, pathsForProperty);
+//                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
+//                }
+//            }
+
             return destination;
+        }
+
+        /// <summary>
+        /// Populates a model with <paramref name="paths"/>.
+        /// </summary>
+        /// <param name="model">A model of type <see cref="DestinationType"/></param>
+        /// <param name="paths">An array of relationship paths to populate.</param>
+        private void MapPaths(object model, string[] paths)
+        {
+            // TODO Check for cached node ID of relationships
+            throw new NotImplementedException();
         }
 
         /// <summary>
