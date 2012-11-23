@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using uComponents.Core;
 using umbraco;
 using umbraco.IO;
-using uComponents.Core;
 
 namespace uComponents.Installer
 {
@@ -24,7 +23,7 @@ namespace uComponents.Installer
 		{
 			get
 			{
-				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponents.DataTypes.DataTypeConstants), "uComponents.DataTypes.Shared.Resources.Images.ucomponents-logo-small.png");
+				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponents.Core.Constants), "uComponents.Core.Resources.Images.icon.png");
 			}
 		}
 
@@ -97,6 +96,7 @@ namespace uComponents.Installer
 				var dashboardXml = xmlHelper.OpenAsXmlDocument(SystemFiles.DashboardConfig);
 				if (dashboardXml.SelectSingleNode("//section[@alias = 'uComponentsInstaller']") != null)
 				{
+					this.Success.Visible = false;
 					this.phDashboardControl.Visible = false;
 				}
 			}
@@ -199,7 +199,7 @@ namespace uComponents.Installer
 			if (this.cbDashboardControl.Checked)
 			{
 				var title = "Dashboard control";
-				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control addPanel=\"true\">/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
+				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control>/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
 				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
 				successes.Add(title);
 			}
