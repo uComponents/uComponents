@@ -32,6 +32,24 @@ namespace uComponents.Mapping
             _engine = engine;
         }
 
+        /// <see cref="INodeMappingExpression{T}.CollectionProperty{T}"/>
+        public INodeMappingExpression<TDestination> CollectionProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty, 
+            Func<Node, IEnumerable<Node>> propertyMapping
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <see cref="INodeMappingExpression{T}.SingleProperty{T}"/>
+        public INodeMappingExpression<TDestination> SingleProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty, 
+            Func<Node, Node> propertyMapping
+            )
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Sets a custom property alias to be set for a the model property.
         /// </summary>
@@ -78,12 +96,13 @@ namespace uComponents.Mapping
         /// and an array of paths relative to the property being mapped
         /// (when mapping a relationship).
         /// </param>
-        /// <param name="isRelationship">Whether the property should be deemed a relationship
-        /// or not.</param>
+        /// <param name="requiresInclude">
+        /// Whether the property requires an explicit include to be mapped.
+        /// </param>
         public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             Func<Node, string[], object> propertyMapping,
-            bool isRelationship
+            bool requiresInclude
             )
         {
             if (destinationProperty == null)
@@ -106,7 +125,7 @@ namespace uComponents.Mapping
             }
 
             // Recreate property map
-            var newMapper = new NodePropertyMapper(_nodeMapper, destinationPropertyInfo, propertyMapping, isRelationship);
+            var newMapper = new NodePropertyMapper(_nodeMapper, destinationPropertyInfo, propertyMapping, requiresInclude);
 
             _nodeMapper.PropertyMappers.Add(newMapper);
             return this;

@@ -173,7 +173,7 @@ namespace uComponents.Mapping
                 destination = Activator.CreateInstance(DestinationType);
 
                 // Map non-relationships
-                foreach (var propertyMapper in PropertyMappers.Where(x => !x.IsRelationship))
+                foreach (var propertyMapper in PropertyMappers.Where(x => !x.RequiresInclude))
                 {
                     var destinationValue = propertyMapper.MapProperty(sourceNode, new string[0]);
                     propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);

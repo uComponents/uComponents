@@ -245,7 +245,7 @@ namespace uComponents.Mapping
             var paths = includeRelationships
                 ? _engine.NodeMappers[destinationType]
                     .PropertyMappers
-                    .Where(x => x.IsRelationship)
+                    .Where(x => x.RequiresInclude)
                     .Select(x => x.DestinationInfo.Name)
                     .ToArray() // all
                 : new string[0]; // none

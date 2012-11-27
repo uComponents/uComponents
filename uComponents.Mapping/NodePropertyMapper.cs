@@ -17,7 +17,7 @@ namespace uComponents.Mapping
         public NodeMappingEngine Engine { get; private set; }
         public PropertyInfo DestinationInfo { get; private set; }
         public string SourcePropertyAlias { get; private set; }
-        public bool IsRelationship { get; private set; }
+        public bool RequiresInclude { get; private set; }
 
         private bool _canAssignCollectionDirectly;
         private Type _itemType;
@@ -32,7 +32,7 @@ namespace uComponents.Mapping
         /// <summary>
         /// Use a specific mapping
         /// </summary>
-        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, Func<Node, string[], object> mapping, bool isRelationship)
+        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, Func<Node, string[], object> mapping, bool requiresInclude)
         {
             if (nodeMapper == null)
             {
@@ -50,7 +50,7 @@ namespace uComponents.Mapping
             Engine = nodeMapper.Engine;
             DestinationInfo = destinationProperty;
             SourcePropertyAlias = null;
-            IsRelationship = isRelationship;
+            RequiresInclude = requiresInclude;
             _mapping = mapping;
         }
 
@@ -92,7 +92,7 @@ source property alias: A source property alias must be specified when the destin
                     _canAssignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, typeof(IEnumerable<int>));
 
                     _mapping = MapCollectionAsIds;
-                    IsRelationship = false;
+                    RequiresInclude = false;
                 }
                 else
                 {
@@ -101,7 +101,7 @@ source property alias: A source property alias must be specified when the destin
                     _canAssignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, sourceCollectionType);
 
                     _mapping = MapCollectionAsModels;
-                    IsRelationship = true;
+                    RequiresInclude = true;
                 }
             }
             else if (destinationProperty.PropertyType.IsSystem()
@@ -111,13 +111,13 @@ source property alias: A source property alias must be specified when the destin
                 var method = NodeMappingEngine.GetNodePropertyMethod.MakeGenericMethod(destinationProperty.PropertyType);
 
                 _mapping = (node, paths) => method.Invoke(null, new object[] { node, SourcePropertyAlias });
-                IsRelationship = false;
+                RequiresInclude = false;
             }
             else if (destinationProperty.PropertyType.IsModel())
             {
                 // Try to map to model
                 _mapping = MapModel;
-                IsRelationship = true;
+                RequiresInclude = true;
             }
             else
             {
