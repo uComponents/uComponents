@@ -172,7 +172,7 @@ namespace uComponents.Mapping
             {
                 destination = Activator.CreateInstance(DestinationType);
 
-                // Map non-relationships
+                // Map auto-includes
                 foreach (var propertyMapper in PropertyMappers.Where(x => !x.RequiresInclude))
                 {
                     var destinationValue = propertyMapper.MapProperty(sourceNode, new string[0]);

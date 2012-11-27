@@ -18,6 +18,7 @@ namespace uComponents.Mapping
         public PropertyInfo DestinationInfo { get; private set; }
         public string SourcePropertyAlias { get; private set; }
         public bool RequiresInclude { get; private set; }
+        public bool AllowCaching { get; private set; }
 
         private bool _canAssignCollectionDirectly;
         private Type _itemType;
@@ -32,7 +33,13 @@ namespace uComponents.Mapping
         /// <summary>
         /// Use a specific mapping
         /// </summary>
-        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, Func<Node, string[], object> mapping, bool requiresInclude)
+        public NodePropertyMapper(
+            NodeMapper nodeMapper, 
+            PropertyInfo destinationProperty, 
+            Func<Node, string[], object> mapping, 
+            bool requiresInclude,
+            bool allowCaching
+            )
         {
             if (nodeMapper == null)
             {
@@ -51,13 +58,18 @@ namespace uComponents.Mapping
             DestinationInfo = destinationProperty;
             SourcePropertyAlias = null;
             RequiresInclude = requiresInclude;
+            AllowCaching = allowCaching;
             _mapping = mapping;
         }
 
         /// <summary>
         /// Infer a mapping based on the type of the destination property.
         /// </summary>
-        public NodePropertyMapper(NodeMapper nodeMapper, PropertyInfo destinationProperty, string sourcePropertyAlias)
+        public NodePropertyMapper(
+            NodeMapper nodeMapper, 
+            PropertyInfo destinationProperty, 
+            string sourcePropertyAlias
+            )
         {
             if (nodeMapper == null)
             {
@@ -93,6 +105,7 @@ source property alias: A source property alias must be specified when the destin
 
                     _mapping = MapCollectionAsIds;
                     RequiresInclude = false;
+                    AllowCaching = true;
                 }
                 else
                 {
@@ -102,6 +115,7 @@ source property alias: A source property alias must be specified when the destin
 
                     _mapping = MapCollectionAsModels;
                     RequiresInclude = true;
+                    AllowCaching = true;
                 }
             }
             else if (destinationProperty.PropertyType.IsSystem()
@@ -112,12 +126,14 @@ source property alias: A source property alias must be specified when the destin
 
                 _mapping = (node, paths) => method.Invoke(null, new object[] { node, SourcePropertyAlias });
                 RequiresInclude = false;
+                AllowCaching = true;
             }
             else if (destinationProperty.PropertyType.IsModel())
             {
                 // Try to map to model
                 _mapping = MapModel;
                 RequiresInclude = true;
+                AllowCaching = true;
             }
             else
             {
