@@ -13,7 +13,7 @@ namespace uComponents.DataTypes.SubTabs
         public SubTabsOptions()
         {
             this.TabIds = new List<int>();
-            this.SubTabType = global::SubTabType.Buttons; // Default
+            this.SubTabType = SubTabType.Buttons; // Default
             this.ShowLabel = true;
         }
 
