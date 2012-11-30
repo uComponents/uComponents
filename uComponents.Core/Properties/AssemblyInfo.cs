@@ -17,4 +17,5 @@ using uComponents.Core;
 [assembly: InternalsVisibleTo("uComponents.XsltExtensions")]
 
 // shared embedded resources
-[assembly: WebResource("uComponents.Core.Resources.Images.favicon.ico", Constants.MediaTypeNames.Image.Png)]
+[assembly: WebResource(Constants.FaviconResourcePath, Constants.MediaTypeNames.Image.Ico)]
+[assembly: WebResource(Constants.IconResourcePath, Constants.MediaTypeNames.Image.Png)]

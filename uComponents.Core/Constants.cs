@@ -37,6 +37,11 @@ namespace uComponents.Core
 		public const string FaviconResourcePath = "uComponents.Core.Resources.Images.favicon.ico";
 
 		/// <summary>
+		/// The resource path for the favicon.
+		/// </summary>
+		public const string IconResourcePath = "uComponents.Core.Resources.Images.icon.png";
+
+		/// <summary>
 		/// The resource path for the Prevalue Editor stylesheet.
 		/// </summary>
 		public const string PrevalueEditorCssResourcePath = "uComponents.DataTypes.Shared.Resources.Styles.PrevalueEditor.css";

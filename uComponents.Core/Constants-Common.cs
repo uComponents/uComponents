@@ -1,5 +1,4 @@
-﻿
-namespace uComponents.Core
+﻿namespace uComponents.Core
 {
 	/// <summary>
 	/// Constants class for uComponent specific values.

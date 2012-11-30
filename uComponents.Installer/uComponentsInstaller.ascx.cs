@@ -23,7 +23,7 @@ namespace uComponents.Installer
 		{
 			get
 			{
-				return this.Page.ClientScript.GetWebResourceUrl(typeof(uComponents.Core.Constants), "uComponents.Core.Resources.Images.icon.png");
+				return this.Page.ClientScript.GetWebResourceUrl(typeof(Constants), Constants.IconResourcePath);
 			}
 		}
 
@@ -199,7 +199,7 @@ namespace uComponents.Installer
 			if (this.cbDashboardControl.Checked)
 			{
 				var title = "Dashboard control";
-				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control>/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
+				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control addPanel=\"true\">/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
 				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
 				successes.Add(title);
 			}
