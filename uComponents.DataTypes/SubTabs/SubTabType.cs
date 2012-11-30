@@ -1,6 +1,18 @@
-﻿internal enum SubTabType
+﻿namespace uComponents.DataTypes.SubTabs
 {
-    Buttons,
+	/// <summary>
+	/// Options for SubTab's navigation.
+	/// </summary>
+	public enum SubTabType
+	{
+		/// <summary>
+		/// The SubTab will use button controls.
+		/// </summary>
+		Buttons,
 
-    DropDownList,
+		/// <summary>
+		/// The SubTab will use a DropDownList control.
+		/// </summary>
+		DropDownList
+	}
 }

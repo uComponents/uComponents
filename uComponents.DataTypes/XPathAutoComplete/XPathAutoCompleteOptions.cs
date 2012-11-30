@@ -1,58 +1,98 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Configuration;
+using uComponents.Core;
 using umbraco;
 using umbraco.editorControls;
 
 namespace uComponents.DataTypes.XPathAutoComplete
 {
-    internal class XPathAutoCompleteOptions : AbstractOptions
-    {
-        /// <summary>
-        /// Initializes an instance of XPathAutoCompleteOptions
-        /// </summary>
-        public XPathAutoCompleteOptions()
-        {
-        }
+	/// <summary>
+	/// The options for the XPathAutoCompleteOptions data-type.
+	/// </summary>
+	public class XPathAutoCompleteOptions : AbstractOptions
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="XPathAutoCompleteOptions"/> class.
+		/// </summary>
+		public XPathAutoCompleteOptions()
+		{
+		}
 
-        public XPathAutoCompleteOptions(bool loadDefaults)
-            : base(loadDefaults)
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="XPathAutoCompleteOptions"/> class.
+		/// </summary>
+		/// <param name="loadDefaults">if set to <c>true</c> [load defaults].</param>
+		public XPathAutoCompleteOptions(bool loadDefaults)
+			: base(loadDefaults)
+		{
+		}
 
-        [DefaultValue("c66ba18e-eaf3-4cff-8a22-41b16d66a972")]
-        public string Type { get; set; }
+		/// <summary>
+		/// Gets or sets the type.
+		/// </summary>
+		/// <value>The type.</value>
+		[DefaultValue(Constants.Umbraco.ObjectTypes.Document)]
+		public string Type { get; set; }
 
-        [DefaultValue("//*")]
-        public string XPath { get; set; }
+		/// <summary>
+		/// Gets or sets the X path.
+		/// </summary>
+		/// <value>The X path.</value>
+		[DefaultValue("//*")]
+		public string XPath { get; set; }
 
-        [DefaultValue("")]
-        public string Property { get; set; }
+		/// <summary>
+		/// Gets or sets the property.
+		/// </summary>
+		/// <value>The property.</value>
+		[DefaultValue("")]
+		public string Property { get; set; }
 
-        [DefaultValue(1)]
-        public int MinLength { get; set; }
+		/// <summary>
+		/// Gets or sets the length of the min.
+		/// </summary>
+		/// <value>The length of the min.</value>
+		[DefaultValue(1)]
+		public int MinLength { get; set; }
 
-        [DefaultValue(0)]
-        public int MaxSuggestions { get; set; }
+		/// <summary>
+		/// Gets or sets the max suggestions.
+		/// </summary>
+		/// <value>The max suggestions.</value>
+		[DefaultValue(0)]
+		public int MaxSuggestions { get; set; }
 
-        [DefaultValue(0)]
-        public int MinItems { get; set; }
+		/// <summary>
+		/// Gets or sets the min items.
+		/// </summary>
+		/// <value>The min items.</value>
+		[DefaultValue(0)]
+		public int MinItems { get; set; }
 
-        [DefaultValue(0)]
-        public int MaxItems { get; set; }
+		/// <summary>
+		/// Gets or sets the max items.
+		/// </summary>
+		/// <value>The max items.</value>
+		[DefaultValue(0)]
+		public int MaxItems { get; set; }
 
-        [DefaultValue(false)]
-        public bool AllowDuplicates { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether [allow duplicates].
+		/// </summary>
+		/// <value><c>true</c> if [allow duplicates]; otherwise, <c>false</c>.</value>
+		[DefaultValue(false)]
+		public bool AllowDuplicates { get; set; }
 
-        /// <summary>
-        /// Helper to get the UmbracoObjectType from the stored string guid
-        /// </summary>
-        public uQuery.UmbracoObjectType UmbracoObjectType
-        {
-            get
-            {
-                return uQuery.GetUmbracoObjectType(new Guid(this.Type));    
-            }
-        }
-    }
+		/// <summary>
+		/// Helper to get the UmbracoObjectType from the stored string guid
+		/// </summary>
+		/// <value>The type of the umbraco object.</value>
+		public uQuery.UmbracoObjectType UmbracoObjectType
+		{
+			get
+			{
+				return uQuery.GetUmbracoObjectType(new Guid(this.Type));
+			}
+		}
+	}
 }

@@ -1,8 +1,7 @@
-﻿
-namespace uComponents.Core
+﻿namespace uComponents.Core
 {
 	/// <summary>
-	/// Constants class for uQuery specific values.
+	/// Constants class for uComponent specific values.
 	/// </summary>
 	public partial class Constants
 	{

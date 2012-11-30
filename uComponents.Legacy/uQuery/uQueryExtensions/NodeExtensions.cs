@@ -492,7 +492,7 @@ namespace uComponents.Core.uQueryExtensions
 			{
 				var xml = node.GetProperty<string>(propertyAlias);
 
-				// TODO: [??] Add Node extension method: GetPropertyAsXmlNode()
+				// TODO: [HR] Add Node extension method: GetPropertyAsXmlNode()
 
 				var xmlDocument = new XmlDocument();
 				xmlDocument.LoadXml(xml);

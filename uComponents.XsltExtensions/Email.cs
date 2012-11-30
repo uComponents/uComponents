@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 using umbraco;
 using umbraco.BusinessLogic;
 
@@ -10,6 +11,21 @@ namespace uComponents.XsltExtensions
 	/// </summary>
 	public class Email
 	{
+		/// <summary>
+		/// Determines whether [is valid email] [the specified input].
+		/// </summary>
+		/// <param name="input">The input.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is valid email] [the specified input]; otherwise, <c>false</c>.
+		/// </returns>
+		/// <remarks>http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx</remarks>
+		public static bool IsValidEmail(string input)
+		{
+			var pattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+			var regex = new Regex(pattern, RegexOptions.IgnoreCase);
+			return regex.IsMatch(input);
+		}
+
 		/// <summary>
 		/// Sends an email. Performs the same function an <c>umbraco.library.SendMail</c>, with the option of sending via SSL.
 		/// </summary>

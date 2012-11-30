@@ -9,9 +9,10 @@
 	<!-- PROPERTIES -->
 	<PropertyGroup>
 		<VersionMajor>5</VersionMajor>
-		<VersionMinor>1</VersionMinor>
+		<VersionMinor>2</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix></VersionSuffix>
+		<VersionSuffix>-beta</VersionSuffix>
+		<UmbracoVersion>4.8.0</UmbracoVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -104,14 +105,11 @@
 		<ItemGroup>
 			<ManifestFiles Include="$(BuildUmbDir)\**\*" Exclude="$(BuildUmbDir)\package.xml" />
 		</ItemGroup>
-		<ReadLinesFromFile File="$(MSBuildProjectDirectory)\readme.txt">
-			<Output TaskParameter="Lines" ItemName="Readme" />
-		</ReadLinesFromFile>
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
-			MinimumRequiredUmbracoVersion="4.8.0"
+			MinimumRequiredUmbracoVersion="$(UmbracoVersion)"
 			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
-			Readme="@(Readme->'%(Identity)', '%0a%0d')"
+			Readme="$([System.IO.File]::ReadAllText(readme.txt))"
 			Files="@(ManifestFiles)" />
 	</Target>
 

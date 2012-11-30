@@ -5,7 +5,7 @@ namespace uComponents.DataTypes.SubTabs
     /// <summary>
     /// Options as set by using the PreValueEditor
     /// </summary>
-    internal class SubTabsOptions
+    public class SubTabsOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SubTabsOptions"/> class.
@@ -13,7 +13,7 @@ namespace uComponents.DataTypes.SubTabs
         public SubTabsOptions()
         {
             this.TabIds = new List<int>();
-            this.SubTabType = global::SubTabType.Buttons; // Default
+            this.SubTabType = SubTabType.Buttons; // Default
             this.ShowLabel = true;
         }
 

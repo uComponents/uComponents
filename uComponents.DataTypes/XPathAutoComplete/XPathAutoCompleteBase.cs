@@ -119,7 +119,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
                 // get the index to search on from the cache (index contains all strings used for autocomplete comparrision + the Ids to which they relate)
                 List<KeyValuePair<string, int>> index = XPathAutoCompleteBase.GetIndex(datatypeDefinitionId);
 
-                // TODO: implement a BinarySearch on the index looking for the first match, and then another binary search looking for the first non match from that point
+                // TODO: [HR] implement a BinarySearch on the index looking for the first match, and then another binary search looking for the first non match from that point
                 // then serialize that subset (will be much quicker with large datasets as the following string parses every item)
 
                 IEnumerable<KeyValuePair<string, int>> data;
