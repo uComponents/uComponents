@@ -109,7 +109,6 @@ namespace uComponents.UI
 			//    }
 			//}
 
-
 			//Item info service
 			page.ClientScript.RegisterClientScriptBlock(page.GetType(), "uComponentsItemInfoService",
 
