@@ -135,33 +135,6 @@ source property alias: A source property alias must be specified when the destin
         public abstract object MapProperty(NodeMappingContext context);
 
         /// <summary>
-        /// Gets value of the node property, cached or otherwise.
-        /// </summary>
-        protected TProperty GetPropertyValue<TProperty>(NodeMappingContext context)
-        {
-            object value = null;
-
-            if (Engine.CacheProvider != null)
-            {
-                value = (TProperty)Engine.CacheProvider.GetPropertyValue(context.Id, DestinationInfo.Name);
-            }
-
-            if (value == null)
-            {
-                var node = context.GetNode();
-
-                if (node == null || string.IsNullOrEmpty(node.Name))
-                {
-                    throw new InvalidOperationException("Node does not exist");
-                }
-
-                value = node.GetProperty<TProperty>(SourcePropertyAlias);
-            }
-
-            return (TProperty)value;
-        }
-
-        /// <summary>
         /// Gets the paths relative to the property being mapped.
         /// </summary>
         protected string[] GetNextLevelPaths(string[] paths)

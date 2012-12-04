@@ -14,8 +14,9 @@ namespace uComponents.Mapping
     {
         /// <summary>
         /// Inserts an object into the cache, replacing an existing object
-        /// if one already exists with the same <paramref name="key"/>
+        /// if one already exists with the same <paramref name="key"/>.
         /// </summary>
+        /// <param name="value">The value to set. Can be null.</param>
         void Insert(string key, object value);
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace uComponents.Mapping
         /// </summary>
         /// <param name="id">The ID of the node which was mapped from.</param>
         /// <param name="propertyName">The model property's unqualified name, e.g. "Weight".</param>
-        /// <param name="value">The mapped property.</param>
+        /// <param name="value">The mapped property. Can be null.</param>
         void InsertPropertyValue(int id, string propertyName, object value);
 
         /// <summary>
@@ -55,6 +56,21 @@ namespace uComponents.Mapping
         /// <param name="id">The ID of the node to get the alias for.</param>
         /// <returns><c>null</c> if not inserted.</returns>
         string GetAlias(int id);
+
+        /// <summary>
+        /// Checks if the cache contains a value for the key.
+        /// </summary>
+        bool ContainsKey(string key);
+
+        /// <summary>
+        /// Checks if the cache contains a property value for the property.
+        /// </summary>
+        bool ContainsPropertyValue(int id, string propertyName);
+
+        /// <summary>
+        /// Checks if the cache contains an alias for the node ID.
+        /// </summary>
+        bool ContainsAlias(int id);
 
         /// <summary>
         /// Clears the cache.

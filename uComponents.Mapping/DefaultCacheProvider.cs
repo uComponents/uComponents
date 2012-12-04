@@ -15,6 +15,9 @@ namespace uComponents.Mapping
         private const string _propertyValueFormat = "{0}_{1}";
         private const string _aliasFormat = "{0}_DocumentTypeAlias";
 
+        // Cannot insert null into cache, so use a static representation.
+        private const object _nullValue = new object();
+
         private readonly Cache _cache;
         private readonly Guid _keyPrefix;
 
@@ -37,7 +40,7 @@ namespace uComponents.Mapping
             }
             else if (value == null)
             {
-                throw new ArgumentNullException("value");
+                value = _nullValue;
             }
 
             var qualifiedKey = GetQualifiedKey(key);
@@ -50,10 +53,6 @@ namespace uComponents.Mapping
             if (string.IsNullOrEmpty(propertyName))
             {
                 throw new ArgumentException("The property name cannot be null or empty", "propertyName");
-            }
-            else if (value == null)
-            {
-                throw new ArgumentNullException("value");
             }
 
             var key = string.Format(_propertyValueFormat, id, propertyName);
@@ -81,8 +80,9 @@ namespace uComponents.Mapping
             }
 
             var qualifiedKey = GetQualifiedKey(key);
+            var value = _cache[qualifiedKey];
 
-            return _cache[qualifiedKey];
+            return value == _nullValue ? null : value;
         }
 
         public object GetPropertyValue(int id, string propertyName)
@@ -102,6 +102,21 @@ namespace uComponents.Mapping
             var key = string.Format(_aliasFormat, id);
 
             return Get(key) as string;
+        }
+
+        public bool ContainsKey(string key)
+        {
+            return _cache[key] != _nullValue;
+        }
+
+        public bool ContainsPropertyValue(int id, string propertyName)
+        {
+            return ContainsKey(string.Format(_propertyValueFormat, id, propertyName));
+        }
+
+        public bool ContainsAlias(int id)
+        {
+            return ContainsKey(string.Format(_aliasFormat, id));
         }
 
         /// <summary>

@@ -30,8 +30,18 @@ namespace uComponents.Mapping.Property
 
         public override object MapProperty(NodeMappingContext context)
         {
-            // Implement this in a derived class.
-            throw new NotImplementedException();
+            object value = null;
+
+            if (Engine.CacheProvider != null && Engine.CacheProvider.ContainsPropertyValue(context.Id, DestinationInfo.Name))
+            {
+                value = Engine.CacheProvider.GetPropertyValue(context.Id, DestinationInfo.Name);
+            }
+            else
+            {
+                value = _mapping(context.GetNode());
+            }
+
+            return value;
         }
     }
 }
