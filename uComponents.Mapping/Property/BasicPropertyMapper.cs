@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using umbraco;
+using uComponents.Mapping;
 
 namespace uComponents.Mapping.Property
 {
@@ -50,6 +51,8 @@ namespace uComponents.Mapping.Property
                 var sourceValue = node.GetProperty<string>(SourcePropertyAlias);
 
                 value = _mapping(sourceValue);
+
+                Engine.CacheProvider.InsertPropertyValue(context.Id, DestinationInfo.Name, value);
             }
 
             return value;

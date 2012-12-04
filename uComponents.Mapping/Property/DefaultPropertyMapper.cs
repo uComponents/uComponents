@@ -39,7 +39,16 @@ namespace uComponents.Mapping.Property
             }
             else
             {
-                value = _mapping(context.GetNode());
+                var node = context.GetNode();
+
+                if (node == null || string.IsNullOrEmpty(node.Name))
+                {
+                    throw new InvalidOperationException("Node cannot be null or empty");
+                }
+
+                value = _mapping(node);
+
+                Engine.CacheProvider.InsertPropertyValue(context.Id, DestinationInfo.Name, value);
             }
 
             return value;

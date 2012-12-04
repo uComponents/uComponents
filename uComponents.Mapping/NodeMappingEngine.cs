@@ -236,7 +236,7 @@ namespace uComponents.Mapping
             {
                 var node = context.GetNode();
 
-                if (node == null)
+                if (node == null || string.IsNullOrEmpty(node.Name))
                 {
                     // Node doesn't exist
                     return null;

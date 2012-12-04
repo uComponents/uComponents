@@ -97,12 +97,16 @@ namespace uComponents.Mapping
         }
     }
 
+    /// <summary>
+    /// Convenience methods for the <see cref="ICacheProvider"/>, as required
+    /// by <see cref="INodeMappingEngine"/>.
+    /// </summary>
     public static class CacheProviderExtensions
     {
         private const string _propertyValueFormat = "{0}_{1}";
         private const string _aliasFormat = "{0}_DocumentTypeAlias";
 
-        public void InsertPropertyValue(this ICacheProvider cache, int id, string propertyName, object value)
+        public static void InsertPropertyValue(this ICacheProvider cache, int id, string propertyName, object value)
         {
             if (string.IsNullOrEmpty(propertyName))
             {
@@ -114,7 +118,7 @@ namespace uComponents.Mapping
             cache.Insert(key, value);
         }
 
-        public void InsertAlias(this ICacheProvider cache, int id, string alias)
+        public static void InsertAlias(this ICacheProvider cache, int id, string alias)
         {
             if (string.IsNullOrEmpty(alias))
             {
@@ -126,7 +130,7 @@ namespace uComponents.Mapping
             cache.Insert(key, alias);
         }
 
-        public object GetPropertyValue(this ICacheProvider cache, int id, string propertyName)
+        public static object GetPropertyValue(this ICacheProvider cache, int id, string propertyName)
         {
             if (string.IsNullOrEmpty(propertyName))
             {
@@ -138,19 +142,19 @@ namespace uComponents.Mapping
             return cache.Get(key);
         }
 
-        public string GetAlias(this ICacheProvider cache, int id)
+        public static string GetAlias(this ICacheProvider cache, int id)
         {
             var key = string.Format(_aliasFormat, id);
 
             return cache.Get(key) as string;
         }
 
-        public bool ContainsPropertyValue(this ICacheProvider cache, int id, string propertyName)
+        public static bool ContainsPropertyValue(this ICacheProvider cache, int id, string propertyName)
         {
             return cache.ContainsKey(string.Format(_propertyValueFormat, id, propertyName));
         }
 
-        public bool ContainsAlias(this ICacheProvider cache, int id)
+        public static bool ContainsAlias(this ICacheProvider cache, int id)
         {
             return cache.ContainsKey(string.Format(_aliasFormat, id));
         }
