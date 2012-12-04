@@ -12,8 +12,6 @@ namespace uComponents.Mapping
     internal class DefaultCacheProvider : ICacheProvider
     {
         private const int _slidingExpirationSeconds = 10 * 60; // ten minutes
-        private const string _propertyValueFormat = "{0}_{1}";
-        private const string _aliasFormat = "{0}_DocumentTypeAlias";
 
         // Cannot insert null into cache, so use a static representation.
         private const object _nullValue = new object();
@@ -48,30 +46,6 @@ namespace uComponents.Mapping
             _cache.Insert(qualifiedKey, value, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(_slidingExpirationSeconds));
         }
 
-        public void InsertPropertyValue(int id, string propertyName, object value)
-        {
-            if (string.IsNullOrEmpty(propertyName))
-            {
-                throw new ArgumentException("The property name cannot be null or empty", "propertyName");
-            }
-
-            var key = string.Format(_propertyValueFormat, id, propertyName);
-
-            Insert(key, value);
-        }
-
-        public void InsertAlias(int id, string alias)
-        {
-            if (string.IsNullOrEmpty(alias))
-            {
-                throw new ArgumentException("The alias cannot be null or empty", "alias");
-            }
-
-            var key = string.Format(_aliasFormat, id);
-
-            Insert(key, alias);
-        }
-
         public object Get(string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -85,38 +59,9 @@ namespace uComponents.Mapping
             return value == _nullValue ? null : value;
         }
 
-        public object GetPropertyValue(int id, string propertyName)
-        {
-            if (string.IsNullOrEmpty(propertyName))
-            {
-                throw new ArgumentException("The property name cannot be null or empty", "propertyName");
-            }
-
-            var key = string.Format(_propertyValueFormat, id, propertyName);
-
-            return Get(key);
-        }
-
-        public string GetAlias(int id)
-        {
-            var key = string.Format(_aliasFormat, id);
-
-            return Get(key) as string;
-        }
-
         public bool ContainsKey(string key)
         {
             return _cache[key] != _nullValue;
-        }
-
-        public bool ContainsPropertyValue(int id, string propertyName)
-        {
-            return ContainsKey(string.Format(_propertyValueFormat, id, propertyName));
-        }
-
-        public bool ContainsAlias(int id)
-        {
-            return ContainsKey(string.Format(_aliasFormat, id));
         }
 
         /// <summary>
@@ -149,6 +94,65 @@ namespace uComponents.Mapping
         private string GetQualifiedKey(string key)
         {
             return string.Format("{0}_{1}", _keyPrefix.ToString(), key);
+        }
+    }
+
+    public static class CacheProviderExtensions
+    {
+        private const string _propertyValueFormat = "{0}_{1}";
+        private const string _aliasFormat = "{0}_DocumentTypeAlias";
+
+        public void InsertPropertyValue(this ICacheProvider cache, int id, string propertyName, object value)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                throw new ArgumentException("The property name cannot be null or empty", "propertyName");
+            }
+
+            var key = string.Format(_propertyValueFormat, id, propertyName);
+
+            cache.Insert(key, value);
+        }
+
+        public void InsertAlias(this ICacheProvider cache, int id, string alias)
+        {
+            if (string.IsNullOrEmpty(alias))
+            {
+                throw new ArgumentException("The alias cannot be null or empty", "alias");
+            }
+
+            var key = string.Format(_aliasFormat, id);
+
+            cache.Insert(key, alias);
+        }
+
+        public object GetPropertyValue(this ICacheProvider cache, int id, string propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                throw new ArgumentException("The property name cannot be null or empty", "propertyName");
+            }
+
+            var key = string.Format(_propertyValueFormat, id, propertyName);
+
+            return cache.Get(key);
+        }
+
+        public string GetAlias(this ICacheProvider cache, int id)
+        {
+            var key = string.Format(_aliasFormat, id);
+
+            return cache.Get(key) as string;
+        }
+
+        public bool ContainsPropertyValue(this ICacheProvider cache, int id, string propertyName)
+        {
+            return cache.ContainsKey(string.Format(_propertyValueFormat, id, propertyName));
+        }
+
+        public bool ContainsAlias(this ICacheProvider cache, int id)
+        {
+            return cache.ContainsKey(string.Format(_aliasFormat, id));
         }
     }
 }
