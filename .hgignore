@@ -1,12 +1,11 @@
 syntax: glob
 
-*.csproj.user
-*.suo
+packages/*
+TestResults/*
 */bin/*
 */obj/*
-*.Cache
-*_ReSharper.uComponents*
-TestResults/*
-uComponents.ncrunch*
-TestResults/*
-uComponents.sln.DotSettings.user
+*_ReSharper*
+*.[Cc]ache
+*.ncrunch*
+*.suo
+*.user
