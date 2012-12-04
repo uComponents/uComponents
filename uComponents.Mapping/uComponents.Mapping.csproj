@@ -68,12 +68,19 @@
     <Compile Include="INodeMappingEngine.cs" />
     <Compile Include="INodeMappingExpression.cs" />
     <Compile Include="INodeQuery.cs" />
+    <Compile Include="NodeMappingContext.cs" />
+    <Compile Include="Property\BasicPropertyMapper.cs" />
+    <Compile Include="Property\CollectionPropertyMapper.cs" />
+    <Compile Include="Property\CustomPropertyMapper.cs" />
+    <Compile Include="Property\DefaultPropertyMapper.cs" />
+    <Compile Include="Property\NodePropertyMappingDelegates.cs" />
     <Compile Include="NodeMapper.cs" />
     <Compile Include="NodeMappingEngine.cs" />
     <Compile Include="NodeMappingExpression.cs" />
-    <Compile Include="NodePropertyMapper.cs" />
+    <Compile Include="Property\PropertyMapperBase.cs" />
     <Compile Include="NodeQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Property\SinglePropertyMapper.cs" />
     <Compile Include="uMapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

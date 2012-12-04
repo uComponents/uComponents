@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using umbraco.NodeFactory;
 using umbraco;
 using umbraco.cms.businesslogic.web;
+using uComponents.Mapping.Property;
 
 namespace uComponents.Mapping
 {
@@ -17,7 +18,7 @@ namespace uComponents.Mapping
     {
         public NodeMappingEngine Engine { get; private set; }
         public Type DestinationType { get; private set; }
-        public List<NodePropertyMapper> PropertyMappers { get; private set; }
+        public List<PropertyMapperBase> PropertyMappers { get; private set; }
         public string SourceNodeTypeAlias { get; private set; }
 
         public NodeMapper(NodeMappingEngine engine, Type destinationType, DocumentType sourceDocumentType)
@@ -38,10 +39,10 @@ namespace uComponents.Mapping
             SourceNodeTypeAlias = sourceDocumentType.Alias;
             Engine = engine;
             DestinationType = destinationType;
-            PropertyMappers = new List<NodePropertyMapper>();
+            PropertyMappers = new List<PropertyMapperBase>();
 
             // See if base properties have been mapped already.
-            var baseNodeMapper = Engine.GetParentNodeMapperForType(destinationType);
+            var baseNodeMapper = Engine.GetBaseNodeMapperForType(destinationType);
             if (baseNodeMapper != null)
             {
                 // Use the property mappings of the closest parent
@@ -58,7 +59,7 @@ namespace uComponents.Mapping
                     continue;
                 }
 
-                NodePropertyMapper customPropertyMapper = null;
+                PropertyMapperBase customPropertyMapper = null;
                 Func<Node, string[], object> defaultPropertyMapping = null;
 
                 // Default node properties
@@ -127,7 +128,7 @@ namespace uComponents.Mapping
                             || destinationProperty.PropertyType.IsModel()
                             || destinationProperty.PropertyType.IsEnum)
                         {
-                            customPropertyMapper = new NodePropertyMapper(this, destinationProperty, sourcePropertyAlias);
+                            customPropertyMapper = new PropertyMapperBase(this, destinationProperty, sourcePropertyAlias);
                         }
                         break;
                 }
@@ -138,7 +139,7 @@ namespace uComponents.Mapping
                 }
                 else if (defaultPropertyMapping != null)
                 {
-                    var defaultNodePropertyMapper = new NodePropertyMapper(this, destinationProperty, defaultPropertyMapping, false);
+                    var defaultNodePropertyMapper = new PropertyMapperBase(this, destinationProperty, defaultPropertyMapping, false);
                     PropertyMappers.Add(defaultNodePropertyMapper);
                 }
             }
@@ -153,104 +154,68 @@ namespace uComponents.Mapping
         /// An array of relationship paths on the model to include, or null
         /// to include all relationships at the first level and none below.
         /// </param>
+        [Obsolete("Use MapNode with NodeMappingContext instead")]
         public object MapNode(Node sourceNode, string[] paths)
         {
-            object destination = null;
+            var context = new NodeMappingContext(sourceNode, paths);
 
-            // Check for cached model
-            if (Engine.IsCachingEnabled)
-            {
-                var cachedModel = Engine.CacheProvider.Get(sourceNode.Id.ToString());
-
-                if (cachedModel != null)
-                {
-                    // TODO copy to destination
-                }
-            }
-
-            if (destination == null)
-            {
-                destination = Activator.CreateInstance(DestinationType);
-
-                // Map auto-includes
-                foreach (var propertyMapper in PropertyMappers.Where(x => !x.RequiresInclude))
-                {
-                    var destinationValue = propertyMapper.MapProperty(sourceNode, new string[0]);
-                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
-                }
-
-                // TODO copy to cache...
-
-                MapPaths(destination, paths);
-
-                return destination;
-            }
-
-//            PropertyInfo[] includedRelationships = null;
-
-//            if (paths != null)
-//            {
-//                includedRelationships = GetImmediateProperties(DestinationType, paths);
-
-//                // Check relationships actually refer to relationships
-//                foreach (var relationshipInfo in includedRelationships)
-//                {
-//                    var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo.Name == relationshipInfo.Name);
-
-//                    if (propertyMapper == null)
-//                    {
-//                        throw new InvalidPathException(
-//                            string.Format(
-//                                "The property '{0}' on '{1}' is not mapped - check your mappings.", 
-//                                relationshipInfo.Name,
-//                                relationshipInfo.PropertyType.FullName
-//                                ));
-//                    }
-//                    else if (!propertyMapper.IsRelationship)
-//                    {
-//                        throw new InvalidPathException(
-//                            string.Format(
-//                                @"The property '{0}' on '{1}' does not 
-//refer to a relationship (do not include it as a path, it will be populated automatically).",
-//                                relationshipInfo.Name,
-//                                relationshipInfo.PropertyType.FullName
-//                                ));
-//                    }
-//                }
-//            }
-
-//            if (Engine.IsCachingEnabled)
-//            {
-//                var cache = Engine.CacheProvider;
-
-//                // TODO
-//                throw new NotImplementedException();
-//            }
-
-//            foreach (var propertyMapper in PropertyMappers)
-//            {
-//                if (paths == null // include all relationships
-//                    || !propertyMapper.IsRelationship  // map all non-relationship properties
-//                    || includedRelationships.Any(x => x.Name == propertyMapper.DestinationInfo.Name)) // check this relationship is included
-//                {
-//                    var pathsForProperty = GetNextLevelPaths(propertyMapper.DestinationInfo.Name, paths);
-//                    var destinationValue = propertyMapper.MapProperty(sourceNode, pathsForProperty);
-//                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
-//                }
-//            }
-
-            return destination;
+            return MapNode(context);
         }
 
-        /// <summary>
-        /// Populates a model with <paramref name="paths"/>.
-        /// </summary>
-        /// <param name="model">A model of type <see cref="DestinationType"/></param>
-        /// <param name="paths">An array of relationship paths to populate.</param>
-        private void MapPaths(object model, string[] paths)
+        public object MapNode(NodeMappingContext context)
         {
-            // TODO Check for cached node ID of relationships
-            throw new NotImplementedException();
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
+            object destination = Activator.CreateInstance(DestinationType);
+
+            PropertyInfo[] includedPaths = null;
+
+            if (context.Paths != null)
+            {
+                includedPaths = GetImmediateProperties(DestinationType, context.Paths.ToArray());
+
+                // Check included paths are actually required
+                foreach (var path in includedPaths)
+                {
+                    var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo.Name == path.Name);
+
+                    if (propertyMapper == null)
+                    {
+                        throw new InvalidPathException(
+                            string.Format(
+                                "The property '{0}' on '{1}' is not mapped - check your mappings.",
+                                path.Name,
+                                path.PropertyType.FullName
+                                ));
+                    }
+                    else if (!propertyMapper.RequiresInclude)
+                    {
+                        throw new InvalidPathException(
+                            string.Format(
+                                @"The property '{0}' on '{1}' does not 
+require an explicit include (do not include it as a path, it will be populated automatically).",
+                                path.Name,
+                                path.PropertyType.FullName
+                                ));
+                    }
+                }
+            }
+
+            foreach (var propertyMapper in PropertyMappers)
+            {
+                if (context.Paths == null // include all paths
+                    || !propertyMapper.RequiresInclude  // map all automatic paths
+                    || includedPaths.Any(x => x.Name == propertyMapper.DestinationInfo.Name)) // map explicit paths
+                {
+                    var destinationValue = propertyMapper.MapProperty(context);
+                    propertyMapper.DestinationInfo.SetValue(destination, destinationValue, null);
+                }
+            }
+
+            return destination;
         }
 
         /// <summary>
@@ -308,42 +273,6 @@ namespace uComponents.Mapping
             }
 
             return chosenProperties.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the paths relative to a relationship.
-        /// </summary>
-        private static string[] GetNextLevelPaths(string relationshipName, string[] paths)
-        {
-            if (string.IsNullOrEmpty(relationshipName))
-            {
-                throw new ArgumentException("The property name must be specified", "propertyName");
-            } 
-            else if (paths == null)
-            {
-                // No paths
-                return new string[0];
-            }
-
-            var pathsForProperty = new List<string>();
-
-            foreach (var path in paths)
-            {
-                if (string.IsNullOrEmpty(path))
-                {
-                    throw new ArgumentException("No path can be null or empty", "paths");
-                }
-
-                var segments = path.Split('.');
-
-                if (segments.First() == relationshipName
-                    && segments.Length > 1)
-                {
-                    pathsForProperty.Add(string.Join(".", segments.Skip(1)));
-                }
-            }
-
-            return pathsForProperty.ToArray();
         }
     }
 

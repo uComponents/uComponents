@@ -12,6 +12,9 @@ namespace uComponents.Mapping
     internal class DefaultCacheProvider : ICacheProvider
     {
         private const int _slidingExpirationSeconds = 10 * 60; // ten minutes
+        private const string _propertyValueFormat = "{0}_{1}";
+        private const string _aliasFormat = "{0}_DocumentTypeAlias";
+
         private readonly Cache _cache;
         private readonly Guid _keyPrefix;
 
@@ -42,6 +45,34 @@ namespace uComponents.Mapping
             _cache.Insert(qualifiedKey, value, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(_slidingExpirationSeconds));
         }
 
+        public void InsertPropertyValue(int id, string propertyName, object value)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                throw new ArgumentException("The property name cannot be null or empty", "propertyName");
+            }
+            else if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
+            var key = string.Format(_propertyValueFormat, id, propertyName);
+
+            Insert(key, value);
+        }
+
+        public void InsertAlias(int id, string alias)
+        {
+            if (string.IsNullOrEmpty(alias))
+            {
+                throw new ArgumentException("The alias cannot be null or empty", "alias");
+            }
+
+            var key = string.Format(_aliasFormat, id);
+
+            Insert(key, alias);
+        }
+
         public object Get(string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -52,6 +83,25 @@ namespace uComponents.Mapping
             var qualifiedKey = GetQualifiedKey(key);
 
             return _cache[qualifiedKey];
+        }
+
+        public object GetPropertyValue(int id, string propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                throw new ArgumentException("The property name cannot be null or empty", "propertyName");
+            }
+
+            var key = string.Format(_propertyValueFormat, id, propertyName);
+
+            return Get(key);
+        }
+
+        public string GetAlias(int id)
+        {
+            var key = string.Format(_aliasFormat, id);
+
+            return Get(key) as string;
         }
 
         /// <summary>

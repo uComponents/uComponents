@@ -50,30 +50,16 @@ namespace uComponents.Mapping
             where TDestination : class, new();
 
         /// <summary>
-        /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>.
+        /// Loads a path for a model.  If the path is already loaded, it will
+        /// be overwritten.
         /// </summary>
-        /// <typeparam name="TDestination">
-        /// The type of object that <paramref name="sourceNode"/> maps to.
-        /// </typeparam>
-        /// <param name="sourceNode">The <c>Node</c> to map from.</param>
-        /// <param name="includeRelationships">Whether to include the <c>Node</c>'s relationships</param>
-        /// <returns><c>null</c> if the <c>Node</c> does not exist.</returns>
-        [Obsolete("Use paths instead")]
-        TDestination Map<TDestination>(Node sourceNode, bool includeRelationships)
-            where TDestination : class, new();
-
-        /// <summary>
-        /// Gets an Umbraco <c>Node</c> as a <typeparamref name="TDestination"/>, only including 
-        /// specified relationships.
-        /// </summary>
-        /// <typeparam name="TDestination">
-        /// The type of object that <paramref name="sourceNode"/> maps to.
-        /// </typeparam>
-        /// <param name="sourceNode">The <c>Node</c> to map from.</param>
-        /// <param name="includedRelationships">The relationship properties to include.</param>
-        /// <returns><c>null</c> if the node does not exist.</returns>
-        [Obsolete("Use paths instead")]
-        TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
+        /// <param name="model">The model to load the path for.</param>
+        /// <param name="path">
+        /// The path to load, e.g. "Customers.Dinners".
+        /// 
+        /// TODO: Add overload with expression syntax.
+        /// </param>
+        void LoadPath<TDestination>(TDestination model, string path)
             where TDestination : class, new();
 
         /// <summary>
@@ -83,5 +69,17 @@ namespace uComponents.Mapping
         /// <returns>A fluent configuration for the query.</returns>
         INodeQuery<TDestination> Query<TDestination>()
             where TDestination : class, new();
+
+        #region Legacy
+
+        [Obsolete("Use paths instead")]
+        TDestination Map<TDestination>(Node sourceNode, bool includeRelationships)
+            where TDestination : class, new();
+
+        [Obsolete("Use paths instead")]
+        TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
+            where TDestination : class, new();
+
+        #endregion
     }
 }

@@ -186,23 +186,10 @@ namespace uComponents.Mapping
             {
                 return null;
             }
-            else if (destinationType == null)
-            {
-                throw new ArgumentNullException("destinationType");
-            }
-            else if (!NodeMappers.ContainsKey(destinationType))
-            {
-                throw new MapNotFoundException(destinationType);
-            }
 
-            var nodeMapper = GetMapper(sourceNode.NodeTypeAlias, destinationType);
+            var context = new NodeMappingContext(sourceNode, paths);
 
-            if (nodeMapper == null)
-            {
-                throw new WrongNodeForMapException(sourceNode.NodeTypeAlias, destinationType);
-            }
-
-            return nodeMapper.MapNode(sourceNode, paths);
+            return Map(context, destinationType);
         }
 
         /// <summary>
@@ -220,6 +207,147 @@ namespace uComponents.Mapping
         {
             return (TDestination)Map(sourceNode, typeof(TDestination), paths);
         }
+
+        /// <summary>
+        /// Maps a node based on the <paramref name="context"/>.
+        /// </summary>
+        /// <param name="context">The context which describes the node mapping.</param>
+        /// <param name="destinationType"></param>
+        /// <param name="paths"></param>
+        /// <returns></returns>
+        internal object Map(NodeMappingContext context, Type destinationType)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+            else if (destinationType == null)
+            {
+                throw new ArgumentNullException("destinationType");
+            }
+            else if (!NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            string sourceNodeTypeAlias = _cacheProvider == null ? null : _cacheProvider.GetAlias(context.Id);
+
+            if (sourceNodeTypeAlias == null)
+            {
+                var node = context.GetNode();
+
+                if (node == null)
+                {
+                    // Node doesn't exist
+                    return null;
+                }
+
+                sourceNodeTypeAlias = node.NodeTypeAlias;
+            }
+
+            var nodeMapper = GetMapper(sourceNodeTypeAlias, destinationType);
+
+            if (nodeMapper == null)
+            {
+                throw new WrongNodeForMapException(sourceNodeTypeAlias, destinationType);
+            }
+
+            return nodeMapper.MapNode(context);
+        }
+
+        /// <summary>
+        /// Examines the engine's <see cref="NodeMappers"/> and returns node mapper
+        /// which maps to the closest base class of <paramref name="type"/>.
+        /// </summary>
+        /// <returns>
+        /// <c>null</c>  if there are no mappers which map to a base class of 
+        /// <paramref name="type"/>.
+        /// </returns>
+        internal NodeMapper GetBaseNodeMapperForType(Type type)
+        {
+            var ancestorMappers = new List<NodeMapper>();
+
+            foreach (var nodeMapper in NodeMappers)
+            {
+                if (nodeMapper.Value.DestinationType.IsAssignableFrom(type)
+                    && type != nodeMapper.Value.DestinationType)
+                {
+                    ancestorMappers.Add(nodeMapper.Value);
+                }
+            }
+
+            // Sort by inheritance
+            ancestorMappers.Sort((x, y) =>
+            {
+                return x.DestinationType.IsAssignableFrom(y.DestinationType)
+                    ? 1
+                    : -1;
+            });
+
+            return ancestorMappers.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets a node mapper which maps from <paramref name="sourceNodeTypeAlias"/>
+        /// to <paramref name="destinationType"/> or some class derived from 
+        /// <paramref name="destinationType"/>.
+        /// </summary>
+        /// <param name="sourceNodeTypeAlias">Node type alias to map from.</param>
+        /// <param name="destinationType">The type which the mapped model must
+        /// cast to.</param>
+        /// <returns>The node mapper, or null if a suitable mapper could not be found</returns>
+        internal NodeMapper GetMapper(string sourceNodeTypeAlias, Type destinationType)
+        {
+            foreach (var nodeMapper in NodeMappers)
+            {
+                if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType)
+                    && nodeMapper.Value.SourceNodeTypeAlias == sourceNodeTypeAlias)
+                {
+                    return nodeMapper.Value;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets all node type aliases which can map to <paramref name="destinationType"/>.
+        /// </summary>
+        internal string[] GetCompatibleNodeTypeAliases(Type destinationType)
+        {
+            var compatibleAliases = new List<string>();
+
+            foreach (var nodeMapper in NodeMappers)
+            {
+                if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType))
+                {
+                    compatibleAliases.Add(nodeMapper.Value.SourceNodeTypeAlias);
+                }
+            }
+
+            return compatibleAliases.Distinct().ToArray();
+        }
+
+        #endregion
+
+        #region Querying
+
+        /// <summary>
+        /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
+        /// </summary>
+        /// <typeparam name="TDestination">The type to map to.</typeparam>
+        /// <returns>A fluent configuration for the query.</returns>
+        /// <exception cref="MapNotFoundException">If a suitable map for <typeparamref name="TDestination"/> has not 
+        /// been created with <see cref="CreateMap()" />.</exception>
+        public INodeQuery<TDestination> Query<TDestination>()
+            where TDestination : class, new()
+        {
+            return new NodeQuery<TDestination>(this);
+        }
+
+        #endregion
+
+        #region Legacy
 
         /// <summary>
         /// Maps an Umbraco <c>Node</c> as a strongly typed object.
@@ -306,93 +434,7 @@ namespace uComponents.Mapping
                 );
         }
 
-        /// <summary>
-        /// Examines the engine's <see cref="NodeMappers"/> and returns node mapper
-        /// which maps to the closest base class of <paramref name="type"/>.
-        /// </summary>
-        /// <returns>
-        /// <c>null</c>  if there are no mappers which map to a base class of 
-        /// <paramref name="type"/>.
-        /// </returns>
-        internal NodeMapper GetParentNodeMapperForType(Type type)
-        {
-            var ancestorMappers = new List<NodeMapper>();
-
-            foreach (var nodeMapper in NodeMappers)
-            {
-                if (nodeMapper.Value.DestinationType.IsAssignableFrom(type)
-                    && type != nodeMapper.Value.DestinationType)
-                {
-                    ancestorMappers.Add(nodeMapper.Value);
-                }
-            }
-
-            // Sort by inheritance
-            ancestorMappers.Sort((x, y) =>
-            {
-                return x.DestinationType.IsAssignableFrom(y.DestinationType)
-                    ? 1
-                    : -1;
-            });
-
-            return ancestorMappers.FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Gets a node mapper which maps from <paramref name="sourceNodeTypeAlias"/>
-        /// to <paramref name="destinationType"/> or some class derived from 
-        /// <paramref name="destinationType"/>.
-        /// </summary>
-        /// <param name="sourceNodeTypeAlias">Node type alias to map from.</param>
-        /// <param name="destinationType">The type which the mapped model must
-        /// cast to.</param>
-        /// <returns>The node mapper, or null if a suitable mapper could not be found</returns>
-        internal NodeMapper GetMapper(string sourceNodeTypeAlias, Type destinationType)
-        {
-            foreach (var nodeMapper in NodeMappers)
-            {
-                if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType)
-                    && nodeMapper.Value.SourceNodeTypeAlias == sourceNodeTypeAlias)
-                {
-                    return nodeMapper.Value;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets all node type aliases which can map to <paramref name="destinationType"/>.
-        /// </summary>
-        internal string[] GetCompatibleNodeTypeAliases(Type destinationType)
-        {
-            var compatibleAliases = new List<string>();
-
-            foreach (var nodeMapper in NodeMappers)
-            {
-                if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType))
-                {
-                    compatibleAliases.Add(nodeMapper.Value.SourceNodeTypeAlias);
-                }
-            }
-
-            return compatibleAliases.Distinct().ToArray();
-        }
-
         #endregion
-
-        /// <summary>
-        /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
-        /// </summary>
-        /// <typeparam name="TDestination">The type to map to.</typeparam>
-        /// <returns>A fluent configuration for the query.</returns>
-        /// <exception cref="MapNotFoundException">If a suitable map for <typeparamref name="TDestination"/> has not 
-        /// been created with <see cref="CreateMap()" />.</exception>
-        public INodeQuery<TDestination> Query<TDestination>()
-            where TDestination : class, new()
-        {
-            return new NodeQuery<TDestination>(this);
-        }
     }
 
     #region Exceptions

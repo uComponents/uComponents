@@ -2,26 +2,40 @@
 using System.Linq.Expressions;
 using umbraco.NodeFactory;
 using System.Collections.Generic;
+using uComponents.Mapping.Property;
 namespace uComponents.Mapping
 {
     /// <summary>
-    /// Fluent configuration for an INodeMappingEngine mapping
+    /// Fluent configuration for an <see cref="INodeMappingEngine"/> mapping
     /// </summary>
     /// <typeparam name="TDestination">The destination model type</typeparam>
     public interface INodeMappingExpression<TDestination>
     {
         /// <summary>
-        /// Sets a mapping for a collection of nodes to be used for the model
-        /// property.  This property will require an include.
+        /// Sets the property alias to map from for an automatically mapped
+        /// property.
         /// </summary>
         /// <param name="destinationProperty">The property to map to.</param>
-        /// <param name="propertyMapping">
-        /// The mapping function which returns a collection of nodes (which
-        /// will be mapped to models).
+        /// <param name="propertyAlias">
+        /// The node property alias to use instead of the default.
         /// </param>
-        INodeMappingExpression<TDestination> CollectionProperty<TProperty>(
+        INodeMappingExpression<TDestination> DefaultProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
-            Func<Node, IEnumerable<Node>> propertyMapping
+            string propertyAlias
+            );
+
+        /// <summary>
+        /// Sets a non-relational mapping for a model property.  This property
+        /// will not require an include.
+        /// </summary>
+        /// <param name="destinationProperty">The property to map to.</param>
+        /// <param name="mapping">
+        /// Maps the node property to the model property.
+        /// </param>
+        INodeMappingExpression<TDestination> BasicProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty,
+            BasicPropertyMapping mapping,
+            string propertyAlias = null
             );
 
         /// <summary>
@@ -29,61 +43,54 @@ namespace uComponents.Mapping
         /// property.  This property will require an include.
         /// </summary>
         /// <param name="destinationProperty">The property to map to.</param>
-        /// <param name="propertyMapping">
-        /// The mapping function which returns a single node (which
-        /// will be mapped to it's corresponding model).
+        /// <param name="mapping">
+        /// A mapping which retrieves the ID of the node to map to the property.
+        /// </param>
+        /// <param name="propertyAlias">
+        /// An optional node property alias override.
         /// </param>
         INodeMappingExpression<TDestination> SingleProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
-            Func<Node, Node> propertyMapping
+            SinglePropertyMapping mapping,
+            string propertyAlias = null
             );
 
+        /// <summary>
+        /// Sets a mapping for a collection to be used for the model
+        /// property.  This property will require an include.
+        /// </summary>
+        /// <param name="destinationProperty">The property to map to.</param>
+        /// <param name="mapping">
+        /// A mapping which retrieves the IDs of the items in the collection.
+        /// </param>
+        /// <param name="propertyAlias">
+        /// An optional node property alias override.
+        /// </param>
+        INodeMappingExpression<TDestination> CollectionProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty,
+            CollectionPropertyMapping mapping,
+            string propertyAlias = null
+            );
 
         /// <summary>
-        /// Sets a custom mapping to be used for a the model property.
+        /// Sets a custom mapping to be used for a model property.
         /// </summary>
-        /// <param name="destinationProperty">The member of the destination model
-        /// to map to.</param>
+        /// <param name="destinationProperty">The property to map to.</param>
         /// <param name="propertyMapping">
-        /// The new mapping function.  Arguments are the node being mapped, 
-        /// and an array of paths relative to the property being mapped
-        /// (when mapping a relationship).
+        /// A mapping which retrieves the value of the property.
         /// </param>
         /// <param name="requiresInclude">
         /// Whether the property requires an explicit include.
         /// </param>
-        INodeMappingExpression<TDestination> ForProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty,
-            Func<Node, string[], object> propertyMapping, 
-            bool requiresInclude
-            );
-
-        /// <summary>
-        /// Sets a custom mapping to be used for a the model property.
-        /// </summary>
-        /// <param name="destinationProperty">The member of the destination model
-        /// to map to.</param>
-        /// <param name="propertyMapping">
-        /// The new mapping function.
+        /// <param name="allowCaching">
+        /// If set to true, the result of <paramref name="propertyMapping"/> will be cached.
+        /// While caching is disabled on the <see cref="INodeMappingEngine"/>, no caching will occur.
         /// </param>
-        /// <param name="isRelationship">Whether the property should be deemed a relationship
-        /// or not.</param>
-        [Obsolete("Use the overload of ForProperty which takes a Func<Node, string[], object> instead")]
-        INodeMappingExpression<TDestination> ForProperty<TProperty>(
+        INodeMappingExpression<TDestination> CustomProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
-            Func<Node, object> propertyMapping,
-            bool isRelationship
-            );
-
-        /// <summary>
-        /// Sets a custom property alias to be set for a the model property.
-        /// </summary>
-        /// <param name="destinationProperty">The member of the destination model
-        /// to map to.</param>
-        /// <param name="nodeTypeAlias">The property alias to map from.</param>
-        INodeMappingExpression<TDestination> ForProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty, 
-            string nodeTypeAlias
+            CustomPropertyMapping propertyMapping,
+            bool requiresInclude,
+            bool allowCaching
             );
 
         /// <summary>
@@ -93,5 +100,23 @@ namespace uComponents.Mapping
         INodeMappingExpression<TDestination> RemoveMappingForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty
             );
+
+        #region Legacy
+
+        [Obsolete("Use CustomProperty() instead")]
+        INodeMappingExpression<TDestination> ForProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty,
+            Func<Node, string[], object> propertyMapping,
+            bool requiresInclude
+            );
+
+        [Obsolete("Use CustomProperty() instead")]
+        INodeMappingExpression<TDestination> ForProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty,
+            Func<Node, object> propertyMapping,
+            bool isRelationship
+            );
+
+        #endregion
     }
 }
