@@ -102,6 +102,11 @@ namespace uComponents.Mapping
             RemoveMappingForProperty(destinationProperty);
 
             _nodeMapper.PropertyMappers.Add(mapper);
+
+            if (_engine.CacheProvider != null)
+            {
+                _engine.CacheProvider.Clear();
+            }
         }
 
         #endregion
@@ -174,6 +179,11 @@ namespace uComponents.Mapping
             RemoveMappingForProperty(destinationProperty);
 
             _nodeMapper.PropertyMappers.Add(mapper);
+
+            if (_engine.CacheProvider != null)
+            {
+                _engine.CacheProvider.Clear();
+            }
         }
 
         #endregion
@@ -246,6 +256,11 @@ namespace uComponents.Mapping
             RemoveMappingForProperty(destinationProperty);
 
             _nodeMapper.PropertyMappers.Add(mapper);
+
+            if (_engine.CacheProvider != null)
+            {
+                _engine.CacheProvider.Clear();
+            }
         }
 
         #endregion
@@ -282,6 +297,11 @@ namespace uComponents.Mapping
 
             _nodeMapper.PropertyMappers.Add(mapper);
 
+            if (_engine.CacheProvider != null)
+            {
+                _engine.CacheProvider.Clear();
+            }
+
             return this;
         }
 
@@ -310,24 +330,19 @@ namespace uComponents.Mapping
                 _nodeMapper.PropertyMappers.Remove(existingMapper);
             }
 
+            if (_engine.CacheProvider != null)
+            {
+                _engine.CacheProvider.Clear();
+            }
+
             return this;
         }
 
         #region Legacy
 
         /// <summary>
-        /// Sets a custom mapping to be used for a the model property.
+        /// See <c>INodeMappingExpression.ForProperty()</c>
         /// </summary>
-        /// <param name="destinationProperty">The member of the destination model
-        /// to map to.</param>
-        /// <param name="propertyMapping">
-        /// The new mapping function.  Arguments are the node being mapped, 
-        /// and an array of paths relative to the property being mapped
-        /// (when mapping a relationship).
-        /// </param>
-        /// <param name="requiresInclude">
-        /// Whether the property requires an explicit include to be mapped.
-        /// </param>
         [Obsolete]
         public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
@@ -376,20 +391,18 @@ namespace uComponents.Mapping
 
             _nodeMapper.PropertyMappers.Add(mapper);
 
+            if (_engine.CacheProvider != null)
+            {
+                _engine.CacheProvider.Clear();
+            }
+
             return this;
         }
 
         /// <summary>
-        /// Sets a custom mapping to be used for a the model property.
+        /// See <c>INodeMappingExpression.ForProperty()</c>
         /// </summary>
-        /// <param name="destinationProperty">The member of the destination model
-        /// to map to.</param>
-        /// <param name="propertyMapping">
-        /// The new mapping function.
-        /// </param>
-        /// <param name="isRelationship">Whether the property should be deemed a relationship
-        /// or not.</param>
-        [Obsolete("Use the overload of ForProperty which takes an array of paths instead")]
+        [Obsolete]
         public INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             Func<Node, object> propertyMapping,
@@ -397,6 +410,11 @@ namespace uComponents.Mapping
             )
         {
             Func<Node, string[], object> mapping = (node, paths) => propertyMapping(node);
+
+            if (_engine.CacheProvider != null)
+            {
+                _engine.CacheProvider.Clear();
+            }
 
             return ForProperty(
                 destinationProperty,

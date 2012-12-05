@@ -20,6 +20,10 @@ namespace uComponents.Mapping
     internal class NodeQuery<TDestination> : INodeQuery<TDestination>
         where TDestination : class, new()
     {
+        // Cache keys
+        private const string _explicitCacheFormat = "Explicit_{0}";
+        private const string _allCacheFormat = "All_{0}";
+
         // The paths included in the query
         private readonly List<string> _paths = new List<string>();
 
@@ -44,80 +48,7 @@ namespace uComponents.Mapping
             }
         }
 
-        public TDestination Map(Node node)
-        {
-            if (node == null || string.IsNullOrEmpty(node.Name))
-            {
-                return null;
-            }
-
-            var context = new NodeMappingContext(node, _paths.ToArray(), null);
-
-            return (TDestination)_engine.Map(
-                context,
-                typeof(TDestination)
-                );
-        }
-
-        [Obsolete("Use Find() instead")]
-        public TDestination Single(int id)
-        {
-            return Find(id);
-        }
-
-        public TDestination Find(int id)
-        {
-            var context = new NodeMappingContext(id, _paths.ToArray(), null);
-
-            return (TDestination)_engine.Map(
-                context,
-                typeof(TDestination)
-                );
-        }
-
-        public IEnumerable<TDestination> Many(IEnumerable<int> ids)
-        {
-            if (ids == null)
-            {
-                throw new ArgumentNullException("nodeIds");
-            }
-
-            return ids.Select(id => Single(id));
-        }
-
-        public IEnumerable<TDestination> Many(IEnumerable<Node> nodes)
-        {
-            if (nodes == null)
-            {
-                throw new ArgumentNullException("nodes");
-            }
-
-            return nodes.Select(n => Map(n));
-        }
-
-        public TDestination Current()
-        {
-            return (TDestination)_engine.Map(
-                Node.GetCurrent(),
-                typeof(TDestination),
-                _paths.ToArray()
-                );
-        }
-
-        public IEnumerable<TDestination> Explicit()
-        {
-            var destinationType = typeof(TDestination);
-
-            if (!_engine.NodeMappers.ContainsKey(destinationType))
-            {
-                throw new MapNotFoundException(destinationType);
-            }
-
-            var nodeMapper = _engine.NodeMappers[destinationType];
-
-            return uQuery.GetNodesByType(nodeMapper.SourceNodeTypeAlias)
-                .Select(n => (TDestination)_engine.Map(n, destinationType, _paths.ToArray()));
-        }
+        #region Include
 
         public INodeQuery<TDestination> Include(string path)
         {
@@ -184,6 +115,98 @@ namespace uComponents.Mapping
             return this;
         }
 
+        #endregion
+
+        #region Execute
+
+        public TDestination Map(Node node)
+        {
+            if (node == null || string.IsNullOrEmpty(node.Name))
+            {
+                return null;
+            }
+
+            var context = new NodeMappingContext(node, _paths.ToArray(), null);
+
+            return (TDestination)_engine.Map(
+                context,
+                typeof(TDestination)
+                );
+        }
+
+        [Obsolete("Use Find() instead")]
+        public TDestination Single(int id)
+        {
+            return Find(id);
+        }
+
+        public TDestination Find(int id)
+        {
+            var context = new NodeMappingContext(id, _paths.ToArray(), null);
+
+            return (TDestination)_engine.Map(
+                context,
+                typeof(TDestination)
+                );
+        }
+
+        public IEnumerable<TDestination> Many(IEnumerable<int> ids)
+        {
+            if (ids == null)
+            {
+                throw new ArgumentNullException("nodeIds");
+            }
+
+            return ids.Select(id => Find(id));
+        }
+
+        public IEnumerable<TDestination> Many(IEnumerable<Node> nodes)
+        {
+            if (nodes == null)
+            {
+                throw new ArgumentNullException("nodes");
+            }
+
+            return nodes.Select(n => Map(n));
+        }
+
+        public TDestination Current()
+        {
+            return Map(Node.GetCurrent());
+        }
+
+        public IEnumerable<TDestination> Explicit()
+        {
+            var destinationType = typeof(TDestination);
+
+            if (!_engine.NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            var cacheKey = string.Format(_explicitCacheFormat, destinationType.FullName);
+
+            if (_engine.CacheProvider != null
+                && _engine.CacheProvider.ContainsKey(cacheKey))
+            {
+                var ids = _engine.CacheProvider.Get(cacheKey) as IEnumerable<int>;
+                return Many(ids);
+            }
+
+            var nodeMapper = _engine.NodeMappers[destinationType];
+            var nodes = uQuery.GetNodesByType(nodeMapper.SourceNodeTypeAlias);
+
+            if (_engine.CacheProvider != null)
+            {
+                // Cache the node IDs
+                _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id));
+            }
+
+            return Many(nodes);
+        }
+
+        #endregion
+
         #region IEnumerable
 
         /// <summary>
@@ -199,16 +222,25 @@ namespace uComponents.Mapping
                 throw new MapNotFoundException(destinationType);
             }
 
+            var cacheKey = string.Format(_allCacheFormat, destinationType.FullName);
+
+            if (_engine.CacheProvider != null
+                && _engine.CacheProvider.ContainsKey(cacheKey))
+            {
+                var ids = _engine.CacheProvider.Get(cacheKey) as IEnumerable<int>;
+                return Many(ids).GetEnumerator();
+            }
+
             var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
+            var nodes = sourceNodeTypeAliases.SelectMany(alias => uQuery.GetNodesByType(alias));
 
-            return sourceNodeTypeAliases
-                .SelectMany(alias =>
-                {
-                    var nodes = uQuery.GetNodesByType(alias);
+            if (_engine.CacheProvider != null)
+            {
+                // Cache the node IDs
+                _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id));
+            }
 
-                    return nodes.Select(n => (TDestination)_engine.Map(n, destinationType, _paths.ToArray()));
-                })
-                .GetEnumerator();
+            return Many(nodes).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -211,9 +211,8 @@ namespace uComponents.Mapping
         /// Maps a node based on the <paramref name="context"/>.
         /// </summary>
         /// <param name="context">The context which describes the node mapping.</param>
-        /// <param name="destinationType"></param>
-        /// <param name="paths"></param>
-        /// <returns></returns>
+        /// <param name="destinationType">The type to map to.</param>
+        /// <returns><c>null</c> if the node does not exist.</returns>
         internal object Map(NodeMappingContext context, Type destinationType)
         {
             if (context == null)

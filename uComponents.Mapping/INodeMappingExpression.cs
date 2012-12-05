@@ -174,16 +174,37 @@ namespace uComponents.Mapping
 
         #region Legacy
 
-        /// <seealso cref="CustomProperty" />
-        [Obsolete("Use CustomProperty() instead")]
+        /// <summary>
+        /// Sets a custom mapping to be used for a the model property.
+        /// </summary>
+        /// <param name="destinationProperty">The member of the destination model
+        /// to map to.</param>
+        /// <param name="propertyMapping">
+        /// The new mapping function.  Arguments are the node being mapped, 
+        /// and an array of paths relative to the property being mapped
+        /// (when mapping a relationship).
+        /// </param>
+        /// <param name="requiresInclude">
+        /// Whether the property requires an explicit include to be mapped.
+        /// </param>
+        [Obsolete("Use BasicProperty, SingleProperty, CollectionProperty or CustomProperty instead")]
         INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             Func<Node, string[], object> propertyMapping,
             bool requiresInclude
             );
 
-        /// <seealso cref="CustomProperty" />
-        [Obsolete("Use CustomProperty() instead")]
+        /// <summary>
+        /// Sets a custom mapping to be used for a the model property.
+        /// </summary>
+        /// <param name="destinationProperty">The member of the destination model
+        /// to map to.</param>
+        /// <param name="propertyMapping">
+        /// The new mapping function.
+        /// </param>
+        /// <param name="isRelationship">Whether the property should be deemed a relationship
+        /// or not.</param>
+        [Obsolete("Use BasicProperty, SingleProperty, CollectionProperty or CustomProperty instead")]
         INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
             Func<Node, object> propertyMapping,
