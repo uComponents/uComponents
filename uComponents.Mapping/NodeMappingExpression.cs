@@ -371,7 +371,7 @@ namespace uComponents.Mapping
                 }
 
                 return propertyMapping(node, paths);
-            }; 
+            };
 
             var mapper = new CustomPropertyMapper(
                 mapping,
@@ -423,6 +423,81 @@ namespace uComponents.Mapping
                 );
         }
 
+        /// <summary>
+        /// See <c>INodeMappingExpression.ForProperty()</c>
+        /// </summary>
+        [Obsolete]
+        public INodeMappingExpression<TDestination> ForProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty,
+            string nodeTypeAlias
+            )
+        {
+            if (string.IsNullOrEmpty(nodeTypeAlias))
+            {
+                throw new ArgumentException("Node type alias cannot be null", "nodeTypeAlias");
+            }
+
+            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
+            var propertyType = destinationPropertyInfo.PropertyType;
+            PropertyMapperBase propertyMapper = null;
+
+            if (propertyType.IsSystem() || propertyType.IsEnum)
+            {
+                propertyMapper = new BasicPropertyMapper(
+                    null,
+                    null,
+                    _nodeMapper,
+                    destinationPropertyInfo,
+                    nodeTypeAlias
+                    );
+            }
+            else if (propertyType.IsModel())
+            {
+                propertyMapper = new SinglePropertyMapper(
+                    null,
+                    null,
+                    _nodeMapper,
+                    destinationPropertyInfo,
+                    nodeTypeAlias
+                    );
+            }
+            else if (propertyType.IsModelCollection())
+            {
+                propertyMapper = new CollectionPropertyMapper(
+                    null,
+                    null,
+                    _nodeMapper,
+                    destinationPropertyInfo,
+                    nodeTypeAlias
+                    );
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(
+                    "TProperty", 
+                    string.Format("The property type {0} on model {1} is not supported.", propertyType.FullName, typeof(TDestination).FullName)
+                    );
+            }
+
+            var existingMapper = this._nodeMapper.PropertyMappers
+                .SingleOrDefault(x => x.DestinationInfo.Name == destinationPropertyInfo.Name);
+
+            if (existingMapper != null)
+            {
+                _nodeMapper.PropertyMappers.Remove(existingMapper);
+            }
+
+            _nodeMapper.PropertyMappers.Add(propertyMapper);
+
+            if (_engine.CacheProvider != null)
+            {
+                _engine.CacheProvider.Clear();
+            }
+
+            return this;
+        }
+
         #endregion
+
     }
 }

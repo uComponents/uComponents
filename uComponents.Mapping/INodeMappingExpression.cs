@@ -211,6 +211,18 @@ namespace uComponents.Mapping
             bool isRelationship
             );
 
+        /// <summary>
+        /// Sets a custom property alias to be set for a the model property.
+        /// </summary>
+        /// <param name="destinationProperty">The member of the destination model
+        /// to map to.</param>
+        /// <param name="nodeTypeAlias">The property alias to map from.</param>
+        [Obsolete("Use BasicProperty, SingleProperty or CollectionProperty instead")]
+        INodeMappingExpression<TDestination> ForProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> destinationProperty,
+            string nodeTypeAlias
+            );
+
         #endregion
     }
 }
