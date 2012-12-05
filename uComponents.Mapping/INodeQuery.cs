@@ -31,20 +31,28 @@ namespace uComponents.Mapping
         /// <summary>
         /// Gets a mapped instance of a node by it's ID.
         /// </summary>
-        /// <param name="nodeId">The ID of the node to map.</param>
+        /// <param name="id">The ID of the node to map.</param>
         /// <returns>The mapped node, or null if it does not exist.</returns>
-        TDestination Single(int nodeId);
+        [Obsolete("Use Find() instead")]
+        TDestination Single(int id);
+
+        /// <summary>
+        /// Gets a mapped instance of a node by it's ID.
+        /// </summary>
+        /// <param name="id">The ID of the node to map.</param>
+        /// <returns>The mapped node, or null if it does not exist.</returns>
+        TDestination Find(int id);
 
         /// <summary>
         /// Gets mapped instances of nodes by their ID.
         /// </summary>
-        /// <param name="nodeIds">The IDs of the nodes to map.</param>
+        /// <param name="ids">The IDs of the nodes to map.</param>
         /// <returns>
         /// A one-to-one collection of mapped nodes to node IDs
         /// (there will be holes in the collection if some nodes
         /// do not exist).
         /// </returns>
-        IEnumerable<TDestination> Many(IEnumerable<int> nodeIds);
+        IEnumerable<TDestination> Many(IEnumerable<int> ids);
 
         /// <summary>
         /// Gets mapped instances of <c>Node</c>s.

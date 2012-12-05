@@ -46,30 +46,43 @@ namespace uComponents.Mapping
 
         public TDestination Map(Node node)
         {
+            if (node == null || string.IsNullOrEmpty(node.Name))
+            {
+                return null;
+            }
+
+            var context = new NodeMappingContext(node, _paths.ToArray(), null);
+
             return (TDestination)_engine.Map(
-                node,
-                typeof(TDestination),
-                _paths.ToArray()
+                context,
+                typeof(TDestination)
                 );
         }
 
-        public TDestination Single(int nodeId)
+        [Obsolete("Use Find() instead")]
+        public TDestination Single(int id)
         {
+            return Find(id);
+        }
+
+        public TDestination Find(int id)
+        {
+            var context = new NodeMappingContext(id, _paths.ToArray(), null);
+
             return (TDestination)_engine.Map(
-                new Node(nodeId),
-                typeof(TDestination),
-                _paths.ToArray()
+                context,
+                typeof(TDestination)
                 );
         }
 
-        public IEnumerable<TDestination> Many(IEnumerable<int> nodeIds)
+        public IEnumerable<TDestination> Many(IEnumerable<int> ids)
         {
-            if (nodeIds == null)
+            if (ids == null)
             {
                 throw new ArgumentNullException("nodeIds");
             }
 
-            return nodeIds.Select(id => Single(id));
+            return ids.Select(id => Single(id));
         }
 
         public IEnumerable<TDestination> Many(IEnumerable<Node> nodes)
