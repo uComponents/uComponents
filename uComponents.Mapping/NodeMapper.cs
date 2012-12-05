@@ -59,88 +59,55 @@ namespace uComponents.Mapping
                     continue;
                 }
 
-                PropertyMapperBase customPropertyMapper = null;
-                Func<Node, string[], object> defaultPropertyMapping = null;
+                PropertyMapperBase propertyMapper = null;
 
-                // Default node properties
-                switch (destinationProperty.Name.ToLowerInvariant())
+                var sourcePropertyAlias = sourceDocumentType.PropertyTypes
+                    .Select(prop => prop.Alias)
+                    .Where(alias => string.Equals(alias, destinationProperty.Name, StringComparison.InvariantCultureIgnoreCase))
+                    .SingleOrDefault();
+
+                // Check if this property aligns with an default node properties
+                var defaultPropertyMapping = DefaultPropertyMapper.GetDefaultMappingForName(destinationProperty.Name);
+                if (defaultPropertyMapping != null)
                 {
-                    case "createdate":
-                        defaultPropertyMapping = (node, path) => node.CreateDate;
-                        break;
-                    case "creatorid":
-                        defaultPropertyMapping = (node, path) => node.CreatorID;
-                        break;
-                    case "creatorname":
-                        defaultPropertyMapping = (node, path) => node.CreatorName;
-                        break;
-                    case "id":
-                        defaultPropertyMapping = (node, path) => node.Id;
-                        break;
-                    case "level":
-                        defaultPropertyMapping = (node, path) => node.Level;
-                        break;
-                    case "name":
-                        defaultPropertyMapping = (node, path) => node.Name;
-                        break;
-                    case "niceurl":
-                        defaultPropertyMapping = (node, path) => node.NiceUrl;
-                        break;
-                    case "nodetypealias":
-                        defaultPropertyMapping = (node, path) => node.NodeTypeAlias;
-                        break;
-                    case "path":
-                        defaultPropertyMapping = (node, path) => node.Path;
-                        break;
-                    case "sortorder":
-                        defaultPropertyMapping = (node, path) => node.SortOrder;
-                        break;
-                    case "template":
-                        defaultPropertyMapping = (node, path) => node.template;
-                        break;
-                    case "updatedate":
-                        defaultPropertyMapping = (node, path) => node.UpdateDate;
-                        break;
-                    case "url":
-                        defaultPropertyMapping = (node, path) => node.Url;
-                        break;
-                    case "urlname":
-                        defaultPropertyMapping = (node, path) => node.UrlName;
-                        break;
-                    case "version":
-                        defaultPropertyMapping = (node, path) => node.Version;
-                        break;
-                    case "writerid":
-                        defaultPropertyMapping = (node, path) => node.WriterID;
-                        break;
-                    case "writername":
-                        defaultPropertyMapping = (node, path) => node.WriterName;
-                        break;
-                    default:
-                        // Map custom properties
-                        var sourcePropertyAlias = sourceDocumentType.PropertyTypes
-                            .Select(prop => prop.Alias)
-                            .Where(alias => string.Equals(alias, destinationProperty.Name, StringComparison.InvariantCultureIgnoreCase))
-                            .SingleOrDefault();
-
-                        if (sourcePropertyAlias != null
-                            || destinationProperty.PropertyType.IsModelCollection()
-                            || destinationProperty.PropertyType.IsModel()
-                            || destinationProperty.PropertyType.IsEnum)
-                        {
-                            customPropertyMapper = new PropertyMapperBase(this, destinationProperty, sourcePropertyAlias);
-                        }
-                        break;
+                    propertyMapper = new DefaultPropertyMapper(defaultPropertyMapping, this, destinationProperty);
+                }
+                else if (sourcePropertyAlias != null
+                    && (destinationProperty.PropertyType.IsSystem()
+                          || destinationProperty.PropertyType.IsEnum)) // check corresponding source property alias was found
+                {
+                    propertyMapper = new BasicPropertyMapper(
+                        x => x, // direct mapping
+                        destinationProperty.PropertyType, // using the desired type
+                        this,
+                        destinationProperty,
+                        sourcePropertyAlias
+                        );
+                }
+                else if (destinationProperty.PropertyType.IsModel())
+                {
+                    propertyMapper = new SinglePropertyMapper(
+                        null,
+                        null,
+                        this,
+                        destinationProperty,
+                        sourcePropertyAlias // can be null to map ancestor
+                        );
+                }
+                else if (destinationProperty.PropertyType.IsModelCollection())
+                {
+                    propertyMapper = new CollectionPropertyMapper(
+                        null,
+                        null,
+                        this,
+                        destinationProperty,
+                        sourcePropertyAlias // can be null to map descendants
+                        );
                 }
 
-                if (customPropertyMapper != null)
+                if (propertyMapper != null)
                 {
-                    PropertyMappers.Add(customPropertyMapper);
-                }
-                else if (defaultPropertyMapping != null)
-                {
-                    var defaultNodePropertyMapper = new PropertyMapperBase(this, destinationProperty, defaultPropertyMapping, false);
-                    PropertyMappers.Add(defaultNodePropertyMapper);
+                    PropertyMappers.Add(propertyMapper);
                 }
             }
         }
@@ -157,7 +124,7 @@ namespace uComponents.Mapping
         [Obsolete("Use MapNode with NodeMappingContext instead")]
         public object MapNode(Node sourceNode, string[] paths)
         {
-            var context = new NodeMappingContext(sourceNode, paths);
+            var context = new NodeMappingContext(sourceNode, paths, null);
 
             return MapNode(context);
         }
@@ -173,11 +140,11 @@ namespace uComponents.Mapping
 
             PropertyInfo[] includedPaths = null;
 
+            // Check included paths are actually required
             if (context.Paths != null)
             {
                 includedPaths = GetImmediateProperties(DestinationType, context.Paths.ToArray());
 
-                // Check included paths are actually required
                 foreach (var path in includedPaths)
                 {
                     var propertyMapper = PropertyMappers.SingleOrDefault(x => x.DestinationInfo.Name == path.Name);

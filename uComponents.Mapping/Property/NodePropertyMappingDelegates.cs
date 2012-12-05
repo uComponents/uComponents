@@ -2,35 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using umbraco.NodeFactory;
 
 namespace uComponents.Mapping.Property
 {
     /// <summary>
+    /// A delegate signature for mapping a Node's default property (such as Name or NiceUrl).
+    /// </summary>
+    /// <param name="node">The node to map the property from.</param>
+    /// <returns>The mapped property value.</returns>
+    internal delegate object DefaultPropertyMapping(Node node);
+
+    /// <summary>
     /// A delegate signature for mapping a non-relational property.
     /// </summary>
+    /// <typeparam name="TSource">
+    /// The desired type of the sourceValue (will be converted if necessary).
+    /// This should be a simple type like <c>string</c>, <c>int?</c> or an enum.
+    /// </typeparam>
     /// <param name="propertyValue">
     /// The value of the property, taken from the <c>Node</c> being mapped.
     /// </param>
     /// <returns>The mapped property value.</returns>
-    public delegate object BasicPropertyMapping(object propertyValue);
+    public delegate object BasicPropertyMapping<TSource>(TSource sourceValue);
 
     /// <summary>
     /// A delegate signature for mapping a single-relationship property.
     /// </summary>
+    /// <typeparam name="TSource">
+    /// The desired type of the sourceValue (will be converted if necessary).
+    /// This should be a system type like <c>string</c> or <c>int?</c>.
+    /// </typeparam>
     /// <param name="propertyValue">
     /// The value of the property, taken from the <c>Node</c> being mapped.
     /// </param>
-    /// <returns>The ID of the node which will be mapped to the model's property.</returns>
-    public delegate int SinglePropertyMapping(object propertyValue);
+    /// <returns>
+    /// The ID of the node which will be mapped to the model's property,
+    /// or null if it should not be mapped (i.e. it doesn't exist).
+    /// </returns>
+    public delegate int? SinglePropertyMapping<TSource>(TSource sourceValue);
 
     /// <summary>
     /// A delegate signature for mapping a collection-relationship property.
     /// </summary>
+    /// <typeparam name="TSource">
+    /// The desired type of the sourceValue (will be converted if necessary).
+    /// This should be a system type like <c>string</c>.
+    /// </typeparam>
     /// <param name="propertyValue">
     /// The value of the property, taken from the <c>Node</c> being mapped.
     /// </param>
     /// <returns>A collection of node IDs which will be mapped to the model's property.</returns>
-    public delegate IEnumerable<int> CollectionPropertyMapping(object propertyValue);
+    public delegate IEnumerable<int> CollectionPropertyMapping<TSource>(TSource sourceValue);
 
     /// <summary>
     /// A delegate signature for mapping a custom property.

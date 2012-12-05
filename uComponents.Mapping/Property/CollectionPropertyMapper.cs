@@ -5,36 +5,158 @@ using System.Text;
 using System.Reflection;
 using umbraco.NodeFactory;
 using umbraco;
+using uComponents.Mapping;
 
 namespace uComponents.Mapping.Property
 {
     internal class CollectionPropertyMapper : PropertyMapperBase
     {
-        private CollectionPropertyMapping _mapping;
-        private Type _itemType;
+        private readonly Func<object, IEnumerable<int>> _mapping;
+        private readonly Type _sourcePropertyType;
+        private readonly Type _elementType;
+        private readonly bool _canAssignDirectly;
 
+        /// <summary>
+        /// Maps a collection relationship.
+        /// </summary>
+        /// <param name="mapping">
+        /// Mapping from <paramref name="sourcePropertyType"/> to a collection
+        /// of node IDs.  If <c>null</c>, the mapping will be deduced from 
+        /// the other parameters.
+        /// </param>
+        /// <param name="sourcePropertyType">
+        /// The type of the first parameter being supplied to <paramref name="mapping"/>.
+        /// Cannot be <c>null</c> if <paramref name="mapping"/> is not <c>null</c>.
+        /// </param>
+        /// <param name="sourcePropertyAlias">
+        /// The alias of the node property to map from.  If null, descendants of
+        /// the node which are compatible with <paramref name="destinationProperty"/>
+        /// will be mapped instead.
+        /// </param>
         public CollectionPropertyMapper(
-            CollectionPropertyMapping mapping,
+            Func<object, IEnumerable<int>> mapping,
+            Type sourcePropertyType,
             NodeMapper nodeMapper,
             PropertyInfo destinationProperty,
             string sourcePropertyAlias
             )
-            :base(nodeMapper, destinationProperty, sourcePropertyAlias)
+            : base(nodeMapper, destinationProperty, sourcePropertyAlias)
         {
-            if (mapping == null)
+            if (sourcePropertyType == null && mapping != null)
             {
-                throw new ArgumentNullException("mapping");
+                throw new ArgumentException("Source property type must be specified when setting a mapping");
+            }
+            else if (sourcePropertyAlias == null && mapping != null)
+            {
+                throw new ArgumentException("Source property alias must be specified when mapping is specified.");
             }
 
-            RequiresInclude = true;
+            _elementType = destinationProperty.PropertyType.GetElementType();
+            Type rawCollectionType = null;
+
+            if (_elementType == null)
+            {
+                throw new CollectionTypeNotSupportedException(destinationProperty.PropertyType);
+            }
+
+            if (_elementType == typeof(int))
+            {
+                // Collection of IDs
+                RequiresInclude = false;
+                rawCollectionType = typeof(IEnumerable<int>);
+            }
+            else
+            {
+                // Collection of models
+                RequiresInclude = true;
+            }
+
+            // See if the collection can be assigned, or must be instantiated
+            _canAssignDirectly = CheckCollectionCanBeAssigned(DestinationInfo.PropertyType, rawCollectionType);
+
             AllowCaching = true;
             _mapping = mapping;
+            _sourcePropertyType = sourcePropertyType;
         }
 
         public override object MapProperty(NodeMappingContext context)
         {
-            // Implement this in a derived class.
-            throw new NotImplementedException();
+            IEnumerable<int> ids = null;
+
+            // Get IDs
+            if (AllowCaching
+                && Engine.CacheProvider != null
+                && Engine.CacheProvider.ContainsPropertyValue(context.Id, DestinationInfo.Name))
+            {
+                ids = Engine.CacheProvider.GetPropertyValue(context.Id, DestinationInfo.Name) as IEnumerable<int>;
+            }
+            else
+            {
+                var node = context.GetNode();
+
+                if (node == null || string.IsNullOrEmpty(node.Name))
+                {
+                    throw new InvalidOperationException("Node cannot be null or empty");
+                }
+
+                if (_mapping != null)
+                {
+                    // Custom mapping
+                    ids = _mapping(GetSourcePropertyValue(node, _sourcePropertyType));
+                }
+                else if (!string.IsNullOrEmpty(SourcePropertyAlias))
+                {
+                    // Maps IDs from node property
+                    ids = GetSourcePropertyValue<IEnumerable<int>>(node);
+                }
+                else
+                {
+                    // Get compatible descendants
+                    var aliases = Engine.GetCompatibleNodeTypeAliases(_elementType);
+
+                    var nodes = aliases.SelectMany(alias => node.GetDescendantNodesByType(alias));
+
+                    // Might as well store the nodes if we're creating them
+                    foreach (var n in nodes)
+                    {
+                        context.AddNodeToContextCache(n);
+                    }
+
+                    ids = nodes.Select(n => n.Id);
+                }
+
+                if (AllowCaching
+                    && Engine.CacheProvider != null)
+                {
+                    Engine.CacheProvider.InsertPropertyValue(context.Id, DestinationInfo.Name, ids);
+                }
+            }
+
+            if (_elementType == typeof(int))
+            {
+                // Map ID collection
+                return _canAssignDirectly
+                    ? ids
+                    : Activator.CreateInstance(DestinationInfo.PropertyType, ids);
+            }
+
+            // Map model collection
+            var childPaths = GetNextLevelPaths(context.Paths.ToArray());
+            var sourceListType = typeof(List<>).MakeGenericType(_elementType);
+            var mappedCollection = Activator.CreateInstance(sourceListType);
+
+            foreach (var id in ids)
+            {
+                var childContext = new NodeMappingContext(id, childPaths, context);
+                var mappedElement = Engine.Map(childContext, _elementType);
+
+                // Like "items.Add(item)" but for generic list
+                sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, mappedCollection, new object[] { mappedElement });
+            }
+
+            return _canAssignDirectly
+                ? mappedCollection
+                : Activator.CreateInstance(DestinationInfo.PropertyType, mappedCollection);
         }
 
         /// <summary>
@@ -81,103 +203,6 @@ namespace uComponents.Mapping.Property
             }
 
             return assignCollectionDirectly;
-        }
-
-        /// <summary>
-        /// If SourcePropertyAlias is specified, parses the CSV string of node IDs (or null) and gets the
-        /// existing nodes.
-        /// 
-        /// If SourcePropertyAlias is null, it gets the descendent nodes which are of the correct node type.
-        /// </summary>
-        /// <returns>The collection of nodes, or null if a map does not exist for relationDestinationType</returns>
-        /// <exception cref="RelationPropertyFormatNotSupported">
-        /// If SourcePropertyAlias is not null and propertyValue is not a valid CSV list of IDs.
-        /// </exception>
-        /// <exception cref="MapNotFoundException">If SourcePropertyAlias is not null and
-        /// no map exists for relationDestinationType</exception>
-        private IEnumerable<Node> GetRelatedNodes(Node node, Type relationDestinationType)
-        {
-            throw new NotImplementedException();
-
-            if (Engine.NodeMappers.ContainsKey(relationDestinationType))
-            {
-                if (SourcePropertyAlias != null)
-                {
-                    // Relation defined by property
-                    var csv = node.GetProperty<string>(SourcePropertyAlias);
-                    var nodes = new List<Node>();
-
-                    if (!string.IsNullOrWhiteSpace(csv))
-                    {
-                        foreach (var idString in csv.Split(','))
-                        {
-                            // Ensure this is actually a list of node IDs
-                            int id;
-                            if (!int.TryParse(idString.Trim(), out id))
-                            {
-                                throw new RelationPropertyFormatNotSupported(csv, DestinationInfo.DeclaringType);
-                            }
-
-                            var relatedNode = new Node(id);
-
-                            if (!string.IsNullOrEmpty(relatedNode.Name))
-                            {
-                                nodes.Add(relatedNode);
-                            }
-                        }
-                    }
-
-                    return nodes;
-                }
-                else
-                {
-                    // Relation defined by heirarchy
-                    var aliases = Engine.GetCompatibleNodeTypeAliases(relationDestinationType);
-
-                    return aliases.SelectMany(alias => node.GetDescendantNodesByType(alias));
-                }
-            }
-            else if (SourcePropertyAlias != null)
-            {
-                throw new MapNotFoundException(relationDestinationType);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Parses the CSV string of node IDs (or null) and returns the IDs.
-        /// Does not ensure the IDs exist.
-        /// </summary>
-        /// <exception cref="RelationPropertyFormatNotSupported">
-        /// If SourcePropertyAlias is not null and propertyValue is not a valid CSV list of IDs.
-        /// </exception>
-        private IEnumerable<int> GetRelatedNodeIds(Node node)
-        {
-            throw new NotImplementedException();
-
-            // Relation defined by property
-            var csv = node.GetProperty<string>(SourcePropertyAlias);
-            var ids = new List<int>();
-
-            if (!string.IsNullOrWhiteSpace(csv))
-            {
-                foreach (var idString in csv.Split(','))
-                {
-                    // Ensure this is actually a list of node IDs
-                    int id;
-                    if (!int.TryParse(idString.Trim(), out id))
-                    {
-                        throw new RelationPropertyFormatNotSupported(csv, DestinationInfo.DeclaringType);
-                    }
-
-                    ids.Add(id);
-                }
-            }
-
-            return ids;
         }
     }
 }

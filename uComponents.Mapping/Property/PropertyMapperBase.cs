@@ -14,12 +14,23 @@ namespace uComponents.Mapping.Property
     /// </summary>
     internal abstract class PropertyMapperBase
     {
-        public NodeMappingEngine Engine { get; private set; }
-        public PropertyInfo DestinationInfo { get; private set; }
-        public string SourcePropertyAlias { get; private set; }
-        public bool RequiresInclude { get; protected set; }
-        public bool AllowCaching { get; protected set; }
+        // Stores the GetProperty<> method for casting node property values
+        private readonly static MethodInfo _getNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
 
+        /// <summary>
+        /// Whether the property mapper should allow its mapped value to be cached.
+        /// </summary>
+        protected bool AllowCaching { get; set; }
+
+        protected NodeMappingEngine Engine { get; set; }
+        protected string SourcePropertyAlias { get; set; }
+
+        public PropertyInfo DestinationInfo { get; private set; }
+        public bool RequiresInclude { get; protected set; }
+
+        /// <param name="destinationProperty">
+        /// Describes the model property being mapped to.
+        /// </param>
         public PropertyMapperBase(
             NodeMapper nodeMapper,
             PropertyInfo destinationProperty,
@@ -34,98 +45,11 @@ namespace uComponents.Mapping.Property
             {
                 throw new ArgumentNullException("destinationProperty");
             }
-            else if (string.IsNullOrEmpty(sourcePropertyAlias)
-                && !(destinationProperty.PropertyType.IsModelCollection()
-                    || destinationProperty.PropertyType.IsModel()))
-            {
-                throw new ArgumentException(string.Format(@"Invalid destination property type '{0}' for a null 
-source property alias: A source property alias must be specified when the destination type is not a collection",
-                    destinationProperty.PropertyType.FullName));
-            }
 
             Engine = nodeMapper.Engine;
             SourcePropertyAlias = sourcePropertyAlias;
             DestinationInfo = destinationProperty;
         }
-
-        /// <summary>
-        /// Infer a mapping based on the type of the destination property.
-        /// </summary>
-        //        public NodePropertyMapper(
-        //            NodeMapper nodeMapper, 
-        //            PropertyInfo destinationProperty, 
-        //            string sourcePropertyAlias
-        //            )
-        //        {
-        //            if (nodeMapper == null)
-        //            {
-        //                throw new ArgumentNullException("nodeMapper");
-        //            }
-        //            else if (destinationProperty == null)
-        //            {
-        //                throw new ArgumentNullException("destinationProperty");
-        //            }
-        //            else if (string.IsNullOrEmpty(sourcePropertyAlias)
-        //                && !(destinationProperty.PropertyType.IsModelCollection()
-        //                    || destinationProperty.PropertyType.IsModel()))
-        //            {
-        //                throw new ArgumentException(string.Format(@"Invalid destination property type '{0}' for a null 
-        //source property alias: A source property alias must be specified when the destination type is not a collection",
-        //                    destinationProperty.PropertyType.FullName));
-        //            }
-
-        //            Engine = nodeMapper.Engine;
-        //            SourcePropertyAlias = sourcePropertyAlias;
-        //            DestinationInfo = destinationProperty;
-
-        //            // Mappings
-        //            if (destinationProperty.PropertyType.IsModelCollection())
-        //            {
-        //                // A collection
-        //                _itemType = destinationProperty.PropertyType.GetGenericArguments().FirstOrDefault();
-
-        //                if (_itemType == null || _itemType.IsAssignableFrom(typeof(int)))
-        //                {
-        //                    // Map IDs
-        //                    _canAssignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, typeof(IEnumerable<int>));
-
-        //                    _mapping = MapCollectionAsIds;
-        //                    RequiresInclude = false;
-        //                    AllowCaching = true;
-        //                }
-        //                else
-        //                {
-        //                    // Map model collection
-        //                    var sourceCollectionType = typeof(IEnumerable<>).MakeGenericType(_itemType);
-        //                    _canAssignCollectionDirectly = CheckCollectionCanBeAssigned(destinationProperty.PropertyType, sourceCollectionType);
-
-        //                    _mapping = MapCollectionAsModels;
-        //                    RequiresInclude = true;
-        //                    AllowCaching = true;
-        //                }
-        //            }
-        //            else if (destinationProperty.PropertyType.IsSystem()
-        //                || destinationProperty.PropertyType.IsEnum)
-        //            {
-        //                // Basic system types
-        //                var method = NodeMappingEngine.GetNodePropertyMethod.MakeGenericMethod(destinationProperty.PropertyType);
-
-        //                _mapping = (node, paths) => method.Invoke(null, new object[] { node, SourcePropertyAlias });
-        //                RequiresInclude = false;
-        //                AllowCaching = true;
-        //            }
-        //            else if (destinationProperty.PropertyType.IsModel())
-        //            {
-        //                // Try to map to model
-        //                _mapping = MapModel;
-        //                RequiresInclude = true;
-        //                AllowCaching = true;
-        //            }
-        //            else
-        //            {
-        //                throw new NotImplementedException("Cannot map to a property that is not a collection, system type, enum or class");
-        //            }
-        //        }
 
         /// <summary>
         /// Maps a node property.
@@ -166,82 +90,62 @@ source property alias: A source property alias must be specified when the destin
             return pathsForProperty.ToArray();
         }
 
-        #region Default property mappings
-
-        private object MapCollectionAsIds(Node node, string[] paths)
+        /// <summary>
+        /// Gets a Node's property as a certain type.
+        /// </summary>
+        /// <param name="sourcePropertyType">The type to get the property as (should be a system type or enum)</param>
+        public object GetSourcePropertyValue(Node node, Type sourcePropertyType)
         {
-            var ids = GetRelatedNodeIds(node);
-
-            return _canAssignCollectionDirectly
-                ? ids
-                : Activator.CreateInstance(DestinationInfo.PropertyType, ids);
-        }
-
-        private object MapCollectionAsModels(Node node, string[] paths)
-        {
-            var relatedNodes = GetRelatedNodes(node, _itemType);
-
-            if (relatedNodes != null)
+            if (node == null || string.IsNullOrEmpty(node.Name))
             {
-                var sourceListType = typeof(List<>).MakeGenericType(_itemType);
-                var items = Activator.CreateInstance(sourceListType);
-
-                foreach (var relatedNode in relatedNodes)
-                {
-                    var item = Engine.Map(relatedNode, _itemType, paths);
-                    // items.Add(item) but for generic list
-                    sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, items, new object[] { item });
-                }
-
-                return _canAssignCollectionDirectly
-                    ? items
-                    : Activator.CreateInstance(DestinationInfo.PropertyType, items);
+                throw new ArgumentException("Node cannot be null or empty", "node");
             }
-            else
+            else if (sourcePropertyType == null)
             {
-                return null;
+                throw new ArgumentNullException("sourcePropertyType");
             }
-        }
-
-        private object MapModel(Node node, string[] paths)
-        {
-            if (SourcePropertyAlias != null)
+            else if (string.IsNullOrEmpty(SourcePropertyAlias))
             {
-                // Ensure map exists
-                if (!Engine.NodeMappers.ContainsKey(DestinationInfo.PropertyType))
+                throw new InvalidOperationException("SourcePropertyAlias cannot be null or empty");
+            }
+
+            // CSV of IDs
+            // TODO: can GetProperty<> handle this type?
+            if (sourcePropertyType.GetElementType() == typeof(int))
+            {
+                var csv = node.GetProperty<string>(SourcePropertyAlias);
+                var ids = new List<int>();
+
+                if (!string.IsNullOrWhiteSpace(csv))
                 {
-                    throw new MapNotFoundException(DestinationInfo.PropertyType);
-                }
-
-                // Map to single property relationship
-                var id = node.GetProperty<int?>(SourcePropertyAlias);
-
-                if (id.HasValue)
-                {
-                    var relatedNode = new Node(id.Value);
-
-                    if (!string.IsNullOrEmpty(relatedNode.Name))
+                    foreach (var idString in csv.Split(','))
                     {
-                        return Engine.Map(relatedNode, DestinationInfo.PropertyType, paths);
+                        // Ensure this is actually a list of node IDs
+                        int id;
+                        if (!int.TryParse(idString.Trim(), out id))
+                        {
+                            throw new RelationPropertyFormatNotSupported(csv, DestinationInfo.DeclaringType);
+                        }
+
+                        ids.Add(id);
                     }
                 }
-            }
-            else if (Engine.NodeMappers.ContainsKey(DestinationInfo.PropertyType))
-            {
-                // Map to ancestor (if possible)
-                var aliases = Engine
-                    .GetCompatibleNodeTypeAliases(DestinationInfo.PropertyType)
-                    .ToArray();
-                var ancestorNode = node.GetAncestorNodes()
-                    .FirstOrDefault(x => aliases.Contains(x.NodeTypeAlias));
 
-                return Engine.Map(ancestorNode, DestinationInfo.PropertyType, paths);
+                return ids;
             }
 
-            return null;
+            // Other type
+            var getPropertyMethod = _getNodePropertyMethod.MakeGenericMethod(sourcePropertyType);
+            return getPropertyMethod.Invoke(null, new object[] { node, SourcePropertyAlias });
         }
 
-        #endregion
+        /// <summary>
+        /// Shorthand for <see cref="GetSourcePropertyValue"/>
+        /// </summary>
+        public T GetSourcePropertyValue<T>(Node node)
+        {
+            return (T)GetSourcePropertyValue(node, typeof(T));
+        }
     }
 
     /// <summary>

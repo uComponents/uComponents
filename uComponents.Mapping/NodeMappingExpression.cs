@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using umbraco.NodeFactory;
+using uComponents.Mapping.Property;
 
 namespace uComponents.Mapping
 {
@@ -32,10 +33,158 @@ namespace uComponents.Mapping
             _engine = engine;
         }
 
+        #region Mapping properties
+
+        public INodeMappingExpression<TDestination> BasicProperty(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            string propertyAlias
+            )
+        {
+            if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+            else if (string.IsNullOrEmpty(propertyAlias))
+            {
+                throw new ArgumentException("Property alias cannot be null", "propertyAlias");
+            }
+
+            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
+
+            var mapper = new BasicPropertyMapper(
+                null,
+                null,
+                _nodeMapper,
+                destinationPropertyInfo,
+                propertyAlias
+                );
+
+            RemoveMappingForProperty(destinationProperty);
+
+            _nodeMapper.PropertyMappers.Add(mapper);
+
+            return this;
+        }
+
+        public INodeMappingExpression<TDestination> BasicProperty<TSourceProperty>(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            BasicPropertyMapping<TSourceProperty> mapping, 
+            string propertyAlias = null
+            )
+        {
+            if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+            else if (mapping == null)
+            {
+                throw new ArgumentNullException("mapping");
+            }
+
+            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
+
+            var mapper = new BasicPropertyMapper(
+                x => mapping((TSourceProperty)x),
+                typeof(TSourceProperty),
+                _nodeMapper,
+                destinationPropertyInfo,
+                propertyAlias
+                );
+
+            RemoveMappingForProperty(destinationProperty);
+
+            _nodeMapper.PropertyMappers.Add(mapper);
+
+            return this;
+        }
+
+        public INodeMappingExpression<TDestination> SingleProperty(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            string propertyAlias
+            )
+        {
+            if (string.IsNullOrEmpty(propertyAlias))
+            {
+                throw new ArgumentException("Property alias cannot be null", "propertyAlias");
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public INodeMappingExpression<TDestination> SingleProperty<TSourceProperty>(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            SinglePropertyMapping<TSourceProperty> mapping, 
+            string propertyAlias = null
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        public INodeMappingExpression<TDestination> CollectionProperty(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            string propertyAlias
+            )
+        {
+            if (string.IsNullOrEmpty(propertyAlias))
+            {
+                throw new ArgumentException("Property alias cannot be null", "propertyAlias");
+            }
+            throw new NotImplementedException();
+        }
+
+        public INodeMappingExpression<TDestination> CollectionProperty<TSourceProperty>(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            CollectionPropertyMapping<TSourceProperty> mapping, 
+            string propertyAlias = null
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        public INodeMappingExpression<TDestination> CustomProperty(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            CustomPropertyMapping propertyMapping, 
+            bool requiresInclude, 
+            bool allowCaching
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Removes the mapping for a property, if any exists.
+        /// </summary>
+        /// <param name="destinationProperty">The property on the model to NOT map to</param>
+        /// <exception cref="ArgumentNullException">If destinationProperty is null</exception>
+        public INodeMappingExpression<TDestination> RemoveMappingForProperty(
+            Expression<Func<TDestination, object>> destinationProperty
+            )
+        {
+            if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
+
+            var existingMapper = this._nodeMapper.PropertyMappers
+                .SingleOrDefault(x => x.DestinationInfo.Name == destinationPropertyInfo.Name);
+
+            if (existingMapper != null)
+            {
+                _nodeMapper.PropertyMappers.Remove(existingMapper);
+            }
+
+            return this;
+        }
+
+        #endregion
+
+        #region Legacy
+
         /// <see cref="INodeMappingExpression{T}.CollectionProperty{T}"/>
         [Obsolete]
         public INodeMappingExpression<TDestination> CollectionProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty, 
+            Expression<Func<TDestination, TProperty>> destinationProperty,
             Func<Node, IEnumerable<Node>> propertyMapping
             )
         {
@@ -45,49 +194,11 @@ namespace uComponents.Mapping
         /// <see cref="INodeMappingExpression{T}.SingleProperty{T}"/>
         [Obsolete]
         public INodeMappingExpression<TDestination> SingleProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty, 
+            Expression<Func<TDestination, TProperty>> destinationProperty,
             Func<Node, Node> propertyMapping
             )
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Sets a custom property alias to be set for a the model property.
-        /// </summary>
-        /// <param name="destinationProperty">The member of the destination model
-        /// to map to.</param>
-        /// <param name="nodeTypeAlias">The property alias to map from.</param>
-        public INodeMappingExpression<TDestination> ForProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty,
-            string nodeTypeAlias
-            )
-        {
-            throw new NotImplementedException();
-
-            if (destinationProperty == null)
-            {
-                throw new ArgumentNullException("destinationProperty");
-            }
-            else if (string.IsNullOrEmpty(nodeTypeAlias))
-            {
-                throw new ArgumentException("Node type alias cannot be empty or null", "nodeTypeAlias");
-            }
-
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
-            var existingPropertyMapper = this._nodeMapper.PropertyMappers
-                .SingleOrDefault(x => x.DestinationInfo.Name == destinationPropertyInfo.Name);
-
-            if (existingPropertyMapper != null)
-            {
-                _nodeMapper.PropertyMappers.Remove(existingPropertyMapper);
-            }
-
-            var newPropertyMapper = new PropertyMapperBase(_nodeMapper, destinationPropertyInfo, nodeTypeAlias);
-            _nodeMapper.PropertyMappers.Add(newPropertyMapper);
-
-            return this;
         }
 
         /// <summary>
@@ -156,37 +267,12 @@ namespace uComponents.Mapping
             Func<Node, string[], object> mapping = (node, paths) => propertyMapping(node);
 
             return ForProperty(
-                destinationProperty, 
-                mapping, 
+                destinationProperty,
+                mapping,
                 isRelationship
                 );
         }
 
-        /// <summary>
-        /// Removes the mapping for a property, if any exists.
-        /// </summary>
-        /// <param name="destinationProperty">The property on the model to NOT map to</param>
-        /// <exception cref="ArgumentNullException">If destinationProperty is null</exception>
-        public INodeMappingExpression<TDestination> RemoveMappingForProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty
-            )
-        {
-            if (destinationProperty == null)
-            {
-                throw new ArgumentNullException("destinationProperty");
-            }
-
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
-            var existingMapper = this._nodeMapper.PropertyMappers
-                .SingleOrDefault(x => x.DestinationInfo.Name == destinationPropertyInfo.Name);
-
-            if (existingMapper != null)
-            {
-                _nodeMapper.PropertyMappers.Remove(existingMapper);
-            }
-
-            return this;
-        }
+        #endregion
     }
 }

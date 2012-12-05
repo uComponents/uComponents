@@ -14,7 +14,7 @@ namespace uComponents.Mapping
         private const int _slidingExpirationSeconds = 10 * 60; // ten minutes
 
         // Cannot insert null into cache, so use a static representation.
-        private const object _nullValue = new object();
+        private const string _nullValue = "840CCFEA-6D44-400F-BC3F-806C78E388B9";
 
         private readonly Cache _cache;
         private readonly Guid _keyPrefix;

@@ -50,19 +50,6 @@ namespace uComponents.Mapping
             where TDestination : class, new();
 
         /// <summary>
-        /// Loads a path for a model.  If the path is already loaded, it will
-        /// be overwritten.
-        /// </summary>
-        /// <param name="model">The model to load the path for.</param>
-        /// <param name="path">
-        /// The path to load, e.g. "Customers.Dinners".
-        /// 
-        /// TODO: Add overload with expression syntax.
-        /// </param>
-        void LoadPath<TDestination>(TDestination model, string path)
-            where TDestination : class, new();
-
-        /// <summary>
         /// Gets a query for nodes which map to <typeparamref name="TDestination"/>.
         /// </summary>
         /// <typeparam name="TDestination">The type to map to.</typeparam>

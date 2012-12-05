@@ -19,7 +19,6 @@ namespace uComponents.Mapping
     /// </summary>
     public class NodeMappingEngine : INodeMappingEngine
     {
-        internal readonly static MethodInfo GetNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
         internal Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
         private ICacheProvider _cacheProvider;
@@ -90,12 +89,12 @@ namespace uComponents.Mapping
                 content.AfterUpdateDocumentCache += _documentCacheEventHandler;
                 content.AfterClearDocumentCache += _documentCacheEventHandler;
 
-                // uMapper doesn't support the below events...yet
-                //Media.AfterSave += Media_AfterSave;
-                //Media.AfterDelete += Media_AfterDelete;
-                //CMSNode.AfterMove += Media_AfterMove;
-                //Member.AfterSave += Member_AfterSave;
-                //Member.AfterDelete += Member_AfterDelete;
+                // TODO Support the below for custom mappings which use the cache, you never know
+                //Media.AfterSave += _documentCacheEventHandler;
+                //Media.AfterDelete += _documentCacheEventHandler;
+                //CMSNode.AfterMove += _documentCacheEventHandler;
+                //Member.AfterSave += _documentCacheEventHandler;
+                //Member.AfterDelete += _documentCacheEventHandler;
             }
 
             _cacheProvider = cacheProvider;
@@ -187,7 +186,7 @@ namespace uComponents.Mapping
                 return null;
             }
 
-            var context = new NodeMappingContext(sourceNode, paths);
+            var context = new NodeMappingContext(sourceNode, paths, null);
 
             return Map(context, destinationType);
         }

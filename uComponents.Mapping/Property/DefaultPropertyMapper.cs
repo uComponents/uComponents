@@ -9,10 +9,10 @@ namespace uComponents.Mapping.Property
 {
     internal class DefaultPropertyMapper : PropertyMapperBase
     {
-        private Func<Node, string> _mapping;
+        private DefaultPropertyMapping _mapping;
 
         public DefaultPropertyMapper(
-            Func<Node, string> mapping,
+            DefaultPropertyMapping mapping,
             NodeMapper nodeMapper,
             PropertyInfo destinationProperty
             )
@@ -52,6 +52,71 @@ namespace uComponents.Mapping.Property
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Given a model property name, returns a <see cref="DefaultPropertyMapping"/> if
+        /// there is a match again the properties of <c>Node</c>.
+        /// </summary>
+        /// <param name="propertyName">The model property name.</param>
+        /// <returns>The mapping or <c>null</c> if no match was found.</returns>
+        public static DefaultPropertyMapping GetDefaultMappingForName(string propertyName)
+        {
+            switch (propertyName.ToLowerInvariant())
+            {
+                case "createdate":
+                    return n => n.CreateDate;
+
+                case "creatorid":
+                    return n => n.CreatorID;
+
+                case "creatorname":
+                    return n => n.CreatorName;
+
+                case "id":
+                    return n => n.Id;
+
+                case "level":
+                    return n => n.Level;
+
+                case "name":
+                    return n => n.Name;
+
+                case "niceurl":
+                    return n => n.NiceUrl;
+
+                case "nodetypealias":
+                    return n => n.NodeTypeAlias;
+
+                case "path":
+                    return n => n.Path;
+
+                case "sortorder":
+                    return n => n.SortOrder;
+
+                case "template":
+                    return n => n.template;
+
+                case "updatedate":
+                    return n => n.UpdateDate;
+
+                case "url":
+                    return n => n.Url;
+
+                case "urlname":
+                    return n => n.UrlName;
+
+                case "version":
+                    return n => n.Version;
+
+                case "writerid":
+                    return n => n.WriterID;
+
+                case "writername":
+                    return n => n.WriterName;
+            }
+
+            return null;
         }
     }
 }

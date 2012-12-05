@@ -7,26 +7,25 @@ using umbraco.NodeFactory;
 namespace uComponents.Mapping
 {
     /// <summary>
-    /// Describes the mapping for a single node.
+    /// Provides a context for a stack of mapping operations.  Lifetime should complete
+    /// once the bottom mapping operation is completed.
     /// </summary>
     internal class NodeMappingContext
     {
-        public NodeMappingContext(int id, string[] paths)
+        public NodeMappingContext(int id, string[] paths, NodeMappingContext parent)
         {
             Id = id;
             Paths = (paths == null ? null : paths.ToList());
+            ParentContext = parent;
+
+            _nodeCache = new List<Node>();
         }
 
-        public NodeMappingContext(Node node, string[] paths)
-            : this(node.Id, paths)
+        public NodeMappingContext(Node node, string[] paths, NodeMappingContext parent)
+            : this(node.Id, paths, parent)
         {
-            Node = node;
+            _nodeCache.Add(node);
         }
-
-        /// <summary>
-        /// The node being mapped,if it has been loaded.
-        /// </summary>
-        private Node Node;
 
         /// <summary>
         /// The ID of the node being mapped.
@@ -39,23 +38,78 @@ namespace uComponents.Mapping
         public List<string> Paths { get; set; }
 
         /// <summary>
+        /// The context which spawned this context
+        /// </summary>
+        public NodeMappingContext ParentContext { get; set; }
+
+        /// <summary>
         /// Gets the node being mapped.
         /// </summary>
         public Node GetNode()
         {
-            if (Node != null)
+            var foundNode = GetNodeFromContextCache(Id);
+
+            if (foundNode == null)
             {
-                return Node;
+                foundNode = new Node(Id);
+
+                if (string.IsNullOrEmpty(foundNode.Name))
+                {
+                    return null;
+                }
             }
 
-            var node = new Node(Id);
+            AddNodeToContextCache(foundNode);
 
-            if (string.IsNullOrEmpty(node.Name))
-            {
-                return null;
-            }
-
-            return node;
+            return foundNode;
         }
+
+        #region Context cache
+
+        /// <summary>
+        /// Stores the nodes which have been cached during this operation.
+        /// </summary>
+        private readonly List<Node> _nodeCache;
+
+        /// <summary>
+        /// Looks for a <c>Node</c> in the context tree.
+        /// </summary>
+        /// <param name="id">The ID of the node.</param>
+        /// <returns>The node, or null if not found.</returns>
+        public Node GetNodeFromContextCache(int id)
+        {
+            var currentContext = this;
+
+            while (currentContext.ParentContext != null)
+            {
+                var foundNode = currentContext._nodeCache.SingleOrDefault(n => n.Id == id);
+
+                if (foundNode != null)
+                {
+                    return foundNode;
+                }
+
+                currentContext = currentContext.ParentContext;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Adds a node to the context cache.
+        /// </summary>
+        public void AddNodeToContextCache(Node node)
+        {
+            if (node == null
+                || string.IsNullOrEmpty(node.Name)
+                || _nodeCache.Any(n => n.Id == node.Id))
+            {
+                return;
+            }
+
+            _nodeCache.Add(node);
+        }
+
+        #endregion
     }
 }

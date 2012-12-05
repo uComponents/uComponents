@@ -10,15 +10,25 @@ namespace uComponents.Mapping.Property
     {
         private CustomPropertyMapping _mapping;
 
+        /// <summary>
+        /// Maps a custom property not covered by the other derivations
+        /// of <see cref="PropertyMapperBase"/>.
+        /// </summary>
+        /// <param name="mapping">
+        /// The custom mapping.
+        /// </param>
+        /// <param name="allowCaching">
+        /// Whether the property should allow its mapped value to be cached
+        /// and reused.
+        /// </param>
         public CustomPropertyMapper(
             CustomPropertyMapping mapping,
             bool requiresInclude,
             bool allowCaching,
             NodeMapper nodeMapper,
-            PropertyInfo destinationProperty,
-            string sourcePropertyAlias
+            PropertyInfo destinationProperty
             )
-            :base(nodeMapper, destinationProperty, sourcePropertyAlias)
+            :base(nodeMapper, destinationProperty, null)
         {
             if (mapping == null)
             {
@@ -32,8 +42,27 @@ namespace uComponents.Mapping.Property
 
         public override object MapProperty(NodeMappingContext context)
         {
-            // Implement this in a derived class.
-            throw new NotImplementedException();
+            object value = null;
+
+            if (AllowCaching 
+                && Engine.CacheProvider != null 
+                && Engine.CacheProvider.ContainsPropertyValue(context.Id, DestinationInfo.Name))
+            {
+                value = Engine.CacheProvider.GetPropertyValue(context.Id, DestinationInfo.Name);
+            }
+            else
+            {
+                var relativePaths = GetNextLevelPaths(context.Paths.ToArray());
+                value = _mapping(context.Id, relativePaths, Engine.CacheProvider);
+
+                if (AllowCaching
+                    && Engine.CacheProvider != null)
+                {
+                    Engine.CacheProvider.InsertPropertyValue(context.Id, DestinationInfo.Name, value);
+                }
+            }
+
+            return value;
         }
     }
 }
