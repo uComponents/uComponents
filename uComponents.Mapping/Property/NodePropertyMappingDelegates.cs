@@ -17,7 +17,7 @@ namespace uComponents.Mapping.Property
     /// A delegate signature for mapping a non-relational property.
     /// </summary>
     /// <typeparam name="TSource">
-    /// The desired type of the sourceValue (will be converted if necessary).
+    /// The type of sourceValue (will be converted if necessary).
     /// This should be a simple type like <c>string</c>, <c>int?</c> or an enum.
     /// </typeparam>
     /// <param name="propertyValue">

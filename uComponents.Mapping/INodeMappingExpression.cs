@@ -147,19 +147,19 @@ namespace uComponents.Mapping
         /// Sets a custom mapping to be used for a model property.
         /// </summary>
         /// <param name="destinationProperty">The property to map to.</param>
-        /// <param name="propertyMapping">
+        /// <param name="mapping">
         /// A mapping which retrieves the value of the property.
         /// </param>
         /// <param name="requiresInclude">
         /// Whether the property requires an explicit include.
         /// </param>
         /// <param name="allowCaching">
-        /// If set to true, the result of <paramref name="propertyMapping"/> will be cached.
+        /// If set to true, the result of <paramref name="mapping"/> will be cached.
         /// While caching is disabled on the <see cref="INodeMappingEngine"/>, no caching will occur.
         /// </param>
         INodeMappingExpression<TDestination> CustomProperty(
             Expression<Func<TDestination, object>> destinationProperty,
-            CustomPropertyMapping propertyMapping,
+            CustomPropertyMapping mapping,
             bool requiresInclude,
             bool allowCaching
             );
