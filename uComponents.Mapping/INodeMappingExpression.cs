@@ -174,6 +174,7 @@ namespace uComponents.Mapping
 
         #region Legacy
 
+        /// <seealso cref="CustomProperty" />
         [Obsolete("Use CustomProperty() instead")]
         INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,
@@ -181,6 +182,7 @@ namespace uComponents.Mapping
             bool requiresInclude
             );
 
+        /// <seealso cref="CustomProperty" />
         [Obsolete("Use CustomProperty() instead")]
         INodeMappingExpression<TDestination> ForProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> destinationProperty,

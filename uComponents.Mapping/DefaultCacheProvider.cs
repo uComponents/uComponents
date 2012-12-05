@@ -14,7 +14,7 @@ namespace uComponents.Mapping
         private const int _slidingExpirationSeconds = 10 * 60; // ten minutes
 
         // Cannot insert null into cache, so use a static representation.
-        private const string _nullValue = "840CCFEA-6D44-400F-BC3F-806C78E388B9";
+        private static object _nullValue = new object();
 
         private readonly Cache _cache;
         private readonly Guid _keyPrefix;
@@ -106,6 +106,13 @@ namespace uComponents.Mapping
         private const string _propertyValueFormat = "{0}_{1}";
         private const string _aliasFormat = "{0}_DocumentTypeAlias";
 
+        /// <summary>
+        /// Inserts a node's property value into the cache.
+        /// </summary>
+        /// <param name="cache">The cache to use</param>
+        /// <param name="id">The ID of the node</param>
+        /// <param name="propertyName">The destination property name</param>
+        /// <param name="value">The mapped value of the property</param>
         public static void InsertPropertyValue(this ICacheProvider cache, int id, string propertyName, object value)
         {
             if (string.IsNullOrEmpty(propertyName))
@@ -118,6 +125,12 @@ namespace uComponents.Mapping
             cache.Insert(key, value);
         }
 
+        /// <summary>
+        /// Inserts a node's alias into the cache.
+        /// </summary>
+        /// <param name="cache">The cache to use</param>
+        /// <param name="id">The ID of the node</param>
+        /// <param name="alias">The node's document type alias</param>
         public static void InsertAlias(this ICacheProvider cache, int id, string alias)
         {
             if (string.IsNullOrEmpty(alias))
@@ -130,6 +143,9 @@ namespace uComponents.Mapping
             cache.Insert(key, alias);
         }
 
+        /// <summary>
+        /// Gets a model's cached property value.
+        /// </summary>
         public static object GetPropertyValue(this ICacheProvider cache, int id, string propertyName)
         {
             if (string.IsNullOrEmpty(propertyName))
@@ -142,6 +158,9 @@ namespace uComponents.Mapping
             return cache.Get(key);
         }
 
+        /// <summary>
+        /// Gets a node's cached alias.
+        /// </summary>
         public static string GetAlias(this ICacheProvider cache, int id)
         {
             var key = string.Format(_aliasFormat, id);
@@ -149,11 +168,17 @@ namespace uComponents.Mapping
             return cache.Get(key) as string;
         }
 
+        /// <summary>
+        /// Check's if a model's property value is cached.
+        /// </summary>
         public static bool ContainsPropertyValue(this ICacheProvider cache, int id, string propertyName)
         {
             return cache.ContainsKey(string.Format(_propertyValueFormat, id, propertyName));
         }
 
+        /// <summary>
+        /// Check's if a node's alias is cached.
+        /// </summary>
         public static bool ContainsAlias(this ICacheProvider cache, int id)
         {
             return cache.ContainsKey(string.Format(_aliasFormat, id));

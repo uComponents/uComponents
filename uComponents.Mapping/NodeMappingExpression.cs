@@ -315,26 +315,6 @@ namespace uComponents.Mapping
 
         #region Legacy
 
-        /// <see cref="INodeMappingExpression{T}.CollectionProperty{T}"/>
-        [Obsolete]
-        public INodeMappingExpression<TDestination> CollectionProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty,
-            Func<Node, IEnumerable<Node>> propertyMapping
-            )
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <see cref="INodeMappingExpression{T}.SingleProperty{T}"/>
-        [Obsolete]
-        public INodeMappingExpression<TDestination> SingleProperty<TProperty>(
-            Expression<Func<TDestination, TProperty>> destinationProperty,
-            Func<Node, Node> propertyMapping
-            )
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Sets a custom mapping to be used for a the model property.
         /// </summary>
@@ -366,6 +346,26 @@ namespace uComponents.Mapping
 
             var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
 
+            CustomPropertyMapping mapping = (id, paths, cache) =>
+            {
+                var node = new Node(id);
+
+                if (string.IsNullOrEmpty(node.Name))
+                {
+                    return null;
+                }
+
+                return propertyMapping(node, paths);
+            }; 
+
+            var mapper = new CustomPropertyMapper(
+                mapping,
+                requiresInclude,
+                false,
+                _nodeMapper,
+                destinationPropertyInfo
+                );
+
             var existingMapper = this._nodeMapper.PropertyMappers
                 .SingleOrDefault(x => x.DestinationInfo.Name == destinationPropertyInfo.Name);
 
@@ -374,10 +374,8 @@ namespace uComponents.Mapping
                 _nodeMapper.PropertyMappers.Remove(existingMapper);
             }
 
-            // Recreate property map
-            var newMapper = new PropertyMapperBase(_nodeMapper, destinationPropertyInfo, propertyMapping, requiresInclude);
+            _nodeMapper.PropertyMappers.Add(mapper);
 
-            _nodeMapper.PropertyMappers.Add(newMapper);
             return this;
         }
 

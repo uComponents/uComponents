@@ -20,7 +20,7 @@ namespace uComponents.Mapping.Property
     /// The type of sourceValue (will be converted if necessary).
     /// This should be a simple type like <c>string</c>, <c>int?</c> or an enum.
     /// </typeparam>
-    /// <param name="propertyValue">
+    /// <param name="sourceValue">
     /// The value of the property, taken from the <c>Node</c> being mapped.
     /// </param>
     /// <returns>The mapped property value.</returns>
@@ -33,7 +33,7 @@ namespace uComponents.Mapping.Property
     /// The desired type of the sourceValue (will be converted if necessary).
     /// This should be a system type like <c>string</c> or <c>int?</c>.
     /// </typeparam>
-    /// <param name="propertyValue">
+    /// <param name="sourceValue">
     /// The value of the property, taken from the <c>Node</c> being mapped.
     /// </param>
     /// <returns>
@@ -49,7 +49,7 @@ namespace uComponents.Mapping.Property
     /// The desired type of the sourceValue (will be converted if necessary).
     /// This should be a system type like <c>string</c>.
     /// </typeparam>
-    /// <param name="propertyValue">
+    /// <param name="sourceValue">
     /// The value of the property, taken from the <c>Node</c> being mapped.
     /// </param>
     /// <returns>A collection of node IDs which will be mapped to the model's property.</returns>

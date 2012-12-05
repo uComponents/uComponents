@@ -83,7 +83,7 @@ namespace uComponents.Mapping
 
         /// <summary>
         /// Exposes the engine being used under the hood.  Useful if you want to
-        /// write extension methods for <see cref="INodeQuery"/>.
+        /// write extension methods for <see cref="INodeQuery{T}"/>.
         /// </summary>
         INodeMappingEngine Engine { get; }
 

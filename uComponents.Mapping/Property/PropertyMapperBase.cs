@@ -31,6 +31,12 @@ namespace uComponents.Mapping.Property
         /// <param name="destinationProperty">
         /// Describes the model property being mapped to.
         /// </param>
+        /// <param name="nodeMapper">
+        /// The node mapper using this property mapper.
+        /// </param>
+        /// <param name="sourcePropertyAlias">
+        /// The alias of the node propery being mapped from.
+        /// </param>
         public PropertyMapperBase(
             NodeMapper nodeMapper,
             PropertyInfo destinationProperty,

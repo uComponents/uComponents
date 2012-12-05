@@ -59,10 +59,16 @@ namespace uComponents.Mapping
 
         #region Legacy
 
+        /// <summary>
+        /// Obsolete mapping method.
+        /// </summary>
         [Obsolete("Use paths instead")]
         TDestination Map<TDestination>(Node sourceNode, bool includeRelationships)
             where TDestination : class, new();
 
+        /// <summary>
+        /// Obsolete mapping method.
+        /// </summary>
         [Obsolete("Use paths instead")]
         TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new();
