@@ -155,6 +155,11 @@ namespace uComponents.Mapping
 
             NodeMappers[destinationType] = nodeMapper;
 
+            if (_cacheProvider != null)
+            {
+                _cacheProvider.Clear();
+            }
+
             return new NodeMappingExpression<TDestination>(this, nodeMapper);
         }
 
