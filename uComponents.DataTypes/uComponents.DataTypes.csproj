@@ -204,6 +204,7 @@
     <Compile Include="Shared\PrevalueEditors\KeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoDBOptionsKeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoOptionsPrevalueEditor.cs" />
+    <Compile Include="Shared\PrevalueEditors\SqlOptions.cs" />
     <Compile Include="Similarity\MoreUmbracoDocsLikeThis.cs" />
     <Compile Include="Similarity\Net\MoreLikeThis.cs" />
     <Compile Include="Similarity\Net\SimilarityQueries.cs" />
