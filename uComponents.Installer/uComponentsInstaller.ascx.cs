@@ -65,31 +65,6 @@ namespace uComponents.Installer
 			this.cblUiModules.DataValueField = "Key";
 			this.cblUiModules.DataBind();
 
-			// find and bind the XSLT extensions
-			var xsltExtensionsNamespace = "uComponents.XsltExtensions";
-			var xsltExtensionsAssembly = Assembly.Load(xsltExtensionsNamespace);
-			if (xsltExtensionsAssembly != null)
-			{
-				var xsltExtensionsTypes = xsltExtensionsAssembly.GetTypes();
-				if (xsltExtensionsTypes != null)
-				{
-					var xsltExtensions = new Dictionary<string, string>();
-					foreach (var type in xsltExtensionsTypes)
-					{
-						if (string.Equals(type.Namespace, xsltExtensionsNamespace) && type.IsPublic && !type.IsSerializable)
-						{
-							xsltExtensions.Add(type.FullName, type.Name);
-							continue;
-						}
-					}
-
-					this.cblXsltExtensions.DataSource = xsltExtensions;
-					this.cblXsltExtensions.DataTextField = "Value";
-					this.cblXsltExtensions.DataValueField = "Key";
-					this.cblXsltExtensions.DataBind();
-				}
-			}
-
 			// disable the dashboard control checkbox
 			try
 			{
@@ -168,24 +143,6 @@ namespace uComponents.Installer
 					{
 						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_AddAppConfigKey\" key=\"{0}\" value=\"{1}\" />", item.Value, item.Selected.ToString().ToLower()));
 						umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "uComponents_AddAppConfigKey", xml.FirstChild);
-						successes.Add(item.Text);
-					}
-					catch (Exception ex)
-					{
-						failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
-					}
-				}
-			}
-
-			// XSLT extensions
-			foreach (ListItem item in this.cblXsltExtensions.Items)
-			{
-				if (item.Selected)
-				{
-					try
-					{
-						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"uComponents.XsltExtensions\" type=\"{0}\" extensionAlias=\"ucomponents.{1}\" />", item.Value, item.Text.ToLower()));
-						umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "addXsltExtension", xml.FirstChild);
 						successes.Add(item.Text);
 					}
 					catch (Exception ex)

@@ -58,7 +58,7 @@
 			<div class="dashboardColWrapper">
 				<div class="dashboardCols">
 					<div class="dashboardCol">
-						<asp:CheckBoxList runat="server" ID="cblXsltExtensions"></asp:CheckBoxList>
+						<p>The XSLT extensions are enabled by default. The namespaces will be added to any new XSLT macros that you create.</p>
 					</div>
 				</div>
 			</div>
