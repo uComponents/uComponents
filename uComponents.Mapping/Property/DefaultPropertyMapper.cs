@@ -4,28 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using umbraco.NodeFactory;
+using System.Linq.Expressions;
 
 namespace uComponents.Mapping.Property
 {
     internal class DefaultPropertyMapper : PropertyMapperBase
     {
-        private DefaultPropertyMapping _mapping;
+        private Func<object, object> _mapping;
+        private PropertyInfo _nodeProperty;
 
         public DefaultPropertyMapper(
-            DefaultPropertyMapping mapping,
             NodeMapper nodeMapper,
-            PropertyInfo destinationProperty
+            PropertyInfo destinationProperty,
+            PropertyInfo nodeProperty,
+            Func<object, object> mapping
             )
             :base(nodeMapper, destinationProperty)
         {
-            if (mapping == null)
+            if (nodeProperty == null)
             {
-                throw new ArgumentNullException("mapping");
+                throw new ArgumentNullException("nodeProperty");
+            }
+
+            if (!destinationProperty.PropertyType.IsAssignableFrom(nodeProperty.PropertyType))
+            {
+                throw new DefaultPropertyTypeException(nodeMapper.DestinationType, destinationProperty, nodeProperty);
             }
 
             RequiresInclude = false;
             AllowCaching = true;
             _mapping = mapping;
+            _nodeProperty = nodeProperty;
         }
 
         public override object MapProperty(NodeMappingContext context)
@@ -48,7 +57,12 @@ namespace uComponents.Mapping.Property
                     throw new InvalidOperationException("Node cannot be null or empty");
                 }
 
-                value = _mapping(node);
+                value = _nodeProperty.GetValue(node, null);
+
+                if (_mapping != null)
+                {
+                    value = _mapping(value);
+                }
 
                 if (AllowCaching
                     && Engine.CacheProvider != null)
@@ -61,65 +75,81 @@ namespace uComponents.Mapping.Property
         }
 
         /// <summary>
-        /// Given a model property name, returns a <see cref="DefaultPropertyMapping"/> if
+        /// Given a model property name, returns the node property info if
         /// there is a match again the properties of <c>Node</c>.
+        /// 
+        /// Checks whether the node's property is assignable to the destination
+        /// property.
         /// </summary>
-        /// <param name="propertyName">The model property name.</param>
-        /// <returns>The mapping or <c>null</c> if no match was found.</returns>
-        public static DefaultPropertyMapping GetDefaultMappingForName(string propertyName)
+        /// <param name="destinationProperty">The model property.</param>
+        /// <returns>The property or <c>null</c> if no match was found.</returns>
+        public static PropertyInfo GetDefaultMappingForName(PropertyInfo destinationProperty)
         {
-            switch (propertyName.ToLowerInvariant())
+            Expression<Func<Node, object>> propertyExpression = null;
+
+            switch (destinationProperty.Name.ToLowerInvariant())
             {
                 case "createdate":
-                    return n => n.CreateDate;
-
+                    propertyExpression = n => n.CreateDate;
+                    break;
                 case "creatorid":
-                    return n => n.CreatorID;
-
+                    propertyExpression = n => n.CreatorID;
+                    break;
                 case "creatorname":
-                    return n => n.CreatorName;
-
+                    propertyExpression = n => n.CreatorName;
+                    break;
                 case "id":
-                    return n => n.Id;
-
+                    propertyExpression = n => n.Id;
+                    break;
                 case "level":
-                    return n => n.Level;
-
+                    propertyExpression = n => n.Level;
+                    break;
                 case "name":
-                    return n => n.Name;
-
+                    propertyExpression = n => n.Name;
+                    break;
                 case "niceurl":
-                    return n => n.NiceUrl;
-
+                    propertyExpression = n => n.NiceUrl;
+                    break;
                 case "nodetypealias":
-                    return n => n.NodeTypeAlias;
-
+                    propertyExpression = n => n.NodeTypeAlias;
+                    break;
                 case "path":
-                    return n => n.Path;
-
+                    propertyExpression = n => n.Path;
+                    break;
                 case "sortorder":
-                    return n => n.SortOrder;
-
+                    propertyExpression = n => n.SortOrder;
+                    break;
                 case "template":
-                    return n => n.template;
-
+                    propertyExpression = n => n.template;
+                    break;
                 case "updatedate":
-                    return n => n.UpdateDate;
-
+                    propertyExpression = n => n.UpdateDate;
+                    break;
                 case "url":
-                    return n => n.Url;
-
+                    propertyExpression = n => n.Url;
+                    break;
                 case "urlname":
-                    return n => n.UrlName;
-
+                    propertyExpression = n => n.UrlName;
+                    break;
                 case "version":
-                    return n => n.Version;
-
+                    propertyExpression = n => n.Version;
+                    break;
                 case "writerid":
-                    return n => n.WriterID;
-
+                    propertyExpression = n => n.WriterID;
+                    break;
                 case "writername":
-                    return n => n.WriterName;
+                    propertyExpression = n => n.WriterName;
+                    break;
+            }
+
+            if (propertyExpression != null)
+            {
+                var nodeProperty = (propertyExpression.Body as MemberExpression).Member as PropertyInfo;
+
+                if (destinationProperty.PropertyType.IsAssignableFrom(nodeProperty.PropertyType))
+                {
+                    return nodeProperty;
+                }
             }
 
             return null;

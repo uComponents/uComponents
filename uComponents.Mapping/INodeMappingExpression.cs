@@ -18,13 +18,19 @@ namespace uComponents.Mapping
         /// The type of the source property.  For instance, "Name" will be a <c>string</c>,
         /// and "CreateDate" will be a <c>DateTime</c>.
         /// </typeparam>
+        /// <typeparam name="TDestinationProperty">
+        /// The type of the destination property.  This should be assignable to
+        /// <typeparamref name="TSourceProperty"/>.
+        /// </typeparam>
         /// <param name="destinationProperty">The property to map to.</param>
+        /// <param name="nodeProperty">The node property to map from.</param>
         /// <param name="mapping">
         /// A simple mapping for the source property value, e.g. x => x.Trim()
         /// </param>
-        INodeMappingExpression<TDestination> DefaultProperty<TSourceProperty>(
-            Expression<Func<TDestination, object>> destinationProperty,
-            BasicPropertyMapping<TSourceProperty> mapping
+        INodeMappingExpression<TDestination> DefaultProperty<TSourceProperty, TDestinationProperty>(
+            Expression<Func<TDestination, TDestinationProperty>> destinationProperty,
+            Expression<Func<TSourceProperty, TDestinationProperty>> nodeProperty,
+            Func<TSourceProperty, TDestinationProperty> mapping
             );
 
         /// <summary>

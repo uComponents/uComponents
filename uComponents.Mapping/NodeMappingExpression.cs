@@ -35,27 +35,33 @@ namespace uComponents.Mapping
 
         #region Default properties
 
-        public INodeMappingExpression<TDestination> DefaultProperty<TSourceProperty>(
-            Expression<Func<TDestination, object>> destinationProperty,
-            BasicPropertyMapping<TSourceProperty> mapping
+        public INodeMappingExpression<TDestination> DefaultProperty<TSourceProperty, TDestinationProperty>(
+            Expression<Func<TDestination, TDestinationProperty>> destinationProperty,
+            Expression<Func<TSourceProperty, TDestinationProperty>> nodeProperty,
+            Func<TSourceProperty, TDestinationProperty> mapping
             )
         {
             if (mapping == null)
             {
                 throw new ArgumentNullException("mapping");
             }
-
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-            var defaultPropertyMapping = DefaultPropertyMapper.GetDefaultMappingForName(destinationPropertyInfo.Name);
-            if (defaultPropertyMapping == null)
+            else if (destinationProperty == null)
             {
-                throw new DefaultPropertyNotFoundException(typeof(TDestination), destinationPropertyInfo);
+                throw new ArgumentNullException("destinationProperty");
+            }
+            else if (nodeProperty == null)
+            {
+                throw new ArgumentNullException("nodeProperty");
             }
 
+            var nodePropertyInfo = (nodeProperty.Body as MemberExpression).Member as PropertyInfo;
+            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
+
             var mapper = new DefaultPropertyMapper(
-                x => mapping((TSourceProperty)defaultPropertyMapping(x)),
                 _nodeMapper,
-                destinationPropertyInfo
+                destinationPropertyInfo,
+                nodePropertyInfo,
+                x => (object)mapping((TSourceProperty)x)
                 );
 
             _nodeMapper.InsertPropertyMapper(mapper);
@@ -439,13 +445,13 @@ namespace uComponents.Mapping
     /// <summary>
     /// Thrown when a model property could not be mapped to a default Node property.
     /// </summary>
-    public class DefaultPropertyNotFoundException : Exception
+    public class DefaultPropertyTypeException : Exception
     {
         /// <summary>
         /// Instantiates the exception.
         /// </summary>
-        public DefaultPropertyNotFoundException(Type destinationType, PropertyInfo property)
-            : base(string.Format("Could not map {0}'s {1} property to a default Node property.", destinationType.FullName, property.Name))
+        public DefaultPropertyTypeException(Type destinationType, PropertyInfo destinationProperty, PropertyInfo nodeProperty)
+            : base(string.Format("Could not map {0}'s {1} property to a default Node property {2}.", destinationType.FullName, destinationProperty.Name, nodeProperty.Name))
         {
         }
     }

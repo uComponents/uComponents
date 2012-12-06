@@ -62,10 +62,12 @@ namespace uComponents.Mapping
                 PropertyMapperBase propertyMapper = null;
 
                 var sourcePropertyAlias = GetPropertyAlias(destinationProperty);
-                var defaultPropertyMapping = DefaultPropertyMapper.GetDefaultMappingForName(destinationProperty.Name);
+
+                // Check if this property is equivalent to a default Node property.
+                var defaultNodeProperty = DefaultPropertyMapper.GetDefaultMappingForName(destinationProperty);
 
                 if (sourcePropertyAlias != null // check corresponding source property alias was found
-                    && destinationProperty.PropertyType.GetMappedPropertyType() == MappedPropertyType.SystemOrEnum) 
+                    && destinationProperty.PropertyType.GetMappedPropertyType() == MappedPropertyType.SystemOrEnum)
                 {
                     propertyMapper = new BasicPropertyMapper(
                         x => x, // direct mapping
@@ -95,9 +97,14 @@ namespace uComponents.Mapping
                         sourcePropertyAlias // can be null to map descendants
                         );
                 }
-                else if (defaultPropertyMapping != null)
+                else if (defaultNodeProperty != null)
                 {
-                    propertyMapper = new DefaultPropertyMapper(defaultPropertyMapping, this, destinationProperty);
+                    propertyMapper = new DefaultPropertyMapper(
+                        this,
+                        destinationProperty,
+                        defaultNodeProperty,
+                        null
+                        );
                 }
 
                 if (propertyMapper != null)

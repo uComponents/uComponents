@@ -7,13 +7,6 @@ using umbraco.NodeFactory;
 namespace uComponents.Mapping.Property
 {
     /// <summary>
-    /// A delegate signature for mapping a Node's default property (such as Name or NiceUrl).
-    /// </summary>
-    /// <param name="node">The node to map the property from.</param>
-    /// <returns>The mapped property value.</returns>
-    internal delegate object DefaultPropertyMapping(Node node);
-
-    /// <summary>
     /// A delegate signature for mapping a non-relational property.
     /// </summary>
     /// <typeparam name="TSource">
