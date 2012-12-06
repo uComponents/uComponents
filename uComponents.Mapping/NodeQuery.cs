@@ -194,7 +194,7 @@ namespace uComponents.Mapping
             }
 
             var nodeMapper = _engine.NodeMappers[destinationType];
-            var nodes = uQuery.GetNodesByType(nodeMapper.SourceNodeTypeAlias);
+            var nodes = uQuery.GetNodesByType(nodeMapper.SourceDocumentType.Alias);
 
             if (_engine.CacheProvider != null)
             {

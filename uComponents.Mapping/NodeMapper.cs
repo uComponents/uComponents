@@ -19,7 +19,7 @@ namespace uComponents.Mapping
         public NodeMappingEngine Engine { get; private set; }
         public Type DestinationType { get; private set; }
         public List<PropertyMapperBase> PropertyMappers { get; private set; }
-        public string SourceNodeTypeAlias { get; private set; }
+        public DocumentType SourceDocumentType { get; private set; }
 
         public NodeMapper(NodeMappingEngine engine, Type destinationType, DocumentType sourceDocumentType)
         {
@@ -36,7 +36,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("destinationType");
             }
 
-            SourceNodeTypeAlias = sourceDocumentType.Alias;
+            SourceDocumentType = sourceDocumentType;
             Engine = engine;
             DestinationType = destinationType;
             PropertyMappers = new List<PropertyMapperBase>();
@@ -61,20 +61,11 @@ namespace uComponents.Mapping
 
                 PropertyMapperBase propertyMapper = null;
 
-                var sourcePropertyAlias = sourceDocumentType.PropertyTypes
-                    .Select(prop => prop.Alias)
-                    .Where(alias => string.Equals(alias, destinationProperty.Name, StringComparison.InvariantCultureIgnoreCase))
-                    .SingleOrDefault();
-
-                // Check if this property aligns with an default node properties
+                var sourcePropertyAlias = GetPropertyAlias(destinationProperty);
                 var defaultPropertyMapping = DefaultPropertyMapper.GetDefaultMappingForName(destinationProperty.Name);
-                if (defaultPropertyMapping != null)
-                {
-                    propertyMapper = new DefaultPropertyMapper(defaultPropertyMapping, this, destinationProperty);
-                }
-                else if (sourcePropertyAlias != null
-                    && (destinationProperty.PropertyType.IsSystem()
-                          || destinationProperty.PropertyType.IsEnum)) // check corresponding source property alias was found
+
+                if (sourcePropertyAlias != null // check corresponding source property alias was found
+                    && destinationProperty.PropertyType.GetMappedPropertyType() == MappedPropertyType.SystemOrEnum) 
                 {
                     propertyMapper = new BasicPropertyMapper(
                         x => x, // direct mapping
@@ -84,7 +75,7 @@ namespace uComponents.Mapping
                         sourcePropertyAlias
                         );
                 }
-                else if (destinationProperty.PropertyType.IsModel())
+                else if (destinationProperty.PropertyType.GetMappedPropertyType() == MappedPropertyType.Model)
                 {
                     propertyMapper = new SinglePropertyMapper(
                         null,
@@ -94,7 +85,7 @@ namespace uComponents.Mapping
                         sourcePropertyAlias // can be null to map ancestor
                         );
                 }
-                else if (destinationProperty.PropertyType.IsModelCollection())
+                else if (destinationProperty.PropertyType.GetMappedPropertyType() == MappedPropertyType.Collection)
                 {
                     propertyMapper = new CollectionPropertyMapper(
                         null,
@@ -104,29 +95,16 @@ namespace uComponents.Mapping
                         sourcePropertyAlias // can be null to map descendants
                         );
                 }
+                else if (defaultPropertyMapping != null)
+                {
+                    propertyMapper = new DefaultPropertyMapper(defaultPropertyMapping, this, destinationProperty);
+                }
 
                 if (propertyMapper != null)
                 {
                     PropertyMappers.Add(propertyMapper);
                 }
             }
-        }
-
-        /// <summary>
-        /// Maps a Node to a strongly typed model, including only the specified 
-        /// relationship paths.
-        /// </summary>
-        /// <param name="sourceNode">The node to map from</param>
-        /// <param name="paths">
-        /// An array of relationship paths on the model to include, or null
-        /// to include all relationships at the first level and none below.
-        /// </param>
-        [Obsolete("Use MapNode with NodeMappingContext instead")]
-        public object MapNode(Node sourceNode, string[] paths)
-        {
-            var context = new NodeMappingContext(sourceNode, paths, null);
-
-            return MapNode(context);
         }
 
         public object MapNode(NodeMappingContext context)
@@ -143,7 +121,7 @@ namespace uComponents.Mapping
             // Check included paths are actually required
             if (context.Paths != null)
             {
-                includedPaths = GetImmediateProperties(DestinationType, context.Paths.ToArray());
+                includedPaths = GetImmediateProperties(DestinationType, context.Paths);
 
                 foreach (var path in includedPaths)
                 {
@@ -183,18 +161,6 @@ require an explicit include (do not include it as a path, it will be populated a
             }
 
             return destination;
-        }
-
-        /// <summary>
-        /// Maps a Node to a strongly typed model, excluding relationships except those specified.
-        /// </summary>
-        /// <param name="sourceNode">The node to map from</param>
-        /// <param name="includedRelationships">An array of properties on the model which
-        /// relationships should be mapped to, or null to map all properties.</param>
-        [Obsolete("Use MapNode with paths instead")]
-        public object MapNode(Node sourceNode, PropertyInfo[] includedRelationships)
-        {
-            return MapNode(sourceNode, includedRelationships.Select(x => x.Name).ToArray());
         }
 
         /// <summary>
@@ -240,6 +206,60 @@ require an explicit include (do not include it as a path, it will be populated a
             }
 
             return chosenProperties.ToArray();
+        }
+
+        /// <summary>
+        /// Finds the corresponding property alias for a model's property.
+        /// </summary>
+        /// <returns><c>null</c> if not found.</returns>
+        public string GetPropertyAlias(PropertyInfo destinationProperty)
+        {
+            return SourceDocumentType.PropertyTypes
+                .Select(prop => prop.Alias)
+                .Where(alias => string.Equals(alias, destinationProperty.Name, StringComparison.InvariantCultureIgnoreCase))
+                .SingleOrDefault();
+        }
+
+        /// <summary>
+        /// Inserts a property mapper, 
+        /// </summary>
+        /// <param name="propertyMapper"></param>
+        public void InsertPropertyMapper(PropertyMapperBase propertyMapper)
+        {
+            if (propertyMapper == null)
+            {
+                throw new ArgumentNullException("propertyMapper");
+            }
+
+            RemovePropertyMapper(propertyMapper.DestinationInfo);
+
+            PropertyMappers.Add(propertyMapper);
+
+            if (Engine.CacheProvider != null)
+            {
+                Engine.CacheProvider.Clear();
+            }
+        }
+
+        public void RemovePropertyMapper(PropertyInfo destinationProperty)
+        {
+            if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+
+            var existingMapper = PropertyMappers
+                .SingleOrDefault(x => x.DestinationInfo.Name == destinationProperty.Name);
+
+            if (existingMapper != null)
+            {
+                PropertyMappers.Remove(existingMapper);
+            }
+
+            if (Engine.CacheProvider != null)
+            {
+                Engine.CacheProvider.Clear();
+            }
         }
     }
 

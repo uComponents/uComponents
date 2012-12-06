@@ -228,7 +228,19 @@ namespace uComponents.Mapping
                 throw new MapNotFoundException(destinationType);
             }
 
-            string sourceNodeTypeAlias = _cacheProvider == null ? null : _cacheProvider.GetAlias(context.Id);
+            string sourceNodeTypeAlias = null;
+
+            if (_cacheProvider != null
+                && _cacheProvider.ContainsAlias(context.Id))
+            {
+                sourceNodeTypeAlias = _cacheProvider.GetAlias(context.Id);
+
+                if (sourceNodeTypeAlias == null)
+                {
+                    // Node does not exist
+                    return null;
+                }
+            }
 
             if (sourceNodeTypeAlias == null)
             {
@@ -237,7 +249,17 @@ namespace uComponents.Mapping
                 if (node == null || string.IsNullOrEmpty(node.Name))
                 {
                     // Node doesn't exist
+                    if (_cacheProvider != null)
+                    {
+                        _cacheProvider.InsertAlias(context.Id, null);
+                    }
+
                     return null;
+                }
+
+                if (_cacheProvider != null)
+                {
+                    _cacheProvider.InsertAlias(context.Id, node.NodeTypeAlias);
                 }
 
                 sourceNodeTypeAlias = node.NodeTypeAlias;
@@ -299,7 +321,7 @@ namespace uComponents.Mapping
             foreach (var nodeMapper in NodeMappers)
             {
                 if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType)
-                    && nodeMapper.Value.SourceNodeTypeAlias == sourceNodeTypeAlias)
+                    && nodeMapper.Value.SourceDocumentType.Alias == sourceNodeTypeAlias)
                 {
                     return nodeMapper.Value;
                 }
@@ -319,7 +341,7 @@ namespace uComponents.Mapping
             {
                 if (destinationType.IsAssignableFrom(nodeMapper.Value.DestinationType))
                 {
-                    compatibleAliases.Add(nodeMapper.Value.SourceNodeTypeAlias);
+                    compatibleAliases.Add(nodeMapper.Value.SourceDocumentType.Alias);
                 }
             }
 

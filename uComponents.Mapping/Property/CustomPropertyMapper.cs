@@ -28,7 +28,7 @@ namespace uComponents.Mapping.Property
             NodeMapper nodeMapper,
             PropertyInfo destinationProperty
             )
-            :base(nodeMapper, destinationProperty, null)
+            :base(nodeMapper, destinationProperty)
         {
             if (mapping == null)
             {
@@ -52,7 +52,7 @@ namespace uComponents.Mapping.Property
             }
             else
             {
-                var relativePaths = GetNextLevelPaths(context.Paths.ToArray());
+                var relativePaths = GetNextLevelPaths(context.Paths);
                 value = _mapping(context.Id, relativePaths, Engine.CacheProvider);
 
                 if (AllowCaching

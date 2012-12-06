@@ -6,6 +6,7 @@ using System.Reflection;
 using umbraco.NodeFactory;
 using umbraco;
 using uComponents.Mapping;
+using System.Collections;
 
 namespace uComponents.Mapping.Property
 {
@@ -40,24 +41,27 @@ namespace uComponents.Mapping.Property
             PropertyInfo destinationProperty,
             string sourcePropertyAlias
             )
-            : base(nodeMapper, destinationProperty, sourcePropertyAlias)
+            : base(nodeMapper, destinationProperty)
         {
             if (sourcePropertyType == null && mapping != null)
             {
                 throw new ArgumentException("Source property type must be specified when setting a mapping");
             }
-            else if (sourcePropertyAlias == null && mapping != null)
+            else if (sourcePropertyAlias == null 
+                && mapping != null
+                && !typeof(IEnumerable<int>).IsAssignableFrom(sourcePropertyType))
             {
-                throw new ArgumentException("Source property alias must be specified when mapping is specified.");
+                throw new ArgumentException("If specifying a mapping for a collection with no property alias, the source property type must implement IEnumerable<int>.");
             }
 
-            _elementType = destinationProperty.PropertyType.GetElementType();
-            Type rawCollectionType = null;
+            _elementType = destinationProperty.PropertyType.GetGenericArguments().FirstOrDefault();
 
-            if (_elementType == null)
+            if (_elementType == null || !typeof(IEnumerable).IsAssignableFrom(destinationProperty.PropertyType))
             {
                 throw new CollectionTypeNotSupportedException(destinationProperty.PropertyType);
             }
+
+            Type rawCollectionType = null;
 
             if (_elementType == typeof(int))
             {
@@ -69,11 +73,13 @@ namespace uComponents.Mapping.Property
             {
                 // Collection of models
                 RequiresInclude = true;
+                rawCollectionType = typeof(IEnumerable<>).MakeGenericType(_elementType);
             }
 
             // See if the collection can be assigned, or must be instantiated
             _canAssignDirectly = CheckCollectionCanBeAssigned(DestinationInfo.PropertyType, rawCollectionType);
 
+            SourcePropertyAlias = sourcePropertyAlias;
             AllowCaching = true;
             _mapping = mapping;
             _sourcePropertyType = sourcePropertyType;
@@ -99,17 +105,7 @@ namespace uComponents.Mapping.Property
                     throw new InvalidOperationException("Node cannot be null or empty");
                 }
 
-                if (_mapping != null)
-                {
-                    // Custom mapping
-                    ids = _mapping(GetSourcePropertyValue(node, _sourcePropertyType));
-                }
-                else if (!string.IsNullOrEmpty(SourcePropertyAlias))
-                {
-                    // Maps IDs from node property
-                    ids = GetSourcePropertyValue<IEnumerable<int>>(node);
-                }
-                else
+                if (string.IsNullOrEmpty(SourcePropertyAlias))
                 {
                     // Get compatible descendants
                     var aliases = Engine.GetCompatibleNodeTypeAliases(_elementType);
@@ -123,6 +119,24 @@ namespace uComponents.Mapping.Property
                     }
 
                     ids = nodes.Select(n => n.Id);
+
+                    if (_mapping != null)
+                    {
+                        ids = _mapping(ids);
+                    }
+                }
+                else
+                {
+                    if (_mapping == null)
+                    {
+                        // Maps IDs from node property
+                        ids = GetSourcePropertyValue<IEnumerable<int>>(node);
+                    }
+                    else
+                    {
+                        // Custom mapping
+                        ids = _mapping(GetSourcePropertyValue(node, _sourcePropertyType));
+                    }
                 }
 
                 if (AllowCaching
@@ -141,7 +155,7 @@ namespace uComponents.Mapping.Property
             }
 
             // Map model collection
-            var childPaths = GetNextLevelPaths(context.Paths.ToArray());
+            var childPaths = GetNextLevelPaths(context.Paths);
             var sourceListType = typeof(List<>).MakeGenericType(_elementType);
             var mappedCollection = Activator.CreateInstance(sourceListType);
 
@@ -203,14 +217,6 @@ namespace uComponents.Mapping.Property
             }
 
             return assignCollectionDirectly;
-        }
-
-        /// <summary>
-        /// Like Type.GetElementType but for Lists and IEnumerable etc.
-        /// </summary>
-        private static Type GetElementType(Type type)
-        {
-
         }
     }
 }

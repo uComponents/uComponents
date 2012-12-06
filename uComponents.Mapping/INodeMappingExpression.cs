@@ -12,8 +12,27 @@ namespace uComponents.Mapping
     public interface INodeMappingExpression<TDestination>
     {
         /// <summary>
+        /// Sets a mapping for a default <c>Node</c> property (such as "Name" or "CreateDate").
+        /// </summary>
+        /// <typeparam name="TSourceProperty">
+        /// The type of the source property.  For instance, "Name" will be a <c>string</c>,
+        /// and "CreateDate" will be a <c>DateTime</c>.
+        /// </typeparam>
+        /// <param name="destinationProperty">The property to map to.</param>
+        /// <param name="mapping">
+        /// A simple mapping for the source property value, e.g. x => x.Trim()
+        /// </param>
+        INodeMappingExpression<TDestination> DefaultProperty<TSourceProperty>(
+            Expression<Func<TDestination, object>> destinationProperty,
+            BasicPropertyMapping<TSourceProperty> mapping
+            );
+
+        /// <summary>
         /// Sets the node property alias to be used for a non-relational model
         /// property, using the default mapping.  This property will not require an include.
+        /// 
+        /// Use this method only for properties mapped from a property alias - use
+        /// <see cref="DefaultProperty"/> for a default <c>Node</c> property.
         /// </summary>
         /// <param name="destinationProperty">The property to map to.</param>
         /// <param name="propertyAlias">The new property alias to use.</param>
@@ -35,6 +54,7 @@ namespace uComponents.Mapping
         /// <param name="mapping">
         /// Maps the node property to the model property.
         /// </param>
+        /// <param name="propertyAlias">The property alias to map from.  Optional.</param>
         /// <example>
         /// <code>
         /// uMapper.CreateMap{Dog}()

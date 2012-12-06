@@ -34,8 +34,20 @@ namespace uComponents.Mapping.Property
             PropertyInfo destinationProperty,
             string sourcePropertyAlias
             )
-            : base(nodeMapper, destinationProperty, sourcePropertyAlias)
+            : base(nodeMapper, destinationProperty)
         {
+            if (sourcePropertyType == null && mapping != null)
+            {
+                throw new ArgumentException("Source property type must be specified when setting a mapping");
+            }
+            else if (sourcePropertyAlias == null
+                && mapping != null
+                && !typeof(int?).IsAssignableFrom(sourcePropertyType))
+            {
+                throw new ArgumentException("If specifying a mapping for a single model with no property alias, the source property type must be assignable to Nullable<int>.");
+            }
+
+            SourcePropertyAlias = sourcePropertyAlias;
             RequiresInclude = true;
             AllowCaching = true;
             _mapping = mapping;
@@ -62,17 +74,7 @@ namespace uComponents.Mapping.Property
                     throw new InvalidOperationException("Node cannot be null or empty");
                 }
 
-                if (_mapping != null)
-                {
-                    // Custom mapping
-                    id = _mapping(GetSourcePropertyValue(node, _sourcePropertyType));
-                }
-                else if (!string.IsNullOrEmpty(SourcePropertyAlias))
-                {
-                    // Map ID from node property
-                    id = GetSourcePropertyValue<int?>(node);
-                }
-                else
+                if (string.IsNullOrEmpty(SourcePropertyAlias))
                 {
                     // Get closest parent
                     var aliases = Engine
@@ -87,6 +89,24 @@ namespace uComponents.Mapping.Property
                         id = ancestorNode.Id;
 
                         context.AddNodeToContextCache(ancestorNode);
+                    }
+
+                    if (_mapping != null)
+                    {
+                        id = _mapping(id);
+                    }
+                }
+                else
+                {
+                    if (_mapping == null)
+                    {
+                        // Map ID from node property
+                        id = GetSourcePropertyValue<int?>(node);
+                    }
+                    else
+                    {
+                        // Custom mapping
+                        id = _mapping(GetSourcePropertyValue(node, _sourcePropertyType));
                     }
                 }
 
@@ -104,7 +124,7 @@ namespace uComponents.Mapping.Property
             }
 
             // Map to model
-            var childPaths = GetNextLevelPaths(context.Paths.ToArray());
+            var childPaths = GetNextLevelPaths(context.Paths);
             var childContext = new NodeMappingContext(id.Value, childPaths, context);
 
             return Engine.Map(childContext, DestinationInfo.PropertyType);

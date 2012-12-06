@@ -15,7 +15,7 @@ namespace uComponents.Mapping
         public NodeMappingContext(int id, string[] paths, NodeMappingContext parent)
         {
             Id = id;
-            Paths = (paths == null ? null : paths.ToList());
+            Paths = paths;
             ParentContext = parent;
 
             _nodeCache = new List<Node>();
@@ -35,7 +35,7 @@ namespace uComponents.Mapping
         /// <summary>
         /// The paths to be mapped.
         /// </summary>
-        public List<string> Paths { get; set; }
+        public string[] Paths { get; set; }
 
         /// <summary>
         /// The context which spawned this context

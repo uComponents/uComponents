@@ -23,6 +23,7 @@ namespace uComponents.Mapping.Property
         protected bool AllowCaching { get; set; }
 
         protected NodeMappingEngine Engine { get; set; }
+        protected NodeMapper NodeMapper { get; set; }
         protected string SourcePropertyAlias { get; set; }
 
         public PropertyInfo DestinationInfo { get; private set; }
@@ -34,13 +35,9 @@ namespace uComponents.Mapping.Property
         /// <param name="nodeMapper">
         /// The node mapper using this property mapper.
         /// </param>
-        /// <param name="sourcePropertyAlias">
-        /// The alias of the node propery being mapped from.
-        /// </param>
         public PropertyMapperBase(
             NodeMapper nodeMapper,
-            PropertyInfo destinationProperty,
-            string sourcePropertyAlias
+            PropertyInfo destinationProperty
             )
         {
             if (nodeMapper == null)
@@ -52,8 +49,8 @@ namespace uComponents.Mapping.Property
                 throw new ArgumentNullException("destinationProperty");
             }
 
+            NodeMapper = nodeMapper;
             Engine = nodeMapper.Engine;
-            SourcePropertyAlias = sourcePropertyAlias;
             DestinationInfo = destinationProperty;
         }
 
@@ -117,7 +114,7 @@ namespace uComponents.Mapping.Property
 
             // CSV of IDs
             // TODO: can GetProperty<> handle this type?
-            if (sourcePropertyType.GetElementType() == typeof(int))
+            if ((typeof(IEnumerable<int>)).IsAssignableFrom(sourcePropertyType))
             {
                 var csv = node.GetProperty<string>(SourcePropertyAlias);
                 var ids = new List<int>();
@@ -172,13 +169,13 @@ Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propert
     internal static class TypeExtensions
     {
         /// <summary>
-        /// Checks if a type is a relationship collection (for our purposes).
+        /// Gets the classification for a mapped property type as far is mapping is concerted.
         /// </summary>
-        public static bool IsModelCollection(this Type type)
+        public static MappedPropertyType GetMappedPropertyType(this Type type)
         {
             if (type == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("type");
             }
 
             var isString = (type == typeof(string));
@@ -186,26 +183,26 @@ Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propert
             var isDictionary = type.FullName.StartsWith(typeof(IDictionary).FullName)
                 || type.FullName.StartsWith(typeof(IDictionary<,>).FullName)
                 || type.FullName.StartsWith(typeof(Dictionary<,>).FullName);
+            var isClr = (type.Module.ScopeName == "CommonLanguageRuntimeLibrary");
 
-            return !isString && !isDictionary && isEnumerable;
-        }
+            if (!isString && !isDictionary && isEnumerable)
+            {
+                return MappedPropertyType.Collection;
+            }
+            else if (type.Module.ScopeName == "CommonLanguageRuntimeLibrary" || type.IsEnum)
+            {
+                return MappedPropertyType.SystemOrEnum;
+            }
 
-        /// <summary>
-        /// Checks if a type comes from the CLR
-        /// </summary>
-        public static bool IsSystem(this Type type)
-        {
-            return type.Module.ScopeName == "CommonLanguageRuntimeLibrary";
+            // Fallback when class is not recognised.
+            return MappedPropertyType.Model;
         }
+    }
 
-        /// <summary>
-        /// Checks if a type is a model
-        /// </summary>
-        public static bool IsModel(this Type type)
-        {
-            return !type.IsModelCollection()
-                && !type.IsSystem()
-                && !type.IsEnum;
-        }
+    internal enum MappedPropertyType
+    {
+        SystemOrEnum,
+        Model,
+        Collection
     }
 }

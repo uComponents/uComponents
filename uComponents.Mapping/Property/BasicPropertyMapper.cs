@@ -6,6 +6,7 @@ using System.Reflection;
 using umbraco;
 using uComponents.Mapping;
 using umbraco.NodeFactory;
+using System.Linq.Expressions;
 
 namespace uComponents.Mapping.Property
 {
@@ -34,21 +35,24 @@ namespace uComponents.Mapping.Property
             PropertyInfo destinationProperty,
             string sourcePropertyAlias
             )
-            :base(nodeMapper, destinationProperty, sourcePropertyAlias)
+            :base(nodeMapper, destinationProperty)
         {
-            if (mapping == null)
+            if (sourcePropertyType == null && mapping != null)
             {
-                throw new ArgumentNullException("mapping");
-            }
-            else if (sourcePropertyType == null)
-            {
-                throw new ArgumentNullException("sourcePropertyType");
-            }
-            else if (string.IsNullOrEmpty(sourcePropertyAlias))
-            {
-                throw new ArgumentException("Source property alias is required.");
+                throw new ArgumentNullException("sourcePropertyType", "Source property type must be specified when using a mapping");
             }
 
+            if (sourcePropertyAlias == null)
+            {
+                sourcePropertyAlias = NodeMapper.GetPropertyAlias(destinationProperty);
+
+                if (sourcePropertyAlias == null)
+                {
+                    throw new PropertyAliasNotFoundException(sourcePropertyType, destinationProperty, sourcePropertyAlias);
+                }
+            }
+
+            SourcePropertyAlias = sourcePropertyAlias;
             RequiresInclude = false;
             AllowCaching = true;
             _mapping = mapping;
@@ -75,9 +79,17 @@ namespace uComponents.Mapping.Property
                     throw new InvalidOperationException("Node cannot be null or empty");
                 }
 
-                var sourceValue = GetSourcePropertyValue(node, _sourcePropertyType);
-
-                value = _mapping(sourceValue);
+                if (_mapping == null)
+                {
+                    // Map straight to property
+                    value = GetSourcePropertyValue(node, DestinationInfo.PropertyType);
+                }
+                else
+                {
+                    // Custom mapping
+                    var sourceValue = GetSourcePropertyValue(node, _sourcePropertyType);
+                    value = _mapping(sourceValue);
+                }
 
                 if (AllowCaching
                     && Engine.CacheProvider != null)

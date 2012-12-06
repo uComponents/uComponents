@@ -69,7 +69,9 @@ namespace uComponents.Mapping
         /// <see cref="ICacheProvider.ContainsKey"/>
         public bool ContainsKey(string key)
         {
-            return _cache[key] != _nullValue;
+            var qualifiedKey = GetQualifiedKey(key);
+
+            return _cache[qualifiedKey] != null;
         }
 
         /// <summary>

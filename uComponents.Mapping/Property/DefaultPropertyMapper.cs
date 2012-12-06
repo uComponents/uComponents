@@ -16,7 +16,7 @@ namespace uComponents.Mapping.Property
             NodeMapper nodeMapper,
             PropertyInfo destinationProperty
             )
-            :base(nodeMapper, destinationProperty, null)
+            :base(nodeMapper, destinationProperty)
         {
             if (mapping == null)
             {
