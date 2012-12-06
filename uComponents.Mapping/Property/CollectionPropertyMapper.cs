@@ -204,5 +204,13 @@ namespace uComponents.Mapping.Property
 
             return assignCollectionDirectly;
         }
+
+        /// <summary>
+        /// Like Type.GetElementType but for Lists and IEnumerable etc.
+        /// </summary>
+        private static Type GetElementType(Type type)
+        {
+
+        }
     }
 }

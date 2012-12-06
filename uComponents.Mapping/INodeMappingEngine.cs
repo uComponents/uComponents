@@ -33,6 +33,8 @@ namespace uComponents.Mapping
         /// <summary>
         /// Sets the cache provider for the engine to use. This will clear any existing
         /// cache provider.  Set as null to disable caching.
+        /// 
+        /// You probably want to use an instance of <see cref="uComponents.Mapping.DefaultCacheProvider"/>.
         /// </summary>
         void SetCacheProvider(ICacheProvider cacheProvider);
 

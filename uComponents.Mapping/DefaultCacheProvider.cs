@@ -9,7 +9,7 @@ namespace uComponents.Mapping
     /// <summary>
     /// Cache provider for the <c>System.Web.Caching.Cache</c>.
     /// </summary>
-    internal class DefaultCacheProvider : ICacheProvider
+    public class DefaultCacheProvider : ICacheProvider
     {
         private const int _slidingExpirationSeconds = 10 * 60; // ten minutes
 
@@ -19,6 +19,11 @@ namespace uComponents.Mapping
         private readonly Cache _cache;
         private readonly Guid _keyPrefix;
 
+        /// <summary>
+        /// Instantiates a new cache provider using the default ASP.NET cache
+        /// (get it from <c>HttpContext.Current.Cache</c>).
+        /// </summary>
+        /// <param name="cache">The cache.  Cannot be null.</param>
         public DefaultCacheProvider(Cache cache)
         {
             if (cache == null)
@@ -30,6 +35,7 @@ namespace uComponents.Mapping
             _keyPrefix = Guid.NewGuid();
         }
 
+        /// <see cref="ICacheProvider.Insert"/>
         public void Insert(string key, object value)
         {
             if (string.IsNullOrEmpty(key))
@@ -46,6 +52,7 @@ namespace uComponents.Mapping
             _cache.Insert(qualifiedKey, value, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(_slidingExpirationSeconds));
         }
 
+        /// <see cref="ICacheProvider.Get"/>
         public object Get(string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -59,6 +66,7 @@ namespace uComponents.Mapping
             return value == _nullValue ? null : value;
         }
 
+        /// <see cref="ICacheProvider.ContainsKey"/>
         public bool ContainsKey(string key)
         {
             return _cache[key] != _nullValue;
@@ -115,7 +123,11 @@ namespace uComponents.Mapping
         /// <param name="value">The mapped value of the property</param>
         public static void InsertPropertyValue(this ICacheProvider cache, int id, string propertyName, object value)
         {
-            if (string.IsNullOrEmpty(propertyName))
+            if (cache == null)
+            {
+                throw new ArgumentNullException("cache");
+            }
+            else if (string.IsNullOrEmpty(propertyName))
             {
                 throw new ArgumentException("The property name cannot be null or empty", "propertyName");
             }
@@ -133,7 +145,11 @@ namespace uComponents.Mapping
         /// <param name="alias">The node's document type alias</param>
         public static void InsertAlias(this ICacheProvider cache, int id, string alias)
         {
-            if (string.IsNullOrEmpty(alias))
+            if (cache == null)
+            {
+                throw new ArgumentNullException("cache");
+            }
+            else if (string.IsNullOrEmpty(alias))
             {
                 throw new ArgumentException("The alias cannot be null or empty", "alias");
             }
@@ -148,7 +164,11 @@ namespace uComponents.Mapping
         /// </summary>
         public static object GetPropertyValue(this ICacheProvider cache, int id, string propertyName)
         {
-            if (string.IsNullOrEmpty(propertyName))
+            if (cache == null)
+            {
+                throw new ArgumentNullException("cache");
+            }
+            else if (string.IsNullOrEmpty(propertyName))
             {
                 throw new ArgumentException("The property name cannot be null or empty", "propertyName");
             }
