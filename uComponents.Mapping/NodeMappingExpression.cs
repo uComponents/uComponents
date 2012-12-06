@@ -37,7 +37,7 @@ namespace uComponents.Mapping
 
         public INodeMappingExpression<TDestination> DefaultProperty<TSourceProperty, TDestinationProperty>(
             Expression<Func<TDestination, TDestinationProperty>> destinationProperty,
-            Expression<Func<TSourceProperty, TDestinationProperty>> nodeProperty,
+            Expression<Func<Node, TSourceProperty>> nodeProperty,
             Func<TSourceProperty, TDestinationProperty> mapping
             )
         {
@@ -54,13 +54,10 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("nodeProperty");
             }
 
-            var nodePropertyInfo = (nodeProperty.Body as MemberExpression).Member as PropertyInfo;
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             var mapper = new DefaultPropertyMapper(
                 _nodeMapper,
-                destinationPropertyInfo,
-                nodePropertyInfo,
+                destinationProperty.GetPropertyInfo(),
+                nodeProperty.GetPropertyInfo(),
                 x => (object)mapping((TSourceProperty)x)
                 );
 
@@ -83,13 +80,11 @@ namespace uComponents.Mapping
                 throw new ArgumentException("Property alias cannot be null", "propertyAlias");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             var mapper = new BasicPropertyMapper(
                 null,
                 null,
                 _nodeMapper,
-                destinationPropertyInfo,
+                destinationProperty.GetPropertyInfo(),
                 propertyAlias
                 );
 
@@ -109,13 +104,11 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("mapping");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             var mapper = new BasicPropertyMapper(
                 x => mapping((TSourceProperty)x),
                 typeof(TSourceProperty),
                 _nodeMapper,
-                destinationPropertyInfo,
+                destinationProperty.GetPropertyInfo(),
                 propertyAlias
                 );
 
@@ -138,13 +131,11 @@ namespace uComponents.Mapping
                 throw new ArgumentException("Property alias cannot be null", "propertyAlias");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             var mapper = new SinglePropertyMapper(
                 null,
                 null,
                 _nodeMapper,
-                destinationPropertyInfo,
+                destinationProperty.GetPropertyInfo(),
                 propertyAlias
                 );
 
@@ -164,13 +155,11 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("mapping");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             var mapper = new SinglePropertyMapper(
                 x => mapping((TSourceProperty)x),
                 typeof(TSourceProperty),
                 _nodeMapper,
-                destinationPropertyInfo,
+                destinationProperty.GetPropertyInfo(),
                 propertyAlias
                 );
 
@@ -193,13 +182,11 @@ namespace uComponents.Mapping
                 throw new ArgumentException("Property alias cannot be null", "propertyAlias");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             var mapper = new CollectionPropertyMapper(
                 null,
                 null,
                 _nodeMapper,
-                destinationPropertyInfo,
+                destinationProperty.GetPropertyInfo(),
                 propertyAlias
                 );
 
@@ -219,13 +206,11 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("mapping");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             var mapper = new CollectionPropertyMapper(
                 x => mapping((TSourceProperty)x),
                 typeof(TSourceProperty),
                 _nodeMapper,
-                destinationPropertyInfo,
+                destinationProperty.GetPropertyInfo(),
                 propertyAlias
                 );
 
@@ -254,14 +239,12 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("mapping");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             var mapper = new CustomPropertyMapper(
                 mapping,
                 requiresInclude,
                 allowCaching,
                 _nodeMapper,
-                destinationPropertyInfo
+                destinationProperty.GetPropertyInfo()
                 );
 
             _nodeMapper.InsertPropertyMapper(mapper);
@@ -285,8 +268,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("destinationProperty");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-            _nodeMapper.RemovePropertyMapper(destinationPropertyInfo);
+            _nodeMapper.RemovePropertyMapper(destinationProperty.GetPropertyInfo());
 
             return this;
         }
@@ -312,8 +294,6 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("propertyMapping");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
-
             CustomPropertyMapping mapping = (id, paths, cache) =>
             {
                 var node = new Node(id);
@@ -331,7 +311,7 @@ namespace uComponents.Mapping
                 requiresInclude,
                 false,
                 _nodeMapper,
-                destinationPropertyInfo
+                destinationProperty.GetPropertyInfo()
                 );
 
             _nodeMapper.InsertPropertyMapper(mapper);
@@ -377,7 +357,7 @@ namespace uComponents.Mapping
                 throw new ArgumentException("Node type alias cannot be null", "nodeTypeAlias");
             }
 
-            var destinationPropertyInfo = (destinationProperty.Body as MemberExpression).Member as PropertyInfo;
+            var destinationPropertyInfo = destinationProperty.GetPropertyInfo();
             var propertyType = destinationPropertyInfo.PropertyType;
             PropertyMapperBase mapper = null;
 

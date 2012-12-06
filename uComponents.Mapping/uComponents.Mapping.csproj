@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultCacheProvider.cs" />
+    <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ICacheProvider.cs" />
     <Compile Include="INodeMappingEngine.cs" />
     <Compile Include="INodeMappingExpression.cs" />

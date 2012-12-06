@@ -29,7 +29,7 @@ namespace uComponents.Mapping
         /// </param>
         INodeMappingExpression<TDestination> DefaultProperty<TSourceProperty, TDestinationProperty>(
             Expression<Func<TDestination, TDestinationProperty>> destinationProperty,
-            Expression<Func<TSourceProperty, TDestinationProperty>> nodeProperty,
+            Expression<Func<Node, TSourceProperty>> nodeProperty,
             Func<TSourceProperty, TDestinationProperty> mapping
             );
 

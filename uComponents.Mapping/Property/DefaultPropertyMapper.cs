@@ -144,7 +144,7 @@ namespace uComponents.Mapping.Property
 
             if (propertyExpression != null)
             {
-                var nodeProperty = (propertyExpression.Body as MemberExpression).Member as PropertyInfo;
+                var nodeProperty = propertyExpression.GetPropertyInfo();
 
                 if (destinationProperty.PropertyType.IsAssignableFrom(nodeProperty.PropertyType))
                 {
