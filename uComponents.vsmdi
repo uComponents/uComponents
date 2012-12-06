@@ -54,7 +54,7 @@
     <Description>Unit tests for XSLT extensions</Description>
   </TestList>
   <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
-    <RunConfiguration id="454afcb3-02d5-4a19-a44a-f4c8c1a202f7" name="Local" storage="local.testsettings" type="Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration, Microsoft.VisualStudio.QualityTools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <RunConfiguration id="454afcb3-02d5-4a19-a44a-f4c8c1a202f7" name="Local" storage="uComponents.testsettings" type="Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration, Microsoft.VisualStudio.QualityTools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   </TestList>
   <TestList name="Dates" id="f07248b3-574d-4c49-a321-fae6554433a3" parentListId="79c323a4-7725-4404-b2a1-b4d15b056922">
     <Description>Unit tests for Dates XSLT extensions</Description>

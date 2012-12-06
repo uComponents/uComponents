@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Core.UnitTests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{026CA274-604D-49B5-932B-EB88A1E20BF3}"
 	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
+		uComponents.testsettings = uComponents.testsettings
 		uComponents.vsmdi = uComponents.vsmdi
 	EndProjectSection
 EndProject
