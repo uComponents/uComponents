@@ -12,6 +12,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Media class exposes XSLT extensions to access media from Umbraco.
 	/// </summary>
+	[XsltExtension("ucomponents.media")]
 	public class Media
 	{
 		/// <summary>

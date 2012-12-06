@@ -10,6 +10,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Random class exposes XSLT extensions to offer extended randomizing functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.random")]
 	public class Random
 	{
 		/// <summary>

@@ -10,6 +10,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Request class exposes XSLT extensions to access data from the HttpRequest object.
 	/// </summary>
+	[XsltExtension("ucomponents.request")]
 	public class Request
 	{
 		/// <summary>

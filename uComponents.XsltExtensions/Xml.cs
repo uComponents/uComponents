@@ -17,6 +17,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Xml class exposes XSLT extensions to offer extended XML/XSLT functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.xml")]
 	public class Xml
 	{
 		/// <summary>

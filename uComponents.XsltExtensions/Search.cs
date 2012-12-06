@@ -14,6 +14,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Search class exposes XSLT extensions to offer extended Examine/Lucene functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.search")]
 	public class Search
 	{
 		/// <summary>

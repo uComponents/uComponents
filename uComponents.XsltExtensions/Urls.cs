@@ -12,25 +12,26 @@ using umbraco.NodeFactory;
 namespace uComponents.XsltExtensions
 {
 	/// <summary>
-	/// Before NiceUrl generated event handler delegate
-	/// </summary>
-	/// <param name="nodeId">The node id</param>
-	/// <param name="e">The event arguments</param>
-	public delegate void BeforeNiceUrlGeneratedEventHandler(ref int nodeId, EventArgs e);
-
-	/// <summary>
-	/// After NiceUrl generated event handler delegate
-	/// </summary>
-	/// <param name="nodeId">The node id</param>
-	/// <param name="url">The generated url</param>
-	/// <param name="e">The event arguments</param>
-	public delegate void AfterNiceUrlGeneratedEventHandler(ref int nodeId, ref string url, EventArgs e);
-
-	/// <summary>
 	/// The Urls class exposes XSLT extensions to create and modify Urls.
 	/// </summary>
+	[XsltExtension("ucomponents.urls")]
 	public class Urls
 	{
+		/// <summary>
+		/// Before NiceUrl generated event handler delegate
+		/// </summary>
+		/// <param name="nodeId">The node id</param>
+		/// <param name="e">The event arguments</param>
+		public delegate void BeforeNiceUrlGeneratedEventHandler(ref int nodeId, EventArgs e);
+
+		/// <summary>
+		/// After NiceUrl generated event handler delegate
+		/// </summary>
+		/// <param name="nodeId">The node id</param>
+		/// <param name="url">The generated url</param>
+		/// <param name="e">The event arguments</param>
+		public delegate void AfterNiceUrlGeneratedEventHandler(ref int nodeId, ref string url, EventArgs e);
+
 		/// <summary>
 		/// Before NiceUrl generated event
 		/// </summary>

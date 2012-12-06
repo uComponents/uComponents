@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
+using umbraco;
 using umbraco.IO;
 
 namespace uComponents.XsltExtensions
@@ -11,6 +12,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The IO class exposes XSLT extensions to access data from System.IO.
 	/// </summary>
+	[XsltExtension("ucomponents.io")]
 	public class IO
 	{
 		/// <summary>

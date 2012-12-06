@@ -11,6 +11,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Members class exposes XSLT extensions to offer extended XML/XSLT functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.members")]
 	public class Members
 	{
 		/// <summary>

@@ -9,6 +9,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Nodes class exposes XSLT extensions to access nodes from Umbraco.
 	/// </summary>
+	[XsltExtension("ucomponents.nodes")]
 	public class Nodes
 	{
 		/// <summary>

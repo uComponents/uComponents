@@ -16,6 +16,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Cms class exposes XSLT extensions to access data from various parts of the Umbraco framework.
 	/// </summary>
+	[XsltExtension("ucomponents.cms")]
 	public partial class Cms
 	{
 		/// <summary>

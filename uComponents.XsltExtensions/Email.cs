@@ -9,6 +9,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Email class exposes XSLT extensions to offer extended email functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.email")]
 	public class Email
 	{
 		/// <summary>
