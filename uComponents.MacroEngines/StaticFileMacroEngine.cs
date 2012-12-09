@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using umbraco.cms.businesslogic.macro;
 using umbraco.interfaces;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.MacroEngines
 {

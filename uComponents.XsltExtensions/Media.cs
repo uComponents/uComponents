@@ -4,7 +4,7 @@ using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
 using umbraco;
-using umbraco.IO;
+using Umbraco.Core.IO;
 using System;
 
 namespace uComponents.XsltExtensions

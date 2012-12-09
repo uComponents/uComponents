@@ -2,9 +2,9 @@
 using System.Web.Security;
 using System.Xml;
 using System.Xml.XPath;
-// using uComponents.Core.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.member;
+using Umbraco.Core;
 
 namespace uComponents.XsltExtensions
 {
@@ -53,7 +53,7 @@ namespace uComponents.XsltExtensions
 				{
 					foreach (var memberName in Roles.GetUsersInRole(groupName))
 					{
-						var memberNode = xmlHelper.addTextNode(xd, "member", memberName);
+						var memberNode = XmlHelper.AddTextNode(xd, "member", memberName);
 						xd.DocumentElement.AppendChild(memberNode);
 					}
 				}

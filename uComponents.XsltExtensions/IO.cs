@@ -5,7 +5,8 @@ using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
 using umbraco;
-using umbraco.IO;
+using Umbraco.Core;
+using Umbraco.Core.IO;
 
 namespace uComponents.XsltExtensions
 {
@@ -63,7 +64,7 @@ namespace uComponents.XsltExtensions
 					foreach (var directory in directories)
 					{
 						// create an XML node for the directory
-						var directoryNode = umbraco.xmlHelper.addTextNode(xd, "Directory", directory);
+						var directoryNode = XmlHelper.AddTextNode(xd, "Directory", directory);
 
 						// add the node to the XML document
 						xd.DocumentElement.AppendChild(directoryNode);
@@ -107,7 +108,7 @@ namespace uComponents.XsltExtensions
 					foreach (var file in files)
 					{
 						// create an XML node for the file
-						var fileNode = umbraco.xmlHelper.addTextNode(xd, "File", file);
+						var fileNode = XmlHelper.AddTextNode(xd, "File", file);
 
 						// add the node to the XML document
 						xd.DocumentElement.AppendChild(fileNode);
