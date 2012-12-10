@@ -9,26 +9,27 @@ namespace uComponents.Mapping.Property
 {
     internal class SinglePropertyMapper : PropertyMapperBase
     {
-        private Func<object, int?> _mapping;
+        private Func<NodeMappingContext, object, int?> _mapping; // context, source property value, single relationship ID
         private Type _sourcePropertyType;
 
         /// <summary>
         /// Maps a single relationship.
         /// </summary>
         /// <param name="mapping">
-        /// Mapping from <paramref name="sourcePropertyType"/> to a nullable node ID.  
+        /// Mapping to a nullable node ID.  Takes the context and source property value
+        /// as parameters.
         /// If <c>null</c>, the mapping will be deduced from the other parameters.
         /// </param>
         /// <param name="sourcePropertyType">
-        /// The type of the first parameter being supplied to <paramref name="mapping"/>.
-        /// Cannot be <c>null</c> if <paramref name="mapping"/> is not <c>null</c>.
+        /// The type of object being supplied to <paramref name="mapping"/>.
+        /// Will be set to <c>int?</c> if <paramref name="mapping"/> is specified.
         /// </param>
         /// <param name="sourcePropertyAlias">
         /// The alias of the node property to map from.  If null, the closest ancestor which is 
         /// compatible with <paramref name="destinationProperty"/> will be mapped instead.
         /// </param>
         public SinglePropertyMapper(
-            Func<object, int?> mapping,
+            Func<NodeMappingContext, object, int?> mapping,
             Type sourcePropertyType,
             NodeMapper nodeMapper,
             PropertyInfo destinationProperty,
@@ -38,9 +39,11 @@ namespace uComponents.Mapping.Property
         {
             if (sourcePropertyType == null && mapping != null)
             {
-                throw new ArgumentException("Source property type must be specified when setting a mapping");
+                // Default source property type
+                sourcePropertyType = typeof(int?);
             }
-            else if (sourcePropertyAlias == null
+            
+            if (sourcePropertyAlias == null
                 && mapping != null
                 && !typeof(int?).IsAssignableFrom(sourcePropertyType))
             {
@@ -93,7 +96,7 @@ namespace uComponents.Mapping.Property
 
                     if (_mapping != null)
                     {
-                        id = _mapping(id);
+                        id = _mapping(context, id);
                     }
                 }
                 else
@@ -106,7 +109,7 @@ namespace uComponents.Mapping.Property
                     else
                     {
                         // Custom mapping
-                        id = _mapping(GetSourcePropertyValue(node, _sourcePropertyType));
+                        id = _mapping(context, GetSourcePropertyValue(node, _sourcePropertyType));
                     }
                 }
 

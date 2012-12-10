@@ -189,7 +189,7 @@ namespace uComponents.Mapping
             if (_engine.CacheProvider != null
                 && _engine.CacheProvider.ContainsKey(cacheKey))
             {
-                var ids = _engine.CacheProvider.Get(cacheKey) as IEnumerable<int>;
+                var ids = _engine.CacheProvider.Get(cacheKey) as int[];
                 return Many(ids);
             }
 
@@ -199,7 +199,7 @@ namespace uComponents.Mapping
             if (_engine.CacheProvider != null)
             {
                 // Cache the node IDs
-                _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id));
+                _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id).ToArray());
             }
 
             return Many(nodes);
@@ -227,7 +227,7 @@ namespace uComponents.Mapping
             if (_engine.CacheProvider != null
                 && _engine.CacheProvider.ContainsKey(cacheKey))
             {
-                var ids = _engine.CacheProvider.Get(cacheKey) as IEnumerable<int>;
+                var ids = _engine.CacheProvider.Get(cacheKey) as int[];
                 return Many(ids).GetEnumerator();
             }
 
@@ -237,7 +237,7 @@ namespace uComponents.Mapping
             if (_engine.CacheProvider != null)
             {
                 // Cache the node IDs
-                _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id));
+                _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id).ToArray());
             }
 
             return Many(nodes).GetEnumerator();

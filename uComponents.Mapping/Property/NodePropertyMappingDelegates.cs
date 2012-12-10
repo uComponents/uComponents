@@ -20,7 +20,8 @@ namespace uComponents.Mapping.Property
     public delegate object BasicPropertyMapping<TSource>(TSource sourceValue);
 
     /// <summary>
-    /// A delegate signature for mapping a single-relationship property.
+    /// A delegate signature for mapping a single-relationship based on a node
+    /// property value.
     /// </summary>
     /// <typeparam name="TSource">
     /// The desired type of the sourceValue (will be converted if necessary).
@@ -36,7 +37,8 @@ namespace uComponents.Mapping.Property
     public delegate int? SinglePropertyMapping<TSource>(TSource sourceValue);
 
     /// <summary>
-    /// A delegate signature for mapping a collection-relationship property.
+    /// A delegate signature for mapping a collection-relationship based on a node
+    /// property value.
     /// </summary>
     /// <typeparam name="TSource">
     /// The desired type of the sourceValue (will be converted if necessary).

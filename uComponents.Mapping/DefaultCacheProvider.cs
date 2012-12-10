@@ -11,7 +11,7 @@ namespace uComponents.Mapping
     /// </summary>
     public class DefaultCacheProvider : ICacheProvider
     {
-        private const int _slidingExpirationSeconds = 10 * 60; // ten minutes
+        private TimeSpan _slidingExpiration = TimeSpan.FromMinutes(10);
 
         // Cannot insert null into cache, so use a static representation.
         private static object _nullValue = new object();
@@ -24,11 +24,20 @@ namespace uComponents.Mapping
         /// (get it from <c>HttpContext.Current.Cache</c>).
         /// </summary>
         /// <param name="cache">The cache.  Cannot be null.</param>
-        public DefaultCacheProvider(Cache cache)
+        /// <param name="slidingExpiration">
+        /// Optional override for the sliding expiration period
+        /// of values added to the cache.
+        /// </param>
+        public DefaultCacheProvider(Cache cache, TimeSpan? slidingExpiration = null)
         {
             if (cache == null)
             {
                 throw new ArgumentNullException("cache");
+            }
+
+            if (slidingExpiration.HasValue)
+            {
+                _slidingExpiration = slidingExpiration.Value;
             }
 
             _cache = cache;
@@ -49,7 +58,7 @@ namespace uComponents.Mapping
 
             var qualifiedKey = GetQualifiedKey(key);
 
-            _cache.Insert(qualifiedKey, value, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(_slidingExpirationSeconds));
+            _cache.Insert(qualifiedKey, value, null, Cache.NoAbsoluteExpiration, _slidingExpiration);
         }
 
         /// <see cref="ICacheProvider.Get"/>
@@ -150,10 +159,6 @@ namespace uComponents.Mapping
             if (cache == null)
             {
                 throw new ArgumentNullException("cache");
-            }
-            else if (string.IsNullOrEmpty(alias))
-            {
-                throw new ArgumentException("The alias cannot be null or empty", "alias");
             }
 
             var key = string.Format(_aliasFormat, id);

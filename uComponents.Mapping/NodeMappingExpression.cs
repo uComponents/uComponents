@@ -130,6 +130,10 @@ namespace uComponents.Mapping
             {
                 throw new ArgumentException("Property alias cannot be null", "propertyAlias");
             }
+            else if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
 
             var mapper = new SinglePropertyMapper(
                 null,
@@ -137,6 +141,33 @@ namespace uComponents.Mapping
                 _nodeMapper,
                 destinationProperty.GetPropertyInfo(),
                 propertyAlias
+                );
+
+            _nodeMapper.InsertPropertyMapper(mapper);
+
+            return this;
+        }
+
+        public INodeMappingExpression<TDestination> SingleProperty(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            Func<int, int?> mapping
+            )
+        {
+            if (mapping == null)
+            {
+                throw new ArgumentNullException("mapping");
+            }
+            else if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+
+            var mapper = new SinglePropertyMapper(
+                (context, sourceValue) => mapping(context.Id),
+                null,
+                _nodeMapper,
+                destinationProperty.GetPropertyInfo(),
+                null
                 );
 
             _nodeMapper.InsertPropertyMapper(mapper);
@@ -154,9 +185,14 @@ namespace uComponents.Mapping
             {
                 throw new ArgumentNullException("mapping");
             }
+            else if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+
 
             var mapper = new SinglePropertyMapper(
-                x => mapping((TSourceProperty)x),
+                (context, value) => mapping((TSourceProperty)value),
                 typeof(TSourceProperty),
                 _nodeMapper,
                 destinationProperty.GetPropertyInfo(),
@@ -195,6 +231,33 @@ namespace uComponents.Mapping
             return this;
         }
 
+        public INodeMappingExpression<TDestination> CollectionProperty(
+            Expression<Func<TDestination, object>> destinationProperty, 
+            Func<int, IEnumerable<int>> mapping
+            )
+        {
+            if (mapping == null)
+            {
+                throw new ArgumentNullException("mapping");
+            }
+            else if (destinationProperty == null)
+            {
+                throw new ArgumentNullException("destinationProperty");
+            }
+
+            var mapper = new CollectionPropertyMapper(
+                (context, sourceValue) => mapping(context.Id),
+                null,
+                _nodeMapper,
+                destinationProperty.GetPropertyInfo(),
+                null
+                );
+
+            _nodeMapper.InsertPropertyMapper(mapper);
+
+            return this;
+        }
+
         public INodeMappingExpression<TDestination> CollectionProperty<TSourceProperty>(
             Expression<Func<TDestination, object>> destinationProperty,
             CollectionPropertyMapping<TSourceProperty> mapping,
@@ -207,7 +270,7 @@ namespace uComponents.Mapping
             }
 
             var mapper = new CollectionPropertyMapper(
-                x => mapping((TSourceProperty)x),
+                (context, value) => mapping((TSourceProperty)value),
                 typeof(TSourceProperty),
                 _nodeMapper,
                 destinationProperty.GetPropertyInfo(),
@@ -405,7 +468,6 @@ namespace uComponents.Mapping
         }
 
         #endregion
-
     }
 
     /// <summary>

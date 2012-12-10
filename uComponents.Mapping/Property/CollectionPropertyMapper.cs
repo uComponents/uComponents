@@ -12,7 +12,7 @@ namespace uComponents.Mapping.Property
 {
     internal class CollectionPropertyMapper : PropertyMapperBase
     {
-        private readonly Func<object, IEnumerable<int>> _mapping;
+        private readonly Func<NodeMappingContext, object, IEnumerable<int>> _mapping;
         private readonly Type _sourcePropertyType;
         private readonly Type _elementType;
         private readonly bool _canAssignDirectly;
@@ -21,13 +21,13 @@ namespace uComponents.Mapping.Property
         /// Maps a collection relationship.
         /// </summary>
         /// <param name="mapping">
-        /// Mapping from <paramref name="sourcePropertyType"/> to a collection
-        /// of node IDs.  If <c>null</c>, the mapping will be deduced from 
+        /// Mapping to a collection of node IDs.  Takes the context and source property value
+        /// as parameters.  If <c>null</c>, the mapping will be deduced from 
         /// the other parameters.
         /// </param>
         /// <param name="sourcePropertyType">
-        /// The type of the first parameter being supplied to <paramref name="mapping"/>.
-        /// Cannot be <c>null</c> if <paramref name="mapping"/> is not <c>null</c>.
+        /// The type of object being supplied to <paramref name="mapping"/>.
+        /// Will be set to <c>IEnumerable{int}</c> if <paramref name="mapping"/> is specified.
         /// </param>
         /// <param name="sourcePropertyAlias">
         /// The alias of the node property to map from.  If null, descendants of
@@ -35,7 +35,7 @@ namespace uComponents.Mapping.Property
         /// will be mapped instead.
         /// </param>
         public CollectionPropertyMapper(
-            Func<object, IEnumerable<int>> mapping,
+            Func<NodeMappingContext, object, IEnumerable<int>> mapping,
             Type sourcePropertyType,
             NodeMapper nodeMapper,
             PropertyInfo destinationProperty,
@@ -45,9 +45,10 @@ namespace uComponents.Mapping.Property
         {
             if (sourcePropertyType == null && mapping != null)
             {
-                throw new ArgumentException("Source property type must be specified when setting a mapping");
+                sourcePropertyType = typeof(IEnumerable<int>);
             }
-            else if (sourcePropertyAlias == null 
+            
+            if (sourcePropertyAlias == null 
                 && mapping != null
                 && !typeof(IEnumerable<int>).IsAssignableFrom(sourcePropertyType))
             {
@@ -94,7 +95,7 @@ namespace uComponents.Mapping.Property
                 && Engine.CacheProvider != null
                 && Engine.CacheProvider.ContainsPropertyValue(context.Id, DestinationInfo.Name))
             {
-                ids = Engine.CacheProvider.GetPropertyValue(context.Id, DestinationInfo.Name) as IEnumerable<int>;
+                ids = Engine.CacheProvider.GetPropertyValue(context.Id, DestinationInfo.Name) as int[];
             }
             else
             {
@@ -122,7 +123,7 @@ namespace uComponents.Mapping.Property
 
                     if (_mapping != null)
                     {
-                        ids = _mapping(ids);
+                        ids = _mapping(context, ids);
                     }
                 }
                 else
@@ -135,14 +136,8 @@ namespace uComponents.Mapping.Property
                     else
                     {
                         // Custom mapping
-                        ids = _mapping(GetSourcePropertyValue(node, _sourcePropertyType));
+                        ids = _mapping(context, GetSourcePropertyValue(node, _sourcePropertyType));
                     }
-                }
-
-                if (AllowCaching
-                    && Engine.CacheProvider != null)
-                {
-                    Engine.CacheProvider.InsertPropertyValue(context.Id, DestinationInfo.Name, ids);
                 }
             }
 
@@ -158,14 +153,29 @@ namespace uComponents.Mapping.Property
             var childPaths = GetNextLevelPaths(context.Paths);
             var sourceListType = typeof(List<>).MakeGenericType(_elementType);
             var mappedCollection = Activator.CreateInstance(sourceListType);
+            var missingIds = new List<int>();
 
             foreach (var id in ids)
             {
                 var childContext = new NodeMappingContext(id, childPaths, context);
                 var mappedElement = Engine.Map(childContext, _elementType);
 
-                // Like "items.Add(item)" but for generic list
-                sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, mappedCollection, new object[] { mappedElement });
+                if (mappedElement == null)
+                {
+                    // ID does not exist
+                    missingIds.Add(id);
+                }
+                else
+                {
+                    // Like "items.Add(item)" but for generic list
+                    sourceListType.InvokeMember("Add", BindingFlags.InvokeMethod, null, mappedCollection, new object[] { mappedElement });
+                }
+            }
+
+            if (AllowCaching
+                && Engine.CacheProvider != null)
+            {
+                Engine.CacheProvider.InsertPropertyValue(context.Id, DestinationInfo.Name, ids.Except(missingIds).ToArray());
             }
 
             return _canAssignDirectly

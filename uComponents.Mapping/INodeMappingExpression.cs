@@ -64,12 +64,12 @@ namespace uComponents.Mapping
         /// <example>
         /// <code>
         /// uMapper.CreateMap{Dog}()
-        ///     .CollectionProperty{string}(
+        ///     .BasicProperty{string}(
         ///         x => x.CollarId,
         ///         collarId => collarId.Trim() // trim whitespace
         ///         );
         ///         
-        /// Simply trims the 
+        /// Simply trims the source property value
         /// </code>
         /// </example>
         INodeMappingExpression<TDestination> BasicProperty<TSourceProperty>(
@@ -91,7 +91,23 @@ namespace uComponents.Mapping
 
         /// <summary>
         /// Sets a mapping for a single node to be used for the model
-        /// property.  This property will require an include.
+        /// property, based on the identity of the node being mapped.  
+        /// This property will require an include.
+        /// </summary>
+        /// <param name="destinationProperty">The property to map to.</param>
+        /// <param name="mapping">
+        /// A mapping which take the ID of the node being mapped, and returns 
+        /// the ID of the node to map to the property.
+        /// </param>
+        INodeMappingExpression<TDestination> SingleProperty(
+            Expression<Func<TDestination, object>> destinationProperty,
+            Func<int, int?> mapping
+            );
+
+        /// <summary>
+        /// Sets a mapping for a single node to be used for the model
+        /// property, based on the value of a node property.  
+        /// This property will require an include.
         /// </summary>
         /// <typeparam name="TSourceProperty">
         /// The desired type to inject into <paramref name="mapping"/> (will be 
@@ -100,7 +116,8 @@ namespace uComponents.Mapping
         /// </typeparam>
         /// <param name="destinationProperty">The property to map to.</param>
         /// <param name="mapping">
-        /// A mapping which retrieves the ID of the node to map to the property.
+        /// A mapping which takes the value of a node property, and returns 
+        /// the ID of the node to map to the property.
         /// </param>
         /// <param name="propertyAlias">
         /// An optional node property alias override.
@@ -111,7 +128,7 @@ namespace uComponents.Mapping
         /// // dogs based on a name property.
         /// 
         /// uMapper.CreateMap{Dog}()
-        ///     .CollectionProperty{string}(
+        ///     .SingleProperty{string}(
         ///         x => x.BestFriend,
         ///         name => SearchAllDogsForId(name), // must return an `int?`
         ///         "bestFriendName" // required as "BestFriend" !~ "bestFriendName"
@@ -134,6 +151,21 @@ namespace uComponents.Mapping
         INodeMappingExpression<TDestination> CollectionProperty(
             Expression<Func<TDestination, object>> destinationProperty,
             string propertyAlias
+            );
+
+        /// <summary>
+        /// Sets a mapping for a collection node to be used for the model
+        /// property, based on the identity of the node being mapped.  
+        /// This property will require an include.
+        /// </summary>
+        /// <param name="destinationProperty">The property to map to.</param>
+        /// <param name="mapping">
+        /// A mapping which take the ID of the node being mapped, and returns 
+        /// the collection of IDs.
+        /// </param>
+        INodeMappingExpression<TDestination> CollectionProperty(
+            Expression<Func<TDestination, object>> destinationProperty,
+            Func<int, IEnumerable<int>> mapping
             );
 
         /// <summary>
