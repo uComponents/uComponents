@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using umbraco.NodeFactory;
 using umbraco;
 using System.Collections;
+using uComponents.Mapping.Property;
 
 namespace uComponents.Mapping
 {
@@ -25,19 +26,28 @@ namespace uComponents.Mapping
         private const string _allCacheFormat = "All_{0}";
 
         // The paths included in the query
-        private readonly List<string> _paths = new List<string>();
+        private readonly List<string> _paths;
+        private readonly Dictionary<string, Func<object, bool>> _propertyFilters;
 
         // The engine which will execute the query
         private readonly NodeMappingEngine _engine;
 
         public NodeQuery(NodeMappingEngine engine)
         {
+            var destinationType = typeof(TDestination);
+
             if (engine == null)
             {
                 throw new ArgumentNullException("engine");
             }
+            else if (!engine.NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
 
             _engine = engine;
+            _paths = new List<string>();
+            _propertyFilters = new Dictionary<string, Func<object, bool>>();
         }
 
         public INodeMappingEngine Engine
@@ -117,16 +127,98 @@ namespace uComponents.Mapping
 
         #endregion
 
+        #region Filtering
+
+        public INodeQuery<TDestination> WhereProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> property,
+            Func<TProperty, bool> predicate
+            )
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException("property");
+            }
+            else if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
+            var destinationType = typeof(TDestination);
+            var destinationInfo = property.GetPropertyInfo();
+
+            if (!_engine.NodeMappers[destinationType].PropertyMappers
+                .Any(x => x.DestinationInfo.Name == destinationInfo.Name))
+            {
+                throw new PropertyNotMappedException(destinationType, destinationInfo.Name);
+            }
+
+            _propertyFilters.Add(destinationInfo.Name, x => predicate((TProperty)x));
+
+            return this;
+        }
+
+        private bool FilterSingle(NodeMappingContext context)
+        {
+            foreach (var filter in _propertyFilters)
+            {
+                var propertyMapper = _engine.NodeMappers[typeof(TDestination)]
+                    .PropertyMappers
+                    .Single(x => x.DestinationInfo.Name == filter.Key);
+
+                var property = propertyMapper.MapProperty(context);
+                if (!filter.Value(property))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private int[] FilterCollection(int[] ids)
+        {
+            if (ids == null)
+            {
+                throw new ArgumentNullException("ids");
+            }
+
+            var filteredIds = new List<int>(ids);
+
+            foreach (var filter in _propertyFilters)
+            {
+                var propertyMapper = _engine.NodeMappers[typeof(TDestination)]
+                    .PropertyMappers
+                    .Single(x => x.DestinationInfo.Name == filter.Key);
+
+                filteredIds.RemoveAll(id =>
+                    {
+                        var context = new NodeMappingContext(id, new string[0], null);
+                        var property = propertyMapper.MapProperty(context);
+                        return !filter.Value(property);
+                    });
+            }
+
+            return filteredIds.ToArray();
+        }
+
+        #endregion
+
         #region Execute
 
         public TDestination Map(Node node)
         {
-            if (node == null || string.IsNullOrEmpty(node.Name))
+            if (node == null 
+                || string.IsNullOrEmpty(node.Name))
             {
                 return null;
             }
 
             var context = new NodeMappingContext(node, _paths.ToArray(), null);
+
+            if (!FilterSingle(context))
+            {
+                return null;
+            }
 
             return (TDestination)_engine.Map(
                 context,
@@ -144,10 +236,20 @@ namespace uComponents.Mapping
         {
             var context = new NodeMappingContext(id, _paths.ToArray(), null);
 
+            if (!FilterSingle(context))
+            {
+                return null;
+            }
+
             return (TDestination)_engine.Map(
                 context,
                 typeof(TDestination)
                 );
+        }
+
+        public TDestination Current()
+        {
+            return Map(Node.GetCurrent());
         }
 
         public IEnumerable<TDestination> Many(IEnumerable<int> ids)
@@ -157,7 +259,9 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("nodeIds");
             }
 
-            return ids.Select(id => Find(id));
+            var filteredIds = FilterCollection(ids.ToArray());
+
+            return filteredIds.Select(id => Find(id));
         }
 
         public IEnumerable<TDestination> Many(IEnumerable<Node> nodes)
@@ -167,12 +271,11 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("nodes");
             }
 
-            return nodes.Select(n => Map(n));
-        }
+            var filteredIds = FilterCollection(nodes.Select(x => x.Id).ToArray());
 
-        public TDestination Current()
-        {
-            return Map(Node.GetCurrent());
+            return nodes
+                .Where(n => filteredIds.Contains(n.Id))
+                .Select(n => Map(n));
         }
 
         public IEnumerable<TDestination> Explicit()

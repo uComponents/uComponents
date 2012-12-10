@@ -127,7 +127,7 @@ namespace uComponents.Mapping.Property
                         int id;
                         if (!int.TryParse(idString.Trim(), out id))
                         {
-                            throw new RelationPropertyFormatNotSupported(csv, DestinationInfo.DeclaringType);
+                            throw new RelationPropertyFormatNotSupportedException(csv, DestinationInfo.DeclaringType);
                         }
 
                         ids.Add(id);
@@ -155,13 +155,27 @@ namespace uComponents.Mapping.Property
     /// The value of a node property which is being mapped by the mapping engine
     /// cannot be parsed to IDs.
     /// </summary>
-    public class RelationPropertyFormatNotSupported : Exception
+    public class RelationPropertyFormatNotSupportedException : Exception
     {
         /// <param name="propertyValue">The unsupported value of the property.</param>
         /// <param name="destinationPropertyType">The destination property type.</param>
-        public RelationPropertyFormatNotSupported(string propertyValue, Type destinationPropertyType)
+        public RelationPropertyFormatNotSupportedException(string propertyValue, Type destinationPropertyType)
             : base(string.Format(@"Could not parse '{0}' into integer IDs for destination type '{1}'.  
 Trying storing your relation properties as CSV (e.g. '1234,2345,4576')", propertyValue, destinationPropertyType.FullName))
+        {
+        }
+    }
+
+    /// <summary>
+    /// A property was not mapped, but was assumed to be.
+    /// </summary>
+    public class PropertyNotMappedException : Exception
+    {
+        /// <param name="type">The model type being mapped to</param>
+        /// <param name="propertyName">The name of the property which is not mapped.</param>
+        public PropertyNotMappedException(Type type, string propertyName)
+            :base(string.Format(@"The property '{0}' on type '{1}' does not have a mapping.
+Use the mapping expression returned by INodeMappingEngine.CreateMap() to ensure one exists.", propertyName, type))
         {
         }
     }
