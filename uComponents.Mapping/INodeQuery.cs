@@ -100,9 +100,8 @@ namespace uComponents.Mapping
         /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="property">The property to run the predicate on.</param>
         /// <param name="predicate">
-        /// Takes a property value for each instance of <c>TDestination</c> and
-        /// returns <c>false</c> if that instance should not be returned in
-        /// the results.
+        /// Predicate on the property for which elements should be included in
+        /// the result.
         /// </param>
         INodeQuery<TDestination> WhereProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> property,
