@@ -41,10 +41,6 @@ namespace uComponents.Mapping
         ///     .Include("Employers.Employees.FavouriteMeals");
         /// </code>
         /// </example>
-        /// <returns>
-        /// A query with the <paramref name="path"/> 
-        /// included.
-        /// </returns>
         INodeQuery<TDestination> Include(string path);
 
         /// <summary>
@@ -66,34 +62,37 @@ namespace uComponents.Mapping
         /// To include a collection, a reference, and a reference two levels down: query.Include(e => e.Level1Collection.Select(l1 => l1.Level2Reference.Level3Reference))
         /// To include a collection, a collection, and a reference two levels down: query.Include(e => e.Level1Collection.Select(l1 => l1.Level2Collection.Select(l2 => l2.Level3Reference)))
         /// </remarks>
-        /// <typeparam name="TProperty">
-        /// The type of the top-level property in the path.
-        /// </typeparam>
         /// <param name="path">
         /// The path of the relationship to include, defined using
         /// a lambda expression.
         /// </param>
-        /// <returns>
-        /// A query with the <paramref name="path"/> 
-        /// included.
-        /// </returns>
-        INodeQuery<TDestination> Include<TProperty>(Expression<Func<TDestination, TProperty>> path);
+        INodeQuery<TDestination> Include(Expression<Func<TDestination, object>> path);
 
         /// <summary>
         /// Includes many relationship paths in the node query
         /// </summary>
-        /// <seealso cref="Include"/>
+        /// <seealso cref="Include(string)"/>
         INodeQuery<TDestination> IncludeMany(string[] paths);
 
         /// <summary>
         /// Includes many relationship paths in the node query
         /// </summary>
-        /// <seealso cref="Include{TProperty}"/>
+        /// <seealso cref="Include(Expression)"/>
         INodeQuery<TDestination> IncludeMany(Expression<Func<TDestination, object>>[] paths);
 
         #endregion
 
         #region Filtering
+
+        /// <summary>
+        /// Filters the results to only include nodes which were mapped to
+        /// <typeparamref name="TDestination"/> using 
+        /// <see cref="INodeMappingEngine.CreateMap()"/>.
+        /// 
+        /// In other words, does not include nodes which map to a type
+        /// derived from <typeparamref name="TDestination"/>.
+        /// </summary>
+        INodeQuery<TDestination> Explicit();
 
         /// <summary>
         /// Filters the results of a node query based a property.
@@ -105,9 +104,6 @@ namespace uComponents.Mapping
         /// returns <c>false</c> if that instance should not be returned in
         /// the results.
         /// </param>
-        /// <returns>
-        /// An updated node query.
-        /// </returns>
         INodeQuery<TDestination> WhereProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> property,
             Func<TProperty, bool> predicate
@@ -174,19 +170,12 @@ namespace uComponents.Mapping
         TDestination Current();
 
         /// <summary>
-        /// Gets mapped instances only of nodes which were mapped to
-        /// <typeparamref name="TDestination"/> using 
-        /// <see cref="INodeMappingEngine.CreateMap()"/>.
+        /// Gets the specified property from each element in the result set.
         /// </summary>
-        /// <remarks>
-        /// Will not include node type aliases which map to a model
-        /// which can be cast to <typeparamref name="TDestination"/>.
-        /// </remarks>
-        /// <returns>
-        /// A collection of mapped nodes of type
-        /// <typeparamref name="TDestination"/>.
-        /// </returns>
-        IEnumerable<TDestination> Explicit();
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        IEnumerable<TProperty> SelectProperty<TProperty>(Expression<Func<TDestination, TProperty>> property);
 
         #endregion
     }

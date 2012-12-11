@@ -28,6 +28,7 @@ namespace uComponents.Mapping
         // The paths included in the query
         private readonly List<string> _paths;
         private readonly Dictionary<string, Func<object, bool>> _propertyFilters;
+        private bool _isExplicit = false;
 
         // The engine which will execute the query
         private readonly NodeMappingEngine _engine;
@@ -75,7 +76,7 @@ namespace uComponents.Mapping
             return this;
         }
 
-        public INodeQuery<TDestination> Include<TProperty>(Expression<Func<TDestination, TProperty>> path)
+        public INodeQuery<TDestination> Include(Expression<Func<TDestination, object>> path)
         {
             if (path == null)
             {
@@ -128,6 +129,13 @@ namespace uComponents.Mapping
         #endregion
 
         #region Filtering
+
+        public INodeQuery<TDestination> Explicit()
+        {
+            _isExplicit = true;
+
+            return this;
+        }
 
         public INodeQuery<TDestination> WhereProperty<TProperty>(
             Expression<Func<TDestination, TProperty>> property,
@@ -207,7 +215,7 @@ namespace uComponents.Mapping
 
         public TDestination Map(Node node)
         {
-            if (node == null 
+            if (node == null
                 || string.IsNullOrEmpty(node.Name))
             {
                 return null;
@@ -278,34 +286,16 @@ namespace uComponents.Mapping
                 .Select(n => Map(n));
         }
 
-        public IEnumerable<TDestination> Explicit()
+        public IEnumerable<TProperty> SelectProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> property
+            )
         {
-            var destinationType = typeof(TDestination);
-
-            if (!_engine.NodeMappers.ContainsKey(destinationType))
+            if (property == null)
             {
-                throw new MapNotFoundException(destinationType);
+                throw new ArgumentNullException("property");
             }
 
-            var cacheKey = string.Format(_explicitCacheFormat, destinationType.FullName);
-
-            if (_engine.CacheProvider != null
-                && _engine.CacheProvider.ContainsKey(cacheKey))
-            {
-                var ids = _engine.CacheProvider.Get(cacheKey) as int[];
-                return Many(ids);
-            }
-
-            var nodeMapper = _engine.NodeMappers[destinationType];
-            var nodes = uQuery.GetNodesByType(nodeMapper.SourceDocumentType.Alias);
-
-            if (_engine.CacheProvider != null)
-            {
-                // Cache the node IDs
-                _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id).ToArray());
-            }
-
-            return Many(nodes);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -325,7 +315,10 @@ namespace uComponents.Mapping
                 throw new MapNotFoundException(destinationType);
             }
 
-            var cacheKey = string.Format(_allCacheFormat, destinationType.FullName);
+            string cacheKey = string.Format(
+                _isExplicit ? _explicitCacheFormat : _allCacheFormat,
+                destinationType.FullName
+                );
 
             if (_engine.CacheProvider != null
                 && _engine.CacheProvider.ContainsKey(cacheKey))
@@ -334,7 +327,11 @@ namespace uComponents.Mapping
                 return Many(ids).GetEnumerator();
             }
 
-            var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
+            // Check whether to include derived maps
+            var sourceNodeTypeAliases = _isExplicit
+                ? new[] { _engine.NodeMappers[destinationType].SourceDocumentType.Alias }
+                : _engine.GetCompatibleNodeTypeAliases(destinationType);
+
             var nodes = sourceNodeTypeAliases.SelectMany(alias => uQuery.GetNodesByType(alias));
 
             if (_engine.CacheProvider != null)
