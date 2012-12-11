@@ -157,29 +157,26 @@ namespace uComponents.Mapping
             return this;
         }
 
-        private bool FilterSingle(NodeMappingContext context)
-        {
-            foreach (var filter in _propertyFilters)
-            {
-                var propertyMapper = _engine.NodeMappers[typeof(TDestination)]
-                    .PropertyMappers
-                    .Single(x => x.DestinationInfo.Name == filter.Key);
-
-                var property = propertyMapper.MapProperty(context);
-                if (!filter.Value(property))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private int[] FilterCollection(int[] ids)
+        /// <summary>
+        /// Filters a collection of node IDs based on the predicates in <see cref="_propertyFilters"/>.
+        /// </summary>
+        /// <param name="ids">The IDs to filter</param>
+        /// <param name="cachedNodes">
+        /// Nodes which have already been retrieved which might as well be used for filtering.
+        /// </param>
+        /// <returns>The filtered subset of <paramref name="ids"/>.</returns>
+        private int[] FilterCollection(int[] ids, IEnumerable<Node> cachedNodes)
         {
             if (ids == null)
             {
                 throw new ArgumentNullException("ids");
+            }
+
+            // Include cached nodes in parent context
+            var parentContext = new NodeMappingContext(0, null, null);
+            if (cachedNodes != null)
+            {
+                parentContext.AddNodesToContextCache(cachedNodes);
             }
 
             var filteredIds = new List<int>(ids);
@@ -192,7 +189,7 @@ namespace uComponents.Mapping
 
                 filteredIds.RemoveAll(id =>
                     {
-                        var context = new NodeMappingContext(id, new string[0], null);
+                        var context = new NodeMappingContext(id, new string[0], parentContext);
                         var property = propertyMapper.MapProperty(context);
                         return !filter.Value(property);
                     });
@@ -215,11 +212,6 @@ namespace uComponents.Mapping
 
             var context = new NodeMappingContext(node, _paths.ToArray(), null);
 
-            if (!FilterSingle(context))
-            {
-                return null;
-            }
-
             return (TDestination)_engine.Map(
                 context,
                 typeof(TDestination)
@@ -235,11 +227,6 @@ namespace uComponents.Mapping
         public TDestination Find(int id)
         {
             var context = new NodeMappingContext(id, _paths.ToArray(), null);
-
-            if (!FilterSingle(context))
-            {
-                return null;
-            }
 
             return (TDestination)_engine.Map(
                 context,
@@ -259,7 +246,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("nodeIds");
             }
 
-            var filteredIds = FilterCollection(ids.ToArray());
+            var filteredIds = FilterCollection(ids.ToArray(), null);
 
             return filteredIds.Select(id => Find(id));
         }
@@ -271,7 +258,7 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("nodes");
             }
 
-            var filteredIds = FilterCollection(nodes.Select(x => x.Id).ToArray());
+            var filteredIds = FilterCollection(nodes.Select(x => x.Id).ToArray(), nodes);
 
             return nodes
                 .Where(n => filteredIds.Contains(n.Id))
@@ -299,7 +286,8 @@ namespace uComponents.Mapping
             var nodeMapper = _engine.NodeMappers[destinationType];
             var nodes = uQuery.GetNodesByType(nodeMapper.SourceDocumentType.Alias);
 
-            if (_engine.CacheProvider != null)
+            if (_engine.CacheProvider != null
+                && !_engine.CacheProvider.ContainsKey(cacheKey))
             {
                 // Cache the node IDs
                 _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id).ToArray());
@@ -337,7 +325,8 @@ namespace uComponents.Mapping
             var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
             var nodes = sourceNodeTypeAliases.SelectMany(alias => uQuery.GetNodesByType(alias));
 
-            if (_engine.CacheProvider != null)
+            if (_engine.CacheProvider != null
+                && !_engine.CacheProvider.ContainsKey(cacheKey))
             {
                 // Cache the node IDs
                 _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id).ToArray());

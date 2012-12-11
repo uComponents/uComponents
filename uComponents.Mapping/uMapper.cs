@@ -112,16 +112,12 @@ namespace uComponents.Mapping
         /// <param name="includeRelationships">Whether to load relationships.</param>
         /// <returns>
         /// A new instance of <typeparamref name="TDestination"/>, or <c>null</c> if 
-        /// <paramref name="sourceNode"/> is <c>null</c>.
+        /// <paramref name="sourceNode"/> is <c>null</c> or does not map to 
+        /// <typeparamref name="TDestination"/>.
         /// </returns>
         /// <exception cref="MapNotFoundException">
         /// If a map for <typeparamref name="TDestination"/> has not 
         /// been created with <see cref="CreateMap()" />.
-        /// </exception>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for <paramref name="sourceNode"/>'s
-        /// node type alias to <typeparamref name="TDestination"/> or any class which derives from 
-        /// <typeparamref name="TDestination"/>
         /// </exception>
         public static TDestination Map<TDestination>(Node sourceNode, bool includeRelationships = true)
             where TDestination : class, new()
@@ -146,14 +142,13 @@ namespace uComponents.Mapping
         /// <typeparam name="TDestination">The type that the <c>Node</c> maps to.</typeparam>
         /// <param name="id">The ID of the <c>Node</c></param>
         /// <param name="includeRelationships">Whether to load all the <c>Node</c>'s relationships</param>
-        /// <returns><c>null</c> if the <c>Node</c> does not exist.</returns>
+        /// <returns>
+        /// <c>null</c> if the <c>Node</c> does not exist or does not map to 
+        /// <typeparamref name="TDestination"/>.
+        /// </returns>
         /// <exception cref="MapNotFoundException">
         /// If a map for <typeparamref name="TDestination"/> has not 
         /// been created with <see cref="CreateMap()" />.
-        /// </exception>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for the node to <typeparamref name="TDestination"/> 
-        /// or any class which derives from <typeparamref name="TDestination"/>
         /// </exception>
         public static TDestination Find<TDestination>(int id, bool includeRelationships = true)
         {
@@ -171,14 +166,13 @@ namespace uComponents.Mapping
         /// </summary>
         /// <typeparam name="TDestination">The type that the current <c>Node</c> maps to.</typeparam>
         /// <param name="includeRelationships">Whether to load all the <c>Node</c>'s relationships</param>
-        /// <returns><c>null</c> if there is no current <c>Node</c>.</returns>
+        /// <returns>
+        /// <c>null</c> if there is no current <c>Node</c> or it does not map to 
+        /// <typeparamref name="TDestination"/>.
+        /// </returns>
         /// <exception cref="MapNotFoundException">
         /// If a map for <typeparamref name="TDestination"/> has not 
         /// been created with <see cref="CreateMap()" />.
-        /// </exception>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for the current node to <typeparamref name="TDestination"/> 
-        /// or any class which derives from <typeparamref name="TDestination"/>
         /// </exception>
         /// <seealso cref="GetSingle(int, bool)"/>
         public static TDestination GetCurrent<TDestination>(bool includeRelationships = true)
@@ -278,14 +272,13 @@ namespace uComponents.Mapping
         /// <param name="includedRelationships">
         /// The relationships to populate <typeparamref name="TDestination"/> with.
         /// </param>
-        /// <returns><c>null</c> if the <c>Node</c> does not exist.</returns>
+        /// <returns>
+        /// <c>null</c> if the <c>Node</c> does not exist or does not map to 
+        /// <typeparamref name="TDestination"/>.
+        /// </returns>
         /// <exception cref="MapNotFoundException">
         /// If a map for <typeparamref name="TDestination"/> has not 
         /// been created with <see cref="CreateMap()" />.
-        /// </exception>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for the node to <typeparamref name="TDestination"/> 
-        /// or any class which derives from <typeparamref name="TDestination"/>
         /// </exception>
         /// <example>
         /// <code>
@@ -311,11 +304,10 @@ namespace uComponents.Mapping
         /// <param name="includedRelationships">
         /// The relationships to populate <typeparamref name="TDestination"/> with.
         /// </param>
-        /// <returns><c>null</c> if there is no current <c>Node</c>.</returns>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for the current node to <typeparamref name="TDestination"/> 
-        /// or any class which derives from <typeparamref name="TDestination"/>
-        /// </exception>
+        /// <returns>
+        /// <c>null</c> if there is no current <c>Node</c> or it does not map to 
+        /// <typeparamref name="TDestination"/>.
+        /// </returns>
         [Obsolete("Use node queries with paths instead, via uMapper.Query()")]
         public static TDestination GetCurrent<TDestination>(params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new()

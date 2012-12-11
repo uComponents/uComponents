@@ -82,7 +82,7 @@ namespace uComponents.Mapping
 
             while (currentContext.ParentContext != null)
             {
-                var foundNode = currentContext._nodeCache.SingleOrDefault(n => n.Id == id);
+                var foundNode = currentContext._nodeCache.FirstOrDefault(n => n.Id == id);
 
                 if (foundNode != null)
                 {
@@ -101,13 +101,28 @@ namespace uComponents.Mapping
         public void AddNodeToContextCache(Node node)
         {
             if (node == null
-                || string.IsNullOrEmpty(node.Name)
-                || _nodeCache.Any(n => n.Id == node.Id))
+                || string.IsNullOrEmpty(node.Name))
             {
                 return;
             }
 
             _nodeCache.Add(node);
+        }
+
+        /// <summary>
+        /// Adds a collection of nodes to the context cache.
+        /// </summary>
+        public void AddNodesToContextCache(IEnumerable<Node> nodes)
+        {
+            if (nodes == null)
+            {
+                throw new ArgumentNullException("nodes");
+            }
+
+            foreach (var node in nodes)
+            {
+                AddNodeToContextCache(node);
+            }
         }
 
         #endregion

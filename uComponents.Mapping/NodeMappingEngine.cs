@@ -175,14 +175,11 @@ namespace uComponents.Mapping
         /// <param name="destinationType">The type to map to.</param>
         /// <param name="paths">The relationship paths to include, or null to include
         /// all relationship paths at the top level and none below.</param>
-        /// <returns><c>null</c> if the node does not exist.</returns>
+        /// <returns>
+        /// <c>null</c> if the node does not exist or does not map to <paramref name="destinationType"/>.
+        /// </returns>
         /// <exception cref="MapNotFoundException">If a suitable map for <paramref name="destinationType"/> has not 
         /// been created with <see cref="CreateMap()" />.</exception>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for <paramref name="sourceNode"/>'s
-        /// node type alias to <paramref name="destinationType"/> or any class which derives from 
-        /// <paramref name="destinationType"/>
-        /// </exception>
         public object Map(Node sourceNode, Type destinationType, string[] paths)
         {
             if (sourceNode == null
@@ -274,7 +271,7 @@ namespace uComponents.Mapping
 
             if (nodeMapper == null)
             {
-                throw new WrongNodeForMapException(sourceNodeTypeAlias, destinationType);
+                return null;
             }
 
             return nodeMapper.MapNode(context);
@@ -381,14 +378,11 @@ namespace uComponents.Mapping
         /// <param name="destinationType">The type to map to.</param>
         /// <param name="includedRelationships">The relationship properties to include, or <c>null</c> to 
         /// include all relationships.</param>
-        /// <returns><c>null</c> if the node does not exist.</returns>
+        /// <returns>
+        /// <c>null</c> if the node does not exis or does not map to <paramref name="destinationType"/>.
+        /// </returns>
         /// <exception cref="MapNotFoundException">If a suitable map for <paramref name="destinationType"/> has not 
         /// been created with <see cref="CreateMap()" />.</exception>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for <paramref name="sourceNode"/>'s
-        /// node type alias to <paramref name="destinationType"/> or any class which derives from 
-        /// <paramref name="destinationType"/>
-        /// </exception>
         [Obsolete("Use Map with paths instead")]
         public object Map(Node sourceNode, Type destinationType, PropertyInfo[] includedRelationships)
         {
@@ -407,14 +401,12 @@ namespace uComponents.Mapping
         /// </typeparam>
         /// <param name="sourceNode">The <c>Node</c> to map from.</param>
         /// <param name="includeRelationships">Whether to include the <c>Node</c>'s relationships</param>
-        /// <returns><c>null</c> if the <c>Node</c> does not exist.</returns>
+        /// <returns>
+        /// <c>null</c> if the <c>Node</c> does not exist or does not map to 
+        /// <typeparamref name="TDestination"/>.
+        /// </returns>
         /// <exception cref="MapNotFoundException">If a suitable map for <typeparamref name="TDestination"/> has not 
         /// been created with <see cref="CreateMap()" />.</exception>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for <paramref name="sourceNode"/>'s
-        /// node type alias to <typeparamref name="TDestination"/> or any class which derives from 
-        /// <typeparamref name="TDestination"/>
-        /// </exception>
         [Obsolete("Use Map with paths instead")]
         public TDestination Map<TDestination>(Node sourceNode, bool includeRelationships)
             where TDestination : class, new()
@@ -437,14 +429,12 @@ namespace uComponents.Mapping
         /// </typeparam>
         /// <param name="sourceNode">The <c>Node</c> to map from.</param>
         /// <param name="includedRelationships">The relationship properties to include.</param>
-        /// <returns><c>null</c> if the node does not exist.</returns>
+        /// <returns>
+        /// <c>null</c> if the node does not exist or does not map to 
+        /// <typeparamref name="TDestination"/>.
+        /// </returns>
         /// <exception cref="MapNotFoundException">If a suitable map for <typeparamref name="TDestination"/> has not 
         /// been created with <see cref="CreateMap()" />.</exception>
-        /// <exception cref="WrongNodeForMapException">
-        /// If no map could be found for <paramref name="sourceNode"/>'s
-        /// node type alias to <typeparamref name="TDestination"/> or any class which derives from 
-        /// <typeparamref name="TDestination"/>
-        /// </exception>
         [Obsolete("Use paths instead")]
         public TDestination Map<TDestination>(Node sourceNode, params Expression<Func<TDestination, object>>[] includedRelationships)
             where TDestination : class, new()
@@ -486,23 +476,6 @@ Consider using the overload of CreateMap which specifies a document type alias",
         public MapNotFoundException(Type destinationType)
             : base(string.Format(@"No map could be found for type '{0}'.  Remember
 to run CreateMap for every model type you are using.", destinationType.FullName))
-        {
-        }
-    }
-
-    /// <summary>
-    /// Exception for when a node is mapped to an incompatible type.
-    /// </summary>
-    public class WrongNodeForMapException : Exception
-    {
-        /// <param name="nodeTypeAlias">The node type alias being mapped from.</param>
-        /// <param name="destinationType">The destination type being mapped to.</param>
-        public WrongNodeForMapException(string nodeTypeAlias, Type destinationType)
-            : base(string.Format(@"Node with node type alias '{0}' does not map to
-model type '{1}'.  Make sure you are mapping the correct node.",
-            nodeTypeAlias,
-            destinationType.FullName
-            ))
         {
         }
     }

@@ -96,14 +96,14 @@ namespace uComponents.Mapping
         #region Filtering
 
         /// <summary>
-        /// Filters the results of a node query based a property.
+        /// Filters a collection result (i.e. enumerating the query, 
+        /// calling Explicit() or Many()).
         /// </summary>
         /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="property">The property to run the predicate on.</param>
         /// <param name="predicate">
-        /// Takes a property value for each instance of <c>TDestination</c> and
-        /// returns <c>false</c> if that instance should not be returned in
-        /// the results.
+        /// Predicate on the property for which elements should be included in
+        /// the result.
         /// </param>
         /// <returns>
         /// An updated node query.
