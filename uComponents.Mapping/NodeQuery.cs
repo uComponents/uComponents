@@ -166,28 +166,18 @@ namespace uComponents.Mapping
         }
 
         /// <summary>
-        /// Filters a collection of node IDs based on the predicates in <see cref="_propertyFilters"/>.
+        /// Filters a collection of mapping contexts based on the predicates in <see cref="_propertyFilters"/>.
         /// </summary>
-        /// <param name="ids">The IDs to filter</param>
-        /// <param name="cachedNodes">
-        /// Nodes which have already been retrieved which might as well be used for filtering.
-        /// </param>
-        /// <returns>The filtered subset of <paramref name="ids"/>.</returns>
-        private int[] FilterCollection(int[] ids, IEnumerable<Node> cachedNodes)
+        /// <param name="contexts">The mapping contexts to filter</param>
+        /// <returns>The filtered subset of <paramref name="contexts"/>.</returns>
+        private IEnumerable<NodeMappingContext> FilterSet(IEnumerable<NodeMappingContext> contexts)
         {
-            if (ids == null)
+            if (contexts == null)
             {
-                throw new ArgumentNullException("ids");
+                throw new ArgumentNullException();
             }
 
-            // Include cached nodes in parent context
-            var parentContext = new NodeMappingContext(0, null, null);
-            if (cachedNodes != null)
-            {
-                parentContext.AddNodesToContextCache(cachedNodes);
-            }
-
-            var filteredIds = new List<int>(ids);
+            var filteredContexts = new List<NodeMappingContext>(contexts);
 
             foreach (var filter in _propertyFilters)
             {
@@ -195,15 +185,14 @@ namespace uComponents.Mapping
                     .PropertyMappers
                     .Single(x => x.DestinationInfo.Name == filter.Key);
 
-                filteredIds.RemoveAll(id =>
+                filteredContexts.RemoveAll(context =>
                     {
-                        var context = new NodeMappingContext(id, new string[0], parentContext);
                         var property = propertyMapper.MapProperty(context);
                         return !filter.Value(property);
                     });
             }
 
-            return filteredIds.ToArray();
+            return filteredContexts;
         }
 
         #endregion
@@ -247,16 +236,35 @@ namespace uComponents.Mapping
             return Map(Node.GetCurrent());
         }
 
+        /// <summary>
+        /// Maps a collection of contexts to <typeparamref name="TDestination"/>.
+        /// </summary>
+        private IEnumerable<TDestination> Many(IEnumerable<NodeMappingContext> contexts)
+        {
+            if (contexts == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var filteredContexts = FilterSet(contexts);
+
+            return filteredContexts.Select(c =>
+                {
+                    return (TDestination)_engine.Map(c, typeof(TDestination));
+                });
+        }
+
         public IEnumerable<TDestination> Many(IEnumerable<int> ids)
         {
             if (ids == null)
             {
-                throw new ArgumentNullException("nodeIds");
+                throw new ArgumentNullException();
             }
 
-            var filteredIds = FilterCollection(ids.ToArray(), null);
+            var paths = _paths.ToArray();
+            var contexts = ids.Select(id => new NodeMappingContext(id, paths, null));
 
-            return filteredIds.Select(id => Find(id));
+            return Many(contexts);
         }
 
         public IEnumerable<TDestination> Many(IEnumerable<Node> nodes)
@@ -266,11 +274,10 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("nodes");
             }
 
-            var filteredIds = FilterCollection(nodes.Select(x => x.Id).ToArray(), nodes);
+            var paths = _paths.ToArray();
+            var contexts = nodes.Select(n => new NodeMappingContext(n, paths, null));
 
-            return nodes
-                .Where(n => filteredIds.Contains(n.Id))
-                .Select(n => Map(n));
+            return Many(contexts);
         }
 
         public IEnumerable<TProperty> SelectProperty<TProperty>(
@@ -282,20 +289,32 @@ namespace uComponents.Mapping
                 throw new ArgumentNullException("property");
             }
 
-            throw new NotImplementedException();
+            var sourceSet = EvaluateSourceSet();
+            var propertyInfo = property.GetPropertyInfo();
+            var propertyMapper = _engine.NodeMappers[typeof(TDestination)]
+                .PropertyMappers
+                .SingleOrDefault(x => x.DestinationInfo.Name == propertyInfo.Name);
+
+            if (propertyMapper == null)
+            {
+                throw new PropertyNotMappedException(typeof(TDestination), propertyInfo.Name);
+            }
+
+            return sourceSet.Select(c => (TProperty)propertyMapper.MapProperty(c));
         }
 
         #endregion
 
-        #region IEnumerable
+        #region Enumeration
 
         /// <summary>
-        /// Gets and enumerator of mapped instances of every node which 
-        /// can be mapped to <typeparamref name="TDestination"/>. 
+        /// Gets an enumerable representing the current source set of the query.
         /// </summary>
-        public IEnumerator<TDestination> GetEnumerator()
+        private IEnumerable<NodeMappingContext> EvaluateSourceSet()
         {
             var destinationType = typeof(TDestination);
+            var paths = _paths.ToArray();
+            IEnumerable<NodeMappingContext> sourceSet;
 
             if (!_engine.NodeMappers.ContainsKey(destinationType))
             {
@@ -311,24 +330,42 @@ namespace uComponents.Mapping
                 && _engine.CacheProvider.ContainsKey(cacheKey))
             {
                 var ids = _engine.CacheProvider.Get(cacheKey) as int[];
-                return Many(ids).GetEnumerator();
+                sourceSet = ids.Select(id => new NodeMappingContext(id, paths, null));
             }
-
-            // Check whether to include derived maps
-            var sourceNodeTypeAliases = _isExplicit
-                ? new[] { _engine.NodeMappers[destinationType].SourceDocumentType.Alias }
-                : _engine.GetCompatibleNodeTypeAliases(destinationType);
-
-            var nodes = sourceNodeTypeAliases.SelectMany(alias => uQuery.GetNodesByType(alias));
-
-            if (_engine.CacheProvider != null
-                && !_engine.CacheProvider.ContainsKey(cacheKey))
+            else
             {
-                // Cache the node IDs
-                _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id).ToArray());
+                // Check whether to include derived maps
+                var sourceNodeTypeAliases = _isExplicit
+                    ? new[] { _engine.NodeMappers[destinationType].SourceDocumentType.Alias }
+                    : _engine.GetCompatibleNodeTypeAliases(destinationType);
+
+                var nodes = sourceNodeTypeAliases.SelectMany(alias => uQuery.GetNodesByType(alias));
+
+                if (_engine.CacheProvider != null)
+                {
+                    // Cache the node IDs
+                    _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id).ToArray());
+                }
+
+                sourceSet = nodes.Select(n => new NodeMappingContext(n, paths, null));
             }
 
-            return Many(nodes).GetEnumerator();
+            return FilterSet(sourceSet);
+        }
+
+        /// <summary>
+        /// Gets and enumerator of mapped instances of every node which 
+        /// can be mapped to <typeparamref name="TDestination"/>. 
+        /// </summary>
+        public IEnumerator<TDestination> GetEnumerator()
+        {
+            var sourceSet = EvaluateSourceSet();
+            var destinationSet = sourceSet.Select(c =>
+                {
+                    return (TDestination)_engine.Map(c, typeof(TDestination));
+                });
+
+            return destinationSet.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

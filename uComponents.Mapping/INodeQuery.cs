@@ -71,13 +71,13 @@ namespace uComponents.Mapping
         /// <summary>
         /// Includes many relationship paths in the node query
         /// </summary>
-        /// <seealso cref="Include(string)"/>
+        /// <seealso>IncludeMany(string)</seealso>
         INodeQuery<TDestination> IncludeMany(string[] paths);
 
         /// <summary>
         /// Includes many relationship paths in the node query
         /// </summary>
-        /// <seealso cref="Include(Expression)"/>
+        /// <seealso>IncludeMany(Expression)</seealso>
         INodeQuery<TDestination> IncludeMany(Expression<Func<TDestination, object>>[] paths);
 
         #endregion
