@@ -171,9 +171,9 @@ namespace uComponents.Mapping
         /// <summary>
         /// Gets the specified property from each element in the result set.
         /// </summary>
-        /// <typeparam name="TProperty"></typeparam>
-        /// <param name="property"></param>
-        /// <returns></returns>
+        /// <typeparam name="TProperty">The property type.</typeparam>
+        /// <param name="property">The property to select.</param>
+        /// <returns>A collection of the selected properties.</returns>
         IEnumerable<TProperty> SelectProperty<TProperty>(Expression<Func<TDestination, TProperty>> property);
 
         #endregion
