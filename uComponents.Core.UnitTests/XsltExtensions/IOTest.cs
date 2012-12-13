@@ -51,6 +51,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 				{ kilobyte, "1 KB" },
 				{ kilobyte * 512, "512 KB" },
 				{ megabyte, "1 MB" },
+				{ (long)(megabyte * 1.5), "1.5 MB" },
 				{ megabyte * 10, "10 MB" },
 				{ gigabyte, "1 GB" },
 				{ terabyte, "1 TB" },
