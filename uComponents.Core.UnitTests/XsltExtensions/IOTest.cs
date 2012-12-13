@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Xml.XPath;
 using System.IO;
+using System.Collections.Generic;
 
 namespace uComponents.Core.UnitTests.XsltExtensions
 {
@@ -31,16 +32,37 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		//    Assert.Inconclusive("Verify the correctness of this test method.");
 		//}
 
-		//[TestMethod()]
-		//public void FormatFileSizeTest()
-		//{
-		//    long filesize = 0; // TODO: Initialize to an appropriate value
-		//    string expected = string.Empty; // TODO: Initialize to an appropriate value
-		//    string actual;
-		//    actual = IO.FormatFileSize(filesize);
-		//    Assert.AreEqual(expected, actual);
-		//    Assert.Inconclusive("Verify the correctness of this test method.");
-		//}
+		[TestMethod]
+		public void FormatFileSizeTest()
+		{
+			// "bytes", "KB", "MB", "GB", "TB", "PB", "EB"
+
+			var kilobyte = 1024L;
+			var megabyte = kilobyte * kilobyte;
+			var gigabyte = kilobyte * megabyte;
+			var terabyte = kilobyte * gigabyte;
+			var petabyte = kilobyte * terabyte;
+			var exabyte = kilobyte * petabyte;
+
+			var items = new Dictionary<long, string>()
+			{
+				{ 128L, "128 bytes" },
+				{ 512L, "512 bytes" },
+				{ kilobyte, "1 KB" },
+				{ kilobyte * 512, "512 KB" },
+				{ megabyte, "1 MB" },
+				{ megabyte * 10, "10 MB" },
+				{ gigabyte, "1 GB" },
+				{ terabyte, "1 TB" },
+				{ petabyte, "1 PB" },
+				{ exabyte, "1 EB" }
+			};
+
+			foreach (var item in items)
+			{
+				Assert.AreEqual(item.Value, IO.FormatFileSize(item.Key), string.Format("Problem with '{0}'. Expected {1} but was not that.", item.Key, item.Value));
+			}
+		}
 
 		//[TestMethod()]
 		//public void GetDirectoriesTest()
