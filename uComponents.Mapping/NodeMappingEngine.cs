@@ -51,7 +51,8 @@ namespace uComponents.Mapping
             SetCacheProvider(new DefaultCacheProvider(cache));
         }
 
-        internal bool IsCachingEnabled
+        /// <see cref="INodeMappingEngine.IsCachingEnabled" />
+        public bool IsCachingEnabled
         {
             get
             {

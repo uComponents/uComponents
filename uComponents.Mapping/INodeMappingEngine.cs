@@ -31,6 +31,11 @@ namespace uComponents.Mapping
             where TDestination : class, new();
 
         /// <summary>
+        /// True if the engine is in possession of an <see cref="ICacheProvider"/>.
+        /// </summary>
+        bool IsCachingEnabled { get; }
+
+        /// <summary>
         /// Sets the cache provider for the engine to use. This will clear any existing
         /// cache provider.  Set as null to disable caching.
         /// 
