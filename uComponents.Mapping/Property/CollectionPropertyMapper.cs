@@ -34,6 +34,8 @@ namespace uComponents.Mapping.Property
         /// the node which are compatible with <paramref name="destinationProperty"/>
         /// will be mapped instead.
         /// </param>
+        /// <param name="nodeMapper"></param>
+        /// <param name="destinationProperty"></param>
         public CollectionPropertyMapper(
             Func<NodeMappingContext, object, IEnumerable<int>> mapping,
             Type sourcePropertyType,

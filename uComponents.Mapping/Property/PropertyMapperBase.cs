@@ -97,6 +97,7 @@ namespace uComponents.Mapping.Property
         /// Gets a Node's property as a certain type.
         /// </summary>
         /// <param name="sourcePropertyType">The type to get the property as (should be a system type or enum)</param>
+        /// <param name="node">The node to get the property value of</param>
         public object GetSourcePropertyValue(Node node, Type sourcePropertyType)
         {
             if (node == null || string.IsNullOrEmpty(node.Name))

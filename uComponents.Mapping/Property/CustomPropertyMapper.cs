@@ -21,6 +21,9 @@ namespace uComponents.Mapping.Property
         /// Whether the property should allow its mapped value to be cached
         /// and reused.
         /// </param>
+        /// <param name="requiresInclude"></param>
+        /// <param name="destinationProperty"></param>
+        /// <param name="nodeMapper"></param>
         public CustomPropertyMapper(
             CustomPropertyMapping mapping,
             bool requiresInclude,

@@ -28,6 +28,8 @@ namespace uComponents.Mapping.Property
         /// The alias of the node property to map from.  If null, the closest ancestor which is 
         /// compatible with <paramref name="destinationProperty"/> will be mapped instead.
         /// </param>
+        /// <param name="nodeMapper"></param>
+        /// <param name="destinationProperty"></param>
         public SinglePropertyMapper(
             Func<NodeMappingContext, object, int?> mapping,
             Type sourcePropertyType,

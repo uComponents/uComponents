@@ -28,6 +28,8 @@ namespace uComponents.Mapping.Property
         /// <param name="sourcePropertyAlias">
         /// The alias of the node property to map from.  Required.
         /// </param>
+        /// <param name="nodeMapper"></param>
+        /// <param name="destinationProperty"></param>
         public BasicPropertyMapper(
             Func<object, object> mapping,
             Type sourcePropertyType,
