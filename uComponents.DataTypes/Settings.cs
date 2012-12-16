@@ -2,7 +2,7 @@
 using System.IO;
 using System.Web.Configuration;
 using uComponents.Core;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes
 {

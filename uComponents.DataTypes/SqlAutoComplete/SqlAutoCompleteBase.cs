@@ -1,4 +1,4 @@
-﻿using umbraco.presentation.umbracobase;
+﻿using Umbraco.Web.BaseRest;
 using System.Web;
 using umbraco;
 using System.Data;
@@ -29,7 +29,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
         /// <param name="datatypeDefinitionId"></param>
         /// <param name="currentId"></param>
         /// <returns></returns>
-        [RestExtensionMethod(returnXml = false)]
+        [RestExtensionMethod(ReturnXml = false)]
         public static string GetData(int datatypeDefinitionId, int currentId)
         {
             string autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];

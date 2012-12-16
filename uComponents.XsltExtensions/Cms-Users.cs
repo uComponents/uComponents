@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.XPath;
 using umbraco;
 using umbraco.BusinessLogic;
+using Umbraco.Core;
 
 namespace uComponents.XsltExtensions
 {
@@ -167,16 +168,16 @@ namespace uComponents.XsltExtensions
         /// <param name="user">The user.</param>
         internal static void AppendUser(XmlDocument xd, User user)
         {
-            var node = xmlHelper.addTextNode(xd, "User", string.Empty);
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "id", user.Id.ToString()));
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "name", user.Name));
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "loginName", user.LoginName));
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "email", user.Email));
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "language", user.Language));
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "userTypeAlias", user.UserType.Alias));
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "isAdmin", user.IsAdmin().ToString()));
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "startNodeId", user.StartNodeId.ToString()));
-            node.Attributes.Append(xmlHelper.addAttribute(xd, "startMediaId", user.StartMediaId.ToString()));
+            var node = XmlHelper.AddTextNode(xd, "User", string.Empty);
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "id", user.Id.ToString()));
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "name", user.Name));
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "loginName", user.LoginName));
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "email", user.Email));
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "language", user.Language));
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "userTypeAlias", user.UserType.Alias));
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "isAdmin", user.IsAdmin().ToString()));
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "startNodeId", user.StartNodeId.ToString()));
+            node.Attributes.Append(XmlHelper.AddAttribute(xd, "startMediaId", user.StartMediaId.ToString()));
 
             // add the user node to the XmlDocument.
             if (xd.DocumentElement != null)

@@ -164,7 +164,7 @@ namespace uComponents.XsltExtensions
 
 				foreach (var group in Roles.GetRolesForUser(member.LoginName))
 				{
-					var memberGroupNode = umbraco.xmlHelper.addTextNode(xd, "memberGroup", group);
+					var memberGroupNode = XmlHelper.AddTextNode(xd, "memberGroup", group);
 					xd.DocumentElement.AppendChild(memberGroupNode);
 				}
 

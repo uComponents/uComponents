@@ -690,7 +690,7 @@ namespace uComponents.XsltExtensions
 		/// </returns>
 		public static bool InPreviewMode()
 		{
-			return umbraco.presentation.UmbracoContext.Current.InPreviewMode;
+			return Umbraco.Web.UmbracoContext.Current.InPreviewMode;
 		}
 	}
 }

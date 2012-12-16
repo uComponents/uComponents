@@ -1,4 +1,4 @@
-﻿using umbraco.presentation.umbracobase;
+﻿using Umbraco.Web.BaseRest;
 using System.Web;
 using umbraco;
 using System.Data;
@@ -94,13 +94,13 @@ namespace uComponents.DataTypes.XPathAutoComplete
         /// <param name="datatypeDefinitionId"></param>
         /// <param name="currentId"></param>
         /// <returns></returns>
-        [RestExtensionMethod(returnXml = false)]
+        [RestExtensionMethod(ReturnXml = false)]
         public static string GetData(int datatypeDefinitionId, int currentId)
         {
             string autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];
             string selectedItemsXml = HttpContext.Current.Request.Form["selectedItems"];
 
-            int[] selectedValues = null;            
+            int[] selectedValues = null;
             if (!string.IsNullOrWhiteSpace(selectedItemsXml))
             {
                 // parse selectedItemsXml to get unique collection of ids
