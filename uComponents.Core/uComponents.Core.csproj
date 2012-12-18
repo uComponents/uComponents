@@ -193,9 +193,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\UmbracoLibraryWrapper.cs" />
     <Compile Include="Helper-Dictionary.cs">
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IUmbracoLibrary.cs" />
     <Compile Include="Modules\uComponentsModule.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Constants-Common.cs">

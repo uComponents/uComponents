@@ -196,6 +196,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\MockUmbracoLibrary.cs" />
+    <Compile Include="XsltExtensions\RandomTest.cs" />
+    <Compile Include="XsltExtensions\UrlsTest.cs" />
     <Compile Include="XsltExtensions\EmailTest.cs" />
     <Compile Include="XsltExtensions\IOTest.cs" />
     <Compile Include="XsltExtensions\DatesTest.cs" />
@@ -215,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Shadow Include="Test References\uComponents.XsltExtensions.accessor" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

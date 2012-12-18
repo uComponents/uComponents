@@ -450,7 +450,7 @@ namespace uComponents.XsltExtensions
 				}
 			}
 
-			return umbraco.library.Split(string.Join(separator, dates.ToArray()), separator);
+			return library.Split(string.Join(separator, dates.ToArray()), separator);
 		}
 
 		/// <summary>
