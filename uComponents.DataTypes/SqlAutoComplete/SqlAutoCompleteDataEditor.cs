@@ -169,7 +169,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             }
 
             // put the options obj into cache so that the /base method can request it (where the sql statment is being used)
-            HttpContext.Current.Cache[DataTypeConstants.SqlAutoCompleteId + "_options_" + this.DataTypeDefinitionId.ToString()] = this.options;
+            HttpContext.Current.Cache[string.Concat(DataTypeConstants.SqlAutoCompleteId, "_options_", this.DataTypeDefinitionId)] = this.options;
         }
 
         /// <summary>

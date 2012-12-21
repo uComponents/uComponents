@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using uComponents.Core;
 using umbraco;
+using umbraco.DataLayer;
 using umbraco.interfaces;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
@@ -86,34 +85,24 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			string sql = this.options.Sql;
-
-			if (sql.Contains("@currentId"))
+			using (var sqlHelper = this.options.GetSqlHelper())
 			{
-				sql = sql.Replace("@currentId", uQuery.GetIdFromQueryString());
-			}
+				var sql = this.options.Sql;
+				var parameters = new List<IParameter>();
 
-			using (SqlConnection sqlConnection = new SqlConnection(this.options.GetConnectionString()))
-			{
-				SqlCommand sqlCommand = new SqlCommand()
+				if (sql.Contains("@currentId"))
+					parameters.Add(sqlHelper.CreateParameter("@currentId", uQuery.GetIdFromQueryString()));
+
+				using (var dataReader = sqlHelper.ExecuteReader(sql, parameters.ToArray()))
 				{
-					Connection = sqlConnection,
-					CommandType = CommandType.Text,
-					CommandText = sql
-				};
-
-				sqlConnection.Open();
-
-				SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-				if (sqlDataReader.HasRows)
-				{
-					this.checkBoxList.DataSource = sqlDataReader;
-					this.checkBoxList.DataTextField = "Text";
-					this.checkBoxList.DataValueField = "Value";
-					this.checkBoxList.DataBind();
+					if (dataReader != null)
+					{
+						this.checkBoxList.DataSource = dataReader;
+						this.checkBoxList.DataTextField = "Text";
+						this.checkBoxList.DataValueField = "Value";
+						this.checkBoxList.DataBind();
+					}
 				}
-
-				sqlConnection.Close();
 			}
 
 			this.Controls.Add(this.checkBoxList);

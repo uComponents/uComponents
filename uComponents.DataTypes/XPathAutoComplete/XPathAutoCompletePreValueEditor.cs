@@ -213,7 +213,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
             if (this.Page.IsValid)
             {
                 // wipe cache incase settings have changed
-                HttpContext.Current.Cache.Remove(DataTypeConstants.XPathAutoCompleteId + "_options_" + this.m_DataType.DataTypeDefinitionId.ToString());
+                HttpContext.Current.Cache.Remove(string.Concat(DataTypeConstants.XPathAutoCompleteId, "_options_", this.m_DataType.DataTypeDefinitionId));
 
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
                 this.Options.XPath = this.xPathTextBox.Text;
