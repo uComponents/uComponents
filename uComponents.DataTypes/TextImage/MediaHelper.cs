@@ -11,7 +11,7 @@ using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.media;
 using umbraco.NodeFactory;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.TextImage
 {

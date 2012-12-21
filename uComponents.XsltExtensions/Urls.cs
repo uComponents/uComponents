@@ -397,7 +397,7 @@ namespace uComponents.XsltExtensions
 		}
 
 		/// <summary>
-		/// Constructs a NameValueCollection into a query string. Assumes delimiter is "&" and will ommit keys with empty/null values
+		/// Constructs a NameValueCollection into a query string. Assumes delimiter is "&amp;" and will ommit keys with empty/null values
 		/// </summary>
 		/// <remarks>Consider this method to be the opposite of "System.Web.HttpUtility.ParseQueryString"</remarks>
 		/// <param name="parameters">The NameValueCollection</param>
@@ -408,7 +408,7 @@ namespace uComponents.XsltExtensions
 		}
 
 		/// <summary>
-		/// Constructs a NameValueCollection into a query string. Assumes delimiter is "&".
+		/// Constructs a NameValueCollection into a query string. Assumes delimiter is "&amp;".
 		/// </summary>
 		/// <remarks>Consider this method to be the opposite of "System.Web.HttpUtility.ParseQueryString"</remarks>
 		/// <param name="parameters">The NameValueCollection</param>

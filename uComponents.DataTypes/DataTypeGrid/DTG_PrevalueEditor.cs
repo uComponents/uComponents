@@ -6,12 +6,10 @@
 
 using System.Collections;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using uComponents.Core;
 using uComponents.DataTypes.DataTypeGrid.Configuration;
 using uComponents.DataTypes.DataTypeGrid.WebServices;
-using uComponents.DataTypes.Shared.Extensions;
 
 [assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -20,20 +18,17 @@ namespace uComponents.DataTypes.DataTypeGrid
 {
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
 	using System.Web.Script.Serialization;
 	using System.Web.UI;
 	using System.Web.UI.HtmlControls;
 	using System.Web.UI.WebControls;
 	using Model;
-	using Shared.PrevalueEditors;
-
 	using uComponents.DataTypes.DataTypeGrid.Functions;
-
-	using umbraco.cms.businesslogic.datatype;
 	using umbraco;
+	using umbraco.cms.businesslogic.datatype;
 	using umbraco.editorControls;
-	using umbraco.IO;
-	using System.IO;
+	using Umbraco.Core.IO;
 
     /// <summary>
     /// The PreValue Editor for the DTG DataType.

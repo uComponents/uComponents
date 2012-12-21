@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using uComponents.DataTypes.Shared.Extensions;
-using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.IO;
 using umbraco.editorControls;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.FilePicker
 {

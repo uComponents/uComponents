@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Xml;
 using uComponents.Core;
-using umbraco;
 using umbraco.BasePages;
 using umbraco.BusinessLogic;
 using umbraco.interfaces;
-using umbraco.IO;
+using Umbraco.Core;
+using Umbraco.Core.IO;
 
 namespace uComponents.Installer.PackageActions
 {
@@ -146,8 +146,8 @@ namespace uComponents.Installer.PackageActions
 					{
 						// Create new node with attributes
 						var newNode = document.CreateElement("add");
-						newNode.Attributes.Append(xmlHelper.addAttribute(document, "name", Name));
-						newNode.Attributes.Append(xmlHelper.addAttribute(document, "type", Type));
+						newNode.Attributes.Append(XmlHelper.AddAttribute(document, "name", Name));
+						newNode.Attributes.Append(XmlHelper.AddAttribute(document, "type", Type));
 
 						// Append new node at the end of root node
 						rootNode.AppendChild(newNode);

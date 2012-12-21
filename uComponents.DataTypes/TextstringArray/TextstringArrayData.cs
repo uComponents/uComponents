@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.Xml;
-using umbraco;
 using umbraco.cms.businesslogic.datatype;
+using Umbraco.Core;
 
 namespace uComponents.DataTypes.TextstringArray
 {
@@ -49,7 +49,7 @@ namespace uComponents.DataTypes.TextstringArray
 						foreach (string value in row)
 						{
 							// add each value to the XML document.
-							var xvalue = xmlHelper.addTextNode(xd, "value", value);
+							var xvalue = XmlHelper.AddTextNode(xd, "value", value);
 							xrow.AppendChild(xvalue);
 						}
 

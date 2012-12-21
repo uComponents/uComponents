@@ -5,12 +5,11 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using uComponents.Core;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.web;
-using umbraco.IO;
 using umbraco.editorControls;
+using Umbraco.Core.IO;
 
 [assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]

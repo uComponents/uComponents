@@ -113,6 +113,7 @@ namespace uComponents.DataTypes.RenderMacro
 					HttpContext.Current.Items["pageID"] = node.Id;
 					HttpContext.Current.Items["pageElements"] = umbPage.Elements;
 
+					// TODO: [LK] Once `Umbraco.Core.XmlHelper.GetAttributesFromElement` is public, update method call.
 					var attr = helper.ReturnAttributes(this.Options.MacroTag);
 
 					if (attr.ContainsKey("macroalias"))

@@ -6,7 +6,6 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using uComponents.Core;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.media;
 using umbraco.editorControls;
@@ -15,7 +14,6 @@ using BaseDataType = umbraco.cms.businesslogic.datatype.BaseDataType;
 using ClientDependencyType = ClientDependency.Core.ClientDependencyType;
 using DBTypes = umbraco.cms.businesslogic.datatype.DBTypes;
 using Image = System.Web.UI.WebControls.Image;
-using umbraco.IO;
 
 namespace uComponents.DataTypes.TextImage
 {

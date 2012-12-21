@@ -12,25 +12,42 @@ using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.relation;
 using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
+using Umbraco.Web;
 
 namespace uComponents.DataTypes.MultiPickerRelations
 {
 	/// <summary>
 	/// Event handler that will convert a CSV into Relations
 	/// </summary>
-	public class MultiPickerRelationsEventHandler : ApplicationStartupHandler
+	public class MultiPickerRelationsEventHandler : IApplicationEventHandler
 	{
-		//private enum MultiPickerStorageFormat
-		//{
-		//    Csv,
-		//    Xml
-		//}
+		/// <summary>
+		/// Called when [application initialized].
+		/// </summary>
+		/// <param name="httpApplication">The HTTP application.</param>
+		/// <param name="applicationContext">The application context.</param>
+		public void OnApplicationInitialized(UmbracoApplication httpApplication, Umbraco.Core.ApplicationContext applicationContext)
+		{
+		}
 
 		/// <summary>
-		/// Initializes a new instance of MultiPickerRelationsEventHandler,
-		/// hooks into the after event of saving a Content node, Media item or a Member
+		/// Called when [application started].
 		/// </summary>
-		public MultiPickerRelationsEventHandler()
+		/// <param name="httpApplication">The HTTP application.</param>
+		/// <param name="applicationContext">The application context.</param>
+		public void OnApplicationStarted(UmbracoApplication httpApplication, Umbraco.Core.ApplicationContext applicationContext)
+		{
+		}
+
+		/// <summary>
+		/// Called when [application starting].
+		/// </summary>
+		/// <param name="httpApplication">The HTTP application.</param>
+		/// <param name="applicationContext">The application context.</param>
+		/// <remarks>
+		/// Initializes a new instance of MultiPickerRelationsEventHandler, hooks into the after event of saving a Content node, Media item or a Member.
+		/// </remarks>
+		public void OnApplicationStarting(UmbracoApplication httpApplication, Umbraco.Core.ApplicationContext applicationContext)
 		{
 			Document.AfterSave += new Document.SaveEventHandler(this.AfterSave);
 			Media.AfterSave += new Media.SaveEventHandler(this.AfterSave);
@@ -41,7 +58,6 @@ namespace uComponents.DataTypes.MultiPickerRelations
 			Member.BeforeDelete += new Member.DeleteEventHandler(this.BeforeDelete);
 		}
 
-
 		/// <summary>
 		/// Event after all properties have been saved
 		/// </summary>
@@ -49,7 +65,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 		/// <param name="e"></param>
 		private void AfterSave(Content sender, SaveEventArgs e)
 		{
-			var multiPickerRelationsId  = new Guid(DataTypeConstants.MultiPickerRelationsId);
+			var multiPickerRelationsId = new Guid(DataTypeConstants.MultiPickerRelationsId);
 
 			// For each MultiPickerRelations datatype
 			foreach (Property multiPickerRelationsProperty in from property in sender.GenericProperties

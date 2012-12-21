@@ -20,7 +20,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 	using umbraco;
 	using umbraco.BusinessLogic;
 	using umbraco.cms.businesslogic.datatype;
-	using umbraco.IO;
+	using Umbraco.Core.IO;
 
 	/// <summary>
 	/// The dtg helpers.
