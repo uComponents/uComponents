@@ -210,7 +210,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             if (this.Page.IsValid)
             {
                 // wipe any associated caches incase they refer to old settings
-                HttpContext.Current.Cache.Remove(DataTypeConstants.SqlAutoCompleteId + "_options_" + this.m_DataType.DataTypeDefinitionId.ToString());                
+                HttpContext.Current.Cache.Remove(string.Concat(DataTypeConstants.SqlAutoCompleteId, "_options_", this.m_DataType.DataTypeDefinitionId));
 
                 this.Options.Sql = this.sqlTextBox.Text;
                 this.Options.ConnectionStringName = this.connectionStringDropDownList.SelectedValue;

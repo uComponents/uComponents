@@ -146,7 +146,6 @@ namespace uComponents.UI
 				return true;
 			}
 
-
 			return false;
 		}
 	}

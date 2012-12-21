@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Data;
-using System.Data.SqlClient;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using umbraco;
 using umbraco.BusinessLogic;
-using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.web;
+using umbraco.DataLayer;
 using umbraco.interfaces;
 
 namespace uComponents.DataTypes.SqlDropDownList
@@ -93,36 +92,24 @@ namespace uComponents.DataTypes.SqlDropDownList
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			string sql = this.options.Sql;
-
-			if (sql.Contains("@currentId"))
+			using (var sqlHelper = this.options.GetSqlHelper())
 			{
-				sql = sql.Replace("@currentId", uQuery.GetIdFromQueryString());
-			}
-			
-			// TODO: [LK] Change to use uQuery.SqlHelper?
+				var sql = this.options.Sql;
+				var parameters = new List<IParameter>();
 
-			using (var sqlConnection = new SqlConnection(this.options.GetConnectionString()))
-			{
-				var sqlCommand = new SqlCommand()
+				if (sql.Contains("@currentId"))
+					parameters.Add(sqlHelper.CreateParameter("@currentId", uQuery.GetIdFromQueryString()));
+
+				using (var dataReader = sqlHelper.ExecuteReader(sql, parameters.ToArray()))
 				{
-					Connection = sqlConnection,
-					CommandType = CommandType.Text,
-					CommandText = sql
-				};
-
-				sqlConnection.Open();
-
-				var sqlDataReader = sqlCommand.ExecuteReader();
-				if (sqlDataReader.HasRows)
-				{
-					this.dropDownList.DataSource = sqlDataReader;
-					this.dropDownList.DataTextField = "Text";
-					this.dropDownList.DataValueField = "Value";
-					this.dropDownList.DataBind();
+					if (dataReader != null)
+					{
+						this.dropDownList.DataSource = dataReader;
+						this.dropDownList.DataTextField = "Text";
+						this.dropDownList.DataValueField = "Value";
+						this.dropDownList.DataBind();
+					}
 				}
-
-				sqlConnection.Close();
 			}
 
 			// Add a default please select value
