@@ -2,13 +2,13 @@
 using System.Xml;
 using umbraco.MacroEngines;
 
-namespace uComponents.DataTypes.MultipleTextstring
+namespace uComponents.DataTypes.RazorDataTypeModels.TextstringArray
 {
 	/// <summary>
-	/// Model binder for the Multiple Textstring data-type.
+	/// Model binder for the TextstringArray data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.MultipleTextstringId)]
-	public class MultipleTextstringModelBinder : IRazorDataTypeModel
+	[RazorDataTypeModel(DataTypeConstants.TextstringArrayId)]
+	public class TextstringArrayModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>
 		/// Inits the specified current node id.
@@ -27,16 +27,22 @@ namespace uComponents.DataTypes.MultipleTextstring
 				return true;
 			}
 
-			var values = new List<string>();
+			var values = new List<string[]>();
 
 			if (!string.IsNullOrEmpty(PropertyData))
 			{
 				var xml = new XmlDocument();
 				xml.LoadXml(PropertyData);
 
-				foreach (XmlNode node in xml.SelectNodes("/values/value"))
+				foreach (XmlNode node in xml.SelectNodes("/TextstringArray/values"))
 				{
-					values.Add(node.InnerText);
+					var value = new List<string>();
+					foreach (XmlNode child in node.SelectNodes("value"))
+					{
+						value.Add(child.InnerText);
+					}
+
+					values.Add(value.ToArray());
 				}
 			}
 

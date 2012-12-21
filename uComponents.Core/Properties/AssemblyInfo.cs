@@ -9,6 +9,7 @@ using uComponents.Core;
 // expose internal classes/methods
 [assembly: InternalsVisibleTo("uComponents.Controls")]
 [assembly: InternalsVisibleTo("uComponents.DataTypes")]
+[assembly: InternalsVisibleTo("uComponents.DataTypes.RazorDataTypeModels")]
 [assembly: InternalsVisibleTo("uComponents.Installer")]
 [assembly: InternalsVisibleTo("uComponents.Legacy")]
 [assembly: InternalsVisibleTo("uComponents.MacroEngines")]

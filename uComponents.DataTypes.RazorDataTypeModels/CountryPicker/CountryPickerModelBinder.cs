@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Xml;
+using uComponents.Core;
 using umbraco.MacroEngines;
 
-namespace uComponents.DataTypes.MultipleTextstring
+namespace uComponents.DataTypes.RazorDataTypeModels.CountryPicker
 {
 	/// <summary>
-	/// Model binder for the Multiple Textstring data-type.
+	/// Model binder for the Country Picker data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.MultipleTextstringId)]
-	public class MultipleTextstringModelBinder : IRazorDataTypeModel
+	[RazorDataTypeModel(DataTypeConstants.CountryPickerId)]
+	public class CountryPickerModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>
 		/// Inits the specified current node id.
@@ -21,9 +21,7 @@ namespace uComponents.DataTypes.MultipleTextstring
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
-#pragma warning disable 0618
-				instance = new DynamicXml(PropertyData);
-#pragma warning restore 0618
+				instance = PropertyData;
 				return true;
 			}
 
@@ -31,16 +29,20 @@ namespace uComponents.DataTypes.MultipleTextstring
 
 			if (!string.IsNullOrEmpty(PropertyData))
 			{
-				var xml = new XmlDocument();
-				xml.LoadXml(PropertyData);
-
-				foreach (XmlNode node in xml.SelectNodes("/values/value"))
+				foreach (var value in PropertyData.Split(Constants.Common.COMMA))
 				{
-					values.Add(node.InnerText);
+					values.Add(value);
 				}
 			}
 
-			instance = values;
+			if (values.Count == 1)
+			{
+				instance = values[0];
+			}
+			else
+			{
+				instance = values;
+			}
 
 			return true;
 		}

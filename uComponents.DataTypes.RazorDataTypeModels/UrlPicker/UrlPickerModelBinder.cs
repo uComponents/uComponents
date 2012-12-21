@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Xml;
+﻿using uComponents.Core;
+using uComponents.DataTypes.UrlPicker.Dto;
 using umbraco.MacroEngines;
 
-namespace uComponents.DataTypes.MultipleTextstring
+namespace uComponents.DataTypes.RazorDataTypeModels.UrlPicker
 {
 	/// <summary>
-	/// Model binder for the Multiple Textstring data-type.
+	/// Model binder for the UrlPicker data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.MultipleTextstringId)]
-	public class MultipleTextstringModelBinder : IRazorDataTypeModel
+	[RazorDataTypeModel(DataTypeConstants.UrlPickerId)]
+	public class UrlPickerModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>
 		/// Inits the specified current node id.
@@ -21,26 +21,26 @@ namespace uComponents.DataTypes.MultipleTextstring
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
+				if (Helper.Xml.CouldItBeXml(PropertyData))
+				{
 #pragma warning disable 0618
-				instance = new DynamicXml(PropertyData);
+					instance = new DynamicXml(PropertyData);
 #pragma warning restore 0618
+					return true;
+				}
+
+				instance = PropertyData;
 				return true;
 			}
 
-			var values = new List<string>();
+			UrlPickerState state = null;
 
 			if (!string.IsNullOrEmpty(PropertyData))
 			{
-				var xml = new XmlDocument();
-				xml.LoadXml(PropertyData);
-
-				foreach (XmlNode node in xml.SelectNodes("/values/value"))
-				{
-					values.Add(node.InnerText);
-				}
+				state = UrlPickerState.Deserialize(PropertyData);
 			}
 
-			instance = values;
+			instance = state;
 
 			return true;
 		}

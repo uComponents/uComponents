@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using uComponents.Core;
+using umbraco;
 using umbraco.MacroEngines;
 using umbraco.MacroEngines.Library;
 
-namespace uComponents.DataTypes.XPathCheckBoxList
+namespace uComponents.DataTypes.RazorDataTypeModels.CheckBoxTree
 {
 	/// <summary>
-	/// Model binder for the XPathCheckBoxList data-type.
+	/// Model binder for the CheckBoxTree data-type.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.XPathCheckBoxListId)]
-	public class XPathCheckBoxListModelBinder : IRazorDataTypeModel
+	[RazorDataTypeModel(DataTypeConstants.CheckBoxTreeId)]
+	public class CheckBoxTreeModelBinder : IRazorDataTypeModel
 	{
 		/// <summary>
 		/// Inits the specified current node id.
@@ -34,10 +35,10 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 				return true;
 			}
 
-			var nodeIds = Helper.Xml.CouldItBeXml(PropertyData) ? umbraco.uQuery.GetXmlIds(PropertyData) : umbraco.uQuery.ConvertToIntArray(umbraco.uQuery.GetCsvIds(PropertyData));
+			var nodeIds = Helper.Xml.CouldItBeXml(PropertyData) ? uQuery.GetXmlIds(PropertyData) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(PropertyData));
 			var library = new RazorLibraryCore(null);
 
-			instance = (library.NodesById(nodeIds.ToList()) as DynamicNodeList);
+			instance = library.NodesById(nodeIds.ToList()) as DynamicNodeList;
 
 			return true;
 		}

@@ -1,36 +1,10 @@
-﻿using umbraco;
-using umbraco.MacroEngines;
-using umbraco.MacroEngines.Library;
+﻿using System;
 
 namespace uComponents.DataTypes.Similarity
 {
 	/// <summary>
-	/// Model binder for the Similarity data-type.
+	/// Placeholder for legacy RazorDataTypeModels. Remains here to support backwards compatibility. Will be removed in a future version.
 	/// </summary>
-	[RazorDataTypeModel(DataTypeConstants.SimilarityId)]
-	public class SimilarityModelBinder : IRazorDataTypeModel
-	{
-		/// <summary>
-		/// Inits the specified current node id.
-		/// </summary>
-		/// <param name="CurrentNodeId">The current node id.</param>
-		/// <param name="PropertyData">The property data.</param>
-		/// <param name="instance">The instance.</param>
-		/// <returns></returns>
-		public bool Init(int CurrentNodeId, string PropertyData, out object instance)
-		{
-			if (!Settings.RazorModelBindingEnabled)
-			{
-				instance = PropertyData;
-				return true;
-			}
-
-			var nodeIds = uQuery.GetCsvIds(PropertyData);
-			var library = new RazorLibraryCore(null);
-
-			instance = (library.NodesById(nodeIds) as DynamicNodeList);
-
-			return true;
-		}
-	}
+	[Obsolete("This RazorDataTypeModel has been depreciated, please use uComponents.DataTypes.RazorDataTypeModels.Similarity.SimilarityModelBinder.", true)]
+	public class SimilarityModelBinder { }
 }
