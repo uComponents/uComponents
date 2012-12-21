@@ -244,25 +244,19 @@ namespace uComponents.XsltExtensions
 		/// Formats the size of the file.
 		/// </summary>
 		/// <param name="filesize">The filesize.</param>
-		/// <returns></returns>
+		/// <returns>The formatted file size.</returns>
+		/// <remarks>
+		/// Refactored [v5.3] to support decimal place (and removes the loop).
+		/// http://stackoverflow.com/a/4975942/12787
+		/// (This passes the tests, but if we run into issues, we'll explore further)
+		/// http://www.somacon.com/p576.php
+		/// </remarks>
 		public static string FormatFileSize(long filesize)
 		{
 			var suffix = new[] { "bytes", "KB", "MB", "GB", "TB", "PB", "EB" };
-			var i = 0;
-			var kilobyte = 1024;
-
-			// while the filesize is over 1KB and index is less than the length of the suffix array.
-			while (filesize >= kilobyte && i < suffix.Length)
-			{
-				// divide the filesize by 1024 - to give the next SI unit suffix.
-				filesize = filesize / kilobyte;
-
-				// increment the index position.
-				i++;
-			}
-
-			// return the filesize with suffix.
-			return string.Concat(filesize, " ", suffix[i]);
+			var place = Convert.ToInt32(Math.Floor(Math.Log(filesize, 1024)));
+			var num = Math.Round(filesize / Math.Pow(1024, place), 1);
+			return string.Concat(num, " ", suffix[place]);
 		}
 
 		/// <summary>

@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Xml.XPath;
 using System.IO;
+using System.Collections.Generic;
+using System.Xml;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 
 namespace uComponents.Core.UnitTests.XsltExtensions
 {
@@ -31,16 +34,38 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		//    Assert.Inconclusive("Verify the correctness of this test method.");
 		//}
 
-		//[TestMethod()]
-		//public void FormatFileSizeTest()
-		//{
-		//    long filesize = 0; // TODO: Initialize to an appropriate value
-		//    string expected = string.Empty; // TODO: Initialize to an appropriate value
-		//    string actual;
-		//    actual = IO.FormatFileSize(filesize);
-		//    Assert.AreEqual(expected, actual);
-		//    Assert.Inconclusive("Verify the correctness of this test method.");
-		//}
+		[TestMethod]
+		public void FormatFileSizeTest()
+		{
+			// "bytes", "KB", "MB", "GB", "TB", "PB", "EB"
+
+			var kilobyte = 1024L;
+			var megabyte = kilobyte * kilobyte;
+			var gigabyte = kilobyte * megabyte;
+			var terabyte = kilobyte * gigabyte;
+			var petabyte = kilobyte * terabyte;
+			var exabyte = kilobyte * petabyte;
+
+			var items = new Dictionary<long, string>()
+			{
+				{ 128L, "128 bytes" },
+				{ 512L, "512 bytes" },
+				{ kilobyte, "1 KB" },
+				{ kilobyte * 512, "512 KB" },
+				{ megabyte, "1 MB" },
+				{ (long)(megabyte * 1.5), "1.5 MB" },
+				{ megabyte * 10, "10 MB" },
+				{ gigabyte, "1 GB" },
+				{ terabyte, "1 TB" },
+				{ petabyte, "1 PB" },
+				{ exabyte, "1 EB" }
+			};
+
+			foreach (var item in items)
+			{
+				Assert.AreEqual(item.Value, IO.FormatFileSize(item.Key), string.Format("Problem with '{0}'. Expected {1} but was not that.", item.Key, item.Value));
+			}
+		}
 
 		//[TestMethod()]
 		//public void GetDirectoriesTest()
@@ -110,18 +135,34 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		//    Assert.Inconclusive("Verify the correctness of this test method.");
 		//}
 
-		//[TestMethod()]
-		//public void GetFilesTest()
-		//{
-		//    string path = string.Empty; // TODO: Initialize to an appropriate value
-		//    string searchPattern = string.Empty; // TODO: Initialize to an appropriate value
-		//    bool allDirectories = false; // TODO: Initialize to an appropriate value
-		//    XPathNodeIterator expected = null; // TODO: Initialize to an appropriate value
-		//    XPathNodeIterator actual;
-		//    actual = IO.GetFiles(path, searchPattern, allDirectories);
-		//    Assert.AreEqual(expected, actual);
-		//    Assert.Inconclusive("Verify the correctness of this test method.");
-		//}
+		[TestMethod()]
+		public void GetFilesTest()
+		{
+			var path = @"C:\SVN\our.umbraco.org\uComponents"; // HACK: [LK] How to make root 'path' dynamic?
+			var searchPattern = "*.txt";
+			var allDirectories = false;
+
+			var xml = new XmlDocument();
+			xml.LoadXml(string.Format(@"<Files><File>{0}\MIT-LICENSE.txt</File></Files>", path));
+
+			var expected = xml.CreateNavigator().Select("/Files");
+			var actual = IO.GetFiles(path, searchPattern, allDirectories);
+
+			// move to first XML node - <Files>
+			if (actual.MoveNext() && expected.MoveNext())
+			{
+				// select child nodes
+				var actualValues = actual.Current.SelectChildren(XPathNodeType.Element);
+				var expectedValues = expected.Current.SelectChildren(XPathNodeType.Element);
+
+				// iterate over each of the child nodes - <value>
+				while (actualValues.MoveNext() && expectedValues.MoveNext())
+				{
+					Assert.AreEqual(expectedValues.Current.Name, actualValues.Current.Name, "Should return true if the XML element names are the same");
+					Assert.AreEqual(expectedValues.Current.Value, actualValues.Current.Value, "Should return true if the XML element values are the same");
+				}
+			}
+		}
 
 		//[TestMethod()]
 		//public void LoadFileTest()

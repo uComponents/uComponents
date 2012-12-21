@@ -19,7 +19,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
     {
         private static XPathAutoCompleteOptions GetOptions(int datatypeDefinitionId)
         {
-            return (XPathAutoCompleteOptions)HttpContext.Current.Cache[DataTypeConstants.XPathAutoCompleteId + "_options_" + datatypeDefinitionId.ToString()];
+            return (XPathAutoCompleteOptions)HttpContext.Current.Cache[string.Concat(DataTypeConstants.XPathAutoCompleteId, "_options_", datatypeDefinitionId)];
         }
         
         /// <summary>

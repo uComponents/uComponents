@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using umbraco.NodeFactory;
 using umbraco;
 using System.Collections;
+using uComponents.Mapping.Property;
 
 namespace uComponents.Mapping
 {
@@ -20,20 +21,34 @@ namespace uComponents.Mapping
     internal class NodeQuery<TDestination> : INodeQuery<TDestination>
         where TDestination : class, new()
     {
+        // Cache keys
+        private const string _explicitCacheFormat = "Explicit_{0}";
+        private const string _allCacheFormat = "All_{0}";
+
         // The paths included in the query
-        private readonly List<string> _paths = new List<string>();
+        private readonly List<string> _paths;
+        private readonly Dictionary<string, Func<object, bool>> _propertyFilters;
+        private bool _isExplicit = false;
 
         // The engine which will execute the query
         private readonly NodeMappingEngine _engine;
 
         public NodeQuery(NodeMappingEngine engine)
         {
+            var destinationType = typeof(TDestination);
+
             if (engine == null)
             {
                 throw new ArgumentNullException("engine");
             }
+            else if (!engine.NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
 
             _engine = engine;
+            _paths = new List<string>();
+            _propertyFilters = new Dictionary<string, Func<object, bool>>();
         }
 
         public INodeMappingEngine Engine
@@ -44,67 +59,7 @@ namespace uComponents.Mapping
             }
         }
 
-        public TDestination Map(Node node)
-        {
-            return (TDestination)_engine.Map(
-                node,
-                typeof(TDestination),
-                _paths.ToArray()
-                );
-        }
-
-        public TDestination Single(int nodeId)
-        {
-            return (TDestination)_engine.Map(
-                new Node(nodeId),
-                typeof(TDestination),
-                _paths.ToArray()
-                );
-        }
-
-        public IEnumerable<TDestination> Many(IEnumerable<int> nodeIds)
-        {
-            if (nodeIds == null)
-            {
-                throw new ArgumentNullException("nodeIds");
-            }
-
-            return nodeIds.Select(id => Single(id));
-        }
-
-        public IEnumerable<TDestination> Many(IEnumerable<Node> nodes)
-        {
-            if (nodes == null)
-            {
-                throw new ArgumentNullException("nodes");
-            }
-
-            return nodes.Select(n => Map(n));
-        }
-
-        public TDestination Current()
-        {
-            return (TDestination)_engine.Map(
-                Node.GetCurrent(),
-                typeof(TDestination),
-                _paths.ToArray()
-                );
-        }
-
-        public IEnumerable<TDestination> Explicit()
-        {
-            var destinationType = typeof(TDestination);
-
-            if (!_engine.NodeMappers.ContainsKey(destinationType))
-            {
-                throw new MapNotFoundException(destinationType);
-            }
-
-            var nodeMapper = _engine.NodeMappers[destinationType];
-
-            return uQuery.GetNodesByType(nodeMapper.SourceNodeTypeAlias)
-                .Select(n => (TDestination)_engine.Map(n, destinationType, _paths.ToArray()));
-        }
+        #region Include
 
         public INodeQuery<TDestination> Include(string path)
         {
@@ -121,7 +76,7 @@ namespace uComponents.Mapping
             return this;
         }
 
-        public INodeQuery<TDestination> Include<TProperty>(Expression<Func<TDestination, TProperty>> path)
+        public INodeQuery<TDestination> Include(Expression<Func<TDestination, object>> path)
         {
             if (path == null)
             {
@@ -129,7 +84,7 @@ namespace uComponents.Mapping
             }
 
             string parsedPath;
-            if (!NodeQueryHelpers.TryParsePath(path.Body, out parsedPath)
+            if (!path.Body.TryParsePath(out parsedPath)
                 || parsedPath == null)
             {
                 throw new ArgumentException(
@@ -171,7 +126,232 @@ namespace uComponents.Mapping
             return this;
         }
 
-        #region IEnumerable
+        #endregion
+
+        #region Filtering
+
+        public INodeQuery<TDestination> Explicit()
+        {
+            _isExplicit = true;
+
+            return this;
+        }
+
+        public INodeQuery<TDestination> WhereProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> property,
+            Func<TProperty, bool> predicate
+            )
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException("property");
+            }
+            else if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
+            var destinationType = typeof(TDestination);
+            var destinationInfo = property.GetPropertyInfo();
+
+            if (!_engine.NodeMappers[destinationType].PropertyMappers
+                .Any(x => x.DestinationInfo.Name == destinationInfo.Name))
+            {
+                throw new PropertyNotMappedException(destinationType, destinationInfo.Name);
+            }
+
+            _propertyFilters.Add(destinationInfo.Name, x => predicate((TProperty)x));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Filters a collection of mapping contexts based on the predicates in <see cref="_propertyFilters"/>.
+        /// </summary>
+        /// <param name="contexts">The mapping contexts to filter</param>
+        /// <returns>The filtered subset of <paramref name="contexts"/>.</returns>
+        private IEnumerable<NodeMappingContext> FilterSet(IEnumerable<NodeMappingContext> contexts)
+        {
+            if (contexts == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var filteredContexts = new List<NodeMappingContext>(contexts);
+
+            foreach (var filter in _propertyFilters)
+            {
+                var propertyMapper = _engine.NodeMappers[typeof(TDestination)]
+                    .PropertyMappers
+                    .Single(x => x.DestinationInfo.Name == filter.Key);
+
+                filteredContexts.RemoveAll(context =>
+                    {
+                        var property = propertyMapper.MapProperty(context);
+                        return !filter.Value(property);
+                    });
+            }
+
+            return filteredContexts;
+        }
+
+        #endregion
+
+        #region Execute
+
+        public TDestination Map(Node node)
+        {
+            if (node == null
+                || string.IsNullOrEmpty(node.Name))
+            {
+                return null;
+            }
+
+            var context = new NodeMappingContext(node, _paths.ToArray(), null);
+
+            return (TDestination)_engine.Map(
+                context,
+                typeof(TDestination)
+                );
+        }
+
+        [Obsolete("Use Find() instead")]
+        public TDestination Single(int id)
+        {
+            return Find(id);
+        }
+
+        public TDestination Find(int id)
+        {
+            var context = new NodeMappingContext(id, _paths.ToArray(), null);
+
+            return (TDestination)_engine.Map(
+                context,
+                typeof(TDestination)
+                );
+        }
+
+        public TDestination Current()
+        {
+            return Map(Node.GetCurrent());
+        }
+
+        /// <summary>
+        /// Maps a collection of contexts to <typeparamref name="TDestination"/>.
+        /// </summary>
+        private IEnumerable<TDestination> Many(IEnumerable<NodeMappingContext> contexts)
+        {
+            if (contexts == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var filteredContexts = FilterSet(contexts);
+
+            return filteredContexts.Select(c =>
+                {
+                    return (TDestination)_engine.Map(c, typeof(TDestination));
+                });
+        }
+
+        public IEnumerable<TDestination> Many(IEnumerable<int> ids)
+        {
+            if (ids == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var paths = _paths.ToArray();
+            var contexts = ids.Select(id => new NodeMappingContext(id, paths, null));
+
+            return Many(contexts);
+        }
+
+        public IEnumerable<TDestination> Many(IEnumerable<Node> nodes)
+        {
+            if (nodes == null)
+            {
+                throw new ArgumentNullException("nodes");
+            }
+
+            var paths = _paths.ToArray();
+            var contexts = nodes.Select(n => new NodeMappingContext(n, paths, null));
+
+            return Many(contexts);
+        }
+
+        public IEnumerable<TProperty> SelectProperty<TProperty>(
+            Expression<Func<TDestination, TProperty>> property
+            )
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException("property");
+            }
+
+            var sourceSet = EvaluateSourceSet();
+            var propertyInfo = property.GetPropertyInfo();
+            var propertyMapper = _engine.NodeMappers[typeof(TDestination)]
+                .PropertyMappers
+                .SingleOrDefault(x => x.DestinationInfo.Name == propertyInfo.Name);
+
+            if (propertyMapper == null)
+            {
+                throw new PropertyNotMappedException(typeof(TDestination), propertyInfo.Name);
+            }
+
+            return sourceSet.Select(c => (TProperty)propertyMapper.MapProperty(c));
+        }
+
+        #endregion
+
+        #region Enumeration
+
+        /// <summary>
+        /// Gets an enumerable representing the current source set of the query.
+        /// </summary>
+        private IEnumerable<NodeMappingContext> EvaluateSourceSet()
+        {
+            var destinationType = typeof(TDestination);
+            var paths = _paths.ToArray();
+            IEnumerable<NodeMappingContext> sourceSet;
+
+            if (!_engine.NodeMappers.ContainsKey(destinationType))
+            {
+                throw new MapNotFoundException(destinationType);
+            }
+
+            string cacheKey = string.Format(
+                _isExplicit ? _explicitCacheFormat : _allCacheFormat,
+                destinationType.FullName
+                );
+
+            if (_engine.CacheProvider != null
+                && _engine.CacheProvider.ContainsKey(cacheKey))
+            {
+                var ids = _engine.CacheProvider.Get(cacheKey) as int[];
+                sourceSet = ids.Select(id => new NodeMappingContext(id, paths, null));
+            }
+            else
+            {
+                // Check whether to include derived maps
+                var sourceNodeTypeAliases = _isExplicit
+                    ? new[] { _engine.NodeMappers[destinationType].SourceDocumentType.Alias }
+                    : _engine.GetCompatibleNodeTypeAliases(destinationType);
+
+                var nodes = sourceNodeTypeAliases.SelectMany(alias => uQuery.GetNodesByType(alias));
+
+                if (_engine.CacheProvider != null)
+                {
+                    // Cache the node IDs
+                    _engine.CacheProvider.Insert(cacheKey, nodes.Select(n => n.Id).ToArray());
+                }
+
+                sourceSet = nodes.Select(n => new NodeMappingContext(n, paths, null));
+            }
+
+            return FilterSet(sourceSet);
+        }
 
         /// <summary>
         /// Gets and enumerator of mapped instances of every node which 
@@ -179,23 +359,13 @@ namespace uComponents.Mapping
         /// </summary>
         public IEnumerator<TDestination> GetEnumerator()
         {
-            var destinationType = typeof(TDestination);
-
-            if (!_engine.NodeMappers.ContainsKey(destinationType))
-            {
-                throw new MapNotFoundException(destinationType);
-            }
-
-            var sourceNodeTypeAliases = _engine.GetCompatibleNodeTypeAliases(destinationType);
-
-            return sourceNodeTypeAliases
-                .SelectMany(alias =>
+            var sourceSet = EvaluateSourceSet();
+            var destinationSet = sourceSet.Select(c =>
                 {
-                    var nodes = uQuery.GetNodesByType(alias);
+                    return (TDestination)_engine.Map(c, typeof(TDestination));
+                });
 
-                    return nodes.Select(n => (TDestination)_engine.Map(n, destinationType, _paths.ToArray()));
-                })
-                .GetEnumerator();
+            return destinationSet.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -204,97 +374,5 @@ namespace uComponents.Mapping
         }
 
         #endregion
-    }
-
-    internal static class NodeQueryHelpers
-    {
-
-        /// <summary>
-        /// Taken from <c>System.Data.Entity.Internal.DbHelpers</c>:
-        /// 
-        /// Called recursively to parse an expression tree representing a property path..
-        /// This involves parsing simple property accesses like o =&gt; o.Products as well as calls to Select like
-        /// o =&gt; o.Products.Select(p =&gt; p.OrderLines).
-        /// </summary>
-        /// <param name="expression"> The expression to parse. </param>
-        /// <param name="path"> The expression parsed into an include path, or null if the expression did not match. </param>
-        /// <returns> True if matching succeeded; false if the expression could not be parsed. </returns>
-        public static bool TryParsePath(Expression expression, out string path)
-        {
-            if (expression == null)
-            {
-                throw new ArgumentNullException("expression");
-            }
-
-            path = null;
-            var withoutConvert = expression.RemoveConvert(); // Removes boxing
-            var memberExpression = withoutConvert as MemberExpression;
-            var callExpression = withoutConvert as MethodCallExpression;
-
-            if (memberExpression != null)
-            {
-                var thisPart = memberExpression.Member.Name;
-                string parentPart;
-                if (!TryParsePath(memberExpression.Expression, out parentPart))
-                {
-                    return false;
-                }
-                path = parentPart == null ? thisPart : (parentPart + "." + thisPart);
-            }
-            else if (callExpression != null)
-            {
-                if (callExpression.Method.Name == "Select"
-                    && callExpression.Arguments.Count == 2)
-                {
-                    string parentPart;
-                    if (!TryParsePath(callExpression.Arguments[0], out parentPart))
-                    {
-                        return false;
-                    }
-                    if (parentPart != null)
-                    {
-                        var subExpression = callExpression.Arguments[1] as LambdaExpression;
-                        if (subExpression != null)
-                        {
-                            string thisPart;
-                            if (!TryParsePath(subExpression.Body, out thisPart))
-                            {
-                                return false;
-                            }
-                            if (thisPart != null)
-                            {
-                                path = parentPart + "." + thisPart;
-                                return true;
-                            }
-                        }
-                    }
-                }
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Removes boxing on the expression.
-        /// 
-        /// Taken from <c>System.Data.Entity.Utilities.ExpressionExtensions</c>.
-        /// </summary>
-        public static Expression RemoveConvert(this Expression expression)
-        {
-            if (expression == null)
-            {
-                throw new ArgumentNullException("expression");
-            }
-
-            while ((expression != null)
-                   && (expression.NodeType == ExpressionType.Convert
-                       || expression.NodeType == ExpressionType.ConvertChecked))
-            {
-                expression = RemoveConvert(((UnaryExpression)expression).Operand);
-            }
-
-            return expression;
-        }
     }
 }
