@@ -60,7 +60,13 @@ namespace uComponents.DataTypes.SqlAutoComplete
 						parameters.Add(sqlHelper.CreateParameter("@currentId", currentId.ToString()));
 
 					if (sql.Contains("@autoCompleteText"))
-						parameters.Add(sqlHelper.CreateParameter("@autoCompleteText", autoCompleteText));
+					{
+						// HACK: For backwards-compatibility, remove any wildcards from the original query [LK]
+						if (sql.Contains("'%@autoCompleteText%'"))
+							sql = sql.Replace("'%@autoCompleteText%'", "@autoCompleteText");
+
+						parameters.Add(sqlHelper.CreateParameter("@autoCompleteText", string.Concat("%", autoCompleteText, "%")));
+					}
 
 					using (var dataReader = sqlHelper.ExecuteReader(sql, parameters.ToArray()))
 					{

@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildPackage", "BuildPackage", "{242824E1-675B-47F0-9876-C709F579BC3A}"
 	ProjectSection(SolutionItems) = preProject
 		BuildPackage\BuildPackage.cmd = BuildPackage\BuildPackage.cmd
+		BuildPackage\BuildPackage.msbuild = BuildPackage\BuildPackage.msbuild
 		BuildPackage\package.nuspec = BuildPackage\package.nuspec
 		BuildPackage\package.xml = BuildPackage\package.xml
 		BuildPackage\readme.txt = BuildPackage\readme.txt
