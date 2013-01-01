@@ -8,7 +8,7 @@ namespace uComponents.Core.UnitTests.Abstractions
 	/// </summary>
 	public class MockUmbracoLibrary : IUmbracoLibrary
 	{
-		public string DefaultNiceUrl = "/some/test/data/1234.aspx";
+		private string DefaultNiceUrl = "/some/test/data/1234.aspx";
 
 		public MockUmbracoLibrary()
 		{

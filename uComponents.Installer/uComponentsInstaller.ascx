@@ -28,7 +28,7 @@
 				<div class="dashboardCols">
 					<div class="dashboardCol">
 						<p>When using Razor macro templates, the values from the data-types are automatically bound to a model. <strong>This option is enabled by default.</strong> To use the raw data/value, you can disable this feature.</p>
-						<asp:CheckBox runat="server" ID="cbDisableRazorModelBinding" Text="Disable Razor model binding" Checked="false" /></em>
+						<asp:CheckBox runat="server" ID="cbDisableRazorModelBinding" Text="Disable Razor model binding" Checked="false" />
 					</div>
 				</div>
 			</div>

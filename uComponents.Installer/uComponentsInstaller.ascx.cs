@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
-using umbraco;
 using Umbraco.Core;
 using Umbraco.Core.IO;
 
@@ -36,22 +36,14 @@ namespace uComponents.Installer
 		protected void Page_Init(object sender, EventArgs e)
 		{
 			// find and bind the NotFoundHandlers
-			var notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
+			const string notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
 			var notFoundHandlersAssembly = Assembly.Load(notFoundHandlersNamespace);
 			if (notFoundHandlersAssembly != null)
 			{
 				var notFoundHandlersTypes = notFoundHandlersAssembly.GetTypes();
-				if (notFoundHandlersTypes != null)
+				if (notFoundHandlersTypes.Length > 0)
 				{
-					var notFoundHandlers = new Dictionary<string, string>();
-					foreach (var type in notFoundHandlersTypes)
-					{
-						if (string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace))
-						{
-							notFoundHandlers.Add(type.FullName.Substring(notFoundHandlersNamespace.Length + 1), type.Name);
-							continue;
-						}
-					}
+					var notFoundHandlers = notFoundHandlersTypes.Where(type => string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace)).ToDictionary(type => type.FullName.Substring(notFoundHandlersNamespace.Length + 1), type => type.Name);
 
 					this.cblNotFoundHandlers.DataSource = notFoundHandlers;
 					this.cblNotFoundHandlers.DataTextField = "Value";
@@ -106,20 +98,17 @@ namespace uComponents.Installer
 			}
 
 			// Not Found Handlers
-			foreach (ListItem item in this.cblNotFoundHandlers.Items)
+			foreach (ListItem item in this.cblNotFoundHandlers.Items.Cast<ListItem>().Where(item => item.Selected))
 			{
-				if (item.Selected)
+				try
 				{
-					try
-					{
-						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_Add404Handler\" assembly=\"uComponents.NotFoundHandlers\" type=\"{0}\" />", item.Value));
-						umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "uComponents_Add404Handler", xml.FirstChild);
-						successes.Add(item.Text);
-					}
-					catch (Exception ex)
-					{
-						failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
-					}
+					xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_Add404Handler\" assembly=\"uComponents.NotFoundHandlers\" type=\"{0}\" />", item.Value));
+					umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "uComponents_Add404Handler", xml.FirstChild);
+					successes.Add(item.Text);
+				}
+				catch (Exception ex)
+				{
+					failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
 				}
 			}
 
@@ -156,7 +145,7 @@ namespace uComponents.Installer
 			// Dashboard control
 			if (this.cbDashboardControl.Checked)
 			{
-				var title = "Dashboard control";
+				const string title = "Dashboard control";
 				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control addPanel=\"true\">/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
 				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
 				successes.Add(title);
@@ -169,7 +158,7 @@ namespace uComponents.Installer
 			if (failures.Count > 0)
 			{
 				this.Failure.type = umbraco.uicontrols.Feedback.feedbacktype.error;
-				this.Failure.Text = "There were errors with the following components:<br />" + string.Join("<br />", failures.ToArray());
+				this.Failure.Text = string.Concat("There were errors with the following components:<br />", string.Join("<br />", failures.ToArray()));
 				this.Failure.Visible = true;
 			}
 
@@ -177,7 +166,7 @@ namespace uComponents.Installer
 			if (successes.Count > 0)
 			{
 				this.Success.type = umbraco.uicontrols.Feedback.feedbacktype.success;
-				this.Success.Text = "Successfully installed the following components: " + string.Join(", ", successes.ToArray());
+				this.Success.Text = string.Concat("Successfully installed the following components: ", string.Join(", ", successes.ToArray()));
 				this.Success.Visible = true;
 			}
 		}
