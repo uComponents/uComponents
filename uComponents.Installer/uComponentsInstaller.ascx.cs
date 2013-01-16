@@ -12,7 +12,7 @@ using Umbraco.Core.IO;
 namespace uComponents.Installer
 {
 	/// <summary>
-	/// The post-install dashbaord control.
+	/// The post-install dashboard control.
 	/// </summary>
 	public partial class uComponentsInstaller : UserControl
 	{
@@ -29,34 +29,57 @@ namespace uComponents.Installer
 		}
 
 		/// <summary>
-		/// Handles the PreInit event of the Page control.
+		/// Handles the initialization event of the Page control.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Page_Init(object sender, EventArgs e)
 		{
-			// find and bind the NotFoundHandlers
-			const string notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
-			var notFoundHandlersAssembly = Assembly.Load(notFoundHandlersNamespace);
-			if (notFoundHandlersAssembly != null)
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
-				var notFoundHandlersTypes = notFoundHandlersAssembly.GetTypes();
-				if (notFoundHandlersTypes.Length > 0)
+				switch (assembly.FullName)
 				{
-					var notFoundHandlers = notFoundHandlersTypes.Where(type => string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace)).ToDictionary(type => type.FullName.Substring(notFoundHandlersNamespace.Length + 1), type => type.Name);
+					case "uComponents.DataTypes.RazorDataTypeModels":
+						this.phRazorModelBinding.Visible = true;
+						break;
 
-					this.cblNotFoundHandlers.DataSource = notFoundHandlers;
-					this.cblNotFoundHandlers.DataTextField = "Value";
-					this.cblNotFoundHandlers.DataValueField = "Key";
-					this.cblNotFoundHandlers.DataBind();
+					case "uComponents.UI":
+						this.phUiModules.Visible = true;
+
+						// bind the UI Modules options
+						this.cblUiModules.DataSource = Settings.AppKeys_UiModules;
+						this.cblUiModules.DataTextField = "Value";
+						this.cblUiModules.DataValueField = "Key";
+						this.cblUiModules.DataBind();
+
+						break;
+
+					case "uComponents.NotFoundHandlers":
+						this.phNotFoundHandlers.Visible = true;
+
+						// find and bind the NotFoundHandlers
+						var notFoundHandlersTypes = assembly.GetTypes();
+						if (notFoundHandlersTypes.Length > 0)
+						{
+							var notFoundHandlers =
+								notFoundHandlersTypes.Where(
+									type => string.Equals(type.Namespace, assembly.FullName) && type.FullName.StartsWith(assembly.FullName))
+								                     .ToDictionary(
+									                     type => type.FullName.Substring(assembly.FullName.Length + 1), type => type.Name);
+
+							this.cblNotFoundHandlers.DataSource = notFoundHandlers;
+							this.cblNotFoundHandlers.DataTextField = "Value";
+							this.cblNotFoundHandlers.DataValueField = "Key";
+							this.cblNotFoundHandlers.DataBind();
+						}
+
+						break;
+
+					case "uComponents.XsltExtensions":
+						this.phXsltExtensions.Visible = true;
+						break;
 				}
 			}
-
-			// bind the UI Modules options
-			this.cblUiModules.DataSource = Settings.AppKeys_UiModules;
-			this.cblUiModules.DataTextField = "Value";
-			this.cblUiModules.DataValueField = "Key";
-			this.cblUiModules.DataBind();
 
 			// disable the dashboard control checkbox
 			try
@@ -68,14 +91,16 @@ namespace uComponents.Installer
 					this.phDashboardControl.Visible = false;
 				}
 			}
-			catch { }
+			catch
+			{
+			}
 
 			// TODO: [LK] Add the uComponents namespace to the Web.config (system.web/compilation/assemblies)
 			// TODO: [LK] Add the uComponents.Controls namespace to the Web.config (system.web/pages/controls)
 		}
 
 		/// <summary>
-		/// Handles the Click event of the btnActivate control.
+		/// Handles the click event of the Activate button.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
@@ -98,7 +123,7 @@ namespace uComponents.Installer
 			}
 
 			// Not Found Handlers
-			foreach (ListItem item in this.cblNotFoundHandlers.Items.Cast<ListItem>().Where(item => item.Selected))
+			foreach (var item in this.cblNotFoundHandlers.Items.Cast<ListItem>().Where(item => item.Selected))
 			{
 				try
 				{

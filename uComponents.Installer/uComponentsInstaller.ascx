@@ -22,46 +22,54 @@
 					</div>
 				</div>
 			</div>
-
-			<h3>Razor Model Binding</h3>
-			<div class="dashboardColWrapper">
-				<div class="dashboardCols">
-					<div class="dashboardCol">
-						<p>When using Razor macro templates, the values from the data-types are automatically bound to a model. <strong>This option is enabled by default.</strong> To use the raw data/value, you can disable this feature.</p>
-						<asp:CheckBox runat="server" ID="cbDisableRazorModelBinding" Text="Disable Razor model binding" Checked="false" />
-					</div>
-				</div>
-			</div>
-
-			<h3>UI Modules</h3>
-			<div class="dashboardColWrapper">
-				<div class="dashboardCols">
-					<div class="dashboardCol">
-						<asp:CheckBox runat="server" ID="cbUiModules" Text="Enable UI Modules" Checked="true" /> <em>(Keyboard shortcuts  are enabled by default)</em>
-						<div style="margin-left:15px;">
-							<asp:CheckBoxList runat="server" ID="cblUiModules"></asp:CheckBoxList>
+			
+			<asp:PlaceHolder runat="server" ID="phRazorModelBinding" Visible="False">
+				<h3>Razor Model Binding</h3>
+				<div class="dashboardColWrapper">
+					<div class="dashboardCols">
+						<div class="dashboardCol">
+							<p>When using Razor macro templates, the values from the data-types are automatically bound to a model. <strong>This option is enabled by default.</strong> To use the raw data/value, you can disable this feature.</p>
+							<asp:CheckBox runat="server" ID="cbDisableRazorModelBinding" Text="Disable Razor model binding" Checked="false" />
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<h3>Not Found Handlers</h3>
-			<div class="dashboardColWrapper">
-				<div class="dashboardCols">
-					<div class="dashboardCol">
-						<asp:CheckBoxList runat="server" ID="cblNotFoundHandlers"></asp:CheckBoxList>
+			</asp:PlaceHolder>
+			
+			<asp:PlaceHolder runat="server" ID="phUiModules" Visible="False">
+				<h3>UI Modules</h3>
+				<div class="dashboardColWrapper">
+					<div class="dashboardCols">
+						<div class="dashboardCol">
+							<asp:CheckBox runat="server" ID="cbUiModules" Text="Enable UI Modules" Checked="true" /> <em>(Keyboard shortcuts  are enabled by default)</em>
+							<div style="margin-left:15px;">
+								<asp:CheckBoxList runat="server" ID="cblUiModules"></asp:CheckBoxList>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-
-			<h3>XSLT Extensions</h3>
-			<div class="dashboardColWrapper">
-				<div class="dashboardCols">
-					<div class="dashboardCol">
-						<p>The XSLT extensions are enabled by default. The namespaces will be added to any new XSLT macros that you create.</p>
+			</asp:PlaceHolder>
+			
+			<asp:PlaceHolder runat="server" ID="phNotFoundHandlers" Visible="False">
+				<h3>Not Found Handlers</h3>
+				<div class="dashboardColWrapper">
+					<div class="dashboardCols">
+						<div class="dashboardCol">
+							<asp:CheckBoxList runat="server" ID="cblNotFoundHandlers"></asp:CheckBoxList>
+						</div>
 					</div>
 				</div>
-			</div>
+			</asp:PlaceHolder>
+			
+			<asp:PlaceHolder runat="server" ID="phXsltExtensions" Visible="False">
+				<h3>XSLT Extensions</h3>
+				<div class="dashboardColWrapper">
+					<div class="dashboardCols">
+						<div class="dashboardCol">
+							<p>The XSLT extensions are enabled by default. The namespaces will be added to any new XSLT macros that you create.</p>
+						</div>
+					</div>
+				</div>
+			</asp:PlaceHolder>
 
 			<asp:PlaceHolder runat="server" ID="phDashboardControl">
 				<h3>Dashboard control</h3>
@@ -77,11 +85,11 @@
 
 			<p>
 				<asp:Button runat="server" ID="btnInstall" Text="Activate Selected Components" OnClick="btnActivate_Click" OnClientClick="jQuery(this).hide(); jQuery('#installingMessage').show(); return true;" />
-				<div style="display: none;" id="installingMessage">
-					<umb:ProgressBar runat="server" />
-					<br />
-					<em>&nbsp; &nbsp;Installing component(s), please wait...</em><br />
-				</div>
+			</p>
+			<p style="display: none;" id="installingMessage">
+				<umb:ProgressBar runat="server" />
+				<br />
+				<em>&nbsp; &nbsp;Installing component(s), please wait...</em><br />
 			</p>
 
 		</div>
