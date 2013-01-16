@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using umbraco;
@@ -37,6 +38,17 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// Field for the DropDownList.
 		/// </summary>
 		private DropDownList dropDownList = new DropDownList();
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EnumDropDownListDataEditor"/> class. 
+		/// </summary>
+		/// <param name="data">The data.</param>
+		/// <param name="options">The options.</param>
+		internal EnumDropDownListDataEditor(IData data, EnumDropDownListOptions options)
+		{
+			this.data = data;
+			this.options = options;
+		}
 
 		/// <summary>
 		/// Gets a value indicating whether [treat as rich text editor].
@@ -77,25 +89,14 @@ namespace uComponents.DataTypes.EnumDropDownList
 		}
 
 		/// <summary>
-		/// Initializes a new instance of EnumCheckBoxListDataEditor
-		/// </summary>
-		/// <param name="data"></param>
-		/// <param name="options"></param>
-		internal EnumDropDownListDataEditor(IData data, EnumDropDownListOptions options)
-		{
-			this.data = data;
-			this.options = options;
-		}
-
-		/// <summary>
 		/// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += new ResolveEventHandler(this.CurrentDomain_ReflectionOnlyAssemblyResolve);
-
-			FieldInfo fieldInfo;
-			ListItem dropDownListItem;
+			if (GlobalSettings.ApplicationTrustLevel == AspNetHostingPermissionLevel.Unrestricted)
+			{
+				AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += this.CurrentDomain_ReflectionOnlyAssemblyResolve;
+			}
 
 			try
 			{
@@ -112,16 +113,15 @@ namespace uComponents.DataTypes.EnumDropDownList
 				var type = assembly.GetType(this.options.Enum);
 
 				// Loop though enum to create drop down list items
-				foreach (string name in Enum.GetNames(type))
+				foreach (var name in Enum.GetNames(type))
 				{
-					dropDownListItem = new ListItem(name, name); // Default to the enum item name
-
-					fieldInfo = type.GetField(name);
+					var dropDownListItem = new ListItem(name, name);
+					var fieldInfo = type.GetField(name);
 
 					// Loop though any custom attributes that may have been applied the the curent enum item
-					foreach (CustomAttributeData customAttributeData in CustomAttributeData.GetCustomAttributes(fieldInfo))
+					foreach (var customAttributeData in CustomAttributeData.GetCustomAttributes(fieldInfo))
 					{
-						if (customAttributeData.Constructor.DeclaringType.Name == "EnumDropDownListAttribute")
+						if (customAttributeData.Constructor.DeclaringType != null && customAttributeData.Constructor.DeclaringType.Name == "EnumDropDownListAttribute" && customAttributeData.NamedArguments != null)
 						{
 							// Loop though each property on the EnumDropDownListAttribute
 							foreach (CustomAttributeNamedArgument customAttributeNamedArguement in customAttributeData.NamedArguments)
@@ -151,11 +151,11 @@ namespace uComponents.DataTypes.EnumDropDownList
 			{
 			}
 
-            if (!this.options.DefaultToFirstItem)
-            {
-                // Add a default please select value
-                this.dropDownList.Items.Insert(0, new ListItem(string.Concat(ui.Text("choose"), "..."), "-1"));
-            }
+			if (!this.options.DefaultToFirstItem)
+			{
+				// Add a default please select value
+				this.dropDownList.Items.Insert(0, new ListItem(string.Concat(ui.Text("choose"), "..."), "-1"));
+			}
 
 			this.Controls.Add(this.customValidator);
 			this.Controls.Add(this.dropDownList);

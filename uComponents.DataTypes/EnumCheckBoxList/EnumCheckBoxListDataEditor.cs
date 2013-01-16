@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
@@ -90,7 +91,10 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += new ResolveEventHandler(this.CurrentDomain_ReflectionOnlyAssemblyResolve);
+			if (GlobalSettings.ApplicationTrustLevel == AspNetHostingPermissionLevel.Unrestricted)
+			{
+				AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += this.CurrentDomain_ReflectionOnlyAssemblyResolve;
+			}
 
 			FieldInfo fieldInfo;
 			ListItem checkBoxListItem;
