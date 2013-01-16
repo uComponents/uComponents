@@ -138,7 +138,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		[TestMethod()]
 		public void GetFilesTest()
 		{
-			var path = @"C:\SVN\our.umbraco.org\uComponents"; // HACK: [LK] How to make root 'path' dynamic?
+			var path = @"C:\VCS\Umbraco\uComponents\uComponents"; // HACK: [LK] How to make root 'path' dynamic?
 			var searchPattern = "*.txt";
 			var allDirectories = false;
 
