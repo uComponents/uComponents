@@ -5,9 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using uComponents.DataTypes.Shared.Extensions;
-using uComponents.DataTypes.Shared.PrevalueEditors;
-using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
 
 namespace uComponents.DataTypes.EnumDropDownList
@@ -151,16 +148,9 @@ namespace uComponents.DataTypes.EnumDropDownList
 			{
 				try
 				{
-					Assembly assembly;
-					if (string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase))
-					{
-						assembly = Assembly.Load(value);
-					}
-					else
-					{
-						assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
-					}
-					
+					var assembly = string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase)
+						               ? Assembly.Load(value)
+						               : Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
 					var assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
 
 					this.enumsDropDownList.DataSource = assemblyTypes;

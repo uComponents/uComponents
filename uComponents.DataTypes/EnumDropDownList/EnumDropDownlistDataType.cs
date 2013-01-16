@@ -56,29 +56,21 @@ namespace uComponents.DataTypes.EnumDropDownList
 		{
 			get
 			{
-				if (this.preValueEditor == null)
-				{
-					this.preValueEditor = new EnumDropDownListPreValueEditor(this);
-				}
-
-				return this.preValueEditor;
+				return this.preValueEditor ?? (this.preValueEditor = new EnumDropDownListPreValueEditor(this));
 			}
 		}
 
 		/// <summary>
-		/// Lazy load the assocated DataEditor, 
+		/// Lazy load the associated DataEditor, 
 		/// this is constructed supplying the data value stored by the PreValueEditor, and also the configuration settings of the PreValueEditor 
 		/// </summary>
 		public override IDataEditor DataEditor
 		{
 			get
 			{
-				if (this.dataEditor == null)
-				{
-					this.dataEditor = new EnumDropDownListDataEditor(this.Data, ((EnumDropDownListPreValueEditor)this.PrevalueEditor).Options);
-				}
-
-				return this.dataEditor;
+				return this.dataEditor
+				       ?? (this.dataEditor =
+				           new EnumDropDownListDataEditor(this.Data, ((EnumDropDownListPreValueEditor)this.PrevalueEditor).Options));
 			}
 		}
 
@@ -89,12 +81,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 		{
 			get
 			{
-				if (this.data == null)
-				{
-					this.data = new DefaultData(this);
-				}
-
-				return this.data;
+				return this.data ?? (this.data = new DefaultData(this));
 			}
 		}
 	}
