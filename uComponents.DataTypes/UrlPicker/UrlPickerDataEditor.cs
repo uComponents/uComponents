@@ -14,6 +14,7 @@ namespace uComponents.DataTypes.UrlPicker
     /// <summary>
     /// The DataEditor for the UrlPicker.
     /// </summary>
+    [ValidationProperty("Url")]
     public class UrlPickerDataEditor : Panel
     {
         /// <summary>
@@ -249,5 +250,16 @@ namespace uComponents.DataTypes.UrlPicker
         /// Settings defined for this UrlPicker
         /// </summary>
         public UrlPickerSettings Settings { get; set; }
+
+        /// <summary>
+        /// Used for "Mandatory" behaviour
+        /// </summary>
+        public string Url
+        {
+            get
+            {
+                return State != null ? State.Url : string.Empty;
+            }
+        }
     }
 }
