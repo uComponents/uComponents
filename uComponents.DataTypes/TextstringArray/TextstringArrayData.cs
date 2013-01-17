@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.Xml;
+using uComponents.Core;
 using umbraco.cms.businesslogic.datatype;
 using Umbraco.Core;
 
@@ -19,34 +20,43 @@ namespace uComponents.DataTypes.TextstringArray
 			: base(dataType)
 		{
 		}
-		
+
 		/// <summary>
 		/// Converts the data value to XML.
 		/// </summary>
 		/// <param name="data">The data to convert to XML.</param>
-		/// <returns></returns>
+		/// <returns>Returns the XML node for the data-type's value.</returns>
 		public override XmlNode ToXMl(XmlDocument data)
 		{
 			// check that the value isn't null
 			if (this.Value != null)
 			{
+				var value = this.Value.ToString();
+				var xd = new XmlDocument();
+
+				// if the value is coming from a translation task, it will always be XML
+				if (Helper.Xml.CouldItBeXml(value))
+				{
+					xd.LoadXml(value);
+					return data.ImportNode(xd.DocumentElement, true);
+				}
+
 				// load the values into a string array/list.
 				var deserializer = new JavaScriptSerializer();
-				var values = deserializer.Deserialize<List<string[]>>(this.Value.ToString());
+				var values = deserializer.Deserialize<List<string[]>>(value);
 
-				if (values != null && values.Count>0)
+				if (values != null && values.Count > 0)
 				{
 					// load the values into an XML document.
-					var xd = new XmlDocument();
 					xd.LoadXml("<TextstringArray/>");
 
 					// loop through the list/array items.
-					foreach (string[] row in values)
+					foreach (var row in values)
 					{
 						// add each row to the XML document.
 						var xrow = xd.CreateElement("values");
 
-						foreach (string value in row)
+						foreach (var value in row)
 						{
 							// add each value to the XML document.
 							var xvalue = XmlHelper.AddTextNode(xd, "value", value);
