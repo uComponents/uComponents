@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml;
 using uComponents.Core;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
@@ -16,7 +16,7 @@ using umbraco.editorControls;
 namespace uComponents.DataTypes.TextstringArray
 {
 	/// <summary>
-	/// The TextstringArray control sets a character limit on a TextBox.
+	/// The <see cref="TextstringArrayControl"/> handles the presentation of the string arrays.
 	/// </summary>
 	[ValidationProperty("IsValid")]
 	public class TextstringArrayControl : PlaceHolder
@@ -83,7 +83,7 @@ namespace uComponents.DataTypes.TextstringArray
 		}
 
 		/// <summary>
-		/// Add the resources (sytles/scripts)
+		/// Add the resources (sytle/scripts)
 		/// </summary>
 		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
 		protected override void OnLoad(EventArgs e)
@@ -106,12 +106,20 @@ namespace uComponents.DataTypes.TextstringArray
 
 			if (!string.IsNullOrEmpty(this.Values))
 			{
-				// load the values into a string array/list.
-				var deserializer = new JavaScriptSerializer();
-				this.values = deserializer.Deserialize<List<string[]>>(this.Values);
+				// if the value is coming from a translation task, it will always be XML
+				if (Helper.Xml.CouldItBeXml(this.Values))
+				{
+					this.values = DeserializeFromXml(this.Values);
+				}
+				else
+				{
+					// load the values into a string array/list.
+					var deserializer = new JavaScriptSerializer();
+					this.values = deserializer.Deserialize<List<string[]>>(this.Values);
+				}
 
 				// check the number of items per row
-				for (int i = 0; i < this.values.Count; i++)
+				for (var i = 0; i < this.values.Count; i++)
 				{
 					var row = this.values[i];
 					if (row.Length < this.Options.ItemsPerRow)
@@ -250,6 +258,39 @@ namespace uComponents.DataTypes.TextstringArray
 			var javascriptMethod = string.Concat("new jQuery.textstringArray($('#", this.ClientID, "'), { hiddenId: '#", this.SelectedValues.ClientID, "', minimum: ", this.Options.MinimumRows, ", maximum: ", this.Options.MaximumRows, "});");
 			var javascript = string.Concat("<script type='text/javascript'>jQuery(window).load(function(){", javascriptMethod, "});</script>");
 			writer.WriteLine(javascript);
+		}
+
+		/// <summary>
+		/// Deserializes the XML data into the string array.
+		/// </summary>
+		/// <param name="data">The data as an XML string.</param>
+		/// <returns>Returns a string array.</returns>
+		private static List<string[]> DeserializeFromXml(string data)
+		{
+			var list = new List<string[]>();
+			var xml = new XmlDocument();
+			xml.LoadXml(data);
+
+			var xmlNodeList = xml.SelectNodes("/TextstringArray/values");
+			if (xmlNodeList != null)
+			{
+				foreach (XmlNode node in xmlNodeList)
+				{
+					var value = new List<string>();
+					var selectNodes = node.SelectNodes("value");
+					if (selectNodes != null)
+					{
+						foreach (XmlNode child in selectNodes)
+						{
+							value.Add(child.InnerText);
+						}
+					}
+
+					list.Add(value.ToArray());
+				}
+			}
+
+			return list;
 		}
 	}
 }
