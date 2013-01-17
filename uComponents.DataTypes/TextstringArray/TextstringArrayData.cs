@@ -56,10 +56,10 @@ namespace uComponents.DataTypes.TextstringArray
 						// add each row to the XML document.
 						var xrow = xd.CreateElement("values");
 
-						foreach (var value in row)
+						foreach (var item in row)
 						{
 							// add each value to the XML document.
-							var xvalue = XmlHelper.AddTextNode(xd, "value", value);
+							var xvalue = XmlHelper.AddTextNode(xd, "value", item);
 							xrow.AppendChild(xvalue);
 						}
 
