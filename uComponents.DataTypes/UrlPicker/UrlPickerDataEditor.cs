@@ -35,12 +35,12 @@ namespace uComponents.DataTypes.UrlPicker
         protected HiddenField StateHiddenField;
 
         /// <summary>
-        /// 
+        /// The control for the <c>ContentPicker</c>.
         /// </summary>
         protected SimpleContentPicker ContentPicker;
 
         /// <summary>
-        /// 
+        /// The control for the <c>MediaPicker</c>.
         /// </summary>
         protected SimpleMediaPicker MediaPicker;
 
