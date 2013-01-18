@@ -20,7 +20,7 @@ namespace uComponents.Mapping
     /// </remarks>
     public static class uMapper
     {
-        private static NodeMappingEngine _engin = new NodeMappingEngine();
+        private static NodeMappingEngine _engine = new NodeMappingEngine();
 
         /// <summary>
         /// Gets the <c>INodeMappingEngine</c> being used by uMapper.
