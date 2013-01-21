@@ -18,9 +18,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 	using System.Xml;
 	using uComponents.DataTypes.DataTypeGrid.Model;
 	using umbraco;
-	using umbraco.BusinessLogic;
 	using umbraco.cms.businesslogic.datatype;
 	using Umbraco.Core.IO;
+	using Umbraco.Core.Logging;
 
 	/// <summary>
 	/// The dtg helpers.
@@ -187,7 +187,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 					catch (Exception ex)
 					{
 						// Cannot understand stored prevalues
-						Log.Add(LogTypes.Error, User.GetUser(0), dataTypeDefinitionId, "uComponents [DataTypeGrid]: Error when parsing stored prevalues: " + ex.Message);
+						LogHelper.Error(typeof(DtgHelpers), "uComponents [DataTypeGrid]: Error when parsing stored prevalues.", ex);
 					}
 				}
 			}
@@ -306,7 +306,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 			int pageId;
 			int.TryParse(HttpContext.Current.Request.QueryString["id"], out pageId);
 
-			Log.Add(LogTypes.Custom, User.GetCurrent(), pageId, message);
+			LogHelper.Debug(typeof(DtgHelpers), "pageId: {0}; message: {1}", () => pageId, () => message);
 		}
 	}
 }

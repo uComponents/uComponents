@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using umbraco;
-using umbraco.BusinessLogic;
+using Umbraco.Core.Logging;
 
 namespace uComponents.XsltExtensions
 {
@@ -53,7 +53,7 @@ namespace uComponents.XsltExtensions
 			}
 			catch (Exception ex)
 			{
-				Log.Add(LogTypes.Error, -1, string.Format("uComponents.XsltExtensions.Email.SendMail: Error sending mail. Exception: {0}", ex));
+				LogHelper.Error(typeof(Email), "uComponents.XsltExtensions.Email.SendMail: Error sending mail.", ex);
 			}
 		}
 	}

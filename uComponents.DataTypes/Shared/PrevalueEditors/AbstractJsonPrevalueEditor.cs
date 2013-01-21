@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Script.Serialization;
-using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
+using Umbraco.Core.Logging;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {
@@ -67,7 +67,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 					}
 					catch (Exception ex)
 					{
-						Log.Add(LogTypes.Error, this.m_DataType.DataTypeDefinitionId, string.Concat("uComponents: Execption thrown: ", ex.Message));
+						LogHelper.Error<T>(string.Concat("uComponents: AbstractJsonPrevalueEditor.GetPreValueOptions<T> Execption.", ex.Message), ex);
 					}
 				}
 			}

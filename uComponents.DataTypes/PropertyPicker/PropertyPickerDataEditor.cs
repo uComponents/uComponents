@@ -97,7 +97,7 @@ namespace uComponents.DataTypes.PropertyPicker
 			{
 				// Property is mandatory, but no value selected in the DropDownList
 				this.customValidator.IsValid = false;
-
+				
 				var documentType = new DocumentType(property.PropertyType.ContentTypeId);
 				var tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
 
