@@ -10,6 +10,7 @@ using uComponents.Core;
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.form.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Scripts.json2.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.Shared.Resources.Scripts.mColorPicker.js", Constants.MediaTypeNames.Application.JavaScript, PerformSubstitution = true)]
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.deleteIcon.gif", Constants.MediaTypeNames.Image.Gif)]
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.information.png", Constants.MediaTypeNames.Image.Png)]
 [assembly: WebResource("uComponents.DataTypes.Shared.Resources.Images.throbber.gif", Constants.MediaTypeNames.Image.Gif)]

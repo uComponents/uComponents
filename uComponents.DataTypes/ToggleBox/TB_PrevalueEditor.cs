@@ -13,15 +13,15 @@ namespace uComponents.DataTypes.ToggleBox
 	/// </summary>
 	public class TB_PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
-        /// <summary>
-        /// The CheckBox control for the default value ('on' or 'off').
-        /// </summary>
-        private CheckBox DefaultValue;
+		/// <summary>
+		/// The CheckBox control for the default value ('on' or 'off').
+		/// </summary>
+		private CheckBox DefaultValue;
 
 		/// <summary>
 		/// The TextBox control for the background-color of the 'off' state.
 		/// </summary>
-        /// <remarks>This will be changed to a color-picker in the next version. [LK]</remarks>
+		/// <remarks>This will be changed to a color-picker in the next version. [LK]</remarks>
 		private TextBox OffBackgroundColor;
 
 		/// <summary>
@@ -32,8 +32,8 @@ namespace uComponents.DataTypes.ToggleBox
 		/// <summary>
 		/// The TextBox control for the background-color of the 'on' state.
 		/// </summary>
-        /// <remarks>This will be changed to a color-picker in the next version. [LK]</remarks>
-        private TextBox OnBackgroundColor;
+		/// <remarks>This will be changed to a color-picker in the next version. [LK]</remarks>
+		private TextBox OnBackgroundColor;
 
 		/// <summary>
 		/// The TextBox control for the label of the 'on' state.
@@ -57,7 +57,7 @@ namespace uComponents.DataTypes.ToggleBox
 			// set the options
 			var options = new TB_Options()
 			{
-                DefaultValue = this.DefaultValue.Checked,
+				DefaultValue = this.DefaultValue.Checked,
 				OffBackgroundColor = this.OffBackgroundColor.Text,
 				OffText = this.OffText.Text,
 				OnBackgroundColor = this.OnBackgroundColor.Text,
@@ -77,7 +77,7 @@ namespace uComponents.DataTypes.ToggleBox
 			base.OnInit(e);
 			this.EnsureChildControls();
 
-			this.RegisterEmbeddedClientResource(uComponents.DataTypes.TextImage.TextImageExtensions.ColorpickerJs, ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.mColorPicker.js", ClientDependencyType.Javascript);
 		}
 
 		/// <summary>
@@ -88,18 +88,18 @@ namespace uComponents.DataTypes.ToggleBox
 			base.CreateChildControls();
 
 			// set-up child controls
-            this.DefaultValue = new CheckBox() { ID = "DefaultValue" };
-			
+			this.DefaultValue = new CheckBox() { ID = "DefaultValue" };
+
 			this.OffBackgroundColor = new TextBox() { ID = "OffBackgroundColor", CssClass = "guiInputText" };
 			this.OffBackgroundColor.Attributes.Add("type", "color");
 			this.OffBackgroundColor.Attributes.Add("data-hex", "true");
-			
+
 			this.OffText = new TextBox() { ID = "OffText", CssClass = "guiInputText" };
-			
+
 			this.OnBackgroundColor = new TextBox() { ID = "OnBackgroundColor", CssClass = "guiInputText" };
 			this.OnBackgroundColor.Attributes.Add("type", "color");
 			this.OnBackgroundColor.Attributes.Add("data-hex", "true");
-			
+
 			this.OnText = new TextBox() { ID = "OnText", CssClass = "guiInputText" };
 
 			// add the child controls
@@ -116,7 +116,7 @@ namespace uComponents.DataTypes.ToggleBox
 
 			// get PreValues, load them into the controls.
 			var options = this.GetPreValueOptions<TB_Options>();
-			
+
 			// if the options are null, then load the defaults
 			if (options == null)
 			{
@@ -124,7 +124,7 @@ namespace uComponents.DataTypes.ToggleBox
 			}
 
 			// set the values
-            this.DefaultValue.Checked = options.DefaultValue;
+			this.DefaultValue.Checked = options.DefaultValue;
 			this.OffBackgroundColor.Text = options.OffBackgroundColor;
 			this.OffText.Text = options.OffText;
 			this.OnBackgroundColor.Text = options.OnBackgroundColor;
@@ -138,11 +138,11 @@ namespace uComponents.DataTypes.ToggleBox
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
 			// add property fields
-            writer.AddPrevalueRow("'On' label", "The label text for the true (on) state", this.OnText);
+			writer.AddPrevalueRow("'On' label", "The label text for the true (on) state", this.OnText);
 			writer.AddPrevalueRow("'On' background", "The background-color for the true (on) state", this.OnBackgroundColor);
 			writer.AddPrevalueRow("'Off' label", "The label text for the false (off) state", this.OffText);
-			writer.AddPrevalueRow("'Off' background","The background-color for the false (off) state", this.OffBackgroundColor);
-            writer.AddPrevalueRow("Default value", "The default value for the ToggleBox, either 'on' or 'off'", this.DefaultValue);
+			writer.AddPrevalueRow("'Off' background", "The background-color for the false (off) state", this.OffBackgroundColor);
+			writer.AddPrevalueRow("Default value", "The default value for the ToggleBox, either 'on' or 'off'", this.DefaultValue);
 		}
 	}
 }

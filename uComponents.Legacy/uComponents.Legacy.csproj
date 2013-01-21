@@ -126,6 +126,7 @@
       <Private>True</Private>
       <HintPath>..\packages\UmbracoCms.Core.6.0.0-beta\lib\System.Data.SqlServerCe.Entity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -254,6 +255,21 @@
     <Compile Include="DataTypes\StyledTextBox\StyledTextBoxDataEditor.cs" />
     <Compile Include="DataTypes\StyledTextBox\StyledTextBoxDataType.cs" />
     <Compile Include="DataTypes\StyledTextBox\StyledTextBoxPrevalueEditor.cs" />
+    <Compile Include="DataTypes\TextImage\Alignment.cs" />
+    <Compile Include="DataTypes\TextImage\DataExtractor.cs" />
+    <Compile Include="DataTypes\TextImage\DocumentHandlers.cs" />
+    <Compile Include="DataTypes\TextImage\DropDownItems.cs" />
+    <Compile Include="DataTypes\TextImage\DropShadow.cs" />
+    <Compile Include="DataTypes\TextImage\Helper.cs" />
+    <Compile Include="DataTypes\TextImage\ImageGenerator.cs" />
+    <Compile Include="DataTypes\TextImage\MediaHelper.cs" />
+    <Compile Include="DataTypes\TextImage\OutputFormat.cs" />
+    <Compile Include="DataTypes\TextImage\TextImageControl.cs" />
+    <Compile Include="DataTypes\TextImage\TextImageDataEditor.cs" />
+    <Compile Include="DataTypes\TextImage\TextImageDataType.cs" />
+    <Compile Include="DataTypes\TextImage\TextImageExtensions.cs" />
+    <Compile Include="DataTypes\TextImage\TextImageParameters.cs" />
+    <Compile Include="DataTypes\TextImage\TextImagePrevalueEditor.cs" />
     <Compile Include="DataTypes\UniqueProperty\UniquePropertyDataEditor.cs" />
     <Compile Include="DataTypes\UniqueProperty\UniquePropertyDataType.cs" />
     <Compile Include="DataTypes\UniqueProperty\UniquePropertyPreValueEditor.cs" />
@@ -337,6 +353,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataTypes\TextImage\images\color.png" />
+    <EmbeddedResource Include="DataTypes\TextImage\images\colorpicker.png" />
+    <EmbeddedResource Include="DataTypes\TextImage\images\graybar.jpg" />
+    <EmbeddedResource Include="DataTypes\TextImage\images\grid.gif" />
+    <EmbeddedResource Include="DataTypes\TextImage\images\meta100.png" />
+    <EmbeddedResource Include="DataTypes\TextImage\images\transparentpixel.gif" />
+    <EmbeddedResource Include="DataTypes\TextImage\jquery.simpleColor.js" />
+    <EmbeddedResource Include="DataTypes\TextImage\TextImageScripts.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
