@@ -8,7 +8,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Extensions
 {
     using System.Web.UI;
 
-    using uComponents.DataTypes.DataTypeGrid.DataTypeFunctions;
+    using uComponents.DataTypes.DataTypeGrid.DataTypeOverrides;
     using uComponents.DataTypes.DataTypeGrid.Factories;
 
     using umbraco.editorControls.datepicker;

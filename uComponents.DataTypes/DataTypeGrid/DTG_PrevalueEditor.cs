@@ -6,34 +6,32 @@
 
 using System.Collections;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
+
 using uComponents.Core;
 using uComponents.DataTypes.DataTypeGrid.Configuration;
 using uComponents.DataTypes.DataTypeGrid.WebServices;
-using uComponents.DataTypes.Shared.Extensions;
 
 [assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Css.DTG_PrevalueEditor.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_PrevalueEditor.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Web.Script.Serialization;
-	using System.Web.UI;
-	using System.Web.UI.HtmlControls;
-	using System.Web.UI.WebControls;
-	using Model;
-	using Shared.PrevalueEditors;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Web.Script.Serialization;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
+    using System.Web.UI.WebControls;
 
-	using uComponents.DataTypes.DataTypeGrid.Functions;
+    using uComponents.DataTypes.DataTypeGrid.Functions;
+    using uComponents.DataTypes.DataTypeGrid.Model;
 
-	using umbraco.cms.businesslogic.datatype;
-	using umbraco;
-	using umbraco.editorControls;
-	using umbraco.IO;
-	using System.IO;
+    using umbraco;
+    using umbraco.cms.businesslogic.datatype;
+    using umbraco.editorControls;
+    using umbraco.IO;
 
     /// <summary>
     /// The PreValue Editor for the DTG DataType.
@@ -53,17 +51,17 @@ namespace uComponents.DataTypes.DataTypeGrid
         private Panel _accordionContainer = new Panel();
 
         /// <summary>
-        /// Wether to show the property name label or not
+        /// Whether to show the property name label or not
         /// </summary>
         private CheckBox _showLabel = new CheckBox();
 
         /// <summary>
-        /// Wether to show the table header or not
+        /// Whether to show the table header or not
         /// </summary>
         private CheckBox _showHeader = new CheckBox();
 
         /// <summary>
-        /// Wether to show the table footer or not
+        /// Whether to show the table footer or not
         /// </summary>
         private CheckBox _showFooter = new CheckBox();
 
@@ -751,7 +749,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             writer.AddPrevalueRow("Show Label", this._showLabel);
             writer.AddPrevalueRow("Show Table Header", this._showHeader);
             writer.AddPrevalueRow("Show Table Footer", this._showFooter);
-            writer.AddPrevalueRow("Number of rows", new Control[] { this._numberOfRows, this._numberOfRowsValidator });
+            writer.AddPrevalueRow("Number of rows per page", new Control[] { this._numberOfRows, this._numberOfRowsValidator });
             this._accordionContainer.RenderControl(writer);
 
             // Add javascript preview of alias
@@ -915,7 +913,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             var sorting = "[[0, 'asc']]";
 
-            if (list.Count() > 0)
+            if (list.Any())
             {
                 sorting = "[";
 
