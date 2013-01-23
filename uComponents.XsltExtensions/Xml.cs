@@ -11,6 +11,7 @@ using System.Xml.XPath;
 using uComponents.Core;
 // using uComponents.Core.Shared.Extensions;
 using umbraco;
+using umbraco.IO;
 
 namespace uComponents.XsltExtensions
 {
@@ -46,6 +47,31 @@ namespace uComponents.XsltExtensions
 
 			// fall-back returning the original node-set.
 			return nodeset;
+		}
+
+		public static XPathNodeIterator GetXmlDocument(string path, bool relative, int cacheInSeconds)
+		{
+			var cacheKey = string.Concat("GetXmlDoc_", path);
+
+			if (cacheInSeconds > 0)
+			{
+				// check the cache
+				var cached = HttpContext.Current.Cache.Get(cacheKey);
+				if (cached != null)
+				{
+					return (XPathNodeIterator)cached;
+				}
+			}
+
+			var xmlDocument = library.GetXmlDocument(path, relative);
+
+			if (cacheInSeconds > 0)
+			{
+				var filename = relative ? IOHelper.MapPath(path) : path;
+				HttpContext.Current.Cache.Insert(cacheKey, xmlDocument, new CacheDependency(filename), DateTime.Now.Add(new TimeSpan(0, 0, cacheInSeconds)), TimeSpan.Zero, CacheItemPriority.Low, null);
+			}
+
+			return xmlDocument;
 		}
 
 		/// <summary>
