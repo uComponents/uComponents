@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using uComponents.Core;
 using umbraco.editorControls;
 
 namespace uComponents.DataTypes.EnumDropDownList
@@ -24,10 +23,10 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// </summary>
 		private DropDownList enumsDropDownList = new DropDownList();
 
-        /// <summary>
-        /// Option to set if the first data item should be used as the default value, or whether to add a "please select..." item
-        /// </summary>
-        private CheckBox defaultToFirstItemCheckBox = new CheckBox();
+		/// <summary>
+		/// Option to set if the first data item should be used as the default value, or whether to add a "please select..." item
+		/// </summary>
+		private CheckBox defaultToFirstItemCheckBox = new CheckBox();
 
 		/// <summary>
 		/// Data object used to define the configuration status of this PreValueEditor
@@ -77,36 +76,16 @@ namespace uComponents.DataTypes.EnumDropDownList
 			this.assemblyDropDownList.SelectedIndexChanged += new EventHandler(this.AssemblyDropDownList_SelectedIndexChanged);
 
 			// find all assemblies (*.dll)
-			this.assemblyDropDownList.DataSource = this.GetAssemblies();
+			this.assemblyDropDownList.DataSource = Helper.IO.GetAssemblies();
 			this.assemblyDropDownList.DataBind();
 
 			this.assemblyDropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
 
 			this.enumsDropDownList.ID = "enumsDropDownList";
 
-            this.defaultToFirstItemCheckBox.ID = "defaultToFirstItemCheckBox";
+			this.defaultToFirstItemCheckBox.ID = "defaultToFirstItemCheckBox";
 
 			this.Controls.AddPrevalueControls(this.assemblyDropDownList, this.enumsDropDownList, defaultToFirstItemCheckBox);
-		}
-
-		/// <summary>
-		/// Gets the assemblies.
-		/// </summary>
-		/// <returns></returns>
-		private string[] GetAssemblies()
-		{
-			var assemblies = new List<string>();
-
-			// check if the App_Code directory has any files
-			if (Directory.GetFiles(this.MapPathSecure("~/App_Code")).Length > 0)
-			{
-				assemblies.Add("App_Code");
-			}
-
-			// add assemblies from the /bin directory
-			assemblies.AddRange(Directory.GetFiles(this.MapPathSecure("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
-
-			return assemblies.ToArray();
 		}
 
 		/// <summary>
@@ -149,8 +128,8 @@ namespace uComponents.DataTypes.EnumDropDownList
 				try
 				{
 					var assembly = string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase)
-						               ? Assembly.Load(value)
-						               : Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
+									   ? Assembly.Load(value)
+									   : Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
 					var assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
 
 					this.enumsDropDownList.DataSource = assemblyTypes;
@@ -177,7 +156,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 			{
 				this.Options.Assembly = this.assemblyDropDownList.SelectedValue;
 				this.Options.Enum = this.enumsDropDownList.SelectedValue;
-                this.Options.DefaultToFirstItem = this.defaultToFirstItemCheckBox.Checked;
+				this.Options.DefaultToFirstItem = this.defaultToFirstItemCheckBox.Checked;
 
 				this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
 			}
@@ -191,7 +170,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 		{
 			writer.AddPrevalueRow("Assembly", this.assemblyDropDownList);
 			writer.AddPrevalueRow("Enum", this.enumsDropDownList);
-            writer.AddPrevalueRow("Default To First Item", this.defaultToFirstItemCheckBox);
+			writer.AddPrevalueRow("Default To First Item", this.defaultToFirstItemCheckBox);
 		}
 	}
 }

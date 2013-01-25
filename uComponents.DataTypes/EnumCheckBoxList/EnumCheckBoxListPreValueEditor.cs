@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using uComponents.DataTypes.Shared.Extensions;
-using uComponents.DataTypes.Shared.PrevalueEditors;
-using umbraco.cms.businesslogic.datatype;
+using uComponents.Core;
 using umbraco.editorControls;
 
 namespace uComponents.DataTypes.EnumCheckBoxList
@@ -76,7 +72,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 			this.assemblyDropDownList.SelectedIndexChanged += new EventHandler(this.AssemblyDropDownList_SelectedIndexChanged);
 
 			// find all assemblies (*.dll)
-			this.assemblyDropDownList.DataSource = this.GetAssemblies();
+			this.assemblyDropDownList.DataSource = Helper.IO.GetAssemblies();
 			this.assemblyDropDownList.DataBind();
 
 			this.assemblyDropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
@@ -91,26 +87,6 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 				this.assemblyDropDownList,
 				this.enumsDropDownList,
 				this.storageTypeRadioButtonList);
-		}
-
-		/// <summary>
-		/// Gets the assemblies.
-		/// </summary>
-		/// <returns></returns>
-		private string[] GetAssemblies()
-		{
-			var assemblies = new List<string>();
-
-			// check if the App_Code directory has any files
-			if (Directory.GetFiles(this.MapPathSecure("~/App_Code")).Length > 0)
-			{
-				assemblies.Add("App_Code");
-			}
-
-			// add assemblies from the /bin directory
-			assemblies.AddRange(Directory.GetFiles(this.MapPathSecure("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
-
-			return assemblies.ToArray();
 		}
 
 		/// <summary>
