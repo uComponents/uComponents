@@ -235,6 +235,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 		/// The value.
 		/// </param>
 		/// <returns>
+		/// The config.
 		/// </returns>
 		public static PreValueRow GetSingleConfig(string value)
 		{
@@ -272,7 +273,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
 		/// Validates the regex.
 		/// </summary>
 		/// <param name="value">The value.</param>
-		/// <returns></returns>
+		/// <returns>True if valid, otherwise false.</returns>
 		public static bool ValidateRegex(string value)
 		{
 			var isValid = true;

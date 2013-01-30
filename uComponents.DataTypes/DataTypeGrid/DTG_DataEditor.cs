@@ -14,7 +14,6 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
 using uComponents.DataTypes.DataTypeGrid.Model;
-//using uComponents.Core.Shared;
 
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
@@ -25,11 +24,10 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
-	using System.Web;
+    using System.Web;
 
-	using uComponents.DataTypes.DataTypeGrid.Extensions;
-	using uComponents.DataTypes.DataTypeGrid.Functions;
-	using umbraco;
+    using uComponents.DataTypes.DataTypeGrid.Extensions;
+    using uComponents.DataTypes.DataTypeGrid.Functions;
 
     /// <summary>
     /// The DataType Grid Control
@@ -385,28 +383,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             {
                 this.Rows[i].SortOrder = i;
             }
-        }
-
-        /// <summary>
-        /// Generates the header row.
-        /// </summary>
-        private void GenerateHeaderRow()
-        {
-            var tr = new TableRow { TableSection = TableRowSection.TableHeader };
-
-            // Add ID header cell
-            tr.Cells.Add(new TableHeaderCell { Text = Helper.Dictionary.GetDictionaryItem("ID", "ID") });
-
-            tr.Cells.Add(new TableHeaderCell { Text = Helper.Dictionary.GetDictionaryItem("Actions", "Actions") });
-
-            // Add prevalue cells
-            foreach (var s in StoredPreValues)
-            {
-                var th = new TableHeaderCell { Text = s.Name };
-                tr.Cells.Add(th);
-            }
-
-            Grid.Rows.Add(tr);
         }
 
         /// <summary>

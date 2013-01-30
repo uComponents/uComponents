@@ -129,6 +129,7 @@
     <Compile Include="DataTypeGrid\Model\DTG_PreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValue.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_StoredValueForModel.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValueRow.cs" />
     <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs" />
     <Compile Include="DataTypeGrid\WebServices\PreValueWebService.cs">
