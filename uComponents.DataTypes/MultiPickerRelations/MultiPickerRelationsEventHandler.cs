@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using uComponents.Core;
 using umbraco;
-using umbraco.BusinessLogic;
-using umbraco.businesslogic;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
@@ -12,6 +10,7 @@ using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.relation;
 using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
+using Umbraco.Core;
 using Umbraco.Web;
 
 namespace uComponents.DataTypes.MultiPickerRelations
@@ -26,7 +25,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 		/// </summary>
 		/// <param name="httpApplication">The HTTP application.</param>
 		/// <param name="applicationContext">The application context.</param>
-		public void OnApplicationInitialized(UmbracoApplication httpApplication, Umbraco.Core.ApplicationContext applicationContext)
+		public void OnApplicationInitialized(UmbracoApplicationBase httpApplication, ApplicationContext applicationContext)
 		{
 		}
 
@@ -35,7 +34,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 		/// </summary>
 		/// <param name="httpApplication">The HTTP application.</param>
 		/// <param name="applicationContext">The application context.</param>
-		public void OnApplicationStarted(UmbracoApplication httpApplication, Umbraco.Core.ApplicationContext applicationContext)
+		public void OnApplicationStarted(UmbracoApplicationBase httpApplication, ApplicationContext applicationContext)
 		{
 		}
 
@@ -47,7 +46,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 		/// <remarks>
 		/// Initializes a new instance of MultiPickerRelationsEventHandler, hooks into the after event of saving a Content node, Media item or a Member.
 		/// </remarks>
-		public void OnApplicationStarting(UmbracoApplication httpApplication, Umbraco.Core.ApplicationContext applicationContext)
+		public void OnApplicationStarting(UmbracoApplicationBase httpApplication, ApplicationContext applicationContext)
 		{
 			Document.AfterSave += new Document.SaveEventHandler(this.AfterSave);
 			Media.AfterSave += new Media.SaveEventHandler(this.AfterSave);
@@ -68,40 +67,46 @@ namespace uComponents.DataTypes.MultiPickerRelations
 			var multiPickerRelationsId = new Guid(DataTypeConstants.MultiPickerRelationsId);
 
 			// For each MultiPickerRelations datatype
-			foreach (Property multiPickerRelationsProperty in from property in sender.GenericProperties
-															  where property.PropertyType.DataTypeDefinition.DataType.Id == multiPickerRelationsId
-															  select property)
+			foreach (var multiPickerRelationsProperty in from property in sender.GenericProperties
+														 where property.PropertyType.DataTypeDefinition.DataType.Id == multiPickerRelationsId
+														 select property)
 			{
 				// used to identify this datatype instance - relations created are marked with this in the comment field
-				string instanceIdentifier = "[\"PropertyTypeId\":" + multiPickerRelationsProperty.PropertyType.Id.ToString() + "]";
+				var instanceIdentifier = string.Concat("[\"PropertyTypeId\":", multiPickerRelationsProperty.PropertyType.Id, "]");
 
 				// get configuration options for datatype
-				MultiPickerRelationsOptions options = ((MultiPickerRelationsPreValueEditor)multiPickerRelationsProperty.PropertyType.DataTypeDefinition.DataType.PrevalueEditor).Options;
+				var options = ((MultiPickerRelationsPreValueEditor)multiPickerRelationsProperty.PropertyType.DataTypeDefinition.DataType.PrevalueEditor).Options;
 
 				// find MultiPicker source propertyAlias field on sender
-				Property multiNodePickerProperty = sender.getProperty(options.PropertyAlias);
+				var multiNodePickerProperty = sender.getProperty(options.PropertyAlias);
 
 				if (multiNodePickerProperty != null)
 				{
 					// get relationType from options
-					RelationType relationType = RelationType.GetById(options.RelationTypeId);
+					var relationType = RelationType.GetById(options.RelationTypeId);
 
 					if (relationType != null)
 					{
 						// validate: 1) check current type of sender matches that expected by the relationType, validation method is in the DataEditor
-						uQuery.UmbracoObjectType contextObjectType = uQuery.UmbracoObjectType.Unknown;
+						var contextObjectType = uQuery.UmbracoObjectType.Unknown;
 						switch (sender.GetType().ToString())
 						{
-							case "umbraco.cms.businesslogic.web.Document": contextObjectType = uQuery.UmbracoObjectType.Document; break;
-							case "umbraco.cms.businesslogic.media.Media": contextObjectType = uQuery.UmbracoObjectType.Media; break;
-							case "umbraco.cms.businesslogic.member.Member": contextObjectType = uQuery.UmbracoObjectType.Member; break;
+							case "umbraco.cms.businesslogic.web.Document":
+								contextObjectType = uQuery.UmbracoObjectType.Document;
+								break;
+							case "umbraco.cms.businesslogic.media.Media":
+								contextObjectType = uQuery.UmbracoObjectType.Media;
+								break;
+							case "umbraco.cms.businesslogic.member.Member":
+								contextObjectType = uQuery.UmbracoObjectType.Member;
+								break;
 						}
 
 						if (((MultiPickerRelationsDataEditor)multiPickerRelationsProperty.PropertyType.DataTypeDefinition.DataType.DataEditor)
 							.IsContextUmbracoObjectTypeValid(contextObjectType, relationType))
 						{
 
-							uQuery.UmbracoObjectType pickerUmbracoObjectType = uQuery.UmbracoObjectType.Unknown;
+							var pickerUmbracoObjectType = uQuery.UmbracoObjectType.Unknown;
 
 							// Get the object type expected by the associated relation type and if this datatype has been configures as a rever index
 							pickerUmbracoObjectType = ((MultiPickerRelationsDataEditor)multiPickerRelationsProperty.PropertyType.DataTypeDefinition.DataType.DataEditor)
@@ -111,7 +116,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 							// clear all exisitng relations (or look to see previous verion of sender to delete changes ?)
 							DeleteRelations(relationType, sender.Id, options.ReverseIndexing, instanceIdentifier);
 
-							string multiPickerPropertyValue = multiNodePickerProperty.Value.ToString();
+							var multiPickerPropertyValue = multiNodePickerProperty.Value.ToString();
 
 							var multiPickerStorageFormat = Settings.OutputFormat.CSV; // Assume default of csv
 
@@ -196,9 +201,9 @@ namespace uComponents.DataTypes.MultiPickerRelations
 			// Clean up any relations
 
 			// For each MultiPickerRelations datatype
-			foreach (Property multiPickerRelationsProperty in from property in sender.GenericProperties
-															  where property.PropertyType.DataTypeDefinition.DataType.Id == multiPickerRelationsId
-															  select property)
+			foreach (var multiPickerRelationsProperty in from property in sender.GenericProperties
+														 where property.PropertyType.DataTypeDefinition.DataType.Id == multiPickerRelationsId
+														 select property)
 			{
 				// used to identify this datatype instance - relations created are marked with this in the comment field
 				string instanceIdentifier = "[\"PropertyTypeId\":" + multiPickerRelationsProperty.PropertyType.Id.ToString() + "]";
@@ -244,7 +249,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 
 			getRelationsSql += " AND comment = '" + instanceIdentifier + "'";
 
-			using (IRecordsReader relations = uQuery.SqlHelper.ExecuteReader(getRelationsSql))
+			using (var relations = uQuery.SqlHelper.ExecuteReader(getRelationsSql))
 			{
 				//clear data
 				Relation relation;
