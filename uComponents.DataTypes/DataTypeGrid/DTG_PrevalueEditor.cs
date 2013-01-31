@@ -462,11 +462,20 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 var editPropertyHeader = new Panel() { CssClass = "propertyHeader" };
                 var editPropertyTitle = new HtmlGenericControl("h3")
-                    {
-                        InnerText =
-                            s.Name + " (" + s.Alias + "), " + uQuery.GetDictionaryItem("Type", "Type") + ": "
-                            + ddlNewType.Items.FindByValue(s.DataTypeId.ToString()).Text
-                    };
+                                            {
+                                                InnerText =
+                                                    string.Format(
+                                                        "{0} ({1}), {2}: {3}",
+                                                        s.Name.StartsWith("#")
+                                                            ? uQuery.GetDictionaryItem(
+                                                                s.Name.Substring(1, s.Name.Length - 1),
+                                                                s.Name.Substring(1, s.Name.Length - 1))
+                                                            : s.Name,
+                                                        s.Alias,
+                                                        uQuery.GetDictionaryItem("Type", "Type"),
+                                                        ddlNewType.Items.FindByValue(s.DataTypeId.ToString()).Text)
+                                            };
+
                 editPropertyTitle.Attributes["class"] = "propertyTitle";
 
                 var lnkDelete = new LinkButton

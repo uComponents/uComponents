@@ -29,6 +29,8 @@ namespace uComponents.DataTypes.DataTypeGrid
     using uComponents.DataTypes.DataTypeGrid.Extensions;
     using uComponents.DataTypes.DataTypeGrid.Functions;
 
+    using umbraco;
+
     /// <summary>
     /// The DataType Grid Control
     /// </summary>
@@ -401,6 +403,15 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var s in StoredPreValues)
             {
                 var th = new TableHeaderCell { Text = s.Name };
+
+                // If the name starts with a hash, get the dictionary item
+                if (s.Name.StartsWith("#"))
+                {
+                    var key = s.Name.Substring(1, s.Name.Length - 1);
+
+                    th.Text = uQuery.GetDictionaryItem(key, key);
+                }
+
                 tr.Cells.Add(th);
             }
 
@@ -634,7 +645,19 @@ namespace uComponents.DataTypes.DataTypeGrid
                 config.Value.ConfigureForDtg(InsertControls);
 
                 InsertControls.Controls.Add(new LiteralControl("<li>"));
-                InsertControls.Controls.Add(new Label { CssClass = "insertControlLabel", Text = config.Name });
+
+                var title = new Label() { CssClass = "insertControlLabel", Text = config.Name };
+
+                // If the name starts with a hash, get the dictionary item
+                if (config.Name.StartsWith("#"))
+                {
+                    var key = config.Name.Substring(1, config.Name.Length - 1);
+
+                    title.Text = uQuery.GetDictionaryItem(key, key);
+                }
+
+                this.InsertControls.Controls.Add(title);
+
                 InsertControls.Controls.Add(control);
                 GenerateValidationControls(InsertControls, "Insert", config, InsertDataTypes);
 
@@ -712,7 +735,19 @@ namespace uComponents.DataTypes.DataTypeGrid
                 config.Value.ConfigureForDtg(this.EditControls);
 
                 this.EditControls.Controls.Add(new LiteralControl("<li>"));
-                this.EditControls.Controls.Add(new Label { CssClass = "editControlLabel", Text = config.Name });
+
+                var title = new Label() { CssClass = "editControlLabel", Text = config.Name };
+
+                // If the name starts with a hash, get the dictionary item
+                if (config.Name.StartsWith("#"))
+                {
+                    var key = config.Name.Substring(1, config.Name.Length - 1);
+
+                    title.Text = uQuery.GetDictionaryItem(key, key);
+                }
+
+                this.EditControls.Controls.Add(title);
+
                 this.EditControls.Controls.Add(control);
                 this.GenerateValidationControls(this.EditControls, "Edit", config, this.EditDataTypes);
 
