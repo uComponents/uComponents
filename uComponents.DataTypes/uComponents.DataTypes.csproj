@@ -106,7 +106,11 @@
     <Compile Include="CountryPicker\CountryPickerModelBinder.cs" />
     <Compile Include="CountryPicker\CountryPickerPreValueEditor.cs" />
     <Compile Include="DataTypeConstants.cs" />
-    <Compile Include="DataTypeGrid\Configuration\DtgConfiguration.Designer.cs" />
+    <Compile Include="DataTypeGrid\Configuration\DtgConfiguration.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DtgConfiguration.resx</DependentUpon>
+    </Compile>
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DateDataTypeFunctions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DropDownListDataTypeExtensions.cs" />
     <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeFunctions.cs" />
@@ -130,9 +134,14 @@
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValue.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValueRow.cs" />
-    <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs" />
+    <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DtgWebServices.resx</DependentUpon>
+    </Compile>
     <Compile Include="DataTypeGrid\WebServices\PreValueWebService.cs">
       <SubType>Component</SubType>
+      <DependentUpon>PreValueWebService.asmx</DependentUpon>
     </Compile>
     <Compile Include="DropdownCheckList\DDCList_DataEditor.cs" />
     <Compile Include="DropdownCheckList\DDCList_DataType.cs" />
@@ -205,6 +214,15 @@
     <Compile Include="Shared\PrevalueEditors\NoDBOptionsKeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoOptionsPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\SqlOptions.cs" />
+    <Compile Include="Shared\WebServices\DictionaryService.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>DictionaryService.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\WebServices\SharedServices.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SharedServices.resx</DependentUpon>
+    </Compile>
     <Compile Include="Similarity\MoreUmbracoDocsLikeThis.cs" />
     <Compile Include="Similarity\Net\MoreLikeThis.cs" />
     <Compile Include="Similarity\Net\SimilarityQueries.cs" />
@@ -281,6 +299,10 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Shared\WebServices\SharedServices.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedServices.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.css" />
     <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.js" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.css" />
@@ -291,7 +313,7 @@
     <EmbeddedResource Include="DataTypeGrid\Scripts\DTG_DataEditor.js" />
     <EmbeddedResource Include="DataTypeGrid\Scripts\DTG_PrevalueEditor.js" />
     <EmbeddedResource Include="DataTypeGrid\Scripts\jquery.dataTables.min.js">
-    	<DependentUpon>jquery.dataTables.js</DependentUpon>
+      <DependentUpon>jquery.dataTables.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataTypeGrid\WebServices\PreValueWebService.asmx" />
     <EmbeddedResource Include="DropdownCheckList\Images\dropdown.png" />
@@ -316,6 +338,7 @@
     <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.js" />
     <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.css" />
     <Content Include="DataTypeGrid\Scripts\jquery.dataTables.js" />
+    <Content Include="Shared\WebServices\DictionaryService.asmx" />
     <Content Include="Similarity\Net\LICENSE.txt" />
     <Content Include="Similarity\Net\README.txt" />
     <EmbeddedResource Include="Similarity\SimilarityScripts.js" />
@@ -348,8 +371,13 @@
   <ItemGroup>
     <EmbeddedResource Include="DataTypeGrid\Configuration\DtgConfiguration.resx">
       <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DtgConfiguration.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataTypeGrid\WebServices\DtgWebServices.resx" />
+    <EmbeddedResource Include="DataTypeGrid\WebServices\DtgWebServices.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DtgWebServices.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Shared\AjaxUpload\AjaxUploadHandlerResource.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

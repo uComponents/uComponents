@@ -40,8 +40,8 @@ namespace uComponents.DataTypes.DataTypeGrid
                 {
                     foreach (XmlNode item in items.ChildNodes)
                     {
-            
                         var valueRow = new StoredValueRow();
+
                         if (item.Attributes != null)
                         {
                             valueRow.Id = int.Parse(item.Attributes["id"].Value);
