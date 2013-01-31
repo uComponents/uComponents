@@ -124,6 +124,9 @@
     <Compile Include="DataTypeGrid\Extensions\DTG_DtgDataEditorExtensions.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_DataTypeFunctionsFactory.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_GridCell.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_GridRowCollection.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_GridRow.cs" />
     <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFunctions.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_BasePreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueRow.cs" />
@@ -359,6 +362,9 @@
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataTypeGrid\RazorModels.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

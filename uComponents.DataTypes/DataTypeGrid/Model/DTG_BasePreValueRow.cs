@@ -8,9 +8,6 @@ using System.Web.Script.Serialization;
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
-	/// <summary>
-	/// 
-	/// </summary>
 	public class BasePreValueRow
 	{
 		/// <summary>

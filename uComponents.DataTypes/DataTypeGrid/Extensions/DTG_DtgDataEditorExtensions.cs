@@ -6,11 +6,11 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Extensions
 {
-	using uComponents.DataTypes.Shared.Extensions;
-	using umbraco.cms.businesslogic.datatype;
-	using umbraco.editorControls;
+    using uComponents.DataTypes.Shared.Extensions;
+    using umbraco.cms.businesslogic.datatype;
+    using umbraco.editorControls;
 
-	/// <summary>
+    /// <summary>
     /// Extension methods for the DataType Grid DataType
     /// </summary>
     internal static class DtgDataEditorExtensions
