@@ -8,9 +8,6 @@ using System.Web.Script.Serialization;
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
-	/// <summary>
-	/// 
-	/// </summary>
 	public class BasePreValueRow
 	{
 		/// <summary>
@@ -38,6 +35,12 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// </summary>
 		/// <value>The alias.</value>
 		public string Alias { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this column is mandatory.
+		/// </summary>
+		/// <value><c>true</c> if mandatory; otherwise, <c>false</c>.</value>
+		public bool Mandatory { get; set; }
 
 		/// <summary>
 		/// Gets or sets the validation expression.

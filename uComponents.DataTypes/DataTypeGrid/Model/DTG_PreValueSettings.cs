@@ -8,9 +8,6 @@ using System.ComponentModel;
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
-	/// <summary>
-	/// 
-	/// </summary>
 	public class PreValueEditorSettings
 	{
 		/// <summary>
@@ -29,7 +26,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		///   <c>true</c> if [show header]; otherwise, <c>false</c>.
 		/// </value>
 		[DefaultValue(true)]
-		public bool ShowTableHeader { get; set; }
+		public bool ShowGridHeader { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether [show footer].
@@ -38,14 +35,21 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		///   <c>true</c> if [show footer]; otherwise, <c>false</c>.
 		/// </value>
 		[DefaultValue(true)]
-		public bool ShowTableFooter { get; set; }
+		public bool ShowGridFooter { get; set; }
 
 		/// <summary>
 		/// Gets or sets the number of rows.
 		/// </summary>
 		/// <value>The number of rows.</value>
 		[DefaultValue(10)]
-		public int NumberOfRows { get; set; }
+		public int RowsPerPage { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this column is mandatory.
+		/// </summary>
+		/// <value><c>true</c> if mandatory; otherwise, <c>false</c>.</value>
+		[DefaultValue(false)]
+		public bool Mandatory { get; set; }
 
 		/// <summary>
 		/// Gets or sets the content sorting.
@@ -61,11 +65,12 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// </summary>
 		public PreValueEditorSettings()
 		{
-			this.NumberOfRows = 10;
+			this.RowsPerPage = 10;
 			this.ShowLabel = false;
 			this.ContentSorting = string.Empty;
-			this.ShowTableHeader = true;
-			this.ShowTableFooter = true;
+		    this.Mandatory = false;
+			this.ShowGridHeader = true;
+			this.ShowGridFooter = true;
 		}
 	}
 }

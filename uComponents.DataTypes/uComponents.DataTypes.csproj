@@ -290,7 +290,9 @@
     <EmbeddedResource Include="DataTypeGrid\Css\DTG_PrevalueEditor.css" />
     <EmbeddedResource Include="DataTypeGrid\Scripts\DTG_DataEditor.js" />
     <EmbeddedResource Include="DataTypeGrid\Scripts\DTG_PrevalueEditor.js" />
-    <EmbeddedResource Include="DataTypeGrid\Scripts\jquery.dataTables.min.js" />
+    <EmbeddedResource Include="DataTypeGrid\Scripts\jquery.dataTables.min.js">
+    	<DependentUpon>jquery.dataTables.js</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataTypeGrid\WebServices\PreValueWebService.asmx" />
     <EmbeddedResource Include="DropdownCheckList\Images\dropdown.png" />
     <EmbeddedResource Include="DropdownCheckList\Images\dropdown_hover.png" />

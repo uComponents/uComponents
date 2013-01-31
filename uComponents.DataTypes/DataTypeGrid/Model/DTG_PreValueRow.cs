@@ -10,9 +10,6 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 {
 	using System.Collections.Generic;
 
-	/// <summary>
-	/// 
-	/// </summary>
 	public class PreValueRow : BasePreValueRow
 	{
 		/// <summary>
