@@ -16,7 +16,7 @@ namespace uComponents.DataTypes.DataTypeGrid.WebServices
     /// Web service for Prevalues.
     /// </summary>
     [ScriptService]
-    [WebService]
+    [WebService(Namespace = "http://umbraco.org/ucomponents/datatypegrid/prevalue")]
     public class PreValueWebService : WebService
     {
         /// <summary>

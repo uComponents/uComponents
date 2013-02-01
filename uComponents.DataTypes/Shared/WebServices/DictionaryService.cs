@@ -16,18 +16,18 @@ namespace uComponents.DataTypes.Shared.WebServices
     /// Web service for Dictionary items.
     /// </summary>
     [ScriptService]
-    [WebService]
+    [WebService(Namespace = "http://umbraco.org/ucomponents/shared")]
     public class DictionaryService : WebService
     {
         /// <summary>
         /// Gets the dictionary item
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <param name="fallback">The fallback.</param>
+        /// <param name="fallback">The fallback text.</param>
         /// <returns>The translated dictionary item.</returns>
         /// <exception cref="System.UnauthorizedAccessException">Thrown if the user is not logged in.</exception>
         [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = true)]
         public string GetDictionaryItem(string key, string fallback)
         {
             if (umbraco.BusinessLogic.User.GetCurrent() == null)
