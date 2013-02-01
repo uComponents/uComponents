@@ -32,7 +32,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
                 {
                     var node = new Node(id);
 
-                    return node.Name;
+                    return string.Format("<a href='editContent.aspx?id={0}' title='Edit content'>{1}</a>", node.Id, node.Name);
                 }
 
                 return dataType.Data.Value.ToString();

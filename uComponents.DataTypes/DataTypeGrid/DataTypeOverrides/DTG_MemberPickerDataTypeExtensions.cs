@@ -37,7 +37,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
                 var m = new Member(id);
 
                 // Return member name
-                return m.Text;
+                return string.Format("<a href='editMember.aspx?id={0}' title='Edit content'>{1}</a>", m.Id, m.Text);
             }
 
             return value;

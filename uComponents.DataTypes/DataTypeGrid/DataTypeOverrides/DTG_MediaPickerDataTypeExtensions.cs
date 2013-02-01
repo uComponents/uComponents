@@ -40,7 +40,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
                 // Return thumbnail if media type is Image
                 if (m.ContentType.Alias.Equals("Image"))
                 {
-                    return string.Format("<img src='{0}' alt='{1}'/>", m.GetImageThumbnailUrl(), m.Text);
+                    return string.Format("<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>", m.GetImageThumbnailUrl(), m.Text, m.Id);
                 }
             }
 

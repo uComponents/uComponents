@@ -584,6 +584,16 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             var control = parent.FindControl(config.Value.DataEditor.Editor.ID);
 
+            var title = config.Name;
+
+            // If the name starts with a hash, get the dictionary item
+            if (config.Name.StartsWith("#"))
+            {
+                var key = config.Name.Substring(1, config.Name.Length - 1);
+
+                title = uQuery.GetDictionaryItem(key, key);
+            }
+
             // Mandatory
             if (this.StoredPreValues.Single(x => x.Alias == config.Alias).Mandatory && control != null)
             {
@@ -594,7 +604,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                                         CssClass = "validator",
                                         ControlToValidate = control.ID,
                                         Display = ValidatorDisplay.Dynamic,
-                                        ErrorMessage = config.Name + " is mandatory"
+                                        ErrorMessage = title + " is mandatory"
                                     };
                 parent.Controls.Add(validator);
             }
@@ -613,7 +623,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                             ControlToValidate = control.ID,
                             Display = ValidatorDisplay.Dynamic,
                             ValidationExpression = regex.ToString(),
-                            ErrorMessage = config.Name + " is not in a correct format"
+                            ErrorMessage = title + " is not in a correct format"
                         };
                     parent.Controls.Add(validator);
                 }

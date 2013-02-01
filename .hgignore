@@ -16,3 +16,4 @@ uComponents_*.zip
 _UpgradeReport_Files/*
 uComponents.sln.GhostDoc.user.dic
 UpgradeLog.*
+*.orig
