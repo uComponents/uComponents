@@ -8,6 +8,9 @@ using System.ComponentModel;
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
+	/// <summary>
+	/// Prevalue Editor Settings for the DataTypeGrid.
+	/// </summary>
 	public class PreValueEditorSettings
 	{
 		/// <summary>

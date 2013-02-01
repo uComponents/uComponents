@@ -123,14 +123,13 @@ namespace uComponents.DataTypes.DataTypeGrid
             : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
             // Ensure settings file exists
-            DtgHelpers.EnsureFileExists(
+            Helper.IO.EnsureFileExists(
                 IOHelper.MapPath("~/config/DataTypeGrid.config"),
-                DtgConfiguration.DataTypeGrid,
-                m_Locker);
+                DtgConfiguration.DataTypeGrid);
 
             // Ensure webservice file exists
-            var dtgFolder = DtgHelpers.EnsureFolderExists("DataTypeGrid", m_Locker);
-            DtgHelpers.EnsureFileExists(Path.Combine(dtgFolder.FullName, "PreValueWebService.asmx"), DtgWebServices.PreValueWebService, m_Locker);
+            var dtgFolder = Helper.IO.EnsureFolderExists("DataTypeGrid");
+            Helper.IO.EnsureFileExists(Path.Combine(dtgFolder.FullName, "PreValueWebService.asmx"), DtgWebServices.PreValueWebService);
         }
 
         /// <summary>

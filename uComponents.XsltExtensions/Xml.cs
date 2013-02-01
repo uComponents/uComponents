@@ -49,6 +49,13 @@ namespace uComponents.XsltExtensions
 			return nodeset;
 		}
 
+		/// <summary>
+		/// Gets the XML document.
+		/// </summary>
+		/// <param name="path">The path.</param>
+		/// <param name="relative">if set to <c>true</c> [relative].</param>
+		/// <param name="cacheInSeconds">The cache in seconds.</param>
+		/// <returns></returns>
 		public static XPathNodeIterator GetXmlDocument(string path, bool relative, int cacheInSeconds)
 		{
 			var cacheKey = string.Concat("GetXmlDoc_", path);
