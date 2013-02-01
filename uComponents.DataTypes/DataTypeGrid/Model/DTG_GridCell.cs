@@ -43,7 +43,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         /// Gets the object.
         /// </summary>
         /// <value>The object.</value>
-        public object Object { get; }
+        public object Object { get; private set; }
 
         /// <summary>
         /// Converts the collection to a <see cref="DynamicXml"/> object.

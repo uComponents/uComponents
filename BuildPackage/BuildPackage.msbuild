@@ -9,9 +9,9 @@
 	<!-- PROPERTIES -->
 	<PropertyGroup>
 		<VersionMajor>5</VersionMajor>
-		<VersionMinor>3</VersionMinor>
-		<VersionPatch>1</VersionPatch>
-		<VersionSuffix></VersionSuffix>
+		<VersionMinor>4</VersionMinor>
+		<VersionPatch>0</VersionPatch>
+		<VersionSuffix>-dev</VersionSuffix>
 		<UmbracoVersion>4.8.0</UmbracoVersion>
 	</PropertyGroup>
 
