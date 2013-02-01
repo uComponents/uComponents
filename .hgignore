@@ -13,3 +13,4 @@ uComponents.sln.DotSettings.user
 uComponents.*.nupkg
 uComponents_*.zip
 ._.hgignore
+uComponents.sln.GhostDoc.user.dic

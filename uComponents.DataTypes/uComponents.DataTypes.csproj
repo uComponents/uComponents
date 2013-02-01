@@ -338,6 +338,10 @@
     <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.js" />
     <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.css" />
     <Content Include="DataTypeGrid\Scripts\jquery.dataTables.js" />
+    <EmbeddedResource Include="Shared\Resources\Scripts\jquery.ucomponents.dictionary.js">
+        <DependentUpon>jquery.ucomponents.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared\Resources\Scripts\jquery.ucomponents.js" />
     <Content Include="Shared\WebServices\DictionaryService.asmx" />
     <Content Include="Similarity\Net\LICENSE.txt" />
     <Content Include="Similarity\Net\README.txt" />
