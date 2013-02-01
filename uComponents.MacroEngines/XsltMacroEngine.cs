@@ -135,7 +135,7 @@ namespace uComponents.MacroEngines
 
 				this.Success = true;
 
-				return this.RenderControl(ctrl);
+				return RenderControl(ctrl);
 			}
 			catch (Exception ex)
 			{

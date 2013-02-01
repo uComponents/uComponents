@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
-using Umbraco.Core;
 using uComponents.DataTypes.Shared.WebServices;
+using Umbraco.Core;
 using Umbraco.Core.IO;
 
 namespace uComponents.Installer
