@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
 using Umbraco.Core;
+using uComponents.DataTypes.Shared.WebServices;
 using Umbraco.Core.IO;
 
 namespace uComponents.Installer
@@ -175,6 +176,10 @@ namespace uComponents.Installer
 				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
 				successes.Add(title);
 			}
+
+			// Shared web services
+			var serviceFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "WebServices"));
+			Helper.IO.EnsureFileExists(Path.Combine(serviceFolder.FullName, "DictionaryService.asmx"), SharedServices.DictionaryService);
 
 			// set the feedback controls to hidden
 			this.Failure.Visible = this.Success.Visible = false;

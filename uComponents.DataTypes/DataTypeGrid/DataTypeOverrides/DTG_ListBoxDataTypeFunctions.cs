@@ -4,7 +4,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
 {
     using System.Linq;
     using System.Web.UI;
@@ -12,7 +12,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
     using umbraco.editorControls.listbox;
-	using umbraco;
+    using umbraco;
 
     /// <summary>
     /// DTG extensions for the Dropdown List Multiple DataType

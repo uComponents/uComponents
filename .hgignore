@@ -9,3 +9,6 @@ TestResults/*
 *.ncrunch*
 *.suo
 *.user
+uComponents.*.nupkg
+uComponents_*.zip
+._.hgignore

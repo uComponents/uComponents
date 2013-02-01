@@ -213,6 +213,9 @@
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IUmbracoLibrary.cs" />
+	<Compile Include="Helper-IO.cs">
+      <DependentUpon>Helper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\uComponentsModule.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Constants-Common.cs">

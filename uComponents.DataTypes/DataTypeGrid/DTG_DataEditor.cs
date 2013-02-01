@@ -14,7 +14,6 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
 using uComponents.DataTypes.DataTypeGrid.Model;
-//using uComponents.Core.Shared;
 
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
@@ -25,11 +24,12 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
-	using System.Web;
+    using System.Web;
 
-	using uComponents.DataTypes.DataTypeGrid.Extensions;
-	using uComponents.DataTypes.DataTypeGrid.Functions;
-	using umbraco;
+    using uComponents.DataTypes.DataTypeGrid.Extensions;
+    using uComponents.DataTypes.DataTypeGrid.Functions;
+
+    using umbraco;
 
     /// <summary>
     /// The DataType Grid Control
@@ -157,26 +157,26 @@ namespace uComponents.DataTypes.DataTypeGrid
         }
 
         /// <summary>
-        /// Gets or sets the show table header.
+        /// Gets or sets whether to show the grid header.
         /// </summary>
         /// <value>
-        /// The show table header.
+        /// Whether to show the header.
         /// </value>
-        public HiddenField ShowTableHeader { get; set; }
+        public HiddenField ShowGridHeader { get; set; }
 
         /// <summary>
-        /// Gets or sets the show table footer.
+        /// Gets or sets whether to show the footer.
         /// </summary>
         /// <value>
-        /// The show table footer.
+        /// Whether to show the footer.
         /// </value>
         public HiddenField ShowTableFooter { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of rows.
+        /// Gets or sets the number of rows per page.
         /// </summary>
-        /// <value>The number of rows.</value>
-        public HiddenField NumberOfRows { get; set; }
+        /// <value>The number of rows per page.</value>
+        public HiddenField RowsPerPage { get; set; }
 
         /// <summary>
         /// Gets or sets the content sorting.
@@ -403,6 +403,15 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var s in StoredPreValues)
             {
                 var th = new TableHeaderCell { Text = s.Name };
+
+                // If the name starts with a hash, get the dictionary item
+                if (s.Name.StartsWith("#"))
+                {
+                    var key = s.Name.Substring(1, s.Name.Length - 1);
+
+                    th.Text = uQuery.GetDictionaryItem(key, key);
+                }
+
                 tr.Cells.Add(th);
             }
 
@@ -565,20 +574,34 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <param name="name">The name.</param>
         /// <param name="config">The config.</param>
         /// <param name="list">The list.</param>
-        private void GenerateValidationControls(
-            Control parent, string name, StoredValue config, IList<StoredValue> list)
+        private void GenerateValidationControls(Control parent, string name, StoredValue config, IList<StoredValue> list)
         {
             var control = parent.FindControl(config.Value.DataEditor.Editor.ID);
 
-            if (!string.IsNullOrEmpty(StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression)
-                && control != null)
+            // Mandatory
+            if (this.StoredPreValues.Single(x => x.Alias == config.Alias).Mandatory && control != null)
+            {
+                var validator = new RequiredFieldValidator()
+                                    {
+                                        ID = name + config.Alias + "_Required_" + list.IndexOf(config),
+                                        Enabled = false,
+                                        CssClass = "validator",
+                                        ControlToValidate = control.ID,
+                                        Display = ValidatorDisplay.Dynamic,
+                                        ErrorMessage = config.Name + " is mandatory"
+                                    };
+                parent.Controls.Add(validator);
+            }
+
+            // Regex
+            if (!string.IsNullOrEmpty(this.StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression) && control != null)
             {
                 try
                 {
                     var regex = new Regex(@StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression);
                     var validator = new RegularExpressionValidator()
                         {
-                            ID = name + config.Alias + "_" + list.IndexOf(config),
+                            ID = name + config.Alias + "_Regex_" + list.IndexOf(config),
                             Enabled = false,
                             CssClass = "validator",
                             ControlToValidate = control.ID,
@@ -622,7 +645,19 @@ namespace uComponents.DataTypes.DataTypeGrid
                 config.Value.ConfigureForDtg(InsertControls);
 
                 InsertControls.Controls.Add(new LiteralControl("<li>"));
-                InsertControls.Controls.Add(new Label { CssClass = "insertControlLabel", Text = config.Name });
+
+                var title = new Label() { CssClass = "insertControlLabel", Text = config.Name };
+
+                // If the name starts with a hash, get the dictionary item
+                if (config.Name.StartsWith("#"))
+                {
+                    var key = config.Name.Substring(1, config.Name.Length - 1);
+
+                    title.Text = uQuery.GetDictionaryItem(key, key);
+                }
+
+                this.InsertControls.Controls.Add(title);
+
                 InsertControls.Controls.Add(control);
                 GenerateValidationControls(InsertControls, "Insert", config, InsertDataTypes);
 
@@ -700,7 +735,19 @@ namespace uComponents.DataTypes.DataTypeGrid
                 config.Value.ConfigureForDtg(this.EditControls);
 
                 this.EditControls.Controls.Add(new LiteralControl("<li>"));
-                this.EditControls.Controls.Add(new Label { CssClass = "editControlLabel", Text = config.Name });
+
+                var title = new Label() { CssClass = "editControlLabel", Text = config.Name };
+
+                // If the name starts with a hash, get the dictionary item
+                if (config.Name.StartsWith("#"))
+                {
+                    var key = config.Name.Substring(1, config.Name.Length - 1);
+
+                    title.Text = uQuery.GetDictionaryItem(key, key);
+                }
+
+                this.EditControls.Controls.Add(title);
+
                 this.EditControls.Controls.Add(control);
                 this.GenerateValidationControls(this.EditControls, "Edit", config, this.EditDataTypes);
 
@@ -1090,11 +1137,11 @@ namespace uComponents.DataTypes.DataTypeGrid
                     string.Format("DTG: Retrieved the following data from database: {0}", this.data.Value));
             }
 
-            ShowTableHeader = new HiddenField()
-                { ID = "ShowTableHeader", Value = this.settings.ShowTableHeader.ToString() };
+            this.ShowGridHeader = new HiddenField()
+                { ID = "ShowGridHeader", Value = this.settings.ShowGridHeader.ToString() };
             ShowTableFooter = new HiddenField()
-                { ID = "ShowTableFooter", Value = this.settings.ShowTableFooter.ToString() };
-            NumberOfRows = new HiddenField() { ID = "NumberOfRows", Value = this.settings.NumberOfRows.ToString() };
+                { ID = "ShowGridFooter", Value = this.settings.ShowGridFooter.ToString() };
+            this.RowsPerPage = new HiddenField() { ID = "RowsPerPage", Value = this.settings.RowsPerPage.ToString() };
             ContentSorting = new HiddenField() { ID = "ContentSorting", Value = this.settings.ContentSorting };
             Grid = new Table { ID = "tblGrid", CssClass = "display" };
             Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
@@ -1123,9 +1170,9 @@ namespace uComponents.DataTypes.DataTypeGrid
             // Generate edit controls
             GenerateEditControls();
 
-            this.Controls.Add(this.ShowTableHeader);
+            this.Controls.Add(this.ShowGridHeader);
             this.Controls.Add(this.ShowTableFooter);
-            this.Controls.Add(this.NumberOfRows);
+            this.Controls.Add(this.RowsPerPage);
             this.Controls.Add(this.ContentSorting);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.Toolbar);
@@ -1147,9 +1194,9 @@ namespace uComponents.DataTypes.DataTypeGrid
             writer.AddAttribute("class", "dtg");
 
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
-            ShowTableHeader.RenderControl(writer);
+            this.ShowGridHeader.RenderControl(writer);
             ShowTableFooter.RenderControl(writer);
-            NumberOfRows.RenderControl(writer);
+            this.RowsPerPage.RenderControl(writer);
             ContentSorting.RenderControl(writer);
             Grid.RenderControl(writer);
             Toolbar.RenderControl(writer);

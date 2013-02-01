@@ -164,6 +164,7 @@ namespace uComponents.Installer.PackageActions
 				"DataTypeGrid/PreValueWebService.asmx",
 				"MultiNodePicker/CustomTreeService.asmx",
 				"Shared/AjaxUpload/AjaxUploadHandler.ashx",
+				"Shared/WebServices/SharedServices.ashx",
 				"UrlPicker/UrlPickerService.asmx"
 			};
 			foreach (var file in files)

@@ -3,30 +3,30 @@
 	if ($("table.display").length > 0) {
 
 		$("table.display").dataTable({
-			"bJQueryUI": true,
-			"bRetrieve": true,
-			"bLengthChange": false,
-			"iDisplayLength": GetNumberOfRows(this),
-			"sPaginationType": "full_numbers",
-			"aaSorting": GetContentSorting(this),
-			"aoColumnDefs": [
+			bJQueryUI: true,
+			bRetrieve: true,
+			bLengthChange: false,
+			iDisplayLength: GetNumberOfRows(this),
+			sPaginationType: "full_numbers",
+			aaSorting: GetContentSorting(this),
+			aoColumnDefs: [
 				{ "bVisible": false, "bSearchable": false, "aTargets": [0], "sType": "numeric" },
 				{ "sTitle": "", "bSortable": false, "aTargets": [1] }
 			],
-			"fnDrawCallback": function (oSettings) {
+			fnDrawCallback: function (oSettings) {
 				ConfigureToolbar($(oSettings.nTableWrapper).parent());
 			}
 		});
 	}
 
 	// Fix for jQuery 1.7.2
-	$(".deleteRowDialog, .editRowDialog, .insertRowDialog, .updateButton, .insertButton").live('mouseover', function () {
+	$(".ui-button").live('mouseover', function () {
 		$(this).addClass("ui-state-hover");
 	});
-	$(".deleteRowDialog, .editRowDialog, .insertRowDialog, .updateButton, .insertButton").live('mouseout', function () {
+	$(".ui-button").live('mouseout', function () {
 		$(this).removeClass("ui-state-hover ui-state-active ui-state-focus");
 	});
-	$(".deleteRowDialog, .editRowDialog, .insertRowDialog, .updateButton, .insertButton").live('mousedown', function () {
+	$(".ui-button").live('mousedown', function () {
 		$(this).addClass("ui-state-active ui-state-focus");
 	});
 
@@ -128,7 +128,7 @@
 		var numberOfRows = 10;
 
 		if ($(element).find("input[id$='NumberOfRows']").length > 0) {
-		    numberOfRows = $(element).find("input[id$='NumberOfRows']").val();
+		    numberOfRows = parseFloat($(element).find("input[id$='NumberOfRows']").val());
 		}
 
 		return numberOfRows;
@@ -151,7 +151,7 @@ function EnableValidators(elem, enabled) {
 	if (validators.length > 0) {
 		$.each(validators, function () {
 			if ($.isFunction(ValidatorEnable)) {
-				ValidatorEnable(document.getElementById(this.attr("id")), enabled);
+				ValidatorEnable(document.getElementById($(this).attr("id")), enabled);
 			}
 		});
 	}

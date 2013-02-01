@@ -20,22 +20,7 @@ namespace uComponents.Mapping
     /// </remarks>
     public static class uMapper
     {
-        private static NodeMappingEngine _engine;
-
-        static uMapper()
-        {
-            _engine = new NodeMappingEngine();
-
-            if (HttpContext.Current != null)
-            {
-                var cache = HttpContext.Current.Cache;
-
-                if (cache != null)
-                {
-                    _engine.SetCacheProvider(new DefaultCacheProvider(cache));
-                }
-            }
-        }
+        private static NodeMappingEngine _engine = new NodeMappingEngine();
 
         /// <summary>
         /// Gets the <c>INodeMappingEngine</c> being used by uMapper.
@@ -48,6 +33,8 @@ namespace uComponents.Mapping
         /// <summary>
         /// Enables or disables caching, using the <c>HttpContext.Current.Cache</c>
         /// object.
+        /// 
+        /// Caching is disabled by default.
         /// </summary>
         /// <exception cref="InvalidOperationException">
         /// If <c>HttpContext.Current</c> is not set.
