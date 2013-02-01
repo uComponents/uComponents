@@ -5,6 +5,7 @@ syntax: glob
 */obj/*
 *_ReSharper.uComponents*
 BuildPackage/*
+packages/*
 DLLs/*
 uComponents*
 TestResults/*
