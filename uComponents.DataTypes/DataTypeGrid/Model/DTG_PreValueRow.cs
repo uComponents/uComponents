@@ -11,7 +11,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 	using System.Collections.Generic;
 
 	/// <summary>
-	/// 
+	/// A Prevalue Row for the DataTypeGrid.
 	/// </summary>
 	public class PreValueRow : BasePreValueRow
 	{

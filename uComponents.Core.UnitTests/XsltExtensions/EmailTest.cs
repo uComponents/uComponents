@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace uComponents.Core.XsltExtensions.UnitTests
+namespace uComponents.Core.UnitTests.XsltExtensions
 {
 	[TestClass]
 	public class EmailTest

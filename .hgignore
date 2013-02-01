@@ -10,6 +10,6 @@ TestResults/*
 uComponents.ncrunch*
 TestResults/*
 uComponents.sln.DotSettings.user
-uComponents_*.zip
 uComponents.*.nupkg
+uComponents_*.zip
 ._.hgignore

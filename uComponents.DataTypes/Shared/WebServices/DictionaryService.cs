@@ -1,41 +1,41 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <summary>
-// 10.04.2011 - Created [Ove Andersen]
+// 31.01.2013 - Created [Ove Andersen]
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Web.Script.Services;
-using System.Web.Services;
-using umbraco;
-
-namespace uComponents.DataTypes.DataTypeGrid.WebServices
+namespace uComponents.DataTypes.Shared.WebServices
 {
     using System;
+    using System.Web.Script.Services;
+    using System.Web.Services;
+
+    using umbraco;
 
     /// <summary>
-    /// Web service for Prevalues.
+    /// Web service for Dictionary items.
     /// </summary>
     [ScriptService]
     [WebService]
-    public class PreValueWebService : WebService
+    public class DictionaryService : WebService
     {
         /// <summary>
-        /// Reorders the prevalue.
+        /// Gets the dictionary item
         /// </summary>
-        /// <param name="preValueId">The prevalue id.</param>
-        /// <param name="sortOrder">The sort order.</param>
-        /// <returns>True if the operation was successful, otherwise false.</returns>
+        /// <param name="key">The key.</param>
+        /// <param name="fallback">The fallback.</param>
+        /// <returns>The translated dictionary item.</returns>
         /// <exception cref="System.UnauthorizedAccessException">Thrown if the user is not logged in.</exception>
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public bool ReorderPreValue(string preValueId, string sortOrder)
+        public string GetDictionaryItem(string key, string fallback)
         {
             if (umbraco.BusinessLogic.User.GetCurrent() == null)
             {
                 throw new UnauthorizedAccessException();
             }
 
-            return uQuery.ReorderPreValue(int.Parse(preValueId), int.Parse(sortOrder));
+            return uQuery.GetDictionaryItem(key, fallback);
         }
     }
 }

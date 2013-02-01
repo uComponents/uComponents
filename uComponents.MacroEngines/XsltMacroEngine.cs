@@ -15,7 +15,7 @@ namespace uComponents.MacroEngines
 	/// <summary>
 	/// XSLT Macro Engine
 	/// </summary>
-	public class XsltMacroEngine : IMacroEngine
+	public class XsltMacroEngine : IMacroEngine, IMacroEngineResultStatus
 	{
 		/// <summary>
 		/// Gets the name of the macro engine.
@@ -102,37 +102,49 @@ namespace uComponents.MacroEngines
 		/// <returns>Returns a string of the executed macro XSLT.</returns>
 		public string Execute(MacroModel macro, INode currentPage)
 		{
-			string fileLocation = null;
-
-			if (!string.IsNullOrEmpty(macro.ScriptName))
+			try
 			{
-				fileLocation = string.Concat("../", macro.ScriptName);
+				string fileLocation = null;
+
+				if (!string.IsNullOrEmpty(macro.ScriptName))
+				{
+					fileLocation = string.Concat("../", macro.ScriptName);
+				}
+				else if (!string.IsNullOrEmpty(macro.ScriptCode))
+				{
+					string xslt = this.CheckXsltFragment(macro.ScriptCode.Trim());
+					string md5 = library.md5(xslt);
+					string filename = string.Concat("inline-", md5, ".xslt");
+					fileLocation = this.CreateTemporaryFile(xslt, filename, true).Replace("~", "..");
+				}
+
+				if (string.IsNullOrEmpty(fileLocation))
+				{
+					return string.Empty;
+				}
+
+				var tempMacro = new macro() { };
+				tempMacro.Model.Xslt = fileLocation;
+
+				// copy the macro properties across
+				foreach (var property in macro.Properties)
+				{
+					tempMacro.Model.Properties.Add(new MacroPropertyModel(property.Key, property.Value));
+				}
+
+				var ctrl = tempMacro.loadMacroXSLT(tempMacro, macro, (Hashtable)HttpContext.Current.Items["pageElements"]);
+
+				this.Success = true;
+
+				return this.RenderControl(ctrl);
 			}
-			else if (!string.IsNullOrEmpty(macro.ScriptCode))
+			catch (Exception ex)
 			{
-				string xslt = this.CheckXsltFragment(macro.ScriptCode.Trim());
-				string md5 = library.md5(xslt);
-				string filename = string.Concat("inline-", md5, ".xslt");
-				fileLocation = this.CreateTemporaryFile(xslt, filename, true).Replace("~", "..");
+				this.ResultException = ex;
+				this.Success = false;
+
+				return string.Format("<div style=\"border: 1px solid #990000\">Error loading XSLT {0}<br />{1}</div>", macro.ScriptName, GlobalSettings.DebugMode ? ex.Message : string.Empty);
 			}
-
-			if (string.IsNullOrEmpty(fileLocation))
-			{
-				return string.Empty;
-			}
-
-			var tempMacro = new macro() { };
-			tempMacro.Model.Xslt = fileLocation;
-
-			// copy the macro properties across
-			foreach (var property in macro.Properties)
-			{
-				tempMacro.Model.Properties.Add(new MacroPropertyModel(property.Key, property.Value));
-			}
-
-			var ctrl = tempMacro.loadMacroXSLT(tempMacro, macro, (Hashtable)HttpContext.Current.Items["pageElements"]);
-
-			return this.RenderControl(ctrl);
 		}
 
 		/// <summary>
@@ -208,5 +220,21 @@ namespace uComponents.MacroEngines
 
 			return sb.ToString();
 		}
+
+		/// <summary>
+		/// Gets or sets the result exception.
+		/// </summary>
+		/// <value>
+		/// The result exception.
+		/// </value>
+		public Exception ResultException { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="XsltMacroEngine"/> is success.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if success; otherwise, <c>false</c>.
+		/// </value>
+		public bool Success { get; set; }
 	}
 }
