@@ -4,38 +4,44 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
 {
-    using System.Linq;
     using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
-    using umbraco.editorControls.dropdownlist;
-	using umbraco;
+
+    using umbraco.cms.businesslogic.media;
+    using umbraco.editorControls.mediapicker;
+    using umbraco;
 
     /// <summary>
-    /// /// DTG extensions for the Dropdown List DataType
+    /// DTG extensions for the MediaPicker DataType
     /// </summary>
-    internal class DropdownListDataTypeFunctions : IDataTypeFunctions<DropdownListDataType>
+    internal class MediaPickerDataTypeFunctions : IDataTypeFunctions<MemberPickerDataType>
     {
-        #region Implementation of IDataTypeFunctions<DropdownListDataType>
+        #region Implementation of IDataTypeFunctions<MemberPickerDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <returns>A human-readable string</returns>
-        public string ToDtgString(DropdownListDataType dataType)
+        public string ToDtgString(MemberPickerDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
-            var p = uQuery.GetPreValues(dataType.DataTypeDefinitionId);
+            int id;
+            int.TryParse(value, out id);
 
-            var v = p.SingleOrDefault(x => x.Id.ToString().Equals(value));
-
-            if (v != null)
+            if (id > 0)
             {
-                return v.Value;
+                var m = new Media(id);
+
+                // Return thumbnail if media type is Image
+                if (m.ContentType.Alias.Equals("Image"))
+                {
+                    return string.Format("<img src='{0}' alt='{1}'/>", m.GetImageThumbnailUrl(), m.Text);
+                }
             }
 
             return value;
@@ -46,7 +52,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(DropdownListDataType dataType, Control container)
+        public void ConfigureForDtg(MemberPickerDataType dataType, Control container)
         {
         }
 
@@ -54,7 +60,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
         /// Saves the datatype for DTG.
         /// </summary>
         /// <param name="dataType">The DataType.</param>
-        public void SaveForDtg(DropdownListDataType dataType)
+        public void SaveForDtg(MemberPickerDataType dataType)
         {
         }
 

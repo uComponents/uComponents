@@ -66,9 +66,9 @@ namespace uComponents.DataTypes.DataTypeGrid
         private CheckBox _showFooter = new CheckBox();
 
         /// <summary>
-        /// The number of rows to show in the table
+        /// The number of rows per page to show in the grid
         /// </summary>
-        private TextBox _numberOfRows = new TextBox() { Text = "10" };
+        private TextBox _rowsPerPage = new TextBox() { Text = "10" };
 
         /// <summary>
         /// Flag for indicating if a delete operation is in process
@@ -76,7 +76,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         ////private bool _deleteMode = false;
 
         /// <summary>
-        /// The validator for _numberOfRows
+        /// The validator for _rowsPerPage
         /// </summary>
         private RegularExpressionValidator _numberOfRowsValidator = new RegularExpressionValidator();
 
@@ -123,14 +123,13 @@ namespace uComponents.DataTypes.DataTypeGrid
             : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
             // Ensure settings file exists
-            DtgHelpers.EnsureFileExists(
+            Helper.IO.EnsureFileExists(
                 IOHelper.MapPath("~/config/DataTypeGrid.config"),
-                DtgConfiguration.DataTypeGrid,
-                m_Locker);
+                DtgConfiguration.DataTypeGrid);
 
             // Ensure webservice file exists
-            var dtgFolder = DtgHelpers.EnsureFolderExists("DataTypeGrid", m_Locker);
-            DtgHelpers.EnsureFileExists(Path.Combine(dtgFolder.FullName, "PreValueWebService.asmx"), DtgWebServices.PreValueWebService, m_Locker);
+            var dtgFolder = Helper.IO.EnsureFolderExists("DataTypeGrid");
+            Helper.IO.EnsureFileExists(Path.Combine(dtgFolder.FullName, "PreValueWebService.asmx"), DtgWebServices.PreValueWebService);
         }
 
         /// <summary>
@@ -149,9 +148,9 @@ namespace uComponents.DataTypes.DataTypeGrid
                 }
 
                 this._settings.ShowLabel = this._showLabel != null && this._showLabel.Checked;
-                this._settings.ShowTableHeader = this._showHeader != null && this._showHeader.Checked;
-                this._settings.ShowTableFooter = this._showFooter != null && this._showFooter.Checked;
-                this._settings.NumberOfRows = this._numberOfRows != null ? int.Parse(this._numberOfRows.Text) : 10;
+                this._settings.ShowGridHeader = this._showHeader != null && this._showHeader.Checked;
+                this._settings.ShowGridFooter = this._showFooter != null && this._showFooter.Checked;
+                this._settings.RowsPerPage = this._rowsPerPage != null ? int.Parse(this._rowsPerPage.Text) : 10;
                 this._settings.ContentSorting = this.GetContentSorting(this._preValues);
                 prevalues.Add(this._settings);
 
@@ -229,15 +228,15 @@ namespace uComponents.DataTypes.DataTypeGrid
             this._accordionContainer = new Panel
                 { ID = "dtg_accordion_" + this.m_DataType.DataTypeDefinitionId, CssClass = "dtg_accordion" };
             this._showLabel = new CheckBox() { ID = "showLabel", Checked = this._settings.ShowLabel };
-            this._showHeader = new CheckBox() { ID = "showHeader", Checked = this._settings.ShowTableHeader };
-            this._showFooter = new CheckBox() { ID = "showFooter", Checked = this._settings.ShowTableFooter };
-            this._numberOfRows = new TextBox() { ID = "NumberOfRows", Text = this._settings.NumberOfRows.ToString() };
+            this._showHeader = new CheckBox() { ID = "showHeader", Checked = this._settings.ShowGridHeader };
+            this._showFooter = new CheckBox() { ID = "showFooter", Checked = this._settings.ShowGridFooter };
+            this._rowsPerPage = new TextBox() { ID = "RowsPerPage", Text = this._settings.RowsPerPage.ToString() };
             this._numberOfRowsValidator = new RegularExpressionValidator()
                 {
                     ID = "NumberOfRowsValidator",
                     CssClass = "validator",
                     ValidationExpression = @"^[1-9]*[0-9]*$",
-                    ControlToValidate = _numberOfRows.ClientID,
+                    ControlToValidate = this._rowsPerPage.ClientID,
                     Display = ValidatorDisplay.Dynamic,
                     ErrorMessage = Helper.Dictionary.GetDictionaryItem("MustBeANumber", "Must be a number")
                 };
@@ -338,6 +337,19 @@ namespace uComponents.DataTypes.DataTypeGrid
             ((PreValueRow)this._newPreValue).Controls.Add(ddlNewType);
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+            // MANDATORY
+            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+            // Instantiate controls
+            var chkNewMandatory = new CheckBox() { ID = "newMandatory", CssClass = "newMandatory" };
+            var lblNewMandatory = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Mandatory", "Mandatory"), CssClass = "label" };
+
+            // Add controls to control
+            addNewPropertyControls.Controls.Add(lblNewMandatory);
+            addNewPropertyControls.Controls.Add(chkNewMandatory);
+            ((PreValueRow)this._newPreValue).Controls.Add(chkNewMandatory);
+            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
             // VALIDATION
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
@@ -378,6 +390,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             addNewPropertyControls.Controls.Add(lblNewValidation);
             addNewPropertyControls.Controls.Add(txtNewValidation);
             addNewPropertyControls.Controls.Add(valNewValidation);
+            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<br/>" });
             addNewPropertyControls.Controls.Add(lnkNewValidation);
             ((PreValueRow)this._newPreValue).Controls.Add(txtNewValidation);
 
@@ -448,11 +461,20 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 var editPropertyHeader = new Panel() { CssClass = "propertyHeader" };
                 var editPropertyTitle = new HtmlGenericControl("h3")
-                    {
-                        InnerText =
-                            s.Name + " (" + s.Alias + "), " + uQuery.GetDictionaryItem("Type", "Type") + ": "
-                            + ddlNewType.Items.FindByValue(s.DataTypeId.ToString()).Text
-                    };
+                                            {
+                                                InnerText =
+                                                    string.Format(
+                                                        "{0} ({1}), {2}: {3}",
+                                                        s.Name.StartsWith("#")
+                                                            ? uQuery.GetDictionaryItem(
+                                                                s.Name.Substring(1, s.Name.Length - 1),
+                                                                s.Name.Substring(1, s.Name.Length - 1))
+                                                            : s.Name,
+                                                        s.Alias,
+                                                        uQuery.GetDictionaryItem("Type", "Type"),
+                                                        ddlNewType.Items.FindByValue(s.DataTypeId.ToString()).Text)
+                                            };
+
                 editPropertyTitle.Attributes["class"] = "propertyTitle";
 
                 var lnkDelete = new LinkButton
@@ -560,6 +582,21 @@ namespace uComponents.DataTypes.DataTypeGrid
                 s.Controls.Add(ddlEditType);
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+
+                // MANDATORY
+                editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+                // Instantiate controls
+                var chkEditMandatory = new CheckBox() { ID = "editMandatory_" + this._preValues.IndexOf(s), CssClass = "editMandatory", Checked = s.Mandatory};
+                var lblEditMandatory = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Mandatory", "Mandatory"), CssClass = "label" };
+
+                // Add controls to control
+                editPropertyControls.Controls.Add(lblEditMandatory);
+                editPropertyControls.Controls.Add(chkEditMandatory);
+                s.Controls.Add(chkEditMandatory);
+                editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+
                 // VALIDATION
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
@@ -600,6 +637,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 editPropertyControls.Controls.Add(lblEditValidation);
                 editPropertyControls.Controls.Add(txtEditValidation);
                 editPropertyControls.Controls.Add(valEditValidation);
+                editPropertyControls.Controls.Add(new LiteralControl() { Text = "<br/>" });
                 editPropertyControls.Controls.Add(lnkEditValidation);
                 s.Controls.Add(txtEditValidation);
 
@@ -681,7 +719,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Controls.Add(this._showLabel);
             this.Controls.Add(this._showHeader);
             this.Controls.Add(this._showFooter);
-            this.Controls.Add(this._numberOfRows);
+            this.Controls.Add(this._rowsPerPage);
             this.Controls.Add(this._numberOfRowsValidator);
             this.Controls.Add(this._accordionContainer);
         }
@@ -747,9 +785,9 @@ namespace uComponents.DataTypes.DataTypeGrid
         protected override void RenderContents(HtmlTextWriter writer)
         {
             writer.AddPrevalueRow("Show Label", this._showLabel);
-            writer.AddPrevalueRow("Show Table Header", this._showHeader);
-            writer.AddPrevalueRow("Show Table Footer", this._showFooter);
-            writer.AddPrevalueRow("Number of rows", new Control[] { this._numberOfRows, this._numberOfRowsValidator });
+            writer.AddPrevalueRow("Show Grid Header", this._showHeader);
+            writer.AddPrevalueRow("Show Grid Footer", this._showFooter);
+            writer.AddPrevalueRow("Rows Per Page", new Control[] { this._rowsPerPage, this._numberOfRowsValidator });
             this._accordionContainer.RenderControl(writer);
 
             // Add javascript preview of alias
@@ -801,20 +839,21 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <returns></returns>
         private BasePreValueRow ParsePrevalue(PreValueRow t)
         {
-            if (t != null && t.Controls.Count == 7)
+            if (t != null && t.Controls.Count == 8)
             {
                 // Get values
                 var name = t.Controls[0] != null ? ((TextBox)t.Controls[0]).Text : null;
                 var alias = t.Controls[1] != null ? ((TextBox)t.Controls[1]).Text : null;
                 var dataTypeId = t.Controls[2] != null ? int.Parse(((DropDownList)t.Controls[2]).SelectedValue) : 0;
-                var validation = t.Controls[3] != null ? ((TextBox)t.Controls[3]).Text : null;
-                var contentSortPriority = t.Controls[4] != null
-                                              ? ((DropDownList)t.Controls[4]).SelectedValue
+                var mandatory = t.Controls[3] != null ? ((CheckBox)t.Controls[3]).Checked : false;
+                var validation = t.Controls[4] != null ? ((TextBox)t.Controls[4]).Text : null;
+                var contentSortPriority = t.Controls[5] != null
+                                              ? ((DropDownList)t.Controls[5]).SelectedValue
                                               : string.Empty;
-                var contentSortOrder = t.Controls[5] != null
-                                           ? ((DropDownList)t.Controls[5]).SelectedValue
+                var contentSortOrder = t.Controls[6] != null
+                                           ? ((DropDownList)t.Controls[6]).SelectedValue
                                            : string.Empty;
-                var sortOrder = t.Controls[6] != null ? int.Parse(((HiddenField)t.Controls[6]).Value) : 0;
+                var sortOrder = t.Controls[7] != null ? int.Parse(((HiddenField)t.Controls[7]).Value) : 0;
 
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(alias))
                 {
@@ -825,6 +864,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                             Name = name,
                             Alias = alias,
                             DataTypeId = dataTypeId,
+                            Mandatory = mandatory,
                             ValidationExpression = validation,
                             ContentSortPriority = contentSortPriority,
                             ContentSortOrder = contentSortOrder,

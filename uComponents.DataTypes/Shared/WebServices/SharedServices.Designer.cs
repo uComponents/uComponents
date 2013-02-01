@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace uComponents.DataTypes.DataTypeGrid.WebServices {
+namespace uComponents.DataTypes.Shared.WebServices {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace uComponents.DataTypes.DataTypeGrid.WebServices {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DtgWebServices {
+    public class SharedServices {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DtgWebServices() {
+        internal SharedServices() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace uComponents.DataTypes.DataTypeGrid.WebServices {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.DataTypes.DataTypeGrid.WebServices.DtgWebServices", typeof(DtgWebServices).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uComponents.DataTypes.Shared.WebServices.SharedServices", typeof(SharedServices).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace uComponents.DataTypes.DataTypeGrid.WebServices {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;%@ WebService Language=&quot;C#&quot; Class=&quot;uComponents.DataTypes.DataTypeGrid.WebServices.PreValueWebService&quot; %&gt;.
+        ///   Looks up a localized string similar to &lt;%@ WebService Language=&quot;C#&quot; Class=&quot;uComponents.DataTypes.Shared.WebServices.DictionaryService&quot; %&gt;.
         /// </summary>
-        public static string PreValueWebService {
+        public static string DictionaryService {
             get {
-                return ResourceManager.GetString("PreValueWebService", resourceCulture);
+                return ResourceManager.GetString("DictionaryService", resourceCulture);
             }
         }
     }

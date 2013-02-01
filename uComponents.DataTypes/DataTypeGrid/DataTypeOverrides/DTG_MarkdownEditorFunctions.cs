@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
+﻿namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
 {
     using System.Reflection;
     using System.Web.UI;
     using System.Web.UI.WebControls;
 
-    using umbraco.cms.businesslogic.datatype;
-    using umbraco.editorControls.tinyMCE3;
     using umbraco.interfaces;
 
     internal class MarkdownEditorFunctions

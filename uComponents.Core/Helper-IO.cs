@@ -16,6 +16,11 @@ namespace uComponents.Core
 		public static class IO
 		{
 			/// <summary>
+			/// The locker object
+			/// </summary>
+			private static readonly object Locker = new object();
+
+			/// <summary>
 			/// Gets the assemblies.
 			/// </summary>
 			/// <returns>Returns a list of assembly names.</returns>
@@ -25,7 +30,7 @@ namespace uComponents.Core
 
 				// check if the App_Code directory exists and has any files
 				var appCode = new DirectoryInfo(IOHelper.MapPath("~/App_Code"));
-				if (appCode != null && appCode.Exists && appCode.GetFiles().Length > 0)
+				if (appCode.Exists && appCode.GetFiles().Length > 0)
 				{
 					assemblies.Add(appCode.Name);
 				}
@@ -34,6 +39,53 @@ namespace uComponents.Core
 				assemblies.AddRange(Directory.GetFiles(IOHelper.MapPath("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
 
 				return assemblies.ToArray();
+			}
+
+			/// <summary>
+			/// Ensures the folder exists.
+			/// </summary>
+			/// <param name="path">The path.</param>
+			/// <returns>The folder info.</returns>
+			public static DirectoryInfo EnsureFolderExists(string path)
+			{
+				if (!Directory.Exists(path))
+				{
+					lock (Locker)
+					{
+						if (!Directory.Exists(path))
+						{
+							var dir = new DirectoryInfo(path);
+							dir.Create();
+						}
+					}
+				}
+
+				return new DirectoryInfo(path);
+			}
+
+			/// <summary>
+			/// Ensures the file exists.
+			/// </summary>
+			/// <param name="path">The path.</param>
+			/// <param name="content">The content.</param>
+			/// <returns>The file info.</returns>
+			public static FileInfo EnsureFileExists(string path, string content)
+			{
+				if (!File.Exists(path))
+				{
+					lock (Locker)
+					{
+						if (!File.Exists(path))
+						{
+							using (var writer = new StreamWriter(File.Create(path)))
+							{
+								writer.Write(content);
+							}
+						}
+					}
+				}
+
+				return new FileInfo(path);
 			}
 		}
 	}

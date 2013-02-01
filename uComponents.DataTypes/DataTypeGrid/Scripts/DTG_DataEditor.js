@@ -151,7 +151,7 @@ function EnableValidators(elem, enabled) {
 	if (validators.length > 0) {
 		$.each(validators, function () {
 			if ($.isFunction(ValidatorEnable)) {
-				ValidatorEnable(document.getElementById(this.attr("id")), enabled);
+				ValidatorEnable(document.getElementById($(this).attr("id")), enabled);
 			}
 		});
 	}

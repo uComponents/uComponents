@@ -1,32 +1,32 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <summary>
-// 23.05.2012 - Created [Ove Andersen]
+// 12.01.2012 - Created [Ove Andersen]
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
 {
     using System.Linq;
     using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
-    using umbraco.editorControls.radiobuttonlist;
-	using umbraco;
+    using umbraco.editorControls.dropdownlist;
+    using umbraco;
 
     /// <summary>
-    /// Functions for RadionButtonList
+    /// /// DTG extensions for the Dropdown List DataType
     /// </summary>
-    public class RadioButtonListDataTypeFunctions : IDataTypeFunctions<RadioButtonListDataType>
+    internal class DropdownListDataTypeFunctions : IDataTypeFunctions<DropdownListDataType>
     {
-        #region Implementation of IDataTypeFunctions<RadioButtonListDataType>
+        #region Implementation of IDataTypeFunctions<DropdownListDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <returns>A human-readable string</returns>
-        public string ToDtgString(RadioButtonListDataType dataType)
+        public string ToDtgString(DropdownListDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
@@ -47,7 +47,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(RadioButtonListDataType dataType, Control container)
+        public void ConfigureForDtg(DropdownListDataType dataType, Control container)
         {
         }
 
@@ -55,7 +55,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
         /// Saves the datatype for DTG.
         /// </summary>
         /// <param name="dataType">The DataType.</param>
-        public void SaveForDtg(RadioButtonListDataType dataType)
+        public void SaveForDtg(DropdownListDataType dataType)
         {
         }
 

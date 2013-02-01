@@ -221,8 +221,20 @@ namespace uComponents.MacroEngines
 			return sb.ToString();
 		}
 
+		/// <summary>
+		/// Gets or sets the result exception.
+		/// </summary>
+		/// <value>
+		/// The result exception.
+		/// </value>
 		public Exception ResultException { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="XsltMacroEngine"/> is success.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if success; otherwise, <c>false</c>.
+		/// </value>
 		public bool Success { get; set; }
 	}
 }

@@ -4,7 +4,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace uComponents.DataTypes.DataTypeGrid.DataTypeFunctions
+namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
 {
     using umbraco.editorControls.tinyMCE3;
 

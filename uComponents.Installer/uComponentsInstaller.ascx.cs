@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
+using uComponents.DataTypes.Shared.WebServices;
 using umbraco;
 using umbraco.IO;
 
 namespace uComponents.Installer
 {
 	/// <summary>
-	/// 
+	/// The post-install dashboard control.
 	/// </summary>
 	public partial class uComponentsInstaller : UserControl
 	{
@@ -203,6 +205,10 @@ namespace uComponents.Installer
 				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
 				successes.Add(title);
 			}
+
+			// Shared web services
+			var serviceFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "WebServices"));
+			Helper.IO.EnsureFileExists(Path.Combine(serviceFolder.FullName, "DictionaryService.asmx"), SharedServices.DictionaryService);
 
 			// set the feedback controls to hidden
 			this.Failure.Visible = this.Success.Visible = false;
