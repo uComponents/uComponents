@@ -66,12 +66,12 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 		//					new umbraco.BusinessLogic.ApplicationTree(true, false, 0,
 		//						mediaTree.Tree.ApplicationAlias,
 		//						"FilteredMediaTree",
-		//						contentTree.Tree.Title,
-		//						contentTree.Tree.IconClosed,
-		//						contentTree.Tree.IconOpened,
+		//						mediaTree.Tree.Title,
+		//						mediaTree.Tree.IconClosed,
+		//						mediaTree.Tree.IconOpened,
 		//						"uComponents.Legacy",
 		//						"DataTypes.MultiNodeTreePicker.FilteredMediaTree",
-		//						contentTree.Tree.Action),
+		//						mediaTree.Tree.Action),
 		//					contentTree.App);
 
 		//				//add it to the collection at runtime
