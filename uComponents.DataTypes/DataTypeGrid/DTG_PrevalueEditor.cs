@@ -128,7 +128,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 DtgConfiguration.DataTypeGrid);
 
             // Ensure webservice file exists
-            var dtgFolder = Helper.IO.EnsureFolderExists("DataTypeGrid");
+            var dtgFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "DataTypeGrid"));
             Helper.IO.EnsureFileExists(Path.Combine(dtgFolder.FullName, "PreValueWebService.asmx"), DtgWebServices.PreValueWebService);
         }
 
