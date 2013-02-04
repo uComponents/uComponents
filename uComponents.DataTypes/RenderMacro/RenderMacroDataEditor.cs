@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using umbraco;
 using umbraco.interfaces;
 using umbraco.presentation.templateControls;
+using Umbraco.Core;
 
 namespace uComponents.DataTypes.RenderMacro
 {
@@ -113,14 +114,13 @@ namespace uComponents.DataTypes.RenderMacro
 					HttpContext.Current.Items["pageID"] = node.Id;
 					HttpContext.Current.Items["pageElements"] = umbPage.Elements;
 
-					// TODO: [LK] Once `Umbraco.Core.XmlHelper.GetAttributesFromElement` is public, update method call.
-					var attr = helper.ReturnAttributes(this.Options.MacroTag);
+					var attr = XmlHelper.GetAttributesFromElement(this.Options.MacroTag);
 
 					if (attr.ContainsKey("macroalias"))
 					{
 						var macro = new Macro() { Alias = attr["macroalias"].ToString() };
 
-						foreach (DictionaryEntry item in attr)
+						foreach (var item in attr)
 						{
 							macro.Attributes.Add(item.Key.ToString(), item.Value.ToString());
 						}

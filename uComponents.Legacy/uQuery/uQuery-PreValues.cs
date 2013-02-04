@@ -62,7 +62,7 @@ namespace uComponents.Core
 
 		/// <summary>
 		/// Gets the pre values.
-		/// TODO: [OA] Document on Codeplex
+		/// TODO: [OA] Document on `ucomponents.org`
 		/// </summary>
 		/// <param name="nodeId">The node id.</param>
 		/// <param name="propertyAlias">The property alias.</param>

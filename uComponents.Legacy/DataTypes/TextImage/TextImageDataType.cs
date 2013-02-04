@@ -155,7 +155,7 @@ namespace uComponents.DataTypes.TextImage
 		/// <value>The name of the data type.</value>
 		public override string DataTypeName
 		{
-			get { return "uComponents: Text Image"; }
+			get { return "uComponents-Legacy: Text Image"; }
 		}
 
 		/// <summary>
