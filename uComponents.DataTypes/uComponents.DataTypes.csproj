@@ -287,11 +287,6 @@
     <Compile Include="IncrementalTextBox\IT_DataEditor.cs" />
     <Compile Include="IncrementalTextBox\IT_DataType.cs" />
     <Compile Include="IncrementalTextBox\IT_PrevalueEditor.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsDataEditor.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsDataType.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsEventHandler.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsOptions.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsPreValueEditor.cs" />
     <Compile Include="MultipleDates\MD_DataEditor.cs" />
     <Compile Include="MultipleDates\MD_DataType.cs" />
     <Compile Include="MultipleDates\MD_ModelBinder.cs" />

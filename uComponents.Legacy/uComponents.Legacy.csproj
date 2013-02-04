@@ -231,6 +231,11 @@
     <Compile Include="DataTypes\MultiNodeTreePicker\XmlTreeNodeExtensions.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\XPathExpressionType.cs" />
     <Compile Include="DataTypes\MultiNodeTreePicker\XPathFilterType.cs" />
+    <Compile Include="DataTypes\MultiPickerRelations\MultiPickerRelationsDataEditor.cs" />
+    <Compile Include="DataTypes\MultiPickerRelations\MultiPickerRelationsDataType.cs" />
+    <Compile Include="DataTypes\MultiPickerRelations\MultiPickerRelationsEventHandler.cs" />
+    <Compile Include="DataTypes\MultiPickerRelations\MultiPickerRelationsOptions.cs" />
+    <Compile Include="DataTypes\MultiPickerRelations\MultiPickerRelationsPreValueEditor.cs" />
     <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringControl.cs" />
     <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringDataType.cs" />
     <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringModelBinder.cs" />

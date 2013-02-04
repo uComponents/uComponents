@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using uComponents.Core;
 using umbraco;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.media;
@@ -120,7 +119,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 
 							var multiPickerStorageFormat = Settings.OutputFormat.CSV; // Assume default of csv
 
-							if (Helper.Xml.CouldItBeXml(multiPickerPropertyValue))
+							if (uComponents.Core.Helper.Xml.CouldItBeXml(multiPickerPropertyValue))
 							{
 								multiPickerStorageFormat = Settings.OutputFormat.XML;
 							}

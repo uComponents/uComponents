@@ -29,7 +29,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
 		/// Gets the name of the data type.
 		/// </summary>
 		/// <value>The name of the data type.</value>
-        public override string DataTypeName { get { return "uComponents: MultiPicker Relations"; } }
+		public override string DataTypeName { get { return "uComponents-Legacy: MultiPicker Relations"; } }
 
 		/// <summary>
 		/// Gets the id.
