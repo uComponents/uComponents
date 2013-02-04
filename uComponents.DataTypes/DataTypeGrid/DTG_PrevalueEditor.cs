@@ -70,9 +70,9 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// </summary>
         private TextBox _rowsPerPage = new TextBox() { Text = "10" };
 
-        /// <summary>
-        /// Flag for indicating if a delete operation is in process
-        /// </summary>
+        /////// <summary>
+        /////// Flag for indicating if a delete operation is in process
+        /////// </summary>
         ////private bool _deleteMode = false;
 
         /// <summary>
