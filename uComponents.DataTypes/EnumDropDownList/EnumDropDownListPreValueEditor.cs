@@ -85,7 +85,10 @@ namespace uComponents.DataTypes.EnumDropDownList
 
 			this.defaultToFirstItemCheckBox.ID = "defaultToFirstItemCheckBox";
 
-			this.Controls.AddPrevalueControls(this.assemblyDropDownList, this.enumsDropDownList, defaultToFirstItemCheckBox);
+			this.Controls.AddPrevalueControls(
+                this.assemblyDropDownList, 
+                this.enumsDropDownList, 
+                this.defaultToFirstItemCheckBox);
 		}
 
 		/// <summary>
@@ -127,10 +130,17 @@ namespace uComponents.DataTypes.EnumDropDownList
 			{
 				try
 				{
-					var assembly = string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase)
-									   ? Assembly.Load(value)
-									   : Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
-					var assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
+                    Assembly assembly;
+                    if (string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        assembly = Assembly.Load(value);
+                    }
+                    else
+                    {
+                        assembly = Assembly.ReflectionOnlyLoadFrom(this.MapPathSecure(string.Concat("~/bin/", value)));
+                    }
+
+                    var assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
 
 					this.enumsDropDownList.DataSource = assemblyTypes;
 					this.enumsDropDownList.DataBind();
