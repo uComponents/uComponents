@@ -12,7 +12,7 @@
 		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionSuffix>-dev</VersionSuffix>
-		<UmbracoVersion>4.8.0</UmbracoVersion>
+		<UmbracoVersion>6.0.0</UmbracoVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>

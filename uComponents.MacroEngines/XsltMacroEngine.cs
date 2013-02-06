@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Web;
-using System.Web.UI;
+using uComponents.MacroEngines.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.macro;
 using umbraco.interfaces;
@@ -112,9 +112,9 @@ namespace uComponents.MacroEngines
 				}
 				else if (!string.IsNullOrEmpty(macro.ScriptCode))
 				{
-				var xslt = CheckXsltFragment(macro.ScriptCode.Trim());
-				var md5 = library.md5(xslt);
-				var filename = string.Concat("inline-", md5, ".xslt");
+					var xslt = CheckXsltFragment(macro.ScriptCode.Trim());
+					var md5 = library.md5(xslt);
+					var filename = string.Concat("inline-", md5, ".xslt");
 					fileLocation = this.CreateTemporaryFile(xslt, filename, true).Replace("~", "..");
 				}
 
@@ -123,7 +123,7 @@ namespace uComponents.MacroEngines
 					return string.Empty;
 				}
 
-			var tempMacro = new macro { Model = { Xslt = fileLocation } };
+				var tempMacro = new macro { Model = { Xslt = fileLocation } };
 
 				// copy the macro properties across
 				foreach (var property in macro.Properties)
@@ -135,7 +135,7 @@ namespace uComponents.MacroEngines
 
 				this.Success = true;
 
-				return RenderControl(ctrl);
+				return ctrl.RenderControlToString();
 			}
 			catch (Exception ex)
 			{
@@ -200,24 +200,6 @@ namespace uComponents.MacroEngines
 			}
 
 			return relativePath;
-		}
-
-		/// <summary>
-		/// Renders the control.
-		/// </summary>
-		/// <param name="ctrl">The control to render.</param>
-		/// <returns>Returns a string of the rendered control.</returns>
-		private static string RenderControl(Control ctrl)
-		{
-			var sb = new StringBuilder();
-
-			using (var tw = new StringWriter(sb))
-			using (var hw = new HtmlTextWriter(tw))
-			{
-				ctrl.RenderControl(hw);
-			}
-
-			return sb.ToString();
 		}
 
 		/// <summary>
