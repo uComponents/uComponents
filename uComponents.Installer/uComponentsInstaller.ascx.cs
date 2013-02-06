@@ -38,7 +38,11 @@ namespace uComponents.Installer
 		{
 			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
-				switch (assembly.FullName)
+				if (!assembly.FullName.StartsWith("uComponents"))
+					continue;
+
+				var assemblyName = assembly.GetName();
+				switch (assemblyName.Name)
 				{
 					case "uComponents.DataTypes.RazorDataTypeModels":
 						this.phRazorModelBinding.Visible = true;
@@ -64,9 +68,9 @@ namespace uComponents.Installer
 						{
 							var notFoundHandlers =
 								notFoundHandlersTypes.Where(
-									type => string.Equals(type.Namespace, assembly.FullName) && type.FullName.StartsWith(assembly.FullName))
-								                     .ToDictionary(
-									                     type => type.FullName.Substring(assembly.FullName.Length + 1), type => type.Name);
+									type => string.Equals(type.Namespace, assemblyName.Name) && type.FullName.StartsWith(assemblyName.Name))
+													 .ToDictionary(
+														 type => type.FullName.Substring(assemblyName.Name.Length + 1), type => type.Name);
 
 							this.cblNotFoundHandlers.DataSource = notFoundHandlers;
 							this.cblNotFoundHandlers.DataTextField = "Value";
@@ -98,6 +102,7 @@ namespace uComponents.Installer
 
 			// TODO: [LK] Add the uComponents namespace to the Web.config (system.web/compilation/assemblies)
 			// TODO: [LK] Add the uComponents.Controls namespace to the Web.config (system.web/pages/controls)
+			// TODO: [LK] Add the uComponents.MacroEngines.Extensions namespace to the /Views/Web.config (system.web.webPages.razor/pages/namespaces)
 		}
 
 		/// <summary>
