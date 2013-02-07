@@ -32,27 +32,16 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         public int SortOrder { get; set; }
 
         /// <summary>
-        /// Gets the value of the cell with the specified key.
-        /// </summary>
-        /// <typeparam name="T">The return type.</typeparam>
-        /// <param name="cellKey">The cell alias or name. Will only get by name if no cells exist with the specified alias.</param>
-        /// <returns>The cell value.</returns>
-        public T GetObject<T>(string cellKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the value of the cell with the specified key.
+        /// Gets the cell with the specified key.
         /// </summary>
         /// <param name="cellKey">The cell alias or name. Will only get by name if no cells exist with the specified alias.</param>
-        /// <returns>The cell value.</returns>
-        public string GetValue(string cellKey)
+        /// <returns>The cell.</returns>
+        public GridCell GetCell(string cellKey)
         {
             // Get cell by alias or name
             var cell = this.FirstOrDefault(x => x.Alias == cellKey) ?? this.FirstOrDefault(x => x.Name == cellKey);
 
-            return cell != null ? cell.Value : string.Empty;
+            return cell ?? new GridCell();
         }
 
         /// <summary>
@@ -104,7 +93,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         }
 
         /// <summary>
-        /// The dynamic meta object for the GridRow
+        /// The dynamic meta object for the <see cref="GridRow"/> class.
         /// </summary>
         private class DynamicGridRowMetaObject : DynamicMetaObject
         {
@@ -147,7 +136,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
                     new DynamicMetaObject(
                         Expression.Call(
                             Expression.Convert(this.Expression, this.LimitType),
-                            typeof(GridRow).GetMethod("GetValue"),
+                            typeof(GridRow).GetMethod("GetCell"),
                             parameters),
                         BindingRestrictions.GetTypeRestriction(this.Expression, this.LimitType));
             }

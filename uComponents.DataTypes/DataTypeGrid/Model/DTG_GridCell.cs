@@ -9,12 +9,19 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
     using System;
 
     using umbraco.MacroEngines;
+    using umbraco.cms.businesslogic.datatype;
+    using umbraco.interfaces;
 
     /// <summary>
     /// Represents a DataTypeGrid Cell
     /// </summary>
     public class GridCell
     {
+        /// <summary>
+        /// The obj
+        /// </summary>
+        private object obj;
+
         /// <summary>
         /// Gets or sets the alias.
         /// </summary>
@@ -40,12 +47,6 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         public string Value { get; set; }
 
         /// <summary>
-        /// Gets the object.
-        /// </summary>
-        /// <value>The object.</value>
-        public object Object { get; private set; }
-
-        /// <summary>
         /// Converts the collection to a <see cref="DynamicXml"/> object.
         /// </summary>
         /// <returns>The dynamic xml.</returns>
@@ -57,12 +58,16 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         }
 
         /// <summary>
-        /// Gets the object.
+        /// Gets the value from the <see cref="IDtgFactory{T}"/> for this DataType.
         /// </summary>
-        /// <typeparam name="T">The return type.</typeparam>
-        /// <returns>The value as the actual object.</returns>
+        /// <returns>The value from the <see cref="IDtgFactory{T}"/> for this DataType.</returns>
         public T GetObject<T>()
         {
+            var dtd = DataTypeDefinition.GetDataTypeDefinition(this.DataType);
+            var dt = dtd.DataType;
+
+            // TODO: Use factories to get the backing object
+
             throw new NotImplementedException();
         }
 
