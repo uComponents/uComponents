@@ -17,3 +17,4 @@ _UpgradeReport_Files/*
 uComponents.sln.GhostDoc.user.dic
 UpgradeLog.*
 *.orig
+*.ncrunchproject

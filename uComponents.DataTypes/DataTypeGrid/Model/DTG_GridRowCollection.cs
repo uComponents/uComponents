@@ -6,7 +6,6 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.Xml;
 
@@ -71,10 +70,29 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         /// <summary>
         /// Converts the collection to a <see cref="DynamicXml"/> object.
         /// </summary>
-        /// <returns>The dynamic xml.</returns>
+        /// <returns>The collection as dynamic xml.</returns>
         public DynamicXml AsDynamicXml()
         {
-            throw new NotImplementedException();
+            var xml = "<items>";
+
+            // Convert all rows
+            foreach (var item in this)
+            {
+                xml += item.AsDynamicXml().ToXml();
+            }
+
+            xml += "</items>";
+
+            return new DynamicXml(xml);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return this.AsDynamicXml().ToXml();
         }
     }
 }

@@ -51,7 +51,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         /// <returns>The dynamic xml.</returns>
         public DynamicXml AsDynamicXml()
         {
-            throw new NotImplementedException();
+            var xml = string.Format(@"<{0} nodeName=""{1}"" nodeType=""{2}"">{3}</{0}>", this.Alias, this.Name, this.DataType, this.Value);
+
+            return new DynamicXml(xml);
         }
 
         /// <summary>
@@ -62,6 +64,15 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         public T GetObject<T>()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return this.Value;
         }
     }
 }
