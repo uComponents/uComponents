@@ -111,28 +111,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DtgConfiguration.resx</DependentUpon>
     </Compile>
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_DateDataTypeFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_DropDownListDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_ListBoxDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_ListBoxDataTypeFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_MarkdownEditorFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_MediaPickerDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_MemberPickerDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_PagePickerDataTypeFunctionsFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_RadioButtonListDataTypeFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeOverrides\DTG_TinyMCE3DataTypeExtensions.cs" />
     <Compile Include="DataTypeGrid\DTG_DataEditor.cs" />
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
     <Compile Include="DataTypeGrid\DTG_ModelBinder.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
-    <Compile Include="DataTypeGrid\Extensions\DTG_DataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_DataTypeFunctionsFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DateDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_PagePickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DefaultDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_MediaPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Model\DataTypeFactoryAttribute.cs" />
+    <Compile Include="DataTypeGrid\ServiceLocators\DTG_DataTypeFactoryServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFactoryServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_GridCell.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_GridRowCollection.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_GridRow.cs" />
-    <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFunctions.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_BasePreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
@@ -343,7 +338,7 @@
     <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.css" />
     <Content Include="DataTypeGrid\Scripts\jquery.dataTables.js" />
     <EmbeddedResource Include="Shared\Resources\Scripts\jquery.ucomponents.dictionary.js">
-        <DependentUpon>jquery.ucomponents.js</DependentUpon>
+      <DependentUpon>jquery.ucomponents.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared\Resources\Scripts\jquery.ucomponents.js" />
     <Content Include="Shared\WebServices\DictionaryService.asmx" />
@@ -401,6 +396,7 @@
   <ItemGroup>
     <None Include="DataTypeGrid\RazorModels.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

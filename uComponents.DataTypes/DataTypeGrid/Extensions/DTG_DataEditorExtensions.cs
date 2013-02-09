@@ -6,7 +6,6 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Extensions
 {
-    using uComponents.DataTypes.Shared.Extensions;
     using umbraco.cms.businesslogic.datatype;
     using umbraco.editorControls;
 

@@ -17,9 +17,9 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
     /// <summary>
     /// Functions for RadionButtonList
     /// </summary>
-    public class RadioButtonListDataTypeFunctions : IDataTypeFunctions<RadioButtonListDataType>
+    public class RadioButtonListDataTypeFactory : IDataTypeFactory<RadioButtonListDataType>
     {
-        #region Implementation of IDataTypeFunctions<RadioButtonListDataType>
+        #region Implementation of IDataTypeFactory<RadioButtonListDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
@@ -47,7 +47,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(RadioButtonListDataType dataType, Control container)
+        public void Configure(RadioButtonListDataType dataType, Control container)
         {
         }
 

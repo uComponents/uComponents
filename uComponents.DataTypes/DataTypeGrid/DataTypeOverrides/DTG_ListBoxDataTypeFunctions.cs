@@ -17,9 +17,9 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
     /// <summary>
     /// DTG extensions for the Dropdown List Multiple DataType
     /// </summary>
-    internal class ListBoxDataTypeFunctions : IDataTypeFunctions<ListBoxDataType>
+    internal class ListBoxDataTypeFactory : IDataTypeFactory<ListBoxDataType>
     {
-        #region Implementation of IDataTypeFunctions<ListBoxDataType>
+        #region Implementation of IDataTypeFactory<ListBoxDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
@@ -42,7 +42,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(ListBoxDataType dataType, Control container)
+        public void Configure(ListBoxDataType dataType, Control container)
         {
         }
 

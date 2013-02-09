@@ -18,7 +18,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
     /// <summary>
     /// DTG extensions for the DateTime DataType
     /// </summary>
-    internal class DateDataTypeFunctions : IDataTypeFunctions<DateDataType>
+    internal class DateDataTypeFactory : IDataTypeFactory<DateDataType>
     {
         #region Implementation of IDtgFunctions<PagePickerDataType>
 
@@ -46,7 +46,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(DateDataType dataType, Control container)
+        public void Configure(DateDataType dataType, Control container)
         {
             var e = dataType.DataEditor as umbraco.editorControls.dateField;
 

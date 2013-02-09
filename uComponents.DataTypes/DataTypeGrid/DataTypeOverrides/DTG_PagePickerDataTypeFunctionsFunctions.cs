@@ -13,7 +13,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
     using umbraco.editorControls.pagepicker;
     using umbraco.NodeFactory;
 
-    internal class PagePickerDataTypeFunctions : IDataTypeFunctions<PagePickerDataType>
+    internal class PagePickerDataTypeFactory : IDataTypeFactory<PagePickerDataType>
     {
         #region Implementation of IDtgFunctions<PagePickerDataType>
 
@@ -46,7 +46,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(PagePickerDataType dataType, Control container)
+        public void Configure(PagePickerDataType dataType, Control container)
         {
         }
 

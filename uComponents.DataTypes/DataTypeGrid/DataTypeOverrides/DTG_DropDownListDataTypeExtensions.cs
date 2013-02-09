@@ -17,9 +17,9 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
     /// <summary>
     /// /// DTG extensions for the Dropdown List DataType
     /// </summary>
-    internal class DropdownListDataTypeFunctions : IDataTypeFunctions<DropdownListDataType>
+    internal class DropdownListDataTypeFactory : IDataTypeFactory<DropdownListDataType>
     {
-        #region Implementation of IDataTypeFunctions<DropdownListDataType>
+        #region Implementation of IDataTypeFactory<DropdownListDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
@@ -47,7 +47,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(DropdownListDataType dataType, Control container)
+        public void Configure(DropdownListDataType dataType, Control container)
         {
         }
 
@@ -55,7 +55,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
         /// Saves the datatype for DTG.
         /// </summary>
         /// <param name="dataType">The DataType.</param>
-        public void SaveForDtg(DropdownListDataType dataType)
+        public void Save(DropdownListDataType dataType)
         {
         }
 

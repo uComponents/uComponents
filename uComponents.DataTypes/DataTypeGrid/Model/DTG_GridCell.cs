@@ -8,20 +8,16 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 {
     using System;
 
-    using umbraco.MacroEngines;
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
+
     using umbraco.cms.businesslogic.datatype;
-    using umbraco.interfaces;
+    using umbraco.MacroEngines;
 
     /// <summary>
     /// Represents a DataTypeGrid Cell
     /// </summary>
     public class GridCell
     {
-        /// <summary>
-        /// The obj
-        /// </summary>
-        private object obj;
-
         /// <summary>
         /// Gets or sets the alias.
         /// </summary>
@@ -58,9 +54,10 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         }
 
         /// <summary>
-        /// Gets the value from the <see cref="IDtgFactory{T}"/> for this DataType.
+        /// Gets the value from the <see cref="IDataTypeFactory{T}" /> for this DataType.
         /// </summary>
-        /// <returns>The value from the <see cref="IDtgFactory{T}"/> for this DataType.</returns>
+        /// <typeparam name="T">The backing object type. i.e. IContent, Member, etc.</typeparam>
+        /// <returns>The value from the <see cref="IDataTypeFactory{T}" /> for this DataType.</returns>
         public T GetObject<T>()
         {
             var dtd = DataTypeDefinition.GetDataTypeDefinition(this.DataType);

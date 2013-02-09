@@ -28,6 +28,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
     using uComponents.DataTypes.DataTypeGrid.Extensions;
     using uComponents.DataTypes.DataTypeGrid.Functions;
+    using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
 
     using umbraco;
 
@@ -533,7 +534,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                     foreach (var value in row.Cells)
                     {
-                        var text = new Label { Text = value.Value.ToDtgString() };
+                        var text = new Label { Text = DataTypeFactoryServiceLocator.Instance.GetDisplayValue(value.Value) };
 
                         if (value.Name.Equals(storedConfig.Name))
                         {
@@ -658,7 +659,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 control.ID = "Insert" + config.Alias;
 
                 // Configure the datatype so it works with DTG
-                config.Value.ConfigureForDtg(InsertControls);
+                DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.InsertControls);
 
                 InsertControls.Controls.Add(new LiteralControl("<li>"));
 
@@ -719,7 +720,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var t in this.InsertDataTypes)
             {
                 // Save value to datatype
-                t.Value.SaveForDtg();
+                DataTypeFactoryServiceLocator.Instance.Save(t.Value);
 
                 // Create new storedvalue object
                 var v = new StoredValue { Name = t.Name, Alias = t.Alias, Value = t.Value };
@@ -748,7 +749,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 control.ID = "Edit" + config.Alias;
 
                 // Configure the datatype so it works with DTG
-                config.Value.ConfigureForDtg(this.EditControls);
+                DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.EditControls);
 
                 this.EditControls.Controls.Add(new LiteralControl("<li>"));
 
@@ -912,7 +913,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 foreach (var cell in row.Cells)
                 {
                     // Save value to datatype
-                    cell.Value.SaveForDtg();
+                    DataTypeFactoryServiceLocator.Instance.Save(cell.Value);
                 }
             }
 

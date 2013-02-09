@@ -16,9 +16,9 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
     /// <summary>
     /// DTG extensions for the MemberPicker DataType
     /// </summary>
-    internal class MemberPickerDataTypeFunctions : IDataTypeFunctions<MemberPickerDataType>
+    internal class MemberPickerDataTypeFactory : IDataTypeFactory<MemberPickerDataType>
     {
-        #region Implementation of IDataTypeFunctions<MemberPickerDataType>
+        #region Implementation of IDataTypeFactory<MemberPickerDataType>
 
         /// <summary>
         /// Converts the datatype value to a DTG compatible string
@@ -48,7 +48,7 @@ namespace uComponents.DataTypes.DataTypeGrid.DataTypeOverrides
         /// </summary>
         /// <param name="dataType">The DataType.</param>
         /// <param name="container">The container.</param>
-        public void ConfigureForDtg(MemberPickerDataType dataType, Control container)
+        public void Configure(MemberPickerDataType dataType, Control container)
         {
             // Set default value to blank to prevent YSOD
             if (dataType.Data.Value == null)
