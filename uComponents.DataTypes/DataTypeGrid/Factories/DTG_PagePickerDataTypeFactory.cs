@@ -2,7 +2,6 @@
 {
     using System.Web.UI;
 
-    using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco.editorControls.pagepicker;
@@ -11,8 +10,8 @@
     /// <summary>a
     /// Factory for the <see cref="PagePickerDataTypeFactory"/>
     /// </summary>
-    [DataTypeFactory(Priority = 0)]
-    public class PagePickerDataTypeFactory : IDataTypeFactory<PagePickerDataType>
+    [DataTypeFactory(Priority = -1)]
+    public class PagePickerDataTypeFactory : BaseDataTypeFactory<PagePickerDataType>
     {
         /// <summary>
         /// Method for customizing the way the <typeparamref name="PagePickerDataType">datatype</typeparamref> value is displayed in the grid.
@@ -20,7 +19,7 @@
         /// <remarks>Called when the grid displays the cell value for the specified <typeparamref name="PagePickerDataType">datatype</typeparamref>.</remarks>
         /// <param name="dataType">The <typeparamref name="PagePickerDataType">datatype</typeparamref> instance.</param>
         /// <returns>The display value.</returns>
-        public string GetDisplayValue(PagePickerDataType dataType)
+        public override string GetDisplayValue(PagePickerDataType dataType)
         {
             if (dataType.Data.Value != null)
             {
@@ -45,7 +44,7 @@
         /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()"/> method is called on a <see cref="GridCell"/>.</remarks>
         /// <param name="dataType">The <typeparamref name="PagePickerDataType">datatype</typeparamref> instance.</param>
         /// <returns>The backing object.</returns>
-        public object GetObject(PagePickerDataType dataType)
+        public override object GetObject(PagePickerDataType dataType)
         {
             if (dataType.Data.Value != null)
             {
@@ -58,25 +57,6 @@
             }
 
             return default(Node);
-        }
-
-        /// <summary>
-        /// Method for performing special actions while creating the <typeparamref name="PagePickerDataType">datatype</typeparamref> editor.
-        /// </summary>
-        /// <remarks>Called when the grid creates the editor controls for the specified <typeparamref name="PagePickerDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="PagePickerDataType">datatype</typeparamref> instance.</param>
-        /// <param name="container">The editor control container.</param>
-        public void Configure(PagePickerDataType dataType, Control container)
-        {
-        }
-
-        /// <summary>
-        /// Method for executing special actions before saving the editor value to the database.
-        /// </summary>
-        /// <remarks>Called when the grid is saved for the specified <typeparamref name="PagePickerDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="PagePickerDataType">datatype</typeparamref> instance.</param>
-        public void Save(PagePickerDataType dataType)
-        {
         }
     }
 }

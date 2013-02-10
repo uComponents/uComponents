@@ -116,10 +116,15 @@
     <Compile Include="DataTypeGrid\DTG_ModelBinder.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_BaseDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DropdownListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_DateDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_PagePickerDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_DefaultDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_MediaPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_ListBoxDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_MemberPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_RadioButtonListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Model\DataTypeFactoryAttribute.cs" />
     <Compile Include="DataTypeGrid\ServiceLocators\DTG_DataTypeFactoryServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />

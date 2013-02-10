@@ -2,7 +2,6 @@
 {
     using System.Web.UI;
 
-    using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco;
@@ -12,8 +11,8 @@
     /// <summary>a
     /// Factory for the <see cref="MemberPickerDataType"/>
     /// </summary>
-    [DataTypeFactory(Priority = 0)]
-    public class MediaPickerDataTypeFactory : IDataTypeFactory<MemberPickerDataType>
+    [DataTypeFactory(Priority = -1)]
+    public class MediaPickerDataTypeFactory : BaseDataTypeFactory<MemberPickerDataType>
     {
         /// <summary>
         /// Method for customizing the way the <typeparamref name="MemberPickerDataType">datatype</typeparamref> value is displayed in the grid.
@@ -21,7 +20,7 @@
         /// <remarks>Called when the grid displays the cell value for the specified <typeparamref name="MemberPickerDataType">datatype</typeparamref>.</remarks>
         /// <param name="dataType">The <typeparamref name="MemberPickerDataType">datatype</typeparamref> instance.</param>
         /// <returns>The display value.</returns>
-        public string GetDisplayValue(MemberPickerDataType dataType)
+        public override string GetDisplayValue(MemberPickerDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
@@ -48,7 +47,7 @@
         /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()"/> method is called on a <see cref="GridCell"/>.</remarks>
         /// <param name="dataType">The <typeparamref name="MemberPickerDataType">datatype</typeparamref> instance.</param>
         /// <returns>The backing object.</returns>
-        public object GetObject(MemberPickerDataType dataType)
+        public override object GetObject(MemberPickerDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
@@ -61,25 +60,6 @@
             }
 
             return default(Media);
-        }
-
-        /// <summary>
-        /// Method for performing special actions while creating the <typeparamref name="MemberPickerDataType">datatype</typeparamref> editor.
-        /// </summary>
-        /// <remarks>Called when the grid creates the editor controls for the specified <typeparamref name="MemberPickerDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="MemberPickerDataType">datatype</typeparamref> instance.</param>
-        /// <param name="container">The editor control container.</param>
-        public void Configure(MemberPickerDataType dataType, Control container)
-        {
-        }
-
-        /// <summary>
-        /// Method for executing special actions before saving the editor value to the database.
-        /// </summary>
-        /// <remarks>Called when the grid is saved for the specified <typeparamref name="MemberPickerDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="MemberPickerDataType">datatype</typeparamref> instance.</param>
-        public void Save(MemberPickerDataType dataType)
-        {
         }
     }
 }

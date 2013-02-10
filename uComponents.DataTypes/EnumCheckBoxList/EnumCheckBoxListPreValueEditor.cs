@@ -72,7 +72,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 			this.assemblyDropDownList.SelectedIndexChanged += new EventHandler(this.AssemblyDropDownList_SelectedIndexChanged);
 
 			// find all assemblies (*.dll)
-			this.assemblyDropDownList.DataSource = Helper.IO.GetAssemblies();
+			this.assemblyDropDownList.DataSource = Helper.IO.GetAssemblyNames();
 			this.assemblyDropDownList.DataBind();
 
 			this.assemblyDropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
