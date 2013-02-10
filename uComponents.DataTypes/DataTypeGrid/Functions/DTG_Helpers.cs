@@ -89,59 +89,6 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
         }
 
         /// <summary>
-        /// Ensures the folder exists.
-        /// </summary>
-        /// <param name="foldername">The foldername.</param>
-        /// <param name="locker">The locker.</param>
-        /// <returns></returns>
-        [Obsolete("Use the uComponents.Core.IO.EnsureFolderExists method instead.")]
-        public static DirectoryInfo EnsureFolderExists(string foldername, object locker)
-        {
-            var path = Path.Combine(Settings.BaseDir.FullName, foldername);
-
-            if (!Directory.Exists(path))
-            {
-                lock (locker)
-                {
-                    if (!Directory.Exists(path))
-                    {
-                        var dir = new DirectoryInfo(path);
-                        dir.Create();
-                    }
-                }
-            }
-
-            return new DirectoryInfo(path);
-        }
-
-        /// <summary>
-        /// Ensures the file exists.
-        /// </summary>
-        /// <param name="filepath">The filepath.</param>
-        /// <param name="resource">The resource.</param>
-        /// <param name="locker">The locker.</param>
-        /// <returns></returns>
-        [Obsolete("Use the uComponents.Core.IO.EnsureFileExists method instead.")]
-        public static FileInfo EnsureFileExists(string filepath, string resource, object locker)
-        {
-            if (!File.Exists(filepath))
-            {
-                lock (locker)
-                {
-                    if (!File.Exists(filepath))
-                    {
-                        using (var writer = new StreamWriter(File.Create(filepath)))
-                        {
-                            writer.Write(resource);
-                        }
-                    }
-                }
-            }
-
-            return new FileInfo(filepath);
-        }
-
-        /// <summary>
         /// Gets the data type dropdown.
         /// </summary>
         /// <returns></returns>
