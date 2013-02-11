@@ -7,6 +7,7 @@ using uComponents.Core;
 [assembly: AssemblyDescription("uComponents is a collaborative project for creating components for Umbraco including data types, XSLT extensions, controls and more.")]
 
 // expose internal classes/methods
+[assembly: InternalsVisibleTo("uComponents.Core.UnitTests")]
 [assembly: InternalsVisibleTo("uComponents.Controls")]
 [assembly: InternalsVisibleTo("uComponents.DataTypes")]
 [assembly: InternalsVisibleTo("uComponents.DataTypes.RazorDataTypeModels")]

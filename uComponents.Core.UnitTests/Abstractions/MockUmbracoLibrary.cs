@@ -6,7 +6,7 @@ namespace uComponents.Core.UnitTests.Abstractions
 	/// <summary>
 	/// Mock <c>umbraco.library</c> which can return canned results to ease unit-testing.
 	/// </summary>
-	public class MockUmbracoLibrary : IUmbracoLibrary
+	public sealed class MockUmbracoLibrary : IUmbracoLibrary
 	{
 		private string DefaultNiceUrl = "/some/test/data/1234.aspx";
 

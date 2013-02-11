@@ -10,7 +10,7 @@ namespace uComponents.Core.Abstractions
 	/// <remarks>
 	/// This wrapper class is used in order to easily switch during unit-testing.
 	/// </remarks>
-	public class UmbracoLibraryWrapper : IUmbracoLibrary
+	internal sealed class UmbracoLibraryWrapper : IUmbracoLibrary
 	{
 		/// <summary>
 		/// Gets the NiceUrl.

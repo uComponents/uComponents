@@ -4,7 +4,7 @@ namespace uComponents.Core.Interfaces
 	/// <summary>
 	/// Interface for exposing methods used from <c>umbraco.library</c>.
 	/// </summary>
-	public interface IUmbracoLibrary
+	internal interface IUmbracoLibrary
 	{
 		/// <summary>
 		/// Exposes the <c>umbraco.library.NiceUrl</c> method.
