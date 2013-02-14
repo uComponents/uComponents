@@ -15,10 +15,10 @@
     public class DropdownListDataTypeFactory : BaseDataTypeFactory<DropdownListDataType>
     {
         /// <summary>
-        /// Method for customizing the way the <typeparamref name="DropdownDataType">datatype</typeparamref> value is displayed in the grid.
+        /// Method for customizing the way the <paramref name="dataType" /> value is displayed in the grid.
         /// </summary>
-        /// <remarks>Called when the grid displays the cell value for the specified <typeparamref name="DropdownDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="DropdownDataType">datatype</typeparamref> instance.</param>
+        /// <remarks>Called when the grid displays the cell value for the specified <paramref name="dataType" />.</remarks>
+        /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The display value.</returns>
         public override string GetDisplayValue(DropdownListDataType dataType)
         {
