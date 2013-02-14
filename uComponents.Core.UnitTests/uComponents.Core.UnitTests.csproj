@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -163,6 +163,7 @@
     <Reference Include="umbraco, Version=1.0.4779.24225, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Umbraco.Core">
       <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Umbraco.Core.dll</HintPath>
@@ -213,7 +214,7 @@
     <Compile Include="Abstractions\MockUmbracoLibrary.cs" />
     <Compile Include="XsltExtensions\RandomTest.cs" />
     <Compile Include="XsltExtensions\UrlsTest.cs" />
-	<Compile Include="DataTypes\DataTypeGrid\GridCellTests.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\GridCellTests.cs" />
     <Compile Include="DataTypes\DataTypeGrid\GridRowTests.cs" />
     <Compile Include="DataTypes\DataTypeGrid\GridRowCollectionTests.cs" />
     <Compile Include="XsltExtensions\EmailTest.cs" />
