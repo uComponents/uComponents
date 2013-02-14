@@ -159,7 +159,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
                 factory.GetCustomAttributes(typeof(DataTypeFactoryAttribute), false)
                     .FirstOrDefault() as DataTypeFactoryAttribute;
             
-            return attribute;
+            return attribute ?? new DataTypeFactoryAttribute();
         }
 
         /// <summary>
