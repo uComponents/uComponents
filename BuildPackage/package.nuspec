@@ -19,7 +19,7 @@ Containing over 30 data types, 10 XSLT extension libraries, keyboard short-cuts,
 		<copyright>Copyright &#169; 2012 The Umbraco Community</copyright>
 		<tags>umbraco</tags>
 		<dependencies>
-			<dependency id="UmbracoCms.Core" version="4.11.1" />
+			<dependency id="UmbracoCms.Core" version="6.0.0" />
 		</dependencies>
 	</metadata>
 	<files />
