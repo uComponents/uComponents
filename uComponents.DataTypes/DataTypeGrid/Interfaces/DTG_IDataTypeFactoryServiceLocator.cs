@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace uComponents.DataTypes.DataTypeGrid.Interfaces
 {
+    using System;
     using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
@@ -43,11 +44,19 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         TBackingObject GetObject<TBackingObject>(IDataType dataType);
 
         /// <summary>
-        /// Method for performing special actions while creating the <see cref="IDataType"/> editor.
+        /// Method for performing special actions <b>before</b> creating the <see cref="IDataType"/> editor.
         /// </summary>
-        /// <remarks>Called when the grid creates the editor controls for the specified <see cref="IDataType"/>.</remarks>
+        /// <remarks>Called <b>before</b> the grid creates the editor controls for the specified <see cref="IDataType"/>.</remarks>
         /// <param name="dataType">The <see cref="IDataType"/> instance.</param>
         /// <param name="container">The editor control container.</param>
+        void Initialize(IDataType dataType, Control container);
+
+        /// <summary>
+        /// Method for performing special actions <b>after</b> the <see cref="IDataType" /> <see cref="IDataEditor">editor</see> has been loaded.
+        /// </summary>
+        /// <param name="dataType">The <see cref="IDataType"/> instance.</param>
+        /// <param name="container">The editor control container.</param>
+        /// <remarks>Called <b>after</b> the grid creates the editor controls for the specified <see cref="IDataType" />.</remarks>
         void Configure(IDataType dataType, Control container);
 
         /// <summary>

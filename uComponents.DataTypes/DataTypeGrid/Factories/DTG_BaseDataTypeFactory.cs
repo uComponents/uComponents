@@ -49,11 +49,21 @@
         }
 
         /// <summary>
-        /// Method for performing special actions while creating the <see cref="IDataType">datatype</see> editor.
+        /// Method for performing special actions <b>before</b> creating the <see cref="IDataType"/> editor.
         /// </summary>
-        /// <remarks>Called when the grid creates the editor controls for the specified <see cref="IDataType">datatype</see>.</remarks>
-        /// <param name="dataType">The <see cref="IDataType">datatype</see> instance.</param>
+        /// <remarks>Called <b>before</b> the grid creates the editor controls for the specified <see cref="IDataType"/>.</remarks>
+        /// <param name="dataType">The <see cref="IDataType"/> instance.</param>
         /// <param name="container">The editor control container.</param>
+        public virtual void Initialize(T dataType, Control container)
+        {
+        }
+
+        /// <summary>
+        /// Method for performing special actions <b>after</b> the <see cref="IDataType" /> <see cref="IDataEditor">editor</see> has been loaded.
+        /// </summary>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="container">The editor control container.</param>
+        /// <remarks>Called <b>after</b> the grid creates the editor controls for the specified <see cref="IDataType" />.</remarks>
         public virtual void Configure(T dataType, Control container)
         {
         }
