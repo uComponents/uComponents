@@ -77,6 +77,8 @@ namespace uComponents.Core
                     }
                 }
 
+				// TODO: [LK] should we check for ReflectionTypeLoadException?
+
                 return assembly;
             }
 
