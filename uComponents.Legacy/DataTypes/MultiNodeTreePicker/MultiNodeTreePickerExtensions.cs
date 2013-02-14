@@ -46,7 +46,6 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 		public static void AddJsMNTPClientDependencies(this Control ctl)
 		{
 			ctl.RegisterEmbeddedClientResource("uComponents.Legacy.DataTypes.MultiNodeTreePicker.MultiNodePickerScripts.js", ClientDependencyType.Javascript);
-			// ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
 		}
 	}
 }

@@ -11,6 +11,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.UI;
+    using System.Web.UI.WebControls;
 
     using uComponents.DataTypes.DataTypeGrid.Factories;
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
@@ -91,11 +92,24 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         }
 
         /// <summary>
-        /// Method for performing special actions while creating the <see cref="IDataType" /> editor.
+        /// Method for performing special actions <b>before</b> creating the <see cref="IDataType"/> editor.
+        /// </summary>
+        /// <remarks>Called <b>before</b> the grid creates the editor controls for the specified <see cref="IDataType"/>.</remarks>
+        /// <param name="dataType">The <see cref="IDataType"/> instance.</param>
+        /// <param name="container">The editor control container.</param>
+        public void Initialize(IDataType dataType, Control container)
+        {
+            var f = this.GetDataTypeFactory(dataType);
+
+            f.GetType().GetMethod("Initialize").Invoke(f, new object[] { dataType, container });
+        }
+
+        /// <summary>
+        /// Method for performing special actions <b>after</b> the <see cref="IDataType" /> <see cref="IDataEditor">editor</see> has been loaded.
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
         /// <param name="container">The editor control container.</param>
-        /// <remarks>Called when the grid creates the editor controls for the specified <see cref="IDataType" />.</remarks>
+        /// <remarks>Called <b>after</b> the grid creates the editor controls for the specified <see cref="IDataType" />.</remarks>
         public void Configure(IDataType dataType, Control container)
         {
             var f = this.GetDataTypeFactory(dataType);

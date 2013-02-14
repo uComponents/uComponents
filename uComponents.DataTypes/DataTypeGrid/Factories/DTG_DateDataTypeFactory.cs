@@ -16,10 +16,10 @@
     public class DateDataTypeFactory : BaseDataTypeFactory<DateDataType>
     {
         /// <summary>
-        /// Method for customizing the way the <typeparamref name="DateDataType">datatype</typeparamref> value is displayed in the grid.
+        /// Method for customizing the way the <paramref name="dataType" /> value is displayed in the grid.
         /// </summary>
-        /// <remarks>Called when the grid displays the cell value for the specified <typeparamref name="DateDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="DateDataType">datatype</typeparamref> instance.</param>
+        /// <remarks>Called when the grid displays the cell value for the specified <paramref name="dataType" />.</remarks>
+        /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The display value.</returns>
         public override string GetDisplayValue(DateDataType dataType)
         {
@@ -36,9 +36,9 @@
         }
 
         /// <summary>
-        /// Method for getting the backing object for the specified <typeparamref name="DateDataType">datatype</typeparamref>.
+        /// Method for getting the backing object for the specified <paramref name="dataType" />.
         /// </summary>
-        /// <param name="dataType">The <typeparamref name="DateDataType">datatype</typeparamref> instance.</param>
+        /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The backing object.</returns>
         /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()" /> method is called on a <see cref="GridCell" />.</remarks>
         public override object GetObject(DateDataType dataType)
@@ -49,10 +49,10 @@
         }
 
         /// <summary>
-        /// Method for performing special actions while creating the <typeparamref name="DateDataType">datatype</typeparamref> editor.
+        /// Method for performing special actions while creating the <paramref name="dataType" /> editor.
         /// </summary>
-        /// <remarks>Called when the grid creates the editor controls for the specified <typeparamref name="DateDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="DateDataType">datatype</typeparamref> instance.</param>
+        /// <remarks>Called when the grid creates the editor controls for the specified <paramref name="dataType" />.</remarks>
+        /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <param name="container">The editor control container.</param>
         public override void Configure(DateDataType dataType, Control container)
         {

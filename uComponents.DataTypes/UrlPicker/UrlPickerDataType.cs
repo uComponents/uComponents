@@ -15,7 +15,7 @@ namespace uComponents.DataTypes.UrlPicker
         /// <summary>
         /// 
         /// </summary>
-        private UrlPickerDataEditor m_DataEditor = new UrlPickerDataEditor();
+        private UrlPickerDataEditor m_DataEditor;
 
         /// <summary>
         /// 
@@ -26,6 +26,18 @@ namespace uComponents.DataTypes.UrlPicker
         /// 
         /// </summary>
         private IData m_Data;
+
+        /// <summary>
+        /// Gets the content editor.
+        /// </summary>
+        /// <value>The content editor.</value>
+        public UrlPickerDataEditor ContentEditor
+        {
+            get
+            {
+                return m_DataEditor ?? (m_DataEditor = new UrlPickerDataEditor());
+            }
+        }
 
         /// <summary>
         /// Gets the id.
@@ -105,11 +117,11 @@ namespace uComponents.DataTypes.UrlPicker
         /// </summary>
         public UrlPickerDataType()
         {
-            RenderControl = m_DataEditor;
+            RenderControl = this.ContentEditor;
 
             // Events
-            m_DataEditor.Init += new EventHandler(m_DataEditor_Init);
-            m_DataEditor.Load += new EventHandler(m_DataEditor_Load);
+            this.ContentEditor.Init += new EventHandler(m_DataEditor_Init);
+            this.ContentEditor.Load += new EventHandler(m_DataEditor_Load);
             DataEditorControl.OnSave += new AbstractDataEditorControl.SaveEventHandler(DataEditorControl_OnSave);
         }
 
@@ -120,9 +132,9 @@ namespace uComponents.DataTypes.UrlPicker
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         void m_DataEditor_Load(object sender, EventArgs e)
         {
-            if (!m_DataEditor.Page.IsPostBack && !string.IsNullOrEmpty((string)this.Data.Value))
+            if (!this.ContentEditor.Page.IsPostBack && !string.IsNullOrEmpty((string)this.Data.Value))
             {
-                m_DataEditor.State = UrlPickerState.Deserialize((string)this.Data.Value);
+                this.ContentEditor.State = UrlPickerState.Deserialize((string)this.Data.Value);
             }
         }
 
@@ -137,7 +149,7 @@ namespace uComponents.DataTypes.UrlPicker
             var settings = Settings;
             settings.UniquePropertyId = ((umbraco.cms.businesslogic.datatype.DefaultData)this.Data).PropertyId;
             settings.Standalone = false;
-            m_DataEditor.Settings = settings;
+            this.ContentEditor.Settings = settings;
         }
 
         /// <summary>
@@ -146,7 +158,8 @@ namespace uComponents.DataTypes.UrlPicker
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         void DataEditorControl_OnSave(EventArgs e)
         {
-            var state = m_DataEditor.State;
+            var state = this.ContentEditor.State;
+
             // Must be a valid state
             this.Data.Value = (state == null || !Settings.ValidateState(state))
                 ? null 

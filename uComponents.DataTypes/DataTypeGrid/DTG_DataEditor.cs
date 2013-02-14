@@ -658,8 +658,11 @@ namespace uComponents.DataTypes.DataTypeGrid
                 var control = config.Value.DataEditor.Editor;
                 control.ID = "Insert" + config.Alias;
 
-                // Configure the datatype so it works with DTG
-                DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.InsertControls);
+                // Initialize the datatype so it works with DTG
+                DataTypeFactoryServiceLocator.Instance.Initialize(config.Value, this.InsertControls);
+                config.Value.DataEditor.Editor.Load +=
+                    (sender, args) =>
+                    DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.InsertControls);
 
                 InsertControls.Controls.Add(new LiteralControl("<li>"));
 
@@ -748,8 +751,11 @@ namespace uComponents.DataTypes.DataTypeGrid
                 var control = config.Value.DataEditor.Editor;
                 control.ID = "Edit" + config.Alias;
 
-                // Configure the datatype so it works with DTG
-                DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.EditControls);
+                // Initialize the datatype so it works with DTG
+                DataTypeFactoryServiceLocator.Instance.Initialize(config.Value, this.EditControls);
+                config.Value.DataEditor.Editor.Load +=
+                    (sender, args) =>
+                    DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.EditControls);
 
                 this.EditControls.Controls.Add(new LiteralControl("<li>"));
 

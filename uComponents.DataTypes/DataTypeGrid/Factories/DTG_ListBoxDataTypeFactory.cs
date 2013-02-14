@@ -14,10 +14,10 @@
     public class ListBoxDataTypeFactory : BaseDataTypeFactory<ListBoxDataType>
     {
         /// <summary>
-        /// Method for customizing the way the <typeparamref name="TDataType">datatype</typeparamref> value is displayed in the grid.
+        /// Method for customizing the way the <paramref name="dataType" /> value is displayed in the grid.
         /// </summary>
-        /// <remarks>Called when the grid displays the cell value for the specified <typeparamref name="TDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="TDataType">datatype</typeparamref> instance.</param>
+        /// <remarks>Called when the grid displays the cell value for the specified <paramref name="dataType" />.</remarks>
+        /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The display value.</returns>
         public override string GetDisplayValue(ListBoxDataType dataType)
         {

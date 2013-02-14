@@ -12,7 +12,7 @@ using umbraco.editorControls;
 using Umbraco.Core.IO;
 
 [assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityScripts.js", Constants.MediaTypeNames.Application.JavaScript)]
-[assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityStyles.css", Constants.MediaTypeNames.Text.Css, PerformSubstitution = true)]
+[assembly: WebResource("uComponents.DataTypes.Similarity.SimilarityStyles.css", Constants.MediaTypeNames.Text.Css)]
 
 namespace uComponents.DataTypes.Similarity
 {
@@ -171,7 +171,6 @@ namespace uComponents.DataTypes.Similarity
             // Adds the client dependencies
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.Similarity.SimilarityStyles.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.Similarity.SimilarityScripts.js", ClientDependencyType.Javascript);
-            //this.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.tooltip.min.js", ClientDependencyType.Javascript);
         }
 
         /// <summary>
