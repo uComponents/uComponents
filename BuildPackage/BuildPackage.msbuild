@@ -9,8 +9,8 @@
 	<!-- PROPERTIES -->
 	<PropertyGroup>
 		<VersionMajor>5</VersionMajor>
-		<VersionMinor>3</VersionMinor>
-		<VersionPatch>2</VersionPatch>
+		<VersionMinor>4</VersionMinor>
+		<VersionPatch>0</VersionPatch>
 		<VersionSuffix></VersionSuffix>
 		<UmbracoVersion>4.8.0</UmbracoVersion>
 	</PropertyGroup>
@@ -91,10 +91,12 @@
 		<MSBuild.Umbraco.Tasks.TimestampOffset Files="@(BinFiles)" Offset="-11" />
 		<!-- COPY FOR UMBRACO PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildUmbDir)\bin" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildUmbDir)\bin" Condition="'$(VersionSuffix)' != ''" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildUmbDir)\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildUmbDir)" />
 		<!-- COPY FOR NUGET PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" Condition="'$(VersionSuffix)' != ''" />
 		<Copy SourceFiles="@(XmlFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildNuGetDir)\content\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />

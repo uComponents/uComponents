@@ -72,7 +72,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 			this.assemblyDropDownList.SelectedIndexChanged += new EventHandler(this.AssemblyDropDownList_SelectedIndexChanged);
 
 			// find all assemblies (*.dll)
-			this.assemblyDropDownList.DataSource = Helper.IO.GetAssemblies();
+			this.assemblyDropDownList.DataSource = Helper.IO.GetAssemblyNames();
 			this.assemblyDropDownList.DataBind();
 
 			this.assemblyDropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
@@ -116,21 +116,12 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		{
 			var value = this.assemblyDropDownList.SelectedValue;
 
-			// recreate the SourceEnum dropdownlist....
+			// recreate the SourceEnum dropdownlist...
 			if (!string.IsNullOrEmpty(value))
 			{
 				try
 				{
-					Assembly assembly;
-					if (string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase))
-					{
-						assembly = Assembly.Load(value);
-					}
-					else
-					{
-						assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
-					}
-
+					var assembly = Helper.IO.GetAssembly(value);
 					var assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
 
 					this.enumsDropDownList.DataSource = assemblyTypes;
@@ -145,7 +136,6 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 			{
 				this.enumsDropDownList.Items.Clear();
 			}
-
 		}
 
 		/// <summary>

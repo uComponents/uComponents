@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using uComponents.Core;
 using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic;
@@ -93,23 +94,9 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			if (GlobalSettings.ApplicationTrustLevel == AspNetHostingPermissionLevel.Unrestricted)
-			{
-				AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += this.CurrentDomain_ReflectionOnlyAssemblyResolve;
-			}
-
 			try
 			{
-				Assembly assembly;
-				if (string.Equals(this.options.Assembly, "App_Code", StringComparison.InvariantCultureIgnoreCase))
-				{
-					assembly = Assembly.Load(this.options.Assembly);
-				}
-				else
-				{
-					assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", this.options.Assembly)));
-				}
-
+				var assembly = Helper.IO.GetAssembly(this.options.Assembly);
 				var type = assembly.GetType(this.options.Enum);
 
 				// Loop though enum to create drop down list items
@@ -124,7 +111,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 						if (customAttributeData.Constructor.DeclaringType != null && customAttributeData.Constructor.DeclaringType.Name == "EnumDropDownListAttribute" && customAttributeData.NamedArguments != null)
 						{
 							// Loop though each property on the EnumDropDownListAttribute
-							foreach (CustomAttributeNamedArgument customAttributeNamedArguement in customAttributeData.NamedArguments)
+							foreach (var customAttributeNamedArguement in customAttributeData.NamedArguments)
 							{
 								switch (customAttributeNamedArguement.MemberInfo.Name)
 								{
@@ -159,11 +146,6 @@ namespace uComponents.DataTypes.EnumDropDownList
 
 			this.Controls.Add(this.customValidator);
 			this.Controls.Add(this.dropDownList);
-		}
-
-		private Assembly CurrentDomain_ReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
-		{
-			return Assembly.ReflectionOnlyLoad(args.Name);
 		}
 
 		/// <summary>

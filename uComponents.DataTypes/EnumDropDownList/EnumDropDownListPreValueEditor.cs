@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
@@ -76,7 +75,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 			this.assemblyDropDownList.SelectedIndexChanged += new EventHandler(this.AssemblyDropDownList_SelectedIndexChanged);
 
 			// find all assemblies (*.dll)
-			this.assemblyDropDownList.DataSource = Helper.IO.GetAssemblies();
+			this.assemblyDropDownList.DataSource = Helper.IO.GetAssemblyNames();
 			this.assemblyDropDownList.DataBind();
 
 			this.assemblyDropDownList.Items.Insert(0, new ListItem(string.Empty, "-1"));
@@ -85,7 +84,10 @@ namespace uComponents.DataTypes.EnumDropDownList
 
 			this.defaultToFirstItemCheckBox.ID = "defaultToFirstItemCheckBox";
 
-			this.Controls.AddPrevalueControls(this.assemblyDropDownList, this.enumsDropDownList, defaultToFirstItemCheckBox);
+			this.Controls.AddPrevalueControls(
+				this.assemblyDropDownList,
+				this.enumsDropDownList,
+				this.defaultToFirstItemCheckBox);
 		}
 
 		/// <summary>
@@ -102,6 +104,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 				this.assemblyDropDownList.SelectedValue = this.Options.Assembly;
 				this.SetSourceEnumDropDownList();
 				this.enumsDropDownList.SelectedValue = this.Options.Enum;
+				this.defaultToFirstItemCheckBox.Checked = this.Options.DefaultToFirstItem;
 			}
 		}
 
@@ -122,14 +125,12 @@ namespace uComponents.DataTypes.EnumDropDownList
 		{
 			var value = this.assemblyDropDownList.SelectedValue;
 
-			// recreate the SourceEnum dropdownlist....
+			// recreate the SourceEnum dropdownlist...
 			if (!string.IsNullOrEmpty(value))
 			{
 				try
 				{
-					var assembly = string.Equals(value, "App_Code", StringComparison.InvariantCultureIgnoreCase)
-									   ? Assembly.Load(value)
-									   : Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", value)));
+					var assembly = Helper.IO.GetAssembly(value);
 					var assemblyTypes = assembly.GetTypes().Where(type => type.IsEnum).ToArray();
 
 					this.enumsDropDownList.DataSource = assemblyTypes;
@@ -144,7 +145,6 @@ namespace uComponents.DataTypes.EnumDropDownList
 			{
 				this.enumsDropDownList.Items.Clear();
 			}
-
 		}
 
 		/// <summary>

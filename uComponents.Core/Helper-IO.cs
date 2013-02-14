@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Web;
+using System.Web.Hosting;
+using umbraco;
 using umbraco.IO;
 
 namespace uComponents.Core
@@ -21,10 +26,10 @@ namespace uComponents.Core
 			private static readonly object Locker = new object();
 
 			/// <summary>
-			/// Gets the assemblies.
+			/// Gets the names of all loaded assemblies.
 			/// </summary>
-			/// <returns>Returns a list of assembly names.</returns>
-			public static string[] GetAssemblies()
+			/// <returns>A list of assembly names.</returns>
+			public static string[] GetAssemblyNames()
 			{
 				var assemblies = new List<string>();
 
@@ -39,6 +44,42 @@ namespace uComponents.Core
 				assemblies.AddRange(Directory.GetFiles(IOHelper.MapPath("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
 
 				return assemblies.ToArray();
+			}
+
+			/// <summary>
+			/// Gets the <see cref="Assembly"/> with the specified name.
+			/// </summary>
+			/// <remarks>Works in Medium Trust.</remarks>
+			/// <param name="assemblyName">The <see cref="Assembly"/> name.</param>
+			/// <returns>The <see cref="Assembly"/>.</returns>
+			public static Assembly GetAssembly(string assemblyName)
+			{
+				var appTrust = GlobalSettings.ApplicationTrustLevel;
+				if (appTrust == AspNetHostingPermissionLevel.Unrestricted)
+				{
+					AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += OnCurrentDomainReflectionOnlyAssemblyResolve;
+				}
+
+				if (string.Equals(assemblyName, "App_Code", StringComparison.InvariantCultureIgnoreCase))
+				{
+					return Assembly.Load(assemblyName);
+				}
+
+				var path = HostingEnvironment.MapPath(string.Concat("~/bin/", assemblyName));
+				if (!string.IsNullOrEmpty(path))
+				{
+					if (appTrust == AspNetHostingPermissionLevel.Unrestricted)
+					{
+						return Assembly.ReflectionOnlyLoadFrom(path);
+					}
+					else
+					{
+						// Medium Trust support
+						return Assembly.LoadFile(path);
+					}
+				}
+
+				return null;
 			}
 
 			/// <summary>
@@ -86,6 +127,17 @@ namespace uComponents.Core
 				}
 
 				return new FileInfo(path);
+			}
+
+			/// <summary>
+			/// Called when [current domain assembly is resolved].
+			/// </summary>
+			/// <param name="sender">The sender.</param>
+			/// <param name="args">The <see cref="ResolveEventArgs" /> instance containing the event data.</param>
+			/// <returns>The resolved <see cref="Assembly"/>.</returns>
+			private static Assembly OnCurrentDomainReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
+			{
+				return Assembly.ReflectionOnlyLoad(args.Name);
 			}
 		}
 	}

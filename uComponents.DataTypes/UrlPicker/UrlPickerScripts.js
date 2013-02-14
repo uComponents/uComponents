@@ -269,6 +269,10 @@ Date modified: 15th of March, 2011
         // Hacks the content/media pickers' APIs such that we are
         // essentially 'listening' for their events.
         var listenToPickerApi = function (api) {
+            if (api.AreUrlPickerEventsAttached) {
+                return;
+            }
+            
             api.OriginalSaveSelection = api.SaveSelection;
             api.SaveSelection = function (e) {
                 api.OriginalSaveSelection.apply(api, [e]);
@@ -280,6 +284,8 @@ Date modified: 15th of March, 2011
                 api.OriginalClearSelection.apply(api);
                 change();
             };
+
+            api.AreUrlPickerEventsAttached = true;
         };
 
         // Updates the URL in state from the content node's ID

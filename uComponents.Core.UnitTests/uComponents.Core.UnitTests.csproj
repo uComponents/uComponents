@@ -118,6 +118,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\DataTypeGrid\GridCellTests.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\GridRowTests.cs" />
+    <Compile Include="DataTypes\DataTypeGrid\GridRowCollectionTests.cs" />
     <Compile Include="XsltExtensions\EmailTest.cs" />
     <Compile Include="XsltExtensions\IOTest.cs" />
     <Compile Include="XsltExtensions\DatesTest.cs" />
@@ -129,6 +132,10 @@
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
+      <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
+      <Name>uComponents.DataTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\uComponents.XsltExtensions\uComponents.XsltExtensions.csproj">
       <Project>{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}</Project>
