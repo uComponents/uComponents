@@ -28,6 +28,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
     using uComponents.DataTypes.DataTypeGrid.Extensions;
     using uComponents.DataTypes.DataTypeGrid.Functions;
+    using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
 
     using umbraco;
 
@@ -170,13 +171,19 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <value>
         /// Whether to show the footer.
         /// </value>
-        public HiddenField ShowTableFooter { get; set; }
+        public HiddenField ShowGridFooter { get; set; }
 
         /// <summary>
         /// Gets or sets the number of rows per page.
         /// </summary>
         /// <value>The number of rows per page.</value>
         public HiddenField RowsPerPage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the datatables translation.
+        /// </summary>
+        /// <value>The datatables translation.</value>
+        public LiteralControl DataTablesTranslation { get; set; }
 
         /// <summary>
         /// Gets or sets the content sorting.
@@ -527,7 +534,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                     foreach (var value in row.Cells)
                     {
-                        var text = new Label { Text = value.Value.ToDtgString() };
+                        var text = new Label { Text = DataTypeFactoryServiceLocator.Instance.GetDisplayValue(value.Value) };
 
                         if (value.Name.Equals(storedConfig.Name))
                         {
@@ -578,6 +585,16 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             var control = parent.FindControl(config.Value.DataEditor.Editor.ID);
 
+            var title = config.Name;
+
+            // If the name starts with a hash, get the dictionary item
+            if (config.Name.StartsWith("#"))
+            {
+                var key = config.Name.Substring(1, config.Name.Length - 1);
+
+                title = uQuery.GetDictionaryItem(key, key);
+            }
+
             // Mandatory
             if (this.StoredPreValues.Single(x => x.Alias == config.Alias).Mandatory && control != null)
             {
@@ -588,7 +605,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                                         CssClass = "validator",
                                         ControlToValidate = control.ID,
                                         Display = ValidatorDisplay.Dynamic,
-                                        ErrorMessage = config.Name + " is mandatory"
+                                        ErrorMessage = title + " is mandatory"
                                     };
                 parent.Controls.Add(validator);
             }
@@ -607,7 +624,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                             ControlToValidate = control.ID,
                             Display = ValidatorDisplay.Dynamic,
                             ValidationExpression = regex.ToString(),
-                            ErrorMessage = config.Name + " is not in a correct format"
+                            ErrorMessage = title + " is not in a correct format"
                         };
                     parent.Controls.Add(validator);
                 }
@@ -642,7 +659,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 control.ID = "Insert" + config.Alias;
 
                 // Configure the datatype so it works with DTG
-                config.Value.ConfigureForDtg(InsertControls);
+                DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.InsertControls);
 
                 InsertControls.Controls.Add(new LiteralControl("<li>"));
 
@@ -703,7 +720,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var t in this.InsertDataTypes)
             {
                 // Save value to datatype
-                t.Value.SaveForDtg();
+                DataTypeFactoryServiceLocator.Instance.Save(t.Value);
 
                 // Create new storedvalue object
                 var v = new StoredValue { Name = t.Name, Alias = t.Alias, Value = t.Value };
@@ -732,7 +749,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 control.ID = "Edit" + config.Alias;
 
                 // Configure the datatype so it works with DTG
-                config.Value.ConfigureForDtg(this.EditControls);
+                DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.EditControls);
 
                 this.EditControls.Controls.Add(new LiteralControl("<li>"));
 
@@ -896,7 +913,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 foreach (var cell in row.Cells)
                 {
                     // Save value to datatype
-                    cell.Value.SaveForDtg();
+                    DataTypeFactoryServiceLocator.Instance.Save(cell.Value);
                 }
             }
 
@@ -1095,6 +1112,36 @@ namespace uComponents.DataTypes.DataTypeGrid
             return newId;
         }
 
+        /// <summary>
+        /// Gets the datatables translation.
+        /// </summary>
+        /// <returns>The translation.</returns>
+        private string GetDataTablesTranslation()
+        {
+            var translation =
+                string.Format(
+                    @"<script type=""text/javascript"">$.fn.uComponents().dictionary().dataTablesTranslation = {{""sEmptyTable"":""{0}"",""sInfo"":""{1}"",""sInfoEmpty"":""{2}"",""sInfoFiltered"":""{3}"",""sInfoPostFix"":""{4}"",""sInfoThousands"":""{5}"",""sLengthMenu"":""{6}"",""sLoadingRecords"":""{7}"",""sProcessing"":""{8}"",""sSearch"":""{9}"",""sZeroRecords"":""{10}"",""oPaginate"": {{""sFirst"":""{11}"",""sLast"":""{12}"",""sNext"":""{13}"",""sPrevious"":""{14}""}},""oAria"":{{""sSortAscending"":""{15}"",""sSortDescending"":""{16}""}}}}</script>",
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sEmptyTable", "No data available in table"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sInfo", "Showing _START_ to _END_ of _TOTAL_ entries"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sInfoEmpty", "Showing 0 to 0 of 0 entries"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sInfoFiltered", "(filtered from _MAX_ total entries"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sInfoPostFix", string.Empty),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sInfoThousands", ","),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sLengthMenu", "Show _MENU_ entries"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sLoadingRecords", "Loading..."),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sProcessing", "Processing..."),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sSearch", "Search:"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sZeroRecords", "No matching records found"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sFirst", "First"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sLast", "Last"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sNext", "Next"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sPrevious", "Previous"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sSortAscending", ": activate to sort column ascending"),
+                    Helper.Dictionary.GetDictionaryItem("DataTables.sSortDescending", ": activate to sort column descending"));
+
+            return translation;
+        }
+
         #endregion
 
         #region Events
@@ -1137,14 +1184,13 @@ namespace uComponents.DataTypes.DataTypeGrid
                     string.Format("DTG: Retrieved the following data from database: {0}", this.data.Value));
             }
 
-            this.ShowGridHeader = new HiddenField()
-                { ID = "ShowGridHeader", Value = this.settings.ShowGridHeader.ToString() };
-            ShowTableFooter = new HiddenField()
-                { ID = "ShowGridFooter", Value = this.settings.ShowGridFooter.ToString() };
+            this.ShowGridHeader = new HiddenField() { ID = "ShowGridHeader", Value = this.settings.ShowGridHeader.ToString() };
+            this.ShowGridFooter = new HiddenField() { ID = "ShowGridFooter", Value = this.settings.ShowGridFooter.ToString() };
+            this.DataTablesTranslation = new LiteralControl() { ID = "DataTablesTranslation", Text = this.GetDataTablesTranslation() };
             this.RowsPerPage = new HiddenField() { ID = "RowsPerPage", Value = this.settings.RowsPerPage.ToString() };
-            ContentSorting = new HiddenField() { ID = "ContentSorting", Value = this.settings.ContentSorting };
-            Grid = new Table { ID = "tblGrid", CssClass = "display" };
-            Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
+            this.ContentSorting = new HiddenField() { ID = "ContentSorting", Value = this.settings.ContentSorting };
+            this.Grid = new Table { ID = "tblGrid", CssClass = "display" };
+            this.Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
             StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
             Rows = this.GetStoredValues();
@@ -1171,8 +1217,9 @@ namespace uComponents.DataTypes.DataTypeGrid
             GenerateEditControls();
 
             this.Controls.Add(this.ShowGridHeader);
-            this.Controls.Add(this.ShowTableFooter);
+            this.Controls.Add(this.ShowGridFooter);
             this.Controls.Add(this.RowsPerPage);
+            this.Controls.Add(this.DataTablesTranslation);
             this.Controls.Add(this.ContentSorting);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.Toolbar);
@@ -1195,8 +1242,9 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
             this.ShowGridHeader.RenderControl(writer);
-            ShowTableFooter.RenderControl(writer);
+            this.ShowGridFooter.RenderControl(writer);
             this.RowsPerPage.RenderControl(writer);
+            this.DataTablesTranslation.RenderControl(writer);
             ContentSorting.RenderControl(writer);
             Grid.RenderControl(writer);
             Toolbar.RenderControl(writer);

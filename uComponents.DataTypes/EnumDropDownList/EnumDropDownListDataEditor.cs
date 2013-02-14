@@ -107,7 +107,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 				}
 				else
 				{
-					assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", this.options.Assembly)));
+					assembly = Assembly.ReflectionOnlyLoadFrom(this.MapPathSecure(string.Concat("~/bin/", this.options.Assembly)));
 				}
 
 				var type = assembly.GetType(this.options.Enum);

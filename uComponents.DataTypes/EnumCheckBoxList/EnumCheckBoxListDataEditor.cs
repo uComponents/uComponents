@@ -108,7 +108,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 				}
 				else
 				{
-					assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", this.options.Assembly)));
+					assembly = Assembly.ReflectionOnlyLoadFrom(this.MapPathSecure(string.Concat("~/bin/", this.options.Assembly)));
 				}
 
 				var type = assembly.GetType(this.options.Enum);

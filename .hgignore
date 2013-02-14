@@ -12,3 +12,9 @@ TestResults/*
 uComponents.*.nupkg
 uComponents_*.zip
 ._.hgignore
+_UpgradeReport_Files/*
+uComponents.sln.GhostDoc.user.dic
+UpgradeLog.*
+*.orig
+*.ncrunchproject
+_NCrunch_uComponents/uComponents.crunchsolution.cache

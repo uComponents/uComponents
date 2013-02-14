@@ -6,11 +6,10 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Extensions
 {
-	using uComponents.DataTypes.Shared.Extensions;
-	using umbraco.cms.businesslogic.datatype;
-	using umbraco.editorControls;
+    using umbraco.cms.businesslogic.datatype;
+    using umbraco.editorControls;
 
-	/// <summary>
+    /// <summary>
     /// Extension methods for the DataType Grid DataType
     /// </summary>
     internal static class DtgDataEditorExtensions
@@ -42,6 +41,8 @@ namespace uComponents.DataTypes.DataTypeGrid.Extensions
         public static void AddJsDtgClientDependencies(this DataEditor ctl)
         {
             ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.DataTypeGrid.Scripts.jquery.dataTables.min.js", ClientDependencyType.Javascript);
+            ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.ucomponents.js", ClientDependencyType.Javascript);
+            ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.Shared.Resources.Scripts.jquery.ucomponents.dictionary.js", ClientDependencyType.Javascript);
             ctl.RegisterEmbeddedClientResource("uComponents.DataTypes.DataTypeGrid.Scripts.DTG_DataEditor.js", ClientDependencyType.Javascript);
         }
     }
