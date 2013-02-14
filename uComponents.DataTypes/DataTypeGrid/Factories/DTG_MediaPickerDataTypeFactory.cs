@@ -15,10 +15,10 @@
     public class MediaPickerDataTypeFactory : BaseDataTypeFactory<MemberPickerDataType>
     {
         /// <summary>
-        /// Method for customizing the way the <typeparamref name="MemberPickerDataType">datatype</typeparamref> value is displayed in the grid.
+        /// Method for customizing the way the <paramref name="dataType" /> value is displayed in the grid.
         /// </summary>
-        /// <remarks>Called when the grid displays the cell value for the specified <typeparamref name="MemberPickerDataType">datatype</typeparamref>.</remarks>
-        /// <param name="dataType">The <typeparamref name="MemberPickerDataType">datatype</typeparamref> instance.</param>
+        /// <remarks>Called when the grid displays the cell value for the specified <paramref name="dataType" />.</remarks>
+        /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The display value.</returns>
         public override string GetDisplayValue(MemberPickerDataType dataType)
         {
@@ -42,10 +42,10 @@
         }
 
         /// <summary>
-        /// Method for getting the backing object for the specified <typeparamref name="MemberPickerDataType">datatype</typeparamref>.
+        /// Method for getting the backing object for the specified <paramref name="dataType" />.
         /// </summary>
         /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()"/> method is called on a <see cref="GridCell"/>.</remarks>
-        /// <param name="dataType">The <typeparamref name="MemberPickerDataType">datatype</typeparamref> instance.</param>
+        /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The backing object.</returns>
         public override object GetObject(MemberPickerDataType dataType)
         {
