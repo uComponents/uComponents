@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
@@ -90,23 +91,12 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += new ResolveEventHandler(this.CurrentDomain_ReflectionOnlyAssemblyResolve);
-
 			FieldInfo fieldInfo;
 			ListItem checkBoxListItem;
 
 			try
 			{
-				Assembly assembly;
-				if (string.Equals(this.options.Assembly, "App_Code", StringComparison.InvariantCultureIgnoreCase))
-				{
-					assembly = Assembly.Load(this.options.Assembly);
-				}
-				else
-				{
-					assembly = Assembly.LoadFile(this.MapPathSecure(string.Concat("~/bin/", this.options.Assembly)));
-				}
-
+				var assembly = Helper.IO.GetAssembly(this.options.Assembly);
 				var type = assembly.GetType(this.options.Enum);
 
 				// Loop though enum to create drop down list items
@@ -117,12 +107,12 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 					fieldInfo = type.GetField(name);
 
 					// Loop though any custom attributes that may have been applied the the curent enum item
-					foreach (CustomAttributeData customAttributeData in CustomAttributeData.GetCustomAttributes(fieldInfo))
+					foreach (var customAttributeData in CustomAttributeData.GetCustomAttributes(fieldInfo))
 					{
-						if (customAttributeData.Constructor.DeclaringType.Name == "EnumCheckBoxListAttribute")
+						if (customAttributeData.Constructor.DeclaringType != null && customAttributeData.Constructor.DeclaringType.Name == "EnumCheckBoxListAttribute" && customAttributeData.NamedArguments != null)
 						{
 							// Loop though each property on the EnumCheckBoxListAttribute
-							foreach (CustomAttributeNamedArgument customAttributeNamedArguement in customAttributeData.NamedArguments)
+							foreach (var customAttributeNamedArguement in customAttributeData.NamedArguments)
 							{
 								switch (customAttributeNamedArguement.MemberInfo.Name)
 								{
@@ -151,11 +141,6 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 
 			this.Controls.Add(this.customValidator);
 			this.Controls.Add(this.checkBoxList);
-		}
-
-		private Assembly CurrentDomain_ReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
-		{
-			return Assembly.ReflectionOnlyLoad(args.Name);
 		}
 
 		/// <summary>

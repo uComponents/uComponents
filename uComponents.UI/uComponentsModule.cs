@@ -9,8 +9,9 @@ using uComponents.Core;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.presentation;
+using Umbraco.Web;
 using umbraco.editorControls;
+using Umbraco.Core.IO;
 
 namespace uComponents.UI
 {
@@ -116,7 +117,7 @@ namespace uComponents.UI
 
 				//Used when inserting images in content editors
 				"var UC_IMAGE_SERVICE = \"" +
-					umbraco.IO.IOHelper.ResolveUrl(umbraco.IO.SystemDirectories.Umbraco) +
+					IOHelper.ResolveUrl(SystemDirectories.Umbraco) +
 					"/controls/Images/ImageViewerUpdater.asmx/UpdateImage\";", true);
 
 

@@ -6,7 +6,7 @@ using uComponents.Core;
 using umbraco;
 using umbraco.editorControls;
 using umbraco.interfaces;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.RelatedLinksWithMedia
 {

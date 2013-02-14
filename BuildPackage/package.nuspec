@@ -4,10 +4,10 @@
 		<id>uComponents</id>
 		<version>0.0.0</version>
 		<title>uComponents</title>
-		<authors>Lee Kelleher,Hendy Racher,Shannon Deminick</authors>
+		<authors>Lee Kelleher,Hendy Racher,James Diacono,Ove Andersen,Shannon Deminick</authors>
 		<owners>The Umbraco Community</owners>
 		<licenseUrl>http://ucomponents.codeplex.com/license</licenseUrl>
-		<projectUrl>http://our.umbraco.org/projects/backoffice-extensions/ucomponents</projectUrl>
+		<projectUrl>http://ucomponents.org</projectUrl>
 		<iconUrl>http://ucomponents.org/apple-touch-icon-114x114-precomposed.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<summary>uComponents is a collaborative project for creating components for Umbraco including data types, XSLT extensions, controls and more.</summary>
@@ -18,6 +18,9 @@ Containing over 30 data types, 10 XSLT extension libraries, keyboard short-cuts,
 		</description>
 		<copyright>Copyright &#169; 2012 The Umbraco Community</copyright>
 		<tags>umbraco</tags>
+		<dependencies>
+			<dependency id="UmbracoCms.Core" version="4.11.1" />
+		</dependencies>
 	</metadata>
 	<files />
 </package>

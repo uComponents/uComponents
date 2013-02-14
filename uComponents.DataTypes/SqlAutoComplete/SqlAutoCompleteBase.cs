@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Xml.Linq;
-using umbraco;
 using umbraco.DataLayer;
-using umbraco.presentation.umbracobase;
+using Umbraco.Web.BaseRest;
 
 namespace uComponents.DataTypes.SqlAutoComplete
 {
@@ -29,7 +26,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
 		/// <param name="datatypeDefinitionId"></param>
 		/// <param name="currentId"></param>
 		/// <returns></returns>
-		[RestExtensionMethod(returnXml = false)]
+        [RestExtensionMethod(ReturnXml = false)]
 		public static string GetData(int datatypeDefinitionId, int currentId)
 		{
 			var autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];

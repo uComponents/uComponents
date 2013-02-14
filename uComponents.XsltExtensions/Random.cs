@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
 using uComponents.Core;
+using uComponents.Core.Abstractions;
+using uComponents.Core.Interfaces;
 using umbraco;
 
 namespace uComponents.XsltExtensions
@@ -10,15 +12,40 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Random class exposes XSLT extensions to offer extended randomizing functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.random")]
 	public class Random
 	{
+		/// <summary>
+		/// Instance of the wrapper for <c>umbraco.library</c>, so we can 'mock' this for unit-testing.
+		/// </summary>
+		private static IUmbracoLibrary Library = new UmbracoLibraryWrapper();
+
 		/// <summary>
 		/// Gets the random double.
 		/// </summary>
 		/// <returns>Returns a random dobule.</returns>
 		public static double GetRandomDouble()
 		{
-			return library.GetRandom().NextDouble();
+			return Library.GetRandom().NextDouble();
+		}
+
+		/// <summary>
+		/// Gets the random GUID.
+		/// </summary>
+		/// <returns>Returns a random GUID.</returns>
+		public static string GetRandomGuid()
+		{
+			return GetRandomGuid("D");
+		}
+
+		/// <summary>
+		/// Gets the random GUID, with a specified format.
+		/// </summary>
+		/// <param name="format">The format.</param>
+		/// <returns>Returns a random GUID, with a specified format.</returns>
+		public static string GetRandomGuid(string format)
+		{
+			return Guid.NewGuid().ToString(format);
 		}
 
 		/// <summary>
@@ -51,31 +78,12 @@ namespace uComponents.XsltExtensions
 		}
 
 		/// <summary>
-		/// Gets the random GUID.
-		/// </summary>
-		/// <returns>Returns a random GUID.</returns>
-		public static string GetRandomGuid()
-		{
-			return GetRandomGuid("D");
-		}
-
-		/// <summary>
-		/// Gets the random GUID, with a specified format.
-		/// </summary>
-		/// <param name="format">The format.</param>
-		/// <returns>Returns a random GUID, with a specified format.</returns>
-		public static string GetRandomGuid(string format)
-		{
-			return Guid.NewGuid().ToString(format);
-		}
-
-		/// <summary>
 		/// Gets the random number.
 		/// </summary>
 		/// <returns>Returns a random integer.</returns>
 		public static int GetRandomNumber()
 		{
-			return library.GetRandom().Next();
+			return Library.GetRandom().Next();
 		}
 
 		/// <summary>
@@ -85,7 +93,7 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns a random integer, less than specified maximum.</returns>
 		public static int GetRandomNumber(int maximum)
 		{
-			return library.GetRandom().Next(maximum);
+			return Library.GetRandom().Next(maximum);
 		}
 
 		/// <summary>
@@ -96,7 +104,7 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns a random integer, between the specified minimum and maximum.</returns>
 		public static int GetRandomNumber(int minimum, int maximum)
 		{
-			return library.GetRandom().Next(minimum, maximum);
+			return Library.GetRandom().Next(minimum, maximum);
 		}
 
 		/// <summary>
@@ -106,10 +114,21 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns a sequence of random numbers.</returns>
 		public static string GetRandomNumbers(int count)
 		{
-			var random = library.GetRandom();
+			return GetRandomNumbers(count, new string(Constants.Common.COMMA, 1));
+		}
+
+		/// <summary>
+		/// Gets the random numbers.
+		/// </summary>
+		/// <param name="count">The count.</param>
+		/// <param name="delimiter">The delimiter.</param>
+		/// <returns>Returns a sequence of random numbers.</returns>
+		public static string GetRandomNumbers(int count, string delimiter)
+		{
+			var random = Library.GetRandom();
 			var sequence = Enumerable.Range(1, count).OrderBy(n => n * n * random.Next()).Select(i => i.ToString());
 
-			return string.Join(new string(Constants.Common.COMMA, 1), sequence.ToArray());
+			return string.Join(delimiter, sequence.ToArray());
 		}
 
 		/// <summary>
@@ -142,7 +161,7 @@ namespace uComponents.XsltExtensions
 		internal static string GenerateRandomString(string pattern, string replacer)
 		{
 			var characters = "AzByCxDwEvFuGtHsIrJqKpLoMnNmOlPkQjRiShTgUfVeWdXcYbZa1234567890";
-			var random = library.GetRandom();
+			var random = Library.GetRandom();
 			var evaluator = new MatchEvaluator(delegate(Match m) { return characters[random.Next(characters.Length)].ToString(); });
 
 			return Regex.Replace(pattern, replacer, evaluator);

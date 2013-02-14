@@ -24,7 +24,9 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 			{
 				if (Helper.Xml.CouldItBeXml(PropertyData))
 				{
+#pragma warning disable 0618
 					instance = new DynamicXml(PropertyData);
+#pragma warning restore 0618
 					return true;
 				}
 

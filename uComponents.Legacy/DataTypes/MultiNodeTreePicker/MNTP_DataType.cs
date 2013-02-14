@@ -31,10 +31,12 @@ namespace uComponents.DataTypes.MultiNodeTreePicker
 
         private umbraco.interfaces.IData m_Data;
 
+#pragma warning disable 0618
         /// <summary>
         /// The internal tree picker control to render
         /// </summary>
         readonly MNTP_DataEditor m_Tree = new MNTP_DataEditor();
+#pragma warning restore 0618
 
         /// <summary>
         /// Internal pre value editor to render

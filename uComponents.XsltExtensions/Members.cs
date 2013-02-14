@@ -2,15 +2,16 @@
 using System.Web.Security;
 using System.Xml;
 using System.Xml.XPath;
-// using uComponents.Core.Shared.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.member;
+using Umbraco.Core;
 
 namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Members class exposes XSLT extensions to offer extended XML/XSLT functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.members")]
 	public class Members
 	{
 		/// <summary>
@@ -52,7 +53,7 @@ namespace uComponents.XsltExtensions
 				{
 					foreach (var memberName in Roles.GetUsersInRole(groupName))
 					{
-						var memberNode = xmlHelper.addTextNode(xd, "member", memberName);
+						var memberNode = XmlHelper.AddTextNode(xd, "member", memberName);
 						xd.DocumentElement.AppendChild(memberNode);
 					}
 				}
@@ -163,7 +164,7 @@ namespace uComponents.XsltExtensions
 
 				foreach (var group in Roles.GetRolesForUser(member.LoginName))
 				{
-					var memberGroupNode = umbraco.xmlHelper.addTextNode(xd, "memberGroup", group);
+					var memberGroupNode = XmlHelper.AddTextNode(xd, "memberGroup", group);
 					xd.DocumentElement.AppendChild(memberGroupNode);
 				}
 

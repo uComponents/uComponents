@@ -3,7 +3,7 @@ using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using umbraco;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.FileDropDownList
 {

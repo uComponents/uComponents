@@ -12,6 +12,8 @@
     <AssemblyName>uComponents.DataTypes</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,56 +35,171 @@
     <DocumentationFile>bin\Release\uComponents.DataTypes.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="businesslogic">
-      <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
+    <Reference Include="businesslogic, Version=1.0.4779.24223, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\businesslogic.dll</HintPath>
     </Reference>
-    <Reference Include="ClientDependency.Core">
-      <HintPath>..\Lib\Umbraco\ClientDependency.Core.dll</HintPath>
+    <Reference Include="ClientDependency.Core, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\ClientDependency.Core.dll</HintPath>
     </Reference>
-    <Reference Include="cms">
-      <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
+    <Reference Include="ClientDependency.Core.Mvc">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\ClientDependency.Core.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="controls">
-      <HintPath>..\Lib\Umbraco\controls.dll</HintPath>
+    <Reference Include="cms, Version=1.0.4779.24224, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\cms.dll</HintPath>
     </Reference>
-    <Reference Include="Examine">
-      <HintPath>..\Lib\Umbraco\Examine.dll</HintPath>
+    <Reference Include="controls, Version=1.0.4779.24224, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\controls.dll</HintPath>
     </Reference>
-    <Reference Include="interfaces">
-      <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
+    <Reference Include="CookComputing.XmlRpcV2">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
-    <Reference Include="Lucene.Net">
-      <HintPath>..\Lib\Umbraco\Lucene.Net.dll</HintPath>
+    <Reference Include="Examine, Version=0.1.42.2941, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Examine.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="interfaces, Version=1.0.4779.24221, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=2.9.4.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Helpers">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Microsoft.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Our.Umbraco.uGoLive">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Our.Umbraco.uGoLive.dll</HintPath>
+    </Reference>
+    <Reference Include="Our.Umbraco.uGoLive.47x">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Our.Umbraco.uGoLive.47x.dll</HintPath>
+    </Reference>
+    <Reference Include="Our.Umbraco.uGoLive.Checks">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Our.Umbraco.uGoLive.Checks.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\packages\ServiceStack.Text.3.9.35\lib\net35\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLCE4Umbraco">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\SQLCE4Umbraco.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\System.Data.SqlServerCe.Entity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="umbraco">
-      <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
+    <Reference Include="TidyNet">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\TidyNet.dll</HintPath>
     </Reference>
-    <Reference Include="umbraco.DataLayer">
-      <HintPath>..\Lib\Umbraco\umbraco.DataLayer.dll</HintPath>
+    <Reference Include="umbraco, Version=1.0.4779.24225, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.dll</HintPath>
     </Reference>
-    <Reference Include="umbraco.editorControls">
-      <HintPath>..\Lib\Umbraco\umbraco.editorControls.dll</HintPath>
+    <Reference Include="Umbraco.Core">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Umbraco.Core.dll</HintPath>
     </Reference>
-    <Reference Include="umbraco.MacroEngines">
-      <HintPath>..\Lib\Umbraco\umbraco.MacroEngines.dll</HintPath>
+    <Reference Include="umbraco.DataLayer, Version=1.0.4779.24223, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.DataLayer.dll</HintPath>
     </Reference>
-    <Reference Include="umbraco.macroRenderings">
-      <HintPath>..\Lib\Umbraco\umbraco.macroRenderings.dll</HintPath>
+    <Reference Include="umbraco.editorControls, Version=1.0.4779.24227, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.editorControls.dll</HintPath>
     </Reference>
-    <Reference Include="UmbracoExamine">
-      <HintPath>..\Lib\Umbraco\UmbracoExamine.dll</HintPath>
+    <Reference Include="umbraco.MacroEngines, Version=1.0.4779.24227, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.MacroEngines.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.macroRenderings, Version=1.0.4779.24224, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.macroRenderings.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.providers, Version=1.0.4779.24224, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.providers.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.Web.UI">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\Umbraco.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.webservices">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.webservices.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.XmlSerializers">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\umbraco.XmlSerializers.dll</HintPath>
+    </Reference>
+    <Reference Include="UmbracoExamine, Version=0.1.42.2941, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\UmbracoExamine.dll</HintPath>
+    </Reference>
+    <Reference Include="UrlRewritingNet.UrlRewriter">
+      <HintPath>..\packages\UmbracoCms.Core.6.0.0\lib\UrlRewritingNet.UrlRewriter.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -106,33 +223,46 @@
     <Compile Include="CountryPicker\CountryPickerModelBinder.cs" />
     <Compile Include="CountryPicker\CountryPickerPreValueEditor.cs" />
     <Compile Include="DataTypeConstants.cs" />
-    <Compile Include="DataTypeGrid\Configuration\DtgConfiguration.Designer.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DateDataTypeFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_DropDownListDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_ListBoxDataTypeFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MarkdownEditorFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MediaPickerDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_MemberPickerDataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_PagePickerDataTypeFunctionsFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_RadioButtonListDataTypeFunctions.cs" />
-    <Compile Include="DataTypeGrid\DataTypeFunctions\DTG_TinyMCE3DataTypeExtensions.cs" />
+    <Compile Include="DataTypeGrid\Configuration\DtgConfiguration.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DtgConfiguration.resx</DependentUpon>
+    </Compile>
     <Compile Include="DataTypeGrid\DTG_DataEditor.cs" />
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
-    <Compile Include="DataTypeGrid\DTG_ModelBinder.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
-    <Compile Include="DataTypeGrid\Extensions\DTG_DataTypeExtensions.cs" />
-    <Compile Include="DataTypeGrid\Extensions\DTG_DtgDataEditorExtensions.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_DataTypeFunctionsFactory.cs" />
+    <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_BaseDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DropdownListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DateDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_PagePickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DefaultDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_MediaPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_ListBoxDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_MemberPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_RadioButtonListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_UrlPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Model\DataTypeFactoryAttribute.cs" />
+    <Compile Include="DataTypeGrid\ServiceLocators\DTG_DataTypeFactoryServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
-    <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFunctions.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFactoryServiceLocator.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_GridCell.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_GridRowCollection.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_GridRow.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_BasePreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueRow.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValue.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValueRow.cs" />
-    <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs" />
+    <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DtgWebServices.resx</DependentUpon>
+    </Compile>
     <Compile Include="DataTypeGrid\WebServices\PreValueWebService.cs">
       <SubType>Component</SubType>
+      <DependentUpon>PreValueWebService.asmx</DependentUpon>
     </Compile>
     <Compile Include="DropdownCheckList\DDCList_DataEditor.cs" />
     <Compile Include="DropdownCheckList\DDCList_DataType.cs" />
@@ -160,11 +290,6 @@
     <Compile Include="IncrementalTextBox\IT_DataEditor.cs" />
     <Compile Include="IncrementalTextBox\IT_DataType.cs" />
     <Compile Include="IncrementalTextBox\IT_PrevalueEditor.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsDataEditor.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsDataType.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsEventHandler.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsOptions.cs" />
-    <Compile Include="MultiPickerRelations\MultiPickerRelationsPreValueEditor.cs" />
     <Compile Include="MultipleDates\MD_DataEditor.cs" />
     <Compile Include="MultipleDates\MD_DataType.cs" />
     <Compile Include="MultipleDates\MD_ModelBinder.cs" />
@@ -205,6 +330,15 @@
     <Compile Include="Shared\PrevalueEditors\NoDBOptionsKeyValuePrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\NoOptionsPrevalueEditor.cs" />
     <Compile Include="Shared\PrevalueEditors\SqlOptions.cs" />
+    <Compile Include="Shared\WebServices\DictionaryService.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>DictionaryService.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\WebServices\SharedServices.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SharedServices.resx</DependentUpon>
+    </Compile>
     <Compile Include="Similarity\MoreUmbracoDocsLikeThis.cs" />
     <Compile Include="Similarity\Net\MoreLikeThis.cs" />
     <Compile Include="Similarity\Net\SimilarityQueries.cs" />
@@ -233,21 +367,6 @@
     <Compile Include="SubTabs\SubTabsOptions.cs" />
     <Compile Include="SubTabs\SubTabsPreValueEditor.cs" />
     <Compile Include="SubTabs\SubTabType.cs" />
-    <Compile Include="TextImage\Alignment.cs" />
-    <Compile Include="TextImage\DataExtractor.cs" />
-    <Compile Include="TextImage\DocumentHandlers.cs" />
-    <Compile Include="TextImage\DropDownItems.cs" />
-    <Compile Include="TextImage\DropShadow.cs" />
-    <Compile Include="TextImage\Helper.cs" />
-    <Compile Include="TextImage\ImageGenerator.cs" />
-    <Compile Include="TextImage\MediaHelper.cs" />
-    <Compile Include="TextImage\OutputFormat.cs" />
-    <Compile Include="TextImage\TextImageControl.cs" />
-    <Compile Include="TextImage\TextImageDataEditor.cs" />
-    <Compile Include="TextImage\TextImageDataType.cs" />
-    <Compile Include="TextImage\TextImageExtensions.cs" />
-    <Compile Include="TextImage\TextImageParameters.cs" />
-    <Compile Include="TextImage\TextImagePrevalueEditor.cs" />
     <Compile Include="TextstringArray\TextstringArrayControl.cs" />
     <Compile Include="TextstringArray\TextstringArrayData.cs" />
     <Compile Include="TextstringArray\TextstringArrayDataType.cs" />
@@ -281,6 +400,10 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Shared\WebServices\SharedServices.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedServices.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.css" />
     <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.js" />
     <EmbeddedResource Include="SqlAutoComplete\SqlAutoComplete.css" />
@@ -290,7 +413,9 @@
     <EmbeddedResource Include="DataTypeGrid\Css\DTG_PrevalueEditor.css" />
     <EmbeddedResource Include="DataTypeGrid\Scripts\DTG_DataEditor.js" />
     <EmbeddedResource Include="DataTypeGrid\Scripts\DTG_PrevalueEditor.js" />
-    <EmbeddedResource Include="DataTypeGrid\Scripts\jquery.dataTables.min.js" />
+    <EmbeddedResource Include="DataTypeGrid\Scripts\jquery.dataTables.min.js">
+      <DependentUpon>jquery.dataTables.js</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataTypeGrid\WebServices\PreValueWebService.asmx" />
     <EmbeddedResource Include="DropdownCheckList\Images\dropdown.png" />
     <EmbeddedResource Include="DropdownCheckList\Images\dropdown_hover.png" />
@@ -313,20 +438,18 @@
     <EmbeddedResource Include="Shared\Resources\Images\ucomponents-logo-small.png" />
     <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.js" />
     <EmbeddedResource Include="CheckBoxTree\CheckBoxTree.css" />
+    <EmbeddedResource Include="Shared\Resources\Scripts\mColorPicker.js" />
+    <Content Include="DataTypeGrid\Scripts\jquery.dataTables.js" />
+    <EmbeddedResource Include="Shared\Resources\Scripts\jquery.ucomponents.dictionary.js">
+      <DependentUpon>jquery.ucomponents.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared\Resources\Scripts\jquery.ucomponents.js" />
+    <Content Include="Shared\WebServices\DictionaryService.asmx" />
     <Content Include="Similarity\Net\LICENSE.txt" />
     <Content Include="Similarity\Net\README.txt" />
     <EmbeddedResource Include="Similarity\SimilarityScripts.js" />
     <EmbeddedResource Include="Similarity\SimilarityStyles.css" />
     <EmbeddedResource Include="SubTabs\SubTabs.js" />
-    <EmbeddedResource Include="TextImage\images\color.png" />
-    <EmbeddedResource Include="TextImage\images\colorpicker.png" />
-    <EmbeddedResource Include="TextImage\images\graybar.jpg" />
-    <EmbeddedResource Include="TextImage\images\grid.gif" />
-    <EmbeddedResource Include="TextImage\images\meta100.png" />
-    <EmbeddedResource Include="TextImage\images\transparentpixel.gif" />
-    <EmbeddedResource Include="TextImage\jquery.simpleColor.js" />
-    <EmbeddedResource Include="TextImage\Scripts\mColorPicker.js" />
-    <EmbeddedResource Include="TextImage\TextImageScripts.js" />
     <EmbeddedResource Include="TextstringArray\TextstringArray.css" />
     <EmbeddedResource Include="TextstringArray\TextstringArray.js" />
     <EmbeddedResource Include="ToggleBox\Images\handle-bg.png" />
@@ -345,8 +468,13 @@
   <ItemGroup>
     <EmbeddedResource Include="DataTypeGrid\Configuration\DtgConfiguration.resx">
       <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DtgConfiguration.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataTypeGrid\WebServices\DtgWebServices.resx" />
+    <EmbeddedResource Include="DataTypeGrid\WebServices\DtgWebServices.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DtgWebServices.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Shared\AjaxUpload\AjaxUploadHandlerResource.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -359,6 +487,11 @@
       <Name>uComponents.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="DataTypeGrid\RazorModels.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -389,4 +522,5 @@
       <FileWrites Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource" />
     </ItemGroup>
   </Target>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

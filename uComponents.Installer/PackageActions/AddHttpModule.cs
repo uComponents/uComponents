@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Xml;
 using uComponents.Core;
-using umbraco;
 using umbraco.BasePages;
 using umbraco.BusinessLogic;
 using umbraco.interfaces;
-using umbraco.IO;
+using Umbraco.Core;
+using Umbraco.Core.IO;
+using Umbraco.Core.Logging;
 
 namespace uComponents.Installer.PackageActions
 {
@@ -82,9 +83,9 @@ namespace uComponents.Installer.PackageActions
 
 				return foundOne;
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				Log.Add(LogTypes.Error, getUser(), -1, string.Concat("Error at testing AddHttpModule package action: ", e.Message));
+				LogHelper.Error(typeof(AddHttpModule), "Error at testing AddHttpModule package action.", ex);
 				return false;
 			}
 		}
@@ -146,8 +147,8 @@ namespace uComponents.Installer.PackageActions
 					{
 						// Create new node with attributes
 						var newNode = document.CreateElement("add");
-						newNode.Attributes.Append(xmlHelper.addAttribute(document, "name", Name));
-						newNode.Attributes.Append(xmlHelper.addAttribute(document, "type", Type));
+						newNode.Attributes.Append(XmlHelper.AddAttribute(document, "name", Name));
+						newNode.Attributes.Append(XmlHelper.AddAttribute(document, "type", Type));
 
 						// Append new node at the end of root node
 						rootNode.AppendChild(newNode);
@@ -169,9 +170,9 @@ namespace uComponents.Installer.PackageActions
 
 				return result;
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				Log.Add(LogTypes.Error, getUser(), -1, string.Concat("Error at execute ", ActionAlias, " package action: ", e.Message));
+				LogHelper.Error(typeof(AddHttpModule), string.Format("Error executing '{0}' package action.", ActionAlias), ex);
 				return false;
 			}
 		}
@@ -255,7 +256,7 @@ namespace uComponents.Installer.PackageActions
 				}
 				catch (Exception ex)
 				{
-					Log.Add(LogTypes.Error, getUser(), -1, string.Concat("Error at undo ", ActionAlias, " package action: ", ex.Message));
+					LogHelper.Error(typeof(AddHttpModule), string.Format("Error undoing '{0}' package action.", ActionAlias), ex);
 				}
 			}
 
@@ -307,7 +308,7 @@ namespace uComponents.Installer.PackageActions
 			}
 			else
 			{
-				Log.Add(LogTypes.Error, getUser(), -1, string.Concat("Error at ", ActionAlias, " package action: Attribute \"", attribute, "\" not found."));
+				LogHelper.Error(typeof(AddHttpModule), string.Format("Error with '{0}' package action: Attribute '{1}' not found.", ActionAlias, attribute), new ArgumentNullException(attribute));
 			}
 
 			return result;

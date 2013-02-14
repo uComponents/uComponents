@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml;
-using umbraco;
+using Umbraco.Core;
 
 namespace uComponents.Core
 {
@@ -73,7 +73,7 @@ namespace uComponents.Core
 					foreach (string value in values)
 					{
 						// add each value to the XML document.
-						var xn = xmlHelper.addTextNode(xml, elementName, value);
+						var xn = XmlHelper.AddTextNode(xml, elementName, value);
 						xml.DocumentElement.AppendChild(xn);
 					}
 				}

@@ -4,12 +4,14 @@ using System.Web;
 using System.Xml;
 using System.Xml.XPath;
 using umbraco;
+using Umbraco.Core;
 
 namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Request class exposes XSLT extensions to access data from the HttpRequest object.
 	/// </summary>
+	[XsltExtension("ucomponents.request")]
 	public class Request
 	{
 		/// <summary>
@@ -56,23 +58,23 @@ namespace uComponents.XsltExtensions
 					for (int i = 0; i < cookies.Count; i++)
 					{
 						var cookie = cookies.Get(i);
-						var node = xmlHelper.addTextNode(xd, "cookie", string.Empty);
+						var node = XmlHelper.AddTextNode(xd, "cookie", string.Empty);
 
-						node.Attributes.Append(xmlHelper.addAttribute(xd, "name", cookie.Name));
-						node.Attributes.Append(xmlHelper.addAttribute(xd, "domain", cookie.Domain));
-						node.Attributes.Append(xmlHelper.addAttribute(xd, "expires", cookie.Expires.ToString()));
-						node.Attributes.Append(xmlHelper.addAttribute(xd, "hasKeys", cookie.HasKeys.ToString()));
-						node.Attributes.Append(xmlHelper.addAttribute(xd, "httpOnly", cookie.HttpOnly.ToString()));
-						node.Attributes.Append(xmlHelper.addAttribute(xd, "path", cookie.Path));
-						node.Attributes.Append(xmlHelper.addAttribute(xd, "secure", cookie.Secure.ToString()));
+						node.Attributes.Append(XmlHelper.AddAttribute(xd, "name", cookie.Name));
+						node.Attributes.Append(XmlHelper.AddAttribute(xd, "domain", cookie.Domain));
+						node.Attributes.Append(XmlHelper.AddAttribute(xd, "expires", cookie.Expires.ToString()));
+						node.Attributes.Append(XmlHelper.AddAttribute(xd, "hasKeys", cookie.HasKeys.ToString()));
+						node.Attributes.Append(XmlHelper.AddAttribute(xd, "httpOnly", cookie.HttpOnly.ToString()));
+						node.Attributes.Append(XmlHelper.AddAttribute(xd, "path", cookie.Path));
+						node.Attributes.Append(XmlHelper.AddAttribute(xd, "secure", cookie.Secure.ToString()));
 
 						for (int j = 0; j < cookie.Values.Count; j++)
 						{
-							var value = xmlHelper.addTextNode(xd, "value", cookie.Values.Get(j));
+							var value = XmlHelper.AddTextNode(xd, "value", cookie.Values.Get(j));
 
 							if (cookie.HasKeys)
 							{
-								value.Attributes.Append(xmlHelper.addAttribute(xd, "name", cookie.Values.GetKey(j)));
+								value.Attributes.Append(XmlHelper.AddAttribute(xd, "name", cookie.Values.GetKey(j)));
 							}
 
 							node.AppendChild(value);
@@ -83,12 +85,12 @@ namespace uComponents.XsltExtensions
 				}
 				catch (Exception ex)
 				{
-					xd.DocumentElement.AppendChild(xmlHelper.addTextNode(xd, "error", ex.Message));
+					xd.DocumentElement.AppendChild(XmlHelper.AddTextNode(xd, "error", ex.Message));
 				}
 			}
 			else
 			{
-				xd.DocumentElement.AppendChild(xmlHelper.addTextNode(xd, "error", string.Concat("The Request.Cookies object is empty.")));
+				xd.DocumentElement.AppendChild(XmlHelper.AddTextNode(xd, "error", string.Concat("The Request.Cookies object is empty.")));
 			}
 
 			return xd.CreateNavigator().Select("/");
@@ -111,18 +113,18 @@ namespace uComponents.XsltExtensions
 				{
 					for (int i = 0; i < nvc.Count; i++)
 					{
-						var node = xmlHelper.addCDataNode(xd, nvc.GetKey(i), nvc.Get(i));
+						var node = XmlHelper.AddCDataNode(xd, nvc.GetKey(i), nvc.Get(i));
 						xd.DocumentElement.AppendChild(node);
 					}
 				}
 				catch (Exception ex)
 				{
-					xd.DocumentElement.AppendChild(xmlHelper.addTextNode(xd, "error", ex.Message));
+					xd.DocumentElement.AppendChild(XmlHelper.AddTextNode(xd, "error", ex.Message));
 				}
 			}
 			else
 			{
-				xd.DocumentElement.AppendChild(xmlHelper.addTextNode(xd, "error", string.Concat("The ", rootName, " object is empty.")));
+				xd.DocumentElement.AppendChild(XmlHelper.AddTextNode(xd, "error", string.Concat("The ", rootName, " object is empty.")));
 			}
 
 			return xd.CreateNavigator().Select("/");

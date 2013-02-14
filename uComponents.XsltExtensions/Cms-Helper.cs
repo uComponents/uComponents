@@ -7,6 +7,7 @@ using umbraco.cms.businesslogic.member;
 using umbraco.cms.businesslogic.propertytype;
 using umbraco.cms.businesslogic.template;
 using umbraco.cms.businesslogic.web;
+using Umbraco.Core;
 
 namespace uComponents.XsltExtensions
 {
@@ -25,29 +26,29 @@ namespace uComponents.XsltExtensions
 		/// <param name="includePropertyTypes">if set to <c>true</c> [include property types].</param>
 		internal static void AppendContentType(XmlDocument xd, string elementName, ContentType contentType, bool includeTabs, bool includePropertyTypes)
 		{
-			var nodeContentType = xmlHelper.addTextNode(xd, elementName, string.Empty);
-			nodeContentType.AppendChild(xmlHelper.addCDataNode(xd, "description", contentType.Description));
-			nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "id", contentType.Id.ToString()));
-			nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "name", contentType.Text));
-			nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "alias", contentType.Alias));
-			nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "image", contentType.Image));
-			nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "thumbnail", contentType.Thumbnail));
-			//// nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "master", contentType.MasterContentType.ToString()));
-			nodeContentType.Attributes.Append(xmlHelper.addAttribute(xd, "hasChildren", contentType.HasChildren.ToString()));
+			var nodeContentType = XmlHelper.AddTextNode(xd, elementName, string.Empty);
+			nodeContentType.AppendChild(XmlHelper.AddCDataNode(xd, "description", contentType.Description));
+			nodeContentType.Attributes.Append(XmlHelper.AddAttribute(xd, "id", contentType.Id.ToString()));
+			nodeContentType.Attributes.Append(XmlHelper.AddAttribute(xd, "name", contentType.Text));
+			nodeContentType.Attributes.Append(XmlHelper.AddAttribute(xd, "alias", contentType.Alias));
+			nodeContentType.Attributes.Append(XmlHelper.AddAttribute(xd, "image", contentType.Image));
+			nodeContentType.Attributes.Append(XmlHelper.AddAttribute(xd, "thumbnail", contentType.Thumbnail));
+			//// nodeContentType.Attributes.Append(XmlHelper.AddAttribute(xd, "master", contentType.MasterContentType.ToString()));
+			nodeContentType.Attributes.Append(XmlHelper.AddAttribute(xd, "hasChildren", contentType.HasChildren.ToString()));
 
 			if (includeTabs)
 			{
 				var tabs = contentType.getVirtualTabs;
 				if (tabs != null && tabs.Length > 0)
 				{
-					var nodeTabs = xmlHelper.addTextNode(xd, "tabs", string.Empty);
+					var nodeTabs = XmlHelper.AddTextNode(xd, "tabs", string.Empty);
 
 					foreach (var tab in tabs)
 					{
-						var nodeTab = xmlHelper.addTextNode(xd, "tab", string.Empty);
-						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "id", tab.Id.ToString()));
-						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "caption", tab.Caption));
-						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", tab.SortOrder.ToString()));
+						var nodeTab = XmlHelper.AddTextNode(xd, "tab", string.Empty);
+						nodeTab.Attributes.Append(XmlHelper.AddAttribute(xd, "id", tab.Id.ToString()));
+						nodeTab.Attributes.Append(XmlHelper.AddAttribute(xd, "caption", tab.Caption));
+						nodeTab.Attributes.Append(XmlHelper.AddAttribute(xd, "sortOrder", tab.SortOrder.ToString()));
 
 						nodeTabs.AppendChild(nodeTab);
 					}
@@ -61,21 +62,21 @@ namespace uComponents.XsltExtensions
 				var propertyTypes = contentType.PropertyTypes;
 				if (propertyTypes != null && propertyTypes.Count > 0)
 				{
-					var nodePropertyTypes = xmlHelper.addTextNode(xd, "propertyTypes", string.Empty);
+					var nodePropertyTypes = XmlHelper.AddTextNode(xd, "propertyTypes", string.Empty);
 
 					foreach (PropertyType propertyType in propertyTypes)
 					{
-						var nodePropertyType = xmlHelper.addTextNode(xd, "propertyType", string.Empty);
-						nodePropertyType.AppendChild(xmlHelper.addCDataNode(xd, "description", propertyType.Description));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "id", propertyType.Id.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Name));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "alias", propertyType.Alias));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "contentTypeId", propertyType.ContentTypeId.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Description));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "mandatory", propertyType.Mandatory.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", propertyType.SortOrder.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "tabId", propertyType.TabId.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "regEx", propertyType.ValidationRegExp));
+						var nodePropertyType = XmlHelper.AddTextNode(xd, "propertyType", string.Empty);
+						nodePropertyType.AppendChild(XmlHelper.AddCDataNode(xd, "description", propertyType.Description));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "id", propertyType.Id.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "name", propertyType.Name));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "alias", propertyType.Alias));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "contentTypeId", propertyType.ContentTypeId.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "name", propertyType.Description));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "mandatory", propertyType.Mandatory.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "sortOrder", propertyType.SortOrder.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "tabId", propertyType.TabId.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "regEx", propertyType.ValidationRegExp));
 
 						nodePropertyTypes.AppendChild(nodePropertyType);
 					}
@@ -105,30 +106,30 @@ namespace uComponents.XsltExtensions
 		/// <param name="includeAllowedTemplates">if set to <c>true</c> [include allowed templates].</param>
 		internal static void AppendDocumentType(XmlDocument xd, DocumentType docType, bool includeTabs, bool includePropertyTypes, bool includeAllowedTemplates)
 		{
-			var nodeDocType = xmlHelper.addTextNode(xd, "DocumentType", string.Empty);
-			nodeDocType.AppendChild(xmlHelper.addCDataNode(xd, "description", docType.Description));
-			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "id", docType.Id.ToString()));
-			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "name", docType.Text));
-			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "alias", docType.Alias));
-			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "image", docType.Image));
-			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "thumbnail", docType.Thumbnail));
-			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "master", docType.MasterContentType.ToString()));
-			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "hasChildren", docType.HasChildren.ToString()));
-			nodeDocType.Attributes.Append(xmlHelper.addAttribute(xd, "defaultTemplate", docType.DefaultTemplate.ToString()));
+			var nodeDocType = XmlHelper.AddTextNode(xd, "DocumentType", string.Empty);
+			nodeDocType.AppendChild(XmlHelper.AddCDataNode(xd, "description", docType.Description));
+			nodeDocType.Attributes.Append(XmlHelper.AddAttribute(xd, "id", docType.Id.ToString()));
+			nodeDocType.Attributes.Append(XmlHelper.AddAttribute(xd, "name", docType.Text));
+			nodeDocType.Attributes.Append(XmlHelper.AddAttribute(xd, "alias", docType.Alias));
+			nodeDocType.Attributes.Append(XmlHelper.AddAttribute(xd, "image", docType.Image));
+			nodeDocType.Attributes.Append(XmlHelper.AddAttribute(xd, "thumbnail", docType.Thumbnail));
+			nodeDocType.Attributes.Append(XmlHelper.AddAttribute(xd, "master", docType.MasterContentType.ToString()));
+			nodeDocType.Attributes.Append(XmlHelper.AddAttribute(xd, "hasChildren", docType.HasChildren.ToString()));
+			nodeDocType.Attributes.Append(XmlHelper.AddAttribute(xd, "defaultTemplate", docType.DefaultTemplate.ToString()));
 
 			if (includeTabs)
 			{
 				var tabs = docType.getVirtualTabs;
 				if (tabs != null && tabs.Length > 0)
 				{
-					var nodeTabs = xmlHelper.addTextNode(xd, "tabs", string.Empty);
+					var nodeTabs = XmlHelper.AddTextNode(xd, "tabs", string.Empty);
 
 					foreach (var tab in tabs)
 					{
-						var nodeTab = xmlHelper.addTextNode(xd, "tab", string.Empty);
-						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "id", tab.Id.ToString()));
-						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "caption", tab.Caption));
-						nodeTab.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", tab.SortOrder.ToString()));
+						var nodeTab = XmlHelper.AddTextNode(xd, "tab", string.Empty);
+						nodeTab.Attributes.Append(XmlHelper.AddAttribute(xd, "id", tab.Id.ToString()));
+						nodeTab.Attributes.Append(XmlHelper.AddAttribute(xd, "caption", tab.Caption));
+						nodeTab.Attributes.Append(XmlHelper.AddAttribute(xd, "sortOrder", tab.SortOrder.ToString()));
 
 						nodeTabs.AppendChild(nodeTab);
 					}
@@ -142,21 +143,21 @@ namespace uComponents.XsltExtensions
 				var propertyTypes = docType.PropertyTypes;
 				if (propertyTypes != null && propertyTypes.Count > 0)
 				{
-					var nodePropertyTypes = xmlHelper.addTextNode(xd, "propertyTypes", string.Empty);
+					var nodePropertyTypes = XmlHelper.AddTextNode(xd, "propertyTypes", string.Empty);
 
 					foreach (var propertyType in propertyTypes)
 					{
-						var nodePropertyType = xmlHelper.addTextNode(xd, "propertyType", string.Empty);
-						nodePropertyType.AppendChild(xmlHelper.addCDataNode(xd, "description", propertyType.Description));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "id", propertyType.Id.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Name));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "alias", propertyType.Alias));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "contentTypeId", propertyType.ContentTypeId.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Description));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "mandatory", propertyType.Mandatory.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", propertyType.SortOrder.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "tabId", propertyType.TabId.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "regEx", propertyType.ValidationRegExp));
+						var nodePropertyType = XmlHelper.AddTextNode(xd, "propertyType", string.Empty);
+						nodePropertyType.AppendChild(XmlHelper.AddCDataNode(xd, "description", propertyType.Description));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "id", propertyType.Id.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "name", propertyType.Name));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "alias", propertyType.Alias));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "contentTypeId", propertyType.ContentTypeId.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "name", propertyType.Description));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "mandatory", propertyType.Mandatory.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "sortOrder", propertyType.SortOrder.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "tabId", propertyType.TabId.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "regEx", propertyType.ValidationRegExp));
 
 						nodePropertyTypes.AppendChild(nodePropertyType);
 					}
@@ -170,19 +171,19 @@ namespace uComponents.XsltExtensions
 				var templates = docType.allowedTemplates;
 				if (templates != null && templates.Length > 0)
 				{
-					var nodeTemplates = xmlHelper.addTextNode(xd, "allowedTemplates", string.Empty);
+					var nodeTemplates = XmlHelper.AddTextNode(xd, "allowedTemplates", string.Empty);
 
 					foreach (var template in templates)
 					{
-						var nodeTemplate = xmlHelper.addTextNode(xd, "template", string.Empty);
-						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "id", template.Id.ToString()));
-						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "name", template.Text));
-						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "alias", template.Alias));
-						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "masterPageFile", template.MasterPageFile));
-						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "masterTemplate", template.MasterTemplate.ToString()));
-						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "hasChildren", template.HasChildren.ToString()));
-						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", template.sortOrder.ToString()));
-						nodeTemplate.Attributes.Append(xmlHelper.addAttribute(xd, "isDefaultTemplate", (template.Id == docType.DefaultTemplate).ToString()));
+						var nodeTemplate = XmlHelper.AddTextNode(xd, "template", string.Empty);
+						nodeTemplate.Attributes.Append(XmlHelper.AddAttribute(xd, "id", template.Id.ToString()));
+						nodeTemplate.Attributes.Append(XmlHelper.AddAttribute(xd, "name", template.Text));
+						nodeTemplate.Attributes.Append(XmlHelper.AddAttribute(xd, "alias", template.Alias));
+						nodeTemplate.Attributes.Append(XmlHelper.AddAttribute(xd, "masterPageFile", template.TemplateFilePath));
+						nodeTemplate.Attributes.Append(XmlHelper.AddAttribute(xd, "masterTemplate", template.MasterTemplate.ToString()));
+						nodeTemplate.Attributes.Append(XmlHelper.AddAttribute(xd, "hasChildren", template.HasChildren.ToString()));
+						nodeTemplate.Attributes.Append(XmlHelper.AddAttribute(xd, "sortOrder", template.sortOrder.ToString()));
+						nodeTemplate.Attributes.Append(XmlHelper.AddAttribute(xd, "isDefaultTemplate", (template.Id == docType.DefaultTemplate).ToString()));
 
 						nodeTemplates.AppendChild(nodeTemplate);
 					}

@@ -1,12 +1,20 @@
 syntax: glob
 
-*.csproj.user
-*.suo
+packages/*
+TestResults/*
 */bin/*
 */obj/*
-*.Cache
-*_ReSharper.uComponents*
-TestResults/*
-uComponents.ncrunch*
-TestResults/*
-uComponents.sln.DotSettings.user
+*_ReSharper*
+*.[Cc]ache
+*.ncrunch*
+*.suo
+*.user
+uComponents.*.nupkg
+uComponents_*.zip
+._.hgignore
+_UpgradeReport_Files/*
+uComponents.sln.GhostDoc.user.dic
+UpgradeLog.*
+*.orig
+*.ncrunchproject
+_NCrunch_uComponents/uComponents.crunchsolution.cache

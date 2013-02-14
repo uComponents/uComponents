@@ -11,12 +11,14 @@ using System.Xml.XPath;
 using uComponents.Core;
 // using uComponents.Core.Shared.Extensions;
 using umbraco;
+using umbraco.IO;
 
 namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Xml class exposes XSLT extensions to offer extended XML/XSLT functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.xml")]
 	public class Xml
 	{
 		/// <summary>
@@ -46,6 +48,38 @@ namespace uComponents.XsltExtensions
 
 			// fall-back returning the original node-set.
 			return nodeset;
+		}
+
+		/// <summary>
+		/// Gets the XML document.
+		/// </summary>
+		/// <param name="path">The path.</param>
+		/// <param name="relative">if set to <c>true</c> [relative].</param>
+		/// <param name="cacheInSeconds">The cache in seconds.</param>
+		/// <returns></returns>
+		public static XPathNodeIterator GetXmlDocument(string path, bool relative, int cacheInSeconds)
+		{
+			var cacheKey = string.Concat("GetXmlDoc_", path);
+
+			if (cacheInSeconds > 0)
+			{
+				// check the cache
+				var cached = HttpContext.Current.Cache.Get(cacheKey);
+				if (cached != null)
+				{
+					return (XPathNodeIterator)cached;
+				}
+			}
+
+			var xmlDocument = library.GetXmlDocument(path, relative);
+
+			if (cacheInSeconds > 0)
+			{
+				var filename = relative ? IOHelper.MapPath(path) : path;
+				HttpContext.Current.Cache.Insert(cacheKey, xmlDocument, new CacheDependency(filename), DateTime.Now.Add(new TimeSpan(0, 0, cacheInSeconds)), TimeSpan.Zero, CacheItemPriority.Low, null);
+			}
+
+			return xmlDocument;
 		}
 
 		/// <summary>

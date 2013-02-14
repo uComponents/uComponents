@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using umbraco;
 using umbraco.cms.businesslogic.macro;
 using umbraco.interfaces;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.MacroEngines
 {
 	/// <summary>
 	/// Static File Macro Engine
 	/// </summary>
-	public class StaticFileMacroEngine : IMacroEngine
+	public class StaticFileMacroEngine : IMacroEngine, IMacroEngineResultStatus
 	{
 		/// <summary>
 		/// Gets the name of the macro engine.
@@ -32,7 +33,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "text", "txt", "htm", "html" };
+				return new[] { "text", "txt", "htm", "html" };
 			}
 		}
 
@@ -44,7 +45,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "txt", "html" };
+				return new[] { "txt", "html" };
 			}
 		}
 
@@ -83,13 +84,42 @@ namespace uComponents.MacroEngines
 		/// <returns>Returns a string of the executed macro text/HTML.</returns>
 		public string Execute(MacroModel macro, INode currentPage)
 		{
-			if (!string.IsNullOrEmpty(macro.ScriptName))
+			try
 			{
-				var fileLocation = macro.ScriptName.StartsWith("~") ? macro.ScriptName : Path.Combine(SystemDirectories.MacroScripts, macro.ScriptName);
-				return File.ReadAllText(IOHelper.MapPath(fileLocation));
-			}
+				this.Success = true;
 
-			return macro.ScriptCode;
+				if (!string.IsNullOrEmpty(macro.ScriptName))
+				{
+					var fileLocation = macro.ScriptName.StartsWith("~") ? macro.ScriptName : Path.Combine(SystemDirectories.MacroScripts, macro.ScriptName);
+					return File.ReadAllText(IOHelper.MapPath(fileLocation));
+				}
+
+				return macro.ScriptCode;
+
+			}
+			catch (Exception ex)
+			{
+				this.ResultException = ex;
+				this.Success = false;
+
+				return string.Format("<div style=\"border: 1px solid #990000\">Error loading file {0}<br />{1}</div>", macro.ScriptName, GlobalSettings.DebugMode ? ex.Message : string.Empty);
+			}
 		}
+
+		/// <summary>
+		/// Gets or sets the result exception.
+		/// </summary>
+		/// <value>
+		/// The result exception.
+		/// </value>
+		public Exception ResultException { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="StaticFileMacroEngine"/> is success.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if success; otherwise, <c>false</c>.
+		/// </value>
+		public bool Success { get; set; }
 	}
 }

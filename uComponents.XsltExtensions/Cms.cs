@@ -16,6 +16,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Cms class exposes XSLT extensions to access data from various parts of the Umbraco framework.
 	/// </summary>
+	[XsltExtension("ucomponents.cms")]
 	public partial class Cms
 	{
 		/// <summary>
@@ -604,16 +605,7 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns the <c>Content</c> Id.</returns>
 		public static int GetContentIdByPropertyId(int propertyId)
 		{
-			// TODO: [LK] Change in uComponents 6.0 / Umbraco 6.0
-			// return uQuery.GetContentIdByPropertyId(propertyId);
-
-			if (propertyId > 0)
-			{
-				var sql = "SELECT contentNodeId FROM cmsPropertyData WHERE id = @propertyId";
-				return uQuery.SqlHelper.ExecuteScalar<int>(sql, uQuery.SqlHelper.CreateParameter("@propertyId", propertyId));
-			}
-
-			return uQuery.RootNodeId;
+			return uQuery.GetContentIdByPropertyId(propertyId);
 		}
 
 		/// <summary>
@@ -689,7 +681,7 @@ namespace uComponents.XsltExtensions
 		/// </returns>
 		public static bool InPreviewMode()
 		{
-			return umbraco.presentation.UmbracoContext.Current.InPreviewMode;
+			return Umbraco.Web.UmbracoContext.Current.InPreviewMode;
 		}
 	}
 }

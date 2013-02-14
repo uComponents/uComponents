@@ -8,11 +8,11 @@
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
-		<VersionMajor>5</VersionMajor>
-		<VersionMinor>3</VersionMinor>
+		<VersionMajor>6</VersionMajor>
+		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionSuffix></VersionSuffix>
-		<UmbracoVersion>4.8.0</UmbracoVersion>
+		<UmbracoVersion>6.0.0</UmbracoVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -56,6 +56,7 @@
 			<BinFiles Include="$(RootDir)\bin\Release\uComponents.Core.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.dll" />
@@ -66,6 +67,7 @@
 			<DebugFiles Include="$(RootDir)\bin\Release\uComponents.Core.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.pdb" />
@@ -76,6 +78,7 @@
 			<XmlFiles Include="$(RootDir)\bin\Release\uComponents.Core.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.xml" />
@@ -91,10 +94,12 @@
 		<MSBuild.Umbraco.Tasks.TimestampOffset Files="@(BinFiles)" Offset="-11" />
 		<!-- COPY FOR UMBRACO PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildUmbDir)\bin" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildUmbDir)\bin" Condition="'$(VersionSuffix)' != ''" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildUmbDir)\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildUmbDir)" />
 		<!-- COPY FOR NUGET PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" Condition="'$(VersionSuffix)' != ''" />
 		<Copy SourceFiles="@(XmlFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildNuGetDir)\content\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
@@ -134,11 +139,11 @@
 			WorkingDirectory="$(BuildUmbDir)"
 			OutputDirectory="$(MSBuildProjectDirectory)"
 			Files="@(PackageFiles)" />
-		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\MSBuildTasks\NuGet.exe"
+		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\..\.nuget\NuGet.exe"
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			BasePath="$(BuildNuGetDir)"
 			OutputDirectory="$(MSBuildProjectDirectory)"
-			Verbose="true" />
+			Verbosity="normal" />
 		<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
 		<Delete Files="$(RootDir)\..\uComponents.sln.cache" />
 	</Target>

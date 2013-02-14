@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
 using uComponents.Core;
+using umbraco;
 using umbraco.cms.helpers;
 
 namespace uComponents.XsltExtensions
@@ -12,6 +13,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Strings class exposes XSLT extensions to offer extended string functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.strings")]
 	public class Strings
 	{
 		/// <summary>

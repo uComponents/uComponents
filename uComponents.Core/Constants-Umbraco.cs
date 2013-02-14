@@ -148,6 +148,17 @@ namespace uComponents.Core
 				/// </summary>
 				public const string DataType = "30A2A501-1978-4DDB-A57B-F7EFED43BA3C";
 			}
+
+			/// <summary>
+			/// Constants for Umbraco URLs/Querystrings.
+			/// </summary>
+			public partial struct Url
+			{
+				/// <summary>
+				/// Querystring parameter name used for Umbraco's alternative template functionality.
+				/// </summary>
+				public const string AltTemplate = "altTemplate";
+			}
 		}
 	}
 }
