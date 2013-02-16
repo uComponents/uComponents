@@ -1,13 +1,7 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
-    using System.Web;
-
-    using ClientDependency.Core;
-    using ClientDependency.Core.Controls;
-
     using uComponents.DataTypes.IncrementalTextBox;
 
-    using umbraco.editorControls;
     using umbraco.interfaces;
 
     /// <summary>
