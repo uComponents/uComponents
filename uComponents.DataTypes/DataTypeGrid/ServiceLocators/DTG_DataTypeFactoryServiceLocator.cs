@@ -11,7 +11,6 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.UI;
-    using System.Web.UI.WebControls;
 
     using uComponents.DataTypes.DataTypeGrid.Factories;
     using uComponents.DataTypes.DataTypeGrid.Interfaces;

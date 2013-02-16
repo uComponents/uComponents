@@ -9,10 +9,10 @@
     using umbraco.interfaces;
 
     /// <summary>
-    /// Factory for the <see cref="ListBoxDataType"/>
+    /// Factory for the <see cref="ListBoxKeysDataType"/>
     /// </summary>
     [DataTypeFactory(Priority = -1)]
-    public class ListBoxDataTypeFactory : BaseDataTypeFactory<ListBoxDataType>
+    public class ListBoxKeysDataTypeFactory : BaseDataTypeFactory<ListBoxKeysDataType>
     {
         /// <summary>
         /// Method for customizing the way the <paramref name="dataType" /> value is displayed in the grid.
@@ -20,7 +20,7 @@
         /// <remarks>Called when the grid displays the cell value for the specified <paramref name="dataType" />.</remarks>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The display value.</returns>
-        public override string GetDisplayValue(ListBoxDataType dataType)
+        public override string GetDisplayValue(ListBoxKeysDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
