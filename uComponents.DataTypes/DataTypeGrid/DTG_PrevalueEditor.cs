@@ -459,6 +459,8 @@ namespace uComponents.DataTypes.DataTypeGrid
             {
                 var editProperty = new Panel() { ID = "editProperty_" + s.Id.ToString(), CssClass = "editProperty" };
 
+                var editDataType = ddlNewType.Items.FindByValue(s.DataTypeId.ToString());
+
                 var editPropertyHeader = new Panel() { CssClass = "propertyHeader" };
                 var editPropertyTitle = new HtmlGenericControl("h3")
                                             {
@@ -472,7 +474,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                                                             : s.Name,
                                                         s.Alias,
                                                         uQuery.GetDictionaryItem("Type", "Type"),
-                                                        ddlNewType.Items.FindByValue(s.DataTypeId.ToString()).Text)
+                                                        editDataType != null ? editDataType.Text : "<span style='color: red;'>Error: This datatype is not supported.</span>")
                                             };
 
                 editPropertyTitle.Attributes["class"] = "propertyTitle";
