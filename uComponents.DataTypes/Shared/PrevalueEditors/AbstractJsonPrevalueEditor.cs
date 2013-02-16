@@ -25,7 +25,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// Initializes a new instance of the <see cref="AbstractJsonPrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public AbstractJsonPrevalueEditor(BaseDataType dataType)
+		protected AbstractJsonPrevalueEditor(BaseDataType dataType)
 		{
 			this.m_DataType = dataType;
 		}
@@ -35,7 +35,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
 		/// <param name="dbType">Type of the database field.</param>
-		public AbstractJsonPrevalueEditor(BaseDataType dataType, DBTypes dbType)
+		protected AbstractJsonPrevalueEditor(BaseDataType dataType, DBTypes dbType)
 			: base()
 		{
 			this.m_DataType = dataType;

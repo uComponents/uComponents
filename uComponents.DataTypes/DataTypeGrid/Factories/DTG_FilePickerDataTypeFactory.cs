@@ -47,12 +47,17 @@
             {
                 var path = HttpContext.Current.Server.MapPath(value);
 
-                return File.OpenRead(path);
+                if (File.Exists(path))
+                {
+                    return File.OpenRead(path);
+                }
             }
             catch
             {
                 return null;
             }
+
+            return null;
         }
     }
 }

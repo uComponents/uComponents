@@ -233,6 +233,7 @@
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_FileDropDownListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_ListBoxKeysDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_ColorPickerDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_BaseDataTypeFactory.cs" />
