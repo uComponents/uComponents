@@ -474,7 +474,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                                                             : s.Name,
                                                         s.Alias,
                                                         uQuery.GetDictionaryItem("Type", "Type"),
-                                                        editDataType != null ? editDataType.Text : "<span style='color: red;'>Error: This datatype is not supported.</span>")
+                                                        editDataType != null ? editDataType.Text : "ERROR: This datatype is not supported")
                                             };
 
                 editPropertyTitle.Attributes["class"] = "propertyTitle";

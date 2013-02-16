@@ -124,6 +124,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -244,6 +245,7 @@
     <Compile Include="DataTypeGrid\Factories\DTG_MemberPickerDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_RadioButtonListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_UrlPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\IncrementalTextBoxDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Model\DataTypeFactoryAttribute.cs" />
     <Compile Include="DataTypeGrid\ServiceLocators\DTG_DataTypeFactoryServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
