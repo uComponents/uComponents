@@ -398,6 +398,9 @@
     <Compile Include="UserPicker\UserPickerDataType.cs" />
     <Compile Include="UserPicker\UserPickerOptions.cs" />
     <Compile Include="UserPicker\UserPickerPrevalueEditor.cs" />
+    <Compile Include="XmlDropDownList\XmlDropDownListDataType.cs" />
+    <Compile Include="XmlDropDownList\XmlDropDownListOptions.cs" />
+    <Compile Include="XmlDropDownList\XmlDropDownListPrevalueEditor.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteModelBinder.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteBase.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataEditor.cs" />
