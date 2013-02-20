@@ -30,12 +30,12 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// <summary>
 		/// Field for the CustomValidator.
 		/// </summary>
-		private CustomValidator customValidator = new CustomValidator();
+		private CustomValidator customValidator = new CustomValidator() { ID = "CustomValidator" };
 
 		/// <summary>
 		/// Field for the CheckBoxList.
 		/// </summary>
-		private CheckBoxList checkBoxList = new CheckBoxList();
+		public CheckBoxList CheckBoxList = new CheckBoxList() { ID = "CheckBoxList" };
 
 		/// <summary>
 		/// Gets a value indicating whether [treat as rich text editor].
@@ -132,7 +132,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 						}
 					}
 
-					this.checkBoxList.Items.Add(checkBoxListItem);
+					this.CheckBoxList.Items.Add(checkBoxListItem);
 				}
 			}
 			catch
@@ -140,7 +140,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 			}
 
 			this.Controls.Add(this.customValidator);
-			this.Controls.Add(this.checkBoxList);
+			this.Controls.Add(this.CheckBoxList);
 		}
 
 		/// <summary>
@@ -175,7 +175,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 				ListItem checkBoxListItem = null;
 				foreach (string selectedValue in selectedValues)
 				{
-					checkBoxListItem = this.checkBoxList.Items.FindByValue(selectedValue);
+					checkBoxListItem = this.CheckBoxList.Items.FindByValue(selectedValue);
 					if (checkBoxListItem != null)
 					{
 						checkBoxListItem.Selected = true;
@@ -190,7 +190,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		public void Save()
 		{
 			// Get all checked item values
-			IEnumerable<string> selectedOptions = from ListItem item in this.checkBoxList.Items
+			IEnumerable<string> selectedOptions = from ListItem item in this.CheckBoxList.Items
 												  where item.Selected
 												  select item.Value;
 

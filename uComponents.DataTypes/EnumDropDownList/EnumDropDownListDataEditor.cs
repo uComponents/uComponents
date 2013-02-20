@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
@@ -33,12 +32,12 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// <summary>
 		/// Field for the CustomValidator.
 		/// </summary>
-		private CustomValidator customValidator = new CustomValidator();
+		private CustomValidator customValidator = new CustomValidator() { ID = "CustomValidator" };
 
 		/// <summary>
 		/// Field for the DropDownList.
 		/// </summary>
-		private DropDownList dropDownList = new DropDownList();
+		private DropDownList dropDownList = new DropDownList() { ID = "DropDownList" };
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EnumDropDownListDataEditor"/> class. 
@@ -157,7 +156,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 			base.OnLoad(e);
 			this.EnsureChildControls();
 
-			if (!this.Page.IsPostBack)
+			if (!this.Page.IsPostBack && this.data.Value != null)
 			{
 				// Get selected items from Node Name or Node Id
 				var dropDownListItem = this.dropDownList.Items.FindByValue(this.data.Value.ToString());
@@ -173,7 +172,8 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// </summary>
 		public void Save()
 		{
-			Property property = new Property(((DefaultData)this.data).PropertyId);
+			var property = new Property(((DefaultData)this.data).PropertyId);
+
 			if (property.PropertyType.Mandatory && this.dropDownList.SelectedValue == "-1")
 			{
 				// Property is mandatory, but no value selected in the DropDownList
