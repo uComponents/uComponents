@@ -65,7 +65,7 @@
         /// <remarks>Called when the grid creates the editor controls for the specified <see cref="IDataType">datatype</see>.</remarks>
         /// <param name="dataType">The <see cref="IDataType">datatype</see> instance.</param>
         /// <param name="container">The editor control container.</param>
-        public override void Configure(MemberPickerDataType dataType, Control container)
+        public override void Initialize(MemberPickerDataType dataType, Control container)
         {
             if (dataType.Data.Value == null)
             {
