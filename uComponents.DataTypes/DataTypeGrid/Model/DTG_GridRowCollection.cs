@@ -42,8 +42,15 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 
                     if (item.Attributes != null)
                     {
-                        row.Id = int.Parse(item.Attributes["id"].Value);
-                        row.SortOrder = int.Parse(item.Attributes["sortOrder"].Value);
+                        if (item.Attributes["id"] != null)
+                        {
+                            row.Id = int.Parse(item.Attributes["id"].Value);
+                        }
+
+                        if (item.Attributes["sortOrder"] != null) 
+                        { 
+                            row.SortOrder = int.Parse(item.Attributes["sortOrder"].Value);
+                        }
                     }
 
                     foreach (XmlNode node in item.ChildNodes)
