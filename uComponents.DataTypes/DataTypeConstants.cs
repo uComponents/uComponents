@@ -196,6 +196,11 @@
 		public const string UserPickerId = "DEC7A504-ABD1-4F35-A136-58B89DCF174C";
 
 		/// <summary>
+		/// Guid for the XmlDropDownListId data-type.
+		/// </summary>
+		public const string XmlDropDownListId = "6BE851B8-E131-4091-A095-8921B9BAFD7B";
+
+		/// <summary>
 		/// Guid for the XPathAutoComplete data-type.
 		/// </summary>
 		public const string XPathAutoCompleteId = "6905F13E-829D-4827-9B9F-72D5A00E7A9E";
