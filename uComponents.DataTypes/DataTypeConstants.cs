@@ -211,6 +211,11 @@
 		public const string XPathCheckBoxListId = "D2D46927-F4F8-4B1B-ADD7-661CC09A0539";
 
 		/// <summary>
+		/// Guid for the XPathChildNodePicker data-type.
+		/// </summary>
+		public const string XPathChildNodePickerId = "3E00BF04-ADF3-46A9-8C52-9A32373C469F";
+
+		/// <summary>
 		/// Guid for the XPathDropDownList data-type.
 		/// </summary>
 		public const string XPathDropDownListId = "57A62843-C488-4C29-8125-52F51873613E";

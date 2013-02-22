@@ -31,7 +31,7 @@ namespace uComponents.DataTypes.XPathChildNodePicker
 		private PlaceHolder placeholder = new PlaceHolder();
 
 		/// <summary>
-		/// Gets a value indicating whether [treat as rich text editor].
+		/// 
 		/// </summary>
 		/// <value>
 		/// 	<c>true</c> if [treat as rich text editor]; otherwise, <c>false</c>.
