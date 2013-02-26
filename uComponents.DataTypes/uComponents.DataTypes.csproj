@@ -249,7 +249,8 @@
     <Compile Include="DataTypeGrid\Factories\DTG_FilePickerDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_IncrementalTextBoxDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_EnumDropDownListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Model\DataTypeFactoryAttribute.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_DataTypeLoadEventArgs.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_DataTypeFactoryAttribute.cs" />
     <Compile Include="DataTypeGrid\ServiceLocators\DTG_DataTypeFactoryServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
     <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFactoryServiceLocator.cs" />

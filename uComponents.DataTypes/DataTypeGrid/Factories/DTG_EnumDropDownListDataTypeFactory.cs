@@ -1,5 +1,6 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.EnumCheckBoxList;
 
     /// <summary>
@@ -7,7 +8,7 @@
     /// </summary>
     public class EnumCheckBoxListDataTypeFactory : BaseDataTypeFactory<EnumCheckBoxListDataType>
     {
-        public override void Initialize(EnumCheckBoxListDataType dataType, System.Web.UI.Control container)
+        public override void Initialize(EnumCheckBoxListDataType dataType, DataTypeLoadEventArgs eventArgs)
         {
             var editor = dataType.DataEditor.Editor as EnumCheckBoxListDataEditor;
 

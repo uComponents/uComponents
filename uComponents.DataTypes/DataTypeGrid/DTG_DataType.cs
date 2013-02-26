@@ -5,9 +5,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using umbraco.cms.businesslogic.datatype;
-using umbraco.interfaces;
+
 using umbraco.editorControls;
+using umbraco.interfaces;
 
 namespace uComponents.DataTypes.DataTypeGrid
 {

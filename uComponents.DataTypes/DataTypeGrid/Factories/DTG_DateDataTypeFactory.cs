@@ -54,7 +54,7 @@
         /// <remarks>Called when the grid creates the editor controls for the specified <paramref name="dataType" />.</remarks>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <param name="container">The editor control container.</param>
-        public override void Configure(DateDataType dataType, Control container)
+        public override void Configure(DateDataType dataType, DataTypeLoadEventArgs eventArgs)
         {
             var e = dataType.DataEditor as umbraco.editorControls.dateField;
 

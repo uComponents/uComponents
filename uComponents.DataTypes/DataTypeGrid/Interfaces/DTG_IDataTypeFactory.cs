@@ -36,20 +36,20 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         object GetObject(TDataType dataType);
 
         /// <summary>
-        /// Method for performing special actions <b>before</b> creating the <see cref="IDataType"/> editor.
+        /// Method for performing special actions <b>before</b> creating the <see cref="IDataType" /> editor.
         /// </summary>
-        /// <remarks>Called <b>before</b> the grid creates the editor controls for the specified <see cref="IDataType"/>.</remarks>
-        /// <param name="dataType">The <see cref="IDataType"/> instance.</param>
-        /// <param name="container">The editor control container.</param>
-        void Initialize(TDataType dataType, Control container);
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeLoadEventArgs"/> instance containing the event data.</param>
+        /// <remarks>Called <b>before</b> the grid creates the editor controls for the specified <see cref="IDataType" />.</remarks>
+        void Initialize(TDataType dataType, DataTypeLoadEventArgs eventArgs);
 
         /// <summary>
         /// Method for performing special actions <b>after</b> the <see cref="IDataType" /> <see cref="IDataEditor">editor</see> has been loaded.
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
-        /// <param name="container">The editor control container.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeLoadEventArgs"/> instance containing the event data.</param>
         /// <remarks>Called <b>after</b> the grid creates the editor controls for the specified <see cref="IDataType" />.</remarks>
-        void Configure(TDataType dataType, Control container);
+        void Configure(TDataType dataType, DataTypeLoadEventArgs eventArgs);
 
         /// <summary>
         /// Method for executing special actions before saving the editor value to the database.

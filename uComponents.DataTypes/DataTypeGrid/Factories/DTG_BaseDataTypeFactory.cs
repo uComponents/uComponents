@@ -1,7 +1,5 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
-    using System.Web.UI;
-
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
@@ -49,22 +47,23 @@
         }
 
         /// <summary>
-        /// Method for performing special actions <b>before</b> creating the <see cref="IDataType"/> editor.
+        /// Method for performing special actions <b>before</b> creating the <see cref="IDataType" /> editor.
         /// </summary>
-        /// <remarks>Called <b>before</b> the grid creates the editor controls for the specified <see cref="IDataType"/>.</remarks>
-        /// <param name="dataType">The <see cref="IDataType"/> instance.</param>
-        /// <param name="container">The editor control container.</param>
-        public virtual void Initialize(T dataType, Control container)
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeLoadEventArgs"/> instance containing the event data.</param>
+        /// <remarks>Called <b>before</b> the grid creates the editor controls for the specified <see cref="IDataType" />.</remarks>
+        public virtual void Initialize(T dataType, DataTypeLoadEventArgs eventArgs)
         {
         }
 
         /// <summary>
-        /// Method for performing special actions <b>after</b> the <see cref="IDataType" /> <see cref="IDataEditor">editor</see> has been loaded.
+        /// Method for performing special actions <b>after</b> the <see cref="IDataType" />
+        /// <see cref="IDataEditor">editor</see> has been loaded.
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
-        /// <param name="container">The editor control container.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeLoadEventArgs"/> instance containing the event data.</param>
         /// <remarks>Called <b>after</b> the grid creates the editor controls for the specified <see cref="IDataType" />.</remarks>
-        public virtual void Configure(T dataType, Control container)
+        public virtual void Configure(T dataType, DataTypeLoadEventArgs eventArgs)
         {
         }
 

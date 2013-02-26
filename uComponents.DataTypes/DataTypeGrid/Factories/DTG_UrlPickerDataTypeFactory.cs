@@ -1,5 +1,6 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.UrlPicker;
     using uComponents.DataTypes.UrlPicker.Dto;
 
@@ -13,10 +14,10 @@
         /// <summary>
         /// Method for performing special actions while creating the <see cref="IDataType">datatype</see> editor.
         /// </summary>
-        /// <remarks>Called when the grid creates the editor controls for the specified <see cref="IDataType">datatype</see>.</remarks>
         /// <param name="dataType">The <see cref="IDataType">datatype</see> instance.</param>
-        /// <param name="container">The editor control container.</param>
-        public override void Configure(UrlPickerDataType dataType, System.Web.UI.Control container)
+        /// <param name="eventArgs">The <see cref="DataTypeLoadEventArgs"/> instance containing the event data.</param>
+        /// <remarks>Called when the grid creates the editor controls for the specified <see cref="IDataType">datatype</see>.</remarks>
+        public override void Configure(UrlPickerDataType dataType, DataTypeLoadEventArgs eventArgs)
         {
             if (dataType.Data.Value != null && dataType.ContentEditor.State == null)
             {
