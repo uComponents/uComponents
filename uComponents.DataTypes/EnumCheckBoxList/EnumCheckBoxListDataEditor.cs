@@ -154,32 +154,42 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 
 			if (!this.Page.IsPostBack && this.data.Value != null)
 			{
-				string value = this.data.Value.ToString();
-				List<string> selectedValues = new List<string>();
+				var value = this.data.Value.ToString();
+				
+				this.SetSelectedValues(value);
+			}
+		}
 
-				if (Helper.Xml.CouldItBeXml(value))
-				{
-					// build selected values from XML fragment
-					foreach (XElement nodeXElement in XElement.Parse(value).Elements())
-					{
-						selectedValues.Add(nodeXElement.Value);
-					}
-				}
-				else
-				{
-					// Assume a CSV source
-					selectedValues = value.Split(Constants.Common.COMMA).ToList();
-				}
+		/// <summary>
+		/// Sets the selected values.
+		/// </summary>
+		/// <param name="data">The data.</param>
+		public void SetSelectedValues(string data)
+		{
+			var selectedValues = new List<string>();
 
-				// Find checkboxes where values match the stored values and set to selected
-				ListItem checkBoxListItem = null;
-				foreach (string selectedValue in selectedValues)
+			if (Helper.Xml.CouldItBeXml(data))
+			{
+				// build selected values from XML fragment
+				foreach (XElement nodeXElement in XElement.Parse(data).Elements())
 				{
-					checkBoxListItem = this.CheckBoxList.Items.FindByValue(selectedValue);
-					if (checkBoxListItem != null)
-					{
-						checkBoxListItem.Selected = true;
-					}
+					selectedValues.Add(nodeXElement.Value);
+				}
+			}
+			else
+			{
+				// Assume a CSV source
+				selectedValues = data.Split(Constants.Common.COMMA).ToList();
+			}
+
+			// Find checkboxes where values match the stored values and set to selected
+			foreach (var selectedValue in selectedValues)
+			{
+				var checkBoxListItem = this.CheckBoxList.Items.FindByValue(selectedValue);
+
+				if (checkBoxListItem != null)
+				{
+					checkBoxListItem.Selected = true;
 				}
 			}
 		}
