@@ -56,6 +56,6 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         /// </summary>
         /// <remarks>Called when the grid is saved for the specified <typeparamref name="TDataType">datatype</typeparamref>.</remarks>
         /// <param name="dataType">The <typeparamref name="TDataType">datatype</typeparamref> instance.</param>
-        void Save(TDataType dataType);
+        void Save(TDataType dataType, DataTypeSaveEventArgs eventArgs);
     }
 }

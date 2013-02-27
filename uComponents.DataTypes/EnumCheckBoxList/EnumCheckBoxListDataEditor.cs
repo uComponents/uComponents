@@ -35,7 +35,19 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// <summary>
 		/// Field for the CheckBoxList.
 		/// </summary>
-		public CheckBoxList CheckBoxList = new CheckBoxList() { ID = "CheckBoxList" };
+		private CheckBoxList checkBoxList = new CheckBoxList() { ID = "CheckBoxList" };
+
+		/// <summary>
+		/// Gets the drop down list.
+		/// </summary>
+		/// <value>The drop down list.</value>
+		public CheckBoxList CheckBoxList
+		{
+			get
+			{
+				return this.checkBoxList;
+			}
+		}
 
 		/// <summary>
 		/// Gets a value indicating whether [treat as rich text editor].

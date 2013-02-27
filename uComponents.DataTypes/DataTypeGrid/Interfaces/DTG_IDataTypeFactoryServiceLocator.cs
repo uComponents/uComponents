@@ -62,8 +62,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         /// <summary>
         /// Method for executing special actions before saving the editor value to the database.
         /// </summary>
-        /// <remarks>Called when the grid is saved for the specified <see cref="IDataType"/>.</remarks>
-        /// <param name="dataType">The <see cref="IDataType"/> instance.</param>
-        void Save(IDataType dataType);
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeSaveEventArgs"/> instance containing the event data.</param>
+        /// <remarks>Called when the grid is saved for the specified <see cref="IDataType" />.</remarks>
+        void Save(IDataType dataType, DataTypeSaveEventArgs eventArgs);
     }
 }

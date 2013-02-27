@@ -120,12 +120,13 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         /// Method for executing special actions before saving the editor value to the database.
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeSaveEventArgs" /> instance containing the event data.</param>
         /// <remarks>Called when the grid is saved for the specified <see cref="IDataType" />.</remarks>
-        public void Save(IDataType dataType)
+        public void Save(IDataType dataType, DataTypeSaveEventArgs eventArgs)
         {
             var f = this.GetDataTypeFactory(dataType);
 
-            f.GetType().GetMethod("Save").Invoke(f, new object[] { dataType });
+            f.GetType().GetMethod("Save").Invoke(f, new object[] { dataType, eventArgs });
         }
 
         /// <summary>

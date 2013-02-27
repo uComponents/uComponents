@@ -202,7 +202,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.EnsureChildControls();
 
             // Adds the client dependencies.
-            this.RegisterEmbeddedClientResource(Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
+            this.RegisterEmbeddedClientResource(Core.Constants.PrevalueEditorCssResourcePath, ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource(
                 "uComponents.DataTypes.Shared.Resources.Scripts.json2.js", ClientDependencyType.Javascript);
             this.RegisterEmbeddedClientResource(

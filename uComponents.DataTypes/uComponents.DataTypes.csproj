@@ -229,10 +229,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DtgConfiguration.resx</DependentUpon>
     </Compile>
+    <Compile Include="DataTypeGrid\Constants\DataTypeAction.cs" />
     <Compile Include="DataTypeGrid\DTG_DataEditor.cs" />
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_EnumCheckBoxListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_FileDropDownListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_ListBoxKeysDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_ColorPickerDataTypeFactory.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="DataTypeGrid\Factories\DTG_FilePickerDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_IncrementalTextBoxDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_EnumDropDownListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_DataTypeSaveEventArgs.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_DataTypeLoadEventArgs.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_DataTypeFactoryAttribute.cs" />
     <Compile Include="DataTypeGrid\ServiceLocators\DTG_DataTypeFactoryServiceLocator.cs" />

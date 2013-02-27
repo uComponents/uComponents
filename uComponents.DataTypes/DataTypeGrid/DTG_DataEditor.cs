@@ -26,6 +26,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 {
     using System.Web;
 
+    using uComponents.DataTypes.DataTypeGrid.Constants;
     using uComponents.DataTypes.DataTypeGrid.Extensions;
     using uComponents.DataTypes.DataTypeGrid.Functions;
     using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
@@ -723,7 +724,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var t in this.InsertDataTypes)
             {
                 // Save value to datatype
-                DataTypeFactoryServiceLocator.Instance.Save(t.Value);
+                DataTypeFactoryServiceLocator.Instance.Save(t.Value, new DataTypeSaveEventArgs(this, DataTypeAction.Add));
 
                 // Create new storedvalue object
                 var v = new StoredValue { Name = t.Name, Alias = t.Alias, Value = t.Value };
@@ -919,7 +920,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 foreach (var cell in row.Cells)
                 {
                     // Save value to datatype
-                    DataTypeFactoryServiceLocator.Instance.Save(cell.Value);
+                    DataTypeFactoryServiceLocator.Instance.Save(cell.Value, new DataTypeSaveEventArgs(this, DataTypeAction.Update));
                 }
             }
 

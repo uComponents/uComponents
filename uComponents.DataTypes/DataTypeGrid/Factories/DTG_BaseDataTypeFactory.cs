@@ -70,9 +70,10 @@
         /// <summary>
         /// Method for executing special actions before saving the editor value to the database.
         /// </summary>
-        /// <remarks>Called when the grid is saved for the specified <see cref="IDataType">datatype</see>.</remarks>
         /// <param name="dataType">The <see cref="IDataType">datatype</see> instance.</param>
-        public virtual void Save(T dataType)
+        /// <param name="eventArgs">The <see cref="DataTypeSaveEventArgs"/> instance containing the event data.</param>
+        /// <remarks>Called when the grid is saved for the specified <see cref="IDataType">datatype</see>.</remarks>
+        public virtual void Save(T dataType, DataTypeSaveEventArgs eventArgs)
         {
             dataType.DataEditor.Save();
         }
