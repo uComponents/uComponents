@@ -25,26 +25,30 @@
         {
             var editor = dataType.DataEditor.Editor as EnumDropDownListDataEditor;
 
-            if (editor != null && dataType.Data.Value != null)
+            if (editor != null)
             {
-                // Ensure stored values are set
-                editor.DropDownList.Load += (sender, args) =>
-                {
-                    if (editor.DropDownList.SelectedValue == "-1")
+                // Set selected value
+                if (dataType.Data.Value != null) 
+                { 
+                    // Ensure stored values are set
+                    editor.DropDownList.Load += (sender, args) =>
                     {
-                        // Get selected items from Node Name or Node Id
-                        var dropDownListItem = editor.DropDownList.Items.FindByValue(dataType.Data.Value.ToString());
-
-                        if (dropDownListItem != null)
+                        if (editor.DropDownList.SelectedValue == "-1")
                         {
-                            // Reset selected item
-                            editor.DropDownList.SelectedItem.Selected = false;
+                            // Get selected items from Node Name or Node Id
+                            var dropDownListItem = editor.DropDownList.Items.FindByValue(dataType.Data.Value.ToString());
 
-                            // Set new selected item
-                            dropDownListItem.Selected = true;
+                            if (dropDownListItem != null)
+                            {
+                                // Reset selected item
+                                editor.DropDownList.SelectedItem.Selected = false;
+
+                                // Set new selected item
+                                dropDownListItem.Selected = true;
+                            }
                         }
-                    }
-                };
+                    };
+                }
             }
         }
 
@@ -60,12 +64,6 @@
             if (editor != null)
             {
                 dataType.Data.Value = editor.DropDownList.SelectedValue;
-
-                if (eventArgs.Action == DataTypeAction.Update) 
-                { 
-                    eventArgs.Grid.Store();
-                    eventArgs.Grid.Save();
-                }
             }
         }
     }

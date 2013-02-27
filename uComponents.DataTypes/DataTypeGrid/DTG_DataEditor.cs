@@ -139,8 +139,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             {
                 if (ViewState["DataString"] != null)
                 {
-                    DtgHelpers.LogDebug(
-                        string.Format("DTG: Returned value from ViewState: {0}", ViewState["DataString"]));
+                    DtgHelpers.LogDebug(string.Format("DTG: Returned value from ViewState: {0}", ViewState["DataString"]));
 
                     return ViewState["DataString"].ToString();
                 }
@@ -657,7 +656,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var config in InsertDataTypes)
             {
                 var control = config.Value.DataEditor.Editor;
-                control.ID = "Insert" + config.Alias;
+                control.ID = "insert_" + config.Alias;
 
                 // Initialize the datatype so it works with DTG
                 DataTypeFactoryServiceLocator.Instance.Initialize(config.Value, new DataTypeLoadEventArgs(this, this.InsertControls));
@@ -750,7 +749,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var config in this.EditDataTypes)
             {
                 var control = config.Value.DataEditor.Editor;
-                control.ID = "Edit" + config.Alias;
+                control.ID = "edit_" + config.Alias;
 
                 // Initialize the datatype so it works with DTG
                 DataTypeFactoryServiceLocator.Instance.Initialize(config.Value, new DataTypeLoadEventArgs(this, this.EditControls));
@@ -1204,6 +1203,14 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
             StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
+
+            // Use data from viewstate if possible
+            // TODO: Quality Check! Could create problems for some datatypes
+            if (!string.IsNullOrEmpty(this.DataString))
+            {
+                this.data.Value = this.DataString;
+            }
+
             Rows = this.GetStoredValues();
             InsertDataTypes = GetInsertDataTypes();
             EditDataTypes = GetEditDataTypes();
