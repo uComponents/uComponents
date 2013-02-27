@@ -8,10 +8,11 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 {
     using System;
 
+    using Umbraco.Core.Dynamics;
+
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
     using umbraco.cms.businesslogic.datatype;
-    using umbraco.MacroEngines;
 
     /// <summary>
     /// Represents a DataTypeGrid Cell

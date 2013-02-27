@@ -16,6 +16,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
     using System.Web.Script.Serialization;
     using System.Web.UI.WebControls;
     using System.Xml;
+
+    using Umbraco.Core.Logging;
+
     using uComponents.DataTypes.DataTypeGrid.Model;
     using umbraco;
     using umbraco.BusinessLogic;
@@ -136,7 +139,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
                     catch (Exception ex)
                     {
                         // Cannot understand stored prevalues
-                        Log.Add(LogTypes.Error, User.GetUser(0), dataTypeDefinitionId, "uComponents [DataTypeGrid]: Error when parsing stored prevalues: " + ex.Message);
+                        LogError("Error when parsing stored prevalues", ex);
                     }
                 }
             }
@@ -247,15 +250,40 @@ namespace uComponents.DataTypes.DataTypeGrid.Functions
         }
 
         /// <summary>
-        /// Adds the log entry.
+        /// Adds the error log entry.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal static void AddLogEntry(string message)
+        /// <param name="ex">The exception.</param>
+        internal static void LogError(string message, Exception ex)
         {
             int pageId;
             int.TryParse(HttpContext.Current.Request.QueryString["id"], out pageId);
 
-            Log.Add(LogTypes.Custom, User.GetCurrent(), pageId, message);
+            LogHelper.Error<DataType>(string.Format("[User {0}] [Page {1}] {2}", User.GetCurrent().Id, pageId, message), ex);
+        }
+
+        /// <summary>
+        /// Adds the warning log entry.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        internal static void LogWarn(string message)
+        {
+            int pageId;
+            int.TryParse(HttpContext.Current.Request.QueryString["id"], out pageId);
+
+            LogHelper.Warn<DataType>(string.Format("[User {0}] [Page {1}] {2}", User.GetCurrent().Id, pageId, message));
+        }
+
+        /// <summary>
+        /// Adds the debug entry.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        internal static void LogDebug(string message)
+        {
+            int pageId;
+            int.TryParse(HttpContext.Current.Request.QueryString["id"], out pageId);
+
+            LogHelper.Debug<DataType>(string.Format("[User {0}] [Page {1}] {2}", User.GetCurrent().Id, pageId, message));
         }
     }
 }

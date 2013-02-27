@@ -1,13 +1,10 @@
 ﻿namespace uComponents.Core.UnitTests.DataTypes.DataTypeGrid
 {
-    using System.Xml;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
 
-    using umbraco.MacroEngines;
-    using umbraco.cms.businesslogic.datatype;
+    using Umbraco.Core.Dynamics;
 
     [TestClass]
     public class GridCellTests

@@ -139,20 +139,20 @@ namespace uComponents.DataTypes.DataTypeGrid
             {
                 if (ViewState["DataString"] != null)
                 {
-                    DtgHelpers.AddLogEntry(
+                    DtgHelpers.LogDebug(
                         string.Format("DTG: Returned value from ViewState: {0}", ViewState["DataString"]));
 
                     return ViewState["DataString"].ToString();
                 }
 
-                DtgHelpers.AddLogEntry(string.Format("DTG: ViewState did not contain data."));
+                DtgHelpers.LogWarn(string.Format("DTG: ViewState did not contain data."));
 
                 return string.Empty;
             }
 
             set
             {
-                DtgHelpers.AddLogEntry(string.Format("DTG: Stored the following data in ViewState: {0}", value));
+                DtgHelpers.LogDebug(string.Format("DTG: Stored the following data in ViewState: {0}", value));
 
                 ViewState["DataString"] = value;
             }
@@ -255,7 +255,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             // Clear input controls
             this.ClearControls();
 
-            DtgHelpers.AddLogEntry(string.Format("DTG: Saved the following data to database: {0}", this.data.Value));
+            DtgHelpers.LogDebug(string.Format("DTG: Saved the following data to database: {0}", this.data.Value));
         }
 
         /// <summary>
@@ -992,9 +992,15 @@ namespace uComponents.DataTypes.DataTypeGrid
                     // <DataTypeGrid>
                     var valueRow = new StoredValueRow();
 
-                    if (container.Attributes["id"] != null) valueRow.Id = int.Parse(container.Attributes["id"].Value);
+                    if (container.Attributes["id"] != null)
+                    {
+                        valueRow.Id = int.Parse(container.Attributes["id"].Value);
+                    }
 
-                    if (container.Attributes["sortOrder"] != null) valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
+                    if (container.Attributes["sortOrder"] != null)
+                    {
+                        valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
+                    }
 
                     foreach (PreValueRow config in this.StoredPreValues)
                     {
@@ -1032,8 +1038,6 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <summary>
         /// Gets the insert data types.
         /// </summary>
-        /// <returns>
-        /// </returns>
         private List<StoredValue> GetInsertDataTypes()
         {
             var list = new List<StoredValue>();
@@ -1181,13 +1185,13 @@ namespace uComponents.DataTypes.DataTypeGrid
             // Set default value if none exists
             if (this.data.Value == null)
             {
-                DtgHelpers.AddLogEntry(string.Format("DTG: No values exist in database for this property"));
+                DtgHelpers.LogDebug(string.Format("DTG: No values exist in database for this property"));
 
                 this.data.Value = string.Empty;
             }
             else
             {
-                DtgHelpers.AddLogEntry(
+                DtgHelpers.LogDebug(
                     string.Format("DTG: Retrieved the following data from database: {0}", this.data.Value));
             }
 
