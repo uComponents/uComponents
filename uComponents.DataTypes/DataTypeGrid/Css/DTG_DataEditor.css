@@ -10,7 +10,11 @@
 	background: url("/umbraco_client/modal/modalBackground.gif") repeat 0 0 transparent;
 }
 
-.dtg .ui-corner-all {
+.dtg .ui-corner-all,
+.dtg .ui-corner-tl,
+.dtg .ui-corner-tr,
+.dtg .ui-corner-bl,
+.dtg .ui-corner-br {
 	border-radius: 0;
 }
 
