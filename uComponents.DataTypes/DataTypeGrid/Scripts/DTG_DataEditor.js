@@ -42,7 +42,7 @@
     $(".InsertControls").dialog({
         autoOpen: false,
         width: 436,
-        dialogClass: 'insertdialog',
+        dialogClass: 'dtg dtg-dialog',
         modal: true,
         draggable: true,
         resizable: true,
@@ -69,7 +69,7 @@
     $(".EditControls").dialog({
         autoOpen: false,
         width: 436,
-        dialogClass: 'editdialog',
+        dialogClass: 'dtg dtg-dialog',
         modal: true,
         draggable: true,
         resizable: true,
@@ -128,7 +128,7 @@
     function GetNumberOfRows(element) {
         var numberOfRows = 10;
 
-        if ($(element).find("input[id$='NumberOfRows']").length > 0) {
+        if ($(element).find("input[id$='RowsPerPage']").length > 0) {
             numberOfRows = parseFloat($(element).find("input[id$='RowsPerPage']").val());
         }
 

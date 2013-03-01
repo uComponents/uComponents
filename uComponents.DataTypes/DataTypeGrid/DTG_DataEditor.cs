@@ -36,8 +36,8 @@ namespace uComponents.DataTypes.DataTypeGrid
     /// <summary>
     /// The DataType Grid Control
     /// </summary>
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js",
-        "UmbracoClient")]
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class DataEditor : Control, INamingContainer, IDataEditor
     {
         #region Fields
@@ -441,7 +441,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 tr.Cells.Add(id);
 
                 // Delete button
-                var actions = new TableCell();
+                var actions = new TableCell() { CssClass = "actions"};
 
                 var dInner = new HtmlGenericControl("span");
                 dInner.Attributes["class"] = "ui-button-text";
@@ -651,7 +651,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             InsertControls.Controls.Clear();
 
-            InsertControls.Controls.Add(new LiteralControl("<ul>"));
+            InsertControls.Controls.Add(new LiteralControl("<ul class='controls'>"));
 
             foreach (var config in InsertDataTypes)
             {
@@ -664,9 +664,9 @@ namespace uComponents.DataTypes.DataTypeGrid
                     (sender, args) =>
                     DataTypeFactoryServiceLocator.Instance.Configure(config.Value, new DataTypeLoadEventArgs(this, this.InsertControls));
 
-                InsertControls.Controls.Add(new LiteralControl("<li>"));
+                InsertControls.Controls.Add(new LiteralControl("<li class='control'>"));
 
-                var title = new Label() { CssClass = "insertControlLabel", Text = config.Name };
+                var title = new Label() { CssClass = "control-label", Text = config.Name };
 
                 // If the name starts with a hash, get the dictionary item
                 if (config.Name.StartsWith("#"))
@@ -744,7 +744,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             this.EditControls.Controls.Clear();
 
-            this.EditControls.Controls.Add(new LiteralControl("<ul>"));
+            this.EditControls.Controls.Add(new LiteralControl("<ul class='controls'>"));
 
             foreach (var config in this.EditDataTypes)
             {
@@ -757,9 +757,9 @@ namespace uComponents.DataTypes.DataTypeGrid
                     (sender, args) =>
                     DataTypeFactoryServiceLocator.Instance.Configure(config.Value, new DataTypeLoadEventArgs(this, this.EditControls));
 
-                this.EditControls.Controls.Add(new LiteralControl("<li>"));
+                this.EditControls.Controls.Add(new LiteralControl("<li class='control'>"));
 
-                var title = new Label() { CssClass = "editControlLabel", Text = config.Name };
+                var title = new Label() { CssClass = "control-label", Text = config.Name };
 
                 // If the name starts with a hash, get the dictionary item
                 if (config.Name.StartsWith("#"))
