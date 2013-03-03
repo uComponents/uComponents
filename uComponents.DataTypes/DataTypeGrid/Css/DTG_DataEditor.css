@@ -169,10 +169,9 @@
 	text-align: right;
 }
 
-
 .dtg .paging_full_numbers 
 {
-	line-height: 22px;
+	line-height: 1.4em;
 }
 
 .dtg .paging_full_numbers .ui-button 
