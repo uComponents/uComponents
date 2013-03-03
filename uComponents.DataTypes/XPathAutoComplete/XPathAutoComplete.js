@@ -54,17 +54,22 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
         var allowDuplicates = div.data('allow-duplicates');
 
         // create list items from saved xml - ignore max-items here, always add all saved items
-        var xml = jQuery.parseXML(hidden.val());
-        jQuery(xml).find('Item').each(function (index, element) {
-            addItem(
-                ul,
-                {
-                    label: jQuery(element).attr('Text'),
-                    value: jQuery(element).attr('Value')
-                },
-                allowDuplicates
-            );
-        });
+        try {
+            var xml = jQuery.parseXML(hidden.val());
+            
+            jQuery(xml).find('Item').each(function(index, element) {
+                addItem(
+                    ul,
+                    {
+                        label: jQuery(element).attr('Text'),
+                        value: jQuery(element).attr('Value')
+                    },
+                    allowDuplicates
+                );
+            });
+        } catch(err) {
+            // value was not xml
+        }
 
         // make selection list sortable
         ul.sortable({
@@ -123,7 +128,7 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
     // public -- from the clicked anchor, remove it's <li> and re-generate the hidden field
     function removeItem(a) {
 
-        var ul = jQuery(a).parentsUntil('div.sql-auto-complete', 'ul');
+        var ul = jQuery(a).parentsUntil('div.xpath-auto-complete', 'ul');
         var hidden = ul.siblings('input:hidden');
         var type = ul.parent().data('type');
 
