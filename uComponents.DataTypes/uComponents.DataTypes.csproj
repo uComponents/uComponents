@@ -234,6 +234,7 @@
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_XPathDropDownListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_XPathAutocompleteDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_DropdownCheckListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_EnumCheckBoxListDataTypeFactory.cs" />
