@@ -33,27 +33,6 @@
             }
         }
 
-        public override void Configure(XPathAutoCompleteDataType dataType, DataTypeLoadEventArgs eventArgs)
-        {
-            base.Configure(dataType, eventArgs);
-        }
-
-        /// <summary>
-        /// Method for executing special actions before saving the editor value to the database.
-        /// </summary>
-        /// <param name="dataType">The <see cref="IDataType">datatype</see> instance.</param>
-        /// <param name="eventArgs">The <see cref="DataTypeSaveEventArgs"/> instance containing the event data.</param>
-        /// <remarks>Called when the grid is saved for the specified <see cref="IDataType">datatype</see>.</remarks>
-        public override void Save(XPathAutoCompleteDataType dataType, DataTypeSaveEventArgs eventArgs)
-        {
-            if (eventArgs.Action == DataTypeAction.Update)
-            {
-                
-            }
-
-            base.Save(dataType, eventArgs);
-        }
-
         /// <summary>
         /// Method for customizing the way the <see cref="IDataType">datatype</see> value is displayed in the grid.
         /// </summary>
@@ -126,7 +105,7 @@
                 }
             }
 
-            return base.GetDisplayValue(dataType);
+            return string.Empty;
         }
     }
 }

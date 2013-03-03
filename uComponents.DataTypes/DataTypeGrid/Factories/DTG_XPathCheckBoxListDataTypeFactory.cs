@@ -79,7 +79,7 @@
                 return displayValue;
             }
 
-            return base.GetDisplayValue(dataType);
+            return string.Empty;
         }
 
         /// <summary>

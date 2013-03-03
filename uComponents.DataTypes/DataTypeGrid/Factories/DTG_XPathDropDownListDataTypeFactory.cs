@@ -61,6 +61,12 @@
                     }
                 }
             }
+
+            // Set default value to prevent YSOD
+            if (dataType.Data.Value == null)
+            {
+                dataType.Data.Value = string.Empty;
+            }
         }
 
         /// <summary>
@@ -73,54 +79,16 @@
         {
             if (dataType.Data.Value != null && !string.IsNullOrEmpty(dataType.Data.Value.ToString())) 
             {
-                // Use reflection to get data editor options
-                var optionsField = typeof(XPathDropDownListDataEditor).GetField("options", BindingFlags.Instance | BindingFlags.NonPublic);
-            
-                if (optionsField != null)
+                int id;
+                if (int.TryParse(dataType.Data.Value.ToString(), out id) && id > 0)
                 {
-                    var options = optionsField.GetValue(dataType.DataEditor);
+                    var document = new Node(id);
 
-                    if (options != null)
-                    {
-                        var type = options.GetType().GetProperty("Type").GetValue(options, null);
-                        var useId = options.GetType().GetProperty("UseId").GetValue(options, null);
-
-                        var objectType = uQuery.GetUmbracoObjectType(new Guid(type.ToString()));
-
-                        if ((bool)useId)
-                        {
-                            int id;
-                            int.TryParse(dataType.Data.Value.ToString(), out id);
-
-                            if (id > 0)
-                            {
-                                if (objectType == uQuery.UmbracoObjectType.Document)
-                                {
-                                    var document = new Node(id);
-
-                                    return string.Format("<a href='editContent.aspx?id={0}' title='Edit content'>{1}</a>", document.Id, document.Name);
-                                }
-
-                                if (objectType == uQuery.UmbracoObjectType.Media)
-                                {
-                                    var media = UmbracoContext.Current.Application.Services.MediaService.GetById(id);
-
-                                    return string.Format("<a href='editMedia.aspx?id={0}' title='Edit media'>{1}</a>", media.Id, media.Name);
-                                }
-
-                                if (objectType == uQuery.UmbracoObjectType.Media)
-                                {
-                                    var member = new Member(id);
-
-                                    return string.Format("<a href='editMember.aspx?id={0}' title='Edit member'>{1}</a>", member.Id, member.Text);
-                                }
-                            }
-                        }
-                    }
+                    return string.Format("<a href='editContent.aspx?id={0}' title='Edit content'>{1}</a>", document.Id, document.Name);
                 }
             }
 
-            return base.GetDisplayValue(dataType);
+            return string.Empty;
         }
 
         /// <summary>
