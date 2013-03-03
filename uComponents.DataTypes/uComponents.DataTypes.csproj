@@ -413,8 +413,14 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
+    <Compile Include="XPathSortableList\XPathSortableListDataEditor.cs" />
+    <Compile Include="XPathSortableList\XPathSortableListDataType.cs" />
+    <Compile Include="XPathSortableList\XPathSortableListOptions.cs" />
+    <Compile Include="XPathSortableList\XPathSortableListPreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="XPathSortableList\XPathSortableList.css" />
+    <EmbeddedResource Include="XPathSortableList\XPathSortableList.js" />
     <EmbeddedResource Include="Shared\WebServices\SharedServices.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SharedServices.Designer.cs</LastGenOutput>
@@ -538,4 +544,8 @@
     </ItemGroup>
   </Target>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

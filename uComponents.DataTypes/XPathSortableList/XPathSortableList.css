@@ -1,0 +1,69 @@
+﻿.xpath-sortable-list 
+{
+}
+
+.xpath-sortable-list ul
+{
+    list-style-type:none;
+    float:left;
+}
+
+.xpath-sortable-list li
+{   
+    border:dotted 1px #DCD;
+    width:298px;
+    height:21px;
+    line-height:21px;
+    padding-left:5px;
+    overflow:hidden;
+    background-color:White;
+    margin-bottom:3px;    
+    
+    font-family: Arial,Lucida Grande;
+}
+
+.xpath-sortable-list li:hover
+{
+    background-color:#F6F6FA;
+}
+
+.xpath-sortable-list ul.source-list a
+{
+     text-decoration: none;
+     display: block;
+     width: 100%;
+     height: 100%;
+}
+
+/* default to inactive state */
+.xpath-sortable-list ul.source-list li
+{
+    background-color:#F6F6FA;
+    cursor:wait;
+}
+
+/* presence of the active class */
+.xpath-sortable-list ul.source-list li.active
+{
+    background-color:white;
+    cursor:pointer;
+}
+
+
+
+
+.xpath-sortable-list ul.sortable-list li
+{
+    cursor: move;
+}
+
+
+.xpath-sortable-list ul.sortable-list a
+{
+    background: transparent url('/umbraco/images/delete.gif') no-repeat 0px 3px;
+    width:15px;
+    height:15px;
+    float:right;
+    margin-right:20px;
+    margin-top:2px;
+}
