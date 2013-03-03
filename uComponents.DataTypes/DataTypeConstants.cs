@@ -214,5 +214,10 @@
 		/// Guid for the XPathDropDownList data-type.
 		/// </summary>
 		public const string XPathDropDownListId = "57A62843-C488-4C29-8125-52F51873613E";
+
+        /// <summary>
+        /// Guid for the XPathSortableList data-type.
+        /// </summary>
+        public const string XPathSortableListId = "F5F79D85-83DC-40A8-9050-52C3B68B07D6";
 	}
 }
