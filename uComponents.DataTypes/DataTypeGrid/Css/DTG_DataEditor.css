@@ -344,7 +344,7 @@
 	padding-bottom: 5.5px;
 }
 
-.dtg-dialog .ui-dialog-content ul
+.dtg-dialog .ui-dialog-content .controls
 {
 	margin: 0;
 	padding: 0;
@@ -353,9 +353,9 @@
 
 .dtg-dialog .ui-dialog-content .control
 {
-	display: inline-block;
+	display: block;
 	margin-bottom: 7px;
-	width: 300px;
+	width: 410px;
 }
 
 .dtg-dialog .ui-dialog-content .control-label
