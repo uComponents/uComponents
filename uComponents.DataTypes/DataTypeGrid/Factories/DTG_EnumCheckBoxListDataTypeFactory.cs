@@ -8,6 +8,7 @@
     /// <summary>
     /// Factory for the <see cref="EnumCheckBoxListDataType"/> datatype.
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class EnumCheckBoxListDataTypeFactory : BaseDataTypeFactory<EnumCheckBoxListDataType>
     {
         /// <summary>

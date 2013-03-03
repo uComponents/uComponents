@@ -1,7 +1,5 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
-    using System.Web.UI;
-
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco.cms.businesslogic.member;

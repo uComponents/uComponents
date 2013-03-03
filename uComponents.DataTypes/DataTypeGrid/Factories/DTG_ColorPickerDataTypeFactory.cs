@@ -2,12 +2,15 @@
 {
     using System.Drawing;
 
+    using uComponents.DataTypes.DataTypeGrid.Model;
+
     using umbraco.editorControls.colorpicker;
     using umbraco.interfaces;
 
     /// <summary>
     /// Factory for the <see cref="ColorPickerDataType"/> datatype.
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class ColorPickerDataTypeFactory : BaseDataTypeFactory<ColorPickerDataType>
     {
         /// <summary>

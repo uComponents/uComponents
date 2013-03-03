@@ -1,27 +1,21 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Web.UI.WebControls;
     using System.Xml.Linq;
 
     using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
-    using umbraco;
-    using umbraco.cms.businesslogic.member;
     using umbraco.editorControls.XPathCheckBoxList;
-    using umbraco.editorControls.XPathDropDownList;
     using umbraco.interfaces;
     using umbraco.NodeFactory;
-
-    using Umbraco.Web;
 
     /// <summary>
     /// Factory for the <see cref="XPathCheckBoxListDataType"/> datatype.
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class XpathCheckBoxListDataTypeFactory : BaseDataTypeFactory<XPathCheckBoxListDataType>
     {
         /// <summary>

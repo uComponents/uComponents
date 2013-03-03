@@ -14,6 +14,7 @@
     /// <summary>
     /// Factory for the <see cref="XPathAutoCompleteDataType"/> class.
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class XPathAutocompleteDataTypeFactory : BaseDataTypeFactory<XPathAutoCompleteDataType>
     {
         /// <summary>

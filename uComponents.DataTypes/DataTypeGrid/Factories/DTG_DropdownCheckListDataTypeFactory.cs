@@ -1,11 +1,8 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
-    using System.Linq;
-
     using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.DropdownCheckList;
 
-    using umbraco;
     using umbraco.interfaces;
 
     /// <summary>

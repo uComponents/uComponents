@@ -18,6 +18,7 @@
     /// Factory for the <see cref="XPathDropDownListDataType"/> datatype.
     /// NOTE: Only compatible with Umbraco 6.0.2 and onwards
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class XPathDropDownListDataTypeFactory : BaseDataTypeFactory<XPathDropDownListDataType>
     {
         /// <summary>

@@ -11,6 +11,7 @@
     /// <summary>
     /// Factory for the <see cref="FP_DataType"/> datatype.
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class FilePickerDataTypeFactory : BaseDataTypeFactory<FP_DataType>
     {
         /// <summary>

@@ -8,6 +8,7 @@
     /// <summary>
     /// Factory for the <see cref="IT_DataType"/> datatype.
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class IncrementalTextBoxDataTypeFactory : BaseDataTypeFactory<IT_DataType>
     {
         /// <summary>

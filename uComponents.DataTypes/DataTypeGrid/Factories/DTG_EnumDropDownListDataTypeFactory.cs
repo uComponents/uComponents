@@ -1,18 +1,14 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
-    using System.Linq;
-
-    using uComponents.DataTypes.DataTypeGrid.Constants;
     using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.EnumDropDownList;
 
-    using umbraco.cms.businesslogic.datatype;
-    using umbraco.cms.businesslogic.packager;
     using umbraco.interfaces;
 
     /// <summary>
     /// Factory for the <see cref="EnumDropDownListDataType"/> datatype.
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class EnumDropDownListDataTypeFactory : BaseDataTypeFactory<EnumDropDownListDataType>
     {
         /// <summary>

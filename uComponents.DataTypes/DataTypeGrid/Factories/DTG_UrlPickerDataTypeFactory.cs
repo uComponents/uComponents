@@ -9,6 +9,7 @@
     /// <summary>
     /// Factory for the <see cref="UrlPickerDataType"/> class.
     /// </summary>
+    [DataTypeFactory(Priority = -1)]
     public class UrlPickerDataTypeFactory : BaseDataTypeFactory<UrlPickerDataType>
     {
         /// <summary>
