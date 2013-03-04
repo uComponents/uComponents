@@ -14,6 +14,8 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.EnumDropDownList
 {
+	using Umbraco.Web;
+
 	/// <summary>
 	/// Enum DropDownList Data Type
 	/// </summary>
@@ -196,12 +198,12 @@ namespace uComponents.DataTypes.EnumDropDownList
 					// Property is mandatory, but no value selected in the DropDownList
 					this.customValidator.IsValid = false;
 
-					DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
-					ContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+					var documentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(property.PropertyType.ContentTypeId);
+					var propertyGroup = documentType.PropertyGroups.FirstOrDefault(x => x.Id == property.PropertyType.PropertyTypeGroup);
 
-					if (tab != null)
+					if (propertyGroup != null)
 					{
-						this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Alias, tab.Caption }, User.GetCurrent());
+						this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new[] { property.PropertyType.Alias, propertyGroup.Name }, User.GetCurrent());
 					}
 				}
 

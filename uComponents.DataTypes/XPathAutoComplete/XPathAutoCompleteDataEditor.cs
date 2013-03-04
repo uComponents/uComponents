@@ -201,7 +201,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
 
                     items = xmlDocument.SelectNodes("//Item").Count;
                 }
-                catch (XmlException ex)
+                catch (XmlException)
                 {
                     return;
                 }
