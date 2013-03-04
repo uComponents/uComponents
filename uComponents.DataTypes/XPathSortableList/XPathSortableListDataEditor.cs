@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
+using System.Xml.Linq;
 using uComponents.Core;
 using umbraco;
 using umbraco.BusinessLogic;
@@ -12,17 +16,11 @@ using umbraco.cms.businesslogic.property;
 using umbraco.editorControls;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
-using System.Linq;
-using System.Collections.Generic;
-using System.Xml.Linq;
 
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.XPathSortableList
 {
-    using System.Linq;
-
-
     /// <summary>
     /// DataEditor for the XPath AutoComplete data-type.
     /// </summary>
@@ -51,9 +49,9 @@ namespace uComponents.DataTypes.XPathSortableList
         private HtmlGenericControl div = new HtmlGenericControl("div");
 
         /// <summary>
-        /// renders the startup markup (source data persisted via the hidden field)
+        /// ul containing the source data in li attributes
         /// </summary>
-        private PlaceHolder placeHolder = new PlaceHolder();
+        private HtmlGenericControl sourceListUl = new HtmlGenericControl("ul");
 
         /// <summary>
         /// Stores the selected values
@@ -167,7 +165,13 @@ namespace uComponents.DataTypes.XPathSortableList
             this.div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
             this.div.Attributes.Add("data-allow-duplicates", this.options.AllowDuplicates.ToString());
 
-            this.div.Controls.Add(this.placeHolder);    
+            this.sourceListUl.Attributes.Add("class", "source-list");
+            this.div.Controls.Add(this.sourceListUl);
+
+            HtmlGenericControl sortableListUl = new HtmlGenericControl("ul");
+            sortableListUl.Attributes.Add("class", "sortable-list");
+            this.div.Controls.Add(sortableListUl);
+
             this.div.Controls.Add(this.selectedItemsHiddenField);
            
             this.Controls.Add(this.div);
@@ -189,7 +193,7 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.selectedItemsHiddenField.Value = this.data.Value.ToString();
             }
 
-            this.PopulatePlaceHolder();
+            this.PopulateSourceList();
 
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", ClientDependencyType.Javascript);
@@ -243,11 +247,11 @@ namespace uComponents.DataTypes.XPathSortableList
             this.data.Value = xml;
         }
 
-        private void PopulatePlaceHolder()
+        /// <summary>
+        /// using the data in the hidden field, the source list itesm are generated (this markup is the also the data source for the js)
+        /// </summary>
+        private void PopulateSourceList()
         {
-            HtmlGenericControl sourceListUl = new HtmlGenericControl("ul");
-            sourceListUl.Attributes.Add("class", "source-list");
-
             foreach (KeyValuePair<int, string> dataItem in this.SourceData)
             {
                 HtmlGenericControl li = new HtmlGenericControl("li");
@@ -268,37 +272,8 @@ namespace uComponents.DataTypes.XPathSortableList
                 a.InnerText = dataItem.Value;
 
                 li.Controls.Add(a);
-                sourceListUl.Controls.Add(li);
+                this.sourceListUl.Controls.Add(li);
             }
-
-            HtmlGenericControl sortableListUl = new HtmlGenericControl("ul");
-            sortableListUl.Attributes.Add("class", "sortable-list");
-
-            // loop though all selected items
-            foreach (int selectedValue in this.GetSelectedValues())
-            {
-                // safety check to see if the selected value is still in the source list
-                if (this.SourceData.ContainsKey(selectedValue))
-                {
-                    HtmlGenericControl li = new HtmlGenericControl("li");
-
-                    li.Attributes.Add("data-text", this.SourceData[selectedValue]);
-                    li.Attributes.Add("data-value", selectedValue.ToString());
-                    li.InnerText = this.SourceData[selectedValue];
-
-                    HtmlGenericControl a = new HtmlGenericControl("a");
-                    a.Attributes.Add("class", "delete");
-                    a.Attributes.Add("title", "remove");
-                    a.Attributes.Add("href", "javascript:void(0);");
-                    a.Attributes.Add("onclick", "XPathSortableList.removeItem(this);");
-
-                    li.Controls.Add(a);
-                    sortableListUl.Controls.Add(li);
-                }
-            }
-
-            this.placeHolder.Controls.Add(sourceListUl);
-            this.placeHolder.Controls.Add(sortableListUl);
         }
 
         /// <summary>
@@ -312,10 +287,16 @@ namespace uComponents.DataTypes.XPathSortableList
             //    <Item Value="9" />
             //</XPathSortableList>
 
-            return XDocument.Parse(this.selectedItemsHiddenField.Value)
-                            .Descendants("Item")
-                            .Select(x => int.Parse(x.Attribute("Value").Value));
-
+            if (!String.IsNullOrWhiteSpace(this.selectedItemsHiddenField.Value))
+            {
+                return XDocument.Parse(this.selectedItemsHiddenField.Value)
+                                .Descendants("Item")
+                                .Select(x => int.Parse(x.Attribute("Value").Value));
+            }
+            else
+            {
+                return new int[] { };
+            }
         }
     }
 }

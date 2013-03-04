@@ -15,19 +15,19 @@
             <li data-text="XYZ" data-value="9">                
                 <a class="add" title="add" href="javascript:void(0);" onclick="XPathSortableList.addItem(this);">
                     XYZ
-                </a>))
-            </li>)
+                </a>)
+            </li>
         </ul>
 
         <ul class="sortable-list propertypane">
-            <li data-text="ABC" data-value="1">
-                ABC)
+            <li data-value="1">
+                ABC
                 <a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>
             </li>
-            <li data-text="XYZ" data-value="9">
+            <li data-value="9">
                 XYZ
                 <a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>
-            </li>)
+            </li>
         </ul>
             
         <input type="hidden" name="ctl00$body$prop_sQLAutoComplete$ctl03">
@@ -37,10 +37,9 @@
 ----------
 
     <XPathSortableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
-        <Item Text="ABC" Value="1" />
-        <Item Text="XYZ" Value="9" />
+        <Item Value="1" />
+        <Item Value="9" />
     </XPathSortableList>)
-
 
 */
 
@@ -50,17 +49,33 @@ var XPathSortableList = XPathSortableList || (function () {
     function init(div) {
 
         // dom
-        var ul = div.find('ul.sortable-list');
+        var sourceUl = div.find('ul.source-list:first');
+        var sortableUl = div.find('ul.sortable-list:first');
         var hidden = div.find('input:hidden:first');
        
         // data
         var type = div.data('type');
+        var minItems = div.data('min-items');
+        var maxItems = div.data('max-items');
 
-        // make selection list sortable
-        ul.sortable({
+        // generate selected items list from the hidden data
+        if (hidden.val().length > 0) {
+            var xml = jQuery.parseXML(hidden.val());
+
+            jQuery(xml).find('Item').each(function (index, element) {
+
+                var value = jQuery(element).attr('Value');
+                var text = sourceUl.children('li[data-value=' + value + ']:first').data('text');
+
+                addSortableListItem(sortableUl, text, value);
+            });
+        }
+
+        // make list sortable
+        sortableUl.sortable({
             axis: 'y',
             update: function (event, ui) {
-                updateHidden(ul, hidden, type);
+                updateHidden(sortableUl, hidden, type);
             }
         });
     }
@@ -89,17 +104,19 @@ var XPathSortableList = XPathSortableList || (function () {
                 selectedLi.removeClass('active');
             }
 
-            // add li to the sortable
-            sortableUl.append('<li data-text="' + selectedLi.data('text') +
-                                '" data-value="' + selectedLi.data('value') + '">' +
-                                selectedLi.data('text') +
-                                '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +                                
-                                '</li>');
+            addSortableListItem(sortableUl, selectedLi.data('text'), selectedLi.data('value'));
         }
 
         updateHidden(sortableUl, hidden, type);
     }
     
+    // adds an li to the sortable list
+    function addSortableListItem(sortableUl, text, value) {
+        
+        sortableUl.append('<li data-value="' + value + '">' +
+                            text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
+                            '</li>');
+    }
 
     // public
     function removeItem(a) {
@@ -125,11 +142,11 @@ var XPathSortableList = XPathSortableList || (function () {
     }
 
     //// private -- re-generates the xml fragment of selected items, and stores in the hidden field    
-    function updateHidden(ul, hidden, type) {
+    function updateHidden(sortableUl, hidden, type) {
 
         var xml = '<XPathSortableList Type="' + type + '">';
-            ul.children().each(function (index, element) {
-                xml += '<Item Text="' + jQuery(element).data('text') + '" Value="' + jQuery(element).data('value') + '" />';
+            sortableUl.children().each(function (index, element) {
+                xml += '<Item Value="' + jQuery(element).data('value') + '" />';
             });
             xml += '</XPathSortableList>';
 
