@@ -24,15 +24,31 @@ namespace uComponents.DataTypes.XmlDropDownList
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the XML file path.
+		/// </summary>
+		/// <value>The XML file path.</value>
 		[DefaultValue("")]
 		public string XmlFilePath { get; set; }
 
+		/// <summary>
+		/// Gets or sets the X path expression.
+		/// </summary>
+		/// <value>The X path expression.</value>
 		[DefaultValue("")]
 		public string XPathExpression { get; set; }
 
+		/// <summary>
+		/// Gets or sets the text column.
+		/// </summary>
+		/// <value>The text column.</value>
 		[DefaultValue("")]
 		public string TextColumn { get; set; }
 
+		/// <summary>
+		/// Gets or sets the value column.
+		/// </summary>
+		/// <value>The value column.</value>
 		[DefaultValue("")]
 		public string ValueColumn { get; set; }
 	}

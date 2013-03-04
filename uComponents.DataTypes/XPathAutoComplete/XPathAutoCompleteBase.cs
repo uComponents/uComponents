@@ -115,7 +115,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
                                  .Select(x => int.Parse(x.Attribute("Value").Value))
                                  .ToArray();
                 }
-                catch (XmlException ex)
+                catch (XmlException)
                 {
                     // xml was not valid
                     selectedValues = new int[0];

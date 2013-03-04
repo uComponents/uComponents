@@ -75,9 +75,9 @@ namespace uComponents.DataTypes.SubTabs
         protected override void CreateChildControls()
         {
             var subTabsPanel = new Panel();
-            var tabs = uQuery.GetDocument(uQuery.GetIdFromQueryString()).ContentType.getVirtualTabs.Where(x => this.options.TabIds.Contains(x.Id));
+            var tabs = uQuery.GetDocument(uQuery.GetIdFromQueryString()).ContentType.PropertyTypeGroups.Where(x => this.options.TabIds.Contains(x.Id));
 
-            if (tabs.Count() > 0)
+            if (tabs.Any())
             {
                 switch (this.options.SubTabType)
                 {
@@ -88,9 +88,8 @@ namespace uComponents.DataTypes.SubTabs
                         HtmlButton subTabButton;
                         foreach (var tab in tabs)
                         {
-                            subTabButton = new HtmlButton();
-                            subTabButton.InnerText = tab.Caption;
-                            subTabButton.Attributes.Add("data-tab", tab.Caption); // added an attribute to identify which tab this button relates to, as haven't yet calculated the other parms to pass into activateSubTab()
+                            subTabButton = new HtmlButton { InnerText = tab.Name };
+                            subTabButton.Attributes.Add("data-tab", tab.Name); // added an attribute to identify which tab this button relates to, as haven't yet calculated the other parms to pass into activateSubTab()
                             if (counter == 0)
                             {
                                 // if it's the first button, then disable it (this means it's active tab)
@@ -107,7 +106,7 @@ namespace uComponents.DataTypes.SubTabs
                         var subTabDropDownList = new DropDownList();
                         foreach (var tab in tabs)
                         {
-                            subTabDropDownList.Items.Add(new ListItem(tab.Caption));
+                            subTabDropDownList.Items.Add(new ListItem(tab.Name));
                         }
                         subTabsPanel.Controls.Add(subTabDropDownList);
 
@@ -188,7 +187,7 @@ namespace uComponents.DataTypes.SubTabs
                     stringBuilder.Append(@"
                                $('span > nobr')
                                     .filter(function () {
-                                        return $(this).html() == '"+ tab.Caption + @"';
+                                        return $(this).html() == '"+ tab.Name + @"';
                                     })
                                     .parentsUntil('li', 'a').parent().hide();
                         ");

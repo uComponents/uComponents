@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using umbraco.editorControls;
@@ -9,7 +6,7 @@ using umbraco.editorControls.SettingControls.Pickers;
 
 namespace uComponents.DataTypes.XmlDropDownList
 {
-	/// <summary>
+    /// <summary>
 	/// The PreValue Editor for the XmlDropDownList data-type.
 	/// </summary>
 	public class XmlDropDownListPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
@@ -35,9 +32,11 @@ namespace uComponents.DataTypes.XmlDropDownList
 		private TextBox TextBoxValueColumn;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TextstringArrayPrevalueEditor"/> class.
+		/// Initializes a new instance of the <see cref="XmlDropDownListPrevalueEditor"/> class.
 		/// </summary>
-		/// <param name="dataType">Type of the data.</param>
+		/// <param name="dataType">
+		/// Type of the data.
+		/// </param>
 		public XmlDropDownListPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
 			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
