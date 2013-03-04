@@ -14,12 +14,12 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <summary>
 		/// The underlying base data-type.
 		/// </summary>
-		protected readonly BaseDataType m_DataType;
+		protected readonly BaseDataType DataType;
 
 		/// <summary>
 		/// An object to temporarily lock writing to the database.
 		/// </summary>
-		private static readonly object m_Locker = new object();
+		private static readonly object Locker = new object();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AbstractJsonPrevalueEditor"/> class.
@@ -27,7 +27,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <param name="dataType">Type of the data.</param>
 		protected AbstractJsonPrevalueEditor(BaseDataType dataType)
 		{
-			this.m_DataType = dataType;
+			this.DataType = dataType;
 		}
 
 		/// <summary>
@@ -38,8 +38,8 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		protected AbstractJsonPrevalueEditor(BaseDataType dataType, DBTypes dbType)
 			: base()
 		{
-			this.m_DataType = dataType;
-			this.m_DataType.DBType = dbType;
+			this.DataType = dataType;
+			this.DataType.DBType = dbType;
 		}
 
 		/// <summary>
@@ -51,7 +51,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// </returns>
 		public T GetPreValueOptions<T>()
 		{
-			var prevalues = PreValues.GetPreValues(this.m_DataType.DataTypeDefinitionId);
+			var prevalues = PreValues.GetPreValues(this.DataType.DataTypeDefinitionId);
 			if (prevalues.Count > 0)
 			{
 				var prevalue = (PreValue)prevalues[0];
@@ -67,7 +67,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 					}
 					catch (Exception ex)
 					{
-						LogHelper.Error<T>(string.Concat("uComponents: AbstractJsonPrevalueEditor.GetPreValueOptions<T> Execption.", ex.Message), ex);
+						LogHelper.Error<T>(string.Concat("uComponents: AbstractJsonPrevalueEditor.GetPreValueOptions<T> Exception.", ex.Message), ex);
 					}
 				}
 			}
@@ -79,18 +79,19 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <summary>
 		/// Saves the data-type PreValue options.
 		/// </summary>
+		/// <param name="options">The options.</param>
 		public void SaveAsJson(object options)
 		{
 			// serialize the options into JSON
 			var serializer = new JavaScriptSerializer();
 			var json = serializer.Serialize(options);
 
-			lock (m_Locker)
+			lock (Locker)
 			{
-				var prevalues = PreValues.GetPreValues(this.m_DataType.DataTypeDefinitionId);
+				var prevalues = PreValues.GetPreValues(this.DataType.DataTypeDefinitionId);
 				if (prevalues.Count > 0)
 				{
-					PreValue prevalue = (PreValue)prevalues[0];
+					var prevalue = (PreValue)prevalues[0];
 
 					// update
 					prevalue.Value = json;
@@ -99,7 +100,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 				else
 				{
 					// insert
-					PreValue.MakeNew(this.m_DataType.DataTypeDefinitionId, json);
+					PreValue.MakeNew(this.DataType.DataTypeDefinitionId, json);
 				}
 			}
 		}

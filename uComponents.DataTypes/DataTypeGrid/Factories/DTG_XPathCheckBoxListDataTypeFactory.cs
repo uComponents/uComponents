@@ -111,8 +111,9 @@
         /// <summary>
         /// Sets the selected values.
         /// </summary>
+        /// <param name="list">The list.</param>
         /// <param name="data">The data.</param>
-        private void SetSelectedValues(CheckBoxList list, string data)
+        private void SetSelectedValues(ListControl list, string data)
         {
             var values = this.GetValues(data);
 

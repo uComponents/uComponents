@@ -81,7 +81,7 @@ namespace uComponents.DataTypes.Slider
 		public override void Save()
 		{
 			// set the database data-type
-			this.m_DataType.DBType = (umbraco.cms.businesslogic.datatype.DBTypes)Enum.Parse(typeof(umbraco.cms.businesslogic.datatype.DBTypes), this.DatabaseDataType.SelectedValue);
+			this.DataType.DBType = (umbraco.cms.businesslogic.datatype.DBTypes)Enum.Parse(typeof(umbraco.cms.businesslogic.datatype.DBTypes), this.DatabaseDataType.SelectedValue);
 
 			// parse the integers & doubles
 			double maxValue, minValue, value, value2, stepValue;
@@ -185,7 +185,7 @@ namespace uComponents.DataTypes.Slider
 			}
 
 			// set the values
-			this.DatabaseDataType.SelectedValue = this.m_DataType.DBType.ToString();
+			this.DatabaseDataType.SelectedValue = this.DataType.DBType.ToString();
 			this.EnableRange.Checked = options.EnableRange;
 			this.EnableStep.Checked = options.EnableStep;
 			this.MinValue.Text = options.MinValue.ToString();

@@ -7,8 +7,6 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Interfaces
 {
-    using System.Web.UI;
-
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco.interfaces;
@@ -54,8 +52,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         /// <summary>
         /// Method for executing special actions before saving the editor value to the database.
         /// </summary>
-        /// <remarks>Called when the grid is saved for the specified <typeparamref name="TDataType">datatype</typeparamref>.</remarks>
         /// <param name="dataType">The <typeparamref name="TDataType">datatype</typeparamref> instance.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeSaveEventArgs"/> instance containing the event data.</param>
+        /// <remarks>Called when the grid is saved for the specified <typeparamref name="TDataType">datatype</typeparamref>.</remarks>
         void Save(TDataType dataType, DataTypeSaveEventArgs eventArgs);
     }
 }

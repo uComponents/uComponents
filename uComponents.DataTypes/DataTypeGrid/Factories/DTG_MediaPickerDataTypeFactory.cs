@@ -1,9 +1,10 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using Umbraco.Core.Models;
+
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco;
-    using umbraco.cms.businesslogic.media;
     using umbraco.editorControls.mediapicker;
 
     /// <summary>a
@@ -27,10 +28,10 @@
 
             if (id > 0)
             {
-                var m = new Media(id);
+                var m = uQuery.GetMedia(id);
 
                 // Return thumbnail if media type is Image
-                if (m.ContentType.Alias.Equals("Image"))
+                if (m != null && m.ContentType.Alias.Equals("Image"))
                 {
                     return string.Format("<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>", m.GetImageThumbnailUrl(), m.Text, m.Id);
                 }
@@ -54,7 +55,7 @@
 
             if (id > 0)
             {
-                return new Media(id);
+                return uQuery.GetMedia(id);
             }
 
             return default(Media);

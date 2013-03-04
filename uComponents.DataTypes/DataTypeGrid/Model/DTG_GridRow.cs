@@ -6,13 +6,12 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.Dynamic;
     using System.Linq;
     using System.Linq.Expressions;
 
-    using umbraco.MacroEngines;
+    using Umbraco.Core.Dynamics;
 
     /// <summary>
     /// Represents a DataTypeGrid Row

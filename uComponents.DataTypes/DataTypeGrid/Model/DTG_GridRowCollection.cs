@@ -9,7 +9,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
     using System.Collections.ObjectModel;
     using System.Xml;
 
-    using umbraco.MacroEngines;
+    using Umbraco.Core.Dynamics;
 
     /// <summary>
     /// Represents rows in a DataTypeGrid

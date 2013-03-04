@@ -142,7 +142,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 			base.OnLoad(e);
 
 			// Read in stored configuration values
-			this.dbTypeDropDownList.SelectedValue = base.m_DataType.DBType.ToString();
+			this.dbTypeDropDownList.SelectedValue = base.DataType.DBType.ToString();
 			this.xPathTextBox.Text = this.Options.XPath;
 			this.storageTypeRadioButtonList.SelectedValue = this.Options.UseXml.ToString();
 			this.valueTypeDropDownList.SelectedValue = this.Options.UseIds.ToString();
@@ -180,7 +180,7 @@ namespace uComponents.DataTypes.XPathCheckBoxList
 		{
 			if (this.Page.IsValid)
 			{
-				base.m_DataType.DBType = (umbraco.cms.businesslogic.datatype.DBTypes)Enum.Parse(typeof(umbraco.cms.businesslogic.datatype.DBTypes), this.dbTypeDropDownList.SelectedValue, true);
+				base.DataType.DBType = (umbraco.cms.businesslogic.datatype.DBTypes)Enum.Parse(typeof(umbraco.cms.businesslogic.datatype.DBTypes), this.dbTypeDropDownList.SelectedValue, true);
 
 				this.Options.XPath = this.xPathTextBox.Text;
 				this.Options.UseXml = bool.Parse(this.storageTypeRadioButtonList.SelectedValue);

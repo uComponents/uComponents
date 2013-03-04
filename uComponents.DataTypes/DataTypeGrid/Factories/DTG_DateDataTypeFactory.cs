@@ -3,7 +3,6 @@
     using System;
     using System.Globalization;
     using System.Web;
-    using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
 
@@ -51,9 +50,9 @@
         /// <summary>
         /// Method for performing special actions while creating the <paramref name="dataType" /> editor.
         /// </summary>
-        /// <remarks>Called when the grid creates the editor controls for the specified <paramref name="dataType" />.</remarks>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
-        /// <param name="container">The editor control container.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeLoadEventArgs"/> instance containing the event data.</param>
+        /// <remarks>Called when the grid creates the editor controls for the specified <paramref name="dataType" />.</remarks>
         public override void Configure(DateDataType dataType, DataTypeLoadEventArgs eventArgs)
         {
             var e = dataType.DataEditor as umbraco.editorControls.dateField;
