@@ -74,7 +74,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         }
 
         /// <summary>
-        /// Lazy load the assocated DataEditor, 
+        /// Lazy load the associated DataEditor, 
         /// this is constructed supplying the data value stored by the PreValueEditor, and also the configuration settings of the PreValueEditor 
         /// </summary>
         public override IDataEditor DataEditor
