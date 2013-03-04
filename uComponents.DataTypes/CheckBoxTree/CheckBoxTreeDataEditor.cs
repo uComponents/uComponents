@@ -139,14 +139,14 @@ namespace uComponents.DataTypes.CheckBoxTree
 			this.maxSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MaxSelectionCustomValidator_ServerValidate);
 
 
-			CmsProperty property = new CmsProperty(((umbraco.cms.businesslogic.datatype.DefaultData)this.data).PropertyId);
-			DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
-			CmsContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+			var property = new CmsProperty(((umbraco.cms.businesslogic.datatype.DefaultData)this.data).PropertyId);
+			var documentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(property.PropertyType.ContentTypeId);
+			var propertyGroup = documentType.PropertyGroups.FirstOrDefault(x => x.Id == property.PropertyType.PropertyTypeGroup);
 
-			if (tab != null)
+			if (propertyGroup != null)
 			{
-				this.minSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab requires a minimum of ", this.options.MinSelection.ToString(), " selections<br/>");
-				this.maxSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab has exceeded the maximum number of selections<br/>");
+				this.minSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", propertyGroup.Name, " tab requires a minimum of ", this.options.MinSelection.ToString(), " selections<br/>");
+				this.maxSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", propertyGroup.Name, " tab has exceeded the maximum number of selections<br/>");
 			}
 		}
 
@@ -276,9 +276,9 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// <returns>an ASP.NET TreeNode</returns>
 		private TreeNode GetTreeNode(Node node)
 		{
-		    var treeNode = new TreeNode { Text = node.Name, Expanded = false, SelectAction = TreeNodeSelectAction.None };
+			var treeNode = new TreeNode { Text = node.Name, Expanded = false, SelectAction = TreeNodeSelectAction.None };
 
-		    if (this.options.ShowTreeIcons)
+			if (this.options.ShowTreeIcons)
 			{
 				var documentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(node.NodeTypeAlias);
 
