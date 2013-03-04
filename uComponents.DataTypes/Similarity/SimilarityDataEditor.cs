@@ -189,8 +189,8 @@ namespace uComponents.DataTypes.Similarity
             var results = (from item in items
                            where (item != string.Empty && item != ",")
                            select int.Parse(item)
-                           into id let d = new Document(id)
-                           select new SearchResultItem { NodeId = id, PageName = d.Text }).ToList();
+                           into id let d = UmbracoContext.Current.Application.Services.ContentService.GetById(id)
+                           select new SearchResultItem { NodeId = id, PageName = d.Name }).ToList();
 
             // TODO: [IM] add to list
             foreach (var searchResultItem in results)
