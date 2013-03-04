@@ -79,12 +79,80 @@
         {
             if (dataType.Data.Value != null && !string.IsNullOrEmpty(dataType.Data.Value.ToString())) 
             {
-                int id;
-                if (int.TryParse(dataType.Data.Value.ToString(), out id) && id > 0)
-                {
-                    var document = new Node(id);
+                // Use reflection to get data editor options 
+                // TODO: Update to use public options property when Umbraco 6.0.3 is out
+                var optionsField = typeof(XPathDropDownListDataEditor).GetField("options", BindingFlags.Instance | BindingFlags.NonPublic);
 
-                    return string.Format("<a href='editContent.aspx?id={0}' title='Edit content'>{1}</a>", document.Id, document.Name);
+                if (optionsField != null)
+                {
+                    var options = optionsField.GetValue(dataType.DataEditor);
+
+                    if (options != null)
+                    {
+                        var type = options.GetType().GetProperty("Type").GetValue(options, null);
+                        var useId = options.GetType().GetProperty("UseId").GetValue(options, null);
+
+                        var objectType = uQuery.GetUmbracoObjectType(new Guid(type.ToString()));
+
+                        if ((bool)useId)
+                        {
+                            int id;
+                            int.TryParse(dataType.Data.Value.ToString(), out id);
+
+                            if (id > 0)
+                            {
+                                if (objectType == uQuery.UmbracoObjectType.Document)
+                                {
+                                    var document = UmbracoContext.Current.Application.Services.ContentService.GetById(id);
+
+                                    if (document != null)
+                                    {
+                                        return
+                                            string.Format(
+                                                "<a href='editContent.aspx?id={0}' title='Edit content'>{1}</a>",
+                                                document.Id,
+                                                document.Name);
+                                    }
+
+                                    return string.Empty;
+                                }
+
+                                if (objectType == uQuery.UmbracoObjectType.Media)
+                                {
+                                    var media = UmbracoContext.Current.Application.Services.MediaService.GetById(id);
+
+                                    if (media != null) 
+                                    { 
+                                        return string.Format(
+                                            "<a href='editMedia.aspx?id={0}' title='Edit media'>{1}</a>",
+                                            media.Id,
+                                            media.Name);
+                                    }
+
+                                    return string.Empty;
+                                }
+
+                                if (objectType == uQuery.UmbracoObjectType.Member)
+                                {
+                                    // TODO: Update when Umbraco launches the MemberService
+                                    var member = uQuery.GetMember(id);
+                                    
+                                    if (member != null) 
+                                    {
+                                        return
+                                            string.Format(
+                                                "<a href='editMember.aspx?id={0}' title='Edit member'>{1}</a>",
+                                                member.Id,
+                                                member.Text);
+                                    }
+
+                                    return string.Empty;
+                                }
+                            }
+                        }
+
+                        return base.GetDisplayValue(dataType);
+                    }
                 }
             }
 
