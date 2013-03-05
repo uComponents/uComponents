@@ -165,11 +165,11 @@ namespace uComponents.DataTypes.XPathSortableList
             this.div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
             this.div.Attributes.Add("data-allow-duplicates", this.options.AllowDuplicates.ToString());
 
-            this.sourceListUl.Attributes.Add("class", "source-list");
+            this.sourceListUl.Attributes.Add("class", "source-list propertypane");
             this.div.Controls.Add(this.sourceListUl);
 
             HtmlGenericControl sortableListUl = new HtmlGenericControl("ul");
-            sortableListUl.Attributes.Add("class", "sortable-list");
+            sortableListUl.Attributes.Add("class", "sortable-list propertypane");
             this.div.Controls.Add(sortableListUl);
 
             this.div.Controls.Add(this.selectedItemsHiddenField);

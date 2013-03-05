@@ -1,5 +1,6 @@
 ﻿.xpath-sortable-list 
 {
+    width:640px;
 }
 
 .xpath-sortable-list ul
@@ -7,6 +8,13 @@
     list-style-type:none;
     float:left;
 }
+
+.xpath-sortable-list ul.sortable-list
+{
+    float:right;
+    clear:none;    
+}
+
 
 .xpath-sortable-list li
 {   
@@ -18,36 +26,52 @@
     overflow:hidden;
     background-color:White;
     margin-bottom:3px;    
-    
     font-family: Arial,Lucida Grande;
 }
 
-.xpath-sortable-list li:hover
+.xpath-sortable-list li:hover /* sortable list only (as source li covered with an anchor) */
 {
     background-color:#F6F6FA;
 }
 
+
+.xpath-sortable-list ul.source-list li
+{
+    /* default to inactive state */
+    opacity: 0.5;
+    background-color:#F6F6FA;
+    
+    padding-left:0; /* to pull the anchor all the way to the left */
+}
+
+/* the a tag fills the whole li */
 .xpath-sortable-list ul.source-list a
 {
      text-decoration: none;
      display: block;
      width: 100%;
      height: 100%;
+     color:black;
+
+     padding-left:5px; /* indent the text, rather than a default margin */
+
+     /*default to inactive state */
+     cursor:default;
 }
 
-/* default to inactive state */
-.xpath-sortable-list ul.source-list li
-{
-    background-color:#F6F6FA;
-    cursor:wait;
-}
-
-/* presence of the active class */
+/* activate */
 .xpath-sortable-list ul.source-list li.active
 {
+    opacity: 1;
     background-color:white;
+}
+
+.xpath-sortable-list ul.source-list li.active a:hover
+{
+    background-color:#F6F6FA;
     cursor:pointer;
 }
+
 
 
 
