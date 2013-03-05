@@ -58,7 +58,23 @@ var XPathSortableList = XPathSortableList || (function () {
         var minItems = div.data('min-items');
         var maxItems = div.data('max-items');
 
-        // generate selected items list from the hidden data
+        // no limit, so remove the border
+        if (maxItems == 0) {
+            sortableUl.css('border', '0');
+        }
+
+        // use the max value of either min or max and render that number of placeholder <li>s
+        var liCount = Math.max(minItems, maxItems);
+        for (var i = 1; i <= liCount; i++) {
+
+            if (i <= minItems) {
+                sortableUl.append('<li class="placeholder min">&nbsp;</li>');
+            } else {
+                sortableUl.append('<li class="placeholder max">&nbsp;</li>');
+            }
+        }
+
+        // build selected items list from the hidden data
         if (hidden.val().length > 0) {
             var xml = jQuery.parseXML(hidden.val());
 
@@ -78,6 +94,7 @@ var XPathSortableList = XPathSortableList || (function () {
                 updateHidden(sortableUl, hidden, type);
             }
         });
+
     }
 
 
@@ -110,14 +127,6 @@ var XPathSortableList = XPathSortableList || (function () {
         updateHidden(sortableUl, hidden, type);
     }
     
-    // adds an li to the sortable list
-    function addSortableListItem(sortableUl, text, value) {
-        
-        sortableUl.append('<li data-value="' + value + '">' +
-                            text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
-                            '</li>');
-    }
-
     // public
     function removeItem(a) {
        
@@ -135,23 +144,49 @@ var XPathSortableList = XPathSortableList || (function () {
         sourceUl.children('li[data-value=' + value + ']').addClass('active');
 
         // remove the <li>
+        //removeSortableListItem(sortableUl, value);
         jQuery(a).parent().remove(); 
 
         // update the xml fragment
         updateHidden(sortableUl, hidden, type);
     }
 
+
+    // adds an li to the sortable list
+    function addSortableListItem(sortableUl, text, value) {
+
+        //TODO: if there's an existing li of type placeholder? then remove it
+
+        // handle placeholder <li>s
+
+
+
+
+        sortableUl.append('<li data-value="' + value + '">' +
+                            text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
+                            '</li>');
+    }
+
+    function removeSortableListItem(sortableUl, value) {
+
+        // handle placeholder <li>s
+
+    }
+
+
     //// private -- re-generates the xml fragment of selected items, and stores in the hidden field    
     function updateHidden(sortableUl, hidden, type) {
 
         var xml = '<XPathSortableList Type="' + type + '">';
-            sortableUl.children().each(function (index, element) {
+        sortableUl.children('li:not(.placeholder)').each(function (index, element) {                
                 xml += '<Item Value="' + jQuery(element).data('value') + '" />';
             });
             xml += '</XPathSortableList>';
 
         hidden.val(xml);
     }
+
+
 
     // public interface to the above methods
     return {

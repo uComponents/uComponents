@@ -1,6 +1,13 @@
 ﻿.xpath-sortable-list 
 {
     width:640px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .xpath-sortable-list ul
@@ -15,7 +22,6 @@
     clear:none;    
 }
 
-
 .xpath-sortable-list li
 {   
     border:dotted 1px #DCD;
@@ -29,18 +35,15 @@
     font-family: Arial,Lucida Grande;
 }
 
-.xpath-sortable-list li:hover /* sortable list only (as source li covered with an anchor) */
-{
-    background-color:#F6F6FA;
-}
 
 
+/* SOURCE LIST */
 .xpath-sortable-list ul.source-list li
 {
     /* default to inactive state */
     opacity: 0.5;
     background-color:#F6F6FA;
-    
+
     padding-left:0; /* to pull the anchor all the way to the left */
 }
 
@@ -73,8 +76,11 @@
 }
 
 
-
-
+/* SORTABLE LIST */
+.xpath-sortable-list li:hover /* sortable list only (as source li covered with an anchor) */
+{
+    background-color:#F6F6FA;
+}
 
 .xpath-sortable-list ul.sortable-list li
 {
@@ -90,4 +96,24 @@
     float:right;
     margin-right:20px;
     margin-top:2px;
+}
+
+
+
+
+.xpath-sortable-list ul.sortable-list li.placeholder
+{
+    cursor:default;
+    background:none;
+}
+
+.xpath-sortable-list li.placeholder.min
+{
+    
+}
+
+
+.xpath-sortable-list li.placeholder.max 
+{
+    border:0;
 }
