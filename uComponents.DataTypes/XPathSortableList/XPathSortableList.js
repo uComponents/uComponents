@@ -117,10 +117,12 @@ var XPathSortableList = XPathSortableList || (function () {
         
         if (allowDuplicates || sortableUl.children('li[data-value=' + selectedLi.data('value') + ']').length == 0) {
 
+            // TODO: ensure not over the max allowed
+
             if (!allowDuplicates) {
                 selectedLi.removeClass('active');
             }
-
+            
             addSortableListItem(sortableUl, selectedLi.data('text'), selectedLi.data('value'));
         }
 
@@ -131,21 +133,21 @@ var XPathSortableList = XPathSortableList || (function () {
     function removeItem(a) {
        
         // dom        
-        var removedLi = jQuery(a).parentsUntil('ul.sortable-list', 'li');
-        var sortableUl = removedLi.parent();
+        var li = jQuery(a).parentsUntil('ul.sortable-list', 'li');
+        var sortableUl = li.parent();
         var hidden = sortableUl.siblings('input:hidden');
         var sourceUl = sortableUl.siblings('ul.source-list');
 
         // data
         var type = sortableUl.parent().data('type');
-        var value = removedLi.data('value');
+        var value = li.data('value');
 
-        // re activate the matching item by value in the source list
+        // re-activate the matching item by value in the source list
         sourceUl.children('li[data-value=' + value + ']').addClass('active');
 
-        // remove the <li>
-        //removeSortableListItem(sortableUl, value);
-        jQuery(a).parent().remove(); 
+        
+        removeSortableListItem(li);
+        
 
         // update the xml fragment
         updateHidden(sortableUl, hidden, type);
@@ -158,18 +160,48 @@ var XPathSortableList = XPathSortableList || (function () {
         //TODO: if there's an existing li of type placeholder? then remove it
 
         // handle placeholder <li>s
-
-
-
-
-        sortableUl.append('<li data-value="' + value + '">' +
+        var li = '<li data-value="' + value + '">' +
                             text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
-                            '</li>');
+                 '</li>';
+
+
+        // if there are any placeholders - replace the first one in the list
+        var placeholder = sortableUl.children('li.placeholder')[0];
+        if (placeholder) {
+
+            jQuery(placeholder).replaceWith(li);
+
+        } else {
+
+            sortableUl.append(li);
+
+        }
+        
     }
 
-    function removeSortableListItem(sortableUl, value) {
+    // ONLY ONE PLACE CALLS THIS
+    function removeSortableListItem(li) {
+
+        // dom
+        var sortableUl = li.parent();
+        var div = sortableUl.parent();
+        
+        
+        // data
+        var minItems = div.data('min-items');
+        var maxItems = div.data('max-items');
+        
 
         // handle placeholder <li>s
+
+        li.remove();
+
+        var count = sortableUl.children('li:not(.placeholder)').length;
+        if (count < minItems) {
+            sortableUl.append('<li class="placeholder min">&nbsp;</li>');
+        } else if(count < maxItems) {
+            sortableUl.append('<li class="placeholder max">&nbsp;</li>');
+        }
 
     }
 
