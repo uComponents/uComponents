@@ -52,9 +52,7 @@
 /* SOURCE LIST */
 .xpath-sortable-list ul.source-list li
 {
-    /* default to inactive state */
-    opacity: 0.5;
-    background-color:#F6F6FA;
+    display:none; /* li not marked as active are hidden by default */
 
     padding-left:0; /* to pull the anchor all the way to the left */
 }
@@ -69,16 +67,13 @@
      color:black;
 
      padding-left:5px; /* indent the text, rather than a default margin */
-
-     /*default to inactive state */
-     cursor:default;
 }
 
 /* activate */
 .xpath-sortable-list ul.source-list li.active
 {
-    opacity: 1;
-    background-color:white;
+    display:block;
+    /*background-color:white;*/
 }
 
 .xpath-sortable-list ul.source-list li.active a:hover
