@@ -89,6 +89,7 @@ var XPathSortableList = XPathSortableList || (function () {
 
         // make list sortable
         sortableUl.sortable({
+            items: 'li:not(.placeholder)',
             axis: 'y',
             update: function (event, ui) {
                 updateHidden(sortableUl, hidden, type);
@@ -114,19 +115,20 @@ var XPathSortableList = XPathSortableList || (function () {
         var maxItems = div.data('max-items');
         var allowDuplicates = (div.data('allow-duplicates') === 'True');
         
-        
-        if (allowDuplicates || sortableUl.children('li[data-value=' + selectedLi.data('value') + ']').length == 0) {
+        // ensure won't exceed the max allowed
+        if (maxItems == 0 || sortableUl.children('li:not(.placeholder)').length < maxItems) {
 
-            // TODO: ensure not over the max allowed
+            if (allowDuplicates || sortableUl.children('li[data-value=' + selectedLi.data('value') + ']').length == 0) {
 
-            if (!allowDuplicates) {
-                selectedLi.removeClass('active');
+                if (!allowDuplicates) {
+                    selectedLi.removeClass('active');
+                }
+
+                addSortableListItem(sortableUl, selectedLi.data('text'), selectedLi.data('value'));
+
+                updateHidden(sortableUl, hidden, type);
             }
-            
-            addSortableListItem(sortableUl, selectedLi.data('text'), selectedLi.data('value'));
         }
-
-        updateHidden(sortableUl, hidden, type);
     }
     
     // public

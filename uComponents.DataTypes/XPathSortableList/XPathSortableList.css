@@ -115,5 +115,6 @@
 
 .xpath-sortable-list li.placeholder.max 
 {
+    height:23px;
     border:0;
 }
