@@ -9,6 +9,8 @@ using System.Web;
 
 namespace uComponents.DataTypes.XPathSortableList
 {
+    using System.Linq;
+
     /// <summary>
     /// Prevalue Editor for XPath AutoComplete
     /// </summary>
@@ -34,15 +36,36 @@ namespace uComponents.DataTypes.XPathSortableList
         /// </summary>
         private CustomValidator xPathCustomValidator = new CustomValidator();
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private TextBox sortExpressionTextBox = new TextBox();
+
+        /// <summary>
+        /// Use an optional thumbnail from a property
+        /// </summary>
+        private DropDownList thumbnailPropertyDropDownList = new DropDownList();
+
         /// <summary>
         /// Min number of items that must be selected - defaults to 0
         /// </summary>
         private TextBox minItemsTextBox = new TextBox();
 
         /// <summary>
+        /// Custom validator to ensure that if relevant, then min items is less than or equal to max items
+        /// </summary>
+        private CustomValidator minItemsCustomValidator = new CustomValidator();
+
+        /// <summary>
         /// Max number of items that can be selected - defaults to 0 (anything that's not a +ve integer imposes no limit)
         /// </summary>
         private TextBox maxItemsTextBox = new TextBox();
+
+        /// <summary>
+        /// If max items is set (ie not 0) then it must be greater than min items
+        /// </summary>
+        private CustomValidator maxItemsCustomValidator = new CustomValidator();
 
         /// <summary>
         /// if enabled then the same item can be seleted multiple times
@@ -106,17 +129,25 @@ namespace uComponents.DataTypes.XPathSortableList
 
             this.xPathCustomValidator.ControlToValidate = this.xPathTextBox.ID;
             this.xPathCustomValidator.Display = ValidatorDisplay.Dynamic;
-            this.xPathCustomValidator.ServerValidate += new ServerValidateEventHandler(this.XPathCustomValidator_ServerValidate);
+            this.xPathCustomValidator.ServerValidate += this.XPathCustomValidator_ServerValidate;
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
             this.minItemsTextBox.Width = 30;
             this.minItemsTextBox.MaxLength = 2;
             this.minItemsTextBox.AutoCompleteType = AutoCompleteType.None;
 
+            this.minItemsCustomValidator.ControlToValidate = this.minItemsTextBox.ID;
+            this.minItemsCustomValidator.Display = ValidatorDisplay.Dynamic;
+            this.minItemsCustomValidator.ServerValidate += this.MinItemsCustomValidatorServerValidate;
+
             this.maxItemsTextBox.ID = "maxSelectionItemsTextBox";
             this.maxItemsTextBox.Width = 30;
             this.maxItemsTextBox.MaxLength = 2;
             this.maxItemsTextBox.AutoCompleteType = AutoCompleteType.None;
+
+            this.maxItemsCustomValidator.ControlToValidate = this.maxItemsTextBox.ID;
+            this.maxItemsCustomValidator.Display = ValidatorDisplay.Dynamic;
+            this.maxItemsCustomValidator.ServerValidate += this.MaxItemsCustomValidator_ServerValidate;
 
             this.allowDuplicatesCheckBox.ID = "allowDuplicatesCheckBox";
 
@@ -126,7 +157,9 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.xPathRequiredFieldValidator,
                 this.xPathCustomValidator,
                 this.minItemsTextBox,
+                this.minItemsCustomValidator,
                 this.maxItemsTextBox,
+                this.maxItemsCustomValidator,
                 this.allowDuplicatesCheckBox);
         }
 
@@ -155,8 +188,28 @@ namespace uComponents.DataTypes.XPathSortableList
             string xpath = args.Value;
             bool isValid = false;
 
+            uQuery.UmbracoObjectType umbracoObjectType = uQuery.GetUmbracoObjectType(new Guid(this.typeRadioButtonList.SelectedValue));
+
             try
             {
+                switch (umbracoObjectType)
+                {
+                    case uQuery.UmbracoObjectType.Document:
+
+                        uQuery.GetNodesByXPath(xpath);
+                        break;
+
+                    case uQuery.UmbracoObjectType.Media:
+
+                        uQuery.GetMediaByXPath(xpath);
+                        break;
+
+                    case uQuery.UmbracoObjectType.Member:
+
+                        uQuery.GetMembersByXPath(xpath);
+                        break;
+                }
+
                 isValid = true;
             }
             catch
@@ -166,6 +219,79 @@ namespace uComponents.DataTypes.XPathSortableList
 
             args.IsValid = isValid;
         }
+
+        private void MinItemsCustomValidatorServerValidate(object source, ServerValidateEventArgs args)
+        {            
+            bool isValid = false;
+
+            int minItems;
+            int maxItems;
+
+            if (int.TryParse(args.Value, out minItems))
+            {
+                if (minItems >= 0)
+                {
+                    if (int.TryParse(this.maxItemsTextBox.Text, out maxItems))
+                    {
+                        if (minItems <= maxItems || maxItems == 0)
+                        {
+                            isValid = true;
+                        }
+                        else
+                        {
+                            this.minItemsCustomValidator.ErrorMessage = " Min Items must be less than or equal to Max Items";            
+                        }
+                    }
+                }
+                else
+                {
+                    this.minItemsCustomValidator.ErrorMessage = " Min Items must be 0 or greater";
+                }
+            }
+            else
+            {
+                this.minItemsCustomValidator.ErrorMessage = " Min Items must be a number";
+            }
+
+            args.IsValid = isValid;
+        }
+
+        private void MaxItemsCustomValidator_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            bool isValid = false;
+
+            int minItems;
+            int maxItems;
+
+            if (int.TryParse(args.Value, out maxItems))
+            {
+                if (maxItems >= 0)
+                {
+                    if (int.TryParse(this.minItemsTextBox.Text, out minItems))
+                    {
+                        if (maxItems >= minItems || maxItems == 0)
+                        {
+                            isValid = true;
+                        }
+                        else
+                        {
+                            this.maxItemsCustomValidator.ErrorMessage = " Max Items must be greater than or equal to Min Items";
+                        }
+                    }
+                }
+                else
+                {
+                    this.maxItemsCustomValidator.ErrorMessage = " Max Items must be 0 or greater";
+                }
+            }
+            else
+            {
+                this.maxItemsCustomValidator.ErrorMessage = " Max Items must be a number";
+            }
+
+            args.IsValid = isValid;
+        }
+
 
         /// <summary>
         /// Saves the pre value data to Umbraco
@@ -200,8 +326,8 @@ namespace uComponents.DataTypes.XPathSortableList
         {
             writer.AddPrevalueRow("Type", @"the xml schema to query", this.typeRadioButtonList);
             writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
-            writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox);
-            writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox);
+            writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
+            writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator);
             writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate values can be selected", this.allowDuplicatesCheckBox);
         }
     }
