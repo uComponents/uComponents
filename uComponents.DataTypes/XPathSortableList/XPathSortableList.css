@@ -36,6 +36,18 @@
 }
 
 
+.xpath-sortable-list.thumbnails li
+{
+    height:50px;
+}
+
+.xpath-sortable-list.thumbnails img
+{
+    float:left;
+    margin-right:2px;
+    border-right:1px dotted #dcd;
+}
+
 
 /* SOURCE LIST */
 .xpath-sortable-list ul.source-list li

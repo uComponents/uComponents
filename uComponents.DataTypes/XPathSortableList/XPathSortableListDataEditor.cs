@@ -16,6 +16,7 @@ using umbraco.cms.businesslogic.property;
 using umbraco.editorControls;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
+using umbraco.cms.businesslogic;
 
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", Constants.MediaTypeNames.Application.JavaScript)]
@@ -75,17 +76,6 @@ namespace uComponents.DataTypes.XPathSortableList
         }
 
         /// <summary>
-        /// Gets the property / datatypedefinition id - used to identify the current instance
-        /// </summary>
-        private int DataTypeDefinitionId
-        {
-            get
-            {
-                return ((XmlData)this.data).DataTypeDefinitionId;
-            }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether [treat as rich text editor].
         /// </summary>
         /// <value>
@@ -137,6 +127,11 @@ namespace uComponents.DataTypes.XPathSortableList
                         case uQuery.UmbracoObjectType.Document:
 
                             sourceData = uQuery.GetNodesByXPath(this.options.XPath).Where(x => x.Id != -1).ToNameIds();
+                            //sourceData = uQuery.GetNodesByXPath(this.options.XPath)
+                            //                    .Where(x => x.Id != -1)
+                            //                    .Select(x => new KeyValuePair<int, string>(x.Id, x.Path))
+                            //                    .ToDictionary(x => x.Key, x => x.Value);
+
                             break;
 
                         case uQuery.UmbracoObjectType.Media:
@@ -160,7 +155,15 @@ namespace uComponents.DataTypes.XPathSortableList
         /// </summary>
         protected override void CreateChildControls()
         {
-            this.div.Attributes.Add("class", "xpath-sortable-list");
+            if (!string.IsNullOrEmpty(this.options.ThumbnailProperty))
+            {
+                this.div.Attributes.Add("class", "xpath-sortable-list thumbnails");
+            }
+            else
+            {
+                this.div.Attributes.Add("class", "xpath-sortable-list");
+            }
+            
             this.div.Attributes.Add("data-min-items", this.options.MinItems.ToString());
             this.div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
             this.div.Attributes.Add("data-allow-duplicates", this.options.AllowDuplicates.ToString());
@@ -248,7 +251,7 @@ namespace uComponents.DataTypes.XPathSortableList
         }
 
         /// <summary>
-        /// using the data in the hidden field, the source list itesm are generated (this markup is the also the data source for the js)
+        /// generates the source list markup
         /// </summary>
         private void PopulateSourceList()
         {
@@ -268,8 +271,28 @@ namespace uComponents.DataTypes.XPathSortableList
                 a.Attributes.Add("class", "add");
                 a.Attributes.Add("title", "add");
                 a.Attributes.Add("href", "javascript:void(0);");
-                a.Attributes.Add("onclick", "XPathSortableList.addItem(this);");
-                a.InnerText = dataItem.Value;
+                a.Attributes.Add("onclick", "XPathSortableList.addItem(this);");                
+
+                if (!string.IsNullOrEmpty(this.options.ThumbnailProperty))
+                {                    
+                    // for the given id, find a property by alias, and see if there's a string value - this id could be a document / media or member
+                    umbraco.cms.businesslogic.Content contentNode = new umbraco.cms.businesslogic.Content(dataItem.Key);
+                    umbraco.cms.businesslogic.property.Property thumbnailProperty = contentNode.getProperty(this.options.ThumbnailProperty);
+
+
+                    if (thumbnailProperty != null && thumbnailProperty.Value is string)
+                    {
+                        // add imag tag
+                        a.Controls.Add(new HtmlImage() 
+                                            { 
+                                                Src = (string)thumbnailProperty.Value,
+                                                Height = 50,
+                                                Width = 50,                                                
+                                            });
+                    }
+                }
+
+                a.Controls.Add(new Literal() { Text = dataItem.Value });
 
                 li.Controls.Add(a);
                 this.sourceListUl.Controls.Add(li);

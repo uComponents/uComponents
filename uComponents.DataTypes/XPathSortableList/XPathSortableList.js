@@ -1,13 +1,19 @@
 ﻿/*
-    <div id="body_prop_xPathSortableListDocuments_ct100" class="xpath-sortable-list" 
+    <!-- made server side -->
+
+    <div id="body_prop_xPathSortableListDocuments_ct100" class="xpath-sortable-list (thumbnails)" 
          data-min-items="1"          
          data-max-items="3"
          data-allow-duplicates="false"
          data-type="">
  
         <ul class="source-list propertypane">            
-            <li class="active" data-text="ABC" data-value="1">                
+            <li class="(active)" data-text="ABC" data-value="1">                
                 <a class="add" title="add" href="javascript:void(0);" onclick="XPathSortableList.addItem(this);">
+
+
+<img src="......" />
+
                     ABC
                 </a>
             </li>
@@ -18,6 +24,9 @@
                 </a>)
             </li>
         </ul>
+
+        
+        <!-- made client side -->
 
         <ul class="sortable-list propertypane">
             <li data-value="1">
@@ -34,7 +43,8 @@
 
     </div>
 
-----------
+
+    <!-- xml format -->
 
     <XPathSortableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
         <Item Value="1" />
@@ -104,7 +114,7 @@ var XPathSortableList = XPathSortableList || (function () {
 
         // dom
         var selectedLi = jQuery(a).parentsUntil('ul.source-list', 'li');
-        var div = selectedLi.parents('div.xpath-sortable-list:first');
+        var div = selectedLi.closest('div.xpath-sortable-list');
 
         var sortableUl = div.find('ul.sortable-list:first');
         var hidden = div.find('input:hidden:first');
@@ -200,6 +210,8 @@ var XPathSortableList = XPathSortableList || (function () {
 
         var count = sortableUl.children('li:not(.placeholder)').length;
         if (count < minItems) {
+
+            // TODO: insert a min placeholder after the first non placeholder (or start)
             sortableUl.append('<li class="placeholder min">&nbsp;</li>');
         } else if(count < maxItems) {
             sortableUl.append('<li class="placeholder max">&nbsp;</li>');
