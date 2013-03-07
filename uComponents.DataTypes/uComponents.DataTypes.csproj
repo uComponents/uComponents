@@ -288,6 +288,8 @@
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValue.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValueRow.cs" />
+    <Compile Include="DataTypeGrid\Validators\ClientSideRequiredFieldValidator.cs" />
+    <Compile Include="DataTypeGrid\Validators\ClientSideRegexValidator.cs" />
     <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -505,7 +507,9 @@
     <EmbeddedResource Include="UrlPicker\UrlPickerStyles.css" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DataTypeGrid\Configuration\DataTypeGrid.config" />
+    <EmbeddedResource Include="DataTypeGrid\Configuration\DataTypeGrid.config">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataTypeGrid\Configuration\DtgConfiguration.resx">

@@ -24,12 +24,14 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
+    using System.ComponentModel;
     using System.Web;
 
     using uComponents.DataTypes.DataTypeGrid.Constants;
     using uComponents.DataTypes.DataTypeGrid.Extensions;
     using uComponents.DataTypes.DataTypeGrid.Functions;
     using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
+    using uComponents.DataTypes.DataTypeGrid.Validators;
 
     using umbraco;
 
@@ -585,29 +587,30 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             var control = parent.FindControl(config.Value.DataEditor.Editor.ID);
 
-            var title = config.Name;
-
             // If the name starts with a hash, get the dictionary item
             if (config.Name.StartsWith("#"))
             {
                 var key = config.Name.Substring(1, config.Name.Length - 1);
 
-                title = uQuery.GetDictionaryItem(key, key);
+                config.Name = uQuery.GetDictionaryItem(key, key);
             }
 
             // Mandatory
             if (this.StoredPreValues.Single(x => x.Alias == config.Alias).Mandatory && control != null)
             {
-                var validator = new RequiredFieldValidator()
-                                    {
-                                        ID = name + config.Alias + "_Required_" + list.IndexOf(config),
-                                        Enabled = false,
-                                        CssClass = "validator",
-                                        ControlToValidate = control.ID,
-                                        Display = ValidatorDisplay.Dynamic,
-                                        ErrorMessage = title + " is mandatory"
-                                    };
-                parent.Controls.Add(validator);
+                try
+                {
+                    var wrapper = new Panel();
+
+                    var validator = new ClientSideRequiredFieldValidator(name, config, false);
+
+                    wrapper.Controls.Add(validator);
+                    parent.Controls.Add(wrapper);
+                }
+                catch (Exception ex)
+                {
+                    HttpContext.Current.Trace.Warn("DataTypeGrid", "EditorControl (" + config.Value.DataTypeName + ") does not support validation", ex);
+                }
             }
 
             // Regex
@@ -615,18 +618,16 @@ namespace uComponents.DataTypes.DataTypeGrid
             {
                 try
                 {
+                    var wrapper = new Panel();
+
                     var regex = new Regex(@StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression);
-                    var validator = new RegularExpressionValidator()
-                        {
-                            ID = name + config.Alias + "_Regex_" + list.IndexOf(config),
-                            Enabled = false,
-                            CssClass = "validator",
-                            ControlToValidate = control.ID,
-                            Display = ValidatorDisplay.Dynamic,
-                            ValidationExpression = regex.ToString(),
-                            ErrorMessage = title + " is not in a correct format"
-                        };
-                    parent.Controls.Add(validator);
+                    var validator = new ClientSideRegexValidator(name, config, false)
+                                        {
+                                            ValidationExpression = regex.ToString()
+                                        };
+
+                    wrapper.Controls.Add(validator);
+                    parent.Controls.Add(wrapper);
                 }
                 catch (ArgumentException ex)
                 {
@@ -679,7 +680,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.InsertControls.Controls.Add(title);
 
                 InsertControls.Controls.Add(control);
-                GenerateValidationControls(InsertControls, "Insert", config, InsertDataTypes);
+                GenerateValidationControls(InsertControls, "insert", config, InsertDataTypes);
 
                 InsertControls.Controls.Add(new LiteralControl("</li>"));
             }
@@ -772,7 +773,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.EditControls.Controls.Add(title);
 
                 this.EditControls.Controls.Add(control);
-                this.GenerateValidationControls(this.EditControls, "Edit", config, this.EditDataTypes);
+                this.GenerateValidationControls(this.EditControls, "edit", config, this.EditDataTypes);
 
                 this.EditControls.Controls.Add(new LiteralControl("</li>"));
             }

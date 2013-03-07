@@ -31,14 +31,6 @@
         $(this).addClass("ui-state-active ui-state-focus");
     });
 
-    // Fix for richtexteditor
-    $(".updateButton, .insertButton").live('click', function () {
-
-        $(".InsertControls .mceEditor").each(function () {
-            $(this).siblings("textarea.tinymceContainer").val($(this).find(".mceContentBody").html());
-        });
-    });
-
     $(".InsertControls").dialog({
         autoOpen: false,
         width: 436,
@@ -149,12 +141,98 @@
 function EnableValidators(elem, enabled) {
     // Enable validators
     var validators = $(elem).find(".validator");
+    
     if (validators.length > 0) {
         $.each(validators, function () {
+            // Check if validation scripts are enabled
             if ($.isFunction(ValidatorEnable)) {
-                ValidatorEnable(document.getElementById($(this).attr("id")), enabled);
+                var e = document.getElementById($(this).attr("id"));
+                
+                // Check if an element exist with the specified id
+                if (e) {
+                    ValidatorEnable(e, enabled);
+                }
             }
         });
+    }
+}
+
+function RequiredFieldValidate(source, args) {
+    var controlToValidate = document.getElementById($(source).data("controltovalidate"));
+    var validationProperty = $(source).data("validationproperty");
+    
+    if (controlToValidate) {
+        // Register change events
+        if ($(controlToValidate).data("changeeventsattached-required") != true) {
+            $(controlToValidate).bind("change keyup", function() {
+                ValidatorValidate(source);
+            });
+
+            $(controlToValidate).data("changeeventsattached-required", true);
+        }
+        
+        // Set up HTML5 validation if browser supports it
+        if (typeof document.createElement('input').checkValidity == 'function') {
+            $(controlToValidate).attr("required", "required");
+        } 
+            
+        var value = "";
+
+        if (validationProperty == "Text") {
+            value = $(controlToValidate).val();
+        } else if (validationProperty == "Value") {
+            value = $(controlToValidate).val();
+        } else {
+            value = $(controlToValidate).attr(validationProperty);
+        }
+
+        if (!value) {
+            args.IsValid = false;
+
+            return;
+        }
+
+        args.IsValid = true;
+    }
+}
+
+function RegexValidate(source, args) {
+    var controlToValidate = document.getElementById($(source).data("controltovalidate"));
+    var validationProperty = $(source).data("validationproperty");
+    var validationExpression = $(source).data("validationexpression");
+
+    if (controlToValidate) {
+        // Register change events
+        if ($(controlToValidate).data("changeeventsattached-regex") != true) {
+            $(controlToValidate).bind("change keyup", function () {
+                ValidatorValidate(source);
+            });
+
+            $(controlToValidate).data("changeeventsattached-regex", true);
+        }
+        
+        // Set up HTML5 validation if browser supports it
+        if (typeof document.createElement('input').checkValidity == 'function') {
+            $(controlToValidate).attr("pattern", validationExpression);
+        }
+        
+        var value = "";
+        
+        if (validationProperty == "Text") {
+            value = $(controlToValidate).val();
+        } else if (validationProperty == "Value") {
+            value = $(controlToValidate).val();
+        } else {
+            value = $(controlToValidate).attr(validationProperty);
+        }
+
+        if (!new RegExp(validationExpression).test(value)) {
+            args.IsValid = false;
+
+            return;
+        }
+
+        args.IsValid = true;
     }
 }
 

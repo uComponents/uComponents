@@ -1,11 +1,14 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using System.Web.UI;
+
     using Umbraco.Core.Models;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco;
     using umbraco.editorControls.mediapicker;
+    using umbraco.interfaces;
 
     /// <summary>a
     /// Factory for the <see cref="MemberPickerDataType"/>
@@ -59,6 +62,19 @@
             }
 
             return default(Media);
+        }
+
+        /// <summary>
+        /// Method for getting the control to use when validating the specified <see cref="IDataType" />.
+        /// </summary>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="editorControl">The <see cref="IDataType" /> editor control.</param>
+        /// <returns>The control to validate.</returns>
+        public override Control GetControlToValidate(MemberPickerDataType dataType, Control editorControl)
+        {
+            var value = editorControl.Controls[0];
+
+            return value;
         }
     }
 }
