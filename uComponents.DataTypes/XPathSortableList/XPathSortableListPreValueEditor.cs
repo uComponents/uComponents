@@ -208,6 +208,7 @@ namespace uComponents.DataTypes.XPathSortableList
             }
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -362,9 +363,14 @@ namespace uComponents.DataTypes.XPathSortableList
             writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
             writer.AddPrevalueRow("Thumbnail Property", "if not empty - expects a property containing a string url (todo: fallback to media id/umbracoFile)", this.thumbnailPropertyDropDown);
 
-            // toggle visibility of thumbnail size radio button based on if a thumbnail property has been selected
-            if (!string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue))
+            this.thumbnailSizeRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue);
+            if (this.thumbnailSizeRadioButtonList.Visible)
             {
+                if (string.IsNullOrWhiteSpace(this.thumbnailSizeRadioButtonList.SelectedValue))
+                {
+                    this.thumbnailSizeRadioButtonList.SelectedValue = this.Options.ThumbnailSize.ToString();
+                }
+
                 writer.AddPrevalueRow("Thumbnail Size", this.thumbnailSizeRadioButtonList);
             }
             
