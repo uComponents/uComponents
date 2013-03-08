@@ -1,4 +1,4 @@
-﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
+﻿namespace uComponents.DataTypes.DataTypeGrid.Factories.DataTypes
 {
     using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.EnumDropDownList;

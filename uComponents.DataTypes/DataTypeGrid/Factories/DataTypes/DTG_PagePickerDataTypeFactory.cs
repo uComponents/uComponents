@@ -1,20 +1,18 @@
-﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
+﻿namespace uComponents.DataTypes.DataTypeGrid.Factories.DataTypes
 {
     using System.Web.UI;
 
-    using Umbraco.Core.Models;
-
     using uComponents.DataTypes.DataTypeGrid.Model;
 
-    using umbraco;
-    using umbraco.editorControls.mediapicker;
+    using umbraco.editorControls.pagepicker;
+    using umbraco.NodeFactory;
     using umbraco.interfaces;
 
     /// <summary>a
-    /// Factory for the <see cref="MemberPickerDataType"/>
+    /// Factory for the <see cref="PagePickerDataTypeFactory"/>
     /// </summary>
     [DataTypeFactory(Priority = -1)]
-    public class MediaPickerDataTypeFactory : BaseDataTypeFactory<MemberPickerDataType>
+    public class PagePickerDataTypeFactory : BaseDataTypeFactory<PagePickerDataType>
     {
         /// <summary>
         /// Method for customizing the way the <paramref name="dataType" /> value is displayed in the grid.
@@ -22,25 +20,23 @@
         /// <remarks>Called when the grid displays the cell value for the specified <paramref name="dataType" />.</remarks>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The display value.</returns>
-        public override string GetDisplayValue(MemberPickerDataType dataType)
+        public override string GetDisplayValue(PagePickerDataType dataType)
         {
-            var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
-
-            int id;
-            int.TryParse(value, out id);
-
-            if (id > 0)
+            if (dataType.Data.Value != null)
             {
-                var m = uQuery.GetMedia(id);
+                int id;
 
-                // Return thumbnail if media type is Image
-                if (m != null && m.ContentType.Alias.Equals("Image"))
+                if (int.TryParse(dataType.Data.Value.ToString(), out id))
                 {
-                    return string.Format("<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>", m.GetImageThumbnailUrl(), m.Text, m.Id);
+                    var node = new Node(id);
+
+                    return string.Format("<a href='editContent.aspx?id={0}' title='Edit content'>{1}</a>", node.Id, node.Name);
                 }
+
+                return dataType.Data.Value.ToString();
             }
 
-            return value;
+            return string.Empty;
         }
 
         /// <summary>
@@ -49,19 +45,19 @@
         /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()"/> method is called on a <see cref="GridCell"/>.</remarks>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The backing object.</returns>
-        public override object GetObject(MemberPickerDataType dataType)
+        public override object GetObject(PagePickerDataType dataType)
         {
-            var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
-
-            int id;
-            int.TryParse(value, out id);
-
-            if (id > 0)
+            if (dataType.Data.Value != null)
             {
-                return uQuery.GetMedia(id);
+                int id;
+
+                if (int.TryParse(dataType.Data.Value.ToString(), out id))
+                {
+                    return new Node(id);
+                }
             }
 
-            return default(Media);
+            return default(Node);
         }
 
         /// <summary>
@@ -70,7 +66,7 @@
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
         /// <param name="editorControl">The <see cref="IDataType" /> editor control.</param>
         /// <returns>The control to validate.</returns>
-        public override Control GetControlToValidate(MemberPickerDataType dataType, Control editorControl)
+        public override Control GetControlToValidate(PagePickerDataType dataType, Control editorControl)
         {
             var value = editorControl.Controls[0];
 

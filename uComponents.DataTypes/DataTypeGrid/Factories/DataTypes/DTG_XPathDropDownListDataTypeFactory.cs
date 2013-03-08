@@ -1,4 +1,4 @@
-﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
+﻿namespace uComponents.DataTypes.DataTypeGrid.Factories.DataTypes
 {
     using System;
     using System.Reflection;
@@ -7,10 +7,8 @@
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco;
-    using umbraco.cms.businesslogic.member;
     using umbraco.editorControls.XPathDropDownList;
     using umbraco.interfaces;
-    using umbraco.NodeFactory;
 
     using Umbraco.Web;
 

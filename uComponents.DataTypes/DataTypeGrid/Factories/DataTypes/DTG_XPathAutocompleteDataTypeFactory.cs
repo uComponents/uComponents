@@ -1,10 +1,8 @@
-﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
+﻿namespace uComponents.DataTypes.DataTypeGrid.Factories.DataTypes
 {
     using System;
-    using System.Linq;
     using System.Xml;
 
-    using uComponents.DataTypes.DataTypeGrid.Constants;
     using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.XPathAutoComplete;
 
