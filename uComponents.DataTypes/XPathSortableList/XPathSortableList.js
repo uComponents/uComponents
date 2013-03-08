@@ -91,9 +91,12 @@ var XPathSortableList = XPathSortableList || (function () {
             jQuery(xml).find('Item').each(function (index, element) {
 
                 var value = jQuery(element).attr('Value');
-                var text = sourceUl.children('li[data-value=' + value + ']:first').data('text');
 
-                addSortableListItem(sortableUl, text, value);
+                var li = sourceUl.children('li[data-value=' + value + ']:first');
+                var text = li.data('text');
+                var img = li.find('img:first');
+
+                addSortableListItem(sortableUl, text, value, img);
             });
         }
 
@@ -134,7 +137,7 @@ var XPathSortableList = XPathSortableList || (function () {
                     selectedLi.removeClass('active');
                 }
 
-                addSortableListItem(sortableUl, selectedLi.data('text'), selectedLi.data('value'));
+                addSortableListItem(sortableUl, selectedLi.data('text'), selectedLi.data('value'), selectedLi.find('img:first'));
 
                 updateHidden(sortableUl, hidden, type);
             }
@@ -167,15 +170,16 @@ var XPathSortableList = XPathSortableList || (function () {
 
 
     // adds an li to the sortable list
-    function addSortableListItem(sortableUl, text, value) {
+    function addSortableListItem(sortableUl, text, value, img) {
 
         //TODO: if there's an existing li of type placeholder? then remove it
 
         // handle placeholder <li>s
-        var li = '<li data-value="' + value + '">' +
+        var li = jQuery('<li data-value="' + value + '">' +
                             text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
-                 '</li>';
+                 '</li>');
 
+        li.prepend(img.clone());
 
         // if there are any placeholders - replace the first one in the list
         var placeholder = sortableUl.children('li.placeholder')[0];
