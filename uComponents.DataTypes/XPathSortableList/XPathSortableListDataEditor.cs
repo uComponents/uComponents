@@ -27,6 +27,8 @@ namespace uComponents.DataTypes.XPathSortableList
 {
     using System.Text.RegularExpressions;
 
+    using umbraco.cms.businesslogic.member;
+
     /// <summary>
     /// DataEditor for the XPath AutoComplete data-type.
     /// </summary>
@@ -211,18 +213,37 @@ namespace uComponents.DataTypes.XPathSortableList
                                 this.sourceData.Add(mediaItem.Id, text);
                             }
 
-
-                        
-                            //sourceData = uQuery.GetMediaByXPath(this.options.XPath).Where(x => x.Id != -1).ToNameIds();
                             break;
 
                         case uQuery.UmbracoObjectType.Member:
 
-                            sourceData = uQuery.GetMembersByXPath(this.options.XPath).ToNameIds();
+                            foreach (Member member in uQuery.GetMembersByXPath(this.options.XPath))
+                            {
+                                string text = this.options.TextTemplate;
+
+                                foreach (string tokenName in tokenNames)
+                                {
+                                    string value;
+                                    switch (tokenName)
+                                    {
+                                        case "Name":
+                                            value = member.Text;
+                                            break;
+
+                                        default:
+                                            value = member.GetProperty<string>(tokenName);
+                                            break;
+                                    }
+
+                                    text = text.Replace("{{" + tokenName + "}}", value);
+
+                                }
+
+                                this.sourceData.Add(member.Id, text);
+                            }
+
                             break;
                     }
-
-
                 }
 
                 return this.sourceData;
