@@ -24,7 +24,6 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
-    using System.ComponentModel;
     using System.Web;
 
     using uComponents.DataTypes.DataTypeGrid.Constants;
@@ -818,7 +817,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.GenerateEditControls();
 
             ScriptManager.RegisterClientScriptBlock(
-                this, GetType(), "OpenEditDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
+                this,
+                GetType(),
+                "OpenEditDialog_" + this.ID,
+                "$(function() {$('#" + this.ClientID + "_ctrlEdit').uComponents().datatypegrid('openDialog'); });",
+                true);
         }
 
         /// <summary>
@@ -901,7 +904,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.ClearControls();
 
             ScriptManager.RegisterClientScriptBlock(
-                this, GetType(), "OpenInsertDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
+                this, 
+                GetType(), 
+                "OpenInsertDialog_" + this.ID,
+                "$(function() {$('#" + this.ClientID + "_ctrlInsert').uComponents().datatypegrid('openDialog'); });",
+                true);
         }
 
         /// <summary>
