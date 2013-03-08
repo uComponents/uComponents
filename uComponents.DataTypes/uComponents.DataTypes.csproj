@@ -434,6 +434,10 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
+    <Compile Include="XPathChildNodePicker\XPathChildNodePickerDataEditor.cs" />
+    <Compile Include="XPathChildNodePicker\XPathChildNodePickerDataType.cs" />
+    <Compile Include="XPathChildNodePicker\XPathChildNodePickerOptions.cs" />
+    <Compile Include="XPathChildNodePicker\XPathChildNodePickerPrevalueEditor.cs" />
     <Compile Include="XPathSortableList\ThumbnailSize.cs" />
     <Compile Include="XPathSortableList\ThumbnailSizeAttribute.cs" />
     <Compile Include="XPathSortableList\XPathSortableListDataEditor.cs" />
