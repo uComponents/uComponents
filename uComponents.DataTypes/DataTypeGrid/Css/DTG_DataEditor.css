@@ -111,26 +111,6 @@
 	color: #ffffff;
 }
 
-.dtg table.display {
-	table-layout: fixed;
-}
-
-.dtg table.display thead th 
-{
-	padding: 4px 0 3px 10px;
-	cursor: pointer;
-	color: #333333;
-}
-
-.dtg table.display thead th .ui-icon {
-	margin-top: -2px;
-}
-
-.dtg table.display thead th:first-child,
-.dtg table.display tbody td:first-child {
-	min-width: 117px;
-}
-
 .dtg .dataTables_processing 
 {
 	position: absolute;
@@ -199,12 +179,23 @@
 	text-decoration: none;
 }
 
-.dtg table.display 
-{
+.dtg table.display {
+	table-layout: fixed;
 	width: 100% !important;
 	min-width: 500px;
 	clear: both;
 	border-collapse: collapse;
+}
+
+.dtg table.display thead th 
+{
+	padding: 4px 0 3px 10px;
+	cursor: pointer;
+	color: #333333;
+}
+
+.dtg table.display thead th .ui-icon {
+	margin-top: -2px;
 }
 
 .dtg table.display td {

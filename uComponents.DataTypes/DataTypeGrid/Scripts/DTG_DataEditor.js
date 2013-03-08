@@ -160,6 +160,8 @@ function RegexValidate(source, args) {
                 return $(this).val();
             } else if ($(this).is("input") && validationProperty == "Value") {
                 return $(this).val();
+            } else if ($(this).is("select") && validationProperty == "SelectedItem") {
+                return $(this).val();
             }
 
             // The control to validate does not support validation
