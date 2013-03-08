@@ -1,4 +1,4 @@
-﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
+﻿namespace uComponents.DataTypes.DataTypeGrid.Factories.DataTypes
 {
     using System.Linq;
 
@@ -6,7 +6,6 @@
 
     using umbraco;
     using umbraco.editorControls.listbox;
-    using umbraco.interfaces;
 
     /// <summary>
     /// Factory for the <see cref="ListBoxDataType"/>
