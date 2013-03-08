@@ -42,6 +42,21 @@ namespace uComponents.DataTypes.XPathSortableList
         public string XPath { get; set; }
 
         /// <summary>
+        /// Gets or sets the alias to a property that is a string url
+        /// </summary>
+        [DefaultValue("")]
+        public string ThumbnailProperty { get; set; }
+
+        [DefaultValue(ThumbnailSize.Medium)]
+        public ThumbnailSize ThumbnailSize { get; set; }
+
+        /// <summary>
+        /// Gets or set a handlebars syntax template, used for the text field of each list item
+        /// </summary>
+        [DefaultValue("{{Name}}")]
+        public string TextTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets the min items.
         /// </summary>
         /// <value>The min items.</value>

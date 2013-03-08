@@ -9,6 +9,10 @@ using System.Web;
 
 namespace uComponents.DataTypes.XPathSortableList
 {
+    using System.Linq;
+
+    using umbraco.macroRenderings;
+
     /// <summary>
     /// Prevalue Editor for XPath AutoComplete
     /// </summary>
@@ -35,14 +39,37 @@ namespace uComponents.DataTypes.XPathSortableList
         private CustomValidator xPathCustomValidator = new CustomValidator();
 
         /// <summary>
+        /// Use an optional thumbnail from a property alias
+        /// </summary>
+        private propertyTypePicker thumbnailPropertyDropDown = new propertyTypePicker();
+
+
+        private RadioButtonList thumbnailSizeRadioButtonList = new RadioButtonList();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private TextBox textTemplateTextBox = new TextBox();
+
+        /// <summary>
         /// Min number of items that must be selected - defaults to 0
         /// </summary>
         private TextBox minItemsTextBox = new TextBox();
 
         /// <summary>
+        /// Custom validator to ensure that if relevant, then min items is less than or equal to max items
+        /// </summary>
+        private CustomValidator minItemsCustomValidator = new CustomValidator();
+
+        /// <summary>
         /// Max number of items that can be selected - defaults to 0 (anything that's not a +ve integer imposes no limit)
         /// </summary>
         private TextBox maxItemsTextBox = new TextBox();
+
+        /// <summary>
+        /// If max items is set (ie not 0) then it must be greater than min items
+        /// </summary>
+        private CustomValidator maxItemsCustomValidator = new CustomValidator();
 
         /// <summary>
         /// if enabled then the same item can be seleted multiple times
@@ -93,6 +120,7 @@ namespace uComponents.DataTypes.XPathSortableList
         protected override void CreateChildControls()
         {
             //radio buttons to select type of nodes that can be picked (Document, Media or Member)
+            this.typeRadioButtonList.ID = "typeRadioButtonList";
             this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Document.GetFriendlyName(), uQuery.UmbracoObjectType.Document.GetGuid().ToString()));
             this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Media.GetFriendlyName(), uQuery.UmbracoObjectType.Media.GetGuid().ToString()));
             this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Member.GetFriendlyName(), uQuery.UmbracoObjectType.Member.GetGuid().ToString()));
@@ -106,17 +134,36 @@ namespace uComponents.DataTypes.XPathSortableList
 
             this.xPathCustomValidator.ControlToValidate = this.xPathTextBox.ID;
             this.xPathCustomValidator.Display = ValidatorDisplay.Dynamic;
-            this.xPathCustomValidator.ServerValidate += new ServerValidateEventHandler(this.XPathCustomValidator_ServerValidate);
+            this.xPathCustomValidator.ServerValidate += this.XPathCustomValidator_ServerValidate;
+
+            this.thumbnailPropertyDropDown.ID = "thumbnailPropertyDropDown";
+            this.thumbnailPropertyDropDown.AutoPostBack = true;
+
+            this.thumbnailSizeRadioButtonList.ID = "thumbnailSizeRadioButtonList";
+            this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Small), ThumbnailSize.Small.ToString()));
+            this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Medium), ThumbnailSize.Medium.ToString()));
+            this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Large), ThumbnailSize.Large.ToString()));
+
+            this.textTemplateTextBox.ID = "textTemplateTextBox";
+            this.textTemplateTextBox.CssClass = "umbEditorTextField";
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
             this.minItemsTextBox.Width = 30;
             this.minItemsTextBox.MaxLength = 2;
             this.minItemsTextBox.AutoCompleteType = AutoCompleteType.None;
 
+            this.minItemsCustomValidator.ControlToValidate = this.minItemsTextBox.ID;
+            this.minItemsCustomValidator.Display = ValidatorDisplay.Dynamic;
+            this.minItemsCustomValidator.ServerValidate += this.MinItemsCustomValidatorServerValidate;
+
             this.maxItemsTextBox.ID = "maxSelectionItemsTextBox";
             this.maxItemsTextBox.Width = 30;
             this.maxItemsTextBox.MaxLength = 2;
             this.maxItemsTextBox.AutoCompleteType = AutoCompleteType.None;
+
+            this.maxItemsCustomValidator.ControlToValidate = this.maxItemsTextBox.ID;
+            this.maxItemsCustomValidator.Display = ValidatorDisplay.Dynamic;
+            this.maxItemsCustomValidator.ServerValidate += this.MaxItemsCustomValidator_ServerValidate;
 
             this.allowDuplicatesCheckBox.ID = "allowDuplicatesCheckBox";
 
@@ -125,8 +172,13 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.xPathTextBox,
                 this.xPathRequiredFieldValidator,
                 this.xPathCustomValidator,
+                this.thumbnailPropertyDropDown,
+                this.thumbnailSizeRadioButtonList,
+                this.textTemplateTextBox,
                 this.minItemsTextBox,
+                this.minItemsCustomValidator,
                 this.maxItemsTextBox,
+                this.maxItemsCustomValidator,
                 this.allowDuplicatesCheckBox);
         }
 
@@ -138,11 +190,22 @@ namespace uComponents.DataTypes.XPathSortableList
         {
             base.OnLoad(e);
 
-            this.typeRadioButtonList.SelectedValue = this.Options.Type;
-            this.xPathTextBox.Text = this.Options.XPath;
-            this.minItemsTextBox.Text = this.Options.MinItems.ToString();
-            this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
-            this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
+            if (!this.Page.IsPostBack)
+            {
+                this.typeRadioButtonList.SelectedValue = this.Options.Type;
+                this.xPathTextBox.Text = this.Options.XPath;
+
+                if (this.thumbnailPropertyDropDown.Items.Contains(new ListItem(this.Options.ThumbnailProperty)))
+                {
+                    this.thumbnailPropertyDropDown.SelectedValue = this.Options.ThumbnailProperty;
+                }
+
+                this.thumbnailSizeRadioButtonList.SelectedValue = this.Options.ThumbnailSize.ToString();
+                this.textTemplateTextBox.Text = this.Options.TextTemplate;
+                this.minItemsTextBox.Text = this.Options.MinItems.ToString();
+                this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
+                this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
+            }
         }
 
         /// <summary>
@@ -155,8 +218,20 @@ namespace uComponents.DataTypes.XPathSortableList
             string xpath = args.Value;
             bool isValid = false;
 
+            uQuery.UmbracoObjectType umbracoObjectType = uQuery.GetUmbracoObjectType(new Guid(this.typeRadioButtonList.SelectedValue));
+
             try
             {
+                switch (umbracoObjectType)
+                {
+                    case uQuery.UmbracoObjectType.Document: uQuery.GetNodesByXPath(xpath); 
+                        break;
+                    case uQuery.UmbracoObjectType.Media: uQuery.GetMediaByXPath(xpath);
+                        break;
+                    case uQuery.UmbracoObjectType.Member: uQuery.GetMembersByXPath(xpath);
+                        break;
+                }
+
                 isValid = true;
             }
             catch
@@ -167,6 +242,83 @@ namespace uComponents.DataTypes.XPathSortableList
             args.IsValid = isValid;
         }
 
+
+        // TODO: TextTemplateTextBoxCustomValidator
+
+
+        private void MinItemsCustomValidatorServerValidate(object source, ServerValidateEventArgs args)
+        {            
+            bool isValid = false;
+
+            int minItems;
+            int maxItems;
+
+            if (int.TryParse(args.Value, out minItems))
+            {
+                if (minItems >= 0)
+                {
+                    if (int.TryParse(this.maxItemsTextBox.Text, out maxItems))
+                    {
+                        if (minItems <= maxItems || maxItems == 0)
+                        {
+                            isValid = true;
+                        }
+                        else
+                        {
+                            this.minItemsCustomValidator.ErrorMessage = " Min Items must be less than or equal to Max Items";            
+                        }
+                    }
+                }
+                else
+                {
+                    this.minItemsCustomValidator.ErrorMessage = " Min Items must be 0 or greater";
+                }
+            }
+            else
+            {
+                this.minItemsCustomValidator.ErrorMessage = " Min Items must be a number";
+            }
+
+            args.IsValid = isValid;
+        }
+        
+        private void MaxItemsCustomValidator_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            bool isValid = false;
+
+            int minItems;
+            int maxItems;
+
+            if (int.TryParse(args.Value, out maxItems))
+            {
+                if (maxItems >= 0)
+                {
+                    if (int.TryParse(this.minItemsTextBox.Text, out minItems))
+                    {
+                        if (maxItems >= minItems || maxItems == 0)
+                        {
+                            isValid = true;
+                        }
+                        else
+                        {
+                            this.maxItemsCustomValidator.ErrorMessage = " Max Items must be greater than or equal to Min Items";
+                        }
+                    }
+                }
+                else
+                {
+                    this.maxItemsCustomValidator.ErrorMessage = " Max Items must be 0 or greater";
+                }
+            }
+            else
+            {
+                this.maxItemsCustomValidator.ErrorMessage = " Max Items must be a number";
+            }
+
+            args.IsValid = isValid;
+        }
+
+
         /// <summary>
         /// Saves the pre value data to Umbraco
         /// </summary>
@@ -176,6 +328,14 @@ namespace uComponents.DataTypes.XPathSortableList
             {
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
                 this.Options.XPath = this.xPathTextBox.Text;
+                this.Options.ThumbnailProperty = this.thumbnailPropertyDropDown.SelectedValue;
+
+                if (!string.IsNullOrWhiteSpace(this.thumbnailSizeRadioButtonList.SelectedValue))
+                {
+                    this.Options.ThumbnailSize = (ThumbnailSize)Enum.Parse(typeof(ThumbnailSize), this.thumbnailSizeRadioButtonList.SelectedValue);
+                }
+
+                this.Options.TextTemplate = this.textTemplateTextBox.Text;
 
                 // ensure min and max items are valid numbers
                 int minItems;
@@ -198,10 +358,19 @@ namespace uComponents.DataTypes.XPathSortableList
         /// <param name="writer"></param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow("Type", @"the xml schema to query", this.typeRadioButtonList);
+            writer.AddPrevalueRow("Type", @"xml schema to query", this.typeRadioButtonList);
             writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
-            writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox);
-            writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox);
+            writer.AddPrevalueRow("Thumbnail Property", "if not empty - expects a property containing a string url (todo: fallback to media id/umbracoFile)", this.thumbnailPropertyDropDown);
+
+            // toggle visibility of thumbnail size radio button based on if a thumbnail property has been selected
+            if (!string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue))
+            {
+                writer.AddPrevalueRow("Thumbnail Size", this.thumbnailSizeRadioButtonList);
+            }
+            
+            writer.AddPrevalueRow("Text Template", "handlebars syntax, used for the text in each list item", this.textTemplateTextBox);
+            writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
+            writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator);
             writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate values can be selected", this.allowDuplicatesCheckBox);
         }
     }
