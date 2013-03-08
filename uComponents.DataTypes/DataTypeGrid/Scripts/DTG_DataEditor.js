@@ -12,6 +12,7 @@ function RegexValidate(source, args) {
             return this.each(function () {
                 // Make sure to attach events only once
                 if ($(this).data("datatypegridloaded") !== true) {
+
                     // Dont add datatables if there is no table
                     if ($("table.display", this).length > 0) {
                         $("table.display", this).dataTable({
@@ -28,6 +29,7 @@ function RegexValidate(source, args) {
                             ],
                             fnDrawCallback: function(oSettings) {
                                 configureToolbar($(oSettings.nTableWrapper).parent());
+                                configureRows($(oSettings.nTableWrapper).parent());
                             }
                         });
                     }
@@ -101,6 +103,7 @@ function RegexValidate(source, args) {
                     // Reposition dialogs to fix bug with dialog being positioned out of window bounds
                     $(window).trigger('resize');
 
+                    // Set loaded indicator
                     $(this).data("datatypegridloaded", true);
                 }
                 
@@ -133,6 +136,19 @@ function RegexValidate(source, args) {
                     if ($(element).find("input[id$='ShowTableFooter']").val() == "False") {
                         $(element).find(".fg-toolbar.ui-widget-header:last").hide();
                     }
+                }
+
+                function configureRows(element) {
+                    // Make sure disabled buttons are not clickable
+                    $(element).find("tbody .ui-button").click(function() {
+                        if($(this).hasClass("ui-state-disabled"))
+                        {
+                            return false;
+                        }
+                    });
+                    
+                    // Set first column width
+                    $(element).find("thead th:first, tbody td.actions").width(38);
                 }
             });
         },
@@ -244,6 +260,6 @@ function RegexValidate(source, args) {
     };
 })(jQuery);
 
-$(function() {
+$(function () {
     $(".dtg").uComponents().datatypegrid();
-})
+});
