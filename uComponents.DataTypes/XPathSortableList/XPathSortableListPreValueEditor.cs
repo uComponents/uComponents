@@ -137,12 +137,12 @@ namespace uComponents.DataTypes.XPathSortableList
             this.xPathCustomValidator.ServerValidate += this.XPathCustomValidator_ServerValidate;
 
             this.thumbnailPropertyDropDown.ID = "thumbnailPropertyDropDown";
+            this.thumbnailPropertyDropDown.AutoPostBack = true;
 
             this.thumbnailSizeRadioButtonList.ID = "thumbnailSizeRadioButtonList";
             this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Small), ThumbnailSize.Small.ToString()));
             this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Medium), ThumbnailSize.Medium.ToString()));
             this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Large), ThumbnailSize.Large.ToString()));
-
 
             this.textTemplateTextBox.ID = "textTemplateTextBox";
             this.textTemplateTextBox.CssClass = "umbEditorTextField";
@@ -199,6 +199,7 @@ namespace uComponents.DataTypes.XPathSortableList
                 {
                     this.thumbnailPropertyDropDown.SelectedValue = this.Options.ThumbnailProperty;
                 }
+
                 this.thumbnailSizeRadioButtonList.SelectedValue = this.Options.ThumbnailSize.ToString();
                 this.textTemplateTextBox.Text = this.Options.TextTemplate;
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
@@ -328,7 +329,12 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
                 this.Options.XPath = this.xPathTextBox.Text;
                 this.Options.ThumbnailProperty = this.thumbnailPropertyDropDown.SelectedValue;
-                this.Options.ThumbnailSize = (ThumbnailSize)Enum.Parse(typeof(ThumbnailSize), this.thumbnailSizeRadioButtonList.SelectedValue);
+
+                if (!string.IsNullOrWhiteSpace(this.thumbnailSizeRadioButtonList.SelectedValue))
+                {
+                    this.Options.ThumbnailSize = (ThumbnailSize)Enum.Parse(typeof(ThumbnailSize), this.thumbnailSizeRadioButtonList.SelectedValue);
+                }
+
                 this.Options.TextTemplate = this.textTemplateTextBox.Text;
 
                 // ensure min and max items are valid numbers
@@ -355,7 +361,13 @@ namespace uComponents.DataTypes.XPathSortableList
             writer.AddPrevalueRow("Type", @"xml schema to query", this.typeRadioButtonList);
             writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
             writer.AddPrevalueRow("Thumbnail Property", "if not empty - expects a property containing a string url (todo: fallback to media id/umbracoFile)", this.thumbnailPropertyDropDown);
-            writer.AddPrevalueRow("Thumbnail Size", this.thumbnailSizeRadioButtonList);
+
+            // toggle visibility of thumbnail size radio button based on if a thumbnail property has been selected
+            if (!string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue))
+            {
+                writer.AddPrevalueRow("Thumbnail Size", this.thumbnailSizeRadioButtonList);
+            }
+            
             writer.AddPrevalueRow("Text Template", "handlebars syntax, used for the text in each list item", this.textTemplateTextBox);
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator);
