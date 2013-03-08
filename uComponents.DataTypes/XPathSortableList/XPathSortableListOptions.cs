@@ -47,6 +47,15 @@ namespace uComponents.DataTypes.XPathSortableList
         [DefaultValue("")]
         public string ThumbnailProperty { get; set; }
 
+        [DefaultValue(ThumbnailSize.Medium)]
+        public ThumbnailSize ThumbnailSize { get; set; }
+
+        /// <summary>
+        /// Gets or set a handlebars syntax template, used for the text field of each list item
+        /// </summary>
+        [DefaultValue("{{Name}}")]
+        public string TextTemplate { get; set; }
+
         /// <summary>
         /// Gets or sets the min items.
         /// </summary>

@@ -17,11 +17,16 @@ using umbraco.editorControls;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
 using umbraco.cms.businesslogic;
+using umbraco.cms.businesslogic.media;
+using System.Reflection;
+
 
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.XPathSortableList
 {
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// DataEditor for the XPath AutoComplete data-type.
     /// </summary>
@@ -122,21 +127,93 @@ namespace uComponents.DataTypes.XPathSortableList
             {
                 if (this.sourceData == null)
                 {
+                    this.sourceData = new Dictionary<int, string>();
+
+                    // regex to find tokens
+                    Regex textTemplateRegex = new Regex(@"{{(.*?)}}");
+
+                    // string 1 = token name
+                    // string 2 = replacement value
+                    Dictionary<string, string> templateTokens;
+
+                    // fill key list of template token names
+                    IEnumerable<string> tokenNames = textTemplateRegex.Matches(this.options.TextTemplate)
+                                                        .Cast<Match>()
+                                                        .Select(x => x.Groups[1].Value.ToString());
+
+
                     switch (this.options.UmbracoObjectType)
                     {
                         case uQuery.UmbracoObjectType.Document:
 
-                            sourceData = uQuery.GetNodesByXPath(this.options.XPath).Where(x => x.Id != -1).ToNameIds();
-                            //sourceData = uQuery.GetNodesByXPath(this.options.XPath)
-                            //                    .Where(x => x.Id != -1)
-                            //                    .Select(x => new KeyValuePair<int, string>(x.Id, x.Path))
-                            //                    .ToDictionary(x => x.Key, x => x.Value);
+                            foreach(Node node in uQuery.GetNodesByXPath(this.options.XPath).Where(x => x.Id != -1))
+                            {
+
+                                string text = this.options.TextTemplate;
+
+                                // foreach template token name, replace that token with node.GetProperty<string>("token name")
+                                foreach (string tokenName in tokenNames)
+                                {
+                                    string value;
+
+                                    switch (tokenName)
+                                    {
+                                        case "Name":
+                                            value = node.Name;
+                                            break;
+
+                                        case "UpdateDate":
+                                            value = node.UpdateDate.ToShortDateString();
+                                            break;
+
+                                        case "UpdateTime":
+                                            value = node.UpdateDate.ToShortTimeString();
+                                            break;
+
+                                        default:
+                                            value = node.GetProperty<string>(tokenName);
+                                            break;
+                                    }
+
+                                    text = text.Replace("{{" + tokenName + "}}", value);
+                                }
+
+                                //this.sourceData.Add(node.Id, HttpUtility.HtmlEncode(text));
+                                this.sourceData.Add(node.Id, text);
+                            }
 
                             break;
 
                         case uQuery.UmbracoObjectType.Media:
 
-                            sourceData = uQuery.GetMediaByXPath(this.options.XPath).Where(x => x.Id != -1).ToNameIds();
+                            foreach (Media mediaItem in uQuery.GetMediaByXPath(this.options.XPath).Where(x => x.Id != -1))
+                            {
+                                string text = this.options.TextTemplate;
+
+                                foreach (string tokenName in tokenNames)
+                                {
+                                    string value;
+                                    switch (tokenName)
+                                    {
+                                        case "Name":
+                                            value = mediaItem.Text;
+                                            break;
+
+                                        default:
+                                            value = mediaItem.GetProperty<string>(tokenName);
+                                            break;
+                                    }
+
+                                    text = text.Replace("{{" + tokenName + "}}", value);
+
+                                }
+
+                                this.sourceData.Add(mediaItem.Id, text);
+                            }
+
+
+                        
+                            //sourceData = uQuery.GetMediaByXPath(this.options.XPath).Where(x => x.Id != -1).ToNameIds();
                             break;
 
                         case uQuery.UmbracoObjectType.Member:
@@ -144,6 +221,8 @@ namespace uComponents.DataTypes.XPathSortableList
                             sourceData = uQuery.GetMembersByXPath(this.options.XPath).ToNameIds();
                             break;
                     }
+
+
                 }
 
                 return this.sourceData;
@@ -157,7 +236,7 @@ namespace uComponents.DataTypes.XPathSortableList
         {
             if (!string.IsNullOrEmpty(this.options.ThumbnailProperty))
             {
-                this.div.Attributes.Add("class", "xpath-sortable-list thumbnails");
+                this.div.Attributes.Add("class", "xpath-sortable-list thumbnails " + this.GetAttributePropertyValue(this.options.ThumbnailSize, "CssClass"));
             }
             else
             {
@@ -286,8 +365,8 @@ namespace uComponents.DataTypes.XPathSortableList
                         a.Controls.Add(new HtmlImage() 
                                             { 
                                                 Src = (string)thumbnailProperty.Value,
-                                                Height = 50,
-                                                Width = 50,                                                
+                                                Height = int.Parse(this.GetAttributePropertyValue(this.options.ThumbnailSize, "Height")),
+                                                Width = int.Parse(this.GetAttributePropertyValue(this.options.ThumbnailSize, "Width"))                                               
                                             });
                     }
                 }
@@ -320,6 +399,29 @@ namespace uComponents.DataTypes.XPathSortableList
             {
                 return new int[] { };
             }
+        }
+
+
+
+        // COPIED FROM A MORE GENERIC METHOD (but where to put generic extension methods)
+        private string GetAttributePropertyValue(ThumbnailSize value, string propertyName)
+        {
+            string propertyValue = string.Empty;
+
+            FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
+
+            object attribute = fieldInfo.GetCustomAttributes(typeof(ThumbnailSizeAttribute), false).FirstOrDefault();
+
+            if (attribute != null)
+            {
+                PropertyInfo propertyInfo = attribute.GetType().GetProperty(propertyName);
+                if (propertyInfo != null)
+                {
+                    propertyValue = propertyInfo.GetValue(attribute, null).ToString();
+                }
+            }
+
+            return propertyValue;
         }
     }
 }

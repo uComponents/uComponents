@@ -36,10 +36,21 @@
 }
 
 
-.xpath-sortable-list.thumbnails li
+.xpath-sortable-list.thumbnails.small li
 {
     height:50px;
 }
+
+.xpath-sortable-list.thumbnails.medium li
+{
+    height:75px;
+}
+
+.xpath-sortable-list.thumbnails.large li
+{
+    height:100px;
+}
+
 
 .xpath-sortable-list.thumbnails img
 {
@@ -47,7 +58,6 @@
     margin-right:2px;
     border-right:1px dotted #dcd;
 }
-
 
 /* SOURCE LIST */
 .xpath-sortable-list ul.source-list li

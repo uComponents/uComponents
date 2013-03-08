@@ -434,6 +434,8 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
+    <Compile Include="XPathSortableList\ThumbnailSize.cs" />
+    <Compile Include="XPathSortableList\ThumbnailSizeAttribute.cs" />
     <Compile Include="XPathSortableList\XPathSortableListDataEditor.cs" />
     <Compile Include="XPathSortableList\XPathSortableListDataType.cs" />
     <Compile Include="XPathSortableList\XPathSortableListOptions.cs" />
