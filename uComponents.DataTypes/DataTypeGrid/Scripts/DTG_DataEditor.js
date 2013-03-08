@@ -9,105 +9,100 @@ function RegexValidate(source, args) {
 (function ($) {
     var uComponentsDataTypeGrid = {
         init: function (options) {
-            return this.each(function() {
-                if ($("table.display", this).length > 0) {
-                    $("table.display", this).dataTable({
-                        bJQueryUI: true,
-                        bRetrieve: true,
-                        bLengthChange: false,
-                        oLanguage: $.uComponents.dictionary().dataTablesTranslation,
-                        iDisplayLength: getNumberOfRows(this),
-                        sPaginationType: "full_numbers",
-                        aaSorting: getContentSorting(this),
-                        aoColumnDefs: [
-                            { "bVisible": false, "bSearchable": false, "aTargets": [0], "sType": "numeric" },
-                            { "sTitle": "", "bSortable": false, "aTargets": [1] }
-                        ],
-                        fnDrawCallback: function(oSettings) {
-                            configureToolbar($(oSettings.nTableWrapper).parent());
+            return this.each(function () {
+                // Make sure to attach events only once
+                if ($(this).data("datatypegridloaded") !== true) {
+                    // Dont add datatables if there is no table
+                    if ($("table.display", this).length > 0) {
+                        $("table.display", this).dataTable({
+                            bJQueryUI: true,
+                            bRetrieve: true,
+                            bLengthChange: false,
+                            oLanguage: $.uComponents.dictionary().dataTablesTranslation,
+                            iDisplayLength: getNumberOfRows(this),
+                            sPaginationType: "full_numbers",
+                            aaSorting: getContentSorting(this),
+                            aoColumnDefs: [
+                                { "bVisible": false, "bSearchable": false, "aTargets": [0], "sType": "numeric" },
+                                { "sTitle": "", "bSortable": false, "aTargets": [1] }
+                            ],
+                            fnDrawCallback: function(oSettings) {
+                                configureToolbar($(oSettings.nTableWrapper).parent());
+                            }
+                        });
+                    }
+
+                    $(".InsertControls", this).dialog({
+                        autoOpen: false,
+                        width: 436,
+                        dialogClass: 'dtg dtg-dialog',
+                        modal: true,
+                        draggable: true,
+                        resizable: true,
+                        title: "Insert",
+                        maxWidth: $(window).width(),
+                        maxHeight: $(window).height(),
+                        open: function(type, data) {
+                            var dialog = $(this).parent();
+                            dialog.appendTo("form");
+
+                            // Move insert button to dialog button area
+                            dialog.append("<div class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix'><div class='ui-dialog-buttonset'></div></div>");
+                            dialog.find('a.insertButton').appendTo(dialog.find('.ui-dialog-buttonset'));
+
+                            // Enable validators
+                            $(this).uComponents().datatypegrid("toggleValidators", true);
+                        },
+                        close: function(event, ui) {
+                            // Disable validators
+                            $(this).uComponents().datatypegrid("toggleValidators", false);
                         }
                     });
+
+                    $(".EditControls", this).dialog({
+                        autoOpen: false,
+                        width: 436,
+                        dialogClass: 'dtg dtg-dialog',
+                        modal: true,
+                        draggable: true,
+                        resizable: true,
+                        title: "Edit",
+                        maxWidth: $(window).width(),
+                        maxHeight: $(window).height(),
+                        open: function(type, data) {
+                            var dialog = $(this).parent();
+                            dialog.appendTo("form");
+
+                            // Move update button to dialog button area
+                            dialog.append("<div class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix'><div class='ui-dialog-buttonset'></div></div>");
+                            dialog.find('a.updateButton').appendTo(dialog.find('.ui-dialog-buttonset'));
+
+                            // Enable validators
+                            $(this).uComponents().datatypegrid("toggleValidators", true);
+                        },
+                        close: function(event, ui) {
+                            // Disable validators
+                            $(this).uComponents().datatypegrid("toggleValidators", false);
+                        }
+                    });
+
+                    $(".DeleteControls", this).dialog({
+                        autoOpen: false,
+                        width: 436,
+                        dialogClass: 'deletedialog',
+                        modal: true,
+                        draggable: true,
+                        title: "Delete",
+                        open: function(type, data) {
+                            $(this).parent().appendTo("form");
+                        }
+                    });
+
+                    // Reposition dialogs to fix bug with dialog being positioned out of window bounds
+                    $(window).trigger('resize');
+
+                    $(this).data("datatypegridloaded", true);
                 }
-
-                // Fix for jQuery 1.7.2
-                $(".ui-button").live('mouseover', function() {
-                    $(this).addClass("ui-state-hover");
-                });
-                $(".ui-button").live('mouseout', function() {
-                    $(this).removeClass("ui-state-hover ui-state-active ui-state-focus");
-                });
-                $(".ui-button").live('mousedown', function() {
-                    $(this).addClass("ui-state-active ui-state-focus");
-                });
-
-                $(".InsertControls", this).dialog({
-                    autoOpen: false,
-                    width: 436,
-                    dialogClass: 'dtg dtg-dialog',
-                    modal: true,
-                    draggable: true,
-                    resizable: true,
-                    title: "Insert",
-                    maxWidth: $(window).width(),
-                    maxHeight: $(window).height(),
-                    open: function(type, data) {
-                        var dialog = $(this).parent();
-                        dialog.appendTo("form");
-
-                        // Move insert button to dialog button area
-                        dialog.append("<div class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix'><div class='ui-dialog-buttonset'></div></div>");
-                        dialog.find('a.insertButton').appendTo(dialog.find('.ui-dialog-buttonset'));
-
-                        // Enable validators
-                        $(this).uComponents().datatypegrid("toggleValidators", true);
-                    },
-                    close: function(event, ui) {
-                        // Disable validators
-                        $(this).uComponents().datatypegrid("toggleValidators", false);
-                    }
-                });
-
-                $(".EditControls", this).dialog({
-                    autoOpen: false,
-                    width: 436,
-                    dialogClass: 'dtg dtg-dialog',
-                    modal: true,
-                    draggable: true,
-                    resizable: true,
-                    title: "Edit",
-                    maxWidth: $(window).width(),
-                    maxHeight: $(window).height(),
-                    open: function(type, data) {
-                        var dialog = $(this).parent();
-                        dialog.appendTo("form");
-
-                        // Move update button to dialog button area
-                        dialog.append("<div class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix'><div class='ui-dialog-buttonset'></div></div>");
-                        dialog.find('a.updateButton').appendTo(dialog.find('.ui-dialog-buttonset'));
-
-                        // Enable validators
-                        $(this).uComponents().datatypegrid("toggleValidators", true);
-                    },
-                    close: function(event, ui) {
-                        // Disable validators
-                        $(this).uComponents().datatypegrid("toggleValidators", false);
-                    }
-                });
-
-                $(".DeleteControls", this).dialog({
-                    autoOpen: false,
-                    width: 436,
-                    dialogClass: 'deletedialog',
-                    modal: true,
-                    draggable: true,
-                    title: "Delete",
-                    open: function(type, data) {
-                        $(this).parent().appendTo("form");
-                    }
-                });
-
-                // Reposition dialogs to fix bug with dialog being positioned out of window bounds
-                $(window).trigger('resize');
                 
                 // Private functions
                 function getContentSorting(element) {
@@ -145,9 +140,9 @@ function RegexValidate(source, args) {
             $(this).dialog('open');
         },
         getValidatorValue: function(validationProperty) {
-            if (validationProperty == "Text") {
+            if ($(this).is("input") && validationProperty == "Text") {
                 return $(this).val();
-            } else if (validationProperty == "Value") {
+            } else if ($(this).is("input") && validationProperty == "Value") {
                 return $(this).val();
             }
 
@@ -155,7 +150,6 @@ function RegexValidate(source, args) {
             return null;
         },
         toggleValidators: function(enable) {
-            // Enable validators
             var validators = $(this).find(".validator");
     
             if (validators.length > 0) {
