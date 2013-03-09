@@ -55,9 +55,12 @@
 
 var XPathSortableList = XPathSortableList || (function () {
 
+    var PLACEHOLDER_MIN = '<li class="placeholder min">&nbsp;</li>';
+    var PLACEHOLDER_MAX = '<li class="placeholder max">&nbsp;</li>';
+
     // public
     function init(div) {
-
+        
         // dom
         var sourceUl = div.find('ul.source-list:first');
         var sortableUl = div.find('ul.sortable-list:first');
@@ -78,9 +81,9 @@ var XPathSortableList = XPathSortableList || (function () {
         for (var i = 1; i <= liCount; i++) {
 
             if (i <= minItems) {
-                sortableUl.append('<li class="placeholder min">&nbsp;</li>');
+                sortableUl.append(PLACEHOLDER_MIN);
             } else {
-                sortableUl.append('<li class="placeholder max">&nbsp;</li>');
+                sortableUl.append(PLACEHOLDER_MAX);
             }
         }
 
@@ -143,6 +146,32 @@ var XPathSortableList = XPathSortableList || (function () {
             }
         }
     }
+
+    // private  - adds an li to the sortable list
+    function addSortableListItem(sortableUl, text, value, img) {
+
+        //TODO: if there's an existing li of type placeholder? then remove it
+        
+        // handle placeholder <li>s
+        var li = jQuery('<li data-value="' + value + '">' +
+                            text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
+                 '</li>');
+
+        li.prepend(img.clone());
+
+        // if there are any placeholders - replace the first one in the list
+        var placeholder = sortableUl.children('li.placeholder')[0];
+        if (placeholder) {
+
+            jQuery(placeholder).replaceWith(li);
+
+        } else {
+
+            sortableUl.append(li);
+
+        }
+
+    }
     
     // public
     function removeItem(a) {
@@ -168,61 +197,35 @@ var XPathSortableList = XPathSortableList || (function () {
         updateHidden(sortableUl, hidden, type);
     }
 
-
-    // adds an li to the sortable list
-    function addSortableListItem(sortableUl, text, value, img) {
-
-        //TODO: if there's an existing li of type placeholder? then remove it
-
-        // handle placeholder <li>s
-        var li = jQuery('<li data-value="' + value + '">' +
-                            text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
-                 '</li>');
-
-        li.prepend(img.clone());
-
-        // if there are any placeholders - replace the first one in the list
-        var placeholder = sortableUl.children('li.placeholder')[0];
-        if (placeholder) {
-
-            jQuery(placeholder).replaceWith(li);
-
-        } else {
-
-            sortableUl.append(li);
-
-        }
-        
-    }
-
-    // ONLY ONE PLACE CALLS THIS
+    // private 
     function removeSortableListItem(li) {
 
         // dom
         var sortableUl = li.parent();
-        var div = sortableUl.parent();
-        
+        var div = sortableUl.parent();        
         
         // data
         var minItems = div.data('min-items');
         var maxItems = div.data('max-items');
         
-
-        // handle placeholder <li>s
-
+       // remove the item
         li.remove();
 
+        // handle placeholder <li>s
         var count = sortableUl.children('li:not(.placeholder)').length;
         if (count < minItems) {
 
-            // TODO: insert a min placeholder after the first non placeholder (or start)
-            sortableUl.append('<li class="placeholder min">&nbsp;</li>');
+            if (count == 0) {
+                sortableUl.prepend(PLACEHOLDER_MIN);
+            } else {
+                jQuery(PLACEHOLDER_MIN).insertAfter(
+                    sortableUl.children('li:not(.placeholder):last'));                
+            }
+
         } else if(count < maxItems) {
-            sortableUl.append('<li class="placeholder max">&nbsp;</li>');
+            sortableUl.append(PLACEHOLDER_MAX);
         }
-
     }
-
 
     //// private -- re-generates the xml fragment of selected items, and stores in the hidden field    
     function updateHidden(sortableUl, hidden, type) {
@@ -235,8 +238,6 @@ var XPathSortableList = XPathSortableList || (function () {
 
         hidden.val(xml);
     }
-
-
 
     // public interface to the above methods
     return {

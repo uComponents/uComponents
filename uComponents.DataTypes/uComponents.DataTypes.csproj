@@ -440,6 +440,7 @@
     <Compile Include="XPathChildNodePicker\XPathChildNodePickerPrevalueEditor.cs" />
     <Compile Include="XPathSortableList\ThumbnailSize.cs" />
     <Compile Include="XPathSortableList\ThumbnailSizeAttribute.cs" />
+    <Compile Include="XPathSortableList\XPathSortableList.cs" />
     <Compile Include="XPathSortableList\XPathSortableListDataEditor.cs" />
     <Compile Include="XPathSortableList\XPathSortableListDataType.cs" />
     <Compile Include="XPathSortableList\XPathSortableListOptions.cs" />
