@@ -1,11 +1,25 @@
 ﻿.xpath-sortable-list 
 {
+    width:640px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .xpath-sortable-list ul
 {
     list-style-type:none;
     float:left;
+}
+
+.xpath-sortable-list ul.sortable-list
+{
+    float:right;
+    clear:none;    
 }
 
 .xpath-sortable-list li
@@ -18,39 +32,72 @@
     overflow:hidden;
     background-color:White;
     margin-bottom:3px;    
-    
     font-family: Arial,Lucida Grande;
 }
 
-.xpath-sortable-list li:hover
+
+.xpath-sortable-list.thumbnails.small li
 {
-    background-color:#F6F6FA;
+    height:50px;
 }
 
+.xpath-sortable-list.thumbnails.medium li
+{
+    height:75px;
+}
+
+.xpath-sortable-list.thumbnails.large li
+{
+    height:100px;
+}
+
+
+.xpath-sortable-list.thumbnails img
+{
+    float:left;
+    margin-right:2px;
+    border-right:1px dotted #dcd;
+}
+
+/* SOURCE LIST */
+.xpath-sortable-list ul.source-list li
+{
+    display:none; /* li not marked as active are hidden by default */
+
+    padding-left:0; /* to pull the anchor all the way to the left */
+}
+
+/* the a tag fills the whole li */
 .xpath-sortable-list ul.source-list a
 {
      text-decoration: none;
      display: block;
      width: 100%;
      height: 100%;
+     color:black;
+
+     padding-left:5px; /* indent the text, rather than a default margin */
 }
 
-/* default to inactive state */
-.xpath-sortable-list ul.source-list li
-{
-    background-color:#F6F6FA;
-    cursor:wait;
-}
-
-/* presence of the active class */
+/* activate */
 .xpath-sortable-list ul.source-list li.active
 {
-    background-color:white;
+    display:block;
+    /*background-color:white;*/
+}
+
+.xpath-sortable-list ul.source-list li.active a:hover
+{
+    background-color:#F6F6FA;
     cursor:pointer;
 }
 
 
-
+/* SORTABLE LIST */
+.xpath-sortable-list li:hover /* sortable list only (as source li covered with an anchor) */
+{
+    background-color:#F6F6FA;
+}
 
 .xpath-sortable-list ul.sortable-list li
 {
@@ -66,4 +113,25 @@
     float:right;
     margin-right:20px;
     margin-top:2px;
+}
+
+
+
+
+.xpath-sortable-list ul.sortable-list li.placeholder
+{
+    cursor:default;
+    background:none;
+}
+
+.xpath-sortable-list li.placeholder.min
+{
+    
+}
+
+
+.xpath-sortable-list li.placeholder.max 
+{
+    height:23px;
+    border:0;
 }

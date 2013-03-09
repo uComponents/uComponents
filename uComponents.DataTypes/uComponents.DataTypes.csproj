@@ -295,6 +295,8 @@
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValue.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValueRow.cs" />
+    <Compile Include="DataTypeGrid\Validators\ClientSideRequiredFieldValidator.cs" />
+    <Compile Include="DataTypeGrid\Validators\ClientSideRegexValidator.cs" />
     <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -441,6 +443,12 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
+    <Compile Include="XPathChildNodePicker\XPathChildNodePickerDataEditor.cs" />
+    <Compile Include="XPathChildNodePicker\XPathChildNodePickerDataType.cs" />
+    <Compile Include="XPathChildNodePicker\XPathChildNodePickerOptions.cs" />
+    <Compile Include="XPathChildNodePicker\XPathChildNodePickerPrevalueEditor.cs" />
+    <Compile Include="XPathSortableList\ThumbnailSize.cs" />
+    <Compile Include="XPathSortableList\ThumbnailSizeAttribute.cs" />
     <Compile Include="XPathSortableList\XPathSortableListDataEditor.cs" />
     <Compile Include="XPathSortableList\XPathSortableListDataType.cs" />
     <Compile Include="XPathSortableList\XPathSortableListOptions.cs" />
@@ -512,7 +520,9 @@
     <EmbeddedResource Include="UrlPicker\UrlPickerStyles.css" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DataTypeGrid\Configuration\DataTypeGrid.config" />
+    <EmbeddedResource Include="DataTypeGrid\Configuration\DataTypeGrid.config">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataTypeGrid\Configuration\DtgConfiguration.resx">

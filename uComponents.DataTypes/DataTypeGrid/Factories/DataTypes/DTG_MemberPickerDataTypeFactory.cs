@@ -1,5 +1,7 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories.DataTypes
 {
+    using System.Web.UI;
+
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco.cms.businesslogic.member;
@@ -30,7 +32,7 @@
                 var m = new Member(id);
 
                 // Return member name
-                return string.Format("<a href='editMember.aspx?id={0}' title='Edit content'>{1}</a>", m.Id, m.Text);
+                return string.Format("<a href='/umbraco/members/editMember.aspx?id={0}' title='Edit member'>{1}</a>", m.Id, m.Text);
             }
 
             return value;
@@ -69,6 +71,17 @@
             {
                 dataType.Data.Value = string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Method for getting the control to use when validating the specified <see cref="IDataType" />.
+        /// </summary>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="editorControl">The <see cref="IDataType" /> editor control.</param>
+        /// <returns>The control to validate.</returns>
+        public override Control GetControlToValidate(MemberPickerDataType dataType, Control editorControl)
+        {
+            return editorControl;
         }
     }
 }

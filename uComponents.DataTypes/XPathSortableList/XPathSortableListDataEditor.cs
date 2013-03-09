@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
+using System.Xml.Linq;
 using uComponents.Core;
 using umbraco;
 using umbraco.BusinessLogic;
@@ -12,16 +16,18 @@ using umbraco.cms.businesslogic.property;
 using umbraco.editorControls;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
-using System.Linq;
-using System.Collections.Generic;
-using System.Xml.Linq;
+using umbraco.cms.businesslogic;
+using umbraco.cms.businesslogic.media;
+using System.Reflection;
+
 
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.XPathSortableList
 {
-    using System.Linq;
+    using System.Text.RegularExpressions;
 
+    using umbraco.cms.businesslogic.member;
 
     /// <summary>
     /// DataEditor for the XPath AutoComplete data-type.
@@ -36,6 +42,11 @@ namespace uComponents.DataTypes.XPathSortableList
         private IData data;
 
         /// <summary>
+        /// local for the SourceData property
+        /// </summary>
+        private Dictionary<int, string> sourceData = null;
+
+        /// <summary>
         /// Field for the options.
         /// </summary>
         private XPathSortableListOptions options;
@@ -44,6 +55,11 @@ namespace uComponents.DataTypes.XPathSortableList
         /// Wrappiing div
         /// </summary>
         private HtmlGenericControl div = new HtmlGenericControl("div");
+
+        /// <summary>
+        /// ul containing the source data in li attributes
+        /// </summary>
+        private HtmlGenericControl sourceListUl = new HtmlGenericControl("ul");
 
         /// <summary>
         /// Stores the selected values
@@ -64,17 +80,6 @@ namespace uComponents.DataTypes.XPathSortableList
         {
             this.data = data;
             this.options = options;
-        }
-
-        /// <summary>
-        /// Gets the property / datatypedefinition id - used to identify the current instance
-        /// </summary>
-        private int DataTypeDefinitionId
-        {
-            get
-            {
-                return ((XmlData)this.data).DataTypeDefinitionId;
-            }
         }
 
         /// <summary>
@@ -115,25 +120,133 @@ namespace uComponents.DataTypes.XPathSortableList
             }
         }
 
-        private IEnumerable<int> SavedValues
+        /// <summary>
+        /// Gets the data using the xpath configured in the datatype setup
+        /// </summary>
+        private Dictionary<int, string> SourceData
         {
             get
             {
-                if (this.data != null && this.data.Value != null && !string.IsNullOrWhiteSpace(this.data.Value.ToString()))
+                if (this.sourceData == null)
                 {
-                    //<XPathSortableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
-                    //    <Item Text="ABC" Value="1" />
-                    //    <Item Text="XYZ" Value="9" />
-                    //</XPathSortableList>
+                    this.sourceData = new Dictionary<int, string>();
 
-                    XDocument xDocument = XDocument.Parse(this.data.Value.ToString());
+                    // regex to find tokens
+                    Regex textTemplateRegex = new Regex(@"{{(.*?)}}");
 
-                    return xDocument.Descendants("Item").Select(element => int.Parse(element.Attribute("Value").Value));
+                    // string 1 = token name
+                    // string 2 = replacement value
+                    Dictionary<string, string> templateTokens;
+
+                    // fill key list of template token names
+                    IEnumerable<string> tokenNames = textTemplateRegex.Matches(this.options.TextTemplate)
+                                                        .Cast<Match>()
+                                                        .Select(x => x.Groups[1].Value.ToString());
+
+
+                    switch (this.options.UmbracoObjectType)
+                    {
+                        case uQuery.UmbracoObjectType.Document:
+
+                            foreach(Node node in uQuery.GetNodesByXPath(this.options.XPath).Where(x => x.Id != -1))
+                            {
+
+                                string text = this.options.TextTemplate;
+
+                                // foreach template token name, replace that token with node.GetProperty<string>("token name")
+                                foreach (string tokenName in tokenNames)
+                                {
+                                    string value;
+
+                                    switch (tokenName)
+                                    {
+                                        case "Name":
+                                            value = node.Name;
+                                            break;
+
+                                        case "UpdateDate":
+                                            value = node.UpdateDate.ToShortDateString();
+                                            break;
+
+                                        case "UpdateTime":
+                                            value = node.UpdateDate.ToShortTimeString();
+                                            break;
+
+                                        default:
+                                            value = node.GetProperty<string>(tokenName);
+                                            break;
+                                    }
+
+                                    text = text.Replace("{{" + tokenName + "}}", value);
+                                }
+
+                                //this.sourceData.Add(node.Id, HttpUtility.HtmlEncode(text));
+                                this.sourceData.Add(node.Id, text);
+                            }
+
+                            break;
+
+                        case uQuery.UmbracoObjectType.Media:
+
+                            foreach (Media mediaItem in uQuery.GetMediaByXPath(this.options.XPath).Where(x => x.Id != -1))
+                            {
+                                string text = this.options.TextTemplate;
+
+                                foreach (string tokenName in tokenNames)
+                                {
+                                    string value;
+                                    switch (tokenName)
+                                    {
+                                        case "Name":
+                                            value = mediaItem.Text;
+                                            break;
+
+                                        default:
+                                            value = mediaItem.GetProperty<string>(tokenName);
+                                            break;
+                                    }
+
+                                    text = text.Replace("{{" + tokenName + "}}", value);
+
+                                }
+
+                                this.sourceData.Add(mediaItem.Id, text);
+                            }
+
+                            break;
+
+                        case uQuery.UmbracoObjectType.Member:
+
+                            foreach (Member member in uQuery.GetMembersByXPath(this.options.XPath))
+                            {
+                                string text = this.options.TextTemplate;
+
+                                foreach (string tokenName in tokenNames)
+                                {
+                                    string value;
+                                    switch (tokenName)
+                                    {
+                                        case "Name":
+                                            value = member.Text;
+                                            break;
+
+                                        default:
+                                            value = member.GetProperty<string>(tokenName);
+                                            break;
+                                    }
+
+                                    text = text.Replace("{{" + tokenName + "}}", value);
+
+                                }
+
+                                this.sourceData.Add(member.Id, text);
+                            }
+
+                            break;
+                    }
                 }
-                else
-                {
-                    return new int[] { };
-                }
+
+                return this.sourceData;
             }
         }
 
@@ -142,97 +255,31 @@ namespace uComponents.DataTypes.XPathSortableList
         /// </summary>
         protected override void CreateChildControls()
         {
-            this.div.Attributes.Add("class", "xpath-sortable-list");
+            if (!string.IsNullOrEmpty(this.options.ThumbnailProperty))
+            {
+                this.div.Attributes.Add("class", "xpath-sortable-list thumbnails " + this.GetAttributePropertyValue(this.options.ThumbnailSize, "CssClass"));
+            }
+            else
+            {
+                this.div.Attributes.Add("class", "xpath-sortable-list");
+            }
+            
             this.div.Attributes.Add("data-min-items", this.options.MinItems.ToString());
             this.div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
             this.div.Attributes.Add("data-allow-duplicates", this.options.AllowDuplicates.ToString());
 
-            HtmlGenericControl sourceListUl = new HtmlGenericControl("ul");
-            sourceListUl.Attributes.Add("class", "source-list");
+            this.sourceListUl.Attributes.Add("class", "source-list propertypane");
+            this.div.Controls.Add(this.sourceListUl);
 
-            // get the source data as a collection of ids & text
-            Dictionary<int, string> sourceListData = null;
-
-            switch (this.options.UmbracoObjectType)
-            {
-                case uQuery.UmbracoObjectType.Document:
-
-                    sourceListData = uQuery.GetNodesByXPath(this.options.XPath).Where(x => x.Id != -1).ToNameIds();
-                    break;
-
-                case uQuery.UmbracoObjectType.Media:
-
-                    sourceListData = uQuery.GetMediaByXPath(this.options.XPath).Where(x => x.Id != -1).ToNameIds();
-                    break;
-
-                case uQuery.UmbracoObjectType.Member:
-
-                    sourceListData = uQuery.GetMembersByXPath(this.options.XPath).ToNameIds();
-                    break;
-            }
-
-            if (sourceListData != null)
-            {
-                foreach (KeyValuePair<int, string> dataItem in sourceListData)             
-                {
-                    HtmlGenericControl li = new HtmlGenericControl("li");
-
-                    if (!(!this.options.AllowDuplicates && this.SavedValues.Contains(dataItem.Key)))
-                    {
-                        li.Attributes.Add("class", "active");
-                    }
-
-                    li.Attributes.Add("data-text", dataItem.Value);
-                    li.Attributes.Add("data-value", dataItem.Key.ToString());
-
-                    HtmlGenericControl a = new HtmlGenericControl("a");
-                    a.Attributes.Add("class", "add");
-                    a.Attributes.Add("title", "add");
-                    a.Attributes.Add("href", "javascript:void(0);");
-                    a.Attributes.Add("onclick", "XPathSortableList.addItem(this);");
-                    a.InnerText = dataItem.Value;
-
-                    li.Controls.Add(a);
-                    sourceListUl.Controls.Add(li);
-                }
-            }
-
-            this.div.Controls.Add(sourceListUl);
-            
             HtmlGenericControl sortableListUl = new HtmlGenericControl("ul");
-            sortableListUl.Attributes.Add("class", "sortable-list");
-
-            // loop though all saved items - TODO: use uQuery.GetXmlIds() ?
-            foreach (int savedValue in this.SavedValues)
-            {                
-                // safety check to see if the selected value is still in the source list
-                if (sourceListData.ContainsKey(savedValue))
-                {
-                    HtmlGenericControl li = new HtmlGenericControl("li");
-
-                    li.Attributes.Add("data-text", sourceListData[savedValue]);
-                    li.Attributes.Add("data-value", savedValue.ToString());
-                    li.InnerText = sourceListData[savedValue];
-
-                    HtmlGenericControl a = new HtmlGenericControl("a");
-                    a.Attributes.Add("class", "delete");
-                    a.Attributes.Add("title", "remove");
-                    a.Attributes.Add("href", "javascript:void(0);");
-                    a.Attributes.Add("onclick", "XPathSortableList.removeItem(this);");
-
-                    li.Controls.Add(a);
-                    sortableListUl.Controls.Add(li);
-                }
-            }
-
+            sortableListUl.Attributes.Add("class", "sortable-list propertypane");
             this.div.Controls.Add(sortableListUl);
+
             this.div.Controls.Add(this.selectedItemsHiddenField);
            
             this.Controls.Add(this.div);
             this.Controls.Add(this.customValidator);
         }
-
-
 
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
@@ -241,7 +288,15 @@ namespace uComponents.DataTypes.XPathSortableList
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
             this.EnsureChildControls();
+
+            if (!this.Page.IsPostBack)
+            {
+                this.selectedItemsHiddenField.Value = this.data.Value.ToString();
+            }
+
+            this.PopulateSourceList();
 
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", ClientDependencyType.Javascript);
@@ -254,11 +309,6 @@ namespace uComponents.DataTypes.XPathSortableList
                 </script>";
 
             ScriptManager.RegisterStartupScript(this, typeof(XPathSortableListDataEditor), this.ClientID + "_init", startupScript, false);
-
-            if (!this.Page.IsPostBack)
-            {
-                this.selectedItemsHiddenField.Value = this.data.Value.ToString();
-            }
         }
 
         /// <summary>
@@ -300,6 +350,99 @@ namespace uComponents.DataTypes.XPathSortableList
             this.data.Value = xml;
         }
 
+        /// <summary>
+        /// generates the source list markup
+        /// </summary>
+        private void PopulateSourceList()
+        {
+            foreach (KeyValuePair<int, string> dataItem in this.SourceData)
+            {
+                HtmlGenericControl li = new HtmlGenericControl("li");
 
+                if (!(!this.options.AllowDuplicates && this.GetSelectedValues().Contains(dataItem.Key)))
+                {
+                    li.Attributes.Add("class", "active");
+                }
+
+                li.Attributes.Add("data-text", dataItem.Value);
+                li.Attributes.Add("data-value", dataItem.Key.ToString());
+
+                HtmlGenericControl a = new HtmlGenericControl("a");
+                a.Attributes.Add("class", "add");
+                a.Attributes.Add("title", "add");
+                a.Attributes.Add("href", "javascript:void(0);");
+                a.Attributes.Add("onclick", "XPathSortableList.addItem(this);");                
+
+                if (!string.IsNullOrEmpty(this.options.ThumbnailProperty))
+                {                    
+                    // for the given id, find a property by alias, and see if there's a string value - this id could be a document / media or member
+                    umbraco.cms.businesslogic.Content contentNode = new umbraco.cms.businesslogic.Content(dataItem.Key);
+                    umbraco.cms.businesslogic.property.Property thumbnailProperty = contentNode.getProperty(this.options.ThumbnailProperty);
+
+
+                    if (thumbnailProperty != null && thumbnailProperty.Value is string)
+                    {
+                        // add imag tag
+                        a.Controls.Add(new HtmlImage() 
+                                            { 
+                                                Src = (string)thumbnailProperty.Value,
+                                                Height = int.Parse(this.GetAttributePropertyValue(this.options.ThumbnailSize, "Height")),
+                                                Width = int.Parse(this.GetAttributePropertyValue(this.options.ThumbnailSize, "Width"))                                               
+                                            });
+                    }
+                }
+
+                a.Controls.Add(new Literal() { Text = dataItem.Value });
+
+                li.Controls.Add(a);
+                this.sourceListUl.Controls.Add(li);
+            }
+        }
+
+        /// <summary>
+        /// Gets ids for the selected items from the hidden field (in order)
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<int> GetSelectedValues()
+        {
+            //<XPathSortableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
+            //    <Item Value="1" />
+            //    <Item Value="9" />
+            //</XPathSortableList>
+
+            if (!String.IsNullOrWhiteSpace(this.selectedItemsHiddenField.Value))
+            {
+                return XDocument.Parse(this.selectedItemsHiddenField.Value)
+                                .Descendants("Item")
+                                .Select(x => int.Parse(x.Attribute("Value").Value));
+            }
+            else
+            {
+                return new int[] { };
+            }
+        }
+
+
+
+        // COPIED FROM A MORE GENERIC METHOD (but where to put generic extension methods)
+        private string GetAttributePropertyValue(ThumbnailSize value, string propertyName)
+        {
+            string propertyValue = string.Empty;
+
+            FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
+
+            object attribute = fieldInfo.GetCustomAttributes(typeof(ThumbnailSizeAttribute), false).FirstOrDefault();
+
+            if (attribute != null)
+            {
+                PropertyInfo propertyInfo = attribute.GetType().GetProperty(propertyName);
+                if (propertyInfo != null)
+                {
+                    propertyValue = propertyInfo.GetValue(attribute, null).ToString();
+                }
+            }
+
+            return propertyValue;
+        }
     }
 }

@@ -92,6 +92,21 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         }
 
         /// <summary>
+        /// Method for getting the control to use when validating the specified <see cref="IDataType" />.
+        /// </summary>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="editorControl">The <see cref="IDataType" /> editor control.</param>
+        /// <returns>The control to validate.</returns>
+        public Control GetControlToValidate(IDataType dataType, Control editorControl)
+        {
+            var f = this.GetDataTypeFactory(dataType);
+
+            var v = f.GetType().GetMethod("GetControlToValidate").Invoke(f, new object[] { dataType, editorControl });
+
+            return (Control)v;
+        }
+
+        /// <summary>
         /// Method for performing special actions <b>before</b> creating the <see cref="IDataType" /> editor.
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
