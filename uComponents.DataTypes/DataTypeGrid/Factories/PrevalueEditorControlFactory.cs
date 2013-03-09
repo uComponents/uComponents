@@ -1,9 +1,13 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.UI.WebControls;
 
+    using Umbraco.Core;
+
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
+    using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco;
 
@@ -43,6 +47,32 @@
             }
 
             return d;
+        }
+
+        /// <summary>
+        /// Builds the content priority dropdown list.
+        /// </summary>
+        /// <param name="configurations">The column configurations.</param>
+        /// <param name="currentSortPriority">The current sort priority.</param>
+        /// <returns>&gt; DropDownList.</returns>
+        public DropDownList BuildContentPriorityDropdownList(IList<PreValueRow> configurations, string currentSortPriority)
+        {
+            var ddl = new DropDownList();
+
+            // Add blank item to beginning
+            ddl.Items.Add(new ListItem(string.Empty, string.Empty));
+
+            // Add a number for each stored prevalue
+            foreach (var storedConfig in configurations)
+            {
+                var priority = configurations.IndexOf(storedConfig) + 1;
+
+                ddl.Items.Add(new ListItem(priority.ToString(), priority.ToString()));
+            }
+
+            ddl.SelectedValue = currentSortPriority ?? string.Empty;
+
+            return ddl;
         }
     }
 }

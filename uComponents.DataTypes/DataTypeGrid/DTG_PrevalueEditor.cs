@@ -121,9 +121,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.prevalueEditorControlFactory = new PrevalueEditorControlFactory();
 
             // Ensure settings file exists
-            Helper.IO.EnsureFileExists(
-                IOHelper.MapPath("~/config/DataTypeGrid.config"),
-                DtgConfiguration.DataTypeGrid);
+            Helper.IO.EnsureFileExists(IOHelper.MapPath("~/config/DataTypeGrid.config"), DtgConfiguration.DataTypeGrid);
 
             // Ensure webservice file exists
             var dtgFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "DataTypeGrid"));
@@ -137,16 +135,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             get
             {
-                if (this.settings == null)
-                {
-                    var prevalues = PreValues.GetPreValues(this.DataType.DataTypeDefinitionId);
-
-                    var serializer = new JavaScriptSerializer();
-
-                    return serializer.Deserialize<PreValueEditorSettings>(((PreValue)prevalues[0]).Value);
-                }
-
-                return new PreValueEditorSettings();
+                return this.settings
+                       ?? (this.settings =
+                           this.prevalueEditorSettingsFactory.GetPrevalueEditorSettings(
+                               this.DataType.DataTypeDefinitionId));
             }
         }
 
@@ -165,12 +157,12 @@ namespace uComponents.DataTypes.DataTypeGrid
                     this.settings = this.prevalueEditorSettingsFactory.GetPrevalueEditorSettings(this.DataType.DataTypeDefinitionId);
                 }
 
-                this.settings.ShowLabel = this.showLabel != null && this.showLabel.Checked;
-                this.settings.ShowGridHeader = this.showHeader != null && this.showHeader.Checked;
-                this.settings.ShowGridFooter = this.showFooter != null && this.showFooter.Checked;
-                this.settings.RowsPerPage = this.rowsPerPage != null ? int.Parse(this.rowsPerPage.Text) : 10;
-                this.settings.ContentSorting = this.GetContentSorting(this.preValues);
-                prevalues.Add(this.settings);
+                this.Settings.ShowLabel = this.showLabel != null && this.showLabel.Checked;
+                this.Settings.ShowGridHeader = this.showHeader != null && this.showHeader.Checked;
+                this.Settings.ShowGridFooter = this.showFooter != null && this.showFooter.Checked;
+                this.Settings.RowsPerPage = this.rowsPerPage != null ? int.Parse(this.rowsPerPage.Text) : 10;
+                this.Settings.ContentSorting = this.GetContentSorting(this.preValues);
+                prevalues.Add(this.Settings);
 
                 // Add existing prevalues;
                 foreach (var t in this.preValues)
@@ -239,8 +231,15 @@ namespace uComponents.DataTypes.DataTypeGrid
             // Get configuration
             this.newPreValue = new PreValueRow();
             this.preValues = new List<PreValueRow>();
-            this.settings = this.prevalueEditorSettingsFactory.GetPrevalueEditorSettings(this.DataType.DataTypeDefinitionId);
-            this.GetColumns();
+
+            // Add blank PreValue row in the beginning
+            this.newPreValue = new PreValueRow() { Id = this.prevalueEditorSettingsFactory.GetAvailableId(this.DataType.DataTypeDefinitionId) };
+
+            // Add the stored values
+            foreach (var s in this.prevalueEditorSettingsFactory.GetColumnConfigurations(this.DataType.DataTypeDefinitionId))
+            {
+                this.preValues.Add(s);
+            }
 
             // Instantiate default controls
             this.accordionContainer = new Panel
@@ -248,10 +247,10 @@ namespace uComponents.DataTypes.DataTypeGrid
                                               ID = "dtg_accordion_" + this.DataType.DataTypeDefinitionId,
                                               CssClass = "dtg_accordion"
                                           };
-            this.showLabel = new CheckBox() { ID = "showLabel", Checked = this.settings.ShowLabel };
-            this.showHeader = new CheckBox() { ID = "showHeader", Checked = this.settings.ShowGridHeader };
-            this.showFooter = new CheckBox() { ID = "showFooter", Checked = this.settings.ShowGridFooter };
-            this.rowsPerPage = new TextBox() { ID = "RowsPerPage", Text = this.settings.RowsPerPage.ToString() };
+            this.showLabel = new CheckBox() { ID = "showLabel", Checked = this.Settings.ShowLabel };
+            this.showHeader = new CheckBox() { ID = "showHeader", Checked = this.Settings.ShowGridHeader };
+            this.showFooter = new CheckBox() { ID = "showFooter", Checked = this.Settings.ShowGridFooter };
+            this.rowsPerPage = new TextBox() { ID = "RowsPerPage", Text = this.Settings.RowsPerPage.ToString() };
             this.numberOfRowsValidator = new RegularExpressionValidator()
                                              {
                                                  ID = "NumberOfRowsValidator",
@@ -456,12 +455,10 @@ namespace uComponents.DataTypes.DataTypeGrid
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
             // Instantiate controls
-            var ddlNewContentSortPriority = new DropDownList()
-                                                {
-                                                    ID = "newContentSortPriority",
-                                                    CssClass = "newContentSortPriority",
-                                                };
-            PopulatePriorityDropDownList(ddlNewContentSortPriority, this.preValues, null);
+            var ddlNewContentSortPriority =
+                this.prevalueEditorControlFactory.BuildContentPriorityDropdownList(this.preValues, null);
+            ddlNewContentSortPriority.ID = "newContentSortPriority";
+            ddlNewContentSortPriority.CssClass = "newContentSortPriority";
 
             var lblNewContentSortPriority = new Label()
                                                 {
@@ -755,15 +752,10 @@ namespace uComponents.DataTypes.DataTypeGrid
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
                 // Instantiate controls
-                var ddlEditContentSortPriority = new DropDownList()
-                                                     {
-                                                         ID =
-                                                             "editContentSortPriority_"
-                                                             + this.preValues.IndexOf(s),
-                                                         CssClass = "editContentSortPriority",
-                                                         Text = s.Alias
-                                                     };
-                PopulatePriorityDropDownList(ddlEditContentSortPriority, this.preValues, s.ContentSortPriority);
+                var ddlEditContentSortPriority = this.prevalueEditorControlFactory.BuildContentPriorityDropdownList(this.preValues, s.ContentSortPriority);
+                ddlEditContentSortPriority.ID = "editContentSortPriority_" + this.preValues.IndexOf(s);
+                ddlEditContentSortPriority.CssClass = "editContentSortPriority";
+                ddlEditContentSortPriority.Text = s.Alias;
 
                 var lblEditContentSortPriority = new Label()
                                                      {
@@ -919,21 +911,6 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             e.IsValid = this.ValidateAliasExists((CustomValidator)source);
         }
-        
-        /// <summary>
-        /// Gets the DTG config.
-        /// </summary>
-        private void GetColumns()
-        {
-            // Add blank PreValue row in the beginning
-            this.newPreValue = new PreValueRow() { Id = this.prevalueEditorSettingsFactory.GetAvailableId(this.DataType.DataTypeDefinitionId) };
-
-            // Add the stored values
-            foreach (var s in this.prevalueEditorSettingsFactory.GetColumnConfigurations(this.DataType.DataTypeDefinitionId))
-            {
-                this.preValues.Add(s);
-            }
-        }
 
         /// <summary>
         /// Checks if the alias already exists.
@@ -1009,10 +986,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <summary>
         /// Adds the prevalues.
         /// </summary>
-        /// <param name="s">The list of prevalues.</param>
-        private void AddPrevalues(IEnumerable s)
+        /// <param name="jsonList">The list of prevalues.</param>
+        private void AddPrevalues(IEnumerable jsonList)
         {
-            foreach (var config in s)
+            foreach (var config in jsonList)
             {
                 // Serialize the options into JSON
                 var serializer = new JavaScriptSerializer();
@@ -1021,12 +998,11 @@ namespace uComponents.DataTypes.DataTypeGrid
                 // Add new value to database
                 if (config.GetType().Name.Equals("PreValueEditorSettings"))
                 {
-                    uQuery.MakeNewPreValue(this.DataType.DataTypeDefinitionId, json, string.Empty, 0);
+                    uQuery.MakeNewPreValue(this.DataType.DataTypeDefinitionId, json, string.Empty);
                 }
                 else
                 {
-                    uQuery.MakeNewPreValue(
-                        this.DataType.DataTypeDefinitionId, json, string.Empty, ((BasePreValueRow)config).SortOrder);
+                    uQuery.MakeNewPreValue(this.DataType.DataTypeDefinitionId, json, string.Empty, ((BasePreValueRow)config).SortOrder);
                 }
             }
         }
@@ -1050,28 +1026,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Populates the priority drop down list.
-        /// </summary>
-        /// <param name="ddl">The DDL.</param>
-        /// <param name="s">The s.</param>
-        /// <param name="currentSortPriority">The current sort priority.</param>
-        private void PopulatePriorityDropDownList(DropDownList ddl, IList<PreValueRow> s, string currentSortPriority)
-        {
-            // Add blank item to beginning
-            ddl.Items.Add(new ListItem(string.Empty, string.Empty));
-
-            // Add a number for each stored prevalue
-            foreach (var storedConfig in s)
-            {
-                var priority = s.IndexOf(storedConfig) + 1;
-
-                ddl.Items.Add(new ListItem(priority.ToString(), priority.ToString()));
-            }
-
-            ddl.SelectedValue = currentSortPriority ?? string.Empty;
         }
 
         /// <summary>
