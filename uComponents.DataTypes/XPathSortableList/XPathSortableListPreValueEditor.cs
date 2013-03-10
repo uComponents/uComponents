@@ -147,10 +147,6 @@ namespace uComponents.DataTypes.XPathSortableList
             this.xPathCustomValidator.ServerValidate += this.XPathCustomValidator_ServerValidate;
 
             this.sortOnDropDown.ID = "sortOnDropDown";
-            this.sortOnDropDown.Items.Insert(0, new ListItem(string.Empty, string.Empty));
-            this.sortOnDropDown.Items.Insert(1, new ListItem("<Name>", "{{Name}}"));
-            this.sortOnDropDown.Items.Insert(2, new ListItem("<Update Date>", "{{UpdateDate}}"));
-            this.sortOnDropDown.Items.Insert(3, new ListItem("<Create Date>", "{{CreateDate}}"));            
             this.sortOnDropDown.AutoPostBack = true;
             this.sortOnDropDown.SelectedIndexChanged += this.SortOnDropDown_SelectedIndexChanged;
 
@@ -220,10 +216,16 @@ namespace uComponents.DataTypes.XPathSortableList
             {
                 this.typeRadioButtonList.SelectedValue = this.Options.Type;
                 this.xPathTextBox.Text = this.Options.XPath;
+
+                // the oninit event of the propertyTypePicker loads data first
+                this.sortOnDropDown.Items.Insert(1, new ListItem("<Name>", "Name"));
+                this.sortOnDropDown.Items.Insert(2, new ListItem("<Update Date>", "UpdateDate"));
+                this.sortOnDropDown.Items.Insert(3, new ListItem("<Create Date>", "CreateDate"));            
+
+
                 this.sortOnDropDown.SelectedValue = this.Options.SortOn;
 
                 this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
-                //this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
 
                 //if (this.thumbnailPropertyDropDown.Items.Contains(new ListItem(this.Options.ThumbnailProperty)))
                 //{
@@ -231,7 +233,6 @@ namespace uComponents.DataTypes.XPathSortableList
                 //}
 
                 this.thumbnailSizeRadioButtonList.SelectedValue = this.Options.ThumbnailSize.ToString();
-                //this.thumbnailSizeRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue);
                 this.textTemplateTextBox.Text = this.Options.TextTemplate;
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
                 this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();

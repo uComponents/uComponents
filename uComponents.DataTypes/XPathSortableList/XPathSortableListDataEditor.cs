@@ -25,6 +25,7 @@ using System.Reflection;
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.XPathSortableList
 {
+    using System.ComponentModel;
     using System.Text.RegularExpressions;
 
     using umbraco.cms.businesslogic.member;
@@ -148,9 +149,34 @@ namespace uComponents.DataTypes.XPathSortableList
                     {
                         case uQuery.UmbracoObjectType.Document:
 
-                            foreach(Node node in uQuery.GetNodesByXPath(this.options.XPath).Where(x => x.Id != -1))
-                            {
+                            List<Node> nodes = uQuery.GetNodesByXPath(this.options.XPath).Where(x => x.Id != -1).ToList();
 
+                            if (!string.IsNullOrWhiteSpace(this.options.SortOn))
+                            {
+                                switch (this.options.SortOn)
+                                {
+                                    case "Name":
+                                        nodes = nodes.OrderBy(x => x.Name).ToList();
+                                        break;
+                                    case "UpdateDate":
+                                        nodes = nodes.OrderBy(x => x.UpdateDate).ToList();
+                                        break;
+                                    case "CreateDate":
+                                        nodes = nodes.OrderBy(x => x.CreateDate).ToList();
+                                        break;
+                                    default:
+                                        nodes = nodes.OrderBy(x => x.GetProperty<string>(this.options.SortOn)).ToList();
+                                        break;
+                                }
+
+                                if (this.options.SortDirection == ListSortDirection.Descending)
+                                {
+                                    nodes.Reverse();
+                                }
+                            }
+
+                            foreach(Node node in nodes)
+                            {
                                 string text = this.options.TextTemplate;
 
                                 // foreach template token name, replace that token with node.GetProperty<string>("token name")
@@ -160,19 +186,19 @@ namespace uComponents.DataTypes.XPathSortableList
 
                                     switch (tokenName)
                                     {
-                                        case "Name":
-                                            value = node.Name;
+                                        case "Name": 
+                                            value = node.Name; 
                                             break;
 
-                                        case "UpdateDate":
+                                        case "UpdateDate": 
                                             value = node.UpdateDate.ToShortDateString();
                                             break;
 
-                                        case "UpdateTime":
+                                        case "UpdateTime": 
                                             value = node.UpdateDate.ToShortTimeString();
                                             break;
 
-                                        default:
+                                        default: 
                                             value = node.GetProperty<string>(tokenName);
                                             break;
                                     }
@@ -197,7 +223,7 @@ namespace uComponents.DataTypes.XPathSortableList
                                     string value;
                                     switch (tokenName)
                                     {
-                                        case "Name":
+                                        case "Name": 
                                             value = mediaItem.Text;
                                             break;
 
@@ -226,11 +252,11 @@ namespace uComponents.DataTypes.XPathSortableList
                                     string value;
                                     switch (tokenName)
                                     {
-                                        case "Name":
+                                        case "Name": 
                                             value = member.Text;
                                             break;
 
-                                        default:
+                                        default: 
                                             value = member.GetProperty<string>(tokenName);
                                             break;
                                     }
@@ -424,7 +450,7 @@ namespace uComponents.DataTypes.XPathSortableList
 
 
 
-        // COPIED FROM A MORE GENERIC METHOD (but where to put generic extension methods)
+        // COPIED FROM A MORE GENERIC METHOD (but where to put generic extension methods ?)
         private string GetAttributePropertyValue(ThumbnailSize value, string propertyName)
         {
             string propertyValue = string.Empty;
