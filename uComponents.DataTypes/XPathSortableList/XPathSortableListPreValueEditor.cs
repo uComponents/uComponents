@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Configuration;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using umbraco.editorControls;
-using umbraco;
-using System.Configuration;
 using uComponents.DataTypes.Shared.Extensions;
-using System.Web;
+using umbraco;
+using umbraco.editorControls;
+using umbraco.macroRenderings;
 
 namespace uComponents.DataTypes.XPathSortableList
 {
-    using System.Linq;
-
-    using umbraco.macroRenderings;
+    using System.ComponentModel;
 
     /// <summary>
-    /// Prevalue Editor for XPath AutoComplete
+    /// Prevalue Editor for XPath Sortable List
     /// </summary>
     public class XPathSortableListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
@@ -39,15 +39,25 @@ namespace uComponents.DataTypes.XPathSortableList
         private CustomValidator xPathCustomValidator = new CustomValidator();
 
         /// <summary>
+        /// Property to sort on
+        /// </summary>
+        private propertyTypePicker sortOnDropDown = new propertyTypePicker();
+
+        /// <summary>
+        /// to set the sort direction
+        /// </summary>
+        private RadioButtonList sortDirectionRadioButtonList = new RadioButtonList();
+
+        /// <summary>
         /// Use an optional thumbnail from a property alias
         /// </summary>
         private propertyTypePicker thumbnailPropertyDropDown = new propertyTypePicker();
-
-
+       
+        // TODO: consider renaming to ListItemSizeRadioButtonList ?
         private RadioButtonList thumbnailSizeRadioButtonList = new RadioButtonList();
 
         /// <summary>
-        /// 
+        /// Handlebar syntax to render text for each list item
         /// </summary>
         private TextBox textTemplateTextBox = new TextBox();
 
@@ -136,8 +146,21 @@ namespace uComponents.DataTypes.XPathSortableList
             this.xPathCustomValidator.Display = ValidatorDisplay.Dynamic;
             this.xPathCustomValidator.ServerValidate += this.XPathCustomValidator_ServerValidate;
 
+            this.sortOnDropDown.ID = "sortOnDropDown";
+            this.sortOnDropDown.Items.Insert(0, new ListItem(string.Empty, string.Empty));
+            this.sortOnDropDown.Items.Insert(1, new ListItem("<Name>", "{{Name}}"));
+            this.sortOnDropDown.Items.Insert(2, new ListItem("<Update Date>", "{{UpdateDate}}"));
+            this.sortOnDropDown.Items.Insert(3, new ListItem("<Create Date>", "{{CreateDate}}"));            
+            this.sortOnDropDown.AutoPostBack = true;
+            this.sortOnDropDown.SelectedIndexChanged += this.SortOnDropDown_SelectedIndexChanged;
+
+            this.sortDirectionRadioButtonList.ID = "sortDirectionRadioButtonlist";
+            this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Ascending.ToString()));
+            this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Descending.ToString()));
+
             this.thumbnailPropertyDropDown.ID = "thumbnailPropertyDropDown";
             this.thumbnailPropertyDropDown.AutoPostBack = true;
+            this.thumbnailPropertyDropDown.SelectedIndexChanged += this.ThumbnailPropertyDropDown_SelectedIndexChanged;
 
             this.thumbnailSizeRadioButtonList.ID = "thumbnailSizeRadioButtonList";
             this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Small), ThumbnailSize.Small.ToString()));
@@ -172,6 +195,8 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.xPathTextBox,
                 this.xPathRequiredFieldValidator,
                 this.xPathCustomValidator,
+                this.sortOnDropDown,
+                this.sortDirectionRadioButtonList,
                 this.thumbnailPropertyDropDown,
                 this.thumbnailSizeRadioButtonList,
                 this.textTemplateTextBox,
@@ -181,6 +206,7 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.maxItemsCustomValidator,
                 this.allowDuplicatesCheckBox);
         }
+
 
         /// <summary>
         /// 
@@ -194,20 +220,38 @@ namespace uComponents.DataTypes.XPathSortableList
             {
                 this.typeRadioButtonList.SelectedValue = this.Options.Type;
                 this.xPathTextBox.Text = this.Options.XPath;
+                this.sortOnDropDown.SelectedValue = this.Options.SortOn;
 
-                if (this.thumbnailPropertyDropDown.Items.Contains(new ListItem(this.Options.ThumbnailProperty)))
-                {
+                this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
+                //this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
+
+                //if (this.thumbnailPropertyDropDown.Items.Contains(new ListItem(this.Options.ThumbnailProperty)))
+                //{
                     this.thumbnailPropertyDropDown.SelectedValue = this.Options.ThumbnailProperty;
-                }
+                //}
 
                 this.thumbnailSizeRadioButtonList.SelectedValue = this.Options.ThumbnailSize.ToString();
+                //this.thumbnailSizeRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue);
                 this.textTemplateTextBox.Text = this.Options.TextTemplate;
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
                 this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
                 this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
             }
+
+            //// initial creation of datatype is a postback 
+            this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
+            this.thumbnailSizeRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue);
         }
 
+        private void SortOnDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
+        }
+
+        private void ThumbnailPropertyDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.thumbnailSizeRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue);
+        }
 
         /// <summary>
         /// 
@@ -329,6 +373,8 @@ namespace uComponents.DataTypes.XPathSortableList
             {
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
                 this.Options.XPath = this.xPathTextBox.Text;
+                this.Options.SortOn = this.sortOnDropDown.SelectedValue;
+                this.Options.SortDirection = (ListSortDirection)Enum.Parse(typeof(ListSortDirection), this.sortDirectionRadioButtonList.SelectedValue);
                 this.Options.ThumbnailProperty = this.thumbnailPropertyDropDown.SelectedValue;
 
                 if (!string.IsNullOrWhiteSpace(this.thumbnailSizeRadioButtonList.SelectedValue))
@@ -361,17 +407,27 @@ namespace uComponents.DataTypes.XPathSortableList
         {
             writer.AddPrevalueRow("Type", @"xml schema to query", this.typeRadioButtonList);
             writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
+            writer.AddPrevalueRow("Sort On", "", this.sortOnDropDown);
+
+            if (this.sortDirectionRadioButtonList.Visible)
+            {
+                writer.AddPrevalueRow("Sort Direction", "", this.sortDirectionRadioButtonList);
+            }
+            else
+            {
+                // render the control so it's state is persisted, but without any additional layout markup
+                this.sortDirectionRadioButtonList.RenderControl(writer);
+            }
+
             writer.AddPrevalueRow("Thumbnail Property", "if not empty - expects a property containing a string url (todo: fallback to media id/umbracoFile)", this.thumbnailPropertyDropDown);
 
-            this.thumbnailSizeRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue);
             if (this.thumbnailSizeRadioButtonList.Visible)
             {
-                if (string.IsNullOrWhiteSpace(this.thumbnailSizeRadioButtonList.SelectedValue))
-                {
-                    this.thumbnailSizeRadioButtonList.SelectedValue = this.Options.ThumbnailSize.ToString();
-                }
-
-                writer.AddPrevalueRow("Thumbnail Size", this.thumbnailSizeRadioButtonList);
+                writer.AddPrevalueRow("Thumbnail Size", "", this.thumbnailSizeRadioButtonList);                
+            }
+            else
+            {
+                this.thumbnailSizeRadioButtonList.RenderControl(writer);
             }
             
             writer.AddPrevalueRow("Text Template", "handlebars syntax, used for the text in each list item", this.textTemplateTextBox);

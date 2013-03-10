@@ -42,6 +42,18 @@ namespace uComponents.DataTypes.XPathSortableList
         public string XPath { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        [DefaultValue("")]
+        public string SortOn { get; set; }
+
+        /// <summary>
+        /// http://stackoverflow.com/questions/6372522/does-an-enum-exist-for-asc-or-desc-ordering-in-net
+        /// </summary>
+        [DefaultValue(ListSortDirection.Ascending)]
+        public ListSortDirection SortDirection { get; set; }
+
+        /// <summary>
         /// Gets or sets the alias to a property that is a string url
         /// </summary>
         [DefaultValue("")]
