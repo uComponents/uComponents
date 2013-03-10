@@ -252,32 +252,39 @@
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_XPathCheckBoxListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_XPathDropDownListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_XPathAutocompleteDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_DropdownCheckListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_EnumCheckBoxListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_FileDropDownListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_ListBoxKeysDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_ColorPickerDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_BaseDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_DropdownListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_DateDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_PagePickerDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_DefaultDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_MediaPickerDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_ListBoxDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_MemberPickerDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_RadioButtonListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_UrlPickerDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_FilePickerDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_IncrementalTextBoxDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DTG_EnumDropDownListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DTG_DataTypeGridConfigurationFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_XPathCheckBoxListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_XPathDropDownListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_XPathAutocompleteDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DropdownCheckListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_EnumCheckBoxListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_FileDropDownListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_ListBoxKeysDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_ColorPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_BaseDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DropdownListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DateDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_PagePickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DefaultDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_MediaPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_ListBoxDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_MemberPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_RadioButtonListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_UrlPickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_FilePickerDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_IncrementalTextBoxDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_EnumDropDownListDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\PrevalueEditorControlFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\PrevalueEditorSettingsFactory.cs" />
+    <Compile Include="DataTypeGrid\Functions\DTG_RegexValidator.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IConfigurationFactory.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IPrevalueEditorSettingsFactory.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IRegexValidator.cs" />
+    <Compile Include="DataTypeGrid\Interfaces\DTG_IPrevalueEditorControlFactory.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_DataTypeSaveEventArgs.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_DataTypeLoadEventArgs.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_DataTypeFactoryAttribute.cs" />
     <Compile Include="DataTypeGrid\ServiceLocators\DTG_DataTypeFactoryServiceLocator.cs" />
-    <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
     <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFactoryServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_GridCell.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_GridRowCollection.cs" />
@@ -288,6 +295,8 @@
     <Compile Include="DataTypeGrid\Model\DTG_PreValueSettings.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValue.cs" />
     <Compile Include="DataTypeGrid\Model\DTG_StoredValueRow.cs" />
+    <Compile Include="DataTypeGrid\Validators\ClientSideRequiredFieldValidator.cs" />
+    <Compile Include="DataTypeGrid\Validators\ClientSideRegexValidator.cs" />
     <Compile Include="DataTypeGrid\WebServices\DtgWebServices.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -512,7 +521,9 @@
     <EmbeddedResource Include="UrlPicker\UrlPickerStyles.css" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DataTypeGrid\Configuration\DataTypeGrid.config" />
+    <EmbeddedResource Include="DataTypeGrid\Configuration\DataTypeGrid.config">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataTypeGrid\Configuration\DtgConfiguration.resx">

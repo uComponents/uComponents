@@ -13,6 +13,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
     using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Factories;
+    using uComponents.DataTypes.DataTypeGrid.Factories.DataTypes;
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
@@ -88,6 +89,21 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         public TBackingObject GetObject<TBackingObject>(IDataType dataType)
         {
             return default(TBackingObject);
+        }
+
+        /// <summary>
+        /// Method for getting the control to use when validating the specified <see cref="IDataType" />.
+        /// </summary>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="editorControl">The <see cref="IDataType" /> editor control.</param>
+        /// <returns>The control to validate.</returns>
+        public Control GetControlToValidate(IDataType dataType, Control editorControl)
+        {
+            var f = this.GetDataTypeFactory(dataType);
+
+            var v = f.GetType().GetMethod("GetControlToValidate").Invoke(f, new object[] { dataType, editorControl });
+
+            return (Control)v;
         }
 
         /// <summary>

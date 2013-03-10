@@ -28,8 +28,11 @@ namespace uComponents.DataTypes.DataTypeGrid
 
     using uComponents.DataTypes.DataTypeGrid.Constants;
     using uComponents.DataTypes.DataTypeGrid.Extensions;
+    using uComponents.DataTypes.DataTypeGrid.Factories;
     using uComponents.DataTypes.DataTypeGrid.Functions;
+    using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
+    using uComponents.DataTypes.DataTypeGrid.Validators;
 
     using umbraco;
 
@@ -40,8 +43,6 @@ namespace uComponents.DataTypes.DataTypeGrid
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class DataEditor : Control, INamingContainer, IDataEditor
     {
-        #region Fields
-
         /// <summary>
         /// Value stored by a datatype instance
         /// </summary>
@@ -57,7 +58,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// </summary>
         private readonly PreValueEditorSettings settings;
 
-        #endregion
+        /// <summary>
+        /// The prevalue editor settings factory
+        /// </summary>
+        private readonly IPrevalueEditorSettingsFactory prevalueEditorSettingsFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataEditor"/> class.
@@ -68,6 +72,9 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <param name="instanceId">The instance id.</param>
         public DataEditor(IData data, PreValueEditorSettings settings, int dataTypeDefinitionId, string instanceId)
         {
+            // Set up dependencies
+            this.prevalueEditorSettingsFactory = new PrevalueEditorSettingsFactory();
+
             this.settings = settings;
             this.data = data;
 
@@ -139,19 +146,19 @@ namespace uComponents.DataTypes.DataTypeGrid
             {
                 if (ViewState["DataString"] != null)
                 {
-                    DtgHelpers.LogDebug(string.Format("DTG: Returned value from ViewState: {0}", ViewState["DataString"]));
+                    Helper.Log.Debug<DataType>(string.Format("DTG: Returned value from ViewState: {0}", ViewState["DataString"]));
 
                     return ViewState["DataString"].ToString();
                 }
 
-                DtgHelpers.LogWarn(string.Format("DTG: ViewState did not contain data."));
+                Helper.Log.Warn<DataType>(string.Format("DTG: ViewState did not contain data."));
 
                 return string.Empty;
             }
 
             set
             {
-                DtgHelpers.LogDebug(string.Format("DTG: Stored the following data in ViewState: {0}", value));
+                Helper.Log.Debug<DataType>(string.Format("DTG: Stored the following data in ViewState: {0}", value));
 
                 ViewState["DataString"] = value;
             }
@@ -197,7 +204,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// Gets or sets the stored prevalues.
         /// </summary>
         /// <value>The stored pre values.</value>
-        public List<PreValueRow> StoredPreValues { get; set; }
+        public IEnumerable<PreValueRow> ColumnConfigurations { get; set; }
 
         /// <summary>
         /// Gets er sets the insert data types
@@ -254,7 +261,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             // Clear input controls
             this.ClearControls();
 
-            DtgHelpers.LogDebug(string.Format("DTG: Saved the following data to database: {0}", this.data.Value));
+            Helper.Log.Debug<DataType>(string.Format("DTG: Saved the following data to database: {0}", this.data.Value));
         }
 
         /// <summary>
@@ -407,7 +414,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             tr.Cells.Add(new TableHeaderCell { Text = Helper.Dictionary.GetDictionaryItem("Actions", "Actions") });
 
             // Add prevalue cells
-            foreach (var s in StoredPreValues)
+            foreach (var s in this.ColumnConfigurations)
             {
                 var th = new TableHeaderCell { Text = s.Name };
 
@@ -528,7 +535,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 tr.Cells.Add(actions);
 
                 // Print stored values
-                foreach (var storedConfig in StoredPreValues)
+                foreach (var storedConfig in this.ColumnConfigurations)
                 {
                     var td = new TableCell();
 
@@ -585,48 +592,47 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             var control = parent.FindControl(config.Value.DataEditor.Editor.ID);
 
-            var title = config.Name;
-
             // If the name starts with a hash, get the dictionary item
             if (config.Name.StartsWith("#"))
             {
                 var key = config.Name.Substring(1, config.Name.Length - 1);
 
-                title = uQuery.GetDictionaryItem(key, key);
+                config.Name = uQuery.GetDictionaryItem(key, key);
             }
 
             // Mandatory
-            if (this.StoredPreValues.Single(x => x.Alias == config.Alias).Mandatory && control != null)
-            {
-                var validator = new RequiredFieldValidator()
-                                    {
-                                        ID = name + config.Alias + "_Required_" + list.IndexOf(config),
-                                        Enabled = false,
-                                        CssClass = "validator",
-                                        ControlToValidate = control.ID,
-                                        Display = ValidatorDisplay.Dynamic,
-                                        ErrorMessage = title + " is mandatory"
-                                    };
-                parent.Controls.Add(validator);
-            }
-
-            // Regex
-            if (!string.IsNullOrEmpty(this.StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression) && control != null)
+            if (this.ColumnConfigurations.Single(x => x.Alias == config.Alias).Mandatory && control != null)
             {
                 try
                 {
-                    var regex = new Regex(@StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression);
-                    var validator = new RegularExpressionValidator()
-                        {
-                            ID = name + config.Alias + "_Regex_" + list.IndexOf(config),
-                            Enabled = false,
-                            CssClass = "validator",
-                            ControlToValidate = control.ID,
-                            Display = ValidatorDisplay.Dynamic,
-                            ValidationExpression = regex.ToString(),
-                            ErrorMessage = title + " is not in a correct format"
-                        };
-                    parent.Controls.Add(validator);
+                    var wrapper = new Panel();
+
+                    var validator = new ClientSideRequiredFieldValidator(name, config, false);
+
+                    wrapper.Controls.Add(validator);
+                    parent.Controls.Add(wrapper);
+                }
+                catch (Exception ex)
+                {
+                    HttpContext.Current.Trace.Warn("DataTypeGrid", "EditorControl (" + config.Value.DataTypeName + ") does not support validation", ex);
+                }
+            }
+
+            // Regex
+            if (!string.IsNullOrEmpty(this.ColumnConfigurations.First(x => x.Alias == config.Alias).ValidationExpression) && control != null)
+            {
+                try
+                {
+                    var wrapper = new Panel();
+
+                    var regex = new Regex(this.ColumnConfigurations.First(x => x.Alias == config.Alias).ValidationExpression);
+                    var validator = new ClientSideRegexValidator(name, config, false)
+                                        {
+                                            ValidationExpression = regex.ToString()
+                                        };
+
+                    wrapper.Controls.Add(validator);
+                    parent.Controls.Add(wrapper);
                 }
                 catch (ArgumentException ex)
                 {
@@ -679,7 +685,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.InsertControls.Controls.Add(title);
 
                 InsertControls.Controls.Add(control);
-                GenerateValidationControls(InsertControls, "Insert", config, InsertDataTypes);
+                GenerateValidationControls(InsertControls, "insert", config, InsertDataTypes);
 
                 InsertControls.Controls.Add(new LiteralControl("</li>"));
             }
@@ -772,7 +778,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.EditControls.Controls.Add(title);
 
                 this.EditControls.Controls.Add(control);
-                this.GenerateValidationControls(this.EditControls, "Edit", config, this.EditDataTypes);
+                this.GenerateValidationControls(this.EditControls, "edit", config, this.EditDataTypes);
 
                 this.EditControls.Controls.Add(new LiteralControl("</li>"));
             }
@@ -817,7 +823,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.GenerateEditControls();
 
             ScriptManager.RegisterClientScriptBlock(
-                this, GetType(), "OpenEditDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
+                this,
+                GetType(),
+                "OpenEditDialog_" + this.ID,
+                "$(function() {$('#" + this.ClientID + "_ctrlEdit').uComponents().datatypegrid('openDialog'); });",
+                true);
         }
 
         /// <summary>
@@ -900,7 +910,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.ClearControls();
 
             ScriptManager.RegisterClientScriptBlock(
-                this, GetType(), "OpenInsertDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
+                this, 
+                GetType(), 
+                "OpenInsertDialog_" + this.ID,
+                "$(function() {$('#" + this.ClientID + "_ctrlInsert').uComponents().datatypegrid('openDialog'); });",
+                true);
         }
 
         /// <summary>
@@ -1001,7 +1015,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                         valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
                     }
 
-                    foreach (PreValueRow config in this.StoredPreValues)
+                    foreach (PreValueRow config in this.ColumnConfigurations)
                     {
                         var value = new StoredValue { Name = config.Name, Alias = config.Alias };
 
@@ -1041,7 +1055,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             var list = new List<StoredValue>();
 
-            foreach (var config in StoredPreValues)
+            foreach (var config in this.ColumnConfigurations)
             {
                 var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
                 var dt = dtd.DataType;
@@ -1069,7 +1083,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             }
             else
             {
-                foreach (var config in this.StoredPreValues)
+                foreach (var config in this.ColumnConfigurations)
                 {
                     var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
                     var dt = dtd.DataType;
@@ -1176,7 +1190,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         protected override void CreateChildControls()
         {
             base.CreateChildControls();
-            EnsureChildControls();
+            this.EnsureChildControls();
 
             // DEBUG: Reset stored values
             // this.Data.Value = "<items><item id='1'><name nodeName='Name' nodeType='-88' >Anna</name><age nodeName='Age' nodeType='-51' >25</age><picture nodeName='Picture' nodeType='1035' ></picture></item><item id='6'><name nodeName='Name' nodeType='-88' >Ove</name><gender nodeName='Gender' nodeType='-88'>Male</gender><age nodeName='Age' nodeType='-51' >23</age><picture nodeName='Picture' nodeType='1035' ></picture></item></items>";
@@ -1184,13 +1198,13 @@ namespace uComponents.DataTypes.DataTypeGrid
             // Set default value if none exists
             if (this.data.Value == null)
             {
-                DtgHelpers.LogDebug(string.Format("DTG: No values exist in database for this property"));
+                Helper.Log.Debug<DataType>(string.Format("DTG: No values exist in database for this property"));
 
                 this.data.Value = string.Empty;
             }
             else
             {
-                DtgHelpers.LogDebug(
+                Helper.Log.Debug<DataType>(
                     string.Format("DTG: Retrieved the following data from database: {0}", this.data.Value));
             }
 
@@ -1202,7 +1216,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Grid = new Table { ID = "tblGrid", CssClass = "display" };
             this.Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
-            StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
+            this.ColumnConfigurations = this.prevalueEditorSettingsFactory.GetColumnConfigurations(this.dataTypeDefinitionId);
 
             // Use data from viewstate if possible
             // TODO: Quality Check! Could create problems for some datatypes
