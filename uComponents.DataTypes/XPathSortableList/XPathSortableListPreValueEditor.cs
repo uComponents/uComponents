@@ -49,6 +49,11 @@ namespace uComponents.DataTypes.XPathSortableList
         private RadioButtonList sortDirectionRadioButtonList = new RadioButtonList();
 
         /// <summary>
+        /// To set an optional limit - 0 = no limit
+        /// </summary>
+        private TextBox limitToTextBox = new TextBox();
+
+        /// <summary>
         /// Use an optional thumbnail from a property alias
         /// </summary>
         private propertyTypePicker thumbnailPropertyDropDown = new propertyTypePicker();
@@ -154,6 +159,11 @@ namespace uComponents.DataTypes.XPathSortableList
             this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Ascending.ToString()));
             this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Descending.ToString()));
 
+            this.limitToTextBox.ID = "limitToTextBox";
+            this.limitToTextBox.Width = 30;
+            this.limitToTextBox.MaxLength = 2;
+            this.limitToTextBox.AutoCompleteType = AutoCompleteType.None;
+
             this.thumbnailPropertyDropDown.ID = "thumbnailPropertyDropDown";
             this.thumbnailPropertyDropDown.AutoPostBack = true;
             this.thumbnailPropertyDropDown.SelectedIndexChanged += this.ThumbnailPropertyDropDown_SelectedIndexChanged;
@@ -193,6 +203,7 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.xPathCustomValidator,
                 this.sortOnDropDown,
                 this.sortDirectionRadioButtonList,
+                this.limitToTextBox,
                 this.thumbnailPropertyDropDown,
                 this.thumbnailSizeRadioButtonList,
                 this.textTemplateTextBox,
@@ -221,11 +232,10 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.sortOnDropDown.Items.Insert(1, new ListItem("<Name>", "Name"));
                 this.sortOnDropDown.Items.Insert(2, new ListItem("<Update Date>", "UpdateDate"));
                 this.sortOnDropDown.Items.Insert(3, new ListItem("<Create Date>", "CreateDate"));            
-
-
                 this.sortOnDropDown.SelectedValue = this.Options.SortOn;
-
+                
                 this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
+                this.limitToTextBox.Text = this.Options.LimitTo.ToString();
 
                 //if (this.thumbnailPropertyDropDown.Items.Contains(new ListItem(this.Options.ThumbnailProperty)))
                 //{
@@ -376,6 +386,11 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.Options.XPath = this.xPathTextBox.Text;
                 this.Options.SortOn = this.sortOnDropDown.SelectedValue;
                 this.Options.SortDirection = (ListSortDirection)Enum.Parse(typeof(ListSortDirection), this.sortDirectionRadioButtonList.SelectedValue);
+
+                int limitTo;
+                int.TryParse(this.limitToTextBox.Text, out limitTo);
+                this.Options.LimitTo = limitTo;
+
                 this.Options.ThumbnailProperty = this.thumbnailPropertyDropDown.SelectedValue;
 
                 if (!string.IsNullOrWhiteSpace(this.thumbnailSizeRadioButtonList.SelectedValue))
@@ -420,6 +435,7 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.sortDirectionRadioButtonList.RenderControl(writer);
             }
 
+            writer.AddPrevalueRow("Limit To", "limit the source data count - 0 means no limit", this.limitToTextBox);
             writer.AddPrevalueRow("Thumbnail Property", "if not empty - expects a property containing a string url (todo: fallback to media id/umbracoFile)", this.thumbnailPropertyDropDown);
 
             if (this.thumbnailSizeRadioButtonList.Visible)

@@ -53,11 +53,19 @@ namespace uComponents.DataTypes.XPathSortableList
         [DefaultValue(ListSortDirection.Ascending)]
         public ListSortDirection SortDirection { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets a limt to the number of source items (0 means no limit)
+        /// </summary>
+        [DefaultValue(0)]
+        public int LimitTo { get; set; }
+
         /// <summary>
         /// Gets or sets the alias to a property that is a string url
         /// </summary>
         [DefaultValue("")]
         public string ThumbnailProperty { get; set; }
+
 
         [DefaultValue(ThumbnailSize.Medium)]
         public ThumbnailSize ThumbnailSize { get; set; }

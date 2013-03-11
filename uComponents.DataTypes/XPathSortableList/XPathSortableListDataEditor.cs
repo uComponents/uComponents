@@ -175,6 +175,11 @@ namespace uComponents.DataTypes.XPathSortableList
                                 }
                             }
 
+                            if (this.options.LimitTo > 0)
+                            {
+                                nodes = nodes.Take(this.options.LimitTo).ToList();
+                            }
+
                             foreach(Node node in nodes)
                             {
                                 string text = this.options.TextTemplate;
@@ -214,6 +219,9 @@ namespace uComponents.DataTypes.XPathSortableList
 
                         case uQuery.UmbracoObjectType.Media:
 
+
+
+
                             foreach (Media mediaItem in uQuery.GetMediaByXPath(this.options.XPath).Where(x => x.Id != -1))
                             {
                                 string text = this.options.TextTemplate;
@@ -233,7 +241,6 @@ namespace uComponents.DataTypes.XPathSortableList
                                     }
 
                                     text = text.Replace("{{" + tokenName + "}}", value);
-
                                 }
 
                                 this.sourceData.Add(mediaItem.Id, text);
@@ -262,7 +269,6 @@ namespace uComponents.DataTypes.XPathSortableList
                                     }
 
                                     text = text.Replace("{{" + tokenName + "}}", value);
-
                                 }
 
                                 this.sourceData.Add(member.Id, text);
