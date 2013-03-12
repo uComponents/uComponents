@@ -1,12 +1,10 @@
-﻿namespace uComponents.Core
+﻿using System;
+using umbraco;
+using umbraco.BusinessLogic;
+using Umbraco.Core.Logging;
+
+namespace uComponents.Core
 {
-	using System;
-	using System.Web;
-
-	using umbraco.BusinessLogic;
-
-	using Umbraco.Core.Logging;
-
 	/// <summary>
 	/// Generic helper methods
 	/// </summary>
@@ -25,9 +23,7 @@
 			/// <param name="ex">The exception.</param>
 			public static void Error<T>(string message, Exception ex)
 			{
-				int pageId;
-				int.TryParse(HttpContext.Current.Request.QueryString["id"], out pageId);
-
+				var pageId = uQuery.GetIdFromQueryString();
 				LogHelper.Error<T>(string.Format("[User {0}] [Page {1}] {2}", User.GetCurrent().Id, pageId, message), ex);
 			}
 
@@ -38,9 +34,7 @@
 			/// <param name="message">The message.</param>
 			public static void Warn<T>(string message)
 			{
-				int pageId;
-				int.TryParse(HttpContext.Current.Request.QueryString["id"], out pageId);
-
+				var pageId = uQuery.GetIdFromQueryString();
 				LogHelper.Warn<T>(string.Format("[User {0}] [Page {1}] {2}", User.GetCurrent().Id, pageId, message));
 			}
 
@@ -51,9 +45,7 @@
 			/// <param name="message">The message.</param>
 			public static void Debug<T>(string message)
 			{
-				int pageId;
-				int.TryParse(HttpContext.Current.Request.QueryString["id"], out pageId);
-
+				var pageId = uQuery.GetIdFromQueryString();
 				LogHelper.Debug<T>(string.Format("[User {0}] [Page {1}] {2}", User.GetCurrent().Id, pageId, message));
 			}
 		}
