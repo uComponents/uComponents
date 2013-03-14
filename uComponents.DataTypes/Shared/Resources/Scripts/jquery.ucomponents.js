@@ -17,5 +17,5 @@
         }
     };
     
-    $.uComponents = $.uComponents || $().uComponents();
+    $.uComponents = $.uComponents || $(document).uComponents();
 })(jQuery);

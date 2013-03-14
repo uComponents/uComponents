@@ -49,6 +49,17 @@
         }
 
         /// <summary>
+        /// Method for getting the control to use when validating the specified <see cref="IDataType" />.
+        /// </summary>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="editorControl">The <see cref="IDataType" /> editor control.</param>
+        /// <returns>The control to validate.</returns>
+        public virtual Control GetControlToValidate(T dataType, Control editorControl)
+        {
+            return editorControl;
+        }
+
+        /// <summary>
         /// Method for performing special actions <b>before</b> creating the <see cref="IDataType"/> editor.
         /// </summary>
         /// <remarks>Called <b>before</b> the grid creates the editor controls for the specified <see cref="IDataType"/>.</remarks>

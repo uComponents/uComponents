@@ -29,14 +29,15 @@ namespace uComponents.DataTypes.DataTypeGrid
     using uComponents.DataTypes.DataTypeGrid.Extensions;
     using uComponents.DataTypes.DataTypeGrid.Functions;
     using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
+    using uComponents.DataTypes.DataTypeGrid.Validators;
 
     using umbraco;
 
     /// <summary>
     /// The DataType Grid Control
     /// </summary>
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js",
-        "UmbracoClient")]
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class DataEditor : Control, INamingContainer, IDataEditor
     {
         #region Fields
@@ -441,7 +442,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 tr.Cells.Add(id);
 
                 // Delete button
-                var actions = new TableCell();
+                var actions = new TableCell() { CssClass = "actions" };
 
                 var dInner = new HtmlGenericControl("span");
                 dInner.Attributes["class"] = "ui-button-text";
@@ -585,29 +586,30 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             var control = parent.FindControl(config.Value.DataEditor.Editor.ID);
 
-            var title = config.Name;
-
             // If the name starts with a hash, get the dictionary item
             if (config.Name.StartsWith("#"))
             {
                 var key = config.Name.Substring(1, config.Name.Length - 1);
 
-                title = uQuery.GetDictionaryItem(key, key);
+                config.Name = uQuery.GetDictionaryItem(key, key);
             }
 
             // Mandatory
             if (this.StoredPreValues.Single(x => x.Alias == config.Alias).Mandatory && control != null)
             {
-                var validator = new RequiredFieldValidator()
-                                    {
-                                        ID = name + config.Alias + "_Required_" + list.IndexOf(config),
-                                        Enabled = false,
-                                        CssClass = "validator",
-                                        ControlToValidate = control.ID,
-                                        Display = ValidatorDisplay.Dynamic,
-                                        ErrorMessage = title + " is mandatory"
-                                    };
-                parent.Controls.Add(validator);
+                try
+                {
+                    var wrapper = new Panel();
+
+                    var validator = new ClientSideRequiredFieldValidator(name, config, false);
+
+                    wrapper.Controls.Add(validator);
+                    parent.Controls.Add(wrapper);
+                }
+                catch (Exception ex)
+                {
+                    HttpContext.Current.Trace.Warn("DataTypeGrid", "EditorControl (" + config.Value.DataTypeName + ") does not support validation", ex);
+                }
             }
 
             // Regex
@@ -615,18 +617,17 @@ namespace uComponents.DataTypes.DataTypeGrid
             {
                 try
                 {
+                    var wrapper = new Panel();
+
                     var regex = new Regex(@StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression);
-                    var validator = new RegularExpressionValidator()
-                        {
-                            ID = name + config.Alias + "_Regex_" + list.IndexOf(config),
-                            Enabled = false,
-                            CssClass = "validator",
-                            ControlToValidate = control.ID,
-                            Display = ValidatorDisplay.Dynamic,
-                            ValidationExpression = regex.ToString(),
-                            ErrorMessage = title + " is not in a correct format"
-                        };
-                    parent.Controls.Add(validator);
+                    var validator = new ClientSideRegexValidator(name, config, false)
+                                        {
+                                            ValidationExpression =
+                                                regex.ToString()
+                                        };
+
+                    wrapper.Controls.Add(validator);
+                    parent.Controls.Add(wrapper);
                 }
                 catch (ArgumentException ex)
                 {
@@ -651,12 +652,12 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             InsertControls.Controls.Clear();
 
-            InsertControls.Controls.Add(new LiteralControl("<ul>"));
+            InsertControls.Controls.Add(new LiteralControl("<ul class='controls'>"));
 
             foreach (var config in InsertDataTypes)
             {
                 var control = config.Value.DataEditor.Editor;
-                control.ID = "Insert" + config.Alias;
+                control.ID = "insert" + config.Alias;
 
                 // Initialize the datatype so it works with DTG
                 DataTypeFactoryServiceLocator.Instance.Initialize(config.Value, this.InsertControls);
@@ -664,9 +665,9 @@ namespace uComponents.DataTypes.DataTypeGrid
                     (sender, args) =>
                     DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.InsertControls);
 
-                InsertControls.Controls.Add(new LiteralControl("<li>"));
+                InsertControls.Controls.Add(new LiteralControl("<li class='control'>"));
 
-                var title = new Label() { CssClass = "insertControlLabel", Text = config.Name };
+                var title = new Label() { CssClass = "control-label", Text = config.Name };
 
                 // If the name starts with a hash, get the dictionary item
                 if (config.Name.StartsWith("#"))
@@ -679,7 +680,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.InsertControls.Controls.Add(title);
 
                 InsertControls.Controls.Add(control);
-                GenerateValidationControls(InsertControls, "Insert", config, InsertDataTypes);
+                GenerateValidationControls(InsertControls, "insert", config, InsertDataTypes);
 
                 InsertControls.Controls.Add(new LiteralControl("</li>"));
             }
@@ -744,7 +745,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             this.EditControls.Controls.Clear();
 
-            this.EditControls.Controls.Add(new LiteralControl("<ul>"));
+            this.EditControls.Controls.Add(new LiteralControl("<ul class='controls'>"));
 
             foreach (var config in this.EditDataTypes)
             {
@@ -757,9 +758,9 @@ namespace uComponents.DataTypes.DataTypeGrid
                     (sender, args) =>
                     DataTypeFactoryServiceLocator.Instance.Configure(config.Value, this.EditControls);
 
-                this.EditControls.Controls.Add(new LiteralControl("<li>"));
+                this.EditControls.Controls.Add(new LiteralControl("<li class='control'>"));
 
-                var title = new Label() { CssClass = "editControlLabel", Text = config.Name };
+                var title = new Label() { CssClass = "control-label", Text = config.Name };
 
                 // If the name starts with a hash, get the dictionary item
                 if (config.Name.StartsWith("#"))
@@ -772,7 +773,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.EditControls.Controls.Add(title);
 
                 this.EditControls.Controls.Add(control);
-                this.GenerateValidationControls(this.EditControls, "Edit", config, this.EditDataTypes);
+                this.GenerateValidationControls(this.EditControls, "edit", config, this.EditDataTypes);
 
                 this.EditControls.Controls.Add(new LiteralControl("</li>"));
             }
@@ -817,7 +818,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.GenerateEditControls();
 
             ScriptManager.RegisterClientScriptBlock(
-                this, GetType(), "OpenEditDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlEdit')", true);
+                this,
+                this.GetType(),
+                "OpenEditDialog_" + this.ID,
+                "$(function() {$('#" + this.ClientID + "_ctrlEdit').uComponents().datatypegrid('openDialog'); });",
+                true);
         }
 
         /// <summary>
@@ -900,7 +905,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.ClearControls();
 
             ScriptManager.RegisterClientScriptBlock(
-                this, GetType(), "OpenInsertDialog_" + this.ID, "openDialog('" + this.ClientID + "_ctrlInsert')", true);
+                this,
+                this.GetType(),
+                "OpenInsertDialog_" + this.ID,
+                "$(function() {$('#" + this.ClientID + "_ctrlInsert').uComponents().datatypegrid('openDialog'); });",
+                true);
         }
 
         /// <summary>
@@ -1012,7 +1021,14 @@ namespace uComponents.DataTypes.DataTypeGrid
                             {
                                 if (config.Alias.Equals(node.Name))
                                 {
-                                    value.Value.Data.Value = node.InnerText;
+                                    try
+                                    {
+                                        value.Value.Data.Value = node.InnerText;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        HttpContext.Current.Trace.Warn("DataTypeGrid", "Stored data (" + node.InnerText + ") for '" + value.Alias + "' is incompatible with the datatype '" + value.Value.DataTypeName + "'", ex);
+                                    }
                                 }
                             }
 
