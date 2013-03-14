@@ -657,7 +657,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var config in InsertDataTypes)
             {
                 var control = config.Value.DataEditor.Editor;
-                control.ID = "Insert" + config.Alias;
+                control.ID = "insert" + config.Alias;
 
                 // Initialize the datatype so it works with DTG
                 DataTypeFactoryServiceLocator.Instance.Initialize(config.Value, this.InsertControls);
