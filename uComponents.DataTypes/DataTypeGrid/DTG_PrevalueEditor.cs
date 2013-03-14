@@ -454,10 +454,12 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             this._accordionContainer.Controls.Add(addNewProperty);
 
-            // Write stored entries)
+            // Write stored entries
             foreach (var s in this._preValues)
             {
                 var editProperty = new Panel() { ID = "editProperty_" + s.Id.ToString(), CssClass = "editProperty" };
+
+                var editDataType = ddlNewType.Items.FindByValue(s.DataTypeId.ToString());
 
                 var editPropertyHeader = new Panel() { CssClass = "propertyHeader" };
                 var editPropertyTitle = new HtmlGenericControl("h3")
@@ -467,12 +469,16 @@ namespace uComponents.DataTypes.DataTypeGrid
                                                         "{0} ({1}), {2}: {3}",
                                                         s.Name.StartsWith("#")
                                                             ? uQuery.GetDictionaryItem(
-                                                                s.Name.Substring(1, s.Name.Length - 1),
-                                                                s.Name.Substring(1, s.Name.Length - 1))
+                                                                s.Name.Substring(
+                                                                    1, s.Name.Length - 1),
+                                                                s.Name.Substring(
+                                                                    1, s.Name.Length - 1))
                                                             : s.Name,
                                                         s.Alias,
                                                         uQuery.GetDictionaryItem("Type", "Type"),
-                                                        ddlNewType.Items.FindByValue(s.DataTypeId.ToString()).Text)
+                                                        editDataType != null
+                                                            ? editDataType.Text
+                                                            : "ERROR: This datatype is not supported")
                                             };
 
                 editPropertyTitle.Attributes["class"] = "propertyTitle";
