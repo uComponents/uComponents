@@ -10,8 +10,8 @@
 	<PropertyGroup>
 		<VersionMajor>5</VersionMajor>
 		<VersionMinor>4</VersionMinor>
-		<VersionPatch>1</VersionPatch>
-		<VersionSuffix></VersionSuffix>
+		<VersionPatch>2</VersionPatch>
+		<VersionSuffix>-dev</VersionSuffix>
 		<UmbracoVersion>4.8.0</UmbracoVersion>
 	</PropertyGroup>
 
@@ -136,7 +136,7 @@
 			WorkingDirectory="$(BuildUmbDir)"
 			OutputDirectory="$(MSBuildProjectDirectory)"
 			Files="@(PackageFiles)" />
-		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\MSBuildTasks\NuGet.exe"
+		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\..\.nuget\NuGet.exe"
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			BasePath="$(BuildNuGetDir)"
 			OutputDirectory="$(MSBuildProjectDirectory)"
