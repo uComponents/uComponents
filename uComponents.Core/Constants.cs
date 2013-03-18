@@ -4,7 +4,7 @@ namespace uComponents.Core
 	/// <summary>
 	/// Constants class for uComponent specific values.
 	/// </summary>
-	public partial class Constants
+	public static partial class Constants
 	{
 		/// <summary>
 		/// Name of the application.

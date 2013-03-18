@@ -4,17 +4,17 @@ namespace uComponents.Core
 	/// <summary>
 	/// Constants class for uComponent specific values.
 	/// </summary>
-	public partial class Constants
+	public static partial class Constants
 	{
 		/// <summary>
 		/// Constants for Umbraco property aliases.
 		/// </summary>
-		public partial struct Umbraco
+		public static class Umbraco
 		{
 			/// <summary>
 			/// Constants for Umbraco Content property aliases.
 			/// </summary>
-			public partial struct Content
+			public static class Content
 			{
 				/// <summary>
 				/// Property alias for the Content's Url (internal) redirect.
@@ -45,7 +45,7 @@ namespace uComponents.Core
 			/// <summary>
 			/// Constants for Umbraco Media property aliases.
 			/// </summary>
-			public partial struct Media
+			public static class Media
 			{
 				/// <summary>
 				/// Property alias for the Media's file name.
@@ -76,7 +76,7 @@ namespace uComponents.Core
 			/// <summary>
 			/// Constants for Umbraco ObjectTypes Guids.
 			/// </summary>
-			public partial struct ObjectTypes
+			public static class ObjectTypes
 			{
 				/// <summary>
 				/// Guid for the ContentItemType object-type.
@@ -152,7 +152,7 @@ namespace uComponents.Core
 			/// <summary>
 			/// Constants for Umbraco URLs/Querystrings.
 			/// </summary>
-			public partial struct Url
+			public static class Url
 			{
 				/// <summary>
 				/// Querystring parameter name used for Umbraco's alternative template functionality.

@@ -3,12 +3,12 @@
 	/// <summary>
 	/// Constants class for uComponent specific values.
 	/// </summary>
-	public partial class Constants
+	public static partial class Constants
 	{
 		/// <summary>
 		/// Constants for commonly used characters and strings.
 		/// </summary>
-		public struct Common
+		public static class Common
 		{
 			/// <summary>
 			/// A comma (char).
