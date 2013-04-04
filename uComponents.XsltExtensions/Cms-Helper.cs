@@ -7,6 +7,7 @@ using umbraco.cms.businesslogic.member;
 using umbraco.cms.businesslogic.propertytype;
 using umbraco.cms.businesslogic.template;
 using umbraco.cms.businesslogic.web;
+using umbraco.interfaces;
 
 namespace uComponents.XsltExtensions
 {
@@ -71,11 +72,12 @@ namespace uComponents.XsltExtensions
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Name));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "alias", propertyType.Alias));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "contentTypeId", propertyType.ContentTypeId.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Description));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "mandatory", propertyType.Mandatory.ToString()));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", propertyType.SortOrder.ToString()));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "tabId", propertyType.TabId.ToString()));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "regEx", propertyType.ValidationRegExp));
+						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "dataTypeId", propertyType.DataTypeDefinition.Id.ToString()));
+						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "dataTypeGuid", propertyType.DataTypeDefinition.UniqueId.ToString()));
 
 						nodePropertyTypes.AppendChild(nodePropertyType);
 					}
@@ -152,7 +154,6 @@ namespace uComponents.XsltExtensions
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Name));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "alias", propertyType.Alias));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "contentTypeId", propertyType.ContentTypeId.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyType.Description));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "mandatory", propertyType.Mandatory.ToString()));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "sortOrder", propertyType.SortOrder.ToString()));
 						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "tabId", propertyType.TabId.ToString()));
@@ -226,6 +227,29 @@ namespace uComponents.XsltExtensions
 		}
 
 		/// <summary>
+		/// Appends the property editor.
+		/// </summary>
+		/// <param name="xd">The XML document.</param>
+		/// <param name="propertyEditor">The property editor.</param>
+		internal static void AppendPropertyEditor(XmlDocument xd, IDataType propertyEditor)
+		{
+			var nodePropertyEditor = xmlHelper.addTextNode(xd, "PropertyEditor", string.Empty);
+
+			nodePropertyEditor.Attributes.Append(xmlHelper.addAttribute(xd, "id", propertyEditor.Id.ToString()));
+			nodePropertyEditor.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyEditor.DataTypeName));
+
+			// add the property-editor node to the XmlDocument.
+			if (xd.DocumentElement != null)
+			{
+				xd.DocumentElement.AppendChild(nodePropertyEditor);
+			}
+			else
+			{
+				xd.AppendChild(nodePropertyEditor);
+			}
+		}
+
+		/// <summary>
 		/// Gets all templates.
 		/// </summary>
 		/// <returns>Returns a list of templates.</returns>
@@ -236,7 +260,7 @@ namespace uComponents.XsltExtensions
 		/// </remarks>
 		internal static List<Template> GetAllTemplates()
 		{
-			List<Template> templates = null;
+			var templates = new List<Template>();
 
 			if (Template.TemplateAliases != null && Template.TemplateAliases.Count > 0)
 			{
