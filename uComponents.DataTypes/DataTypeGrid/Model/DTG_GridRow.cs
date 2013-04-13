@@ -131,12 +131,14 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
                 // Create method parameters
                 var parameters = new Expression[] { Expression.Constant(binder.Name) };
 
+                var expression = Expression.Call(
+                    Expression.Convert(this.Expression, this.LimitType),
+                    typeof(GridRow).GetMethod("GetCell"),
+                    parameters);
+
                 return
                     new DynamicMetaObject(
-                        Expression.Call(
-                            Expression.Convert(this.Expression, this.LimitType),
-                            typeof(GridRow).GetMethod("GetCell"),
-                            parameters),
+                        expression,
                         BindingRestrictions.GetTypeRestriction(this.Expression, this.LimitType));
             }
         }

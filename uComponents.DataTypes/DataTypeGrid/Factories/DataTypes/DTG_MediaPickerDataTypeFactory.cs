@@ -2,11 +2,12 @@
 {
     using System.Web.UI;
 
-    using Umbraco.Core.Models;
-
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco;
+
+    using Umbraco.Core.Models;
+
     using umbraco.editorControls.mediapicker;
     using umbraco.interfaces;
 
