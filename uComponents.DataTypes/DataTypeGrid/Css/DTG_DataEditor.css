@@ -360,8 +360,6 @@
 .dtg-dialog .ui-dialog-content .control-label
 {
 	display: block;
-	width: 16%;
-	padding-right: 1%;
 	font-weight: bold;
 	font-size: 12px;
 }
