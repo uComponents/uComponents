@@ -40,6 +40,7 @@
 
             try
             {
+                // TODO: Try first to run GetPropertyValue if a IPropertyEditorValueConverter exists for this datatype 
                 return dataType.Data;
             }
             catch

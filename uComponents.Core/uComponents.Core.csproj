@@ -236,6 +236,9 @@
     <Compile Include="Helper-Log.cs">
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper-Resolvers.cs">
+      <DependentUpon>Helper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IUmbracoLibrary.cs" />
     <Compile Include="Helper-IO.cs">
       <DependentUpon>Helper.cs</DependentUpon>
