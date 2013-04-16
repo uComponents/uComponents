@@ -9,9 +9,6 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    /// 
-    /// </summary>
     [Serializable]
     public class StoredValueRow
     {
@@ -39,9 +36,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         public int SortOrder { get; set; }
 
         /// <summary>
-        /// Gets or sets the values.
+        /// Gets or sets the cells.
         /// </summary>
-        /// <value>The values.</value>
+        /// <value>The cells.</value>
         public List<StoredValue> Cells { get; set; }
     }
 }

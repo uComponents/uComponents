@@ -2,6 +2,7 @@
 {
     using System.Linq;
 
+    using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco;
@@ -29,6 +30,12 @@
 
             if (v != null)
             {
+                // Use dictionary item if prefixed with '#'
+                if (v.Value.StartsWith("#"))
+                {
+                    return uQuery.GetDictionaryItem(v.Value.Substring(1), v.Value);
+                }
+
                 return v.Value;
             }
 
