@@ -41,7 +41,7 @@
         }
 
         var el = $("<input type='text' style='position:absolute;left:" + FAR_LEFT + "px'>");
-        var tabIndex = tree.settings.plugins.keyboard;
+        var tabIndex = tree.settings.plugins.keyboard.tabIndex;
         if (tabIndex) {
             el.attr("tabindex", tabIndex);
         }
