@@ -34,16 +34,19 @@
 
 	<!-- UPDATE ASSEMBLEY VERSION -->
 	<Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
+		
 		<!-- CALLS `hg.exe` TO GET THE LATEST CHANGESET LOCAL REVISION NUMBER -->
-		<Exec Command="hg.exe id -r tip -n &gt; &quot;$(BuildDir)\hg-id.txt&quot;" />
+		<Exec Command="hg.exe id -r 6.0.0 -n &gt; &quot;$(BuildDir)\hg-id.txt&quot;" />
 		<ReadLinesFromFile File="$(BuildDir)\hg-id.txt">
 			<Output TaskParameter="Lines" ItemName="HgRevisionNumber"/>
 		</ReadLinesFromFile>
+		
 		<!-- AUTO-GENERATE THE 'Build' AND 'Revision' NUMBERS; FOR USE IN FILEVERSION ATTRIBUTE -->
 		<Version Major="$(VersionMajor)" Minor="$(VersionMinor)" BuildType="Automatic" RevisionType="Automatic" StartDate="29/06/2010">
 			<Output TaskParameter="Build" PropertyName="Build" />
 			<Output TaskParameter="Revision" PropertyName="Revision" />
 		</Version>
+		
 		<AssemblyInfo CodeLanguage="CS"
 			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
 			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"

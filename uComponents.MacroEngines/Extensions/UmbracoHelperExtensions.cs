@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using Umbraco.Web;
+using Umbraco.Web.Templates;
 
 namespace uComponents.MacroEngines.Extensions
 {
@@ -46,7 +47,7 @@ namespace uComponents.MacroEngines.Extensions
 		{
 			var ctrl = new umbraco.presentation.templateControls.Macro()
 			{
-				Language= language,
+				Language = language,
 				FileLocation = fileLocation,
 			};
 
@@ -55,7 +56,7 @@ namespace uComponents.MacroEngines.Extensions
 				ctrl.Attributes.Add(parameter.Key, parameter.Value.ToString());
 			}
 
-			return new HtmlString(ctrl.RenderControlToString());
+			return new HtmlString(TemplateUtilities.ParseInternalLinks(ctrl.RenderControlToString()));
 		}
 	}
 }
