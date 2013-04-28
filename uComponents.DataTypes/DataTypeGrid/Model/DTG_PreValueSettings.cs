@@ -55,22 +55,12 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		public bool Mandatory { get; set; }
 
 		/// <summary>
-		/// Gets or sets the content sorting.
-		/// </summary>
-		/// <value>
-		/// The content sorting.
-		/// </value>
-		[DefaultValue("")]
-		public string ContentSorting { get; set; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="PreValueEditorSettings"/> class.
 		/// </summary>
 		public PreValueEditorSettings()
 		{
 			this.RowsPerPage = 10;
 			this.ShowLabel = false;
-			this.ContentSorting = string.Empty;
 		    this.Mandatory = false;
 			this.ShowGridHeader = true;
 			this.ShowGridFooter = true;

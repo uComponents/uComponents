@@ -161,7 +161,6 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.Settings.ShowGridHeader = this.showHeader != null && this.showHeader.Checked;
                 this.Settings.ShowGridFooter = this.showFooter != null && this.showFooter.Checked;
                 this.Settings.RowsPerPage = this.rowsPerPage != null ? int.Parse(this.rowsPerPage.Text) : 10;
-                this.Settings.ContentSorting = this.GetContentSorting(this.preValues);
                 prevalues.Add(this.Settings);
 
                 // Add existing prevalues;
@@ -451,62 +450,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
-            // CONTENT SORT PRIORITY
-            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-            // Instantiate controls
-            var ddlNewContentSortPriority =
-                this.prevalueEditorControlFactory.BuildContentPriorityDropdownList(this.preValues, null);
-            ddlNewContentSortPriority.ID = "newContentSortPriority";
-            ddlNewContentSortPriority.CssClass = "newContentSortPriority";
-
-            var lblNewContentSortPriority = new Label()
-                                                {
-                                                    Text =
-                                                        Helper.Dictionary.GetDictionaryItem(
-                                                            "ContentSortPriority", "Content Sort Priority"),
-                                                    CssClass = "label"
-                                                };
-
-            // Add controls to control
-            addNewPropertyControls.Controls.Add(lblNewContentSortPriority);
-            addNewPropertyControls.Controls.Add(ddlNewContentSortPriority);
-            ((PreValueRow)this.newPreValue).Controls.Add(ddlNewContentSortPriority);
-            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-            // CONTENT SORT ORDER
-            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-            // Instantiate controls
-            var ddlNewContentSortOrder = new DropDownList()
-                                             {
-                                                 ID = "newContentSortOrder",
-                                                 CssClass = "newContentSortOrder",
-                                             };
-            ddlNewContentSortOrder.Items.Add(new ListItem(string.Empty, string.Empty));
-            ddlNewContentSortOrder.Items.Add(new ListItem(uQuery.GetDictionaryItem("Ascending", "Ascending"), "asc"));
-            ddlNewContentSortOrder.Items.Add(new ListItem(uQuery.GetDictionaryItem("Descending", "Descending"), "desc"));
-            var lblNewContentSortOrder = new Label()
-                                             {
-                                                 Text =
-                                                     Helper.Dictionary.GetDictionaryItem(
-                                                         "ContentSortOrder", "Content Sort Order"),
-                                                 CssClass = "label"
-                                             };
-
-            // Add controls to control
-            addNewPropertyControls.Controls.Add(lblNewContentSortOrder);
-            addNewPropertyControls.Controls.Add(ddlNewContentSortOrder);
-            ((PreValueRow)this.newPreValue).Controls.Add(ddlNewContentSortOrder);
-            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-            // PREVALUE SORT ORDER
-
-            // Instantiate controls
-            var hdnNewSortOrder = new HiddenField() { Value = (this.preValues.Count + 1).ToString() };
-            addNewPropertyControls.Controls.Add(hdnNewSortOrder);
-            ((PreValueRow)this.newPreValue).Controls.Add(hdnNewSortOrder);
-
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</ul>" });
 
             addNewProperty.Controls.Add(addNewPropertyHeader);
@@ -748,71 +691,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
-                // CONTENT SORT PRIORITY
-                editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-                // Instantiate controls
-                var ddlEditContentSortPriority = this.prevalueEditorControlFactory.BuildContentPriorityDropdownList(this.preValues, s.ContentSortPriority);
-                ddlEditContentSortPriority.ID = "editContentSortPriority_" + this.preValues.IndexOf(s);
-                ddlEditContentSortPriority.CssClass = "editContentSortPriority";
-                ddlEditContentSortPriority.Text = s.Alias;
-
-                var lblEditContentSortPriority = new Label()
-                                                     {
-                                                         Text =
-                                                             Helper.Dictionary.GetDictionaryItem(
-                                                                 "ContentSortPriority", "Content Sort Priority"),
-                                                         CssClass = "label"
-                                                     };
-
-                // Add controls to control
-                editPropertyControls.Controls.Add(lblEditContentSortPriority);
-                editPropertyControls.Controls.Add(ddlEditContentSortPriority);
-                s.Controls.Add(ddlEditContentSortPriority);
-                editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-                // CONTENT SORT ORDER
-                editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-                // Instantiate controls
-                var ddlEditContentSortOrder = new DropDownList()
-                                                  {
-                                                      ID =
-                                                          "editContentSortOrder_"
-                                                          + this.preValues.IndexOf(s),
-                                                      CssClass = "editContentSortOrder",
-                                                      Text = s.Alias
-                                                  };
-                ddlEditContentSortOrder.Items.Add(new ListItem(string.Empty, string.Empty));
-                ddlEditContentSortOrder.Items.Add(new ListItem("Ascending", "asc"));
-                ddlEditContentSortOrder.Items.Add(new ListItem("Descending", "desc"));
-                ddlEditContentSortOrder.SelectedValue = string.IsNullOrEmpty(s.ContentSortOrder)
-                                                            ? string.Empty
-                                                            : s.ContentSortOrder;
-
-                var lblEditContentSortOrder = new Label()
-                                                  {
-                                                      Text =
-                                                          Helper.Dictionary.GetDictionaryItem(
-                                                              "ContentSortOrder", "Content Sort Order"),
-                                                      CssClass = "label"
-                                                  };
-
-                // Add controls to control
-                editPropertyControls.Controls.Add(lblEditContentSortOrder);
-                editPropertyControls.Controls.Add(ddlEditContentSortOrder);
-                s.Controls.Add(ddlEditContentSortOrder);
-                editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-                // SORT ORDER
-
-                // Instantiate controls
-                var hdnEditSortOrderWrapper = new Panel() { CssClass = "sortOrder" };
-                var hdnEditSortOrder = new HiddenField() { Value = s.SortOrder.ToString() };
-                hdnEditSortOrderWrapper.Controls.Add(hdnEditSortOrder);
-                editPropertyControls.Controls.Add(hdnEditSortOrderWrapper);
-                s.Controls.Add(hdnEditSortOrder);
-
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</ul>" });
 
                 editProperty.Controls.Add(editPropertyHeader);
@@ -1026,42 +904,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Gets the content sorting.
-        /// </summary>
-        /// <param name="s">The prevalues.</param>
-        /// <returns>The content sorting as a DataTables-compatible string.</returns>
-        private string GetContentSorting(IList<PreValueRow> s)
-        {
-            var list =
-                s.Where(
-                    storedConfig =>
-                    !string.IsNullOrEmpty(storedConfig.ContentSortPriority)
-                    && !string.IsNullOrEmpty(storedConfig.ContentSortOrder)).OrderBy(
-                        storedConfig => storedConfig.ContentSortPriority);
-
-            var sorting = "[[0, 'asc']]";
-
-            if (list.Any())
-            {
-                sorting = "[";
-
-                foreach (var storedConfig in list)
-                {
-                    sorting += "[ " + (s.IndexOf(storedConfig) + 2) + ", '" + storedConfig.ContentSortOrder + "']";
-
-                    if (list.ToList().IndexOf(storedConfig) < list.Count() - 1)
-                    {
-                        sorting += ",";
-                    }
-                }
-
-                sorting += "]";
-            }
-
-            return sorting;
         }
     }
 }

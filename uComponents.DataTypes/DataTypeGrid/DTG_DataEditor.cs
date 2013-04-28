@@ -194,14 +194,6 @@ namespace uComponents.DataTypes.DataTypeGrid
         public LiteralControl DataTablesTranslation { get; set; }
 
         /// <summary>
-        /// Gets or sets the content sorting.
-        /// </summary>
-        /// <value>
-        /// The content sorting.
-        /// </value>
-        public HiddenField ContentSorting { get; set; }
-
-        /// <summary>
         /// Gets or sets the stored prevalues.
         /// </summary>
         /// <value>The stored pre values.</value>
@@ -1213,7 +1205,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.ShowGridFooter = new HiddenField() { ID = "ShowGridFooter", Value = this.settings.ShowGridFooter.ToString() };
             this.DataTablesTranslation = new LiteralControl() { ID = "DataTablesTranslation", Text = this.GetDataTablesTranslation() };
             this.RowsPerPage = new HiddenField() { ID = "RowsPerPage", Value = this.settings.RowsPerPage.ToString() };
-            this.ContentSorting = new HiddenField() { ID = "ContentSorting", Value = this.settings.ContentSorting };
             this.Grid = new Table { ID = "tblGrid", CssClass = "display" };
             this.Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
@@ -1253,7 +1244,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Controls.Add(this.ShowGridFooter);
             this.Controls.Add(this.RowsPerPage);
             this.Controls.Add(this.DataTablesTranslation);
-            this.Controls.Add(this.ContentSorting);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.Toolbar);
             this.Controls.Add(this.InsertControls);
@@ -1278,7 +1268,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.ShowGridFooter.RenderControl(writer);
             this.RowsPerPage.RenderControl(writer);
             this.DataTablesTranslation.RenderControl(writer);
-            ContentSorting.RenderControl(writer);
             Grid.RenderControl(writer);
             Toolbar.RenderControl(writer);
 
