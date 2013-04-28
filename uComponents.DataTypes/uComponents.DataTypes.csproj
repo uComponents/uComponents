@@ -252,6 +252,7 @@
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DateDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_DataTypeGridConfigurationFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_XPathCheckBoxListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_XPathDropDownListDataTypeFactory.cs" />
@@ -263,7 +264,7 @@
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_ColorPickerDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_BaseDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DropdownListDataTypeFactory.cs" />
-    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DateDataTypeFactory.cs" />
+    <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DateTimeDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_PagePickerDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DefaultDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_MediaPickerDataTypeFactory.cs" />
