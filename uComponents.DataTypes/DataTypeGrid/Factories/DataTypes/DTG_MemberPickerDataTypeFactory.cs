@@ -43,8 +43,8 @@
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType">datatype</see> instance.</param>
         /// <returns>The backing object.</returns>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()" /> method is called on a <see cref="GridCell" />.</remarks>
-        public override object GetObject(MemberPickerDataType dataType)
+        /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>
+        public override object GetPropertyValue(MemberPickerDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 

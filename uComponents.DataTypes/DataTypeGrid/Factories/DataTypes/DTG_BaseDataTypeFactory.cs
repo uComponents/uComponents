@@ -2,6 +2,7 @@
 {
     using System.Web.UI;
 
+    using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
@@ -30,8 +31,8 @@
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType">datatype</see> instance.</param>
         /// <returns>The backing object.</returns>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()" /> method is called on a <see cref="GridCell" />.</remarks>
-        public virtual object GetObject(T dataType)
+        /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>
+        public virtual object GetPropertyValue(T dataType)
         {
             if (dataType.Data == null)
             {
@@ -40,8 +41,14 @@
 
             try
             {
-                // TODO: Try first to run GetPropertyValue if a IPropertyEditorValueConverter exists for this datatype 
-                return dataType.Data;
+                var converter = Helper.Resolvers.GetPropertyValueConverter(dataType);
+
+                if (converter != null)
+                {
+                    return converter.ConvertPropertyValue(dataType.Data.Value).Result;
+                }
+
+                return dataType.Data.Value;
             }
             catch
             {

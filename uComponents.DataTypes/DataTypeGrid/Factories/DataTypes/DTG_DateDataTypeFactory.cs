@@ -35,19 +35,6 @@
         }
 
         /// <summary>
-        /// Method for getting the backing object for the specified <paramref name="dataType" />.
-        /// </summary>
-        /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
-        /// <returns>The backing object.</returns>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()" /> method is called on a <see cref="GridCell" />.</remarks>
-        public override object GetObject(DateDataType dataType)
-        {
-            var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
-
-            return DateTime.Parse(value);
-        }
-
-        /// <summary>
         /// Method for performing special actions while creating the <paramref name="dataType" /> editor.
         /// </summary>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>

@@ -6,13 +6,12 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
-    using System;
-
-    using Umbraco.Core.Dynamics;
-
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
+    using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
 
     using umbraco.cms.businesslogic.datatype;
+
+    using Umbraco.Core.Dynamics;
 
     /// <summary>
     /// Represents a DataTypeGrid Cell
@@ -55,18 +54,19 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         }
 
         /// <summary>
-        /// Gets the value from the <see cref="IDataTypeFactory{T}" /> for this DataType.
+        /// Gets the value from the <see cref="IDataTypeFactory{T}" /> for this DataType as a dynamic value.
         /// </summary>
-        /// <typeparam name="T">The backing object type. i.e. IContent, Member, etc.</typeparam>
-        /// <returns>The value from the <see cref="IDataTypeFactory{T}" /> for this DataType.</returns>
-        public T GetObject<T>()
+        /// <returns>The dynamic value from the <see cref="IDataTypeFactory{T}" /> for this DataType.</returns>
+        public dynamic GetPropertyValue()
         {
             var dtd = DataTypeDefinition.GetDataTypeDefinition(this.DataType);
             var dt = dtd.DataType;
 
-            // TODO: Use factories to get the backing object
+            dt.Data.Value = this.Value;
 
-            throw new NotImplementedException();
+            dynamic o = DataTypeFactoryServiceLocator.Instance.GetPropertyValue(dt);
+
+            return o;
         }
 
         /// <summary>

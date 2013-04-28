@@ -47,10 +47,10 @@
         /// <summary>
         /// Method for getting the backing object for the specified <paramref name="dataType" />.
         /// </summary>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()"/> method is called on a <see cref="GridCell"/>.</remarks>
+        /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell"/>.</remarks>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The backing object.</returns>
-        public override object GetObject(MemberPickerDataType dataType)
+        public override object GetPropertyValue(MemberPickerDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 

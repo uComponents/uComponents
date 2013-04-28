@@ -31,17 +31,8 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
         /// <returns>The backing object.</returns>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()" /> method is called on a <see cref="GridCell" />.</remarks>
-        object GetObject(IDataType dataType);
-
-        /// <summary>
-        /// Method for getting the backing object for the specified <see cref="IDataType"/>.
-        /// </summary>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()"/> method is called on a <see cref="GridCell"/>.</remarks>
-        /// <typeparam name="TBackingObject">The backing type for the specified <see cref="IDataType"/>.</typeparam>
-        /// <param name="dataType">The <see cref="IDataType"/> instance.</param>
-        /// <returns>The backing object.</returns>
-        TBackingObject GetObject<TBackingObject>(IDataType dataType);
+        /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>
+        object GetPropertyValue(IDataType dataType);
 
         /// <summary>
         /// Method for getting the control to use when validating the specified <see cref="IDataType"/>.

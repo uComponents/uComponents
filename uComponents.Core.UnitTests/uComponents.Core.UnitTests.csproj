@@ -101,6 +101,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.1\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.6.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.0.2\lib\MySql.Data.dll</HintPath>
@@ -229,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\MockUmbracoLibrary.cs" />
+    <Compile Include="Helpers\ResolversTests.cs" />
     <Compile Include="XsltExtensions\RandomTest.cs" />
     <Compile Include="XsltExtensions\UrlsTest.cs" />
     <Compile Include="DataTypes\DataTypeGrid\GridCellTests.cs" />

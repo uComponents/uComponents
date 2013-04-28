@@ -68,26 +68,14 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
         /// <returns>The backing object.</returns>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()" /> method is called on a <see cref="GridCell" />.</remarks>
-        public object GetObject(IDataType dataType)
+        /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>
+        public object GetPropertyValue(IDataType dataType)
         {
             var f = this.GetDataTypeFactory(dataType);
 
-            var v = f.GetType().GetMethod("GetObject").Invoke(f, new object[] { dataType });
+            var v = f.GetType().GetMethod("GetPropertyValue").Invoke(f, new object[] { dataType });
 
             return v;
-        }
-
-        /// <summary>
-        /// Method for getting the backing object for the specified <see cref="IDataType" />.
-        /// </summary>
-        /// <typeparam name="TBackingObject">The backing type for the specified <see cref="IDataType" />.</typeparam>
-        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
-        /// <returns>The backing object.</returns>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()" /> method is called on a <see cref="GridCell" />.</remarks>
-        public TBackingObject GetObject<TBackingObject>(IDataType dataType)
-        {
-            return default(TBackingObject);
         }
 
         /// <summary>
