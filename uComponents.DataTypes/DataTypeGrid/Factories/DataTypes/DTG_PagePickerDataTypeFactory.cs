@@ -2,6 +2,7 @@
 {
     using System.Web.UI;
 
+    using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco.editorControls.pagepicker;
@@ -47,6 +48,15 @@
         /// <returns>The backing object.</returns>
         public override object GetPropertyValue(PagePickerDataType dataType)
         {
+            // Try to use registered property value converter first
+            var converter = Helper.Resolvers.GetPropertyValueConverter(dataType);
+
+            if (converter != null)
+            {
+                return converter.ConvertPropertyValue(dataType.Data.Value).Result;
+            }
+
+            // Fall back to custom value conversion
             if (dataType.Data.Value != null)
             {
                 int id;

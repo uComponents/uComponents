@@ -2,6 +2,7 @@
 {
     using System.Web.UI;
 
+    using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco;
@@ -34,10 +35,19 @@
             {
                 var m = uQuery.GetMedia(id);
 
-                // Return thumbnail if media type is Image
-                if (m != null && m.ContentType.Alias.Equals("Image"))
+                if (m != null)
                 {
-                    return string.Format("<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>", m.GetImageThumbnailUrl(), m.Text, m.Id);
+                    // Return thumbnail if media type is Image
+                    if (m.ContentType.Alias.Equals("Image"))
+                    {
+                        return string.Format("<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>", m.GetImageThumbnailUrl(), m.Text, m.Id);
+                    }
+
+                    // Return link if media type is File or Folder
+                    if (m.ContentType.Alias.Equals("File") || m.ContentType.Alias.Equals("Folder"))
+                    {
+                        return string.Format("<a href='editMedia.aspx?id={1}' title='Edit media'>{0}</a>", m.Text, m.Id);
+                    }
                 }
             }
 
@@ -52,6 +62,15 @@
         /// <returns>The backing object.</returns>
         public override object GetPropertyValue(MemberPickerDataType dataType)
         {
+            // Try to use registered property value converter first
+            var converter = Helper.Resolvers.GetPropertyValueConverter(dataType);
+
+            if (converter != null)
+            {
+                return converter.ConvertPropertyValue(dataType.Data.Value).Result;
+            }
+
+            // Fall back to custom value conversion
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
             int id;

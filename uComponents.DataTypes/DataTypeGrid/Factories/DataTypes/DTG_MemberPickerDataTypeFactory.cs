@@ -2,6 +2,7 @@
 {
     using System.Web.UI;
 
+    using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco.cms.businesslogic.member;
@@ -46,6 +47,15 @@
         /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>
         public override object GetPropertyValue(MemberPickerDataType dataType)
         {
+            // Try to use registered property value converter first
+            var converter = Helper.Resolvers.GetPropertyValueConverter(dataType);
+
+            if (converter != null)
+            {
+                return converter.ConvertPropertyValue(dataType.Data.Value).Result;
+            }
+
+            // Fall back to custom value conversion
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
             int id;
