@@ -71,50 +71,6 @@
 		return false;
 	});
 
-	$('.newContentSortPriority').change(function () {
-		var order = $(this).parent().parent().find(".newContentSortOrder");
-
-		if ($(this).val() == "") {
-			order.val("");
-		}
-		else if (order.val() == "") {
-			order.val("asc");
-		}
-	});
-
-	$(".newContentSortOrder").change(function () {
-		var priority = $(this).parent().parent().find(".newContentSortPriority");
-
-		if ($(this).val() == "") {
-			priority.val("");
-		}
-		else if (priority.val() == "") {
-			priority.val("1");
-		}
-	});
-
-	$('.editContentSortPriority').change(function () {
-		var order = $(this).parent().parent().find(".editContentSortOrder");
-
-		if ($(this).val() == "") {
-			order.val("");
-		}
-		else if (order.val() == "") {
-			order.val("asc");
-		}
-	});
-
-	$(".editContentSortOrder").change(function () {
-		var priority = $(this).parent().parent().find(".editContentSortPriority");
-
-		if ($(this).val() == "") {
-			priority.val("");
-		}
-		else if (priority.val() == "") {
-			priority.val("1");
-		}
-	});
-
 	$('.newName, .newAlias, .newValidation, .editName, .editAlias, .editValidation').keyup(function () {
 		$(this).trigger('change');
 	});

@@ -450,6 +450,13 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+            // PREVALUE SORT ORDER
+
+            // Instantiate controls
+            var hdnNewSortOrder = new HiddenField() { Value = (this.preValues.Count + 1).ToString() };
+            addNewPropertyControls.Controls.Add(hdnNewSortOrder);
+            ((PreValueRow)this.newPreValue).Controls.Add(hdnNewSortOrder);
+
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</ul>" });
 
             addNewProperty.Controls.Add(addNewPropertyHeader);
@@ -691,6 +698,15 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+                // SORT ORDER
+
+                // Instantiate controls
+                var hdnEditSortOrderWrapper = new Panel() { CssClass = "sortOrder" };
+                var hdnEditSortOrder = new HiddenField() { Value = s.SortOrder.ToString() };
+                hdnEditSortOrderWrapper.Controls.Add(hdnEditSortOrder);
+                editPropertyControls.Controls.Add(hdnEditSortOrderWrapper);
+                s.Controls.Add(hdnEditSortOrder);
+
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</ul>" });
 
                 editProperty.Controls.Add(editPropertyHeader);
@@ -821,7 +837,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <returns></returns>
         private BasePreValueRow ParsePrevalue(PreValueRow t)
         {
-            if (t != null && t.Controls.Count == 8)
+            if (t != null && t.Controls.Count == 6)
             {
                 // Get values
                 var name = t.Controls[0] != null ? ((TextBox)t.Controls[0]).Text : null;
@@ -829,13 +845,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 var dataTypeId = t.Controls[2] != null ? int.Parse(((DropDownList)t.Controls[2]).SelectedValue) : 0;
                 var mandatory = t.Controls[3] != null ? ((CheckBox)t.Controls[3]).Checked : false;
                 var validation = t.Controls[4] != null ? ((TextBox)t.Controls[4]).Text : null;
-                var contentSortPriority = t.Controls[5] != null
-                                              ? ((DropDownList)t.Controls[5]).SelectedValue
-                                              : string.Empty;
-                var contentSortOrder = t.Controls[6] != null
-                                           ? ((DropDownList)t.Controls[6]).SelectedValue
-                                           : string.Empty;
-                var sortOrder = t.Controls[7] != null ? int.Parse(((HiddenField)t.Controls[7]).Value) : 0;
+                var sortOrder = t.Controls[5] != null ? int.Parse(((HiddenField)t.Controls[5]).Value) : 0;
 
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(alias))
                 {
@@ -848,8 +858,6 @@ namespace uComponents.DataTypes.DataTypeGrid
                             DataTypeId = dataTypeId,
                             Mandatory = mandatory,
                             ValidationExpression = validation,
-                            ContentSortPriority = contentSortPriority,
-                            ContentSortOrder = contentSortOrder,
                             SortOrder = sortOrder
                         };
 
