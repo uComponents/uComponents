@@ -207,10 +207,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.0.2\lib\Umbraco.Web.UI.dll</HintPath>
     </Reference>
-    <Reference Include="umbraco.webservices, Version=1.0.4811.18156, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.6.0.2\lib\umbraco.webservices.dll</HintPath>
-    </Reference>
     <Reference Include="umbraco.XmlSerializers, Version=1.0.4811.18154, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.0.2\lib\umbraco.XmlSerializers.dll</HintPath>
