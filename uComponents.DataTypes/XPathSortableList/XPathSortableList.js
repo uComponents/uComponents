@@ -1,4 +1,4 @@
-﻿/*
+/*
     <!-- made server side -->
 
     <div id="body_prop_xPathSortableListDocuments_ct100" class="xpath-sortable-list (thumbnails)" 
@@ -153,9 +153,9 @@ var XPathSortableList = XPathSortableList || (function () {
         //TODO: if there's an existing li of type placeholder? then remove it
         
         // handle placeholder <li>s
-        var li = jQuery('<li data-value="' + value + '">' +
+        var li = jQuery('<li data-value="' + value + '"><div>' +
                             text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
-                 '</li>');
+                 '</div></li>');
 
         li.prepend(img.clone());
 
