@@ -70,6 +70,7 @@ var XPathSortableList = XPathSortableList || (function () {
         var type = div.data('type');
         var minItems = div.data('min-items');
         var maxItems = div.data('max-items');
+        var listHeight = div.data('list-height');
 
         // no limit, so remove the border
         if (maxItems == 0) {
@@ -111,6 +112,12 @@ var XPathSortableList = XPathSortableList || (function () {
                 updateHidden(sortableUl, hidden, type);
             }
         });
+        
+        // adjust height for scrolling if specified
+        if (parseInt(listHeight) > 0) {
+            sourceUl.css('height', listHeight);
+            div.addClass('scrolling');
+        }
 
     }
 

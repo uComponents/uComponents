@@ -10,10 +10,19 @@
     user-select: none;
 }
 
+.xpath-sortable-list.scrolling
+{
+    width: 650px;
+}
+
 .xpath-sortable-list ul
 {
     list-style-type:none;
     float:left;
+}
+
+.xpath-sortable-list.scrolling ul.source-list {
+    overflow-y: scroll;
 }
 
 .xpath-sortable-list ul.sortable-list

@@ -98,6 +98,13 @@ namespace uComponents.DataTypes.XPathSortableList
         public bool AllowDuplicates { get; set; }
 
         /// <summary>
+        /// Gets or sets the height of the list control
+        /// </summary>
+        /// <value>The height</value>
+        [DefaultValue(0)]
+        public int ListHeight { get; set; }
+
+        /// <summary>
         /// Helper to get the UmbracoObjectType from the stored string guid
         /// </summary>
         /// <value>The type of the umbraco object.</value>
