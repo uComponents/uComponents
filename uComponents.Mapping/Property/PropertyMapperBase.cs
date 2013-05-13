@@ -15,7 +15,7 @@ namespace uComponents.Mapping.Property
     internal abstract class PropertyMapperBase
     {
         // Stores the GetProperty<> method for casting node property values
-        private readonly static MethodInfo _getNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty");
+        private readonly static MethodInfo _getNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty", new Type[] { typeof(Node), typeof(String) });
 
         /// <summary>
         /// Whether the property mapper should allow its mapped value to be cached.
