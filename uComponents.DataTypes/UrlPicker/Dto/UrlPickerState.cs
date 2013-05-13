@@ -292,6 +292,17 @@ namespace uComponents.DataTypes.UrlPicker.Dto
                     default:
                         throw new NotImplementedException();
                 }
+                
+                 // If the mode is a content node, get the url for the node
+                 if (state.Mode == UrlPickerMode.Content && state.NodeId.HasValue)
+                 {
+                     string url = umbraco.library.NiceUrl(state.NodeId.Value);
+  
+                     if (!String.IsNullOrWhiteSpace(url))
+                     {
+                         state.Url = url;
+                     }
+                 }
             }
             catch (Exception)
             {
