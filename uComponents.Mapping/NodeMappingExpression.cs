@@ -326,12 +326,18 @@ namespace uComponents.Mapping
             Expression<Func<TDestination, object>> destinationProperty
             )
         {
+            var propertyInfo = destinationProperty.GetPropertyInfo();
+            if (!propertyInfo.CanWrite)
+            {
+                throw new NotSupportedException(string.Format("Cannot remove mapping for a ReadOnly property. Name: '{0}', Class: '{1}'", propertyInfo.Name, propertyInfo.DeclaringType.FullName));
+            }
+
             if (destinationProperty == null)
             {
                 throw new ArgumentNullException("destinationProperty");
             }
 
-            _nodeMapper.RemovePropertyMapper(destinationProperty.GetPropertyInfo());
+            _nodeMapper.RemovePropertyMapper(propertyInfo);
 
             return this;
         }
