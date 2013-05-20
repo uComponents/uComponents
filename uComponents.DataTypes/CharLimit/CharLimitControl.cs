@@ -15,7 +15,7 @@ namespace uComponents.DataTypes.CharLimit
 	/// </summary>
 	[ValidationProperty("Text")]
 	public class CharLimitControl : PlaceHolder
-    {
+	{
 		/// <summary>
 		/// Gets or sets the options.
 		/// </summary>
@@ -93,7 +93,7 @@ namespace uComponents.DataTypes.CharLimit
 			this.TextBoxControl.TextMode = this.Options.TextBoxMode;
 			this.TextBoxControl.CssClass = this.Options.TextBoxMode == TextBoxMode.SingleLine ? "CharLimit umbEditorTextField" : "CharLimit umbEditorTextFieldMultiple";
 			this.TextBoxControl.Attributes.Add("rel", this.Options.Limit.ToString());
-            this.TextBoxControl.Attributes.Add("enforce", this.Options.EnforceCharLimit.ToString());
+			this.TextBoxControl.Attributes.Add("enforce", this.Options.EnforceCharLimit.ToString());
 
 			// add the controls
 			this.Controls.Add(this.TextBoxControl);
@@ -110,16 +110,17 @@ namespace uComponents.DataTypes.CharLimit
 
 			this.TextBoxControl.RenderControl(writer);
 
-            String message = String.Format("You have {0} characters left.", this.Options.Limit - this.Text.Length);
+			String message = String.Format("You have {0} characters left.", this.Options.Limit - this.Text.Length);
 
-            if(!this.Options.EnforceCharLimit && this.Text.Length > this.Options.Limit){
-                message = String.Format("You have gone past the limit of {0}. Total: {1} characters.", this.Options.Limit, this.Text.Length);
-            }
-            // in the case where they've Not enforced the character limit, entered too many characters, and then turned 'enforce' on.
-            else if (this.Options.EnforceCharLimit && this.Text.Length > this.Options.Limit)
-            {
-                message = String.Format("You used {0} characters. You are only allowed {1} characters.", this.Text.Length, this.Options.Limit);
-            }
+			if (!this.Options.EnforceCharLimit && this.Text.Length > this.Options.Limit)
+			{
+				message = String.Format("You have gone past the limit of {0}. Total: {1} characters.", this.Options.Limit, this.Text.Length);
+			}
+			// in the case where they've Not enforced the character limit, entered too many characters, and then turned 'enforce' on.
+			else if (this.Options.EnforceCharLimit && this.Text.Length > this.Options.Limit)
+			{
+				message = String.Format("You used {0} characters. You are only allowed {1} characters.", this.Text.Length, this.Options.Limit);
+			}
 
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, "CharLimitStatus");
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
@@ -133,5 +134,5 @@ namespace uComponents.DataTypes.CharLimit
 			var javascript = string.Concat("<script type='text/javascript'>jQuery(window).load(function(){", javascriptMethod, "});</script>");
 			writer.WriteLine(javascript);
 		}
-    }
+	}
 }
