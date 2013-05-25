@@ -27,7 +27,7 @@ namespace uComponents.DataTypes.RenderMacro
 		private MacroEditor MacroEditor;
 
 		/// <summary>
-		/// The Checkbox control to define whether to show the label for the Notes data-type.
+		/// The Checkbox control to define whether to show the label for the data-type.
 		/// </summary>
 		private CheckBox ShowLabel;
 
