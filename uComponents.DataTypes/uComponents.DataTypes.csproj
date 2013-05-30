@@ -249,6 +249,7 @@
     <Compile Include="DataTypeGrid\Constants\DataTypeAction.cs" />
     <Compile Include="DataTypeGrid\DTG_DataEditor.cs" />
     <Compile Include="DataTypeGrid\DTG_DataType.cs" />
+    <Compile Include="DataTypeGrid\PropertyEditorValueConverter.cs" />
     <Compile Include="DataTypeGrid\DTG_PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DTG_DataEditorExtensions.cs" />
     <Compile Include="DataTypeGrid\Factories\DataTypes\DTG_DateDataTypeFactory.cs" />
