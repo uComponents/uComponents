@@ -10,7 +10,9 @@ using Umbraco.Core.Logging;
 
 namespace uComponents.Installer.PackageActions
 {
-	/// <summary>
+    using Constants = uComponents.Core.Constants;
+
+    /// <summary>
 	/// This package action will Add a new HTTP Module to the web.config file.
 	/// </summary>
 	/// <remarks>

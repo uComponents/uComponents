@@ -1,13 +1,15 @@
 ﻿using System.Web;
 using System.Xml;
-using uComponents.Core;
+
 using umbraco.interfaces;
 using Umbraco.Core;
 using Umbraco.Core.IO;
 
 namespace uComponents.Installer.PackageActions
 {
-	/// <summary>
+    using Constants = uComponents.Core.Constants;
+
+    /// <summary>
 	/// This package action will add a new entry to the 404handlers.config file
 	/// </summary>
 	/// <remarks>

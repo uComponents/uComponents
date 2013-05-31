@@ -12,7 +12,9 @@ using Umbraco.Core.IO;
 
 namespace uComponents.Installer
 {
-	/// <summary>
+    using Constants = uComponents.Core.Constants;
+
+    /// <summary>
 	/// The post-install dashboard control.
 	/// </summary>
 	public partial class uComponentsInstaller : UserControl

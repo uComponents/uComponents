@@ -10,6 +10,8 @@ using Umbraco.Core.IO;
 
 namespace uComponents.XsltExtensions
 {
+	using Constants = uComponents.Core.Constants;
+
 	/// <summary>
 	/// The IO class exposes XSLT extensions to access data from System.IO.
 	/// </summary>

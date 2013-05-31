@@ -2,9 +2,9 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using Umbraco.Core.Dynamics;
-
     using uComponents.DataTypes.DataTypeGrid.Model;
+
+    using Umbraco.Core.Dynamics;
 
     [TestClass]
     public class GridRowCollectionTests
