@@ -4,15 +4,12 @@ using uComponents.Core;
 using umbraco.BasePages;
 using umbraco.BusinessLogic;
 using umbraco.interfaces;
-using Umbraco.Core;
 using Umbraco.Core.IO;
 using Umbraco.Core.Logging;
 
 namespace uComponents.Installer.PackageActions
 {
-    using Constants = uComponents.Core.Constants;
-
-    /// <summary>
+	/// <summary>
 	/// This package action will Add a new HTTP Module to the web.config file.
 	/// </summary>
 	/// <remarks>
@@ -149,8 +146,8 @@ namespace uComponents.Installer.PackageActions
 					{
 						// Create new node with attributes
 						var newNode = document.CreateElement("add");
-						newNode.Attributes.Append(XmlHelper.AddAttribute(document, "name", Name));
-						newNode.Attributes.Append(XmlHelper.AddAttribute(document, "type", Type));
+						newNode.Attributes.Append(Umbraco.Core.XmlHelper.AddAttribute(document, "name", Name));
+						newNode.Attributes.Append(Umbraco.Core.XmlHelper.AddAttribute(document, "type", Type));
 
 						// Append new node at the end of root node
 						rootNode.AppendChild(newNode);

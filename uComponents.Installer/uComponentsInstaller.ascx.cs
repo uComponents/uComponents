@@ -7,14 +7,11 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.WebServices;
-using Umbraco.Core;
 using Umbraco.Core.IO;
 
 namespace uComponents.Installer
 {
-    using Constants = uComponents.Core.Constants;
-
-    /// <summary>
+	/// <summary>
 	/// The post-install dashboard control.
 	/// </summary>
 	public partial class uComponentsInstaller : UserControl
@@ -91,7 +88,7 @@ namespace uComponents.Installer
 			// disable the dashboard control checkbox
 			try
 			{
-				var dashboardXml = XmlHelper.OpenAsXmlDocument(SystemFiles.DashboardConfig);
+				var dashboardXml = Umbraco.Core.XmlHelper.OpenAsXmlDocument(SystemFiles.DashboardConfig);
 				if (dashboardXml.SelectSingleNode("//section[@alias = 'uComponentsInstaller']") != null)
 				{
 					this.Success.Visible = false;
