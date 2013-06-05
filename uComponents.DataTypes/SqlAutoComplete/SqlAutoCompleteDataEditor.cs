@@ -20,7 +20,6 @@ namespace uComponents.DataTypes.SqlAutoComplete
     /// DataEditor for the SQL AutoComplete data-type.
     /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class SqlAutoCompleteDataEditor : CompositeControl, IDataEditor
     {
         /// <summary>

@@ -91,6 +91,9 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             focus: function (event, ui) {
                 return false; // prevent the autocomplete text box from being populated with the value of the currenly highlighted item
             },
+            create: function (event, ui) {
+                input.autocomplete('widget').addClass("sql-auto-complete-widget");
+            },
             select: function (event, ui) {
 
                 // only call add item if the maxItems hasn't been reached
