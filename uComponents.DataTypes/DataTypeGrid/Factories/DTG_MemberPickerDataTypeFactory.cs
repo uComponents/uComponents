@@ -1,5 +1,6 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using System;
     using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
@@ -29,10 +30,17 @@
 
             if (id > 0)
             {
-                var m = new Member(id);
+                try 
+                { 
+                    var m = new Member(id);
 
-                // Return member name
-                return string.Format("<a href='editMember.aspx?id={0}' title='Edit content'>{1}</a>", m.Id, m.Text);
+                    // Return member name
+                    return string.Format("<a href='editMember.aspx?id={0}' title='Edit content'>{1}</a>", m.Id, m.Text);
+                }
+                catch (Exception ex)
+                {
+                    return string.Format("<span style='color: red;'>{0}</span>", ex.Message);
+                }
             }
 
             return value;
