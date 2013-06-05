@@ -82,7 +82,7 @@ namespace uComponents.DataTypes.CountryPicker
 		{
 			var cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
 
-			var countries = cultures.Select(cultureInfo => new RegionInfo(cultureInfo.LCID)).Select(regionInfo => regionInfo.DisplayName).ToList();
+			var countries = cultures.Select(cultureInfo => new RegionInfo(cultureInfo.Name)).Select(regionInfo => regionInfo.DisplayName).ToList();
 
 			var sorted = (from c in countries
 						  select c).Distinct().OrderBy(n => n);

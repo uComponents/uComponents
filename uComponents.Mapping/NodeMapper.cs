@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using umbraco.NodeFactory;
-using umbraco;
 using umbraco.cms.businesslogic.web;
 using uComponents.Mapping.Property;
 
@@ -53,9 +49,9 @@ namespace uComponents.Mapping
             // Map properties
             foreach (var destinationProperty in destinationType.GetProperties())
             {
-                if (PropertyMappers.Any(mapper => mapper.DestinationInfo.Name == destinationProperty.Name))
+                if (PropertyMappers.Any(mapper => mapper.DestinationInfo.Name == destinationProperty.Name) || !destinationProperty.CanWrite)
                 {
-                    // A mapping already exists for this property on a base type.
+                    // A mapping already exists for this property on a base type or its a ReadOnly property.
                     continue;
                 }
 
