@@ -77,11 +77,13 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
             source: function (request, response) {
                 jQuery.ajax({
                     type: 'POST',
-                    data: { autoCompleteText: request.term, selectedItems: hidden.val()},
+                    data: { autoCompleteText: request.term, selectedItems: hidden.val() },
                     contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     url: '/Base/' + sqlAutoCompleteId + '/GetData/' + dataTypeDefinitionId + '/' + currentId,
                     dataType: 'json',
-                    success: function (data) { response(data); }
+                    success: function(data) {
+                        response(data);
+                    }
                 });
             },
             open: function (event, ui) {
@@ -142,7 +144,6 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
 
     // public interface to the above methods
     return {
-
         init: init,
         removeItem: removeItem // needs to be public, as call is made from outside the init scope (from the a tag in the selection list)
     };

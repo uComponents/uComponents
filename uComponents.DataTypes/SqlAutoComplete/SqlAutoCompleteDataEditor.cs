@@ -154,9 +154,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             string startupScript = @"                
                 <script language='javascript' type='text/javascript'>
                     $(document).ready(function () {
-
                         SqlAutoComplete.init(jQuery('input#" + this.autoCompleteTextBox.ClientID + @"'));
-
                     });
                 </script>";
 

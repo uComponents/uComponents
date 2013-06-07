@@ -1,6 +1,6 @@
 ﻿/*
     <div class="xpath-auto-complete" 
-         data-xpath-autocomplete-id="EE395ED1-CE6E-4417-AEEB-BCA780D3E96B" 
+         data-xpath-autocomplete-id="6905F13E-829D-4827-9B9F-72D5A00E7A9E" 
          data-datatype-definition-id="1056" 
          data-current-id="1051"
          data-type="Media" 
@@ -86,7 +86,9 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
                     contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     url: '/Base/' + xPathAutoCompleteId + '/GetData/' + dataTypeDefinitionId + '/' + currentId,
                     dataType: 'json',
-                    success: function (data) { response(data); }
+                    success: function(data) {
+                        response(data);
+                    }
                 });
             },
             open: function (event, ui) {
