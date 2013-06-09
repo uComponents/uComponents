@@ -14,6 +14,8 @@ namespace uComponents.XsltExtensions
 	[XsltExtension("ucomponents.members")]
 	public class Members
 	{
+		// TODO: [LK] GetMemberGroups
+
 		/// <summary>
 		/// Gets the members by CSV.
 		/// </summary>

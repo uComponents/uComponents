@@ -464,7 +464,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             this.accordionContainer.Controls.Add(addNewProperty);
 
-            // Write stored entries)
+            // Write stored entries
             foreach (var s in this.preValues)
             {
                 var editProperty = new Panel() { ID = "editProperty_" + s.Id.ToString(), CssClass = "editProperty" };

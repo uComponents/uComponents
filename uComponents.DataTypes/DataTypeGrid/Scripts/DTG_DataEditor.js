@@ -33,7 +33,7 @@ function RegexValidate(source, args) {
                             }
                         });
                     }
-
+                    
                     $(".InsertControls", this).dialog({
                         autoOpen: false,
                         width: 436,
@@ -106,8 +106,15 @@ function RegexValidate(source, args) {
                     // Set loaded indicator
                     $(this).data("datatypegridloaded", true);
                 }
-                
                 // Private functions
+                function getContentSorting(element) {
+                    var e = "";
+                    if ($(element).find("input[id$='ContentSorting']").length > 0) {
+                        e = $(element).find("input[id$='ContentSorting']").val();
+                    }
+                    return eval(e);
+                }
+                
                 function getNumberOfRows(element) {
                     var numberOfRows = 10;
 
@@ -145,7 +152,7 @@ function RegexValidate(source, args) {
         openDialog: function () {
             $(this).dialog('open');
         },
-        getValidatorValue: function(validationProperty) {
+        getValidatorValue: function (validationProperty) {
             if ($(this).is("input") && validationProperty == "Text") {
                 return $(this).val();
             } else if ($(this).is("input") && validationProperty == "Value") {
@@ -157,7 +164,7 @@ function RegexValidate(source, args) {
             // The control to validate does not support validation
             return null;
         },
-        toggleValidators: function(enable) {
+        toggleValidators: function (enable) {
             var validators = $(this).find(".validator");
     
             if (validators.length > 0) {
@@ -228,6 +235,14 @@ function RegexValidate(source, args) {
                 // Set up HTML5 validation if browser supports it
                 if (typeof document.createElement('input').checkValidity == 'function') {
                     $(controlToValidate).attr("pattern", validationExpression);
+                    $(controlToValidate).attr("pattern", validationExpression);
+                }
+
+                var value = $(controlToValidate).uComponents().datatypegrid("getValidatorValue", validationProperty);
+
+                if (value && !new RegExp(validationExpression).test(value)) {
+                    return false;
+                }
                 }
 
                 var value = $(controlToValidate).uComponents().datatypegrid("getValidatorValue", validationProperty);

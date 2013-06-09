@@ -38,14 +38,17 @@
     <Reference Include="businesslogic, Version=1.0.4898.21561, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\businesslogic.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ClientDependency.Core, Version=1.7.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\ClientDependency.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ClientDependency.Core.Mvc, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\ClientDependency.Core.Mvc.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="cms, Version=1.0.4898.21562, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -128,7 +131,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\System.Data.SqlServerCe.dll</HintPath>
@@ -182,7 +184,7 @@
     <Reference Include="TidyNet, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\TidyNet.dll</HintPath>
-    </Reference>
+      <Private>False</Private>
     <Reference Include="umbraco, Version=1.0.4898.21563, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\umbraco.dll</HintPath>
@@ -241,8 +243,11 @@
     <Compile Include="RenderTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
-      <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
+      <Project>{431971ff-df3b-42aa-9e57-fd5d65acad51}</Project>
       <Name>uComponents.Core</Name>
     </ProjectReference>
   </ItemGroup>

@@ -18,3 +18,4 @@ UpgradeLog.*
 *.orig
 *.ncrunchproject
 _NCrunch_uComponents/uComponents.crunchsolution.cache
+packages/*

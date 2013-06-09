@@ -4,6 +4,7 @@ using System.Xml.XPath;
 using umbraco;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.cms.businesslogic.datatype.controls;
 using umbraco.cms.businesslogic.language;
 using umbraco.cms.businesslogic.macro;
 using umbraco.cms.businesslogic.media;
@@ -475,6 +476,64 @@ namespace uComponents.XsltExtensions
 
 				return xd.CreateNavigator().Select("/DataType");
 
+			}
+			catch (Exception ex)
+			{
+				return ex.ToXPathNodeIterator();
+			}
+		}
+
+		/// <summary>
+		/// Gets all the property-editors.
+		/// </summary>
+		/// <returns>
+		/// Returns an XML structure of all the property-editors.
+		/// </returns>
+		public static XPathNodeIterator GetPropertyEditors()
+		{
+			try
+			{
+				var xd = new XmlDocument();
+				xd.LoadXml("<PropertyEditors/>");
+
+				var factory = new Factory();
+				var propertyEditors = factory.GetAll();
+
+				foreach (var propertyEditor in propertyEditors)
+				{
+					AppendPropertyEditor(xd, propertyEditor);
+				}
+
+				return xd.CreateNavigator().Select("/PropertyEditors");
+			}
+			catch (Exception ex)
+			{
+				return ex.ToXPathNodeIterator();
+			}
+		}
+
+		/// <summary>
+		/// Gets the property-editor by id.
+		/// </summary>
+		/// <param name="id">The <c>System.Guid</c> id of the property-editor.</param>
+		/// <returns>
+		/// Returns an XML structure of the property-editor.
+		/// </returns>
+		public static XPathNodeIterator GetPropertyEditorById(string id)
+		{
+			try
+			{
+				var xd = new XmlDocument();
+				var factory = new Factory();
+				var propertyEditorId = new Guid(id);
+				var propertyEditor = factory.DataType(propertyEditorId);
+
+				if (propertyEditor != null)
+				{
+					AppendPropertyEditor(xd, propertyEditor);
+				}
+
+				return xd.CreateNavigator().Select("/PropertyEditor");
 			}
 			catch (Exception ex)
 			{

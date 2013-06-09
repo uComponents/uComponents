@@ -38,14 +38,17 @@
     <Reference Include="businesslogic, Version=1.0.4898.21561, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\businesslogic.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ClientDependency.Core, Version=1.7.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\ClientDependency.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ClientDependency.Core.Mvc, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\ClientDependency.Core.Mvc.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="cms, Version=1.0.4898.21562, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -254,10 +257,12 @@
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
       <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
       <Name>uComponents.DataTypes</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

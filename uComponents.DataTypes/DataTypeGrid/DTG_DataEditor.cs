@@ -441,7 +441,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 tr.Cells.Add(id);
 
                 // Delete button
-                var actions = new TableCell() { CssClass = "actions"};
+                var actions = new TableCell() { CssClass = "actions" };
 
                 var dInner = new HtmlGenericControl("span");
                 dInner.Attributes["class"] = "ui-button-text";
@@ -1025,7 +1025,14 @@ namespace uComponents.DataTypes.DataTypeGrid
                             {
                                 if (config.Alias.Equals(node.Name))
                                 {
-                                    value.Value.Data.Value = node.InnerText;
+                                    try
+                                    {
+                                        value.Value.Data.Value = node.InnerText;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        HttpContext.Current.Trace.Warn("DataTypeGrid", "Stored data (" + node.InnerText + ") for '" + value.Alias + "' is incompatible with the datatype '" + value.Value.DataTypeName + "'", ex);
+                                    }
                                 }
                             }
 
@@ -1187,6 +1194,13 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             // DEBUG: Reset stored values
             // this.Data.Value = "<items><item id='1'><name nodeName='Name' nodeType='-88' >Anna</name><age nodeName='Age' nodeType='-51' >25</age><picture nodeName='Picture' nodeType='1035' ></picture></item><item id='6'><name nodeName='Name' nodeType='-88' >Ove</name><gender nodeName='Gender' nodeType='-88'>Male</gender><age nodeName='Age' nodeType='-51' >23</age><picture nodeName='Picture' nodeType='1035' ></picture></item></items>";
+
+            // Use data from viewstate if possible
+            // TODO: Quality Check! Could create problems for some datatypes
+            if (!string.IsNullOrEmpty(this.DataString))
+            {
+                this.data.Value = this.DataString;
+            }
 
             // Set default value if none exists
             if (this.data.Value == null)

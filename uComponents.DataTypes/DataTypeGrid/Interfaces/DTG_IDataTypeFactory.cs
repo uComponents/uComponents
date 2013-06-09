@@ -44,6 +44,14 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         Control GetControlToValidate(TDataType dataType, Control editorControl);
 
         /// <summary>
+        /// Method for getting the control to use when validating the specified <see cref="IDataType" />.
+        /// </summary>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <param name="editorControl">The <see cref="IDataType" /> editor control.</param>
+        /// <returns>The control to validate.</returns>
+        Control GetControlToValidate(TDataType dataType, Control editorControl);
+
+        /// <summary>
         /// Method for performing special actions <b>before</b> creating the <see cref="IDataType" /> editor.
         /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>

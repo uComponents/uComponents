@@ -20,7 +20,6 @@ namespace uComponents.DataTypes.XPathAutoComplete
     /// DataEditor for the XPath AutoComplete data-type.
     /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class XPathAutoCompleteDataEditor : CompositeControl, IDataEditor
     {
         /// <summary>

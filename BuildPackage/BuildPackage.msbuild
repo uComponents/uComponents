@@ -10,7 +10,7 @@
 	<PropertyGroup>
 		<VersionMajor>6</VersionMajor>
 		<VersionMinor>0</VersionMinor>
-		<VersionPatch>0</VersionPatch>
+		<VersionPatch>2</VersionPatch>
 		<VersionSuffix>-pre</VersionSuffix>
 		<UmbracoVersion>6.1.0</UmbracoVersion>
 	</PropertyGroup>

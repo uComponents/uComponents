@@ -7,6 +7,9 @@
     using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
 
+    /// <summary>
+    /// Client-side RegEx Validator
+    /// </summary>
     public class ClientSideRegexValidator : CustomValidator
     {
         /// <summary>
