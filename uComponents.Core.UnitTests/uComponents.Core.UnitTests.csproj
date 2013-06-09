@@ -142,8 +142,6 @@
       <Private>True</Private>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\System.Data.SqlServerCe.Entity.dll</HintPath>
     </Reference>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
