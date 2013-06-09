@@ -7,6 +7,9 @@
     using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
 
+    /// <summary>
+    /// Client-side required field validator
+    /// </summary>
     public class ClientSideRequiredFieldValidator : CustomValidator
     {
         /// <summary>

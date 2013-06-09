@@ -33,6 +33,11 @@ function RegexValidate(source, args) {
                             }
                         });
                     }
+                    
+                    // Setup hover events
+                    $(".ui-button", this).on("hover", function () {
+                        $(this).toggleClass("ui-state-hover");
+                    });
 
                     $(".InsertControls", this).dialog({
                         autoOpen: false,

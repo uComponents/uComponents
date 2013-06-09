@@ -37,7 +37,6 @@ namespace uComponents.DataTypes.DataTypeGrid
     /// The DataType Grid Control
     /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class DataEditor : Control, INamingContainer, IDataEditor
     {
         #region Fields
@@ -1192,6 +1191,13 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             // DEBUG: Reset stored values
             // this.Data.Value = "<items><item id='1'><name nodeName='Name' nodeType='-88' >Anna</name><age nodeName='Age' nodeType='-51' >25</age><picture nodeName='Picture' nodeType='1035' ></picture></item><item id='6'><name nodeName='Name' nodeType='-88' >Ove</name><gender nodeName='Gender' nodeType='-88'>Male</gender><age nodeName='Age' nodeType='-51' >23</age><picture nodeName='Picture' nodeType='1035' ></picture></item></items>";
+
+            // Use data from viewstate if possible
+            // TODO: Quality Check! Could create problems for some datatypes
+            if (!string.IsNullOrEmpty(this.DataString))
+            {
+                this.data.Value = this.DataString;
+            }
 
             // Set default value if none exists
             if (this.data.Value == null)

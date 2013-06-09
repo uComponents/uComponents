@@ -1,5 +1,6 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using System;
     using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
@@ -30,12 +31,24 @@
 
             if (id > 0)
             {
-                var m = new Media(id);
-
-                // Return thumbnail if media type is Image
-                if (m.ContentType.Alias.Equals("Image"))
+                try
                 {
-                    return string.Format("<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>", m.GetImageThumbnailUrl(), m.Text, m.Id);
+                    var m = new Media(id);
+
+                    // Return thumbnail if media type is Image
+                    if (m.ContentType.Alias.Equals("Image"))
+                    {
+                        return
+                            string.Format(
+                                "<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>",
+                                m.GetImageThumbnailUrl(),
+                                m.Text,
+                                m.Id);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return string.Format("<span style='color: red;'>{0}</span>", ex.Message);
                 }
             }
 

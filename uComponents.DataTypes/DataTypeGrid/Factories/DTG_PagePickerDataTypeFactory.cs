@@ -1,5 +1,6 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using System;
     using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
@@ -28,9 +29,16 @@
 
                 if (int.TryParse(dataType.Data.Value.ToString(), out id))
                 {
-                    var node = new Node(id);
+                    try 
+                    { 
+                        var node = new Node(id);
 
-                    return string.Format("<a href='editContent.aspx?id={0}' title='Edit content'>{1}</a>", node.Id, node.Name);
+                        return string.Format("<a href='editContent.aspx?id={0}' title='Edit content'>{1}</a>", node.Id, node.Name);
+                    }
+                    catch (Exception ex)
+                    {
+                        return string.Format("<span style='color: red;'>{0}</span>", ex.Message);
+                    }
                 }
 
                 return dataType.Data.Value.ToString();
