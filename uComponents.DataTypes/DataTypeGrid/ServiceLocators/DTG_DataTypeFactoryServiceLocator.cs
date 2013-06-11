@@ -14,6 +14,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
     using System.Web.UI.WebControls;
 
     using uComponents.DataTypes.DataTypeGrid.Factories;
+    using uComponents.DataTypes.DataTypeGrid.Functions;
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
@@ -74,21 +75,26 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         {
             var f = this.GetDataTypeFactory(dataType);
 
-            var v = f.GetType().GetMethod("GetObject").Invoke(f, new object[] { dataType });
+            try
+            {
+                var v = f.GetType().GetMethod("GetObject").Invoke(f, new object[] { dataType });
 
-            return v;
-        }
+                return v;
+            }
+            catch (Exception ex)
+            {
+                DtgHelpers.AddLogEntry(
+                    string.Format(
+                        "An error occured when getting the display value for the DataType {{ Id: {0}, Type: {1}, Name: {2}, Data: {3} }}. Exception: {{ Message: {4}, StackTrace: {5} }}",
+                        dataType.Id,
+                        dataType.DataTypeDefinitionId,
+                        dataType.DataTypeName,
+                        dataType.Data.Value,
+                        ex.Message,
+                        ex.StackTrace));
 
-        /// <summary>
-        /// Method for getting the backing object for the specified <see cref="IDataType" />.
-        /// </summary>
-        /// <typeparam name="TBackingObject">The backing type for the specified <see cref="IDataType" />.</typeparam>
-        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
-        /// <returns>The backing object.</returns>
-        /// <remarks>Called when the method <see cref="GridCell.GetObject{T}()" /> method is called on a <see cref="GridCell" />.</remarks>
-        public TBackingObject GetObject<TBackingObject>(IDataType dataType)
-        {
-            return default(TBackingObject);
+                return ex.Message;
+            }
         }
 
         /// <summary>
