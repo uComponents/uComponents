@@ -63,21 +63,5 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// <value>The sort order.</value>
 		[ScriptIgnore]
 		public int SortOrder { get; set; }
-
-		/// <summary>
-		/// Gets or sets the content sort priority.
-		/// </summary>
-		/// <value>
-		/// The content sort priority.
-		/// </value>
-		public string ContentSortPriority { get; set; }
-
-		/// <summary>
-		/// Gets or sets the content sort order.
-		/// </summary>
-		/// <value>
-		/// The content sort order.
-		/// </value>
-		public string ContentSortOrder { get; set; }
 	}
 }

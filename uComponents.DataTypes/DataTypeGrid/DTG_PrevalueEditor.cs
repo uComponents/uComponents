@@ -151,7 +151,6 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this._settings.ShowGridHeader = this._showHeader != null && this._showHeader.Checked;
                 this._settings.ShowGridFooter = this._showFooter != null && this._showFooter.Checked;
                 this._settings.RowsPerPage = this._rowsPerPage != null ? int.Parse(this._rowsPerPage.Text) : 10;
-                this._settings.ContentSorting = this.GetContentSorting(this._preValues);
                 prevalues.Add(this._settings);
 
                 // Add existing prevalues;
@@ -397,49 +396,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
 
-            // CONTENT SORT PRIORITY
-            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-            // Instantiate controls
-            var ddlNewContentSortPriority = new DropDownList()
-                { ID = "newContentSortPriority", CssClass = "newContentSortPriority", };
-            PopulatePriorityDropDownList(ddlNewContentSortPriority, this._preValues, null);
-
-            var lblNewContentSortPriority = new Label()
-                {
-                    Text = Helper.Dictionary.GetDictionaryItem("ContentSortPriority", "Content Sort Priority"),
-                    CssClass = "label"
-                };
-
-            // Add controls to control
-            addNewPropertyControls.Controls.Add(lblNewContentSortPriority);
-            addNewPropertyControls.Controls.Add(ddlNewContentSortPriority);
-            ((PreValueRow)this._newPreValue).Controls.Add(ddlNewContentSortPriority);
-            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
-            // CONTENT SORT ORDER
-            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-            // Instantiate controls
-            var ddlNewContentSortOrder = new DropDownList()
-                { ID = "newContentSortOrder", CssClass = "newContentSortOrder", };
-            ddlNewContentSortOrder.Items.Add(new ListItem(string.Empty, string.Empty));
-            ddlNewContentSortOrder.Items.Add(new ListItem(uQuery.GetDictionaryItem("Ascending", "Ascending"), "asc"));
-            ddlNewContentSortOrder.Items.Add(new ListItem(uQuery.GetDictionaryItem("Descending", "Descending"), "desc"));
-            var lblNewContentSortOrder = new Label()
-                {
-                    Text = Helper.Dictionary.GetDictionaryItem("ContentSortOrder", "Content Sort Order"),
-                    CssClass = "label"
-                };
-
-            // Add controls to control
-            addNewPropertyControls.Controls.Add(lblNewContentSortOrder);
-            addNewPropertyControls.Controls.Add(ddlNewContentSortOrder);
-            ((PreValueRow)this._newPreValue).Controls.Add(ddlNewContentSortOrder);
-            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
             // PREVALUE SORT ORDER
 
             // Instantiate controls
@@ -650,61 +606,6 @@ namespace uComponents.DataTypes.DataTypeGrid
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
 
-                // CONTENT SORT PRIORITY
-                editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-                // Instantiate controls
-                var ddlEditContentSortPriority = new DropDownList()
-                    {
-                        ID = "editContentSortPriority_" + this._preValues.IndexOf(s),
-                        CssClass = "editContentSortPriority",
-                        Text = s.Alias
-                    };
-                PopulatePriorityDropDownList(ddlEditContentSortPriority, this._preValues, s.ContentSortPriority);
-
-                var lblEditContentSortPriority = new Label()
-                    {
-                        Text = Helper.Dictionary.GetDictionaryItem("ContentSortPriority", "Content Sort Priority"),
-                        CssClass = "label"
-                    };
-
-                // Add controls to control
-                editPropertyControls.Controls.Add(lblEditContentSortPriority);
-                editPropertyControls.Controls.Add(ddlEditContentSortPriority);
-                s.Controls.Add(ddlEditContentSortPriority);
-                editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
-                // CONTENT SORT ORDER
-                editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
-
-                // Instantiate controls
-                var ddlEditContentSortOrder = new DropDownList()
-                    {
-                        ID = "editContentSortOrder_" + this._preValues.IndexOf(s),
-                        CssClass = "editContentSortOrder",
-                        Text = s.Alias
-                    };
-                ddlEditContentSortOrder.Items.Add(new ListItem(string.Empty, string.Empty));
-                ddlEditContentSortOrder.Items.Add(new ListItem("Ascending", "asc"));
-                ddlEditContentSortOrder.Items.Add(new ListItem("Descending", "desc"));
-                ddlEditContentSortOrder.SelectedValue = string.IsNullOrEmpty(s.ContentSortOrder)
-                                                            ? string.Empty
-                                                            : s.ContentSortOrder;
-
-                var lblEditContentSortOrder = new Label()
-                    {
-                        Text = Helper.Dictionary.GetDictionaryItem("ContentSortOrder", "Content Sort Order"),
-                        CssClass = "label"
-                    };
-
-                // Add controls to control
-                editPropertyControls.Controls.Add(lblEditContentSortOrder);
-                editPropertyControls.Controls.Add(ddlEditContentSortOrder);
-                s.Controls.Add(ddlEditContentSortOrder);
-                editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
-
-
                 // SORT ORDER
 
                 // Instantiate controls
@@ -713,6 +614,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 hdnEditSortOrderWrapper.Controls.Add(hdnEditSortOrder);
                 editPropertyControls.Controls.Add(hdnEditSortOrderWrapper);
                 s.Controls.Add(hdnEditSortOrder);
+
 
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</ul>" });
 
@@ -845,7 +747,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <returns></returns>
         private BasePreValueRow ParsePrevalue(PreValueRow t)
         {
-            if (t != null && t.Controls.Count == 8)
+            if (t != null && t.Controls.Count == 6)
             {
                 // Get values
                 var name = t.Controls[0] != null ? ((TextBox)t.Controls[0]).Text : null;
@@ -853,13 +755,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 var dataTypeId = t.Controls[2] != null ? int.Parse(((DropDownList)t.Controls[2]).SelectedValue) : 0;
                 var mandatory = t.Controls[3] != null ? ((CheckBox)t.Controls[3]).Checked : false;
                 var validation = t.Controls[4] != null ? ((TextBox)t.Controls[4]).Text : null;
-                var contentSortPriority = t.Controls[5] != null
-                                              ? ((DropDownList)t.Controls[5]).SelectedValue
-                                              : string.Empty;
-                var contentSortOrder = t.Controls[6] != null
-                                           ? ((DropDownList)t.Controls[6]).SelectedValue
-                                           : string.Empty;
-                var sortOrder = t.Controls[7] != null ? int.Parse(((HiddenField)t.Controls[7]).Value) : 0;
+                var sortOrder = t.Controls[5] != null ? int.Parse(((HiddenField)t.Controls[5]).Value) : 0;
 
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(alias))
                 {
@@ -872,8 +768,6 @@ namespace uComponents.DataTypes.DataTypeGrid
                             DataTypeId = dataTypeId,
                             Mandatory = mandatory,
                             ValidationExpression = validation,
-                            ContentSortPriority = contentSortPriority,
-                            ContentSortOrder = contentSortOrder,
                             SortOrder = sortOrder
                         };
 
@@ -919,64 +813,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Populates the priority drop down list.
-        /// </summary>
-        /// <param name="ddl">The DDL.</param>
-        /// <param name="s">The s.</param>
-        /// <param name="currentSortPriority">The current sort priority.</param>
-        private void PopulatePriorityDropDownList(DropDownList ddl, IList<PreValueRow> s, string currentSortPriority)
-        {
-            // Add blank item to beginning
-            ddl.Items.Add(new ListItem(string.Empty, string.Empty));
-
-            // Add a number for each stored prevalue
-            foreach (var storedConfig in s)
-            {
-                var priority = s.IndexOf(storedConfig) + 1;
-
-                ddl.Items.Add(new ListItem(priority.ToString(), priority.ToString()));
-            }
-
-            ddl.SelectedValue = currentSortPriority ?? string.Empty;
-        }
-
-        /// <summary>
-        /// Gets the content sorting.
-        /// </summary>
-        /// <param name="s">The s.</param>
-        /// <returns></returns>
-        private string GetContentSorting(IList<PreValueRow> s)
-        {
-            var list =
-                s.Where(
-                    storedConfig =>
-                    !string.IsNullOrEmpty(storedConfig.ContentSortPriority)
-                    && !string.IsNullOrEmpty(storedConfig.ContentSortOrder)).OrderBy(
-                        storedConfig => storedConfig.ContentSortPriority);
-
-            var sorting = "[[0, 'asc']]";
-
-            if (list.Count() > 0)
-            {
-                sorting = "[";
-
-                foreach (var storedConfig in list)
-                {
-                    sorting += "[ " + (s.IndexOf(storedConfig) + 2) + ", '" + storedConfig.ContentSortOrder + "']";
-
-                    if (list.ToList().IndexOf(storedConfig) < list.Count() - 1)
-                    {
-                        sorting += ",";
-                    }
-                }
-
-                sorting += "]";
-            }
-
-            return sorting;
         }
     }
 }

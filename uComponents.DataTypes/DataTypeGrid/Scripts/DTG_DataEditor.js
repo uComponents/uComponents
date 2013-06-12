@@ -22,7 +22,7 @@ function RegexValidate(source, args) {
                             oLanguage: $.uComponents.dictionary().dataTablesTranslation,
                             iDisplayLength: getNumberOfRows(this),
                             sPaginationType: "full_numbers",
-                            aaSorting: getContentSorting(this),
+                            bSort: false,
                             aoColumnDefs: [
                                 { "bVisible": false, "bSearchable": false, "aTargets": [0], "sType": "numeric" },
                                 { "sTitle": "", "bSortable": false, "aTargets": [1] }
@@ -113,16 +113,6 @@ function RegexValidate(source, args) {
                 }
 
                 // Private functions
-                function getContentSorting(element) {
-                    var e = "";
-
-                    if ($(element).find("input[id$='ContentSorting']").length > 0) {
-                        e = $(element).find("input[id$='ContentSorting']").val();
-                    }
-
-                    return eval(e);
-                }
-
                 function getNumberOfRows(element) {
                     var numberOfRows = 10;
 
