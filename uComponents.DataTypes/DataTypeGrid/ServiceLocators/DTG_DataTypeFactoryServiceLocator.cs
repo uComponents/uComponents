@@ -60,9 +60,26 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         {
             var f = this.GetDataTypeFactory(dataType);
 
-            var v = f.GetType().GetMethod("GetDisplayValue").Invoke(f, new object[] { dataType });
+            try
+            {
+                var v = f.GetType().GetMethod("GetDisplayValue").Invoke(f, new object[] { dataType });
 
-            return v.ToString();
+                return v;
+            }
+            catch (Exception ex)
+            {
+                DtgHelpers.AddLogEntry(
+                    string.Format(
+                        "An error occured when getting the object for the DataType {{ Id: {0}, Type: {1}, Name: {2}, Data: {3} }}. Exception: {{ Message: {4}, StackTrace: {5} }}",
+                        dataType.Id,
+                        dataType.DataTypeDefinitionId,
+                        dataType.DataTypeName,
+                        dataType.Data.Value,
+                        ex.Message,
+                        ex.StackTrace));
+
+                return ex.Message;
+            }
         }
 
         /// <summary>
@@ -85,7 +102,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
             {
                 DtgHelpers.AddLogEntry(
                     string.Format(
-                        "An error occured when getting the display value for the DataType {{ Id: {0}, Type: {1}, Name: {2}, Data: {3} }}. Exception: {{ Message: {4}, StackTrace: {5} }}",
+                        "An error occured when getting the object for the DataType {{ Id: {0}, Type: {1}, Name: {2}, Data: {3} }}. Exception: {{ Message: {4}, StackTrace: {5} }}",
                         dataType.Id,
                         dataType.DataTypeDefinitionId,
                         dataType.DataTypeName,
