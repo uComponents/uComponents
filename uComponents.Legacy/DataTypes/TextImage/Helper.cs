@@ -4,23 +4,29 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Xml;
 using System.Xml.XPath;
-using uComponents.Core;
+
 using umbraco;
-using umbraco.BusinessLogic;
-using umbraco.cms.businesslogic.media;
 using umbraco.NodeFactory;
 using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.TextImage
 {
+    using Umbraco.Core;
+    using Umbraco.Core.Services;
+
+    using Constants = uComponents.Core.Constants;
+
     /// <summary>
     ///   Helper Class
     ///   Wraps frequently used functionality from Umbraco
     /// </summary>
     public static class Helper
     {
+        private static readonly IMediaService MediaService = ApplicationContext.Current.Services.MediaService;
+
+        private static readonly IContentTypeService ContentTypeService = ApplicationContext.Current.Services.ContentTypeService;
+
         #region Public Properties
 
         /// <summary>
@@ -59,7 +65,7 @@ namespace uComponents.DataTypes.TextImage
         {
             // Create media item
             mediaName = LegalizeString(mediaName.Replace(" ", "-"));
-            var mediaItem = Media.MakeNew(mediaName, MediaType.GetByAlias("image"), new User(0), parentFolderId);
+            var mediaItem = MediaService.CreateMedia(mediaName, parentFolderId, "Image");
 
             // Filename
             // i.e. 1234.jpg
@@ -84,24 +90,25 @@ namespace uComponents.DataTypes.TextImage
 
             // Create media folder if it doesn't exist
             if (!Directory.Exists(serverMediaFolder))
+            {
                 Directory.CreateDirectory(serverMediaFolder);
+            }
 
             // Save Image and thumb for new media item
             image.Save(serverMediaFile);
             var savedImage = Image.FromFile(serverMediaFile);
-            savedImage.GetThumbnailImage((int) (image.Size.Width*.3), (int) (image.Size.Height*.3), null, new IntPtr()).
-                Save(serverMediaThumb);
+            savedImage.GetThumbnailImage(
+                (int)(image.Size.Width * .3), (int)(image.Size.Height * .3), null, new IntPtr()).Save(serverMediaThumb);
 
-            mediaItem.getProperty(Constants.Umbraco.Media.Width).Value = savedImage.Size.Width.ToString();
-            mediaItem.getProperty(Constants.Umbraco.Media.Height).Value = savedImage.Size.Height.ToString();
-            mediaItem.getProperty(Constants.Umbraco.Media.File).Value = clientMediaFile;
-            mediaItem.getProperty(Constants.Umbraco.Media.Extension).Value = extension;
-            mediaItem.getProperty(Constants.Umbraco.Media.Bytes).Value = File.Exists(serverMediaFile)
-                                                              ? new FileInfo(serverMediaFile).Length.ToString()
-                                                              : "0";
+            mediaItem.SetValue(Constants.Umbraco.Media.Width, savedImage.Size.Width.ToString());
+            mediaItem.SetValue(Constants.Umbraco.Media.Height, savedImage.Size.Height.ToString());
+            mediaItem.SetValue(Constants.Umbraco.Media.File, clientMediaFile);
+            mediaItem.SetValue(Constants.Umbraco.Media.Extension, extension);
+            mediaItem.SetValue(
+                Constants.Umbraco.Media.Bytes,
+                File.Exists(serverMediaFile) ? new FileInfo(serverMediaFile).Length.ToString() : "0");
 
-            mediaItem.Save();
-            mediaItem.XmlGenerate(new XmlDocument());
+            MediaService.Save(mediaItem);
 
             image.Dispose();
             savedImage.Dispose();

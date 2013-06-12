@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Xml.Linq;
+
 using umbraco;
-using umbraco.NodeFactory;
 using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
-using umbraco;
-using System.Xml.Linq;
+using umbraco.NodeFactory;
 
 namespace uComponents.DataTypes.XPathSortableList
 {
     /// <summary>
-    /// Strongly typed obj that's returned from uQuery .GetProperty<XPathCheckBoxList>("alias");
+    /// Strongly typed obj that's returned from uQuery .GetProperty{XPathCheckBoxList}("alias");
     /// </summary>
     public class XPathSortableList : uQuery.IGetProperty
     {

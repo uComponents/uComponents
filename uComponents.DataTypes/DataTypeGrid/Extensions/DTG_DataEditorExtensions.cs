@@ -50,7 +50,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Extensions
         }
 
         /// <summary>
-        /// Searches the current naming container for a server control with the specified <paramref name="id" /> parameter.
+        /// Searches the current naming container for a server control matching the function call.
         /// </summary>
         /// <typeparam name="T">The type of the control to find.</typeparam>
         /// <param name="control">The parent control.</param>

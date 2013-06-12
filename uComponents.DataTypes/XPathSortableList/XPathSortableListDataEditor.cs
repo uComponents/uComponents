@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq;
-using System.Web;
+using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Xml;
 using System.Xml.Linq;
+
 using uComponents.Core;
+
 using umbraco;
-using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.cms.businesslogic.property;
+using umbraco.cms.businesslogic.media;
 using umbraco.editorControls;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
-using umbraco.cms.businesslogic;
-using umbraco.cms.businesslogic.media;
-using System.Reflection;
-
 
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", Constants.MediaTypeNames.Application.JavaScript)]

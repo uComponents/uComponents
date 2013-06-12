@@ -67,6 +67,10 @@ namespace uComponents.DataTypes.XPathSortableList
         public string ThumbnailProperty { get; set; }
 
 
+        /// <summary>
+        /// Gets or sets the size of the thumbnail.
+        /// </summary>
+        /// <value>The size of the thumbnail.</value>
         [DefaultValue(ThumbnailSize.Medium)]
         public ThumbnailSize ThumbnailSize { get; set; }
 
