@@ -45,6 +45,12 @@
                                 m.Text,
                                 m.Id);
                     }
+
+                    return
+                        string.Format(
+                            "<a href='editMedia.aspx?id={0}' title='Edit media'>{1}</a>",
+                            m.Id,
+                            m.Text);
                 }
                 catch (Exception ex)
                 {
