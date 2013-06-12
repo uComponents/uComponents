@@ -40,7 +40,6 @@ namespace uComponents.DataTypes.DataTypeGrid
     /// The DataType Grid Control
     /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "controls/Images/ImageViewer.js", "UmbracoRoot")]
     public class DataEditor : Control, INamingContainer, IDataEditor
     {
