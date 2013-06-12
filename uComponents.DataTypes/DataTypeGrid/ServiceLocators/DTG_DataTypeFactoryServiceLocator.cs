@@ -12,6 +12,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
     using System.Linq;
     using System.Web.UI;
 
+    using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Factories.DataTypes;
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
@@ -58,9 +59,25 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         {
             var f = this.GetDataTypeFactory(dataType);
 
-            var v = f.GetType().GetMethod("GetDisplayValue").Invoke(f, new object[] { dataType });
+            try
+            {
+                var v = f.GetType().GetMethod("GetDisplayValue").Invoke(f, new object[] { dataType });
 
-            return v.ToString();
+                return v.ToString();
+            }
+            catch (Exception ex)
+            {
+                Helper.Log.Error<DataType>(
+                    string.Format(
+                        "An error occured when getting the display value for the DataType {{ Id: {0}, Type: {1}, Name: {2}, Data: {3} }}.",
+                        dataType.Id,
+                        dataType.DataTypeDefinitionId,
+                        dataType.DataTypeName,
+                        dataType.Data.Value),
+                    ex);
+
+                return dataType.Data.Value != null ? dataType.Data.Value.ToString() : ex.Message;
+            }
         }
 
         /// <summary>
@@ -73,9 +90,25 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         {
             var f = this.GetDataTypeFactory(dataType);
 
-            var v = f.GetType().GetMethod("GetPropertyValue").Invoke(f, new object[] { dataType });
+            try
+            {
+                var v = f.GetType().GetMethod("GetPropertyValue").Invoke(f, new object[] { dataType });
 
-            return v;
+                return v.ToString();
+            }
+            catch (Exception ex)
+            {
+                Helper.Log.Error<DataType>(
+                    string.Format(
+                        "An error occured when getting the property value for the DataType {{ Id: {0}, Type: {1}, Name: {2}, Data: {3} }}.",
+                        dataType.Id,
+                        dataType.DataTypeDefinitionId,
+                        dataType.DataTypeName,
+                        dataType.Data.Value),
+                    ex);
+
+                return dataType.Data.Value != null ? dataType.Data.Value.ToString() : ex.Message;
+            }
         }
 
         /// <summary>
