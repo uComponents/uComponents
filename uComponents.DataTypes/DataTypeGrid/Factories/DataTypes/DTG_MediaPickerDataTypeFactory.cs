@@ -1,6 +1,9 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories.DataTypes
 {
+    using System;
     using System.Web.UI;
+
+    using Umbraco.Web;
 
     using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Model;
@@ -19,6 +22,19 @@
     public class MediaPickerDataTypeFactory : BaseDataTypeFactory<MemberPickerDataType>
     {
         /// <summary>
+        /// The umbraco helper
+        /// </summary>
+        private readonly UmbracoHelper umbracoHelper;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediaPickerDataTypeFactory"/> class.
+        /// </summary>
+        public MediaPickerDataTypeFactory()
+        {
+            this.umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+        }
+
+        /// <summary>
         /// Method for customizing the way the <paramref name="dataType" /> value is displayed in the grid.
         /// </summary>
         /// <remarks>Called when the grid displays the cell value for the specified <paramref name="dataType" />.</remarks>
@@ -33,21 +49,30 @@
 
             if (id > 0)
             {
-                var m = uQuery.GetMedia(id);
-
-                if (m != null)
+                try
                 {
+                    var m = this.umbracoHelper.TypedMedia(id);
+
                     // Return thumbnail if media type is Image
-                    if (m.ContentType.Alias.Equals("Image"))
+                    if (m.DocumentTypeAlias.Equals("Image"))
                     {
-                        return string.Format("<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>", m.GetImageThumbnailUrl(), m.Text, m.Id);
+                        return
+                            string.Format(
+                                "<a href='editMedia.aspx?id={2}' title='Edit media'><img src='{0}' alt='{1}'/></a>",
+                                this.GetThumbnailUrl(m),
+                                m.Name,
+                                m.Id);
                     }
 
-                    // Return link if media type is File or Folder
-                    if (m.ContentType.Alias.Equals("File") || m.ContentType.Alias.Equals("Folder"))
-                    {
-                        return string.Format("<a href='editMedia.aspx?id={1}' title='Edit media'>{0}</a>", m.Text, m.Id);
-                    }
+                    return
+                        string.Format(
+                            "<a href='editMedia.aspx?id={0}' title='Edit media'>{1}</a>",
+                            m.Id,
+                            m.Name);
+                }
+                catch (Exception ex)
+                {
+                    return string.Format("<span style='color: red;'>{0}</span>", ex.Message);
                 }
             }
 
@@ -95,6 +120,18 @@
             var value = editorControl.Controls[0];
 
             return value;
+        }
+
+        /// <summary>
+        /// Gets the thumbnail URL.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>The thumbnail URL.</returns>
+        private string GetThumbnailUrl(IPublishedContent content)
+        {
+            var extension = content.GetPropertyValue<string>("umbracoExtension");
+
+            return content.Url.Replace("." + extension, "_thumb.jpg");
         }
     }
 }
