@@ -64,7 +64,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
             {
                 var v = f.GetType().GetMethod("GetDisplayValue").Invoke(f, new object[] { dataType });
 
-                return v;
+                return v.ToString();
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
                         dataType.Id,
                         dataType.DataTypeDefinitionId,
                         dataType.DataTypeName,
-                        dataType.Data.Value,
+                        dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty,
                         ex.Message,
                         ex.StackTrace));
 
