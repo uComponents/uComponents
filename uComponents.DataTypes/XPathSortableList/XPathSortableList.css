@@ -116,6 +116,7 @@
 .xpath-sortable-list ul.sortable-list li div {
     width: 278px;
     overflow: hidden;
+    display:inline;
 }
 
 .xpath-sortable-list ul.sortable-list a
