@@ -8,6 +8,8 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {
+	using System.Reflection;
+
 	/// <summary>
 	/// Abstract class for the PreValue Editor.
 	/// </summary>
@@ -61,6 +63,24 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		{
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+			// Render logo and version info
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
+			writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+			writer.AddAttribute(HtmlTextWriterAttribute.Href, "http://ucomponents.org");
+			writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
+			writer.AddAttribute(HtmlTextWriterAttribute.Title, Helper.Dictionary.GetDictionaryItem("DocumentationForUComponents", "Documentation for uComponents"));
+			writer.RenderBeginTag(HtmlTextWriterTag.A);
+
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "version");
+			writer.RenderBeginTag(HtmlTextWriterTag.Span);
+			writer.Write("{0} {1}", Helper.Dictionary.GetDictionaryItem("Version", "Version"), Assembly.GetExecutingAssembly().GetName().Version);
+			writer.RenderEndTag();
+
+			writer.RenderEndTag();
+
+			writer.RenderEndTag();
 
 			base.RenderBeginTag(writer);
 		}
