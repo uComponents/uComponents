@@ -409,7 +409,10 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
                 this.Options.XPath = this.xPathTextBox.Text;
                 this.Options.SortOn = this.sortOnDropDown.SelectedValue;
-                this.Options.SortDirection = (ListSortDirection)Enum.Parse(typeof(ListSortDirection), this.sortDirectionRadioButtonList.SelectedValue);
+                if (!string.IsNullOrWhiteSpace(this.sortDirectionRadioButtonList.SelectedValue))
+                {
+                    this.Options.SortDirection = (ListSortDirection)Enum.Parse(typeof(ListSortDirection), this.sortDirectionRadioButtonList.SelectedValue);
+                }
 
                 int limitTo;
                 int.TryParse(this.limitToTextBox.Text, out limitTo);
