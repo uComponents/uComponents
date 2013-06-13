@@ -92,6 +92,16 @@ namespace uComponents.DataTypes.XPathSortableList
         private CheckBox allowDuplicatesCheckBox = new CheckBox();
 
         /// <summary>
+        /// Height of the source list control, in pixels, or 0 for no scrolling
+        /// </summary>
+        private TextBox listHeightTextBox = new TextBox();
+
+        /// <summary>
+        /// Must be a number
+        /// </summary>
+        private RegularExpressionValidator listHeightValidator = new RegularExpressionValidator();
+
+        /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
         /// </summary>
         private XPathSortableListOptions options = null;
@@ -196,6 +206,17 @@ namespace uComponents.DataTypes.XPathSortableList
 
             this.allowDuplicatesCheckBox.ID = "allowDuplicatesCheckBox";
 
+            this.listHeightTextBox.ID = "listHeightTextBox";
+            this.listHeightTextBox.Width = 30;
+            this.listHeightTextBox.MaxLength = 4;
+
+            this.listHeightValidator.ID = "listHeightValidator";
+            this.listHeightValidator.Display = ValidatorDisplay.Dynamic;
+            this.listHeightValidator.ControlToValidate = "listHeightTextBox";
+            this.listHeightValidator.CssClass = "validator";
+            this.listHeightValidator.ErrorMessage = "The List Height must be a number.";
+            this.listHeightValidator.ValidationExpression = @"^\d{1,3}$";
+
             this.Controls.AddPrevalueControls(
                 this.typeRadioButtonList,
                 this.xPathTextBox,
@@ -211,7 +232,9 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.minItemsCustomValidator,
                 this.maxItemsTextBox,
                 this.maxItemsCustomValidator,
-                this.allowDuplicatesCheckBox);
+                this.allowDuplicatesCheckBox,
+                this.listHeightTextBox,
+                this.listHeightValidator);
         }
 
 
@@ -247,6 +270,7 @@ namespace uComponents.DataTypes.XPathSortableList
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
                 this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
                 this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
+                this.listHeightTextBox.Text = this.options.ListHeight.ToString();
             }
 
             //// initial creation of datatype is a postback 
@@ -411,6 +435,10 @@ namespace uComponents.DataTypes.XPathSortableList
 
                 this.Options.AllowDuplicates = this.allowDuplicatesCheckBox.Checked;
 
+                int listHeight;
+                int.TryParse(this.listHeightTextBox.Text, out listHeight);
+                this.Options.ListHeight = listHeight;
+
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
         }
@@ -451,6 +479,7 @@ namespace uComponents.DataTypes.XPathSortableList
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator);
             writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate values can be selected", this.allowDuplicatesCheckBox);
+            writer.AddPrevalueRow("List Height", "Height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightValidator);
         }
     }
 }

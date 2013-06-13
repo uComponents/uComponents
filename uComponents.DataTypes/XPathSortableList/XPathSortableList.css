@@ -1,4 +1,4 @@
-﻿.xpath-sortable-list 
+.xpath-sortable-list 
 {
     width:640px;
 
@@ -10,10 +10,19 @@
     user-select: none;
 }
 
+.xpath-sortable-list.scrolling
+{
+    width: 650px;
+}
+
 .xpath-sortable-list ul
 {
     list-style-type:none;
     float:left;
+}
+
+.xpath-sortable-list.scrolling ul.source-list {
+    overflow-y: scroll;
 }
 
 .xpath-sortable-list ul.sortable-list
@@ -33,8 +42,8 @@
     background-color:White;
     margin-bottom:3px;    
     font-family: Arial,Lucida Grande;
+    position: relative;
 }
-
 
 .xpath-sortable-list.thumbnails.small li
 {
@@ -104,15 +113,19 @@
     cursor: move;
 }
 
+.xpath-sortable-list ul.sortable-list li div {
+    width: 278px;
+    overflow: hidden;
+}
 
 .xpath-sortable-list ul.sortable-list a
 {
     background: transparent url('/umbraco/images/delete.gif') no-repeat 0px 3px;
     width:15px;
     height:15px;
-    float:right;
-    margin-right:20px;
-    margin-top:2px;
+    position: absolute;
+    right: 2px;
+    top: 2px;
 }
 
 

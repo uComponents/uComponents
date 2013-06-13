@@ -294,6 +294,7 @@ namespace uComponents.DataTypes.XPathSortableList
             this.div.Attributes.Add("data-min-items", this.options.MinItems.ToString());
             this.div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
             this.div.Attributes.Add("data-allow-duplicates", this.options.AllowDuplicates.ToString());
+            this.div.Attributes.Add("data-list-height", this.options.ListHeight.ToString());
 
             this.sourceListUl.Attributes.Add("class", "source-list propertypane");
             this.div.Controls.Add(this.sourceListUl);

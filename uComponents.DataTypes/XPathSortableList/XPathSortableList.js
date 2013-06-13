@@ -1,4 +1,4 @@
-﻿/*
+/*
     <!-- made server side -->
 
     <div id="body_prop_xPathSortableListDocuments_ct100" class="xpath-sortable-list (thumbnails)" 
@@ -70,6 +70,7 @@ var XPathSortableList = XPathSortableList || (function () {
         var type = div.data('type');
         var minItems = div.data('min-items');
         var maxItems = div.data('max-items');
+        var listHeight = div.data('list-height');
 
         // no limit, so remove the border
         if (maxItems == 0) {
@@ -111,6 +112,12 @@ var XPathSortableList = XPathSortableList || (function () {
                 updateHidden(sortableUl, hidden, type);
             }
         });
+        
+        // adjust height for scrolling if specified
+        if (parseInt(listHeight) > 0) {
+            sourceUl.css('height', listHeight);
+            div.addClass('scrolling');
+        }
 
     }
 
@@ -153,9 +160,9 @@ var XPathSortableList = XPathSortableList || (function () {
         //TODO: if there's an existing li of type placeholder? then remove it
         
         // handle placeholder <li>s
-        var li = jQuery('<li data-value="' + value + '">' +
+        var li = jQuery('<li data-value="' + value + '"><div>' +
                             text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
-                 '</li>');
+                 '</div></li>');
 
         li.prepend(img.clone());
 
