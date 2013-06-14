@@ -57,6 +57,16 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// </summary>
         private readonly PreValueEditorSettings settings;
 
+        /// <summary>
+        /// The unique instance id
+        /// </summary>
+        private readonly string instanceId;
+
+        /// <summary>
+        /// Gets the control id.
+        /// </summary>
+        private string id;
+
         #endregion
 
         /// <summary>
@@ -78,85 +88,34 @@ namespace uComponents.DataTypes.DataTypeGrid
         #region Properties
 
         /// <summary>
-        /// Gets or sets the configuration.
+        /// Gets the configuration.
         /// </summary>
-        public List<StoredValueRow> Rows { get; set; }
+        public List<StoredValueRow> Rows { get; private set; }
 
         /// <summary>
-        /// Gets or sets the grid.
+        /// Gets the grid.
         /// </summary>
-        public Table Grid { get; set; }
+        public Table Grid { get; private set; }
 
         /// <summary>
-        /// Gets or sets the grid.
+        /// Gets the grid.
         /// </summary>
-        public Panel Toolbar { get; set; }
+        public Panel Toolbar { get; private set; }
 
         /// <summary>
-        /// Gets or sets the insert controls.
+        /// Gets the insert controls.
         /// </summary>
-        public Panel InsertControls { get; set; }
+        public Panel InsertControls { get; private set; }
 
         /// <summary>
-        /// Gets or sets the edit controls.
+        /// Gets the edit controls.
         /// </summary>
-        public Panel EditControls { get; set; }
+        public Panel EditControls { get; private set; }
 
         /// <summary>
-        /// Gets or sets the delete controls.
+        /// Gets the delete controls.
         /// </summary>
-        public Panel DeleteControls { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current row.
-        /// </summary>
-        /// <value>The current row.</value>
-        public int CurrentRow
-        {
-            get
-            {
-                if (ViewState["CurrentRow"] != null)
-                {
-                    return (int)ViewState["CurrentRow"];
-                }
-
-                return 0;
-            }
-
-            set
-            {
-                ViewState["CurrentRow"] = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the data string.
-        /// </summary>
-        /// <value>The data string.</value>
-        public string DataString
-        {
-            get
-            {
-                if (ViewState["DataString"] != null)
-                {
-                    DtgHelpers.AddLogEntry(
-                        string.Format("DTG: Returned value from ViewState: {0}", ViewState["DataString"]));
-
-                    return ViewState["DataString"].ToString();
-                }
-
-                DtgHelpers.AddLogEntry(string.Format("DTG: ViewState did not contain data."));
-
-                return string.Empty;
-            }
-
-            set
-            {
-                DtgHelpers.AddLogEntry(string.Format("DTG: Stored the following data in ViewState: {0}", value));
-
-                ViewState["DataString"] = value;
-            }
-        }
+        public Panel DeleteControls { get; private set; }
 
         /// <summary>
         /// Gets or sets whether to show the grid header.
@@ -178,31 +137,19 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// Gets or sets the number of rows per page.
         /// </summary>
         /// <value>The number of rows per page.</value>
-        public HiddenField RowsPerPage { get; set; }
+        public HiddenField TableHeight { get; set; }
 
         /// <summary>
-        /// Gets or sets the datatables translation.
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>The value.</value>
+        public HiddenField Value { get; set; }
+
+        /// <summary>
+        /// Gets the datatables translation.
         /// </summary>
         /// <value>The datatables translation.</value>
-        public LiteralControl DataTablesTranslation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the stored prevalues.
-        /// </summary>
-        /// <value>The stored pre values.</value>
-        public List<PreValueRow> StoredPreValues { get; set; }
-
-        /// <summary>
-        /// Gets er sets the insert data types
-        /// </summary>
-        /// <value>The insert data types.</value>
-        public List<StoredValue> InsertDataTypes { get; set; }
-
-        /// <summary>
-        /// Gets or sets the edit data types.
-        /// </summary>
-        /// <value>The edit data types.</value>
-        public List<StoredValue> EditDataTypes { get; set; }
+        public LiteralControl DataTablesTranslation { get; private set; }
 
         /// <summary>
         /// Gets or sets the programmatic identifier assigned to the server control.
@@ -218,14 +165,72 @@ namespace uComponents.DataTypes.DataTypeGrid
         }
 
         /// <summary>
-        /// Gets the control id.
+        /// Gets or sets the stored prevalues.
         /// </summary>
-        private string id;
+        /// <value>The stored pre values.</value>
+        private List<PreValueRow> StoredPreValues { get; set; }
 
         /// <summary>
-        /// The unique instance id
+        /// Gets or sets the insert data types
         /// </summary>
-        private readonly string instanceId;
+        /// <value>The insert data types.</value>
+        private List<StoredValue> InsertDataTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the edit data types.
+        /// </summary>
+        /// <value>The edit data types.</value>
+        private List<StoredValue> EditDataTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current row.
+        /// </summary>
+        /// <value>The current row.</value>
+        private int CurrentRow
+        {
+            get
+            {
+                if (this.ViewState["CurrentRow"] != null)
+                {
+                    return (int)this.ViewState["CurrentRow"];
+                }
+
+                return 0;
+            }
+
+            set
+            {
+                this.ViewState["CurrentRow"] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the data string.
+        /// </summary>
+        /// <value>The data string.</value>
+        private string DataString
+        {
+            get
+            {
+                if (this.Value != null)
+                {
+                    DtgHelpers.AddLogEntry(string.Format("DTG: Returned value from ViewState: {0}", this.Value.Value));
+
+                    return this.Value.Value;
+                }
+
+                DtgHelpers.AddLogEntry(string.Format("DTG: ViewState did not contain data."));
+
+                return string.Empty;
+            }
+
+            set
+            {
+                DtgHelpers.AddLogEntry(string.Format("DTG: Stored the following data in ViewState: {0}", value));
+
+                this.Value.Value = value;
+            }
+        }
 
         #endregion
 
@@ -377,6 +382,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <summary>
         /// Sets the sort order.
         /// </summary>
+        [Obsolete("Handled on client side")]
         private void SetRowsSortOrder()
         {
             this.Rows = this.Rows.OrderBy(x => x.SortOrder).ToList();
@@ -428,7 +434,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 var tr = new TableRow();
 
                 // Add ID column
-                var id = new TableCell();
+                var id = new TableCell { CssClass = "id" };
                 id.Controls.Add(new Label { Text = row.Id.ToString() });
 
                 tr.Cells.Add(id);
@@ -475,48 +481,48 @@ namespace uComponents.DataTypes.DataTypeGrid
                 editRow.Controls.Add(eIcon);
                 editRow.Controls.Add(eInner);
 
-                // Move up button
-                var mUpInner = new HtmlGenericControl("span");
-                mUpInner.Attributes["class"] = "ui-button-text";
-                mUpInner.InnerText = Helper.Dictionary.GetDictionaryItem("MoveUp", "Move up");
+                //// Move up button
+                //var mUpInner = new HtmlGenericControl("span");
+                //mUpInner.Attributes["class"] = "ui-button-text";
+                //mUpInner.InnerText = Helper.Dictionary.GetDictionaryItem("MoveUp", "Move up");
 
-                var mUpIcon = new HtmlGenericControl("span");
-                mUpIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-arrowthick-1-n";
+                //var mUpIcon = new HtmlGenericControl("span");
+                //mUpIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-arrowthick-1-n";
 
-                var moveRowUp = new LinkButton
-                    {
-                        ID = "MoveUpButton_" + row.Id,
-                        CssClass = "moveRowUp ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
-                        CommandArgument = row.Id.ToString()
-                    };
-                moveRowUp.Click += this.moveRowUp_Click;
+                //var moveRowUp = new LinkButton
+                //    {
+                //        ID = "MoveUpButton_" + row.Id,
+                //        CssClass = "moveRowUp ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
+                //        CommandArgument = row.Id.ToString()
+                //    };
+                //moveRowUp.Click += this.moveRowUp_Click;
 
-                moveRowUp.Controls.Add(mUpIcon);
-                moveRowUp.Controls.Add(mUpInner);
+                //moveRowUp.Controls.Add(mUpIcon);
+                //moveRowUp.Controls.Add(mUpInner);
 
-                // Move up button
-                var mDownInner = new HtmlGenericControl("span");
-                mDownInner.Attributes["class"] = "ui-button-text";
-                mDownInner.InnerText = Helper.Dictionary.GetDictionaryItem("MoveDown", "Move down");
+                //// Move up button
+                //var mDownInner = new HtmlGenericControl("span");
+                //mDownInner.Attributes["class"] = "ui-button-text";
+                //mDownInner.InnerText = Helper.Dictionary.GetDictionaryItem("MoveDown", "Move down");
 
-                var mDownIcon = new HtmlGenericControl("span");
-                mDownIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-arrowthick-1-s";
+                //var mDownIcon = new HtmlGenericControl("span");
+                //mDownIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-arrowthick-1-s";
 
-                var moveRowDown = new LinkButton
-                    {
-                        ID = "MoveDownButton_" + row.Id,
-                        CssClass = "moveRowDown ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
-                        CommandArgument = row.Id.ToString()
-                    };
-                moveRowDown.Click += this.moveRowDown_Click;
+                //var moveRowDown = new LinkButton
+                //    {
+                //        ID = "MoveDownButton_" + row.Id,
+                //        CssClass = "moveRowDown ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
+                //        CommandArgument = row.Id.ToString()
+                //    };
+                //moveRowDown.Click += this.moveRowDown_Click;
 
-                moveRowDown.Controls.Add(mDownIcon);
-                moveRowDown.Controls.Add(mDownInner);
+                //moveRowDown.Controls.Add(mDownIcon);
+                //moveRowDown.Controls.Add(mDownInner);
 
                 actions.Controls.Add(deleteRow);
                 actions.Controls.Add(editRow);
-                actions.Controls.Add(moveRowUp);
-                actions.Controls.Add(moveRowDown);
+                //actions.Controls.Add(moveRowUp);
+                //actions.Controls.Add(moveRowDown);
 
                 tr.Cells.Add(actions);
 
@@ -822,6 +828,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        [Obsolete("Handled on client side")]
         protected void moveRowUp_Click(object sender, EventArgs e)
         {
             this.CurrentRow = int.Parse(((LinkButton)sender).CommandArgument);
@@ -857,6 +864,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        [Obsolete("Handled on client side")]
         protected void moveRowDown_Click(object sender, EventArgs e)
         {
             this.CurrentRow = int.Parse(((LinkButton)sender).CommandArgument);
@@ -1208,7 +1216,8 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.ShowGridHeader = new HiddenField() { ID = "ShowGridHeader", Value = this.settings.ShowGridHeader.ToString() };
             this.ShowGridFooter = new HiddenField() { ID = "ShowGridFooter", Value = this.settings.ShowGridFooter.ToString() };
             this.DataTablesTranslation = new LiteralControl() { ID = "DataTablesTranslation", Text = this.GetDataTablesTranslation() };
-            this.RowsPerPage = new HiddenField() { ID = "RowsPerPage", Value = this.settings.RowsPerPage.ToString() };
+            this.TableHeight = new HiddenField() { ID = "TableHeight", Value = this.settings.TableHeight.ToString() };
+            this.Value = new HiddenField() { ID = "Value", Value = this.data.Value != null ? this.data.Value.ToString() : string.Empty };
             this.Grid = new Table { ID = "tblGrid", CssClass = "display" };
             this.Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
@@ -1238,8 +1247,9 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             this.Controls.Add(this.ShowGridHeader);
             this.Controls.Add(this.ShowGridFooter);
-            this.Controls.Add(this.RowsPerPage);
+            this.Controls.Add(this.TableHeight);
             this.Controls.Add(this.DataTablesTranslation);
+            this.Controls.Add(this.Value);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.Toolbar);
             this.Controls.Add(this.InsertControls);
@@ -1262,8 +1272,9 @@ namespace uComponents.DataTypes.DataTypeGrid
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
             this.ShowGridHeader.RenderControl(writer);
             this.ShowGridFooter.RenderControl(writer);
-            this.RowsPerPage.RenderControl(writer);
+            this.TableHeight.RenderControl(writer);
             this.DataTablesTranslation.RenderControl(writer);
+            this.Value.RenderControl(writer);
             this.Grid.RenderControl(writer);
             this.Toolbar.RenderControl(writer);
 

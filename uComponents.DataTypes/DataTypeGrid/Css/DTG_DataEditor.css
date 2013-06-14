@@ -263,6 +263,26 @@
 	color: #fff;
 }
 
+.dtg .dataTables_scrollHeadInner {
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.dtg .dataTables_scrollHeadInner tr {
+    border: 1px solid #cccccc;
+    padding-right: 17px;
+    background: #eeeeee url('/umbraco_client/propertypane/images/propertyBackground.gif') 50% 50% repeat-x;
+}
+
+.dtg .dataTables_scrollHeadInner th {
+    border: none;
+    border-left: 1px solid #cccccc;
+}
+
+.dtg .dataTables_scrollHeadInner th:first-child {
+    border: none;
+}
+
 .dtg table.display {
 	border-collapse: collapse;
 	clear: both;
@@ -287,6 +307,10 @@
 
 .dtg table.display thead th .ui-icon {
 	margin-top: -2px
+}
+
+.dtg tr.ui-sortable-helper .actions > * {
+	display: none;
 }
 
 .dtg tr.even {

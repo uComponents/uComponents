@@ -66,19 +66,14 @@ namespace uComponents.DataTypes.DataTypeGrid
         private CheckBox _showFooter = new CheckBox();
 
         /// <summary>
-        /// The number of rows per page to show in the grid
+        /// The table height
         /// </summary>
-        private TextBox _rowsPerPage = new TextBox() { Text = "10" };
-
-        /////// <summary>
-        /////// Flag for indicating if a delete operation is in process
-        /////// </summary>
-        ////private bool _deleteMode = false;
+        private TextBox _tableHeight = new TextBox() { Text = "300" };
 
         /// <summary>
-        /// The validator for _rowsPerPage
+        /// The validator for tableHeight
         /// </summary>
-        private RegularExpressionValidator _numberOfRowsValidator = new RegularExpressionValidator();
+        private RegularExpressionValidator _tableHeightValidator = new RegularExpressionValidator();
 
         /// <summary>
         /// The array containing the stored values.
@@ -150,7 +145,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this._settings.ShowLabel = this._showLabel != null && this._showLabel.Checked;
                 this._settings.ShowGridHeader = this._showHeader != null && this._showHeader.Checked;
                 this._settings.ShowGridFooter = this._showFooter != null && this._showFooter.Checked;
-                this._settings.RowsPerPage = this._rowsPerPage != null ? int.Parse(this._rowsPerPage.Text) : 10;
+                this._settings.TableHeight = this._tableHeight != null ? int.Parse(this._tableHeight.Text) : 300;
                 prevalues.Add(this._settings);
 
                 // Add existing prevalues;
@@ -229,13 +224,13 @@ namespace uComponents.DataTypes.DataTypeGrid
             this._showLabel = new CheckBox() { ID = "showLabel", Checked = this._settings.ShowLabel };
             this._showHeader = new CheckBox() { ID = "showHeader", Checked = this._settings.ShowGridHeader };
             this._showFooter = new CheckBox() { ID = "showFooter", Checked = this._settings.ShowGridFooter };
-            this._rowsPerPage = new TextBox() { ID = "RowsPerPage", Text = this._settings.RowsPerPage.ToString() };
-            this._numberOfRowsValidator = new RegularExpressionValidator()
+            this._tableHeight = new TextBox() { ID = "TableHeight", Text = this._settings.TableHeight.ToString() };
+            this._tableHeightValidator = new RegularExpressionValidator()
                 {
                     ID = "NumberOfRowsValidator",
                     CssClass = "validator",
                     ValidationExpression = @"^[1-9]*[0-9]*$",
-                    ControlToValidate = this._rowsPerPage.ClientID,
+                    ControlToValidate = this._tableHeight.ClientID,
                     Display = ValidatorDisplay.Dynamic,
                     ErrorMessage = Helper.Dictionary.GetDictionaryItem("MustBeANumber", "Must be a number")
                 };
@@ -627,8 +622,8 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Controls.Add(this._showLabel);
             this.Controls.Add(this._showHeader);
             this.Controls.Add(this._showFooter);
-            this.Controls.Add(this._rowsPerPage);
-            this.Controls.Add(this._numberOfRowsValidator);
+            this.Controls.Add(this._tableHeight);
+            this.Controls.Add(this._tableHeightValidator);
             this.Controls.Add(this._accordionContainer);
         }
 
@@ -692,10 +687,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow("Show Label", this._showLabel);
-            writer.AddPrevalueRow("Show Grid Header", this._showHeader);
-            writer.AddPrevalueRow("Show Grid Footer", this._showFooter);
-            writer.AddPrevalueRow("Rows Per Page", new Control[] { this._rowsPerPage, this._numberOfRowsValidator });
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowLabel", "Show Label"), this._showLabel);
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowGridHeader", "Show Grid Header"), this._showHeader);
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowGridFooter", "Show Grid Footer"), this._showFooter);
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("TableHeight", "Table Height"), new Control[] { this._tableHeight, this._tableHeightValidator });
             this._accordionContainer.RenderControl(writer);
 
             // Add javascript preview of alias

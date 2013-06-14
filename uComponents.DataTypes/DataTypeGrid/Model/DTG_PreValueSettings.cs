@@ -44,8 +44,8 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// Gets or sets the number of rows.
 		/// </summary>
 		/// <value>The number of rows.</value>
-		[DefaultValue(10)]
-		public int RowsPerPage { get; set; }
+		[DefaultValue(300)]
+		public int TableHeight { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this column is mandatory.
@@ -59,7 +59,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// </summary>
 		public PreValueEditorSettings()
 		{
-			this.RowsPerPage = 10;
+			this.TableHeight = 10;
 			this.ShowLabel = false;
 		    this.Mandatory = false;
 			this.ShowGridHeader = true;
