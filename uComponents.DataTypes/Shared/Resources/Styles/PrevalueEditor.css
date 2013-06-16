@@ -24,10 +24,26 @@ html[xmlns] .clearfix
 	height: 1%;
 }
 
-.uComponents
+.uComponents > .logo
 {
-	background: transparent url('<%= WebResource("uComponents.DataTypes.Shared.Resources.Images.ucomponents-logo-small.png")%>') no-repeat right 8px;
-	padding-top: 40px;
+	text-align: right;
+	padding-top: 8px;
+}
+.uComponents > .logo a {
+	height: 40px;
+	width: 200px;
+	display: inline-block;
+	background: transparent url('<%= WebResource("uComponents.DataTypes.Shared.Resources.Images.ucomponents-logo-small.png")%>') no-repeat left top;
+	position: relative;
+	color: #999;
+}
+.uComponents > .logo a .version {
+	position: absolute;
+	right: 11px;
+	bottom: 0;
+	display: inline-block;
+	font-family: Trebuchet MS, Lucida Grande, verdana, arial;
+	font-size: 0.9em;
 }
 .uComponents div.row
 {
