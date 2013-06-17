@@ -40,9 +40,9 @@
 		</Version>
 		<AssemblyInfo CodeLanguage="CS"
 			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
-			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
+			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
 			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
-			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
+			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)$(VersionSuffix)"/>
 	</Target>
 
 	<!-- COMPILE -->
