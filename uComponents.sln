@@ -53,7 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F10D99
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.DataTypes.RazorDataTypeModels", "uComponents.DataTypes.RazorDataTypeModels\uComponents.DataTypes.RazorDataTypeModels.csproj", "{F3044B98-5D10-4492-A6C9-21612569FEF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.PropertyEditors.Converters", "uComponents.PropertyEditors.Converters\uComponents.PropertyEditors.Converters.csproj", "{9DF10752-54C8-4EC2-BBDE-3D3204F6D1C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.PropertyEditors.ValueConverters", "uComponents.PropertyEditors.ValueConverters\uComponents.PropertyEditors.ValueConverters.csproj", "{9DF10752-54C8-4EC2-BBDE-3D3204F6D1C4}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
