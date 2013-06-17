@@ -18,7 +18,10 @@ function RegexValidate(source, args) {
 					sScrollY: getTableHeight(this),
 					bPaginate: false,
 				    bScrollCollapse: true,
-					bSort: false,
+				    bSort: false,
+				    bAutoWidth: true,
+				    sScrollX: "100%",
+			        sScrollXInner: "100%",
 					aoColumnDefs: [
 						{ "bVisible": false, "bSearchable": false, "aTargets": [0], "sType": "numeric" },
 						{ "sTitle": "", "bSearchable": false, "bSortable": false, "aTargets": [1] }
@@ -37,7 +40,7 @@ function RegexValidate(source, args) {
 
 					// Dont add datatables if there is no table
 					if ($("table.display", this).length > 0) {
-						$("table.display", this).dataTable(settings);
+					    var dataTable = $("table.display", this).dataTable(settings);
 					}
 					
 					// Setup hover events
@@ -160,6 +163,16 @@ function RegexValidate(source, args) {
 						containment: 'parent',
 						items: 'tr',
 						tolerance: 'pointer',
+						cursor: "move",
+						opacity: 0.6,
+						helper: function(e, ui) {
+						    ui.children().each(function() {
+						        $(this).width($(this).width());
+						        $(this).height($(this).height());
+						    });
+						    
+						    return ui;
+						},
 						start: function (event, ui) {
 							sortValue(element);
 						},
