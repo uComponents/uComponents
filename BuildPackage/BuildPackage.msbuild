@@ -11,7 +11,7 @@
 		<VersionMajor>5</VersionMajor>
 		<VersionMinor>4</VersionMinor>
 		<VersionPatch>3</VersionPatch>
-		<VersionSuffix>-dev</VersionSuffix>
+		<VersionSuffix>-build</VersionSuffix>
 		<UmbracoVersion>4.8.0</UmbracoVersion>
 	</PropertyGroup>
 
@@ -38,11 +38,16 @@
 			<Output TaskParameter="Build" PropertyName="Build" />
 			<Output TaskParameter="Revision" PropertyName="Revision" />
 		</Version>
+
+		<PropertyGroup>
+			<VersionSuffix Condition="'$(VersionSuffix)' == '-build'">$(VersionSuffix)$(Build)</VersionSuffix>
+		</PropertyGroup>
+
 		<AssemblyInfo CodeLanguage="CS"
 			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
-			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
-			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
-			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)$(VersionSuffix)"/>
+			AssemblyVersion="$(VersionMajor).$(VersionMinor).0.0"
+			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch).$(Build)"
+			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
 	</Target>
 
 	<!-- COMPILE -->
