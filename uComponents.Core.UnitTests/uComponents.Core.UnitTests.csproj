@@ -215,14 +215,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\umbraco.macroRenderings.dll</HintPath>
     </Reference>
-    <Reference Include="umbraco.webservices, Version=1.0.4807.30853, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\umbraco.webservices.dll</HintPath>
-    </Reference>
-    <Reference Include="umbraco.XmlSerializers, Version=1.0.4807.30843, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\umbraco.XmlSerializers.dll</HintPath>
-    </Reference>
     <Reference Include="umbraco.providers, Version=1.0.4898.21563, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\umbraco.providers.dll</HintPath>
