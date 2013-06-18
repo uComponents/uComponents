@@ -116,7 +116,7 @@
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
 			MinimumRequiredUmbracoVersion="$(UmbracoVersion)"
-			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+			PackageVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)$(VersionSuffix)"
 			Readme="$([System.IO.File]::ReadAllText(readme.txt))"
 			Files="@(ManifestFiles)" />
 	</Target>
@@ -129,7 +129,7 @@
 		<MSBuild.NuGet.Tasks.ManifestUpdate
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			WorkingDirectory="$(BuildNuGetDir)"
-			Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+			Version="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)$(VersionSuffix)"
 			Files="@(ManifestFiles)" />
 	</Target>
 
