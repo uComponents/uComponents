@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml.XPath;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using uComponents.DataTypes;
+using uComponents.DataTypes.Shared.Models;
 using umbraco;
 using Umbraco.Core;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Web;
-using uComponents.DataTypes.Shared.Models;
-using System.Collections.Generic;
 
-namespace uComponents.DataTypes.RazorDataTypeModels.SqlAutoComplete
+namespace uComponents.PropertyEditors.ValueConverters.SqlAutoComplete
 {
-
 	public class SqlAutoCompletePropertyEditorValueConverter : IPropertyEditorValueConverter
 	{
 		public bool IsConverterFor(Guid propertyEditorId, string docTypeAlias, string propertyTypeAlias)
