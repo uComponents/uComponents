@@ -15,7 +15,7 @@ namespace uComponents.PropertyEditors.ValueConverters.CountryPicker
 
 		public Attempt<object> ConvertPropertyValue(object value)
 		{
-			if (UmbracoContext.Current != null && value != null && value.ToString() != string.Empty)
+			if (value != null && value.ToString().Length > 0)
 			{
 				return new Attempt<object>(true, value.ToString().Split(uComponents.Core.Constants.Common.COMMA));
 			}
