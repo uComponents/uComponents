@@ -9,9 +9,8 @@ using System.Web.Caching;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
-// using uComponents.Core.Shared.Extensions;
 using umbraco;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.XsltExtensions
 {

@@ -76,10 +76,10 @@ namespace uComponents.XsltExtensions
 						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "name", propertyType.Description));
 						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "mandatory", propertyType.Mandatory.ToString()));
 						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "sortOrder", propertyType.SortOrder.ToString()));
-						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "tabId", propertyType.TabId.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "tabId", propertyType.PropertyTypeGroup.ToString()));
 						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "regEx", propertyType.ValidationRegExp));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "dataTypeId", propertyType.DataTypeDefinition.Id.ToString()));
-						nodePropertyType.Attributes.Append(xmlHelper.addAttribute(xd, "dataTypeGuid", propertyType.DataTypeDefinition.UniqueId.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "dataTypeId", propertyType.DataTypeDefinition.Id.ToString()));
+						nodePropertyType.Attributes.Append(XmlHelper.AddAttribute(xd, "dataTypeGuid", propertyType.DataTypeDefinition.UniqueId.ToString()));
 
 						nodePropertyTypes.AppendChild(nodePropertyType);
 					}
@@ -236,10 +236,10 @@ namespace uComponents.XsltExtensions
 		/// <param name="propertyEditor">The property editor.</param>
 		internal static void AppendPropertyEditor(XmlDocument xd, IDataType propertyEditor)
 		{
-			var nodePropertyEditor = xmlHelper.addTextNode(xd, "PropertyEditor", string.Empty);
+			var nodePropertyEditor = XmlHelper.AddTextNode(xd, "PropertyEditor", string.Empty);
 
-			nodePropertyEditor.Attributes.Append(xmlHelper.addAttribute(xd, "id", propertyEditor.Id.ToString()));
-			nodePropertyEditor.Attributes.Append(xmlHelper.addAttribute(xd, "name", propertyEditor.DataTypeName));
+			nodePropertyEditor.Attributes.Append(XmlHelper.AddAttribute(xd, "id", propertyEditor.Id.ToString()));
+			nodePropertyEditor.Attributes.Append(XmlHelper.AddAttribute(xd, "name", propertyEditor.DataTypeName));
 
 			// add the property-editor node to the XmlDocument.
 			if (xd.DocumentElement != null)
