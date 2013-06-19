@@ -207,6 +207,7 @@
     <Compile Include="Similarity\SimilarityPropertyEditorValueConverter.cs" />
     <Compile Include="SqlAutoComplete\SqlAutoCompletePropertyEditorValueConverter.cs" />
     <Compile Include="UrlPicker\UrlPickerPropertyEditorValueConverter.cs" />
+    <Compile Include="XPathAutoComplete\XPathAutoCompletePropertyEditorValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
