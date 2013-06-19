@@ -45,8 +45,8 @@
 
 		<AssemblyInfo CodeLanguage="CS"
 			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
-			AssemblyVersion="$(VersionMajor).$(VersionMinor).0.0"
-			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch).$(Build)"
+			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
+			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
 			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
 	</Target>
 
