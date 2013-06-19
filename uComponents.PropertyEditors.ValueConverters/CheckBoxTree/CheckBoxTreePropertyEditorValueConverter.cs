@@ -22,9 +22,7 @@ namespace uComponents.PropertyEditors.ValueConverters.CheckBoxTree
 				var nodeIds = XmlHelper.CouldItBeXml(data) ? uQuery.GetXmlIds(data) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(data));
 
 				var helper = new UmbracoHelper(UmbracoContext.Current);
-				var items = helper.TypedContent(nodeIds);
-
-				return new Attempt<object>(true, items);
+				return new Attempt<object>(true, helper.TypedContent(nodeIds));
 			}
 
 			return Attempt<object>.False;
