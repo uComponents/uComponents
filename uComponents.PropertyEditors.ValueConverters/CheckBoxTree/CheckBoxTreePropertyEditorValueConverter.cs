@@ -1,7 +1,9 @@
 ﻿using System;
 using uComponents.DataTypes;
+using umbraco;
 using Umbraco.Core;
 using Umbraco.Core.PropertyEditors;
+using Umbraco.Web;
 
 namespace uComponents.PropertyEditors.ValueConverters.CheckBoxTree
 {
@@ -14,7 +16,18 @@ namespace uComponents.PropertyEditors.ValueConverters.CheckBoxTree
 
 		public Attempt<object> ConvertPropertyValue(object value)
 		{
-			throw new NotImplementedException();
+			if (UmbracoContext.Current != null && value != null && value.ToString().Length > 0)
+			{
+				var data = value.ToString();
+				var nodeIds = XmlHelper.CouldItBeXml(data) ? uQuery.GetXmlIds(data) : uQuery.ConvertToIntArray(uQuery.GetCsvIds(data));
+
+				var helper = new UmbracoHelper(UmbracoContext.Current);
+				var items = helper.TypedContent(nodeIds);
+
+				return new Attempt<object>(true, items);
+			}
+
+			return Attempt<object>.False;
 		}
 	}
 }
