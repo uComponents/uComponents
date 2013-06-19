@@ -204,6 +204,7 @@
     <Compile Include="MultipleDates\MultipleDatesPropertyEditorValueConverter.cs" />
     <Compile Include="MultiUrlPicker\MultiUrlPickerPropertyEditorValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Similarity\SimilarityPropertyEditorValueConverter.cs" />
     <Compile Include="UrlPicker\UrlPickerPropertyEditorValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
