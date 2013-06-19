@@ -22,9 +22,9 @@ namespace uComponents.DataTypes.StyledTextBox
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="configuration">The configuration.</param>
-        public StyledTextBoxDataEditor(IData cata, string configuration)
+        public StyledTextBoxDataEditor(IData data, string configuration)
         {
-            _data = cata;
+            _data = data;
 
             if (string.IsNullOrEmpty(configuration) == false)
             {
