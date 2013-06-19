@@ -10,8 +10,8 @@
 	<PropertyGroup>
 		<VersionMajor>6</VersionMajor>
 		<VersionMinor>0</VersionMinor>
-		<VersionPatch>2</VersionPatch>
-		<VersionSuffix>-dev</VersionSuffix>
+		<VersionPatch>0</VersionPatch>
+		<VersionSuffix>-build</VersionSuffix>
 		<UmbracoVersion>6.1.0</UmbracoVersion>
 	</PropertyGroup>
 
@@ -34,18 +34,22 @@
 
 	<!-- UPDATE ASSEMBLEY VERSION -->
 	<Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
-		
+
 		<!-- AUTO-GENERATE THE 'Build' AND 'Revision' NUMBERS; FOR USE IN FILEVERSION ATTRIBUTE -->
 		<Version Major="$(VersionMajor)" Minor="$(VersionMinor)" BuildType="Automatic" RevisionType="Automatic" StartDate="29/06/2010">
 			<Output TaskParameter="Build" PropertyName="Build" />
 			<Output TaskParameter="Revision" PropertyName="Revision" />
 		</Version>
-		
+
+		<PropertyGroup>
+			<VersionSuffix Condition="'$(VersionSuffix)' == '-build'">$(VersionSuffix)$(Build)</VersionSuffix>
+		</PropertyGroup>
+
 		<AssemblyInfo CodeLanguage="CS"
 			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
-			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
-			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
-			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)$(VersionSuffix)"/>
+			AssemblyVersion="$(VersionMajor).$(VersionMinor).0.0"
+			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch).$(Build)"
+			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
 	</Target>
 
 	<!-- COMPILE -->
@@ -65,6 +69,7 @@
 			<BinFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.dll" />
+			<BinFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.dll" />
 			<DebugFiles Include="$(RootDir)\bin\Release\uComponents.Core.pdb" />
@@ -76,6 +81,7 @@
 			<DebugFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.pdb" />
+			<BinFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.pdb" />
 			<XmlFiles Include="$(RootDir)\bin\Release\uComponents.Core.xml" />
@@ -87,6 +93,7 @@
 			<XmlFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.xml" />
+			<BinFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.xml" />
 			<PluginFiles Include="$(RootDir)\..\uComponents.Installer\*.ascx" />
@@ -116,7 +123,7 @@
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
 			MinimumRequiredUmbracoVersion="$(UmbracoVersion)"
-			PackageVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)$(VersionSuffix)"
+			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Readme="$([System.IO.File]::ReadAllText(readme.txt))"
 			Files="@(ManifestFiles)" />
 	</Target>
@@ -129,7 +136,7 @@
 		<MSBuild.NuGet.Tasks.ManifestUpdate
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			WorkingDirectory="$(BuildNuGetDir)"
-			Version="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)$(VersionSuffix)"
+			Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Files="@(ManifestFiles)" />
 	</Target>
 
