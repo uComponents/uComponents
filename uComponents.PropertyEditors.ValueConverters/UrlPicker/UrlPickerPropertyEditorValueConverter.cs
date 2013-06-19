@@ -19,14 +19,7 @@ namespace uComponents.PropertyEditors.ValueConverters.UrlPicker
 		{
 			if (UmbracoContext.Current != null && value != null && value.ToString() != string.Empty)
 			{
-				try
-				{
-					return new Attempt<object>(true, new JavaScriptSerializer().Deserialize<UrlPickerState>(value.ToString()));
-				}
-				catch (Exception)
-				{
-					return Attempt<object>.False;
-				}
+				return new Attempt<object>(true, new JavaScriptSerializer().Deserialize<UrlPickerState>(value.ToString()));
 			}
 
 			return Attempt<object>.False;
