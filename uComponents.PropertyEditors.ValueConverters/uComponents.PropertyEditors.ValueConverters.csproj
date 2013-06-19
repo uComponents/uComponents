@@ -206,6 +206,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Similarity\SimilarityPropertyEditorValueConverter.cs" />
     <Compile Include="SqlAutoComplete\SqlAutoCompletePropertyEditorValueConverter.cs" />
+    <Compile Include="TextstringArray\TextstringArrayPropertyEditorValueConverter.cs" />
     <Compile Include="UrlPicker\UrlPickerPropertyEditorValueConverter.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePropertyEditorValueConverter.cs" />
   </ItemGroup>
