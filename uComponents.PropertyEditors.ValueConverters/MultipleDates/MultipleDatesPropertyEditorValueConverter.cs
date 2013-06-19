@@ -17,7 +17,7 @@ namespace uComponents.PropertyEditors.ValueConverters.MultipleDates
 
 		public Attempt<object> ConvertPropertyValue(object value)
 		{
-			if (value != null && value.ToString() != string.Empty)
+			if (value != null && value.ToString().Length > 0)
 			{
 				var dates = new List<DateTime>();
 				var items = value.ToString().Split(uComponents.Core.Constants.Common.COMMA).Select(s => s.Trim());

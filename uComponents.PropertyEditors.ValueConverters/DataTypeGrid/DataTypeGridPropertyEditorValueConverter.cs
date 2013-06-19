@@ -16,7 +16,7 @@ namespace uComponents.PropertyEditors.ValueConverters.DataTypeGrid
 
 		public Attempt<object> ConvertPropertyValue(object value)
 		{
-			if (UmbracoContext.Current != null && value != null && value.ToString() != string.Empty)
+			if (value != null && value.ToString().Length > 0)
 			{
 				return new Attempt<object>(true, new GridRowCollection(value.ToString()));
 			}

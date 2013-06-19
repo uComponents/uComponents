@@ -16,7 +16,7 @@ namespace uComponents.PropertyEditors.ValueConverters.Similarity
 
 		public Attempt<object> ConvertPropertyValue(object value)
 		{
-			if (UmbracoContext.Current != null && value != null && value.ToString() != string.Empty)
+			if (UmbracoContext.Current != null && value != null && value.ToString().Length > 0)
 			{
 				var nodeIds = uQuery.GetCsvIds(value.ToString());
 				var helper = new UmbracoHelper(UmbracoContext.Current);

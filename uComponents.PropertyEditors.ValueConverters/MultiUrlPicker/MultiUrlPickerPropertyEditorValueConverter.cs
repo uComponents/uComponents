@@ -17,7 +17,7 @@ namespace uComponents.PropertyEditors.ValueConverters.MultiUrlPicker
 
 		public Attempt<object> ConvertPropertyValue(object value)
 		{
-			if (UmbracoContext.Current != null && value != null && value.ToString() != string.Empty)
+			if (value != null && value.ToString().Length > 0)
 			{
 				return new Attempt<object>(true, new JavaScriptSerializer().Deserialize<MultiUrlPickerState>(value.ToString()));
 			}
