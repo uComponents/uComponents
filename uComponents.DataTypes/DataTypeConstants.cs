@@ -223,6 +223,6 @@
         /// <summary>
         /// Guid for the XPathSortableList data-type.
         /// </summary>
-        public const string XPathSortableListId = "F5F79D85-83DC-40A8-9050-52C3B68B07D6";
+        public const string XPathTemplatableListId = "F5F79D85-83DC-40A8-9050-52C3B68B07D6";
 	}
 }

@@ -459,17 +459,17 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
-    <Compile Include="XPathSortableList\ThumbnailSize.cs" />
-    <Compile Include="XPathSortableList\ThumbnailSizeAttribute.cs" />
-    <Compile Include="XPathSortableList\XPathSortableList.cs" />
-    <Compile Include="XPathSortableList\XPathSortableListDataEditor.cs" />
-    <Compile Include="XPathSortableList\XPathSortableListDataType.cs" />
-    <Compile Include="XPathSortableList\XPathSortableListOptions.cs" />
-    <Compile Include="XPathSortableList\XPathSortableListPreValueEditor.cs" />
+    <Compile Include="XPathTemplatableList\ThumbnailSize.cs" />
+    <Compile Include="XPathTemplatableList\ThumbnailSizeAttribute.cs" />
+    <Compile Include="XPathTemplatableList\XPathTemplatableList.cs" />
+    <Compile Include="XPathTemplatableList\XPathTemplatableListDataEditor.cs" />
+    <Compile Include="XPathTemplatableList\XPathTemplatableListDataType.cs" />
+    <Compile Include="XPathTemplatableList\XPathTemplatableOptions.cs" />
+    <Compile Include="XPathTemplatableList\XPathTemplatableListPreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="XPathSortableList\XPathSortableList.css" />
-    <EmbeddedResource Include="XPathSortableList\XPathSortableList.js" />
+    <EmbeddedResource Include="XPathTemplatableList\XPathTemplatableList.css" />
+    <EmbeddedResource Include="XPathTemplatableList\XPathTemplatableList.js" />
     <EmbeddedResource Include="Shared\WebServices\SharedServices.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SharedServices.Designer.cs</LastGenOutput>

@@ -1,4 +1,4 @@
-﻿namespace uComponents.DataTypes.XPathSortableList
+﻿namespace uComponents.DataTypes.XPathTemplatableList
 {
     public enum ThumbnailSize
     {

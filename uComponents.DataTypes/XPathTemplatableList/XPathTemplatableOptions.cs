@@ -4,12 +4,12 @@ using uComponents.Core;
 using umbraco;
 using umbraco.editorControls;
 
-namespace uComponents.DataTypes.XPathSortableList
+namespace uComponents.DataTypes.XPathTemplatableList
 {
     /// <summary>
-    /// The options for the XPathSortableListOptions data-type.
+    /// The options for the XPathTemplatableListOptions data-type.
     /// </summary>
-    public class XPathSortableListOptions : AbstractOptions
+    public class XPathTemplatableListOptions : AbstractOptions
     {
         private string type = null;
 
@@ -121,9 +121,9 @@ namespace uComponents.DataTypes.XPathSortableList
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XPathSortableListOptions"/> class.
+        /// Initializes a new instance of the <see cref="XPathTemplatableListOptions"/> class.
         /// </summary>
-        public XPathSortableListOptions()
+        public XPathTemplatableListOptions()
             : base(true)
         {
         }

@@ -9,14 +9,14 @@ using umbraco;
 using umbraco.editorControls;
 using umbraco.macroRenderings;
 
-namespace uComponents.DataTypes.XPathSortableList
+namespace uComponents.DataTypes.XPathTemplatableList
 {
     using System.ComponentModel;
 
     /// <summary>
     /// Prevalue Editor for XPath Sortable List
     /// </summary>
-    public class XPathSortableListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
+    public class XPathTemplatableListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>
         /// Radio buttons to select type of node to pick from: Content / Media / Members
@@ -104,13 +104,13 @@ namespace uComponents.DataTypes.XPathSortableList
         /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
         /// </summary>
-        private XPathSortableListOptions options = null;
+        private XPathTemplatableListOptions options = null;
 
         /// <summary>
-        /// Initialize a new instance of XPathSortableListPreValueEditor
+        /// Initialize a new instance of XPathTemplatableListPreValueEditor
         /// </summary>
-        /// <param name="dataType">XPathSortableListDataType</param>
-        public XPathSortableListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
+        /// <param name="dataType">XPathTemplatableListDataType</param>
+        public XPathTemplatableListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
             : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
         }
@@ -118,20 +118,20 @@ namespace uComponents.DataTypes.XPathSortableList
         /// <summary>
         /// Gets the options data object that represents the current state of this datatypes configuration
         /// </summary>
-        internal XPathSortableListOptions Options
+        internal XPathTemplatableListOptions Options
         {
             get
             {
                 if (this.options == null)
                 {
                     // Deserialize any stored settings for this PreValueEditor instance
-                    this.options = this.GetPreValueOptions<XPathSortableListOptions>();
+                    this.options = this.GetPreValueOptions<XPathTemplatableListOptions>();
 
                     // If still null, ie, object couldn't be de-serialized from PreValue[0] string value
                     if (this.options == null)
                     {
                         // Create a new Options data object with the default values
-                        this.options = new XPathSortableListOptions();
+                        this.options = new XPathTemplatableListOptions();
                     }
                 }
 

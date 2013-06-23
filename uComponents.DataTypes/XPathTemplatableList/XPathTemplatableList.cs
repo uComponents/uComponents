@@ -8,12 +8,12 @@ using umbraco.cms.businesslogic.media;
 using umbraco.cms.businesslogic.member;
 using umbraco.NodeFactory;
 
-namespace uComponents.DataTypes.XPathSortableList
+namespace uComponents.DataTypes.XPathTemplatableList
 {
     /// <summary>
     /// Strongly typed obj that's returned from uQuery .GetProperty{XPathCheckBoxList}("alias");
     /// </summary>
-    public class XPathSortableList : uQuery.IGetProperty
+    public class XPathTemplatableList : uQuery.IGetProperty
     {
 
         public IEnumerable<Node> SelectedNodes { get; private set; }
@@ -32,10 +32,10 @@ namespace uComponents.DataTypes.XPathSortableList
             if (!string.IsNullOrWhiteSpace(value))
             {
                 /*
-                    <XPathSortableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
+                    <XPathTemplatableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
                         <Item Value="1" />
                         <Item Value="9" />
-                    </XPathSortableList>
+                    </XPathTemplatableList>
                 */
 
                 XDocument valueXDocument = XDocument.Load(value);
@@ -66,10 +66,10 @@ namespace uComponents.DataTypes.XPathSortableList
         //int[] uQuery.IPickerRelations.GetIds(string value)
         //{
         //    /*
-        //        <XPathSortableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
+        //        <XPathTemplatableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
         //            <Item Value="1" />
         //            <Item Value="9" />
-        //        </XPathSortableList>
+        //        </XPathTemplatableList>
         //    */
 
         //    XDocument valueXDocument = XDocument.Load(value);

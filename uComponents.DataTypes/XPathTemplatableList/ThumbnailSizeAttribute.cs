@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace uComponents.DataTypes.XPathSortableList
+namespace uComponents.DataTypes.XPathTemplatableList
 {
     public class ThumbnailSizeAttribute : Attribute
     {

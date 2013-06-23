@@ -3,29 +3,29 @@ using umbraco.editorControls;
 using umbraco.interfaces;
 
 
-namespace uComponents.DataTypes.XPathSortableList
+namespace uComponents.DataTypes.XPathTemplatableList
 {
     /// <summary>
     /// XPath AutoComplete data-type
     /// </summary>
-    public class XPathSortableListDataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
+    public class XPathTemplatableListDataType : umbraco.cms.businesslogic.datatype.BaseDataType, IDataType
     {
 
-        private XPathSortableListPreValueEditor preValueEditor;
+        private XPathTemplatableListPreValueEditor preValueEditor;
 
         private IDataEditor dataEditor;
 
         private IData data;
 
-        private XPathSortableListOptions options;
+        private XPathTemplatableListOptions options;
 
-        private XPathSortableListOptions Options
+        private XPathTemplatableListOptions Options
         {
             get
             {
                 if (this.options == null)
                 {
-                    this.options = ((XPathSortableListPreValueEditor)this.PrevalueEditor).Options;
+                    this.options = ((XPathTemplatableListPreValueEditor)this.PrevalueEditor).Options;
                 }
 
                 return this.options;
@@ -40,7 +40,7 @@ namespace uComponents.DataTypes.XPathSortableList
         {
             get
             {
-                return "uComponents: XPath Sortable List";
+                return "uComponents: XPath Templatable List";
             }
         }
 
@@ -52,7 +52,7 @@ namespace uComponents.DataTypes.XPathSortableList
         {
             get
             {
-                return new Guid(DataTypeConstants.XPathSortableListId);
+                return new Guid(DataTypeConstants.XPathTemplatableListId);
             }
         }
 
@@ -66,7 +66,7 @@ namespace uComponents.DataTypes.XPathSortableList
             {
                 if (this.preValueEditor == null)
                 {
-                    this.preValueEditor = new XPathSortableListPreValueEditor(this);
+                    this.preValueEditor = new XPathTemplatableListPreValueEditor(this);
                 }
 
                 return this.preValueEditor;
@@ -83,7 +83,7 @@ namespace uComponents.DataTypes.XPathSortableList
             {
                 if (this.dataEditor == null)
                 {
-                    this.dataEditor = new XPathSortableListDataEditor(this.Data, this.Options);
+                    this.dataEditor = new XPathTemplatableListDataEditor(this.Data, this.Options);
                 }
 
                 return this.dataEditor;

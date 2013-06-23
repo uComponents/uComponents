@@ -1,7 +1,7 @@
 /*
     <!-- made server side -->
 
-    <div id="body_prop_xPathSortableListDocuments_ct100" class="xpath-sortable-list (thumbnails)" 
+    <div id="body_prop_XPathTemplatableListDocuments_ct100" class="xpath-sortable-list (thumbnails)" 
          data-min-items="1"          
          data-max-items="3"
          data-allow-duplicates="false"
@@ -9,7 +9,7 @@
  
         <ul class="source-list propertypane">            
             <li class="(active)" data-text="ABC" data-value="1">                
-                <a class="add" title="add" href="javascript:void(0);" onclick="XPathSortableList.addItem(this);">
+                <a class="add" title="add" href="javascript:void(0);" onclick="XPathTemplatableList.addItem(this);">
 
 
 <img src="......" />
@@ -19,7 +19,7 @@
             </li>
 
             <li data-text="XYZ" data-value="9">                
-                <a class="add" title="add" href="javascript:void(0);" onclick="XPathSortableList.addItem(this);">
+                <a class="add" title="add" href="javascript:void(0);" onclick="XPathTemplatableList.addItem(this);">
                     XYZ
                 </a>)
             </li>
@@ -31,11 +31,11 @@
         <ul class="sortable-list propertypane">
             <li data-value="1">
                 ABC
-                <a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>
+                <a class="delete" title="remove" href="javascript:void(0);" onclick="XPathTemplatableList.removeItem(this);"></a>
             </li>
             <li data-value="9">
                 XYZ
-                <a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>
+                <a class="delete" title="remove" href="javascript:void(0);" onclick="XPathTemplatableList.removeItem(this);"></a>
             </li>
         </ul>
             
@@ -46,14 +46,14 @@
 
     <!-- xml format -->
 
-    <XPathSortableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
+    <XPathTemplatableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
         <Item Value="1" />
         <Item Value="9" />
-    </XPathSortableList>)
+    </XPathTemplatableList>)
 
 */
 
-var XPathSortableList = XPathSortableList || (function () {
+var XPathTemplatableList = XPathTemplatableList || (function () {
 
     var PLACEHOLDER_MIN = '<li class="placeholder min">&nbsp;</li>';
     var PLACEHOLDER_MAX = '<li class="placeholder max">&nbsp;</li>';
@@ -161,7 +161,7 @@ var XPathSortableList = XPathSortableList || (function () {
         
         // handle placeholder <li>s
         var li = jQuery('<li data-value="' + value + '"><div>' +
-                            text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathSortableList.removeItem(this);"></a>' +
+                            text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathTemplatableList.removeItem(this);"></a>' +
                  '</div></li>');
 
         li.prepend(img.clone());
@@ -237,11 +237,11 @@ var XPathSortableList = XPathSortableList || (function () {
     //// private -- re-generates the xml fragment of selected items, and stores in the hidden field    
     function updateHidden(sortableUl, hidden, type) {
 
-        var xml = '<XPathSortableList Type="' + type + '">';
+        var xml = '<XPathTemplatableList Type="' + type + '">';
         sortableUl.children('li:not(.placeholder)').each(function (index, element) {                
                 xml += '<Item Value="' + jQuery(element).data('value') + '" />';
             });
-            xml += '</XPathSortableList>';
+            xml += '</XPathTemplatableList>';
 
         hidden.val(xml);
     }

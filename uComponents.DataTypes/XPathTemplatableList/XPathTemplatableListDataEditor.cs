@@ -16,9 +16,9 @@ using umbraco.editorControls;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
 
-[assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", Constants.MediaTypeNames.Text.Css)]
-[assembly: WebResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", Constants.MediaTypeNames.Application.JavaScript)]
-namespace uComponents.DataTypes.XPathSortableList
+[assembly: WebResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.css", Constants.MediaTypeNames.Text.Css)]
+[assembly: WebResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.js", Constants.MediaTypeNames.Application.JavaScript)]
+namespace uComponents.DataTypes.XPathTemplatableList
 {
     using System.ComponentModel;
     using System.Text.RegularExpressions;
@@ -30,7 +30,7 @@ namespace uComponents.DataTypes.XPathSortableList
     /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
-    public class XPathSortableListDataEditor : CompositeControl, IDataEditor
+    public class XPathTemplatableListDataEditor : CompositeControl, IDataEditor
     {
         /// <summary>
         /// Field for the data.
@@ -45,7 +45,7 @@ namespace uComponents.DataTypes.XPathSortableList
         /// <summary>
         /// Field for the options.
         /// </summary>
-        private XPathSortableListOptions options;
+        private XPathTemplatableListOptions options;
 
         /// <summary>
         /// Wrappiing div
@@ -68,11 +68,11 @@ namespace uComponents.DataTypes.XPathSortableList
         private CustomValidator customValidator = new CustomValidator();
 
         /// <summary>
-        /// Initializes a new instance of XPathSortableListDataEditor
+        /// Initializes a new instance of XPathTemplatableListDataEditor
         /// </summary>
         /// <param name="data"></param>
         /// <param name="options"></param>
-        internal XPathSortableListDataEditor(IData data, XPathSortableListOptions options)
+        internal XPathTemplatableListDataEditor(IData data, XPathTemplatableListOptions options)
         {
             this.data = data;
             this.options = options;
@@ -326,17 +326,17 @@ namespace uComponents.DataTypes.XPathSortableList
 
             this.PopulateSourceList();
 
-            this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.css", ClientDependencyType.Css);
-            this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathSortableList.XPathSortableList.js", ClientDependencyType.Javascript);
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.css", ClientDependencyType.Css);
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.js", ClientDependencyType.Javascript);
 
             string startupScript = @"
                 <script language='javascript' type='text/javascript'>
                     $(document).ready(function () {
-                        XPathSortableList.init(jQuery('div#" + this.div.ClientID + @"'));
+                        XPathTemplatableList.init(jQuery('div#" + this.div.ClientID + @"'));
                     });
                 </script>";
 
-            ScriptManager.RegisterStartupScript(this, typeof(XPathSortableListDataEditor), this.ClientID + "_init", startupScript, false);
+            ScriptManager.RegisterStartupScript(this, typeof(XPathTemplatableListDataEditor), this.ClientID + "_init", startupScript, false);
         }
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace uComponents.DataTypes.XPathSortableList
                 a.Attributes.Add("class", "add");
                 a.Attributes.Add("title", "add");
                 a.Attributes.Add("href", "javascript:void(0);");
-                a.Attributes.Add("onclick", "XPathSortableList.addItem(this);");                
+                a.Attributes.Add("onclick", "XPathTemplatableList.addItem(this);");                
 
                 if (!string.IsNullOrEmpty(this.options.ThumbnailProperty))
                 {                    
@@ -433,10 +433,10 @@ namespace uComponents.DataTypes.XPathSortableList
         /// <returns></returns>
         private IEnumerable<int> GetSelectedValues()
         {
-            //<XPathSortableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
+            //<XPathTemplatableList Type="c66ba18e-eaf3-4cff-8a22-41b16d66a972">
             //    <Item Value="1" />
             //    <Item Value="9" />
-            //</XPathSortableList>
+            //</XPathTemplatableList>
 
             if (!String.IsNullOrWhiteSpace(this.selectedItemsHiddenField.Value))
             {
