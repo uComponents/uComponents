@@ -12,6 +12,7 @@ using uComponents.Core;
 [assembly: InternalsVisibleTo("uComponents.Installer")]
 [assembly: InternalsVisibleTo("uComponents.Legacy")]
 [assembly: InternalsVisibleTo("uComponents.MacroEngines")]
+[assembly: InternalsVisibleTo("uComponents.Mapping")]
 [assembly: InternalsVisibleTo("uComponents.NotFoundHandlers")]
 [assembly: InternalsVisibleTo("uComponents.UI")]
 [assembly: InternalsVisibleTo("uComponents.XsltExtensions")]
