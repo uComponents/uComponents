@@ -38,7 +38,7 @@ namespace uComponents.DataTypes.DataTypeGrid
     /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "controls/Images/ImageViewer.js", "UmbracoRoot")]
-    public class DataEditor : Control, INamingContainer, IDataEditor
+    public class DataEditor : CompositeControl, IDataEditor
     {
         #region Fields
 
@@ -140,9 +140,9 @@ namespace uComponents.DataTypes.DataTypeGrid
         public HiddenField TableHeight { get; set; }
 
         /// <summary>
-        /// Gets or sets the value.
+        /// Gets or sets the value control.
         /// </summary>
-        /// <value>The value.</value>
+        /// <value>The value control.</value>
         public HiddenField Value { get; set; }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             get
             {
-                if (this.Value != null)
+                if (this.Value != null && !string.IsNullOrEmpty(this.Value.Value))
                 {
                     DtgHelpers.AddLogEntry(string.Format("DTG: Returned value from ViewState: {0}", this.Value.Value));
 
@@ -260,9 +260,6 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// </summary>
         public void Store()
         {
-            // Make sure sort order is correct
-            this.SetRowsSortOrder();
-
             // Start data
             var str = "<items>";
 
@@ -380,20 +377,6 @@ namespace uComponents.DataTypes.DataTypeGrid
         }
 
         /// <summary>
-        /// Sets the sort order.
-        /// </summary>
-        [Obsolete("Handled on client side")]
-        private void SetRowsSortOrder()
-        {
-            this.Rows = this.Rows.OrderBy(x => x.SortOrder).ToList();
-
-            for (var i = 0; i < this.Rows.Count(); i++)
-            {
-                this.Rows[i].SortOrder = i;
-            }
-        }
-
-        /// <summary>
         /// Generates the header row.
         /// </summary>
         private void GenerateHeaderRow()
@@ -401,9 +384,9 @@ namespace uComponents.DataTypes.DataTypeGrid
             var tr = new TableRow { TableSection = TableRowSection.TableHeader };
 
             // Add ID header cell
-            tr.Cells.Add(new TableHeaderCell { Text = Helper.Dictionary.GetDictionaryItem("ID", "ID") });
+            tr.Cells.Add(new TableHeaderCell { CssClass = "id", Text = Helper.Dictionary.GetDictionaryItem("ID", "ID") });
 
-            tr.Cells.Add(new TableHeaderCell { Text = Helper.Dictionary.GetDictionaryItem("Actions", "Actions") });
+            tr.Cells.Add(new TableHeaderCell { CssClass = "actions", Text = Helper.Dictionary.GetDictionaryItem("Actions", "Actions") });
 
             // Add prevalue cells
             foreach (var s in StoredPreValues)
@@ -432,10 +415,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             foreach (var row in this.Rows.OrderBy(x => x.SortOrder))
             {
                 var tr = new TableRow();
+                tr.Attributes.Add("data-dtg-rowid", row.Id.ToString());
 
                 // Add ID column
                 var id = new TableCell { CssClass = "id" };
-                id.Controls.Add(new Label { Text = row.Id.ToString() });
+                id.Controls.Add(new LiteralControl(row.Id.ToString()));
 
                 tr.Cells.Add(id);
 
@@ -481,48 +465,8 @@ namespace uComponents.DataTypes.DataTypeGrid
                 editRow.Controls.Add(eIcon);
                 editRow.Controls.Add(eInner);
 
-                //// Move up button
-                //var mUpInner = new HtmlGenericControl("span");
-                //mUpInner.Attributes["class"] = "ui-button-text";
-                //mUpInner.InnerText = Helper.Dictionary.GetDictionaryItem("MoveUp", "Move up");
-
-                //var mUpIcon = new HtmlGenericControl("span");
-                //mUpIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-arrowthick-1-n";
-
-                //var moveRowUp = new LinkButton
-                //    {
-                //        ID = "MoveUpButton_" + row.Id,
-                //        CssClass = "moveRowUp ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
-                //        CommandArgument = row.Id.ToString()
-                //    };
-                //moveRowUp.Click += this.moveRowUp_Click;
-
-                //moveRowUp.Controls.Add(mUpIcon);
-                //moveRowUp.Controls.Add(mUpInner);
-
-                //// Move up button
-                //var mDownInner = new HtmlGenericControl("span");
-                //mDownInner.Attributes["class"] = "ui-button-text";
-                //mDownInner.InnerText = Helper.Dictionary.GetDictionaryItem("MoveDown", "Move down");
-
-                //var mDownIcon = new HtmlGenericControl("span");
-                //mDownIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-arrowthick-1-s";
-
-                //var moveRowDown = new LinkButton
-                //    {
-                //        ID = "MoveDownButton_" + row.Id,
-                //        CssClass = "moveRowDown ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
-                //        CommandArgument = row.Id.ToString()
-                //    };
-                //moveRowDown.Click += this.moveRowDown_Click;
-
-                //moveRowDown.Controls.Add(mDownIcon);
-                //moveRowDown.Controls.Add(mDownInner);
-
                 actions.Controls.Add(deleteRow);
                 actions.Controls.Add(editRow);
-                //actions.Controls.Add(moveRowUp);
-                //actions.Controls.Add(moveRowDown);
 
                 tr.Cells.Add(actions);
 
@@ -824,78 +768,6 @@ namespace uComponents.DataTypes.DataTypeGrid
         }
 
         /// <summary>
-        /// Handles the Click event of the moveRowUp control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        [Obsolete("Handled on client side")]
-        protected void moveRowUp_Click(object sender, EventArgs e)
-        {
-            this.CurrentRow = int.Parse(((LinkButton)sender).CommandArgument);
-
-            for (var i = 0; i < this.Rows.Count; i++)
-            {
-                if (this.Rows[i].Id == this.CurrentRow)
-                {
-                    // Reorder the specified row
-                    if (i > 0)
-                    {
-                        this.Rows[i].SortOrder--;
-
-                        // Move conflicting row
-                        this.Rows[i - 1].SortOrder++;
-                    }
-                    else if (i == 0)
-                    {
-                        this.Rows[i].SortOrder = this.Rows.Count;
-
-                        // Move conflicting row
-                        this.Rows[this.Rows.Count - 1].SortOrder = 0;
-                    }
-                }
-            }
-
-            this.Store();
-            this.Save();
-        }
-
-        /// <summary>
-        /// Handles the Click event of the moveRowDown control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        [Obsolete("Handled on client side")]
-        protected void moveRowDown_Click(object sender, EventArgs e)
-        {
-            this.CurrentRow = int.Parse(((LinkButton)sender).CommandArgument);
-
-            for (var i = 0; i < this.Rows.Count; i++)
-            {
-                if (this.Rows[i].Id == this.CurrentRow)
-                {
-                    // Reorder the specified row
-                    if (i < this.Rows.Count - 1)
-                    {
-                        this.Rows[i].SortOrder++;
-
-                        // Move conflicting row
-                        this.Rows[i + 1].SortOrder--;
-                    }
-                    else if (i == this.Rows.Count - 1)
-                    {
-                        this.Rows[i].SortOrder = 0;
-
-                        // Move conflicting row
-                        this.Rows[0].SortOrder++;
-                    }
-                }
-            }
-
-            this.Store();
-            this.Save();
-        }
-
-        /// <summary>
         /// Handles the Click event of the addRowDialog control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -979,13 +851,13 @@ namespace uComponents.DataTypes.DataTypeGrid
             var values = new List<StoredValueRow>();
 
             // Add root element if value is empty
-            if (string.IsNullOrEmpty(this.data.Value.ToString()))
+            if (string.IsNullOrEmpty(this.DataString))
             {
-                this.data.Value = "<items></items>";
+                this.DataString = "<items></items>";
             }
 
             var doc = new XmlDocument();
-            doc.LoadXml(this.data.Value.ToString());
+            doc.LoadXml(this.DataString);
 
             // Create and add XML declaration. 
             var xmldecl = doc.CreateXmlDeclaration("1.0", null, null);
@@ -1000,9 +872,15 @@ namespace uComponents.DataTypes.DataTypeGrid
                     // <DataTypeGrid>
                     var valueRow = new StoredValueRow();
 
-                    if (container.Attributes["id"] != null) valueRow.Id = int.Parse(container.Attributes["id"].Value);
+                    if (container.Attributes["id"] != null)
+                    {
+                        valueRow.Id = int.Parse(container.Attributes["id"].Value);
+                    }
 
-                    if (container.Attributes["sortOrder"] != null) valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
+                    if (container.Attributes["sortOrder"] != null)
+                    {
+                        valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
+                    }
 
                     foreach (PreValueRow config in this.StoredPreValues)
                     {
@@ -1193,13 +1071,6 @@ namespace uComponents.DataTypes.DataTypeGrid
             // DEBUG: Reset stored values
             // this.Data.Value = "<items><item id='1'><name nodeName='Name' nodeType='-88' >Anna</name><age nodeName='Age' nodeType='-51' >25</age><picture nodeName='Picture' nodeType='1035' ></picture></item><item id='6'><name nodeName='Name' nodeType='-88' >Ove</name><gender nodeName='Gender' nodeType='-88'>Male</gender><age nodeName='Age' nodeType='-51' >23</age><picture nodeName='Picture' nodeType='1035' ></picture></item></items>";
 
-            // Use data from viewstate if possible
-            // TODO: Quality Check! Could create problems for some datatypes
-            if (!string.IsNullOrEmpty(this.DataString))
-            {
-                this.data.Value = this.DataString;
-            }
-
             // Set default value if none exists
             if (this.data.Value == null)
             {
@@ -1213,6 +1084,12 @@ namespace uComponents.DataTypes.DataTypeGrid
                     string.Format("DTG: Retrieved the following data from database: {0}", this.data.Value));
             }
 
+            // Use data from viewstate if present
+            if (!string.IsNullOrEmpty(this.DataString))
+            {
+                this.data.Value = this.DataString;
+            }
+
             this.ShowGridHeader = new HiddenField() { ID = "ShowGridHeader", Value = this.settings.ShowGridHeader.ToString() };
             this.ShowGridFooter = new HiddenField() { ID = "ShowGridFooter", Value = this.settings.ShowGridFooter.ToString() };
             this.DataTablesTranslation = new LiteralControl() { ID = "DataTablesTranslation", Text = this.GetDataTablesTranslation() };
@@ -1221,6 +1098,16 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Grid = new Table { ID = "tblGrid", CssClass = "display" };
             this.Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
+            // Add value container here, because we need the unique id
+            this.Controls.Add(this.Value);
+
+            // Use value from viewstate if present
+            if (this.Page != null && !string.IsNullOrEmpty(this.Page.Request.Form[this.Value.UniqueID]))
+            {
+                this.DataString = this.Page.Request.Form[this.Value.UniqueID];
+            }
+            
+            // Set up rows
             StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
             Rows = this.GetStoredValues();
             InsertDataTypes = GetInsertDataTypes();
@@ -1245,11 +1132,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             // Generate edit controls
             GenerateEditControls();
 
+            // Add controls to container
             this.Controls.Add(this.ShowGridHeader);
             this.Controls.Add(this.ShowGridFooter);
             this.Controls.Add(this.TableHeight);
             this.Controls.Add(this.DataTablesTranslation);
-            this.Controls.Add(this.Value);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.Toolbar);
             this.Controls.Add(this.InsertControls);

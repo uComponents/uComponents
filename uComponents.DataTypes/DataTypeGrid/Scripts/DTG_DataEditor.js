@@ -17,14 +17,14 @@ function RegexValidate(source, args) {
 					oLanguage: $.uComponents.dictionary().dataTablesTranslation,
 					sScrollY: getTableHeight(this),
 					bPaginate: false,
-				    bScrollCollapse: true,
-				    bSort: false,
-				    bAutoWidth: true,
-				    sScrollX: "100%",
-			        sScrollXInner: "100%",
+					bScrollCollapse: true,
+					bSort: false,
+					bAutoWidth: true,
+					sScrollX: "100%",
+					sScrollXInner: "100%",
 					aoColumnDefs: [
-						{ "bVisible": false, "bSearchable": false, "aTargets": [0], "sType": "numeric" },
-						{ "sTitle": "", "bSearchable": false, "bSortable": false, "aTargets": [1] }
+						{ "sTitle": "", "bSearchable": false, "bSortable": false, "sType": "numeric", "aTargets": [0] },
+						{ "sTitle": "", "bSearchable": false, "bSortable": false, "sType": "numeric", "aTargets": [1] }
 					],
 					fnDrawCallback: function(oSettings) {
 						configureToolbar($(oSettings.nTableWrapper).parent());
@@ -40,7 +40,7 @@ function RegexValidate(source, args) {
 
 					// Dont add datatables if there is no table
 					if ($("table.display", this).length > 0) {
-					    var dataTable = $("table.display", this).dataTable(settings);
+						var dataTable = $("table.display", this).dataTable(settings);
 					}
 					
 					// Setup hover events
@@ -123,39 +123,39 @@ function RegexValidate(source, args) {
 
 				// Private functions
 				function getTableHeight(element) {
-				    var defaultHeight = 300;
+					var defaultHeight = 300;
 
-				    if ($(element).find("input[id$='TableHeight']").length > 0) {
-				        defaultHeight = parseFloat($(element).find("input[id$='TableHeight']").val());
-				    }
-
-				    return defaultHeight;
-				}
-
-				function configureToolbar(element) {
-					if ($(element).find("input[id$='ShowTableHeader']").val() == "False") {
-						$(element).find(".fg-toolbar.ui-widget-header:first").hide();
+					if ($(element).find("input[id$='TableHeight']").length > 0) {
+						defaultHeight = parseFloat($(element).find("input[id$='TableHeight']").val());
 					}
 
-					if ($(element).find("input[id$='ShowTableFooter']").val() == "False") {
-						$(element).find(".fg-toolbar.ui-widget-header:last").hide();
+					return defaultHeight;
+				}
+
+				function configureToolbar(container) {
+					if ($(container).find("input[id$='ShowTableHeader']").val() == "False") {
+						$(container).find(".fg-toolbar.ui-widget-header:first").hide();
+					}
+
+					if ($(container).find("input[id$='ShowTableFooter']").val() == "False") {
+						$(container).find(".fg-toolbar.ui-widget-header:last").hide();
 					}
 				}
 
-				function configureRows(element) {
+				function configureRows(container) {			    
 					// Make sure disabled buttons are not clickable
-					$(element).find("tbody .ui-button").click(function () {
+					$(container).find("tbody .ui-button").click(function () {
 						if ($(this).hasClass("ui-state-disabled")) {
 							return false;
 						}
 					});
 
 					// Set first column width
-					//$(element).find("thead th:first, tbody td.actions").width(19);
+					$(container).find("th.actions, td.actions").width(19);
 				}
 				
-				function configureSortable(element) {
-					var table = $(element).find("table.display");
+				function configureSortable(container) {			    
+					var table = $(container).find(".dataTables_scrollBody table.display");
 					var tbody = $(table).children("tbody");
 					
 					var sortable = $(tbody).sortable({
@@ -166,32 +166,42 @@ function RegexValidate(source, args) {
 						cursor: "move",
 						opacity: 0.6,
 						helper: function(e, ui) {
-						    ui.children().each(function() {
-						        $(this).width($(this).width());
-						        $(this).height($(this).height());
-						    });
-						    
-						    return ui;
-						},
-						start: function (event, ui) {
-							sortValue(element);
+							ui.children().each(function() {
+								$(this).width($(this).width());
+								$(this).height($(this).height());
+							});
+							
+							return ui;
 						},
 						stop: function (event, ui) {
-							sortValue(element);
+							sortValue(container);
 						}
 					});
 				}
 				
-				function sortValue(element) {
-					var xml = $(element).find(".value");
+				function sortValue(container) {
+					// Update value sortorder
+				    var values = $.parseXML($(container).find("input[id$='Value']").val());
+				    var rows = $(".dataTables_scrollBody table.display tr", container);
 					
-					// TODO: Update value element
+					// Loop all rows currently in grid
+					$.each(rows, function (i, r) {
+						// Find existing element with matching id as the current object
+					    $.each(values.childNodes[0].childNodes, function (j, e) {
+					        if (e.attributes["id"].value == $(r).data("dtg-rowid")) {
+					            // Update sortorder on element
+					            e.attributes["sortOrder"].value = i;
+					        }
+						});
+					});
+
+					$(container).find("input[id$='Value']").val((new XMLSerializer()).serializeToString(values));
 					
 					// Correct row class
-					$.each($(element).find("tr"), function(i, o) {
+					$.each($(container).find("tr"), function(i, o) {
 						$(o).removeClass("even, odd");
 
-						if (i % 2 == 0) {
+						if ((i + 1) % 2 == 0) {
 							$(o).addClass("even");
 						} else {
 							$(o).addClass("odd");
