@@ -59,7 +59,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// </summary>
 		public PreValueEditorSettings()
 		{
-			this.TableHeight = 10;
+			this.TableHeight = 300;
 			this.ShowLabel = false;
 		    this.Mandatory = false;
 			this.ShowGridHeader = true;

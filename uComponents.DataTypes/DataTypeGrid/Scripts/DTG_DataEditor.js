@@ -197,7 +197,7 @@ function RegexValidate(source, args) {
 
 					$(container).find("input[id$='Value']").val((new XMLSerializer()).serializeToString(values));
 					
-					// Correct row class
+					// Set correct row class
 					$.each($(container).find("tr"), function(i, o) {
 						$(o).removeClass("even, odd");
 
