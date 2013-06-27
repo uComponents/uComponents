@@ -1,261 +1,325 @@
 ﻿function RequiredFieldValidate(source, args) {
-    args.IsValid = $(source).uComponents().datatypegrid("requiredFieldValidate", args);
+	args.IsValid = $(source).uComponents().datatypegrid("requiredFieldValidate", args);
 }
 
 function RegexValidate(source, args) {
-    args.IsValid = $(source).uComponents().datatypegrid("regexValidate", args);
+	args.IsValid = $(source).uComponents().datatypegrid("regexValidate", args);
 }
 
 (function ($) {
-    var uComponentsDataTypeGrid = {
-        init: function (options) {
-            return this.each(function () {
-                // Make sure to attach events only once
-                if ($(this).data("datatypegridloaded") !== true) {
+	var uComponentsDataTypeGrid = {
+		init: function (options) {
+			return this.each(function () {
 
-                    // Dont add datatables if there is no table
-                    if ($("table.display", this).length > 0) {
-                        $("table.display", this).dataTable({
-                            bJQueryUI: true,
-                            bRetrieve: true,
-                            bLengthChange: false,
-                            oLanguage: $.uComponents.dictionary().dataTablesTranslation,
-                            iDisplayLength: getNumberOfRows(this),
-                            sPaginationType: "full_numbers",
-                            bSort: false,
-                            aoColumnDefs: [
-                                { "bVisible": false, "bSearchable": false, "aTargets": [0], "sType": "numeric" },
-                                { "sTitle": "", "bSortable": false, "aTargets": [1] }
-                            ],
-                            fnDrawCallback: function (oSettings) {
-                                configureToolbar($(oSettings.nTableWrapper).parent());
-                                configureRows($(oSettings.nTableWrapper).parent());
-                            }
-                        });
-                    }
+				var defaults = {
+					bJQueryUI: true,
+					bLengthChange: false,
+					oLanguage: $.uComponents.dictionary().dataTablesTranslation,
+					sScrollY: getTableHeight(this),
+					bPaginate: false,
+					bScrollCollapse: true,
+					bSort: false,
+					bAutoWidth: true,
+					sScrollX: "100%",
+					sScrollXInner: "100%",
+					aoColumnDefs: [
+						{ "sTitle": "", "bSearchable": false, "bSortable": false, "sType": "numeric", "aTargets": [0] },
+						{ "sTitle": "", "bSearchable": false, "bSortable": false, "sType": "numeric", "aTargets": [1] }
+					],
+					fnDrawCallback: function (oSettings) {
+						configureToolbar($(oSettings.nTableWrapper).parent());
+						configureRows($(oSettings.nTableWrapper).parent());
+						configureSortable($(oSettings.nTableWrapper).parent());
+					}
+				};
 
-                    // Setup hover events
-                    $(".ui-button", this).on("hover", function () {
-                        $(this).toggleClass("ui-state-hover");
-                    });
+				var settings = $.extend({}, defaults, options);
 
-                    $(".InsertControls", this).dialog({
-                        autoOpen: false,
-                        width: 436,
-                        dialogClass: 'dtg dtg-dialog',
-                        modal: true,
-                        draggable: true,
-                        resizable: true,
-                        title: "Insert",
-                        maxWidth: $(window).width(),
-                        maxHeight: $(window).height(),
-                        open: function (type, data) {
-                            var dialog = $(this).parent();
-                            dialog.appendTo("form");
+				// Make sure to attach events only once
+				if ($(this).data("datatypegridloaded") !== true) {
 
-                            // Move insert button to dialog button area
-                            dialog.append("<div class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix'><div class='ui-dialog-buttonset'></div></div>");
-                            dialog.find('a.insertButton').appendTo(dialog.find('.ui-dialog-buttonset'));
+					// Dont add datatables if there is no table
+					if ($("table.display", this).length > 0) {
+						var dataTable = $("table.display", this).dataTable(settings);
+					}
 
-                            // Enable validators
-                            $(this).uComponents().datatypegrid("toggleValidators", true);
-                        },
-                        close: function (event, ui) {
-                            // Disable validators
-                            $(this).uComponents().datatypegrid("toggleValidators", false);
-                        }
-                    });
+					// Setup hover events
+					$(".ui-button", this).on("hover", function () {
+						$(this).toggleClass("ui-state-hover");
+					});
 
-                    $(".EditControls", this).dialog({
-                        autoOpen: false,
-                        width: 436,
-                        dialogClass: 'dtg dtg-dialog',
-                        modal: true,
-                        draggable: true,
-                        resizable: true,
-                        title: "Edit",
-                        maxWidth: $(window).width(),
-                        maxHeight: $(window).height(),
-                        open: function (type, data) {
-                            var dialog = $(this).parent();
-                            dialog.appendTo("form");
+					$(".InsertControls", this).dialog({
+						autoOpen: false,
+						width: 436,
+						dialogClass: 'dtg dtg-dialog',
+						modal: true,
+						draggable: true,
+						resizable: true,
+						title: "Insert",
+						maxWidth: $(window).width(),
+						maxHeight: $(window).height(),
+						open: function (type, data) {
+							var dialog = $(this).parent();
+							dialog.appendTo("form");
 
-                            // Move update button to dialog button area
-                            dialog.append("<div class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix'><div class='ui-dialog-buttonset'></div></div>");
-                            dialog.find('a.updateButton').appendTo(dialog.find('.ui-dialog-buttonset'));
+							// Move insert button to dialog button area
+							dialog.append("<div class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix'><div class='ui-dialog-buttonset'></div></div>");
+							dialog.find('a.insertButton').appendTo(dialog.find('.ui-dialog-buttonset'));
 
-                            // Enable validators
-                            $(this).uComponents().datatypegrid("toggleValidators", true);
-                        },
-                        close: function (event, ui) {
-                            // Disable validators
-                            $(this).uComponents().datatypegrid("toggleValidators", false);
-                        }
-                    });
+							// Enable validators
+							$(this).uComponents().datatypegrid("toggleValidators", true);
+						},
+						close: function (event, ui) {
+							// Disable validators
+							$(this).uComponents().datatypegrid("toggleValidators", false);
+						}
+					});
 
-                    $(".DeleteControls", this).dialog({
-                        autoOpen: false,
-                        width: 436,
-                        dialogClass: 'deletedialog',
-                        modal: true,
-                        draggable: true,
-                        title: "Delete",
-                        open: function (type, data) {
-                            $(this).parent().appendTo("form");
-                        }
-                    });
+					$(".EditControls", this).dialog({
+						autoOpen: false,
+						width: 436,
+						dialogClass: 'dtg dtg-dialog',
+						modal: true,
+						draggable: true,
+						resizable: true,
+						title: "Edit",
+						maxWidth: $(window).width(),
+						maxHeight: $(window).height(),
+						open: function (type, data) {
+							var dialog = $(this).parent();
+							dialog.appendTo("form");
 
-                    // Reposition dialogs to fix bug with dialog being positioned out of window bounds
-                    $(window).trigger('resize');
+							// Move update button to dialog button area
+							dialog.append("<div class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix'><div class='ui-dialog-buttonset'></div></div>");
+							dialog.find('a.updateButton').appendTo(dialog.find('.ui-dialog-buttonset'));
 
-                    // Set loaded indicator
-                    $(this).data("datatypegridloaded", true);
-                }
+							// Enable validators
+							$(this).uComponents().datatypegrid("toggleValidators", true);
+						},
+						close: function (event, ui) {
+							// Disable validators
+							$(this).uComponents().datatypegrid("toggleValidators", false);
+						}
+					});
 
-                // Private functions
-                function getNumberOfRows(element) {
-                    var numberOfRows = 10;
+					$(".DeleteControls", this).dialog({
+						autoOpen: false,
+						width: 436,
+						dialogClass: 'deletedialog',
+						modal: true,
+						draggable: true,
+						title: "Delete",
+						open: function (type, data) {
+							$(this).parent().appendTo("form");
+						}
+					});
 
-                    if ($(element).find("input[id$='RowsPerPage']").length > 0) {
-                        numberOfRows = parseFloat($(element).find("input[id$='RowsPerPage']").val());
-                    }
+					// Reposition dialogs to fix bug with dialog being positioned out of window bounds
+					$(window).trigger('resize');
 
-                    return numberOfRows;
-                }
+					// Set loaded indicator
+					$(this).data("datatypegridloaded", true);
+				}
 
-                function configureToolbar(element) {
-                    if ($(element).find("input[id$='ShowTableHeader']").val() == "False") {
-                        $(element).find(".fg-toolbar.ui-widget-header:first").hide();
-                    }
+				// Private functions
+				function getTableHeight(element) {
+					var defaultHeight = 300;
 
-                    if ($(element).find("input[id$='ShowTableFooter']").val() == "False") {
-                        $(element).find(".fg-toolbar.ui-widget-header:last").hide();
-                    }
-                }
+					if ($(element).find("input[id$='TableHeight']").length > 0) {
+						defaultHeight = parseFloat($(element).find("input[id$='TableHeight']").val());
+					}
 
-                function configureRows(element) {
-                    // Make sure disabled buttons are not clickable
-                    $(element).find("tbody .ui-button").click(function () {
-                        if ($(this).hasClass("ui-state-disabled")) {
-                            return false;
-                        }
-                    });
+					return defaultHeight;
+				}
 
-                    // Set first column width
-                    $(element).find("thead th:first, tbody td.actions").width(38);
-                }
-            });
-        },
-        openDialog: function () {
-            $(this).dialog('open');
-        },
-        getValidatorValue: function (validationProperty) {
-            if ($(this).is("input") && validationProperty == "Text") {
-                return $(this).val();
-            } else if ($(this).is("input") && validationProperty == "Value") {
-                return $(this).val();
-            } else if ($(this).is("select") && validationProperty == "SelectedItem") {
-                return $(this).val();
-            }
+				function configureToolbar(container) {
+					if ($(container).find("input[id$='ShowTableHeader']").val() == "False") {
+						$(container).find(".fg-toolbar.ui-widget-header:first").hide();
+					}
 
-            // The control to validate does not support validation
-            return null;
-        },
-        toggleValidators: function (enable) {
-            var validators = $(this).find(".validator");
+					if ($(container).find("input[id$='ShowTableFooter']").val() == "False") {
+						$(container).find(".fg-toolbar.ui-widget-header:last").hide();
+					}
+				}
 
-            if (validators.length > 0) {
-                $.each(validators, function () {
-                    // Check if validation scripts are enabled
-                    if ($.isFunction(ValidatorEnable)) {
-                        var e = document.getElementById($(this).attr("id"));
+				function configureRows(container) {
+					// Make sure disabled buttons are not clickable
+					$(container).find("tbody .ui-button").click(function () {
+						if ($(this).hasClass("ui-state-disabled")) {
+							return false;
+						}
+					});
 
-                        // Check if an element exist with the specified id
-                        if (e) {
-                            ValidatorEnable(e, enable);
-                        }
-                    }
-                });
-            }
-        },
-        requiredFieldValidate: function (args) {
-            var source = this;
+					// Set first column width
+					$(container).find("th.actions, td.actions").width(19);
+				}
 
-            var controlToValidate = document.getElementById($(source).data("controltovalidate"));
-            var validationProperty = $(source).data("validationproperty");
+				function configureSortable(container) {
+					var table = $(container).find(".dataTables_scrollBody table.display");
+					var tbody = $(table).children("tbody");
 
-            if (controlToValidate) {
-                // Register change events for instant validation
-                if ($(controlToValidate).data("changeeventsattached-required") != true) {
-                    $(controlToValidate).bind("change keyup", function () {
-                        source.each(function () {
-                            ValidatorValidate(this);
-                        });
-                    });
+					var sortable = $(tbody).sortable({
+						axis: "y",
+						containment: 'parent',
+						items: 'tr',
+						tolerance: 'pointer',
+						cursor: "move",
+						opacity: 0.6,
+						helper: function (e, ui) {
+							ui.children().each(function () {
+								$(this).width($(this).width());
+								$(this).height($(this).height());
+							});
 
-                    $(controlToValidate).data("changeeventsattached-required", true);
-                }
+							return ui;
+						},
+						stop: function (event, ui) {
+							sortValue(container);
+						}
+					});
+				}
 
-                // Set up HTML5 validation if browser supports it
-                if (typeof document.createElement('input').checkValidity == 'function') {
-                    $(controlToValidate).attr("required", "required");
-                }
+				function sortValue(container) {
+					// Update value sortorder
+					var values = $.parseXML($(container).find("input[id$='Value']").val());
+					var rows = $(".dataTables_scrollBody table.display tr", container);
 
-                var value = $(controlToValidate).uComponents().datatypegrid("getValidatorValue", validationProperty);
+					// Loop all rows currently in grid
+					$.each(rows, function (i, r) {
+						// Find existing element with matching id as the current object
+						$.each(values.childNodes[0].childNodes, function (j, e) {
+							if (e.attributes["id"].value == $(r).data("dtg-rowid")) {
+								// Update sortorder on element
+								e.attributes["sortOrder"].value = i;
+							}
+						});
+					});
 
-                if (value != null && value.length == 0) {
-                    return false;
-                }
-            }
+					$(container).find("input[id$='Value']").val((new XMLSerializer()).serializeToString(values));
 
-            return true;
-        },
-        regexValidate: function (args) {
-            var source = this;
+					// Set correct row class
+					$.each($(container).find("tr"), function (i, o) {
+						$(o).removeClass("even, odd");
 
-            var controlToValidate = document.getElementById($(source).data("controltovalidate"));
-            var validationProperty = $(source).data("validationproperty");
-            var validationExpression = $(source).data("validationexpression");
+						if ((i + 1) % 2 == 0) {
+							$(o).addClass("even");
+						} else {
+							$(o).addClass("odd");
+						}
+					});
+				}
+			});
+		},
+		openDialog: function () {
+			$(this).dialog('open');
+		},
+		getValidatorValue: function (validationProperty) {
+			if ($(this).is("input") && validationProperty == "Text") {
+				return $(this).val();
+			} else if ($(this).is("input") && validationProperty == "Value") {
+				return $(this).val();
+			} else if ($(this).is("select") && validationProperty == "SelectedItem") {
+				return $(this).val();
+			}
 
-            if (controlToValidate) {
-                // Register change events
-                if ($(controlToValidate).data("changeeventsattached-regex") != true) {
-                    $(controlToValidate).bind("change keyup", function () {
-                        source.each(function () {
-                            ValidatorValidate(this);
-                        });
-                    });
+			// The control to validate does not support validation
+			return null;
+		},
+		toggleValidators: function (enable) {
+			var validators = $(this).find(".validator");
 
-                    $(controlToValidate).data("changeeventsattached-regex", true);
-                }
+			if (validators.length > 0) {
+				$.each(validators, function () {
+					// Check if validation scripts are enabled
+					if ($.isFunction(ValidatorEnable)) {
+						var e = document.getElementById($(this).attr("id"));
 
-                // Set up HTML5 validation if browser supports it
-                if (typeof document.createElement('input').checkValidity == 'function') {
-                    $(controlToValidate).attr("pattern", validationExpression);
-                }
+						// Check if an element exist with the specified id
+						if (e) {
+							ValidatorEnable(e, enable);
+						}
+					}
+				});
+			}
+		},
+		requiredFieldValidate: function (args) {
+			var source = this;
 
-                var value = $(controlToValidate).uComponents().datatypegrid("getValidatorValue", validationProperty);
+			var controlToValidate = document.getElementById($(source).data("controltovalidate"));
+			var validationProperty = $(source).data("validationproperty");
 
-                if (value && !new RegExp(validationExpression).test(value)) {
-                    return false;
-                }
-            }
+			if (controlToValidate) {
+				// Register change events for instant validation
+				if ($(controlToValidate).data("changeeventsattached-required") != true) {
+					$(controlToValidate).bind("change keyup", function () {
+						source.each(function () {
+							ValidatorValidate(this);
+						});
+					});
 
-            return true;
-        }
-    };
+					$(controlToValidate).data("changeeventsattached-required", true);
+				}
 
-    $.fn.uComponents().datatypegrid = $.fn.uComponents().datatypegrid || function (method) {
-        if (uComponentsDataTypeGrid[method]) {
-            return uComponentsDataTypeGrid[method].apply(this, Array.prototype.slice.call(arguments, 1));
-        } else if (typeof method === 'object' || !method) {
-            return uComponentsDataTypeGrid.init.apply(this, arguments);
-        } else {
-            $.error('Method ' + method + ' does not exist on jQuery.uComponents.datatypegrid');
-        }
-    };
+				// Set up HTML5 validation if browser supports it
+				if (typeof document.createElement('input').checkValidity == 'function') {
+					$(controlToValidate).attr("required", "required");
+				}
+
+				var value = $(controlToValidate).uComponents().datatypegrid("getValidatorValue", validationProperty);
+
+				if (value != null && value.length == 0) {
+					return false;
+				}
+			}
+
+			return true;
+		},
+		regexValidate: function (args) {
+			var source = this;
+
+			var controlToValidate = document.getElementById($(source).data("controltovalidate"));
+			var validationProperty = $(source).data("validationproperty");
+			var validationExpression = $(source).data("validationexpression");
+
+			if (controlToValidate) {
+				// Register change events
+				if ($(controlToValidate).data("changeeventsattached-regex") != true) {
+					$(controlToValidate).bind("change keyup", function () {
+						source.each(function () {
+							ValidatorValidate(this);
+						});
+					});
+
+					$(controlToValidate).data("changeeventsattached-regex", true);
+				}
+
+				// Set up HTML5 validation if browser supports it
+				if (typeof document.createElement('input').checkValidity == 'function') {
+					$(controlToValidate).attr("pattern", validationExpression);
+				}
+
+				var value = $(controlToValidate).uComponents().datatypegrid("getValidatorValue", validationProperty);
+
+				if (value && !new RegExp(validationExpression).test(value)) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+	};
+
+	$.fn.uComponents().datatypegrid = $.fn.uComponents().datatypegrid || function (method) {
+		if (uComponentsDataTypeGrid[method]) {
+			return uComponentsDataTypeGrid[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		} else if (typeof method === 'object' || !method) {
+			return uComponentsDataTypeGrid.init.apply(this, arguments);
+		} else {
+			$.error('Method ' + method + ' does not exist on jQuery.uComponents.datatypegrid');
+		}
+	};
 })(jQuery);
 
 $(function () {
-    $(".dtg").uComponents().datatypegrid();
+	$(".dtg").uComponents().datatypegrid();
 });
