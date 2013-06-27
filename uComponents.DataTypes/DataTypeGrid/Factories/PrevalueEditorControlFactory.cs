@@ -6,6 +6,7 @@
 
     using Umbraco.Core;
 
+    using uComponents.DataTypes.DataTypeGrid.Handlers;
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
@@ -19,14 +20,14 @@
         /// <summary>
         /// The prevalue editor settings factory
         /// </summary>
-        private readonly IConfigurationFactory configurationFactory;
+        private readonly IConfigurationHandler configurationHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrevalueEditorControlFactory"/> class.
         /// </summary>
         public PrevalueEditorControlFactory()
         {
-            this.configurationFactory = new ConfigurationFactory();
+            this.configurationHandler = new ConfigurationHandler();
         }
 
         /// <summary>
@@ -40,7 +41,7 @@
             foreach (var item in uQuery.GetAllDataTypes())
             {
                 var guid = uQuery.GetBaseDataTypeGuid(item.Key);
-                if (this.configurationFactory.GetCompatibleDataTypes().Contains(guid))
+                if (this.configurationHandler.GetCompatibleDataTypes().Contains(guid))
                 {
                     d.Items.Add(new ListItem(item.Value, item.Key.ToString()));
                 }

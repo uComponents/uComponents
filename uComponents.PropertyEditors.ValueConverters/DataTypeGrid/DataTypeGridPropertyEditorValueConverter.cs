@@ -18,7 +18,7 @@ namespace uComponents.PropertyEditors.ValueConverters.DataTypeGrid
 		/// <param name="propertyEditorId"></param>
 		/// <param name="docTypeAlias"></param>
 		/// <param name="propertyTypeAlias"></param>
-		/// <returns></returns>
+		/// <returns>True if this class can convert the specified property editor.</returns>
 		public bool IsConverterFor(Guid propertyEditorId, string docTypeAlias, string propertyTypeAlias)
 		{
 			return Guid.Parse(DataTypeConstants.DataTypeGridId).Equals(propertyEditorId);
@@ -28,7 +28,7 @@ namespace uComponents.PropertyEditors.ValueConverters.DataTypeGrid
 		/// Attempts to convert the value specified into a useable value on the front-end
 		/// </summary>
 		/// <param name="value"></param>
-		/// <returns></returns>
+		/// <returns>The conversion attempt.</returns>
 		/// <remarks>
 		/// This is used to convert the value stored in the repository into a usable value on the front-end.
 		/// For example, if a 0 or 1 is stored for a boolean, we'd want to convert this to a real boolean.

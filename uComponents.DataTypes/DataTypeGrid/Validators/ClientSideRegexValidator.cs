@@ -28,7 +28,7 @@
             this.ErrorMessage = cell.Name + " is not in a valid format";
 
             // Set control to validate
-            this.Attributes["data-controltovalidate"] = DataTypeFactoryServiceLocator.Instance.GetControlToValidate(cell.Value, cell.Value.DataEditor.Editor).ClientID;
+            this.Attributes["data-controltovalidate"] = DataTypeHandlerServiceLocator.Instance.GetControlToValidate(cell.Value, cell.Value.DataEditor.Editor).ClientID;
 
             // Set property to validate
             var validationAttribute = (ValidationPropertyAttribute)TypeDescriptor.GetAttributes(cell.Value.DataEditor.Editor)[typeof(ValidationPropertyAttribute)];
