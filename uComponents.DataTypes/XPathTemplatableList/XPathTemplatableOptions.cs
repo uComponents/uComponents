@@ -61,18 +61,11 @@ namespace uComponents.DataTypes.XPathTemplatableList
         public int LimitTo { get; set; }
 
         /// <summary>
-        /// Gets or sets the alias to a property that is a string url
+        /// Gets or sets the height of the list control
         /// </summary>
-        [DefaultValue("")]
-        public string ThumbnailProperty { get; set; }
-
-
-        /// <summary>
-        /// Gets or sets the size of the thumbnail.
-        /// </summary>
-        /// <value>The size of the thumbnail.</value>
-        [DefaultValue(ThumbnailSize.Medium)]
-        public ThumbnailSize ThumbnailSize { get; set; }
+        /// <value>The height</value>
+        [DefaultValue(0)]
+        public int ListHeight { get; set; }
 
         /// <summary>
         /// Gets or set a handlebars syntax template, used for the text field of each list item
@@ -100,13 +93,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// <value><c>true</c> if [allow duplicates]; otherwise, <c>false</c>.</value>
         [DefaultValue(false)]
         public bool AllowDuplicates { get; set; }
-
-        /// <summary>
-        /// Gets or sets the height of the list control
-        /// </summary>
-        /// <value>The height</value>
-        [DefaultValue(0)]
-        public int ListHeight { get; set; }
 
         /// <summary>
         /// Helper to get the UmbracoObjectType from the stored string guid

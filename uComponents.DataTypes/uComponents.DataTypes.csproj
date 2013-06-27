@@ -458,8 +458,6 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
-    <Compile Include="XPathTemplatableList\ThumbnailSize.cs" />
-    <Compile Include="XPathTemplatableList\ThumbnailSizeAttribute.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableList.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListDataEditor.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListDataType.cs" />
