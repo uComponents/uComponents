@@ -33,16 +33,14 @@ namespace uComponents.DataTypes.DataTypeGrid
 
     using umbraco;
     using umbraco.cms.businesslogic.datatype;
-
-    using Umbraco.Core.IO;
-
     using umbraco.editorControls;
+    using umbraco.IO;
 
     /// <summary>
     /// The PreValue Editor for the DTG DataType.
     /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
-    public class PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
+    public class PrevalueEditor : Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>
         /// An object to temporarily lock writing to the database.
@@ -55,7 +53,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         private readonly IRegexValidator regexValidator;
 
         /// <summary>
-        /// The prevalue editor settings factory
+        /// The prevalue editor settings handler
         /// </summary>
         private readonly IPrevalueEditorSettingsHandler prevalueEditorSettingsHandler;
 
@@ -85,14 +83,14 @@ namespace uComponents.DataTypes.DataTypeGrid
         private CheckBox showFooter = new CheckBox();
 
         /// <summary>
-        /// The number of rows per page to show in the grid
+        /// The table height
         /// </summary>
-        private TextBox rowsPerPage = new TextBox() { Text = "10" };
+        private TextBox tableHeight = new TextBox() { Text = "300" };
 
         /// <summary>
-        /// The validator for the rows per page control
+        /// The validator for tableHeight
         /// </summary>
-        private RegularExpressionValidator numberOfRowsValidator = new RegularExpressionValidator();
+        private RegularExpressionValidator tableHeightValidator = new RegularExpressionValidator();
 
         /// <summary>
         /// The array containing the stored values.
@@ -100,7 +98,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         private IList<PreValueRow> preValues;
 
         /// <summary>
-        /// The new column
+        /// 
         /// </summary>
         private PreValueRow newPreValue;
 
@@ -122,7 +120,9 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.prevalueEditorControlFactory = new PrevalueEditorControlFactory();
 
             // Ensure settings file exists
-            Helper.IO.EnsureFileExists(IOHelper.MapPath("~/config/DataTypeGrid.config"), DtgConfiguration.DataTypeGrid);
+            Helper.IO.EnsureFileExists(
+                IOHelper.MapPath("~/config/DataTypeGrid.config"),
+                DtgConfiguration.DataTypeGrid);
 
             // Ensure webservice file exists
             var dtgFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "DataTypeGrid"));
@@ -161,7 +161,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.Settings.ShowLabel = this.showLabel != null && this.showLabel.Checked;
                 this.Settings.ShowGridHeader = this.showHeader != null && this.showHeader.Checked;
                 this.Settings.ShowGridFooter = this.showFooter != null && this.showFooter.Checked;
-                this.Settings.RowsPerPage = this.rowsPerPage != null ? int.Parse(this.rowsPerPage.Text) : 10;
+                this.Settings.TableHeight = this.tableHeight != null ? int.Parse(this.tableHeight.Text) : 300;
                 prevalues.Add(this.Settings);
 
                 // Add existing prevalues;
@@ -242,27 +242,20 @@ namespace uComponents.DataTypes.DataTypeGrid
             }
 
             // Instantiate default controls
-            this.accordionContainer = new Panel
-                                          {
-                                              ID = "dtg_accordion_" + this.DataType.DataTypeDefinitionId,
-                                              CssClass = "dtg_accordion"
-                                          };
+            this.accordionContainer = new Panel { ID = "dtg_accordion_" + this.DataType.DataTypeDefinitionId, CssClass = "dtg_accordion" };
             this.showLabel = new CheckBox() { ID = "showLabel", Checked = this.Settings.ShowLabel };
             this.showHeader = new CheckBox() { ID = "showHeader", Checked = this.Settings.ShowGridHeader };
             this.showFooter = new CheckBox() { ID = "showFooter", Checked = this.Settings.ShowGridFooter };
-            this.rowsPerPage = new TextBox() { ID = "RowsPerPage", Text = this.Settings.RowsPerPage.ToString() };
-            this.numberOfRowsValidator = new RegularExpressionValidator()
-                                             {
-                                                 ID = "NumberOfRowsValidator",
-                                                 CssClass = "validator",
-                                                 ValidationExpression = @"^[1-9]*[0-9]*$",
-                                                 ControlToValidate =
-                                                     this.rowsPerPage.ClientID,
-                                                 Display = ValidatorDisplay.Dynamic,
-                                                 ErrorMessage =
-                                                     Helper.Dictionary.GetDictionaryItem(
-                                                         "MustBeANumber", "Must be a number")
-                                             };
+            this.tableHeight = new TextBox() { ID = "TableHeight", Text = this.Settings.TableHeight.ToString() };
+            this.tableHeightValidator = new RegularExpressionValidator()
+            {
+                ID = "NumberOfRowsValidator",
+                CssClass = "validator",
+                ValidationExpression = @"^[1-9]*[0-9]*$",
+                ControlToValidate = this.tableHeight.ClientID,
+                Display = ValidatorDisplay.Dynamic,
+                ErrorMessage = Helper.Dictionary.GetDictionaryItem("MustBeANumber", "Must be a number")
+            };
 
             // Write controls for adding new entry
             var addNewProperty = new Panel() { ID = "newProperty", CssClass = "addNewProperty" };
@@ -405,40 +398,34 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             // Instantiate controls
             var txtNewValidation = new TextBox()
-                                       {
-                                           ID = "newValidation",
-                                           TextMode = TextBoxMode.MultiLine,
-                                           Rows = 2,
-                                           Columns = 20,
-                                           CssClass = "newValidation"
-                                       };
-            var lblNewValidation = new Label()
-                                       {
-                                           Text = Helper.Dictionary.GetDictionaryItem("Validation", "Validation"),
-                                           CssClass = "label"
-                                       };
+            {
+                ID = "newValidation",
+                TextMode = TextBoxMode.MultiLine,
+                Rows = 2,
+                Columns = 20,
+                CssClass = "newValidation"
+            };
+            var lblNewValidation = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Validation", "Validation"), CssClass = "label" };
             var lnkNewValidation = new HyperLink
-                                       {
-                                           ID = "newValidationLink",
-                                           CssClass = "validationLink",
-                                           NavigateUrl = "#",
-                                           Text =
-                                               Helper.Dictionary.GetDictionaryItem(
-                                                   "SearchForARegularExpression",
-                                                   "Search for a regular expression")
-                                       };
+            {
+                ID = "newValidationLink",
+                CssClass = "validationLink",
+                NavigateUrl = "#",
+                Text =
+                    Helper.Dictionary.GetDictionaryItem(
+                        "SearchForARegularExpression", "Search for a regular expression")
+            };
             var valNewValidation = new CustomValidator()
-                                       {
-                                           ID = "newValidationValidator",
-                                           CssClass = "validator",
-                                           ControlToValidate = txtNewValidation.ClientID,
-                                           Display = ValidatorDisplay.Dynamic,
-                                           ClientValidationFunction = "ValidateRegex",
-                                           ErrorMessage =
-                                               Helper.Dictionary.GetDictionaryItem(
-                                                   "ValidationStringIsNotValid",
-                                                   "Validation string is not valid")
-                                       };
+            {
+                ID = "newValidationValidator",
+                CssClass = "validator",
+                ControlToValidate = txtNewValidation.ClientID,
+                Display = ValidatorDisplay.Dynamic,
+                ClientValidationFunction = "ValidateRegex",
+                ErrorMessage =
+                    Helper.Dictionary.GetDictionaryItem(
+                        "ValidationStringIsNotValid", "Validation string is not valid")
+            };
             valNewValidation.ServerValidate += this.OnNewRegexServerValidate;
 
             // Add controls to control
@@ -450,6 +437,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             ((PreValueRow)this.newPreValue).Controls.Add(txtNewValidation);
 
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
 
             // PREVALUE SORT ORDER
 
@@ -474,49 +462,43 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 var editPropertyHeader = new Panel() { CssClass = "propertyHeader" };
                 var editPropertyTitle = new HtmlGenericControl("h3")
-                                            {
-                                                InnerText =
-                                                    string.Format(
-                                                        "{0} ({1}), {2}: {3}",
-                                                        s.Name.StartsWith("#")
-                                                            ? uQuery.GetDictionaryItem(
-                                                                s.Name.Substring(
-                                                                    1, s.Name.Length - 1),
-                                                                s.Name.Substring(
-                                                                    1, s.Name.Length - 1))
-                                                            : s.Name,
-                                                        s.Alias,
-                                                        uQuery.GetDictionaryItem(
-                                                            "Type", "Type"),
-                                                        editDataType != null
-                                                            ? editDataType.Text
-                                                            : "ERROR: This datatype is not supported")
-                                            };
+                {
+                    InnerText =
+                        string.Format(
+                            "{0} ({1}), {2}: {3}",
+                            s.Name.StartsWith("#")
+                                ? uQuery.GetDictionaryItem(
+                                    s.Name.Substring(
+                                        1, s.Name.Length - 1),
+                                    s.Name.Substring(
+                                        1, s.Name.Length - 1))
+                                : s.Name,
+                            s.Alias,
+                            uQuery.GetDictionaryItem("Type", "Type"),
+                            editDataType != null
+                                ? editDataType.Text
+                                : "ERROR: This datatype is not supported")
+                };
 
                 editPropertyTitle.Attributes["class"] = "propertyTitle";
 
                 var lnkDelete = new LinkButton
-                                    {
-                                        CssClass =
-                                            "DeleteProperty ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
-                                        Text =
-                                            "<span class='ui-button-icon-primary ui-icon ui-icon-close'>&nbsp;</span><span class='ui-button-text'>Delete</span>",
-                                        OnClientClick =
-                                            "return confirm('"
-                                            + uQuery.GetDictionaryItem(
-                                                "AreYouSureYouWantToDeleteThisColumn",
-                                                "Are you sure you want to delete this column") + "?');",
-                                        CommandArgument = s.Id.ToString(),
-                                        CommandName = "Delete"
-                                    };
-                lnkDelete.Command += new CommandEventHandler(this.OnDeleteCommand);
+                {
+                    CssClass = "DeleteProperty ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
+                    Text =
+                        "<span class='ui-button-icon-primary ui-icon ui-icon-close'>&nbsp;</span><span class='ui-button-text'>Delete</span>",
+                    OnClientClick =
+                        "return confirm('"
+                        +
+                        uQuery.GetDictionaryItem(
+                            "AreYouSureYouWantToDeleteThisColumn", "Are you sure you want to delete this column")
+                        + "?');",
+                    CommandArgument = s.Id.ToString(),
+                    CommandName = "Delete"
+                };
+                lnkDelete.Command += this.OnDeleteCommand;
 
-                var icnEditError = new HtmlGenericControl("span")
-                                       {
-                                           InnerText =
-                                               Helper.Dictionary.GetDictionaryItem(
-                                                   "Error", "Error")
-                                       };
+                var icnEditError = new HtmlGenericControl("span") { InnerText = Helper.Dictionary.GetDictionaryItem("Error", "Error") };
                 icnEditError.Attributes["class"] = "ErrorProperty";
 
                 editPropertyHeader.Controls.Add(editPropertyTitle);
@@ -531,25 +513,16 @@ namespace uComponents.DataTypes.DataTypeGrid
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
                 // Instantiate controls
-                var txtEditName = new TextBox()
-                                      {
-                                          ID = "editName_" + this.preValues.IndexOf(s),
-                                          CssClass = "editName",
-                                          Text = s.Name
-                                      };
-                var lblEditName = new Label()
-                                      {
-                                          Text = Helper.Dictionary.GetDictionaryItem("Name", "Name"),
-                                          CssClass = "label"
-                                      };
+                var txtEditName = new TextBox() { ID = "editName_" + this.preValues.IndexOf(s), CssClass = "editName", Text = s.Name };
+                var lblEditName = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Name", "Name"), CssClass = "label" };
                 var valEditName = new RequiredFieldValidator()
-                                      {
-                                          ID = "editNameValidator_" + this.preValues.IndexOf(s),
-                                          CssClass = "validator",
-                                          ControlToValidate = txtEditName.ClientID,
-                                          Display = ValidatorDisplay.Dynamic,
-                                          ErrorMessage = "You must specify a name"
-                                      };
+                {
+                    ID = "editNameValidator_" + this.preValues.IndexOf(s),
+                    CssClass = "validator",
+                    ControlToValidate = txtEditName.ClientID,
+                    Display = ValidatorDisplay.Dynamic,
+                    ErrorMessage = "You must specify a name"
+                };
 
                 // Add controls to control
                 editPropertyControls.Controls.Add(lblEditName);
@@ -558,40 +531,30 @@ namespace uComponents.DataTypes.DataTypeGrid
                 s.Controls.Add(txtEditName);
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+
                 // ALIAS
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
                 // Instantiate controls
-                var txtEditAlias = new TextBox()
-                                       {
-                                           ID = "editAlias_" + this.preValues.IndexOf(s),
-                                           CssClass = "editAlias",
-                                           Text = s.Alias
-                                       };
-                var lblEditAlias = new Label()
-                                       {
-                                           Text = Helper.Dictionary.GetDictionaryItem("Alias", "Alias"),
-                                           CssClass = "label"
-                                       };
+                var txtEditAlias = new TextBox() { ID = "editAlias_" + this.preValues.IndexOf(s), CssClass = "editAlias", Text = s.Alias };
+                var lblEditAlias = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Alias", "Alias"), CssClass = "label" };
                 var valEditAlias = new RequiredFieldValidator()
-                                       {
-                                           ID = "editAliasValidator_" + this.preValues.IndexOf(s),
-                                           CssClass = "validator",
-                                           ControlToValidate = txtEditAlias.ClientID,
-                                           Display = ValidatorDisplay.Dynamic,
-                                           ErrorMessage = "You must specify an alias"
-                                       };
+                {
+                    ID = "editAliasValidator_" + this.preValues.IndexOf(s),
+                    CssClass = "validator",
+                    ControlToValidate = txtEditAlias.ClientID,
+                    Display = ValidatorDisplay.Dynamic,
+                    ErrorMessage = "You must specify an alias"
+                };
                 var valEditAliasExists = new CustomValidator()
-                                             {
-                                                 ID =
-                                                     "editAliasExistsValidator_"
-                                                     + this.preValues.IndexOf(s),
-                                                 CssClass = "validator exists",
-                                                 ControlToValidate = txtEditAlias.ClientID,
-                                                 Display = ValidatorDisplay.Dynamic,
-                                                 ClientValidationFunction = "ValidateAliasExists",
-                                                 ErrorMessage = "Alias already exists!"
-                                             };
+                {
+                    ID = "editAliasExistsValidator_" + this.preValues.IndexOf(s),
+                    CssClass = "validator exists",
+                    ControlToValidate = txtEditAlias.ClientID,
+                    Display = ValidatorDisplay.Dynamic,
+                    ClientValidationFunction = "ValidateAliasExists",
+                    ErrorMessage = "Alias already exists!"
+                };
                 valEditAliasExists.ServerValidate += this.OnEditAliasServerValidate;
 
                 // Add controls to control
@@ -602,17 +565,14 @@ namespace uComponents.DataTypes.DataTypeGrid
                 s.Controls.Add(txtEditAlias);
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+
                 // DATATYPE
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
                 // Instantiate controls
                 var ddlEditType = this.prevalueEditorControlFactory.BuildDataTypeDropDownList();
                 ddlEditType.ID = "editDataType_" + this.preValues.IndexOf(s);
-                var lblEditType = new Label()
-                                      {
-                                          Text = Helper.Dictionary.GetDictionaryItem("DataType", "DataType"),
-                                          CssClass = "label"
-                                      };
+                var lblEditType = new Label() { Text = Helper.Dictionary.GetDictionaryItem("DataType", "DataType"), CssClass = "label" };
 
                 // Add controls to control
                 editPropertyControls.Controls.Add(lblEditType);
@@ -621,22 +581,13 @@ namespace uComponents.DataTypes.DataTypeGrid
                 s.Controls.Add(ddlEditType);
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+
                 // MANDATORY
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
                 // Instantiate controls
-                var chkEditMandatory = new CheckBox()
-                                           {
-                                               ID = "editMandatory_" + this.preValues.IndexOf(s),
-                                               CssClass = "editMandatory",
-                                               Checked = s.Mandatory
-                                           };
-                var lblEditMandatory = new Label()
-                                           {
-                                               Text =
-                                                   Helper.Dictionary.GetDictionaryItem("Mandatory", "Mandatory"),
-                                               CssClass = "label"
-                                           };
+                var chkEditMandatory = new CheckBox() { ID = "editMandatory_" + this.preValues.IndexOf(s), CssClass = "editMandatory", Checked = s.Mandatory };
+                var lblEditMandatory = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Mandatory", "Mandatory"), CssClass = "label" };
 
                 // Add controls to control
                 editPropertyControls.Controls.Add(lblEditMandatory);
@@ -644,49 +595,40 @@ namespace uComponents.DataTypes.DataTypeGrid
                 s.Controls.Add(chkEditMandatory);
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+
                 // VALIDATION
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
                 // Instantiate control
                 var txtEditValidation = new TextBox()
-                                            {
-                                                ID = "editValidation_" + this.preValues.IndexOf(s),
-                                                TextMode = TextBoxMode.MultiLine,
-                                                Rows = 2,
-                                                Columns = 20,
-                                                CssClass = "editValidation",
-                                                Text = s.ValidationExpression
-                                            };
-                var lblEditValidation = new Label()
-                                            {
-                                                Text =
-                                                    Helper.Dictionary.GetDictionaryItem(
-                                                        "Validation", "Validation"),
-                                                CssClass = "label"
-                                            };
+                {
+                    ID = "editValidation_" + this.preValues.IndexOf(s),
+                    TextMode = TextBoxMode.MultiLine,
+                    Rows = 2,
+                    Columns = 20,
+                    CssClass = "editValidation",
+                    Text = s.ValidationExpression
+                };
+                var lblEditValidation = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Validation", "Validation"), CssClass = "label" };
                 var lnkEditValidation = new HyperLink
-                                            {
-                                                CssClass = "validationLink",
-                                                NavigateUrl = "#",
-                                                Text =
-                                                    Helper.Dictionary.GetDictionaryItem(
-                                                        "SearchForARegularExpression",
-                                                        "Search for a regular expression")
-                                            };
+                {
+                    CssClass = "validationLink",
+                    NavigateUrl = "#",
+                    Text =
+                        Helper.Dictionary.GetDictionaryItem(
+                            "SearchForARegularExpression", "Search for a regular expression")
+                };
                 var valEditValidation = new CustomValidator()
-                                            {
-                                                ID =
-                                                    "editValidationValidator_"
-                                                    + this.preValues.IndexOf(s),
-                                                CssClass = "validator",
-                                                ControlToValidate = txtEditValidation.ClientID,
-                                                Display = ValidatorDisplay.Dynamic,
-                                                ClientValidationFunction = "ValidateRegex",
-                                                ErrorMessage =
-                                                    Helper.Dictionary.GetDictionaryItem(
-                                                        "ValidationStringIsNotValid",
-                                                        "Validation string is not valid")
-                                            };
+                {
+                    ID = "editValidationValidator_" + this.preValues.IndexOf(s),
+                    CssClass = "validator",
+                    ControlToValidate = txtEditValidation.ClientID,
+                    Display = ValidatorDisplay.Dynamic,
+                    ClientValidationFunction = "ValidateRegex",
+                    ErrorMessage =
+                        Helper.Dictionary.GetDictionaryItem(
+                            "ValidationStringIsNotValid", "Validation string is not valid")
+                };
                 valEditValidation.ServerValidate += this.OnEditRegexServerValidate;
 
                 // Add controls to control
@@ -699,6 +641,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+
                 // SORT ORDER
 
                 // Instantiate controls
@@ -707,6 +650,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 hdnEditSortOrderWrapper.Controls.Add(hdnEditSortOrder);
                 editPropertyControls.Controls.Add(hdnEditSortOrderWrapper);
                 s.Controls.Add(hdnEditSortOrder);
+
 
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</ul>" });
 
@@ -719,8 +663,8 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Controls.Add(this.showLabel);
             this.Controls.Add(this.showHeader);
             this.Controls.Add(this.showFooter);
-            this.Controls.Add(this.rowsPerPage);
-            this.Controls.Add(this.numberOfRowsValidator);
+            this.Controls.Add(this.tableHeight);
+            this.Controls.Add(this.tableHeightValidator);
             this.Controls.Add(this.accordionContainer);
         }
 
@@ -730,10 +674,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow("Show Label", this.showLabel);
-            writer.AddPrevalueRow("Show Grid Header", this.showHeader);
-            writer.AddPrevalueRow("Show Grid Footer", this.showFooter);
-            writer.AddPrevalueRow("Rows Per Page", new Control[] { this.rowsPerPage, this.numberOfRowsValidator });
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowLabel", "Show Label"), this.showLabel);
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowGridHeader", "Show Grid Header"), this.showHeader);
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowGridFooter", "Show Grid Footer"), this.showFooter);
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("TableHeight", "Table Height"), new Control[] { this.tableHeight, this.tableHeightValidator });
             this.accordionContainer.RenderControl(writer);
 
             // Add javascript preview of alias
@@ -763,7 +707,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             this.preValues.Remove(this.preValues.Single(s => s.Id == id));
 
-            //// this._deleteMode = true;
             this.Save();
         }
 
@@ -852,15 +795,15 @@ namespace uComponents.DataTypes.DataTypeGrid
                 {
                     // Set the options
                     var preValueRow = new BasePreValueRow()
-                        {
-                            Id = t.Id,
-                            Name = name,
-                            Alias = alias,
-                            DataTypeId = dataTypeId,
-                            Mandatory = mandatory,
-                            ValidationExpression = validation,
-                            SortOrder = sortOrder
-                        };
+                    {
+                        Id = t.Id,
+                        Name = name,
+                        Alias = alias,
+                        DataTypeId = dataTypeId,
+                        Mandatory = mandatory,
+                        ValidationExpression = validation,
+                        SortOrder = sortOrder
+                    };
 
                     // Add new value to database
                     return preValueRow;

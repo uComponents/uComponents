@@ -3,6 +3,11 @@
 	z-index: 1003 !important;
 }
 
+.dtg th.id,
+.dtg td.id {
+	display: none; 
+}
+
 .dtg .actions .ui-button .ui-button-text {
 	display: none;
 }
@@ -263,38 +268,61 @@
 	color: #fff;
 }
 
+.dtg .dataTables_scrollHeadInner {
+	width: auto !important;
+	padding-right: 17px;
+	border: 1px solid #cccccc;
+	background: #eeeeee url('/umbraco_client/propertypane/images/propertyBackground.gif') 50% 50% repeat-x;
+}
+
 .dtg table.display {
 	border-collapse: collapse;
 	clear: both;
 	min-width: 500px;
 	table-layout: fixed;
-	width: 100% !important
+	width: 100% !important;
 }
 
 .dtg table.display td {
-	padding: 3px 10px
+	padding: 3px 10px;
+	cursor:move;
 }
 
 .dtg table.display td.center {
-	text-align: center
+	text-align: center;
 }
 
 .dtg table.display thead th {
 	color: #333;
-	cursor: pointer;
-	padding: 4px 0 3px 10px
+	padding: 4px 0 3px 10px;
+	border: none;
+	border-left: 1px solid #cccccc;
+}
+
+.dtg table.display thead th:first-child {
+	border: none;
 }
 
 .dtg table.display thead th .ui-icon {
-	margin-top: -2px
+	margin-top: -2px;
+}
+
+.dtg tr.ui-sortable-helper {
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 0;
+}
+
+.dtg tr.ui-sortable-helper .actions > * {
+	display: none;
 }
 
 .dtg tr.even {
-	background-color: #fff
+	background-color: #fff;
 }
 
 .dtg tr.odd {
-	background-color: #f5f3f3
+	background-color: #f5f3f3;
 }
 
 .dtg-dialog {
@@ -303,22 +331,22 @@
 	border-radius: 0;
 	color: #333;
 	overflow: visible !important;
-	padding: 0
+	padding: 0;
 }
 
 .dtg-dialog .ui-corner-all {
-	border-radius: 0
+	border-radius: 0;
 }
 
 .dtg-dialog .ui-dialog-buttonpane {
 	background: none;
 	border: none;
-	padding: 5.5px 11px
+	padding: 5.5px 11px;
 }
 
 .dtg-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
 	float: none;
-	padding-bottom: 5.5px
+	padding-bottom: 5.5px;
 }
 
 .dtg-dialog .ui-dialog-content {
