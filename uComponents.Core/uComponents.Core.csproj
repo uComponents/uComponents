@@ -197,7 +197,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\TidyNet.dll</HintPath>
       <Private>False</Private>
-	</Reference>
+    </Reference>
     <Reference Include="umbraco, Version=1.0.4898.21563, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.6.1.0\lib\umbraco.dll</HintPath>
@@ -258,7 +258,6 @@
     <Compile Include="Helper-IO.cs">
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Constants-Common.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
@@ -277,9 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\SolutionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\icon.png" />
