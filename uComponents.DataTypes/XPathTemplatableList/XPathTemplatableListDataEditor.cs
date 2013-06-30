@@ -361,7 +361,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                     li.Attributes.Add("class", "active");
                 }
 
-                li.Attributes.Add("data-text", dataItem.Value);
+                //li.Attributes.Add("data-text", dataItem.Value);
                 li.Attributes.Add("data-value", dataItem.Key.ToString());
 
                 HtmlGenericControl a = new HtmlGenericControl("a");
