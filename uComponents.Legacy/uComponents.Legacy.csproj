@@ -232,12 +232,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
-      <Link>Properties\SolutionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
-      <Link>Properties\VersionInfo.cs</Link>
-    </Compile>
     <Compile Include="DataTypes\AutoComplete\AutoCompleteDataEditorUpdatePanel.cs" />
     <Compile Include="DataTypes\AutoComplete\AutoCompleteDataType.cs" />
     <Compile Include="DataTypes\AutoComplete\AutoCompleteOptions.cs" />
