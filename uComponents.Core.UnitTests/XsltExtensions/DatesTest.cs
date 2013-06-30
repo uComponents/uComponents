@@ -1,14 +1,23 @@
-﻿using uComponents.XsltExtensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Xml.XPath;
+﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Xml;
+using System.Xml.XPath;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using uComponents.XsltExtensions;
 
 namespace uComponents.Core.UnitTests.XsltExtensions
 {
 	[TestClass]
 	public class DatesTest
 	{
+		[TestInitialize]
+		public void Initialize()
+		{
+			// [LK] Setting the thread culture to 'en-GB' so to not fail on the date formats
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+		}
+
 		[TestMethod]
 		public void AddWorkdaysTest()
 		{

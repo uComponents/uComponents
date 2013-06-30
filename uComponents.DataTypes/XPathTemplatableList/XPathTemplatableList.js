@@ -1,27 +1,25 @@
 /*
     <!-- made server side -->
 
-    <div id="body_prop_XPathTemplatableListDocuments_ct100" class="xpath-sortable-list (thumbnails)" 
+    <div id="body_prop_XPathTemplatableListDocuments_ct100" class="xpath-sortable-list" 
+         data-list-height="0"
          data-min-items="1"          
          data-max-items="3"
-         data-allow-duplicates="false"
-         data-type="">
+         data-allow-duplicates="false">
  
         <ul class="source-list propertypane">            
             <li class="(active)" data-text="ABC" data-value="1">                
                 <a class="add" title="add" href="javascript:void(0);" onclick="XPathTemplatableList.addItem(this);">
 
+user templated markup
 
-<img src="......" />
-
-                    ABC
                 </a>
             </li>
-
+            ...
             <li data-text="XYZ" data-value="9">                
                 <a class="add" title="add" href="javascript:void(0);" onclick="XPathTemplatableList.addItem(this);">
                     XYZ
-                </a>)
+                </a>
             </li>
         </ul>
 
@@ -97,10 +95,10 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
                 var value = jQuery(element).attr('Value');
 
                 var li = sourceUl.children('li[data-value=' + value + ']:first');
-                var text = li.data('text');
-                var img = li.find('img:first');
+                //var text = li.data('text');
+                var text = li.children('a')[0].innerHTML;
 
-                addSortableListItem(sortableUl, text, value, img);
+                addSortableListItem(sortableUl, text, value);
             });
         }
 
@@ -122,7 +120,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
     }
 
 
-    // public
+    // public - add link clicked in source list
     function addItem(a) {
 
         // dom
@@ -146,25 +144,23 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
                 if (!allowDuplicates) {
                     selectedLi.removeClass('active');
                 }
+               
+                var text = a.innerHTML;
 
-                addSortableListItem(sortableUl, selectedLi.data('text'), selectedLi.data('value'), selectedLi.find('img:first'));
+                addSortableListItem(sortableUl, text, selectedLi.data('value'));
 
                 updateHidden(sortableUl, hidden, type);
             }
         }
     }
 
-    // private  - adds an li to the sortable list
-    function addSortableListItem(sortableUl, text, value, img) {
-
-        //TODO: if there's an existing li of type placeholder? then remove it
+    // private  - adds an li to the sortable (destination) list
+    function addSortableListItem(sortableUl, text, value) {       
         
-        // handle placeholder <li>s
         var li = jQuery('<li data-value="' + value + '"><div>' +
                             text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathTemplatableList.removeItem(this);"></a>' +
                  '</div></li>');
 
-        li.prepend(img.clone());
 
         // if there are any placeholders - replace the first one in the list
         var placeholder = sortableUl.children('li.placeholder')[0];

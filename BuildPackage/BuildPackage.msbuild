@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package">
-
 	<!-- IMPORTS -->
 	<Import Project="$(MSBuildProjectDirectory)\MSBuildTasks\MSBuild.Community.Tasks.Targets" />
 	<Import Project="$(MSBuildProjectDirectory)\MSBuildTasks\MSBuild.Umbraco.Tasks.Targets" />
 	<Import Project="$(MSBuildProjectDirectory)\MSBuildTasks\MSBuild.NuGet.Tasks.Targets" />
 
 	<!-- PROPERTIES -->
-	<PropertyGroup>
-		<VersionMajor>6</VersionMajor>
-		<VersionMinor>0</VersionMinor>
-		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-build</VersionSuffix>
-		<UmbracoVersion>6.1.0</UmbracoVersion>
-	</PropertyGroup>
-
 	<PropertyGroup>
 		<RootDir>$(MSBuildProjectDirectory)\..\uComponents.Core</RootDir>
 		<BuildDir>$(MSBuildProjectDirectory)\_build</BuildDir>
@@ -23,42 +14,12 @@
 	</PropertyGroup>
 
 	<!-- TARGETS -->
-
-	<!-- CLEAN -->
-	<Target Name="Clean">
-		<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
-		<MakeDir Directories="$(BuildDir)" />
-		<MakeDir Directories="$(BuildUmbDir)" />
-		<MakeDir Directories="$(BuildNuGetDir)" />
-	</Target>
-
-	<!-- UPDATE ASSEMBLEY VERSION -->
-	<Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
-
-		<!-- AUTO-GENERATE THE 'Build' AND 'Revision' NUMBERS; FOR USE IN FILEVERSION ATTRIBUTE -->
-		<Version Major="$(VersionMajor)" Minor="$(VersionMinor)" BuildType="Automatic" RevisionType="Automatic" StartDate="29/06/2010">
-			<Output TaskParameter="Build" PropertyName="Build" />
-			<Output TaskParameter="Revision" PropertyName="Revision" />
-		</Version>
-
-		<PropertyGroup>
-			<VersionSuffix Condition="'$(VersionSuffix)' == '-build'">$(VersionSuffix)$(Build)</VersionSuffix>
-		</PropertyGroup>
-
-		<AssemblyInfo CodeLanguage="CS"
-			OutputFile="$(RootDir)\Properties\VersionInfo.cs"
-			AssemblyVersion="$(VersionMajor).$(VersionMinor).0.0"
-			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch).$(Build)"
-			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
-	</Target>
-
-	<!-- COMPILE -->
-	<Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
-		<MSBuild Projects="$(RootDir)\..\uComponents.sln" Properties="Configuration=Release" />
+	<Target Name="Build">
+		<MSBuild Projects="..\uComponents.sln" Properties="Configuration=$(Configuration)" Targets="Rebuild"/>
 	</Target>
 
 	<!-- PREPARE FILES -->
-	<Target Name="PrepareFiles" DependsOnTargets="Compile">
+	<Target Name="PrepareFiles" DependsOnTargets="Build">
 		<ItemGroup>
 			<BinFiles Include="$(RootDir)\bin\Release\uComponents.Core.dll" />
 			<BinFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
@@ -122,8 +83,8 @@
 		</ItemGroup>
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
-			MinimumRequiredUmbracoVersion="$(UmbracoVersion)"
-			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+			MinimumRequiredUmbracoVersion="$(MinUmbracoVersion)"
+			PackageVersion="$(PackageVersion)"
 			Readme="$([System.IO.File]::ReadAllText(readme.txt))"
 			Files="@(ManifestFiles)" />
 	</Target>
@@ -136,7 +97,7 @@
 		<MSBuild.NuGet.Tasks.ManifestUpdate
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			WorkingDirectory="$(BuildNuGetDir)"
-			Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+			Version="$(PackageVersion)"
 			Files="@(ManifestFiles)" />
 	</Target>
 
@@ -145,6 +106,10 @@
 		<ItemGroup>
 			<PackageFiles Include="$(BuildUmbDir)\**\*.*" />
 		</ItemGroup>
+
+		<Message Text="Package version: $(PackageVersion)" />
+		<Message Text="Minimum Umbraco version: $(MinUmbracoVersion)" />
+		
 		<MSBuild.Umbraco.Tasks.Package ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
 			OutputDirectory="$(MSBuildProjectDirectory)"
@@ -154,8 +119,8 @@
 			BasePath="$(BuildNuGetDir)"
 			OutputDirectory="$(MSBuildProjectDirectory)"
 			Verbosity="normal" />
+			
 		<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
 		<Delete Files="$(RootDir)\..\uComponents.sln.cache" />
 	</Target>
-
 </Project>

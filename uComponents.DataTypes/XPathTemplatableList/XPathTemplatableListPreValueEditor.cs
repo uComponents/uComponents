@@ -53,13 +53,13 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// </summary>
         private TextBox limitToTextBox = new TextBox();
 
+        //// TODO: will be used to choose between the inline textTemplate or a Macro for each item
+        //private RadioButtonList templateTypeRadioButtonList = new RadioButtonList();
+
         /// <summary>
-        /// Use an optional thumbnail from a property alias
+        /// Height of the source list control, in pixels, or 0 for no scrolling
         /// </summary>
-        private propertyTypePicker thumbnailPropertyDropDown = new propertyTypePicker();
-       
-        // TODO: consider renaming to ListItemSizeRadioButtonList ?
-        private RadioButtonList thumbnailSizeRadioButtonList = new RadioButtonList();
+        private TextBox listHeightTextBox = new TextBox();
 
         /// <summary>
         /// Handlebar syntax to render text for each list item
@@ -90,11 +90,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// if enabled then the same item can be seleted multiple times
         /// </summary>
         private CheckBox allowDuplicatesCheckBox = new CheckBox();
-
-        /// <summary>
-        /// Height of the source list control, in pixels, or 0 for no scrolling
-        /// </summary>
-        private TextBox listHeightTextBox = new TextBox();
 
         /// <summary>
         /// Must be a number
@@ -174,17 +169,21 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.limitToTextBox.MaxLength = 2;
             this.limitToTextBox.AutoCompleteType = AutoCompleteType.None;
 
-            this.thumbnailPropertyDropDown.ID = "thumbnailPropertyDropDown";
-            this.thumbnailPropertyDropDown.AutoPostBack = true;
-            this.thumbnailPropertyDropDown.SelectedIndexChanged += this.ThumbnailPropertyDropDown_SelectedIndexChanged;
+            this.listHeightTextBox.ID = "listHeightTextBox";
+            this.listHeightTextBox.Width = 30;
+            this.listHeightTextBox.MaxLength = 4;
 
-            this.thumbnailSizeRadioButtonList.ID = "thumbnailSizeRadioButtonList";
-            this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Small), ThumbnailSize.Small.ToString()));
-            this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Medium), ThumbnailSize.Medium.ToString()));
-            this.thumbnailSizeRadioButtonList.Items.Add(new ListItem(Enum.GetName(typeof(ThumbnailSize), ThumbnailSize.Large), ThumbnailSize.Large.ToString()));
+            this.listHeightValidator.ID = "listHeightValidator";
+            this.listHeightValidator.Display = ValidatorDisplay.Dynamic;
+            this.listHeightValidator.ControlToValidate = "listHeightTextBox";
+            this.listHeightValidator.CssClass = "validator";
+            this.listHeightValidator.ErrorMessage = "The List Height must be a number.";
+            this.listHeightValidator.ValidationExpression = @"^\d{1,3}$";
 
             this.textTemplateTextBox.ID = "textTemplateTextBox";
             this.textTemplateTextBox.CssClass = "umbEditorTextField";
+            this.textTemplateTextBox.TextMode = TextBoxMode.MultiLine;
+            this.textTemplateTextBox.Rows = 6;
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
             this.minItemsTextBox.Width = 30;
@@ -206,17 +205,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             this.allowDuplicatesCheckBox.ID = "allowDuplicatesCheckBox";
 
-            this.listHeightTextBox.ID = "listHeightTextBox";
-            this.listHeightTextBox.Width = 30;
-            this.listHeightTextBox.MaxLength = 4;
-
-            this.listHeightValidator.ID = "listHeightValidator";
-            this.listHeightValidator.Display = ValidatorDisplay.Dynamic;
-            this.listHeightValidator.ControlToValidate = "listHeightTextBox";
-            this.listHeightValidator.CssClass = "validator";
-            this.listHeightValidator.ErrorMessage = "The List Height must be a number.";
-            this.listHeightValidator.ValidationExpression = @"^\d{1,3}$";
-
             this.Controls.AddPrevalueControls(
                 this.typeRadioButtonList,
                 this.xPathTextBox,
@@ -225,16 +213,14 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.sortOnDropDown,
                 this.sortDirectionRadioButtonList,
                 this.limitToTextBox,
-                this.thumbnailPropertyDropDown,
-                this.thumbnailSizeRadioButtonList,
+                this.listHeightTextBox,
+                this.listHeightValidator,
                 this.textTemplateTextBox,
                 this.minItemsTextBox,
                 this.minItemsCustomValidator,
                 this.maxItemsTextBox,
                 this.maxItemsCustomValidator,
-                this.allowDuplicatesCheckBox,
-                this.listHeightTextBox,
-                this.listHeightValidator);
+                this.allowDuplicatesCheckBox);
         }
 
 
@@ -260,32 +246,21 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
                 this.limitToTextBox.Text = this.Options.LimitTo.ToString();
 
-                //if (this.thumbnailPropertyDropDown.Items.Contains(new ListItem(this.Options.ThumbnailProperty)))
-                //{
-                    this.thumbnailPropertyDropDown.SelectedValue = this.Options.ThumbnailProperty;
-                //}
-
-                this.thumbnailSizeRadioButtonList.SelectedValue = this.Options.ThumbnailSize.ToString();
+                this.listHeightTextBox.Text = this.options.ListHeight.ToString();
                 this.textTemplateTextBox.Text = this.Options.TextTemplate;
+
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
                 this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
                 this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
-                this.listHeightTextBox.Text = this.options.ListHeight.ToString();
             }
 
-            //// initial creation of datatype is a postback 
+            // initial creation of datatype is a postback 
             this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
-            this.thumbnailSizeRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue);
         }
 
         private void SortOnDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
-        }
-
-        private void ThumbnailPropertyDropDown_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.thumbnailSizeRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.thumbnailPropertyDropDown.SelectedValue);
         }
 
         /// <summary>
@@ -418,16 +393,12 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 int.TryParse(this.limitToTextBox.Text, out limitTo);
                 this.Options.LimitTo = limitTo;
 
-                this.Options.ThumbnailProperty = this.thumbnailPropertyDropDown.SelectedValue;
-
-                if (!string.IsNullOrWhiteSpace(this.thumbnailSizeRadioButtonList.SelectedValue))
-                {
-                    this.Options.ThumbnailSize = (ThumbnailSize)Enum.Parse(typeof(ThumbnailSize), this.thumbnailSizeRadioButtonList.SelectedValue);
-                }
+                int listHeight;
+                int.TryParse(this.listHeightTextBox.Text, out listHeight);
+                this.Options.ListHeight = listHeight;
 
                 this.Options.TextTemplate = this.textTemplateTextBox.Text;
 
-                // ensure min and max items are valid numbers
                 int minItems;
                 int.TryParse(this.minItemsTextBox.Text, out minItems);
                 this.Options.MinItems = minItems;
@@ -437,10 +408,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.Options.MaxItems = maxItems;
 
                 this.Options.AllowDuplicates = this.allowDuplicatesCheckBox.Checked;
-
-                int listHeight;
-                int.TryParse(this.listHeightTextBox.Text, out listHeight);
-                this.Options.ListHeight = listHeight;
 
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
@@ -467,22 +434,13 @@ namespace uComponents.DataTypes.XPathTemplatableList
             }
 
             writer.AddPrevalueRow("Limit To", "limit the source data count - 0 means no limit", this.limitToTextBox);
-            writer.AddPrevalueRow("Thumbnail Property", "if not empty - expects a property containing a string url (todo: fallback to media id/umbracoFile)", this.thumbnailPropertyDropDown);
 
-            if (this.thumbnailSizeRadioButtonList.Visible)
-            {
-                writer.AddPrevalueRow("Thumbnail Size", "", this.thumbnailSizeRadioButtonList);                
-            }
-            else
-            {
-                this.thumbnailSizeRadioButtonList.RenderControl(writer);
-            }
-            
+            writer.AddPrevalueRow("List Height", "Height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightValidator);
             writer.AddPrevalueRow("Text Template", "handlebars syntax, used for the text in each list item", this.textTemplateTextBox);
+
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator);
             writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate values can be selected", this.allowDuplicatesCheckBox);
-            writer.AddPrevalueRow("List Height", "Height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightValidator);
         }
     }
 }

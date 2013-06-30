@@ -236,12 +236,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
-      <Link>Properties\SolutionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
-      <Link>Properties\VersionInfo.cs</Link>
-    </Compile>
     <Compile Include="CharLimit\CharLimitControl.cs" />
     <Compile Include="CharLimit\CharLimitDataType.cs" />
     <Compile Include="CharLimit\CharLimitOptions.cs" />
@@ -458,8 +452,6 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
-    <Compile Include="XPathTemplatableList\ThumbnailSize.cs" />
-    <Compile Include="XPathTemplatableList\ThumbnailSizeAttribute.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableList.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListDataEditor.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListDataType.cs" />
