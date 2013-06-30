@@ -54,9 +54,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         }
 
         /// <summary>
-        /// Gets the value from the <see cref="IDataTypeHandlerHandler{TDataType}" /> for this DataType as a dynamic value.
+        /// Gets the value from the <see cref="IDataTypeHandler{TDataType}" /> for this DataType as a dynamic value.
         /// </summary>
-        /// <returns>The dynamic value from the <see cref="IDataTypeHandlerHandler{TDataType}" /> for this DataType.</returns>
+        /// <returns>The dynamic value from the <see cref="IDataTypeHandler{TDataType}" /> for this DataType.</returns>
         public dynamic GetPropertyValue()
         {
             var dtd = DataTypeDefinition.GetDataTypeDefinition(this.DataType);

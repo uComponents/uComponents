@@ -8,6 +8,7 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {
+	using System.Diagnostics;
 	using System.Reflection;
 
 	/// <summary>
@@ -75,7 +76,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, "version");
 			writer.RenderBeginTag(HtmlTextWriterTag.Span);
-			writer.Write("{0} {1}", Helper.Dictionary.GetDictionaryItem("Version", "Version"), Assembly.GetExecutingAssembly().GetName().Version);
+			writer.Write("{0} {1}", Helper.Dictionary.GetDictionaryItem("Version", "Version"), FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion);
 			writer.RenderEndTag();
 
 			writer.RenderEndTag();

@@ -10,6 +10,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers
 
     using umbraco.cms.businesslogic.datatype;
 
+    /// <summary>
+    /// Handler for prevalue editor settings
+    /// </summary>
     public class PrevalueEditorSettingsHandler : IPrevalueEditorSettingsHandler
     {
         /// <summary>
