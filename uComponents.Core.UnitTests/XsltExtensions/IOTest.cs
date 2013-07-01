@@ -1,17 +1,23 @@
-﻿using uComponents.XsltExtensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Xml.XPath;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Xml;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
+using System.Xml.XPath;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using uComponents.XsltExtensions;
 
 namespace uComponents.Core.UnitTests.XsltExtensions
 {
 	[TestClass()]
 	public class IOTest
 	{
+		[TestInitialize]
+		public void Initialize()
+		{
+			// [LK] Setting the thread culture to 'en-GB' so to not fail on the numeric formats
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+		}
+
 		//[TestMethod()]
 		//public void DirectoryExistsTest()
 		//{
