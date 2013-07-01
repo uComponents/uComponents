@@ -94,7 +94,6 @@
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\uComponentsModule.cs" />
-    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Constants-Common.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
@@ -113,9 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\SolutionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\icon.png" />
