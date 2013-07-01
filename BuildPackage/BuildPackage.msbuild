@@ -15,7 +15,7 @@
 
 	<!-- TARGETS -->
 	<Target Name="Build">
-		<MSBuild Projects="..\uComponents.sln" Properties="Configuration=$(Configuration)" Targets="Rebuild"/>
+		<MSBuild Projects="..\uComponents.sln" Properties="Configuration = $(Configuration)" Targets="Rebuild"/>
 	</Target>
 
 	<!-- PREPARE FILES -->
@@ -42,7 +42,7 @@
 			<DebugFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.pdb" />
-			<BinFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.pdb" />
+			<DebugFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.pdb" />
 			<DebugFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.pdb" />
 			<XmlFiles Include="$(RootDir)\bin\Release\uComponents.Core.xml" />
@@ -54,7 +54,7 @@
 			<XmlFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.xml" />
-			<BinFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.xml" />
+			<XmlFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.xml" />
 			<XmlFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.xml" />
 			<PluginFiles Include="$(RootDir)\..\uComponents.Installer\*.ascx" />
@@ -65,12 +65,12 @@
 		<MSBuild.Umbraco.Tasks.TimestampOffset Files="@(BinFiles)" Offset="-11" />
 		<!-- COPY FOR UMBRACO PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildUmbDir)\bin" />
-		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildUmbDir)\bin" Condition="'$(VersionSuffix)' != ''" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildUmbDir)\bin" Condition="$(PackageVersion.EndsWith('-build'))" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildUmbDir)\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildUmbDir)" />
 		<!-- COPY FOR NUGET PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
-		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" Condition="'$(VersionSuffix)' != ''" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" Condition="$(PackageVersion.EndsWith('-build'))" />
 		<Copy SourceFiles="@(XmlFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildNuGetDir)\content\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />

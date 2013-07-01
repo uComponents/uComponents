@@ -9,6 +9,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Represents a stored grid row
+    /// </summary>
     [Serializable]
     public class StoredValueRow
     {

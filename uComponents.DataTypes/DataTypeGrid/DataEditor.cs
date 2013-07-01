@@ -68,6 +68,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		private string id;
 		
+		/// <summary>
 		/// The prevalue editor settings handler
 		/// </summary>
 		private readonly IPrevalueEditorSettingsHandler prevalueEditorSettingsHandler;
