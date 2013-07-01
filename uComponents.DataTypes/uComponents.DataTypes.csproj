@@ -587,6 +587,7 @@
   </Target>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(TargetDir)uComponents.*.dll" "C:\Users\Hendy\Documents\Projects\HendyMvcUmbraco\HendyMvcUmbraco.Web\bin\" /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
