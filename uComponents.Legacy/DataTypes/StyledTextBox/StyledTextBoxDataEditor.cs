@@ -30,7 +30,7 @@ namespace uComponents.DataTypes.StyledTextBox
             {
                 var settings = configuration.Split(Constants.Common.COMMA);
 
-                if (settings.Length == 2)
+                if (settings.Length > 1)
                 {
                     this.Attributes.Add("style", string.Join(new string(Constants.Common.COMMA, 1), settings.Skip(1)));
                     this.Width = int.Parse(settings[0]);
