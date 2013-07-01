@@ -47,7 +47,12 @@ namespace uComponents.DataTypes.XPathTemplatableList
         private XPathTemplatableListOptions options;
 
         /// <summary>
-        /// Wrappiing div
+        /// Control used to render an inline style for this control (sets dataype instance specific css, eg. item height)
+        /// </summary>
+        private HtmlGenericControl style = new HtmlGenericControl("style");
+
+        /// <summary>
+        /// Wrapping div
         /// </summary>
         private HtmlGenericControl div = new HtmlGenericControl("div");
 
@@ -286,6 +291,10 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// </summary>
         protected override void CreateChildControls()
         {
+            // inline css to set item height (todo: use same pattern for list height ?)
+
+            this.Controls.Add(this.style);
+
             this.div.Attributes.Add("class", "xpath-templatable-list");
             this.div.Attributes.Add("data-list-height", this.options.ListHeight.ToString());
             this.div.Attributes.Add("data-min-items", this.options.MinItems.ToString());
@@ -315,8 +324,19 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             this.EnsureChildControls();
 
+
             if (!this.Page.IsPostBack)
             {
+                // set inline styles
+                this.style.Controls.Add(new Literal()
+                {
+                    Text = @"
+                                                    #" + this.div.ClientID + @" > ul > li {
+                                                        height: " + this.options.ItemHeight + @"px;
+                                                    }"
+                });
+
+
                 this.selectedItemsHiddenField.Value = this.data.Value.ToString();
             }
 

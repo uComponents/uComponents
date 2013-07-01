@@ -10,7 +10,7 @@
     user-select: none;
 }
 
-.xpath-sortable-list.scrolling
+.xpath-templatable-list.scrolling
 {
     width: 650px;
 }
@@ -21,7 +21,7 @@
     float:left;
 }
 
-.xpath-sortable-list.scrolling ul.source-list {
+.xpath-templatable-list.scrolling ul.source-list {
     overflow-y: scroll;
 }
 

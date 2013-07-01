@@ -1,24 +1,31 @@
 /*
     <!-- made server side -->
 
-    <div id="body_prop_XPathTemplatableListDocuments_ct100" class="xpath-sortable-list" 
+    <style>
+        #body_prop_XPathTemplatableListDocuments_ct100 > ul > li {
+            height: 123px;
+        }
+    </style>
+
+
+    <div id="body_prop_XPathTemplatableListDocuments_ct100" class="xpath-templatable-list" 
          data-list-height="0"
          data-min-items="1"          
          data-max-items="3"
          data-allow-duplicates="false">
  
         <ul class="source-list propertypane">            
-            <li class="(active)" data-text="ABC" data-value="1">                
+            <li class="(active)" data-value="1">                
                 <a class="add" title="add" href="javascript:void(0);" onclick="XPathTemplatableList.addItem(this);">
 
-user templated markup
+                    ***user templated markup***
 
                 </a>
             </li>
             ...
-            <li data-text="XYZ" data-value="9">                
+            <li data-value="9">                
                 <a class="add" title="add" href="javascript:void(0);" onclick="XPathTemplatableList.addItem(this);">
-                    XYZ
+                    ...XYZ...
                 </a>
             </li>
         </ul>
@@ -28,11 +35,13 @@ user templated markup
 
         <ul class="sortable-list propertypane">
             <li data-value="1">
-                ABC
+
+                ***user templated markup***
+
                 <a class="delete" title="remove" href="javascript:void(0);" onclick="XPathTemplatableList.removeItem(this);"></a>
             </li>
             <li data-value="9">
-                XYZ
+                ...XYZ...
                 <a class="delete" title="remove" href="javascript:void(0);" onclick="XPathTemplatableList.removeItem(this);"></a>
             </li>
         </ul>
@@ -125,7 +134,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
 
         // dom
         var selectedLi = jQuery(a).parentsUntil('ul.source-list', 'li');
-        var div = selectedLi.closest('div.xpath-sortable-list');
+        var div = selectedLi.closest('div.xpath-templatable-list');
 
         var sortableUl = div.find('ul.sortable-list:first');
         var hidden = div.find('input:hidden:first');
