@@ -455,7 +455,7 @@
     <Compile Include="XPathTemplatableList\XPathTemplatableList.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListDataEditor.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListDataType.cs" />
-    <Compile Include="XPathTemplatableList\XPathTemplatableOptions.cs" />
+    <Compile Include="XPathTemplatableList\XPathTemplatableListOptions.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListPreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -586,4 +586,7 @@
     </ItemGroup>
   </Target>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY "$(TargetDir)uComponents.*.dll" "C:\Users\Hendy\Documents\Projects\HendyMvcUmbraco\HendyMvcUmbraco.Web\bin\" /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

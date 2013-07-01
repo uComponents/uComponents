@@ -14,7 +14,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
     using System.ComponentModel;
 
     /// <summary>
-    /// Prevalue Editor for XPath Sortable List
+    /// Prevalue Editor for XPath Templatable List
     /// </summary>
     public class XPathTemplatableListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
@@ -53,13 +53,18 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// </summary>
         private TextBox limitToTextBox = new TextBox();
 
-        //// TODO: will be used to choose between the inline textTemplate or a Macro for each item
-        //private RadioButtonList templateTypeRadioButtonList = new RadioButtonList();
-
         /// <summary>
         /// Height of the source list control, in pixels, or 0 for no scrolling
         /// </summary>
         private TextBox listHeightTextBox = new TextBox();
+
+        /// <summary>
+        /// Height of each list item (set here rather than in a template, so that placeholders can be of the same height)
+        /// </summary>
+        private TextBox itemHeightTextBox = new TextBox();
+
+        //// TODO: will be used to choose between the inline textTemplate or a Macro for each item
+        //private RadioButtonList templateTypeRadioButtonList = new RadioButtonList();
 
         /// <summary>
         /// Handlebar syntax to render text for each list item
@@ -180,10 +185,18 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.listHeightValidator.ErrorMessage = "The List Height must be a number.";
             this.listHeightValidator.ValidationExpression = @"^\d{1,3}$";
 
+            this.itemHeightTextBox.ID = "itemHeightTextBox";
+            this.itemHeightTextBox.Width = 30;
+            this.itemHeightTextBox.MaxLength = 4;
+
+            //TODO: itemHeight validator
+
             this.textTemplateTextBox.ID = "textTemplateTextBox";
             this.textTemplateTextBox.CssClass = "umbEditorTextField";
             this.textTemplateTextBox.TextMode = TextBoxMode.MultiLine;
             this.textTemplateTextBox.Rows = 6;
+
+            //TODO: textTemplate validator
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
             this.minItemsTextBox.Width = 30;
@@ -215,6 +228,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.limitToTextBox,
                 this.listHeightTextBox,
                 this.listHeightValidator,
+                this.itemHeightTextBox,
                 this.textTemplateTextBox,
                 this.minItemsTextBox,
                 this.minItemsCustomValidator,
@@ -222,7 +236,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.maxItemsCustomValidator,
                 this.allowDuplicatesCheckBox);
         }
-
 
         /// <summary>
         /// 
@@ -246,7 +259,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
                 this.limitToTextBox.Text = this.Options.LimitTo.ToString();
 
-                this.listHeightTextBox.Text = this.options.ListHeight.ToString();
+                this.listHeightTextBox.Text = this.Options.ListHeight.ToString();
+                this.itemHeightTextBox.Text = this.Options.ItemHeight.ToString();
                 this.textTemplateTextBox.Text = this.Options.TextTemplate;
 
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
@@ -397,6 +411,10 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 int.TryParse(this.listHeightTextBox.Text, out listHeight);
                 this.Options.ListHeight = listHeight;
 
+                int itemHeight;
+                int.TryParse(this.itemHeightTextBox.Text, out itemHeight);
+                this.Options.ItemHeight = itemHeight;
+
                 this.Options.TextTemplate = this.textTemplateTextBox.Text;
 
                 int minItems;
@@ -435,7 +453,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             writer.AddPrevalueRow("Limit To", "limit the source data count - 0 means no limit", this.limitToTextBox);
 
-            writer.AddPrevalueRow("List Height", "Height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightValidator);
+            writer.AddPrevalueRow("List Height", "px height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightValidator);
+            writer.AddPrevalueRow("Item Height", "px height of each list item", this.itemHeightTextBox);
             writer.AddPrevalueRow("Text Template", "handlebars syntax, used for the text in each list item", this.textTemplateTextBox);
 
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
