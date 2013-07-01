@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Xml;
@@ -144,7 +145,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		[TestMethod()]
 		public void GetFilesTest()
 		{
-			var path = @"C:\VCS\Umbraco\uComponents\uComponents"; // HACK: [LK] How to make root 'path' dynamic?
+			var path = string.Concat(Environment.CurrentDirectory, @"\..\..\..");
 			var searchPattern = "*.txt";
 			var allDirectories = false;
 
