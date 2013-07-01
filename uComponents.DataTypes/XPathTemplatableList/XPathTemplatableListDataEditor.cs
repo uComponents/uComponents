@@ -286,7 +286,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// </summary>
         protected override void CreateChildControls()
         {
-            this.div.Attributes.Add("class", "xpath-sortable-list");
+            this.div.Attributes.Add("class", "xpath-templatable-list");
             this.div.Attributes.Add("data-list-height", this.options.ListHeight.ToString());
             this.div.Attributes.Add("data-min-items", this.options.MinItems.ToString());
             this.div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());

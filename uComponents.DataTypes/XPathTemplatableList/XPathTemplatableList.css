@@ -1,4 +1,4 @@
-.xpath-sortable-list 
+.xpath-templatable-list 
 {
     width:640px;
 
@@ -15,7 +15,7 @@
     width: 650px;
 }
 
-.xpath-sortable-list ul
+.xpath-templatable-list ul
 {
     list-style-type:none;
     float:left;
@@ -25,13 +25,13 @@
     overflow-y: scroll;
 }
 
-.xpath-sortable-list ul.sortable-list
+.xpath-templatable-list ul.sortable-list
 {
     float:right;
     clear:none;    
 }
 
-.xpath-sortable-list li
+.xpath-templatable-list li
 {   
     border:dotted 1px #DCD;
     width:298px;
@@ -46,7 +46,7 @@
 }
 
 /* SOURCE LIST */
-.xpath-sortable-list ul.source-list li
+.xpath-templatable-list ul.source-list li
 {
     display:none; /* li not marked as active are hidden by default */
 
@@ -54,7 +54,7 @@
 }
 
 /* the a tag fills the whole li */
-.xpath-sortable-list ul.source-list a
+.xpath-templatable-list ul.source-list a
 {
      text-decoration: none;
      display: block;
@@ -66,13 +66,13 @@
 }
 
 /* activate */
-.xpath-sortable-list ul.source-list li.active
+.xpath-templatable-list ul.source-list li.active
 {
     display:block;
     /*background-color:white;*/
 }
 
-.xpath-sortable-list ul.source-list li.active a:hover
+.xpath-templatable-list ul.source-list li.active a:hover
 {
     background-color:#F6F6FA;
     cursor:pointer;
@@ -80,23 +80,23 @@
 
 
 /* SORTABLE LIST */
-.xpath-sortable-list li:hover /* sortable list only (as source li covered with an anchor) */
+.xpath-templatable-list li:hover /* sortable list only (as source li covered with an anchor) */
 {
     background-color:#F6F6FA;
 }
 
-.xpath-sortable-list ul.sortable-list li
+.xpath-templatable-list ul.sortable-list li
 {
     cursor: move;
 }
 
-.xpath-sortable-list ul.sortable-list li div {
+.xpath-templatable-list ul.sortable-list li div {
     width: 278px;
     overflow: hidden;
     display:inline;
 }
 
-.xpath-sortable-list ul.sortable-list a
+.xpath-templatable-list ul.sortable-list a
 {
     background: transparent url('/umbraco/images/delete.gif') no-repeat 0px 3px;
     width:15px;
@@ -109,18 +109,18 @@
 
 
 
-.xpath-sortable-list ul.sortable-list li.placeholder
+.xpath-templatable-list ul.sortable-list li.placeholder
 {
     cursor:default;
     background:none;
 }
 
-.xpath-sortable-list li.placeholder.min
+.xpath-templatable-list li.placeholder.min
 {
     
 }
 
-.xpath-sortable-list li.placeholder.max 
+.xpath-templatable-list li.placeholder.max 
 {
     border:0;
 }
