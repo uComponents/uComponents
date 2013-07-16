@@ -455,7 +455,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             writer.AddPrevalueRow("List Height", "px height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightValidator);
             writer.AddPrevalueRow("Item Height", "px height of each list item", this.itemHeightTextBox);
-            writer.AddPrevalueRow("Text Template", "handlebars syntax, used for the text in each list item", this.textTemplateTextBox);
+            writer.AddPrevalueRow("Text Template", "handlebar syntax, with additional tokens :node: :media: and :member: to get picked item properties <br/>eg.<br/> {{pickedImage:media:imageThumbnail}}", this.textTemplateTextBox);
 
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator);
