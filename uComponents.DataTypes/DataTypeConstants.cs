@@ -65,6 +65,11 @@
 		/// </summary>
 		public const string ImageDropdownId = "A4CA44C9-EBB6-48E8-8D39-96BFDF619825";
 
+        /// <summary>
+        /// Guid for the Image Point data-type.
+        /// </summary>
+        public const string ImagePointId = "32CCC535-131A-441E-A6E3-E50DA0054661";
+
 		/// <summary>
 		/// Guid for the IncrementalTextBox data-type.
 		/// </summary>
