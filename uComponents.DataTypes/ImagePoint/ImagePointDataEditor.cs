@@ -14,10 +14,11 @@ using umbraco.interfaces;
 using Umbraco.Web;
 using umbraco.editorControls;
 using System.Web.UI.HtmlControls;
+using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
 
 [assembly: WebResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.ImagePoint
-{   
+{
     /// <summary>
     /// Image Point Data Type
     /// </summary>
@@ -37,6 +38,11 @@ namespace uComponents.DataTypes.ImagePoint
         /// Wrapping div
         /// </summary>
         private HtmlGenericControl div = new HtmlGenericControl("div");
+
+        /// <summary>
+        /// image used as background for setting a point
+        /// </summary>
+        private Image image = new Image();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImagePointDataEditor"/> class. 
@@ -88,10 +94,64 @@ namespace uComponents.DataTypes.ImagePoint
         }
 
         /// <summary>
+        /// Gets the id of the current (content, media or member) on which this is a property
+        /// </summary>
+        private int CurrentContentId
+        {
+            get
+            {
+                return ((DefaultData)this.data).NodeId;
+            }
+        }
+
+        /// <summary>
         /// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
         /// </summary>
         protected override void CreateChildControls()
         {
+            string imageUrl = null;
+
+            try
+            {
+                // walk up tree from current node looking for the first instance of the specified property
+                switch (uQuery.GetUmbracoObjectType(this.CurrentContentId))
+                {
+                    case uQuery.UmbracoObjectType.Document:
+                        imageUrl = uQuery.GetCurrentDocument()
+                                            .GetAncestorOrSelfDocuments()
+                                            .First(x => x.HasProperty(this.options.PropertyAlias))
+                                            .GetProperty<string>(this.options.PropertyAlias);
+                        break;
+
+                    case uQuery.UmbracoObjectType.Media:
+                        imageUrl = uQuery.GetMedia(this.CurrentContentId)
+                                            .GetAncestorOrSelfMedia()
+                                            .First(x => x.HasProperty(this.options.PropertyAlias))
+                                            .GetProperty<string>(this.options.PropertyAlias);
+                        break;
+
+                    case uQuery.UmbracoObjectType.Member:
+                        imageUrl = uQuery.GetMember(this.CurrentContentId).GetProperty<string>(this.options.PropertyAlias);
+                                        
+                        break;
+                }
+            }
+            catch
+            {
+            }
+
+            if (!string.IsNullOrWhiteSpace(imageUrl))
+            {
+                this.image.ImageUrl = imageUrl;
+            }
+            else
+            {
+                // TODO: alert user that the image can't be found
+            }
+
+
+            this.div.Controls.Add(this.image);
+
             this.Controls.Add(this.div);
         }
 
