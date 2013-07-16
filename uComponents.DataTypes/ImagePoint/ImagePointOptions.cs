@@ -9,6 +9,12 @@ namespace uComponents.DataTypes.ImagePoint
     public class ImagePointOptions : AbstractOptions
     {
         /// <summary>
+        /// Alias to the property to get url for image
+        /// </summary>
+        [DefaultValue("")]
+        public string PropertyAlias { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ImagePointOptions"/> class.
         /// </summary>
         public ImagePointOptions()

@@ -4,6 +4,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using umbraco.editorControls;
+using umbraco.macroRenderings;
 
 namespace uComponents.DataTypes.ImagePoint
 {
@@ -12,6 +13,16 @@ namespace uComponents.DataTypes.ImagePoint
     /// </summary>
     public class ImagePointPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
+        /// <summary>
+        /// Prepopulated Umbraco Propery Picker
+        /// </summary>
+        private propertyTypePicker propertyAliasPicker = new propertyTypePicker();
+
+        /// <summary>
+        /// RequiredFieldValidator for the ProperyAliasPicker
+        /// </summary>
+        private RequiredFieldValidator propertyAliasPickerRequiredFieldValidator = new RequiredFieldValidator();
+
         /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
         /// </summary>
@@ -55,6 +66,15 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         protected override void CreateChildControls()
         {
+            this.propertyAliasPicker.ID = "propertyAliasPicker";
+
+            this.propertyAliasPickerRequiredFieldValidator.Text = " " + Helper.Dictionary.GetDictionaryItem("Required", "Required");
+            this.propertyAliasPickerRequiredFieldValidator.InitialValue = string.Empty;
+            this.propertyAliasPickerRequiredFieldValidator.ControlToValidate = this.propertyAliasPicker.ID;
+
+            this.Controls.Add(this.propertyAliasPicker);
+            this.Controls.Add(this.propertyAliasPickerRequiredFieldValidator);
+
         }
 
         /// <summary>
@@ -68,6 +88,10 @@ namespace uComponents.DataTypes.ImagePoint
             if (!this.Page.IsPostBack)
             {
                 // Read in stored configuration values
+                if (this.propertyAliasPicker.Items.Contains(new ListItem(this.Options.PropertyAlias)))
+                {
+                    this.propertyAliasPicker.SelectedValue = this.Options.PropertyAlias;
+                }
             }
         }
 
@@ -78,8 +102,27 @@ namespace uComponents.DataTypes.ImagePoint
         {
             if (this.Page.IsValid)
             {
+                this.Options.PropertyAlias = this.propertyAliasPicker.SelectedValue;
+
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
+        }
+
+        /// <summary>
+        /// Used to remove styling from the built in multiNodePickerProperty alias picker DropDownList 
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnPreRender(EventArgs e)
+        {
+            base.OnPreRender(e);
+
+            this.propertyAliasPicker.CssClass = string.Empty; // Remove guiInputTextStandard 
+
+            // Sort properties in the built in property picker control
+            ListItem[] propertyAliasListItems = this.propertyAliasPicker.Items.Cast<ListItem>().OrderBy(x => x.Text).ToArray();
+
+            this.propertyAliasPicker.Items.Clear();
+            this.propertyAliasPicker.Items.AddRange(propertyAliasListItems);
         }
 
         /// <summary>
@@ -88,6 +131,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
+            writer.AddPrevalueRow("Property Alias", "property to use as source for image (recursive)", this.propertyAliasPicker, this.propertyAliasPickerRequiredFieldValidator);
         }
     }
 }
