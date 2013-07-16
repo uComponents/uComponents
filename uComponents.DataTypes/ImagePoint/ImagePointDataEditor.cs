@@ -40,7 +40,17 @@ namespace uComponents.DataTypes.ImagePoint
         private HtmlGenericControl div = new HtmlGenericControl("div");
 
         /// <summary>
-        /// image used as background for setting a point
+        /// X coordinate
+        /// </summary>
+        private TextBox xTextBox = new TextBox();
+
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        private TextBox yTextBox = new TextBox();
+
+        /// <summary>
+        /// Image tag used to define the x, y area
         /// </summary>
         private Image image = new Image();
 
@@ -111,59 +121,78 @@ namespace uComponents.DataTypes.ImagePoint
         {
             /*
              *  <div>
-             *      <img src="" />
-             *  
-             * </div>
+             *      <input type="text" />
+             *      <input type="text" />
+             *      <img src="" (width="") (height="") />
+             *  </div>
              * 
              */
 
+            this.xTextBox.ID = "xTextBox";
+            this.xTextBox.Width = 30;
+            this.xTextBox.MaxLength = 4;                        
 
-            string imageUrl = null;
+            this.yTextBox.ID = "yTextBox";
+            this.yTextBox.Width = 30;
+            this.yTextBox.MaxLength = 4;
 
-            try
+            if (!string.IsNullOrWhiteSpace(this.options.ImagePropertyAlias))
             {
-                // looking for the specified property
-                switch (uQuery.GetUmbracoObjectType(this.CurrentContentId))
+                try
                 {
-                    case uQuery.UmbracoObjectType.Document:
-                        imageUrl = uQuery.GetCurrentDocument()
-                                            .GetAncestorOrSelfDocuments()
-                                            .First(x => x.HasProperty(this.options.ImagePropertyAlias))
-                                            .GetProperty<string>(this.options.ImagePropertyAlias);
-                        break;
+                    string imageUrl = null;
 
-                    case uQuery.UmbracoObjectType.Media:
-                        imageUrl = uQuery.GetMedia(this.CurrentContentId)
-                                            .GetAncestorOrSelfMedia()
-                                            .First(x => x.HasProperty(this.options.ImagePropertyAlias))
-                                            .GetProperty<string>(this.options.ImagePropertyAlias);
-                        break;
+                    // looking for the specified property
+                    switch (uQuery.GetUmbracoObjectType(this.CurrentContentId))
+                    {
+                        case uQuery.UmbracoObjectType.Document:
+                            imageUrl = uQuery.GetDocument(this.CurrentContentId)
+                                                .GetAncestorOrSelfDocuments()
+                                                .First(x => x.HasProperty(this.options.ImagePropertyAlias))
+                                                .GetProperty<string>(this.options.ImagePropertyAlias);
+                            break;
 
-                    case uQuery.UmbracoObjectType.Member:
-                        imageUrl = uQuery.GetMember(this.CurrentContentId).GetProperty<string>(this.options.ImagePropertyAlias);
-                                        
-                        break;
+                        case uQuery.UmbracoObjectType.Media:
+                            imageUrl = uQuery.GetMedia(this.CurrentContentId)
+                                                .GetAncestorOrSelfMedia()
+                                                .First(x => x.HasProperty(this.options.ImagePropertyAlias))
+                                                .GetProperty<string>(this.options.ImagePropertyAlias);
+                            break;
+
+                        case uQuery.UmbracoObjectType.Member:
+                            imageUrl = uQuery.GetMember(this.CurrentContentId).GetProperty<string>(this.options.ImagePropertyAlias);
+
+                            break;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(imageUrl))
+                    {
+                        this.image.ImageUrl = imageUrl;
+                    }
+                }
+                catch
+                {
+                    // node, media or member with specified property couldn't be found
+
+                    // TODO: if debug mode on, then thow exception, else be silent
                 }
             }
-            catch
+           
+            if (this.options.Width > 0)
             {
-                // node, media or member with specified property couldn't be found
-
-                // TODO: if debug mode on, then thow exception, else silent
+                this.image.Width = this.options.Width;
             }
 
-            if (!string.IsNullOrWhiteSpace(imageUrl))
+            if (this.options.Height > 0)
             {
-                this.image.ImageUrl = imageUrl;
-
-
+                this.image.Height = this.options.Height;
             }
-            //else
-            //{
-            //    // TODO: alert user that the image can't be found
-            //}
 
-
+            this.div.Controls.Add(new Literal() { Text = "X " });
+            this.div.Controls.Add(this.xTextBox);
+            this.div.Controls.Add(new Literal() { Text = " Y " });
+            this.div.Controls.Add(this.yTextBox);
+            this.div.Controls.Add(new HtmlGenericControl("br"));
             this.div.Controls.Add(this.image);
 
             this.Controls.Add(this.div);
@@ -180,6 +209,13 @@ namespace uComponents.DataTypes.ImagePoint
 
             if (!this.Page.IsPostBack && this.data.Value != null)
             {
+                // set the x and y textboxes
+                string[] coordinates = this.data.Value.ToString().Split(',');
+                if (coordinates.Length == 2)
+                {
+                    this.xTextBox.Text = coordinates[0];
+                    this.yTextBox.Text = coordinates[1];
+                }
             }
 
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", ClientDependencyType.Javascript);
@@ -199,6 +235,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         public void Save()
         {
+            this.data.Value = this.xTextBox.Text + "," + this.yTextBox.Text;
         }
     }
 }
