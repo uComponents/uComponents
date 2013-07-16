@@ -109,45 +109,59 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         protected override void CreateChildControls()
         {
+            /*
+             *  <div>
+             *      <img src="" />
+             *  
+             * </div>
+             * 
+             */
+
+
             string imageUrl = null;
 
             try
             {
-                // walk up tree from current node looking for the first instance of the specified property
+                // looking for the specified property
                 switch (uQuery.GetUmbracoObjectType(this.CurrentContentId))
                 {
                     case uQuery.UmbracoObjectType.Document:
                         imageUrl = uQuery.GetCurrentDocument()
                                             .GetAncestorOrSelfDocuments()
-                                            .First(x => x.HasProperty(this.options.PropertyAlias))
-                                            .GetProperty<string>(this.options.PropertyAlias);
+                                            .First(x => x.HasProperty(this.options.ImagePropertyAlias))
+                                            .GetProperty<string>(this.options.ImagePropertyAlias);
                         break;
 
                     case uQuery.UmbracoObjectType.Media:
                         imageUrl = uQuery.GetMedia(this.CurrentContentId)
                                             .GetAncestorOrSelfMedia()
-                                            .First(x => x.HasProperty(this.options.PropertyAlias))
-                                            .GetProperty<string>(this.options.PropertyAlias);
+                                            .First(x => x.HasProperty(this.options.ImagePropertyAlias))
+                                            .GetProperty<string>(this.options.ImagePropertyAlias);
                         break;
 
                     case uQuery.UmbracoObjectType.Member:
-                        imageUrl = uQuery.GetMember(this.CurrentContentId).GetProperty<string>(this.options.PropertyAlias);
+                        imageUrl = uQuery.GetMember(this.CurrentContentId).GetProperty<string>(this.options.ImagePropertyAlias);
                                         
                         break;
                 }
             }
             catch
             {
+                // node, media or member with specified property couldn't be found
+
+                // TODO: if debug mode on, then thow exception, else silent
             }
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
             {
                 this.image.ImageUrl = imageUrl;
+
+
             }
-            else
-            {
-                // TODO: alert user that the image can't be found
-            }
+            //else
+            //{
+            //    // TODO: alert user that the image can't be found
+            //}
 
 
             this.div.Controls.Add(this.image);

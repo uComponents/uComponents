@@ -16,12 +16,12 @@ namespace uComponents.DataTypes.ImagePoint
         /// <summary>
         /// Prepopulated Umbraco Propery Picker
         /// </summary>
-        private propertyTypePicker propertyAliasPicker = new propertyTypePicker();
+        private propertyTypePicker imagePropertyAliasPicker = new propertyTypePicker();
 
         /// <summary>
         /// RequiredFieldValidator for the ProperyAliasPicker
         /// </summary>
-        private RequiredFieldValidator propertyAliasPickerRequiredFieldValidator = new RequiredFieldValidator();
+        private RequiredFieldValidator imagePropertyAliasPickerRequiredFieldValidator = new RequiredFieldValidator();
 
         /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
@@ -66,14 +66,14 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         protected override void CreateChildControls()
         {
-            this.propertyAliasPicker.ID = "propertyAliasPicker";
+            this.imagePropertyAliasPicker.ID = "imagePropertyAliasPicker";
 
-            this.propertyAliasPickerRequiredFieldValidator.Text = " " + Helper.Dictionary.GetDictionaryItem("Required", "Required");
-            this.propertyAliasPickerRequiredFieldValidator.InitialValue = string.Empty;
-            this.propertyAliasPickerRequiredFieldValidator.ControlToValidate = this.propertyAliasPicker.ID;
+            this.imagePropertyAliasPickerRequiredFieldValidator.Text = " " + Helper.Dictionary.GetDictionaryItem("Required", "Required");
+            this.imagePropertyAliasPickerRequiredFieldValidator.InitialValue = string.Empty;
+            this.imagePropertyAliasPickerRequiredFieldValidator.ControlToValidate = this.imagePropertyAliasPicker.ID;
 
-            this.Controls.Add(this.propertyAliasPicker);
-            this.Controls.Add(this.propertyAliasPickerRequiredFieldValidator);
+            this.Controls.Add(this.imagePropertyAliasPicker);
+            this.Controls.Add(this.imagePropertyAliasPickerRequiredFieldValidator);
 
         }
 
@@ -88,9 +88,9 @@ namespace uComponents.DataTypes.ImagePoint
             if (!this.Page.IsPostBack)
             {
                 // Read in stored configuration values
-                if (this.propertyAliasPicker.Items.Contains(new ListItem(this.Options.PropertyAlias)))
+                if (this.imagePropertyAliasPicker.Items.Contains(new ListItem(this.Options.ImagePropertyAlias)))
                 {
-                    this.propertyAliasPicker.SelectedValue = this.Options.PropertyAlias;
+                    this.imagePropertyAliasPicker.SelectedValue = this.Options.ImagePropertyAlias;
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace uComponents.DataTypes.ImagePoint
         {
             if (this.Page.IsValid)
             {
-                this.Options.PropertyAlias = this.propertyAliasPicker.SelectedValue;
+                this.Options.ImagePropertyAlias = this.imagePropertyAliasPicker.SelectedValue;
 
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
@@ -116,13 +116,13 @@ namespace uComponents.DataTypes.ImagePoint
         {
             base.OnPreRender(e);
 
-            this.propertyAliasPicker.CssClass = string.Empty; // Remove guiInputTextStandard 
+            this.imagePropertyAliasPicker.CssClass = string.Empty; // Remove guiInputTextStandard 
 
             // Sort properties in the built in property picker control
-            ListItem[] propertyAliasListItems = this.propertyAliasPicker.Items.Cast<ListItem>().OrderBy(x => x.Text).ToArray();
+            ListItem[] imagePropertyAliasListItems = this.imagePropertyAliasPicker.Items.Cast<ListItem>().OrderBy(x => x.Text).ToArray();
 
-            this.propertyAliasPicker.Items.Clear();
-            this.propertyAliasPicker.Items.AddRange(propertyAliasListItems);
+            this.imagePropertyAliasPicker.Items.Clear();
+            this.imagePropertyAliasPicker.Items.AddRange(imagePropertyAliasListItems);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow("Property Alias", "property to use as source for image (recursive)", this.propertyAliasPicker, this.propertyAliasPickerRequiredFieldValidator);
+            writer.AddPrevalueRow("Image Property Alias", "(recursive) property to use as source for image", this.imagePropertyAliasPicker, this.imagePropertyAliasPickerRequiredFieldValidator);
         }
     }
 }

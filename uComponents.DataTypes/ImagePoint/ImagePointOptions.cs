@@ -12,7 +12,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// Alias to the property to get url for image
         /// </summary>
         [DefaultValue("")]
-        public string PropertyAlias { get; set; }
+        public string ImagePropertyAlias { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImagePointOptions"/> class.
