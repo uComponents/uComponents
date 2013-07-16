@@ -19,11 +19,6 @@ namespace uComponents.DataTypes.ImagePoint
         private propertyTypePicker imagePropertyAliasPicker = new propertyTypePicker();
 
         /// <summary>
-        /// RequiredFieldValidator for the ProperyAliasPicker
-        /// </summary>
-        private RequiredFieldValidator imagePropertyAliasPickerRequiredFieldValidator = new RequiredFieldValidator();
-
-        /// <summary>
         /// Optional width
         /// </summary>
         private TextBox widthTextBox = new TextBox();
@@ -78,10 +73,6 @@ namespace uComponents.DataTypes.ImagePoint
         {
             this.imagePropertyAliasPicker.ID = "imagePropertyAliasPicker";
 
-            this.imagePropertyAliasPickerRequiredFieldValidator.Text = " " + Helper.Dictionary.GetDictionaryItem("Required", "Required");
-            this.imagePropertyAliasPickerRequiredFieldValidator.InitialValue = string.Empty;
-            this.imagePropertyAliasPickerRequiredFieldValidator.ControlToValidate = this.imagePropertyAliasPicker.ID;
-
             this.widthTextBox.ID = "widthTextBox";
             this.widthTextBox.Width = 30;
             this.widthTextBox.MaxLength = 4;
@@ -92,7 +83,6 @@ namespace uComponents.DataTypes.ImagePoint
 
             this.Controls.AddPrevalueControls(
                 this.imagePropertyAliasPicker,
-                this.imagePropertyAliasPickerRequiredFieldValidator,
                 this.widthTextBox,
                 this.heightTextBox);
         }
@@ -162,7 +152,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow("Image Property Alias", "(recursive) property to use as source for image", this.imagePropertyAliasPicker, this.imagePropertyAliasPickerRequiredFieldValidator);
+            writer.AddPrevalueRow("Image Property Alias", "(recursive) property to use as source for image", this.imagePropertyAliasPicker);
             writer.AddPrevalueRow("Width", "width in px (0 = calculate from image)", this.widthTextBox);
             writer.AddPrevalueRow("Height", "height in px (0 = calculate from image)", this.heightTextBox);
         }
