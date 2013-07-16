@@ -12,9 +12,12 @@ using umbraco.cms.businesslogic.property;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
 using Umbraco.Web;
+using umbraco.editorControls;
+using System.Web.UI.HtmlControls;
 
+[assembly: WebResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.ImagePoint
-{
+{   
     /// <summary>
     /// Image Point Data Type
     /// </summary>
@@ -29,6 +32,11 @@ namespace uComponents.DataTypes.ImagePoint
         /// Field for the options.
         /// </summary>
         private ImagePointOptions options;
+
+        /// <summary>
+        /// Wrapping div
+        /// </summary>
+        private HtmlGenericControl div = new HtmlGenericControl("div");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImagePointDataEditor"/> class. 
@@ -83,7 +91,8 @@ namespace uComponents.DataTypes.ImagePoint
         /// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
         /// </summary>
         protected override void CreateChildControls()
-        { 
+        {
+            this.Controls.Add(this.div);
         }
 
         /// <summary>
@@ -98,6 +107,17 @@ namespace uComponents.DataTypes.ImagePoint
             if (!this.Page.IsPostBack && this.data.Value != null)
             {
             }
+
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", ClientDependencyType.Javascript);
+
+            string startupScript = @"
+                <script language='javascript' type='text/javascript'>
+                    $(document).ready(function () {
+                        ImagePoint.init(jQuery('div#" + this.div.ClientID + @"'));
+                    });
+                </script>";
+
+            ScriptManager.RegisterStartupScript(this, typeof(ImagePointDataEditor), this.ClientID + "_init", startupScript, false);
         }
 
         /// <summary>

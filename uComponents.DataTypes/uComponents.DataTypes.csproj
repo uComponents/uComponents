@@ -509,6 +509,7 @@
       <DependentUpon>jquery.ucomponents.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared\Resources\Scripts\jquery.ucomponents.js" />
+    <EmbeddedResource Include="ImagePoint\ImagePoint.js" />
     <Content Include="Shared\WebServices\DictionaryService.asmx" />
     <Content Include="Similarity\Net\LICENSE.txt" />
     <Content Include="Similarity\Net\README.txt" />
