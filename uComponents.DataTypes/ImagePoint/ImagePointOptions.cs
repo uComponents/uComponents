@@ -9,12 +9,6 @@ namespace uComponents.DataTypes.ImagePoint
     public class ImagePointOptions : AbstractOptions
     {
         /// <summary>
-        /// Alias to the property to get url for image
-        /// </summary>
-        [DefaultValue("")]
-        public string ImagePropertyAlias { get; set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ImagePointOptions"/> class.
         /// </summary>
         public ImagePointOptions()
@@ -29,5 +23,23 @@ namespace uComponents.DataTypes.ImagePoint
             : base(loadDefaults)
         {
         }
+
+        /// <summary>
+        /// Gets or sets the alias to the property for the image url (TODO: make this optional ?)
+        /// </summary>
+        [DefaultValue("")]
+        public string ImagePropertyAlias { get; set; }
+
+        /// <summary>
+        /// Gets or sets an optional width
+        /// </summary>
+        [DefaultValue(0)]
+        public int Width { get; set; }
+
+        /// <summary>
+        /// Gets or sets an optional height
+        /// </summary>
+        [DefaultValue(0)]
+        public int Height { get; set; }
     }
 }

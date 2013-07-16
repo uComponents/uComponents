@@ -24,6 +24,16 @@ namespace uComponents.DataTypes.ImagePoint
         private RequiredFieldValidator imagePropertyAliasPickerRequiredFieldValidator = new RequiredFieldValidator();
 
         /// <summary>
+        /// Optional width
+        /// </summary>
+        private TextBox widthTextBox = new TextBox();
+
+        /// <summary>
+        /// Optional height
+        /// </summary>
+        private TextBox heightTextBox = new TextBox();
+
+        /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
         /// </summary>
         private ImagePointOptions options = null;
@@ -72,9 +82,19 @@ namespace uComponents.DataTypes.ImagePoint
             this.imagePropertyAliasPickerRequiredFieldValidator.InitialValue = string.Empty;
             this.imagePropertyAliasPickerRequiredFieldValidator.ControlToValidate = this.imagePropertyAliasPicker.ID;
 
-            this.Controls.Add(this.imagePropertyAliasPicker);
-            this.Controls.Add(this.imagePropertyAliasPickerRequiredFieldValidator);
+            this.widthTextBox.ID = "widthTextBox";
+            this.widthTextBox.Width = 30;
+            this.widthTextBox.MaxLength = 4;
 
+            this.heightTextBox.ID = "heightTextBox";
+            this.heightTextBox.Width = 30;
+            this.heightTextBox.MaxLength = 4;
+
+            this.Controls.AddPrevalueControls(
+                this.imagePropertyAliasPicker,
+                this.imagePropertyAliasPickerRequiredFieldValidator,
+                this.widthTextBox,
+                this.heightTextBox);
         }
 
         /// <summary>
@@ -92,6 +112,9 @@ namespace uComponents.DataTypes.ImagePoint
                 {
                     this.imagePropertyAliasPicker.SelectedValue = this.Options.ImagePropertyAlias;
                 }
+
+                this.widthTextBox.Text = this.Options.Width.ToString();
+                this.heightTextBox.Text = this.Options.Height.ToString();
             }
         }
 
@@ -103,6 +126,14 @@ namespace uComponents.DataTypes.ImagePoint
             if (this.Page.IsValid)
             {
                 this.Options.ImagePropertyAlias = this.imagePropertyAliasPicker.SelectedValue;
+
+                int width;
+                int.TryParse(this.widthTextBox.Text, out width);
+                this.Options.Width = width;
+
+                int height;
+                int.TryParse(this.heightTextBox.Text, out height);
+                this.Options.Height = height;
 
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
@@ -132,6 +163,8 @@ namespace uComponents.DataTypes.ImagePoint
         protected override void RenderContents(HtmlTextWriter writer)
         {
             writer.AddPrevalueRow("Image Property Alias", "(recursive) property to use as source for image", this.imagePropertyAliasPicker, this.imagePropertyAliasPickerRequiredFieldValidator);
+            writer.AddPrevalueRow("Width", "width in px (0 = calculate from image)", this.widthTextBox);
+            writer.AddPrevalueRow("Height", "height in px (0 = calculate from image)", this.heightTextBox);
         }
     }
 }
