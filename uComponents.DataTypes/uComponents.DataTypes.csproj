@@ -338,6 +338,7 @@
     <Compile Include="FilePicker\FP_Control.cs" />
     <Compile Include="FilePicker\FP_DataType.cs" />
     <Compile Include="FilePicker\FP_PrevalueEditor.cs" />
+    <Compile Include="ImagePoint\ImagePoint.cs" />
     <Compile Include="ImagePoint\ImagePointDataEditor.cs" />
     <Compile Include="ImagePoint\ImagePointDataType.cs" />
     <Compile Include="ImagePoint\ImagePointOptions.cs" />

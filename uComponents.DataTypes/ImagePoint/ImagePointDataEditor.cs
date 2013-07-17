@@ -210,12 +210,25 @@ namespace uComponents.DataTypes.ImagePoint
             if (!this.Page.IsPostBack && this.data.Value != null)
             {
                 // set the x and y textboxes
-                string[] coordinates = this.data.Value.ToString().Split(',');
-                if (coordinates.Length == 2)
+                ImagePoint value = new ImagePoint();
+                ((uQuery.IGetProperty)value).LoadPropertyValue(this.data.Value.ToString());
+
+                if (value.X != null)
                 {
-                    this.xTextBox.Text = coordinates[0];
-                    this.yTextBox.Text = coordinates[1];
+                    this.xTextBox.Text = value.X.ToString();
                 }
+
+                if (value.Y != null)
+                {
+                    this.yTextBox.Text = value.Y.ToString();
+                }
+
+                //string[] coordinates = this.data.Value.ToString().Split(',');
+                //if (coordinates.Length == 2)
+                //{
+                //    this.xTextBox.Text = coordinates[0];
+                //    this.yTextBox.Text = coordinates[1];
+                //}
             }
 
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", ClientDependencyType.Javascript);
