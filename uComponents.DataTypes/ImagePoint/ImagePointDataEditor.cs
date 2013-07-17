@@ -14,14 +14,21 @@ using umbraco.interfaces;
 using Umbraco.Web;
 using umbraco.editorControls;
 using System.Web.UI.HtmlControls;
+using System.IO;
+using System.Web;
+using System.Drawing;
+using Image = System.Web.UI.WebControls.Image;
 using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
 
+[assembly: WebResource("uComponents.DataTypes.ImagePoint.ImagePoint.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", Constants.MediaTypeNames.Application.JavaScript)]
+[assembly: WebResource("uComponents.DataTypes.ImagePoint.ImagePointMarker.png", Constants.MediaTypeNames.Image.Png)]
 namespace uComponents.DataTypes.ImagePoint
 {
     /// <summary>
     /// Image Point Data Type
     /// </summary>
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
     public class ImagePointDataEditor : CompositeControl, IDataEditor
     {
         /// <summary>
@@ -52,7 +59,12 @@ namespace uComponents.DataTypes.ImagePoint
         /// <summary>
         /// Image tag used to define the x, y area
         /// </summary>
-        private Image image = new Image();
+        private Image mainImage = new Image();
+
+        /// <summary>
+        /// Image used to mark the point
+        /// </summary>
+        private Image markerImage = new Image();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImagePointDataEditor"/> class. 
@@ -119,29 +131,127 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         protected override void CreateChildControls()
         {
-            /*
-             *  <div>
-             *      <input type="text" />
-             *      <input type="text" />
-             *      <img src="" (width="") (height="") />
+            /*  
+             * 
+             *  <div class="image-point">
+             *      <input type="text" class="x" />
+             *      <input type="text" class="y" />
+             *      <div class="area">
+             *          <img src="" width="" height="" class="main" />
+             *          <ing src="" class="marker" />
+             *      </div>
              *  </div>
              * 
              */
+            this.div.Attributes.Add("class", "image-point");
 
             this.xTextBox.ID = "xTextBox";
+            this.xTextBox.CssClass = "x";
             this.xTextBox.Width = 30;
             this.xTextBox.MaxLength = 4;                        
 
             this.yTextBox.ID = "yTextBox";
+            this.yTextBox.CssClass = "y";
             this.yTextBox.Width = 30;
             this.yTextBox.MaxLength = 4;
 
+            WebControl areaDiv = new WebControl(HtmlTextWriterTag.Div);
+            areaDiv.CssClass = "area";
+            areaDiv.Controls.Add(this.mainImage);
+            areaDiv.Controls.Add(this.markerImage);
+
+            this.mainImage.CssClass = "main";           
+
+            this.markerImage.CssClass = "marker";
+            this.markerImage.ImageUrl = this.Page.ClientScript.GetWebResourceUrl(this.GetType(), "uComponents.DataTypes.ImagePoint.ImagePointMarker.png");
+
+            this.div.Controls.Add(new Literal() { Text = "X " });
+            this.div.Controls.Add(this.xTextBox);
+            this.div.Controls.Add(new Literal() { Text = " Y " });
+            this.div.Controls.Add(this.yTextBox);
+            this.div.Controls.Add(new Literal() { Text = "<br />" });
+            this.div.Controls.Add(areaDiv);
+
+            this.Controls.Add(this.div);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            this.EnsureChildControls();
+
+            this.CalculateWidthHeight();
+
+            if (!this.Page.IsPostBack && this.data.Value != null)
+            {
+                // set the x and y textboxes
+
+                // the ImagePoint class is usually be used by uQuery: eg. uQuery.GetCurrentNode().GetProperty<ImagePoint>("alias").X;
+                ImagePoint value = new ImagePoint();
+                ((uQuery.IGetProperty)value).LoadPropertyValue(this.data.Value.ToString());
+
+                if (value.X != null)
+                {
+                    this.xTextBox.Text = value.X.ToString();
+                }
+
+                if (value.Y != null)
+                {
+                    this.yTextBox.Text = value.Y.ToString();
+                }
+
+                // replaced with the uQuery.GetProperty type method above
+                //string[] coordinates = this.data.Value.ToString().Split(',');
+                //if (coordinates.Length == 2)
+                //{
+                //    this.xTextBox.Text = coordinates[0];
+                //    this.yTextBox.Text = coordinates[1];
+                //}
+            }
+
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.ImagePoint.ImagePoint.css", ClientDependencyType.Css);
+            this.RegisterEmbeddedClientResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", ClientDependencyType.Javascript);
+
+            string startupScript = @"
+                <script language='javascript' type='text/javascript'>
+                    $(document).ready(function () {
+                        ImagePoint.init(jQuery('div#" + this.div.ClientID + @"'));
+                    });
+                </script>";
+
+            ScriptManager.RegisterStartupScript(this, typeof(ImagePointDataEditor), this.ClientID + "_init", startupScript, false);
+        }
+
+        /// <summary>
+        /// Called by Umbraco when saving the node
+        /// </summary>
+        public void Save()
+        {
+            this.data.Value = this.xTextBox.Text + "," + this.yTextBox.Text;
+        }
+
+        /// <summary>
+        /// Calculates the width and height and sets these as data-attributes on the containing div (as well as on the image)
+        /// if a width or height value has been supplied then these are used in preference to the image dimensions
+        /// if a width or height value has been supplied, and one of these = 0, then it needs to be calculated from the image dimensions (so as to keep the aspect ratio)
+        /// </summary>
+        private void CalculateWidthHeight()
+        {            
+            int width = 0; // default unknown values
+            int height = 0;
+            Size imageSize = new Size(0, 0);
+           
             if (!string.IsNullOrWhiteSpace(this.options.ImagePropertyAlias))
             {
+                string imageUrl = null;
+
+                // used large try/catch block to simply checking for nulls on content / media & members
                 try
                 {
-                    string imageUrl = null;
-
                     // looking for the specified property
                     switch (uQuery.GetUmbracoObjectType(this.CurrentContentId))
                     {
@@ -164,91 +274,67 @@ namespace uComponents.DataTypes.ImagePoint
 
                             break;
                     }
-
-                    if (!string.IsNullOrWhiteSpace(imageUrl))
-                    {
-                        this.image.ImageUrl = imageUrl;
-                    }
                 }
                 catch
                 {
                     // node, media or member with specified property couldn't be found
-
                     // TODO: if debug mode on, then thow exception, else be silent
                 }
+
+                if (!string.IsNullOrWhiteSpace(imageUrl))
+                {
+                    // attempt to get image from the url
+                    string imagePath = HttpContext.Current.Server.MapPath(imageUrl);
+                    if (File.Exists(imagePath))
+                    {                        
+                        using (System.Drawing.Image image = System.Drawing.Image.FromFile(imagePath))
+                        {
+                            if (image != null)
+                            {
+                                this.mainImage.ImageUrl = imageUrl;
+
+                                imageSize = image.Size;
+                            }
+                        }
+                    }
+                }
             }
-           
+
             if (this.options.Width > 0)
             {
-                this.image.Width = this.options.Width;
+                width = this.options.Width;                
+            }
+            else
+            {
+                // calculate width from the image + height setting
+
+                //TODO: FIGURE OUT HOW TO CALCULATE 
+                if (this.options.Height == 0)
+                {
+
+                }
+
+                width = imageSize.Width;
+
             }
 
             if (this.options.Height > 0)
             {
-                this.image.Height = this.options.Height;
+                height = this.options.Height;
             }
-
-            this.div.Controls.Add(new Literal() { Text = "X " });
-            this.div.Controls.Add(this.xTextBox);
-            this.div.Controls.Add(new Literal() { Text = " Y " });
-            this.div.Controls.Add(this.yTextBox);
-            this.div.Controls.Add(new HtmlGenericControl("br"));
-            this.div.Controls.Add(this.image);
-
-            this.Controls.Add(this.div);
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
-        /// </summary>
-        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            this.EnsureChildControls();
-
-            if (!this.Page.IsPostBack && this.data.Value != null)
+            else
             {
-                // set the x and y textboxes
-                ImagePoint value = new ImagePoint();
-                ((uQuery.IGetProperty)value).LoadPropertyValue(this.data.Value.ToString());
+                // calculate height from the image + width setting
 
-                if (value.X != null)
-                {
-                    this.xTextBox.Text = value.X.ToString();
-                }
+                height = imageSize.Height;
 
-                if (value.Y != null)
-                {
-                    this.yTextBox.Text = value.Y.ToString();
-                }
-
-                //string[] coordinates = this.data.Value.ToString().Split(',');
-                //if (coordinates.Length == 2)
-                //{
-                //    this.xTextBox.Text = coordinates[0];
-                //    this.yTextBox.Text = coordinates[1];
-                //}
             }
 
-            this.RegisterEmbeddedClientResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", ClientDependencyType.Javascript);
+            this.mainImage.Width = width;
+            this.mainImage.Attributes["width"] = width.ToString();
 
-            string startupScript = @"
-                <script language='javascript' type='text/javascript'>
-                    $(document).ready(function () {
-                        ImagePoint.init(jQuery('div#" + this.div.ClientID + @"'));
-                    });
-                </script>";
-
-            ScriptManager.RegisterStartupScript(this, typeof(ImagePointDataEditor), this.ClientID + "_init", startupScript, false);
-        }
-
-        /// <summary>
-        /// Called by Umbraco when saving the node
-        /// </summary>
-        public void Save()
-        {
-            this.data.Value = this.xTextBox.Text + "," + this.yTextBox.Text;
+            this.mainImage.Height = height;
+            this.mainImage.Attributes["height"] = height.ToString();
         }
     }
 }

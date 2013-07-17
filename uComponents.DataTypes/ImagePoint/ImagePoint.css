@@ -1,0 +1,17 @@
+﻿.image-point .main
+{    
+    cursor:crosshair;
+}
+
+.image-point .area 
+{
+    position:relative;
+
+}
+
+.image-point .marker 
+{
+    display: none;
+    position: absolute;
+    cursor: move;
+}
