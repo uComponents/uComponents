@@ -28,18 +28,27 @@ var ImagePoint = ImagePoint || (function () {
         var width = mainImage.attr('width');
         var height = mainImage.attr('height');
         
+        // obj used to group params for setPoint call
+        var context = {
+            'xTextBox': xTextBox,
+            'yTextBox': yTextBox,
+            'width': width,
+            'height': height,
+            'markerImage': markerImage
+        };
+
         // set point from saved data
-        setPoint(xTextBox, yTextBox, width, height, { 'x': x, 'y': y }, markerImage);
+        setPoint(context, { 'x': x, 'y': y });
 
         mainImage.click(function (event) {
-            setPoint(xTextBox, yTextBox, width, height, getCoodinates(event, mainImage), markerImage);
+            setPoint(context, getCoodinates(event, mainImage));
         });
 
         markerImage.draggable({
             start: function () {
             },
             drag: function (event) {
-                setPoint(xTextBox, yTextBox, width, height, getCoodinates(event, mainImage), markerImage);
+                setPoint(context, getCoodinates(event, mainImage));
             },
             stop: function () {
             }
@@ -49,14 +58,16 @@ var ImagePoint = ImagePoint || (function () {
             if (!yTextBox.val()) {
                 yTextBox.val(0);
             }
-            setPoint(xTextBox, yTextBox, width, height, { 'x': parseInt(xTextBox.val()), 'y': parseInt(yTextBox.val()) }, markerImage);
+
+            setPoint(context, { 'x': parseInt(xTextBox.val()), 'y': parseInt(yTextBox.val()) });
         });
 
         yTextBox.change(function () {
             if (!xTextBox.val()) {
                 xTextBox.val(0);
             }
-            setPoint(xTextBox, yTextBox, width, height, { 'x': parseInt(xTextBox.val()), 'y': parseInt(yTextBox.val()) }, markerImage);
+
+            setPoint(context, { 'x': parseInt(xTextBox.val()), 'y': parseInt(yTextBox.val()) });
         });
     }
 
@@ -68,14 +79,14 @@ var ImagePoint = ImagePoint || (function () {
         };
     }
 
-    function setPoint(xTextBox, yTextBox, width, height, coordinates, markerImage) {
+    function setPoint(context, coordinates) {
 
-        if (coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x <= width && coordinates.y <= height) {
+        if (coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x <= context.width && coordinates.y <= context.height) {
 
-            xTextBox.val(coordinates.x);
-            yTextBox.val(coordinates.y);
+            context.xTextBox.val(coordinates.x);
+            context.yTextBox.val(coordinates.y);
 
-            markerImage.css({
+            context.markerImage.css({
                 'display': 'block',
                 'left': (coordinates.x - 7) + 'px',
                 'top': (coordinates.y - 7) + 'px'
@@ -83,10 +94,10 @@ var ImagePoint = ImagePoint || (function () {
 
         } else { // outside bounds
             
-            xTextBox.val('');
-            yTextBox.val('');
+            context.xTextBox.val('');
+            context.yTextBox.val('');
 
-            markerImage.hide();
+            context.markerImage.hide();
         }
     }
 
