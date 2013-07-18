@@ -1,28 +1,23 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using umbraco;
-using umbraco.BusinessLogic;
-using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.cms.businesslogic.property;
-using umbraco.cms.businesslogic.web;
-using umbraco.interfaces;
-using Umbraco.Web;
 using umbraco.editorControls;
-using System.Web.UI.HtmlControls;
-using System.IO;
-using System.Web;
-using System.Drawing;
-using Image = System.Web.UI.WebControls.Image;
+using umbraco.interfaces;
 using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
+using Image = System.Web.UI.WebControls.Image;
 
 [assembly: WebResource("uComponents.DataTypes.ImagePoint.ImagePoint.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.ImagePoint.ImagePoint.js", Constants.MediaTypeNames.Application.JavaScript)]
 [assembly: WebResource("uComponents.DataTypes.ImagePoint.ImagePointMarker.png", Constants.MediaTypeNames.Image.Png)]
+
 namespace uComponents.DataTypes.ImagePoint
 {
     /// <summary>
@@ -134,8 +129,8 @@ namespace uComponents.DataTypes.ImagePoint
             /*  
              * 
              *  <div class="image-point">
-             *      <input type="text" class="x" />
-             *      <input type="text" class="y" />
+             *      X <input type="text" class="x" />
+             *      Y <input type="text" class="y" />
              *      <div class="area">
              *          <img src="" width="" height="" class="main" />
              *          <ing src="" class="marker" />
@@ -184,33 +179,17 @@ namespace uComponents.DataTypes.ImagePoint
             base.OnLoad(e);
             this.EnsureChildControls();
 
-            this.CalculateWidthHeight();
+            this.SetImageAndSize();
 
             if (!this.Page.IsPostBack && this.data.Value != null)
             {
                 // set the x and y textboxes
-
-                // the ImagePoint class is usually be used by uQuery: eg. uQuery.GetCurrentNode().GetProperty<ImagePoint>("alias").X;
-                ImagePoint value = new ImagePoint();
-                ((uQuery.IGetProperty)value).LoadPropertyValue(this.data.Value.ToString());
-
-                if (value.X != null)
+                string[] coordinates = this.data.Value.ToString().Split(',');
+                if (coordinates.Length == 2)
                 {
-                    this.xTextBox.Text = value.X.ToString();
+                    this.xTextBox.Text = coordinates[0];
+                    this.yTextBox.Text = coordinates[1];
                 }
-
-                if (value.Y != null)
-                {
-                    this.yTextBox.Text = value.Y.ToString();
-                }
-
-                // replaced with the uQuery.GetProperty type method above
-                //string[] coordinates = this.data.Value.ToString().Split(',');
-                //if (coordinates.Length == 2)
-                //{
-                //    this.xTextBox.Text = coordinates[0];
-                //    this.yTextBox.Text = coordinates[1];
-                //}
             }
 
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.ImagePoint.ImagePoint.css", ClientDependencyType.Css);
@@ -239,7 +218,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// if a width or height value has been supplied then these are used in preference to the image dimensions
         /// if a width or height value has been supplied, and one of these = 0, then it needs to be calculated from the image dimensions (so as to keep the aspect ratio)
         /// </summary>
-        private void CalculateWidthHeight()
+        private void SetImageAndSize()
         {            
             int width = 0; // default unknown values
             int height = 0;
@@ -315,18 +294,17 @@ namespace uComponents.DataTypes.ImagePoint
                 width = (int)(imageSize.Width / ((decimal)(imageSize.Height / this.options.Height)));
                 height = this.options.Height;
             }
-
-            // width and height set, so stretch image to fit
             else if (this.options.Width > 0 && this.options.Height > 0)
             {
+                // width and height set, so stretch image to fit
                 width = this.options.Width;
                 height = this.options.Height;
             }
 
-            this.mainImage.Width = width;
+            //this.mainImage.Width = width;
             this.mainImage.Attributes["width"] = width.ToString();
 
-            this.mainImage.Height = height;
+            //this.mainImage.Height = height;
             this.mainImage.Attributes["height"] = height.ToString();
         }
     }

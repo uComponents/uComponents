@@ -1,12 +1,12 @@
 ﻿
 /*    
-    <div id="body_prop_hotSpotCoordinates_ctl00">
-        X <input name="ctl00$body$prop_hotSpotCoordinates$xTextBox" type="text" maxlength="4" id="body_prop_hotSpotCoordinates_xTextBox" style="width:30px;"> 
-        Y <input name="ctl00$body$prop_hotSpotCoordinates$yTextBox" type="text" value="3" maxlength="4" id="body_prop_hotSpotCoordinates_yTextBox" style="width:30px;">
+    <div id="" class="image-point">
+        X <input type="text" class="x" />
+        Y <input type="text" class="y" />
         <br />
         <div class="area">
-            <img src="/media/1001/wp_000142.jpg" style="width:400px;height=400px;" width="400" height="400" />
-            <img class="marker" />
+            <img src="" width="" height="" class="main" />
+            <ing src="" class="marker" />
         </div>
     </div>
 */
@@ -22,57 +22,58 @@ var ImagePoint = ImagePoint || (function () {
         var mainImage = areaDiv.find('img.main:first');
         var markerImage = areaDiv.find('img.marker:first');
 
-        // set temp vars for setup
-        var x = xTextBox.val();
-        var y = yTextBox.val();
+        // set vars
+        var x = parseInt(xTextBox.val());
+        var y = parseInt(yTextBox.val());
         var width = mainImage.attr('width');
         var height = mainImage.attr('height');
         
-        // check to see if the marker should be rendered from the stored value
-        if (jQuery.isNumeric(x) && jQuery.isNumeric(y) && x >= 0 && y >= 0 && x <= width && y <= height) {
-            setPoint(xTextBox, yTextBox, markerImage, { x: x, y: y });
-        }
+        // set point from saved data
+        setPoint(xTextBox, yTextBox, width, height, { 'x': x, 'y': y }, markerImage);
 
         mainImage.click(function (event) {
-            setPoint(xTextBox, yTextBox, markerImage, getCoodinates(event.clientX, event.clientY, mainImage));
+            setPoint(xTextBox, yTextBox, width, height, getCoodinates(event, mainImage), markerImage);
         });
 
         markerImage.draggable({
             start: function () {
             },
             drag: function (event) {
-
-                var coordinates = getCoodinates(event.clientX, event.clientY, mainImage);
-
-                if (coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x <= mainImage.attr('width') && coordinates.y <= mainImage.attr('height')) {
-                    setPoint(xTextBox, yTextBox, markerImage, coordinates);
-                }
-                
+                setPoint(xTextBox, yTextBox, width, height, getCoodinates(event, mainImage), markerImage);                
             },
             stop: function () {
             }
         });
     }
 
-    function getCoodinates(clientX, clientY, mainImage) {
+    function getCoodinates(event, mainImage) {
 
         return {
-            x: Math.round(clientX - mainImage.offset().left),
-            y: Math.round(clientY - mainImage.offset().top)
+            'x': Math.round(event.clientX - mainImage.offset().left),
+            'y': Math.round(event.clientY - mainImage.offset().top)
         };
     }
 
-    function setPoint(xTextBox, yTextBox, markerImage, coordinates) {
-        
-        xTextBox.val(coordinates.x);
-        yTextBox.val(coordinates.y);
+    function setPoint(xTextBox, yTextBox, width, height, coordinates, markerImage) {
+                        
+        if (coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x <= width && coordinates.y <= height) {
 
-        markerImage.css({
-            'display': 'block',
-            'left': (coordinates.x - 7) + 'px',
-            'top': (coordinates.y - 7) + 'px'
-        });
-        
+            xTextBox.val(coordinates.x);
+            yTextBox.val(coordinates.y);
+
+            markerImage.css({
+                'display': 'block',
+                'left': (coordinates.x - 7) + 'px',
+                'top': (coordinates.y - 7) + 'px'
+            });
+
+        } else { // outside bounds
+            
+            xTextBox.val('');
+            yTextBox.val('');
+
+            markerImage.hide();
+        }
     }
 
     // public interface
