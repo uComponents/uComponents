@@ -289,45 +289,38 @@ namespace uComponents.DataTypes.ImagePoint
                     {                        
                         using (System.Drawing.Image image = System.Drawing.Image.FromFile(imagePath))
                         {
-                            if (image != null)
-                            {
-                                this.mainImage.ImageUrl = imageUrl;
+                            this.mainImage.ImageUrl = imageUrl;
 
-                                imageSize = image.Size;
-                            }
+                            imageSize = image.Size;
                         }
                     }
                 }
             }
-
-            if (this.options.Width > 0)
+            
+            if (this.options.Width == 0 && this.options.Height == 0)
             {
-                width = this.options.Width;                
-            }
-            else
-            {
-                // calculate width from the image + height setting
-
-                //TODO: FIGURE OUT HOW TO CALCULATE 
-                if (this.options.Height == 0)
-                {
-
-                }
-
+                // neither value set, so use image dimensions
                 width = imageSize.Width;
-
-            }
-
-            if (this.options.Height > 0)
+                height = imageSize.Height;
+            }            
+            else if (this.options.Width > 0 && this.options.Height == 0)
             {
+                // width set, so calulate height
+                width = this.options.Width;
+                height = (int)(imageSize.Height / ((decimal)(imageSize.Width / this.options.Width)));
+            }            
+            else if (this.options.Width == 0 && this.options.Height > 0)
+            {
+                // height set, so calculate width
+                width = (int)(imageSize.Width / ((decimal)(imageSize.Height / this.options.Height)));
                 height = this.options.Height;
             }
-            else
+
+            // width and height set, so stretch image to fit
+            else if (this.options.Width > 0 && this.options.Height > 0)
             {
-                // calculate height from the image + width setting
-
-                height = imageSize.Height;
-
+                width = this.options.Width;
+                height = this.options.Height;
             }
 
             this.mainImage.Width = width;
