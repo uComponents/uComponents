@@ -39,10 +39,24 @@ var ImagePoint = ImagePoint || (function () {
             start: function () {
             },
             drag: function (event) {
-                setPoint(xTextBox, yTextBox, width, height, getCoodinates(event, mainImage), markerImage);                
+                setPoint(xTextBox, yTextBox, width, height, getCoodinates(event, mainImage), markerImage);
             },
             stop: function () {
             }
+        });        
+
+        xTextBox.change(function () {
+            if (!yTextBox.val()) {
+                yTextBox.val(0);
+            }
+            setPoint(xTextBox, yTextBox, width, height, { 'x': parseInt(xTextBox.val()), 'y': parseInt(yTextBox.val()) }, markerImage);
+        });
+
+        yTextBox.change(function () {
+            if (!xTextBox.val()) {
+                xTextBox.val(0);
+            }
+            setPoint(xTextBox, yTextBox, width, height, { 'x': parseInt(xTextBox.val()), 'y': parseInt(yTextBox.val()) }, markerImage);
         });
     }
 
@@ -55,7 +69,7 @@ var ImagePoint = ImagePoint || (function () {
     }
 
     function setPoint(xTextBox, yTextBox, width, height, coordinates, markerImage) {
-                        
+
         if (coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x <= width && coordinates.y <= height) {
 
             xTextBox.val(coordinates.x);
