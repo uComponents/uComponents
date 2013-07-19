@@ -29,6 +29,9 @@ var ImagePoint = ImagePoint || (function () {
             .click(function (event) {
                 setPoint(context, getCoodinates(context, event));
             })
+            .bind('dragstart', function () {
+                return false;
+            })
             .bind('contextmenu', function () {
                 return false;
             });
