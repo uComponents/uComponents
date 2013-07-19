@@ -25,19 +25,26 @@ var ImagePoint = ImagePoint || (function () {
         // set point from saved data
         setPoint(context);
 
-        context.mainImage.click(function (event) {
-            setPoint(context, getCoodinates(context, event));
-        });
-
-        context.markerImage.draggable({
-            drag: function (event) {
+        context.mainImage
+            .click(function (event) {
                 setPoint(context, getCoodinates(context, event));
-            }
-        });        
+            })
+            .bind('contextmenu', function () {
+                return false;
+            });
+
+        context.markerImage
+            .draggable({
+                drag: function (event) {
+                    setPoint(context, getCoodinates(context, event));
+                }
+            })
+            .bind('contextmenu', function () {
+                return false;
+            });
 
         context.xTextBox.change(function () {
 
-            // if y is not set, then set it to 0
             if (!context.yTextBox.val()) {
                 context.yTextBox.val(0);
             }
@@ -47,7 +54,6 @@ var ImagePoint = ImagePoint || (function () {
 
         context.yTextBox.change(function () {
 
-            // if x not set, then set it to 0
             if (!context.xTextBox.val()) {
                 context.xTextBox.val(0);
             }
