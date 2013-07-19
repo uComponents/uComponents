@@ -19,3 +19,4 @@ UpgradeLog.*
 *.ncrunchproject
 _NCrunch_uComponents/uComponents.crunchsolution.cache
 packages/*
+BuildPackage/uComponents.*.zip

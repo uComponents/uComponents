@@ -10,7 +10,7 @@ function RegexValidate(source, args) {
 	var uComponentsDataTypeGrid = {
 		init: function (options) {
 			return this.each(function () {
-
+				
 				var defaults = {
 					bJQueryUI: true,
 					bLengthChange: false,
@@ -153,7 +153,7 @@ function RegexValidate(source, args) {
 					// Set first column width
 					$(container).find("th.actions, td.actions").width(19);
 				}
-
+				
 				function configureSortable(container) {
 					var table = $(container).find(".dataTables_scrollBody table.display");
 					var tbody = $(table).children("tbody");
@@ -178,7 +178,7 @@ function RegexValidate(source, args) {
 						}
 					});
 				}
-
+				
 				function sortValue(container) {
 					// Update value sortorder
 					var values = $.parseXML($(container).find("input[id$='Value']").val());

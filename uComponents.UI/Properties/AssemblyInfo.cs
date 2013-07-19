@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("uComponents.UI")]
 [assembly: AssemblyDescription("UI modules for Umbraco/uComponents.")]
@@ -13,3 +14,5 @@
 [assembly: AssemblyCopyright("Copyright \xa9 The Umbraco Community 2013")]
 [assembly: AssemblyTrademark("The Umbraco Community")]
 [assembly: AssemblyCulture("")]
+
+[assembly: ComVisible(false)]

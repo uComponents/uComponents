@@ -1,9 +1,16 @@
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Web.UI;
 using uComponents.Core;
 
 [assembly: AssemblyTitle("uComponents.DataTypes")]
 [assembly: AssemblyDescription("DataTypes for Umbraco/uComponents.")]
+
+[assembly: ComVisible(false)]
+
+[assembly: AssemblyVersion("0.0.0.0")]
+[assembly: AssemblyFileVersion("0.0.0.0")]
+[assembly: AssemblyInformationalVersion("0.0.0.0")]
 
 [assembly: AssemblyVersion("0.0.0.0")]
 [assembly: AssemblyFileVersion("0.0.0.0")]

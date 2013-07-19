@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Xml;
@@ -242,10 +243,18 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		[TestMethod]
 		public void ToUnixTimeTest()
 		{
-			var date = "24/06/2012 00:00";
-			var expected = 1340496000F;
-			var actual = Dates.ToUnixTime(date);
-			Assert.AreEqual(expected, actual);
+			var dates = new Dictionary<string, double>()
+			{
+				{ "01/01/1970 00:00", 0D },
+				{ "30/07/1978 18:38", 270671880D },
+				{ "29/06/2010 00:00", 1277769600D },
+				{ "24/06/2012 00:00", 1340496000D }
+			};
+
+			foreach (var date in dates)
+			{
+				Assert.AreEqual(date.Value, Dates.ToUnixTime(date.Key), string.Format("Problem with '{0}'. Expected {1} but was not that.", date.Key, date.Value));
+			}
 		}
 
 		[TestMethod]
