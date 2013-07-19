@@ -26,9 +26,13 @@ Hendy - Hendy Racher - Project Coordinator
 	CheckBoxTree
 	Enum CheckBoxList
 	Enum DropDownList
+	Image Point
 	MultiPicker Relations
+	SQL AutoComplete
+	SQL CheckBoxList
 	SQL DropDownList
 	Sub Tabs
+	XPath AutoComplete
 	XPath CheckBoxList
 	XPath DropDownList
 	uQuery
@@ -43,6 +47,7 @@ dascoba - Daniel Bardi
 diachedelic - James Diacono
 	Multi-URL Picker
 	URL Picker
+	uMapper
 
 ismailm - Ismail Mayat
 	Country Picker
