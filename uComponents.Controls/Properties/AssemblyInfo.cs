@@ -18,16 +18,5 @@ using System.Web.UI;
 [assembly: AssemblyFileVersion("0.0.0.0")]
 [assembly: AssemblyInformationalVersion("0.0.0.0")]
 
-[assembly: AssemblyVersion("0.0.0.0")]
-[assembly: AssemblyFileVersion("0.0.0.0")]
-[assembly: AssemblyInformationalVersion("0.0.0.0")]
-
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("The Umbraco Community")]
-[assembly: AssemblyProduct("uComponents")]
-[assembly: AssemblyCopyright("Copyright \xa9 The Umbraco Community 2013")]
-[assembly: AssemblyTrademark("The Umbraco Community")]
-[assembly: AssemblyCulture("")]
-
 // tag prefix for custom controls
 [assembly: TagPrefix("uComponents.Controls", "uComponents")]
