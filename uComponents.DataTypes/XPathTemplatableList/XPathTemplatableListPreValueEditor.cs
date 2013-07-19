@@ -13,6 +13,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
 {
     using System.ComponentModel;
 
+    using umbraco.cms.businesslogic.macro;
+
     /// <summary>
     /// Prevalue Editor for XPath Templatable List
     /// </summary>
@@ -63,13 +65,18 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// </summary>
         private TextBox itemHeightTextBox = new TextBox();
 
-        //// TODO: will be used to choose between the inline textTemplate or a Macro for each item
-        //private RadioButtonList templateTypeRadioButtonList = new RadioButtonList();
+        // Choose between the inline TextTemplate or a Macro for each item
+        private RadioButtonList templateTypeRadioButtonList = new RadioButtonList();
 
         /// <summary>
         /// Handlebar syntax to render text for each list item
         /// </summary>
         private TextBox textTemplateTextBox = new TextBox();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private DropDownList macroDropDownList = new DropDownList();
 
         /// <summary>
         /// Min number of items that must be selected - defaults to 0
@@ -144,11 +151,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// </summary>
         protected override void CreateChildControls()
         {
-            //radio buttons to select type of nodes that can be picked (Document, Media or Member)
             this.typeRadioButtonList.ID = "typeRadioButtonList";
-            this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Document.GetFriendlyName(), uQuery.UmbracoObjectType.Document.GetGuid().ToString()));
-            this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Media.GetFriendlyName(), uQuery.UmbracoObjectType.Media.GetGuid().ToString()));
-            this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Member.GetFriendlyName(), uQuery.UmbracoObjectType.Member.GetGuid().ToString()));
+            this.typeRadioButtonList.RepeatDirection = RepeatDirection.Horizontal;
 
             this.xPathTextBox.ID = "xPathTextBox";
             this.xPathTextBox.CssClass = "umbEditorTextField";
@@ -166,8 +170,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.sortOnDropDown.SelectedIndexChanged += this.SortOnDropDown_SelectedIndexChanged;
 
             this.sortDirectionRadioButtonList.ID = "sortDirectionRadioButtonlist";
-            this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Ascending.ToString()));
-            this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Descending.ToString()));
+            this.sortDirectionRadioButtonList.RepeatDirection = RepeatDirection.Horizontal;
 
             this.limitToTextBox.ID = "limitToTextBox";
             this.limitToTextBox.Width = 30;
@@ -191,12 +194,21 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             //TODO: itemHeight validator
 
+            this.templateTypeRadioButtonList.ID = "templateTypeRadioButtonList";
+            this.templateTypeRadioButtonList.RepeatDirection = RepeatDirection.Horizontal;
+            this.templateTypeRadioButtonList.AutoPostBack = true;
+            this.templateTypeRadioButtonList.SelectedIndexChanged += this.TemplateTypeRadioButtonList_SelectedIndexChanged;
+
             this.textTemplateTextBox.ID = "textTemplateTextBox";
             this.textTemplateTextBox.CssClass = "umbEditorTextField";
             this.textTemplateTextBox.TextMode = TextBoxMode.MultiLine;
-            this.textTemplateTextBox.Rows = 6;
+            this.textTemplateTextBox.Rows = 1;
 
             //TODO: textTemplate validator
+            
+            this.macroDropDownList.ID = "macroDropDownList";
+
+            //TODO: macroDropDown validator
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
             this.minItemsTextBox.Width = 30;
@@ -229,7 +241,9 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.listHeightTextBox,
                 this.listHeightValidator,
                 this.itemHeightTextBox,
+                this.templateTypeRadioButtonList,
                 this.textTemplateTextBox,
+                this.macroDropDownList,
                 this.minItemsTextBox,
                 this.minItemsCustomValidator,
                 this.maxItemsTextBox,
@@ -247,7 +261,11 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             if (!this.Page.IsPostBack)
             {
+                this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Document.GetFriendlyName(), uQuery.UmbracoObjectType.Document.GetGuid().ToString()));
+                this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Media.GetFriendlyName(), uQuery.UmbracoObjectType.Media.GetGuid().ToString()));
+                this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Member.GetFriendlyName(), uQuery.UmbracoObjectType.Member.GetGuid().ToString()));
                 this.typeRadioButtonList.SelectedValue = this.Options.Type;
+
                 this.xPathTextBox.Text = this.Options.XPath;
 
                 // the oninit event of the propertyTypePicker loads data first
@@ -255,13 +273,29 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.sortOnDropDown.Items.Insert(2, new ListItem("<Update Date>", "UpdateDate"));
                 this.sortOnDropDown.Items.Insert(3, new ListItem("<Create Date>", "CreateDate"));            
                 this.sortOnDropDown.SelectedValue = this.Options.SortOn;
-                
+
+                this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Ascending.ToString()));
+                this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Descending.ToString()));
                 this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
+
                 this.limitToTextBox.Text = this.Options.LimitTo.ToString();
 
                 this.listHeightTextBox.Text = this.Options.ListHeight.ToString();
                 this.itemHeightTextBox.Text = this.Options.ItemHeight.ToString();
+
+                this.templateTypeRadioButtonList.Items.Add(new ListItem("Text Template"));
+                this.templateTypeRadioButtonList.Items.Add(new ListItem("Macro"));
+                this.templateTypeRadioButtonList.SelectedValue = this.Options.TemplateType;
+
                 this.textTemplateTextBox.Text = this.Options.TextTemplate;
+
+                this.macroDropDownList.Visible = false;
+                this.macroDropDownList.DataValueField = "Alias"; // key
+                this.macroDropDownList.DataTextField = "Name";
+                this.macroDropDownList.DataSource = Macro.GetAll();
+                this.macroDropDownList.DataBind();
+                this.macroDropDownList.Items.Insert(0, string.Empty);
+                this.macroDropDownList.SelectedValue = this.Options.MacroAlias;
 
                 this.minItemsTextBox.Text = this.Options.MinItems.ToString();
                 this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
@@ -270,12 +304,16 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             // initial creation of datatype is a postback 
             this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
+            this.textTemplateTextBox.Visible = this.templateTypeRadioButtonList.SelectedItem.Text == "Text Template";
+            this.macroDropDownList.Visible = this.templateTypeRadioButtonList.SelectedItem.Text == "Macro";
         }
 
         private void SortOnDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
         }
+
+        #region Validation
 
         /// <summary>
         /// 
@@ -387,6 +425,22 @@ namespace uComponents.DataTypes.XPathTemplatableList
             args.IsValid = isValid;
         }
 
+        #endregion
+
+        private void TemplateTypeRadioButtonList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (this.templateTypeRadioButtonList.SelectedItem.Text)
+            {
+                case "Text Template":
+                    this.textTemplateTextBox.Visible = true;
+                    this.macroDropDownList.Visible = false;
+                    break;
+                case "Macro":
+                    this.macroDropDownList.Visible = true;
+                    this.textTemplateTextBox.Visible = false;
+                    break;
+            }
+        }
 
         /// <summary>
         /// Saves the pre value data to Umbraco
@@ -415,7 +469,9 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 int.TryParse(this.itemHeightTextBox.Text, out itemHeight);
                 this.Options.ItemHeight = itemHeight;
 
+                this.Options.TemplateType = this.templateTypeRadioButtonList.SelectedValue;
                 this.Options.TextTemplate = this.textTemplateTextBox.Text;
+                this.Options.MacroAlias = this.macroDropDownList.SelectedValue;
 
                 int minItems;
                 int.TryParse(this.minItemsTextBox.Text, out minItems);
@@ -439,7 +495,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
         {
             writer.AddPrevalueRow("Type", @"xml schema to query", this.typeRadioButtonList);
             writer.AddPrevalueRow("XPath Expression", @"expects a result set of node, meda or member elements", this.xPathTextBox, this.xPathRequiredFieldValidator, this.xPathCustomValidator);
-            writer.AddPrevalueRow("Sort On", "", this.sortOnDropDown);
+            writer.AddPrevalueRow("Sort On", "property to sort the source data on - empty = xml order", this.sortOnDropDown);
 
             if (this.sortDirectionRadioButtonList.Visible)
             {
@@ -452,10 +508,20 @@ namespace uComponents.DataTypes.XPathTemplatableList
             }
 
             writer.AddPrevalueRow("Limit To", "limit the source data count - 0 means no limit", this.limitToTextBox);
-
             writer.AddPrevalueRow("List Height", "px height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightValidator);
             writer.AddPrevalueRow("Item Height", "px height of each list item", this.itemHeightTextBox);
-            writer.AddPrevalueRow("Text Template", "handlebar syntax, with additional tokens :node: :media: and :member: to get picked item properties <br/>eg.<br/> {{pickedImage:media:imageThumbnail}}", this.textTemplateTextBox);
+
+            writer.AddPrevalueRow("Template Type", "rendering mechanism for each list item", this.templateTypeRadioButtonList);
+
+            if (this.textTemplateTextBox.Visible)
+            {
+                writer.AddPrevalueRow("Text Template", "handlebar syntax, with additional tokens :node: :media: and :member: to get associated item properties <br/>eg. {{pickedImage:media:imageThumbnail}}", this.textTemplateTextBox);
+            }
+
+            if (this.macroDropDownList.Visible)
+            {
+                writer.AddPrevalueRow("Macro", "macro expects an int paramter named 'id'", this.macroDropDownList);
+            }
 
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator);
