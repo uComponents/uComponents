@@ -13,74 +13,78 @@
 var ImagePoint = ImagePoint || (function () {
 
     function init(div) {
-
-        // find other dom objects
-        var xTextBox = div.find('input.x:first');
-        var yTextBox = div.find('input.y:first');
-        var areaDiv = div.find('div.area:first');
-        var mainImage = areaDiv.find('img.main:first');
-        var markerImage = areaDiv.find('img.marker:first');
-
-        // set vars
-        var x = parseInt(xTextBox.val());
-        var y = parseInt(yTextBox.val());
-        var width = mainImage.attr('width');
-        var height = mainImage.attr('height');
         
-        // obj used to group params for setPoint call
+        // used to group dom objects for this specific Image Point instance
         var context = {
-            'xTextBox': xTextBox,
-            'yTextBox': yTextBox,
-            'width': width,
-            'height': height,
-            'markerImage': markerImage
+            'xTextBox': div.children('input.x:first'),
+            'yTextBox': div.children('input.y:first'),
+            'mainImage' : div.find('img.main:first'),
+            'markerImage': div.find('img.marker:first')
         };
 
         // set point from saved data
-        setPoint(context, { 'x': x, 'y': y });
+        setPoint(context);
 
-        mainImage.click(function (event) {
-            setPoint(context, getCoodinates(event, mainImage));
+        context.mainImage.click(function (event) {
+            setPoint(context, getCoodinates(context, event));
         });
 
-        markerImage.draggable({
-            start: function () {
-            },
+        context.markerImage.draggable({
             drag: function (event) {
-                setPoint(context, getCoodinates(event, mainImage));
-            },
-            stop: function () {
+                setPoint(context, getCoodinates(context, event));
             }
         });        
 
-        xTextBox.change(function () {
-            if (!yTextBox.val()) {
-                yTextBox.val(0);
+        context.xTextBox.change(function () {
+
+            // if y is not set, then set it to 0
+            if (!context.yTextBox.val()) {
+                context.yTextBox.val(0);
             }
 
-            setPoint(context, { 'x': parseInt(xTextBox.val()), 'y': parseInt(yTextBox.val()) });
+            setPoint(context);
         });
 
-        yTextBox.change(function () {
-            if (!xTextBox.val()) {
-                xTextBox.val(0);
+        context.yTextBox.change(function () {
+
+            // if x not set, then set it to 0
+            if (!context.xTextBox.val()) {
+                context.xTextBox.val(0);
             }
 
-            setPoint(context, { 'x': parseInt(xTextBox.val()), 'y': parseInt(yTextBox.val()) });
+            setPoint(context);
         });
     }
 
-    function getCoodinates(event, mainImage) {
+    /**
+    * Calculates the X, Y values based on the mouse event, and the main image
+    * @param {object} context Object conaining all DOM elements specific to an Image Point instance . 
+    * @param {object} event The mouse event
+    */
+    function getCoodinates(context, event) {
 
         return {
-            'x': Math.round(event.clientX - mainImage.offset().left),
-            'y': Math.round(event.clientY - mainImage.offset().top)
+            'x': Math.round(event.clientX - context.mainImage.offset().left),
+            'y': Math.round(event.clientY - context.mainImage.offset().top)
         };
     }
 
+    /**
+    * Sets (or removes) the marker position on the image, and updates the textbox values.
+    * @param {object} context Object conaining all DOM elements specific to an Image Point instance .
+    * @param {object} coordinates X and Y valaues of point to set, if not supplied, then the point is set from the data in the x,y textboxes
+    */
     function setPoint(context, coordinates) {
 
-        if (coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x <= context.width && coordinates.y <= context.height) {
+        // if coordinates not supplied, then use values from the textboxes
+        if (!coordinates) {
+            coordinates = { 
+                'x': parseInt(context.xTextBox.val()), 
+                'y': parseInt(context.yTextBox.val())
+            };
+        }
+
+        if (coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x <= context.mainImage.attr('width') && coordinates.y <= context.mainImage.attr('height')) {
 
             context.xTextBox.val(coordinates.x);
             context.yTextBox.val(coordinates.y);
