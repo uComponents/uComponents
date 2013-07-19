@@ -33,6 +33,7 @@ var ImagePoint = ImagePoint || (function () {
                 return false;
             })
             .bind('contextmenu', function () {
+                //setPoint(context, {'x' : -1, 'y': -1});
                 return false;
             });
 

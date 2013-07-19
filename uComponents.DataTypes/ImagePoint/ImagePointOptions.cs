@@ -12,15 +12,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// Initializes a new instance of the <see cref="ImagePointOptions"/> class.
         /// </summary>
         public ImagePointOptions()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ImagePointOptions"/> class.
-        /// </summary>
-        /// <param name="loadDefaults">if set to <c>true</c> [load defaults].</param>
-        public ImagePointOptions(bool loadDefaults)
-            : base(loadDefaults)
+            : base(true)
         {
         }
 
