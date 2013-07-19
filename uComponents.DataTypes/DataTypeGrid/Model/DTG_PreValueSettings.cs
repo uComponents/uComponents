@@ -44,8 +44,8 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// Gets or sets the number of rows.
 		/// </summary>
 		/// <value>The number of rows.</value>
-		[DefaultValue(10)]
-		public int RowsPerPage { get; set; }
+		[DefaultValue(300)]
+		public int TableHeight { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this column is mandatory.
@@ -55,22 +55,12 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		public bool Mandatory { get; set; }
 
 		/// <summary>
-		/// Gets or sets the content sorting.
-		/// </summary>
-		/// <value>
-		/// The content sorting.
-		/// </value>
-		[DefaultValue("")]
-		public string ContentSorting { get; set; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="PreValueEditorSettings"/> class.
 		/// </summary>
 		public PreValueEditorSettings()
 		{
-			this.RowsPerPage = 10;
+			this.TableHeight = 300;
 			this.ShowLabel = false;
-			this.ContentSorting = string.Empty;
 		    this.Mandatory = false;
 			this.ShowGridHeader = true;
 			this.ShowGridFooter = true;

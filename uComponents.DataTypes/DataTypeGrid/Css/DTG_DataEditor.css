@@ -1,4 +1,14 @@
-﻿.dtg .actions .ui-button .ui-button-text {
+﻿/* Hack for proper date picker z-index */
+.ui-datepicker {
+	z-index: 1003 !important;
+}
+
+.dtg th.id,
+.dtg td.id {
+	display: none; 
+}
+
+.dtg .actions .ui-button .ui-button-text {
 	display: none;
 }
 
@@ -96,13 +106,13 @@
 .dtg .ui-state-disabled,
 .dtg .ui-widget-content .ui-state-disabled, 
 .dtg .ui-widget-header .ui-state-disabled {
-    opacity: .35;
-    filter: Alpha(Opacity=35);
-    background-image: none;
+	opacity: .35;
+	filter: Alpha(Opacity=35);
+	background-image: none;
 }
 
 .dtg .ui-button {
-    display: inline-block;
+	display: inline-block;
 	background: url(/umbraco_client/propertypane/images/propertyBackground.gif) repeat-x 50% 50% #eee;
 	border: 1px solid #ccc;
 	color: #378080;
@@ -116,14 +126,14 @@
 }
 
 .dtg .ui-button .ui-button-text {
-    display: block;
-    line-height: 1.4;
-    font-weight: normal;
+	display: block;
+	line-height: 1.4;
+	font-weight: normal;
 }
 
 .dtg .ui-button-text-icon-primary .ui-button-text, 
 .dtg .ui-button-text-icons .ui-button-text {
-    padding: .4em 1em .3em 2.1em;
+	padding: .4em 1em .3em 2.1em;
 }
 
 .dtg .ui-button-icon-only {
@@ -139,7 +149,7 @@
 .dtg .ui-button-text-icon-primary .ui-button-icon-primary, 
 .dtg .ui-button-text-icons .ui-button-icon-primary, 
 .dtg .ui-button-icons-only .ui-button-icon-primary {
-    left: .5em;
+	left: .5em;
 }
 
 .dtg .ui-button-icon-only .ui-icon,
@@ -157,17 +167,17 @@
 }
 
 .dtg .ui-button.ui-state-disabled:active .ui-icon {
-    background-image: url(/umbraco_client/DateTimePicker/images/ui-icons_999999_256x240.png);
+	background-image: url(/umbraco_client/DateTimePicker/images/ui-icons_999999_256x240.png);
 }
 
 .dtg .ui-button.ui-state-disabled.ui-state-hover {
-    background: #eee;
+	background: #eee;
 	border: 1px solid #ccc;
-    cursor: default;
+	cursor: default;
 }
 
 .dtg .ui-button.ui-state-disabled.ui-state-hover:active {
-    background: #eee;
+	background: #eee;
 }
 
 .dtg .ui-button.ui-state-hover {
@@ -177,7 +187,7 @@
 }
 
 .dtg .ui-button.ui-state-hover .ui-icon {
-    background-image: url(/umbraco_client/DateTimePicker/images/ui-icons_666666_256x240.png);
+	background-image: url(/umbraco_client/DateTimePicker/images/ui-icons_666666_256x240.png);
 }
 
 .dtg .ui-button.ui-state-hover:active {
@@ -196,10 +206,6 @@
 	border-radius: 0;
 }
 
-.dtg .ui-datepicker {
-	z-index: 1003 !important;
-}
-
 .dtg .ui-icon {
 	background: url('/umbraco_client/DateTimePicker/images/ui-icons_999999_256x240.png') no-repeat;
 	display: block;
@@ -214,7 +220,7 @@
 }
 
 .dtg .ui-icon-closethick {
-    background-position: -96px -128px;
+	background-position: -96px -128px;
 }
 
 .dtg .ui-icon-pencil {
@@ -234,7 +240,7 @@
 }
 
 .dtg .ui-icon-grip-diagonal-se {
-    background-position: -80px -224px;
+	background-position: -80px -224px;
 }
 
 .dtg .ui-state-hover .ui-icon,
@@ -247,8 +253,8 @@
 }
 
 .dtg .ui-widget {
-    font-size: 1.1em;
-    font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+	font-size: 1.1em;
+	font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
 }
 
 .dtg .ui-widget-header {
@@ -262,38 +268,61 @@
 	color: #fff;
 }
 
+.dtg .dataTables_scrollHeadInner {
+	width: auto !important;
+	padding-right: 17px;
+	border: 1px solid #cccccc;
+	background: #eeeeee url('/umbraco_client/propertypane/images/propertyBackground.gif') 50% 50% repeat-x;
+}
+
 .dtg table.display {
 	border-collapse: collapse;
 	clear: both;
 	min-width: 500px;
 	table-layout: fixed;
-	width: 100% !important
+	width: 100% !important;
 }
 
 .dtg table.display td {
-	padding: 3px 10px
+	padding: 3px 10px;
+	cursor:move;
 }
 
 .dtg table.display td.center {
-	text-align: center
+	text-align: center;
 }
 
 .dtg table.display thead th {
 	color: #333;
-	cursor: pointer;
-	padding: 4px 0 3px 10px
+	padding: 4px 0 3px 10px;
+	border: none;
+	border-left: 1px solid #cccccc;
+}
+
+.dtg table.display thead th:first-child {
+	border: none;
 }
 
 .dtg table.display thead th .ui-icon {
-	margin-top: -2px
+	margin-top: -2px;
+}
+
+.dtg tr.ui-sortable-helper {
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 0;
+}
+
+.dtg tr.ui-sortable-helper .actions > * {
+	display: none;
 }
 
 .dtg tr.even {
-	background-color: #fff
+	background-color: #fff;
 }
 
 .dtg tr.odd {
-	background-color: #f5f3f3
+	background-color: #f5f3f3;
 }
 
 .dtg-dialog {
@@ -302,54 +331,54 @@
 	border-radius: 0;
 	color: #333;
 	overflow: visible !important;
-	padding: 0
+	padding: 0;
 }
 
 .dtg-dialog .ui-corner-all {
-	border-radius: 0
+	border-radius: 0;
 }
 
 .dtg-dialog .ui-dialog-buttonpane {
 	background: none;
 	border: none;
-	padding: 5.5px 11px
+	padding: 5.5px 11px;
 }
 
 .dtg-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
 	float: none;
-	padding-bottom: 5.5px
+	padding-bottom: 5.5px;
 }
 
 .dtg-dialog .ui-dialog-content {
-    position: relative;
-    border: 0;
-    padding: .5em 1em;
-    background: none;
-    overflow: auto;
-    zoom: 1;
+	position: relative;
+	border: 0;
+	padding: .5em 1em;
+	background: none;
+	overflow: auto;
+	zoom: 1;
 }
 
 .dtg-dialog .ui-dialog-content .control {
 	display: block;
 	margin-bottom: 7px;
-    width: 410px;
+	width: 410px;
 }
 
 .dtg-dialog .ui-dialog-content .control-label {
 	display: block;
 	font-weight: 700;
-    width: 100%;
+	width: 100%;
 }
 
 .dtg-dialog .ui-dialog-content .controls {
 	list-style: none;
 	margin: 0;
-    padding: 0;
+	padding: 0;
 }
 
 .dtg-dialog .ui-dialog-content .validator {
 	color: Red;
-    font-weight: 400;
+	font-weight: 400;
 }
 
 .dtg-dialog .ui-dialog-titlebar {
@@ -365,12 +394,12 @@
 	padding: .5em 2em .5em .75em;
 	position: relative;
 	text-align: left;
-    text-shadow: #FFF 0 1px 0;
+	text-shadow: #FFF 0 1px 0;
 }
 
 .dtg-dialog .ui-dialog-titlebar .ui-dialog-title {
 	margin-left: 0;
-    margin-top: 0;
+	margin-top: 0;
 }
 
 .dtg-dialog .ui-dialog-titlebar-close {
@@ -379,13 +408,13 @@
 	padding: 0;
 	position: absolute;
 	right: 4px;
-    top: 4px;
+	top: 4px;
 }
 
 .dtg-dialog .ui-dialog-titlebar-close.ui-state-hover {
-    background: url(/umbraco_client/propertypane/images/propertyBackground.gif) repeat-x left top #378080;
+	background: url(/umbraco_client/propertypane/images/propertyBackground.gif) repeat-x left top #378080;
 	border: 1px solid #999;
-    color: #333;
+	color: #333;
 }
 
 .dtg-dialog .ui-dialog-titlebar-close.ui-state-hover:active {
@@ -397,33 +426,33 @@
 }
 
 .dtg-dialog .ui-dialog-titlebar-close:active .ui-icon {
-    background-image: url('/umbraco_client/DateTimePicker/images/ui-icons_666666_256x240.png');
+	background-image: url('/umbraco_client/DateTimePicker/images/ui-icons_666666_256x240.png');
 }
 
 .dtg-dialog .ui-resizable-handle {
 	bottom: 3px;
 	cursor: se-resize;
 	position: absolute;
-    right: 3px;
+	right: 3px;
 }
 
 .dtg-dialog .ui-widget-content {
 	background-color: #fff;
-    color: #333;
+	color: #333;
 }
 
 .dtg-dialog .ui-widget-content a {
-    color: #333;
+	color: #333;
 }
 
 .dtg-dialog .ui-widget-content .ui-button {
-    font-size: 1em;
-    font-weight: normal;
+	font-size: 1em;
+	font-weight: normal;
 }
 
 .ui-widget-overlay {
 	background-image: url(/umbraco_client/modal/modalBackground.gif);
 	left: 0;
 	position: absolute;
-    top: 0;
+	top: 0;
 }

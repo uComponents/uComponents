@@ -198,9 +198,9 @@ namespace uComponents.XsltExtensions
 		public static string ParseExact(string date, string inputFormat, string outputFormat)
 		{
 			DateTime result;
-			if (!string.IsNullOrEmpty(date) && 
-				!string.IsNullOrEmpty(inputFormat) && 
-				!string.IsNullOrEmpty(outputFormat) && 
+			if (!string.IsNullOrEmpty(date) &&
+				!string.IsNullOrEmpty(inputFormat) &&
+				!string.IsNullOrEmpty(outputFormat) &&
 				DateTime.TryParseExact(date, inputFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
 			{
 				return FormatDateTime(result, outputFormat);
@@ -461,16 +461,16 @@ namespace uComponents.XsltExtensions
 		public static double ToUnixTime(string date)
 		{
 			// set the Unix epoch
-			var unixEpoch = new DateTime(1970, 1, 1);
+			var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
 			// set the current date/time
 			var result = DateTime.UtcNow;
 
 			// parse the date
-			DateTime.TryParse(date, out result);
+			DateTime.TryParse(date, DateTimeFormatInfo.CurrentInfo, DateTimeStyles.AssumeUniversal, out result);
 
 			// return the total seconds (from either specified date or current date/time).
-			return (result - unixEpoch).TotalSeconds;
+			return (result.ToUniversalTime() - unixEpoch).TotalSeconds;
 		}
 
 		/// <summary>

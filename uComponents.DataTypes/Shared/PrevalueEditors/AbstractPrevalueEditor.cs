@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
@@ -59,8 +61,28 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		/// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
 		public override void RenderBeginTag(HtmlTextWriter writer)
 		{
+			var infoVersion = Helper.IO.GetAssemblyInformationalVersion(Assembly.GetExecutingAssembly());
+
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.ApplicationName);
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+			// Render logo and version info
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
+			writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+			writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Concat("http://ucomponents.org/?v=", HttpUtility.UrlEncode(infoVersion)));
+			writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
+			writer.AddAttribute(HtmlTextWriterAttribute.Title, Helper.Dictionary.GetDictionaryItem("DocumentationForUComponents", "Documentation for uComponents"));
+			writer.RenderBeginTag(HtmlTextWriterTag.A);
+
+			writer.AddAttribute(HtmlTextWriterAttribute.Class, "version");
+			writer.RenderBeginTag(HtmlTextWriterTag.Span);
+			writer.Write("{0} {1}", Helper.Dictionary.GetDictionaryItem("Version", "Version"), infoVersion);
+			writer.RenderEndTag(); // span.version
+
+			writer.RenderEndTag(); // a
+
+			writer.RenderEndTag(); // div.logo
 
 			base.RenderBeginTag(writer);
 		}

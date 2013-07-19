@@ -33,7 +33,7 @@ namespace uComponents.DataTypes.AutoComplete
 		{
 			get
 			{
-				return "uComponents: Auto Complete";
+				return "uComponents-Legacy: Auto Complete";
 			}
 		}
 

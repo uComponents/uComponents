@@ -145,6 +145,13 @@ namespace uComponents.DataTypes.RelationLinks
                     img.Src = "/umbraco/images/umbraco/" + uQuery.GetMedia(relatedCMSNode.Id).ContentTypeIcon;
 
                     break;
+
+                case uQuery.UmbracoObjectType.Member:
+
+                    a.HRef = "javascript:jumpToEditMember(" + relatedCMSNode.Id + ");";
+                    img.Src = "/umbraco/images/umbraco/" + uQuery.GetMember(relatedCMSNode.Id).ContentTypeIcon;
+
+                    break;
             }
           
             a.Controls.Add(img);
