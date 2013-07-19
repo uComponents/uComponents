@@ -3,7 +3,6 @@
     <div id="" class="image-point">
         X <input type="text" class="x" />
         Y <input type="text" class="y" />
-        <br />
         <div class="area">
             <img src="" width="" height="" class="main" />
             <ing src="" class="marker" />

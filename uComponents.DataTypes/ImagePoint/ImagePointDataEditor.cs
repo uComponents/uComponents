@@ -142,12 +142,10 @@ namespace uComponents.DataTypes.ImagePoint
 
             this.xTextBox.ID = "xTextBox";
             this.xTextBox.CssClass = "x";
-            this.xTextBox.Width = 30;
             this.xTextBox.MaxLength = 4;                        
 
             this.yTextBox.ID = "yTextBox";
             this.yTextBox.CssClass = "y";
-            this.yTextBox.Width = 30;
             this.yTextBox.MaxLength = 4;
 
             WebControl areaDiv = new WebControl(HtmlTextWriterTag.Div);
@@ -164,7 +162,6 @@ namespace uComponents.DataTypes.ImagePoint
             this.div.Controls.Add(this.xTextBox);
             this.div.Controls.Add(new Literal() { Text = " Y " });
             this.div.Controls.Add(this.yTextBox);
-            this.div.Controls.Add(new Literal() { Text = "<br />" });
             this.div.Controls.Add(areaDiv);
 
             this.Controls.Add(this.div);
