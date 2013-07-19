@@ -56,14 +56,30 @@ namespace uComponents.DataTypes.XPathTemplatableList
         private TextBox limitToTextBox = new TextBox();
 
         /// <summary>
+        /// 
+        /// </summary>
+        private RegularExpressionValidator limitToRegularExpressionValidator = new RegularExpressionValidator();
+
+        /// <summary>
         /// Height of the source list control, in pixels, or 0 for no scrolling
         /// </summary>
         private TextBox listHeightTextBox = new TextBox();
 
         /// <summary>
+        /// Must be a number
+        /// </summary>
+        private RegularExpressionValidator listHeightRegularExpressionValidator = new RegularExpressionValidator();
+
+        /// <summary>
         /// Height of each list item (set here rather than in a template, so that placeholders can be of the same height)
         /// </summary>
         private TextBox itemHeightTextBox = new TextBox();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private RegularExpressionValidator itemHeightRegularExpressionValidator = new RegularExpressionValidator();
+
 
         // Choose between the inline TextTemplate or a Macro for each item
         private RadioButtonList templateTypeRadioButtonList = new RadioButtonList();
@@ -79,9 +95,19 @@ namespace uComponents.DataTypes.XPathTemplatableList
         private DropDownList macroDropDownList = new DropDownList();
 
         /// <summary>
+        /// 
+        /// </summary>
+        private RequiredFieldValidator macroRequiredFieldValidator = new RequiredFieldValidator();
+
+        /// <summary>
         /// Min number of items that must be selected - defaults to 0
         /// </summary>
         private TextBox minItemsTextBox = new TextBox();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private RegularExpressionValidator minItemsRegularExpressionValidator = new RegularExpressionValidator();
 
         /// <summary>
         /// Custom validator to ensure that if relevant, then min items is less than or equal to max items
@@ -94,6 +120,11 @@ namespace uComponents.DataTypes.XPathTemplatableList
         private TextBox maxItemsTextBox = new TextBox();
 
         /// <summary>
+        /// 
+        /// </summary>
+        private RegularExpressionValidator maxItemsRegularExpressionValidator = new RegularExpressionValidator();
+
+        /// <summary>
         /// If max items is set (ie not 0) then it must be greater than min items
         /// </summary>
         private CustomValidator maxItemsCustomValidator = new CustomValidator();
@@ -102,11 +133,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// if enabled then the same item can be seleted multiple times
         /// </summary>
         private CheckBox allowDuplicatesCheckBox = new CheckBox();
-
-        /// <summary>
-        /// Must be a number
-        /// </summary>
-        private RegularExpressionValidator listHeightValidator = new RegularExpressionValidator();
 
         /// <summary>
         /// Data object used to define the configuration status of this PreValueEditor
@@ -159,6 +185,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             this.xPathRequiredFieldValidator.ControlToValidate = this.xPathTextBox.ID;
             this.xPathRequiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+            this.xPathRequiredFieldValidator.CssClass = "validator";
             this.xPathRequiredFieldValidator.ErrorMessage = " XPath expression required";
 
             this.xPathCustomValidator.ControlToValidate = this.xPathTextBox.ID;
@@ -177,22 +204,22 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.limitToTextBox.MaxLength = 2;
             this.limitToTextBox.AutoCompleteType = AutoCompleteType.None;
 
+            this.limitToRegularExpressionValidator.ControlToValidate = this.limitToTextBox.ID;
+            this.ConfigureNumberValidation(ref this.limitToRegularExpressionValidator);
+
             this.listHeightTextBox.ID = "listHeightTextBox";
             this.listHeightTextBox.Width = 30;
             this.listHeightTextBox.MaxLength = 4;
 
-            this.listHeightValidator.ID = "listHeightValidator";
-            this.listHeightValidator.Display = ValidatorDisplay.Dynamic;
-            this.listHeightValidator.ControlToValidate = "listHeightTextBox";
-            this.listHeightValidator.CssClass = "validator";
-            this.listHeightValidator.ErrorMessage = "The List Height must be a number.";
-            this.listHeightValidator.ValidationExpression = @"^\d{1,3}$";
+            this.listHeightRegularExpressionValidator.ControlToValidate = this.listHeightTextBox.ID;
+            this.ConfigureNumberValidation(ref this.listHeightRegularExpressionValidator);
 
             this.itemHeightTextBox.ID = "itemHeightTextBox";
             this.itemHeightTextBox.Width = 30;
             this.itemHeightTextBox.MaxLength = 4;
 
-            //TODO: itemHeight validator
+            this.itemHeightRegularExpressionValidator.ControlToValidate = this.itemHeightTextBox.ID;
+            this.ConfigureNumberValidation(ref this.itemHeightRegularExpressionValidator);
 
             this.templateTypeRadioButtonList.ID = "templateTypeRadioButtonList";
             this.templateTypeRadioButtonList.RepeatDirection = RepeatDirection.Horizontal;
@@ -208,15 +235,23 @@ namespace uComponents.DataTypes.XPathTemplatableList
             
             this.macroDropDownList.ID = "macroDropDownList";
 
-            //TODO: macroDropDown validator
+            this.macroRequiredFieldValidator.ControlToValidate = this.macroDropDownList.ID;
+            this.macroRequiredFieldValidator.Display = ValidatorDisplay.Dynamic;
+            this.macroRequiredFieldValidator.CssClass = "validator";
+            this.macroRequiredFieldValidator.ErrorMessage = " Macro required";
+
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
             this.minItemsTextBox.Width = 30;
             this.minItemsTextBox.MaxLength = 2;
             this.minItemsTextBox.AutoCompleteType = AutoCompleteType.None;
 
+            this.minItemsRegularExpressionValidator.ControlToValidate = this.minItemsTextBox.ID;
+            this.ConfigureNumberValidation(ref this.minItemsRegularExpressionValidator);
+
             this.minItemsCustomValidator.ControlToValidate = this.minItemsTextBox.ID;
             this.minItemsCustomValidator.Display = ValidatorDisplay.Dynamic;
+            this.minItemsCustomValidator.CssClass = "validator";
             this.minItemsCustomValidator.ServerValidate += this.MinItemsCustomValidatorServerValidate;
 
             this.maxItemsTextBox.ID = "maxSelectionItemsTextBox";
@@ -224,8 +259,12 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.maxItemsTextBox.MaxLength = 2;
             this.maxItemsTextBox.AutoCompleteType = AutoCompleteType.None;
 
+            this.maxItemsRegularExpressionValidator.ControlToValidate = this.maxItemsTextBox.ID;
+            this.ConfigureNumberValidation(ref this.maxItemsRegularExpressionValidator);
+
             this.maxItemsCustomValidator.ControlToValidate = this.maxItemsTextBox.ID;
             this.maxItemsCustomValidator.Display = ValidatorDisplay.Dynamic;
+            this.maxItemsCustomValidator.CssClass = "validator";
             this.maxItemsCustomValidator.ServerValidate += this.MaxItemsCustomValidator_ServerValidate;
 
             this.allowDuplicatesCheckBox.ID = "allowDuplicatesCheckBox";
@@ -238,15 +277,20 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.sortOnDropDown,
                 this.sortDirectionRadioButtonList,
                 this.limitToTextBox,
+                this.limitToRegularExpressionValidator,
                 this.listHeightTextBox,
-                this.listHeightValidator,
+                this.listHeightRegularExpressionValidator,
                 this.itemHeightTextBox,
+                this.itemHeightRegularExpressionValidator,
                 this.templateTypeRadioButtonList,
                 this.textTemplateTextBox,
                 this.macroDropDownList,
+                this.macroRequiredFieldValidator,
                 this.minItemsTextBox,
+                this.minItemsRegularExpressionValidator,
                 this.minItemsCustomValidator,
                 this.maxItemsTextBox,
+                this.minItemsRegularExpressionValidator,
                 this.maxItemsCustomValidator,
                 this.allowDuplicatesCheckBox);
         }
@@ -304,8 +348,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             // initial creation of datatype is a postback 
             this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
-            this.textTemplateTextBox.Visible = this.templateTypeRadioButtonList.SelectedItem.Text == "Text Template";
-            this.macroDropDownList.Visible = this.templateTypeRadioButtonList.SelectedItem.Text == "Macro";
+            this.SetTemplateTypeControls();
         }
 
         private void SortOnDropDown_SelectedIndexChanged(object sender, EventArgs e)
@@ -429,17 +472,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
         private void TemplateTypeRadioButtonList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (this.templateTypeRadioButtonList.SelectedItem.Text)
-            {
-                case "Text Template":
-                    this.textTemplateTextBox.Visible = true;
-                    this.macroDropDownList.Visible = false;
-                    break;
-                case "Macro":
-                    this.macroDropDownList.Visible = true;
-                    this.textTemplateTextBox.Visible = false;
-                    break;
-            }
+            this.SetTemplateTypeControls();
         }
 
         /// <summary>
@@ -507,9 +540,9 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.sortDirectionRadioButtonList.RenderControl(writer);
             }
 
-            writer.AddPrevalueRow("Limit To", "limit the source data count - 0 means no limit", this.limitToTextBox);
-            writer.AddPrevalueRow("List Height", "px height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightValidator);
-            writer.AddPrevalueRow("Item Height", "px height of each list item", this.itemHeightTextBox);
+            writer.AddPrevalueRow("Limit To", "limit the source data count - 0 means no limit", this.limitToTextBox, this.limitToRegularExpressionValidator);
+            writer.AddPrevalueRow("List Height", "px height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightRegularExpressionValidator);
+            writer.AddPrevalueRow("Item Height", "px height of each list item", this.itemHeightTextBox, this.itemHeightRegularExpressionValidator);
 
             writer.AddPrevalueRow("Template Type", "rendering mechanism for each list item", this.templateTypeRadioButtonList);
 
@@ -520,12 +553,43 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             if (this.macroDropDownList.Visible)
             {
-                writer.AddPrevalueRow("Macro", "macro expects an int paramter named 'id'", this.macroDropDownList);
+                writer.AddPrevalueRow("Macro", "macro expects an int paramter named 'id'", this.macroDropDownList, this.macroRequiredFieldValidator);
             }
 
-            writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsCustomValidator);
-            writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator);
+            writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsRegularExpressionValidator, this.minItemsCustomValidator);
+            writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator); // BUG: this.maxItemsRegularExpressionValidator doens't work here !
             writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate values can be selected", this.allowDuplicatesCheckBox);
+        }
+
+        private void ConfigureNumberValidation(ref RegularExpressionValidator regularExpressionValidator)
+        {
+            regularExpressionValidator.Display = ValidatorDisplay.Dynamic;
+            regularExpressionValidator.CssClass = "validator";
+            regularExpressionValidator.ErrorMessage = " Must be a number";
+            regularExpressionValidator.ValidationExpression = @"^\d{1,3}$";
+        }
+
+        /// <summary>
+        /// depending on Template Type radio button list, show / hide others
+        /// </summary>
+        private void SetTemplateTypeControls()
+        {
+            this.textTemplateTextBox.Visible = this.templateTypeRadioButtonList.SelectedValue == "Text Template";
+
+            switch (this.templateTypeRadioButtonList.SelectedValue)
+            {
+                case "Text Template":
+                    this.textTemplateTextBox.Visible = true;
+                    this.macroDropDownList.Visible = false;
+                    this.macroRequiredFieldValidator.Enabled = false;
+                    break;
+
+                case "Macro":
+                    this.textTemplateTextBox.Visible = false;
+                    this.macroDropDownList.Visible = true;
+                    this.macroRequiredFieldValidator.Enabled = true;
+                    break;
+            }
         }
     }
 }
