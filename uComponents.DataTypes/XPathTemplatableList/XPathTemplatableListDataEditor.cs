@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -19,18 +21,13 @@ using umbraco.cms.businesslogic.member;
 using umbraco.editorControls;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
+using umbraco.presentation.templateControls;
 
 [assembly: WebResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.js", Constants.MediaTypeNames.Application.JavaScript)]
+
 namespace uComponents.DataTypes.XPathTemplatableList
 {
-    using System.Collections;
-    using System.IO;
-    using System.Text;
-    using System.Web;
-
-    using umbraco.presentation.templateControls;
-
     /// <summary>
     /// DataEditor for the XPath Templatable List data-type.
     /// </summary>
@@ -283,7 +280,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                 {
                                     case "Text Template":
 
-                                        string text = this.options.TextTemplate;
+                                        markup = this.options.TextTemplate;
 
                                         foreach (string templateToken in templateTokens)
                                         {
@@ -291,7 +288,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
                                             token[0] = token[0] == "Name" ? member.Text : member.GetProperty<string>(token[0]);
 
-                                            text = text.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
+                                            markup = markup.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
                                         }
 
                                         break;
@@ -415,18 +412,19 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             this.EnsureChildControls();
 
-
             if (!this.Page.IsPostBack)
             {
-                // set inline styles
-                this.style.Controls.Add(new Literal()
+                // if item height has been set, then set inline style
+                if (this.options.ItemHeight > 0)
                 {
-                    Text = @"
+                    this.style.Controls.Add(new Literal()
+                    {
+                        Text = @"
                                 #" + this.div.ClientID + @" > ul > li {
                                     height: " + this.options.ItemHeight + @"px;
                                 }"
-                });
-
+                    });
+                }
 
                 this.selectedItemsHiddenField.Value = this.data.Value.ToString();
             }

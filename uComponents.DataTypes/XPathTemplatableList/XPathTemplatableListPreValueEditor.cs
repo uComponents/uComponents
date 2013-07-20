@@ -178,7 +178,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
         protected override void CreateChildControls()
         {
             this.typeRadioButtonList.ID = "typeRadioButtonList";
-            this.typeRadioButtonList.RepeatDirection = RepeatDirection.Horizontal;
 
             this.xPathTextBox.ID = "xPathTextBox";
             this.xPathTextBox.CssClass = "umbEditorTextField";
@@ -197,7 +196,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.sortOnDropDown.SelectedIndexChanged += this.SortOnDropDown_SelectedIndexChanged;
 
             this.sortDirectionRadioButtonList.ID = "sortDirectionRadioButtonlist";
-            this.sortDirectionRadioButtonList.RepeatDirection = RepeatDirection.Horizontal;
 
             this.limitToTextBox.ID = "limitToTextBox";
             this.limitToTextBox.Width = 30;
@@ -541,8 +539,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
             }
 
             writer.AddPrevalueRow("Limit To", "limit the source data count - 0 means no limit", this.limitToTextBox, this.limitToRegularExpressionValidator);
-            writer.AddPrevalueRow("List Height", "px height of the source list - 0 means fluid / no scrolling", this.listHeightTextBox, this.listHeightRegularExpressionValidator);
-            writer.AddPrevalueRow("Item Height", "px height of each list item", this.itemHeightTextBox, this.itemHeightRegularExpressionValidator);
+            writer.AddPrevalueRow("List Height", "px height of the source list - 0 means not set / no scrolling", this.listHeightTextBox, this.listHeightRegularExpressionValidator);
+            writer.AddPrevalueRow("Item Height", "px height of each list item - 0 means not set / use content height", this.itemHeightTextBox, this.itemHeightRegularExpressionValidator);
 
             writer.AddPrevalueRow("Template Type", "rendering mechanism for each list item", this.templateTypeRadioButtonList);
 
