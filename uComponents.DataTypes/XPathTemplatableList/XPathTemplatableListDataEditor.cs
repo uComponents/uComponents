@@ -23,7 +23,14 @@ using umbraco.NodeFactory;
 [assembly: WebResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.XPathTemplatableList
-{   
+{
+    using System.Collections;
+    using System.IO;
+    using System.Text;
+    using System.Web;
+
+    using umbraco.presentation.templateControls;
+
     /// <summary>
     /// DataEditor for the XPath Templatable List data-type.
     /// </summary>
@@ -138,7 +145,35 @@ namespace uComponents.DataTypes.XPathTemplatableList
                     // fill key list of template token names
                     IEnumerable<string> templateTokens = textTemplateRegex.Matches(this.options.TextTemplate)
                                                                             .Cast<Match>()
-                                                                            .Select(x => x.Groups[1].Value.ToString());
+                                                                            .Select(x => x.Groups[1].Value.ToString())
+                                                                            .ToArray();
+                    
+                    // to execute a macro, at least one item must be published - as context needed to execute macro ?
+                    Macro macro = null;
+
+                    // get the node for the current page
+                    Node contextNode = uQuery.GetCurrentNode();
+
+                    // if the node is null (either document is unpublished, or rendering from outside the content section)
+                    if (contextNode == null)
+                    {
+                        // then get the first child node from the XML content root
+                        contextNode = uQuery.GetNodesByXPath(string.Concat("descendant::*[@parentID = ", uQuery.RootNodeId, "]")).FirstOrDefault();
+                    }
+
+                    if (contextNode != null)
+                    {
+                        // load the page reference
+                        HttpContext.Current.Items["pageID"] = contextNode.Id;
+                        //HttpContext.Current.Items["pageElements"] = new page(contextNode.Id, contextNode.Version).Elements;                                                
+                    }
+                    else
+                    {
+                        // nothing published ! so can't run a macro
+                    }
+
+                    // maarkup for each item
+                    string markup = string.Empty;
 
                     switch (this.options.UmbracoObjectType)
                     {
@@ -153,18 +188,37 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                                                                                             x.GetProperty<string>(this.options.SortOn)
                                                                                                             : x.SortOrder.ToString())))
                             {
-                                string text = this.options.TextTemplate;
-
-                                foreach (string templateToken in templateTokens)
+                                switch (this.options.TemplateType)
                                 {
-                                    string[] token = templateToken.Split(':');
+                                    case "Text Template":
 
-                                    token[0] = token[0] == "Name" ? node.Name : node.GetProperty<string>(token[0]);
+                                        markup = this.options.TextTemplate;
 
-                                    text = text.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
+                                        foreach (string templateToken in templateTokens)
+                                        {
+                                            string[] token = templateToken.Split(':');
+
+                                            token[0] = token[0] == "Name" ? node.Name : node.GetProperty<string>(token[0]);
+
+                                            markup = markup.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
+                                        }
+
+                                        break;
+
+                                    case "Macro":
+
+                                        macro = new Macro() { Alias = this.options.MacroAlias };
+                                        macro.MacroAttributes.Add("id", node.Id);
+
+                                        markup = this.RenderToString(macro);
+
+                                        break;
                                 }
 
-                                this.sourceData.Add(node.Id, WebUtility.HtmlDecode(text));
+                                if (!string.IsNullOrWhiteSpace(markup))
+                                {
+                                    this.sourceData.Add(node.Id, WebUtility.HtmlDecode(markup));
+                                }
                             }
 
                             break;
@@ -180,19 +234,37 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                                                                                                 x.GetProperty<string>(this.options.SortOn)
                                                                                                                 : x.sortOrder.ToString())))
                             {
-                                string text = this.options.TextTemplate;
-
-                                foreach (string templateToken in templateTokens)
+                                switch (this.options.TemplateType)
                                 {
-                                    string[] token = templateToken.Split(':');
+                                    case "Text Template":
 
-                                    token[0] = token[0] == "Name" ? mediaItem.Text : mediaItem.GetProperty<string>(token[0]);
+                                        markup = this.options.TextTemplate;
 
-                                    text = text.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
+                                        foreach (string templateToken in templateTokens)
+                                        {
+                                            string[] token = templateToken.Split(':');
+
+                                            token[0] = token[0] == "Name" ? mediaItem.Text : mediaItem.GetProperty<string>(token[0]);
+
+                                            markup = markup.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
+                                        }
+
+                                        break;
+
+                                    case "Macro":
+
+                                        macro = new Macro() { Alias = this.options.MacroAlias };
+                                        macro.MacroAttributes.Add("id", mediaItem.Id);
+
+                                        markup = this.RenderToString(macro);
+
+                                        break;
                                 }
 
-                                this.sourceData.Add(mediaItem.Id, WebUtility.HtmlDecode(text));
-
+                                if (!string.IsNullOrWhiteSpace(markup))
+                                {
+                                    this.sourceData.Add(mediaItem.Id, WebUtility.HtmlDecode(markup));
+                                }
                             }
 
                             break;
@@ -207,18 +279,37 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                                                                                         x.GetProperty<string>(this.options.SortOn)
                                                                                                         : x.Text.ToString())))
                             {
-                                string text = this.options.TextTemplate;
-
-                                foreach (string templateToken in templateTokens)
+                                switch (this.options.TemplateType)
                                 {
-                                    string[] token = templateToken.Split(':');
+                                    case "Text Template":
 
-                                    token[0] = token[0] == "Name" ? member.Text : member.GetProperty<string>(token[0]);
+                                        string text = this.options.TextTemplate;
 
-                                    text = text.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
+                                        foreach (string templateToken in templateTokens)
+                                        {
+                                            string[] token = templateToken.Split(':');
+
+                                            token[0] = token[0] == "Name" ? member.Text : member.GetProperty<string>(token[0]);
+
+                                            text = text.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
+                                        }
+
+                                        break;
+
+                                    case "Macro":
+
+                                        macro = new Macro() { Alias = this.options.MacroAlias };
+                                        macro.MacroAttributes.Add("id", member.Id);
+
+                                        markup = this.RenderToString(macro);
+
+                                        break;
                                 }
 
-                                this.sourceData.Add(member.Id, WebUtility.HtmlDecode(text));
+                                if (!string.IsNullOrWhiteSpace(markup))
+                                {
+                                    this.sourceData.Add(member.Id, WebUtility.HtmlDecode(markup));
+                                }
                             }
 
                             break;
@@ -331,9 +422,9 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.style.Controls.Add(new Literal()
                 {
                     Text = @"
-                                                    #" + this.div.ClientID + @" > ul > li {
-                                                        height: " + this.options.ItemHeight + @"px;
-                                                    }"
+                                #" + this.div.ClientID + @" > ul > li {
+                                    height: " + this.options.ItemHeight + @"px;
+                                }"
                 });
 
 
@@ -418,6 +509,20 @@ namespace uComponents.DataTypes.XPathTemplatableList
             {
                 return new int[] { };
             }
+        }
+
+        /// <summary>
+        /// Renders an ASP.NET control into a string (NOTE: was an extension method - where to share in uComponents ?)
+        /// </summary>
+        private string RenderToString(Control control)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            StringWriter stringWriter = new StringWriter(stringBuilder);
+            HtmlTextWriter htmlTextWriter = new HtmlTextWriter(stringWriter);
+
+            control.RenderControl(htmlTextWriter);
+
+            return htmlTextWriter.InnerWriter.ToString();
         }
     }
 }
