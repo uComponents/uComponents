@@ -348,7 +348,53 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
             this.SetTemplateTypeControls();
 
+            string startupScript = @"
+                <script language='javascript' type='text/javascript'>
+                    $(document).ready(function () {
 
+                        // walk up tree to find form, and on submit, html encode the TextTemplate 
+                        // (work around for ASP.NET : 'A potentially dangerous Request.Form value was detected from the...')
+                        // quick fix implementation - TODO: change this by hooking into the ASP.NET js before a postback occurs
+
+                        jQuery('#" + this.textTemplateTextBox.ClientID + @"').closest('form').submit(function () {
+                            
+                            var textTemplateTextBox = jQuery('#" + this.textTemplateTextBox.ClientID + @"');
+
+                            textTemplateTextBox.val(
+                                jQuery('<div/>').text(textTemplateTextBox.val()).html()
+                            );
+                        });
+
+                        jQuery('#" + this.sortOnDropDown.ClientID + @"').change(function () {
+                            
+                            var textTemplateTextBox = jQuery('#" + this.textTemplateTextBox.ClientID + @"');
+
+                            textTemplateTextBox.val(
+                                jQuery('<div/>').text(textTemplateTextBox.val()).html()
+                            );
+                        });
+
+                        jQuery('#" + this.templateTypeRadioButtonList.ClientID + @"').change(function () {
+                            
+                            var textTemplateTextBox = jQuery('#" + this.textTemplateTextBox.ClientID + @"');
+
+                            textTemplateTextBox.val(
+                                jQuery('<div/>').text(textTemplateTextBox.val()).html()
+                            );
+                        });
+             
+
+                    });
+                </script>";
+
+            ScriptManager.RegisterStartupScript(this, typeof(XPathTemplatableListPreValueEditor), this.ClientID + "_init", startupScript, false);
+
+        }
+
+        protected override void OnPreRender(EventArgs e)
+        {
+            base.OnPreRender(e);
+            this.textTemplateTextBox.Text = HttpUtility.HtmlDecode(this.textTemplateTextBox.Text);
         }
 
         private void SortOnDropDown_SelectedIndexChanged(object sender, EventArgs e)
