@@ -189,6 +189,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             this.xPathCustomValidator.ControlToValidate = this.xPathTextBox.ID;
             this.xPathCustomValidator.Display = ValidatorDisplay.Dynamic;
+            this.xPathRequiredFieldValidator.CssClass = "validator";
             this.xPathCustomValidator.ServerValidate += this.XPathCustomValidator_ServerValidate;
 
             this.sortOnDropDown.ID = "sortOnDropDown";
@@ -301,52 +302,53 @@ namespace uComponents.DataTypes.XPathTemplatableList
         {
             base.OnLoad(e);
 
-            if (!this.Page.IsPostBack)
+            // check to see if this control is being loaded for the first time (could be a postback of a different datatype - having changed the render control setting)
+            if (this.ViewState[this.DataType.Id.ToString()] == null)
             {
+                // set viewstate so we know this control has rendered for next time
+                this.ViewState[this.DataType.Id.ToString()] = true;
+            
                 this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Document.GetFriendlyName(), uQuery.UmbracoObjectType.Document.GetGuid().ToString()));
                 this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Media.GetFriendlyName(), uQuery.UmbracoObjectType.Media.GetGuid().ToString()));
                 this.typeRadioButtonList.Items.Add(new ListItem(uQuery.UmbracoObjectType.Member.GetFriendlyName(), uQuery.UmbracoObjectType.Member.GetGuid().ToString()));
-                this.typeRadioButtonList.SelectedValue = this.Options.Type;
-
-                this.xPathTextBox.Text = this.Options.XPath;
 
                 // the oninit event of the propertyTypePicker loads data first
                 this.sortOnDropDown.Items.Insert(1, new ListItem("<Name>", "Name"));
                 this.sortOnDropDown.Items.Insert(2, new ListItem("<Update Date>", "UpdateDate"));
-                this.sortOnDropDown.Items.Insert(3, new ListItem("<Create Date>", "CreateDate"));            
-                this.sortOnDropDown.SelectedValue = this.Options.SortOn;
-
+                this.sortOnDropDown.Items.Insert(3, new ListItem("<Create Date>", "CreateDate"));
+                
                 this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Ascending.ToString()));
                 this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Descending.ToString()));
-                this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
-
-                this.limitToTextBox.Text = this.Options.LimitTo.ToString();
-
-                this.listHeightTextBox.Text = this.Options.ListHeight.ToString();
-                this.itemHeightTextBox.Text = this.Options.ItemHeight.ToString();
-
+                
                 this.templateTypeRadioButtonList.Items.Add(new ListItem("Text Template"));
                 this.templateTypeRadioButtonList.Items.Add(new ListItem("Macro"));
-                this.templateTypeRadioButtonList.SelectedValue = this.Options.TemplateType;
-
-                this.textTemplateTextBox.Text = this.Options.TextTemplate;
 
                 this.macroDropDownList.Visible = false;
                 this.macroDropDownList.DataValueField = "Alias"; // key
                 this.macroDropDownList.DataTextField = "Name";
                 this.macroDropDownList.DataSource = Macro.GetAll();
                 this.macroDropDownList.DataBind();
-                this.macroDropDownList.Items.Insert(0, string.Empty);
-                this.macroDropDownList.SelectedValue = this.Options.MacroAlias;
-
-                this.minItemsTextBox.Text = this.Options.MinItems.ToString();
-                this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
-                this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
+                this.macroDropDownList.Items.Insert(0, string.Empty);                               
             }
 
-            // initial creation of datatype is a postback 
+            this.typeRadioButtonList.SelectedValue = this.Options.Type;
+            this.xPathTextBox.Text = this.Options.XPath;
+            this.sortOnDropDown.SelectedValue = this.Options.SortOn;
+            this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
+            this.limitToTextBox.Text = this.Options.LimitTo.ToString();
+            this.listHeightTextBox.Text = this.Options.ListHeight.ToString();
+            this.itemHeightTextBox.Text = this.Options.ItemHeight.ToString();
+            this.templateTypeRadioButtonList.SelectedValue = this.Options.TemplateType;
+            this.textTemplateTextBox.Text = this.Options.TextTemplate; // [HR] html decode ?
+            this.macroDropDownList.SelectedValue = this.Options.MacroAlias;
+            this.minItemsTextBox.Text = this.Options.MinItems.ToString();
+            this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
+            this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
+
             this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
             this.SetTemplateTypeControls();
+
+
         }
 
         private void SortOnDropDown_SelectedIndexChanged(object sender, EventArgs e)
@@ -515,6 +517,11 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.Options.AllowDuplicates = this.allowDuplicatesCheckBox.Checked;
 
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
+            }
+            else
+            {
+                //// save default options
+                //this.SaveAsJson(this.Options);
             }
         }
 
