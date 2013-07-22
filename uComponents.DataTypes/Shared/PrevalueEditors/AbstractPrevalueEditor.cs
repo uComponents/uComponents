@@ -86,7 +86,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 
 			writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Concat(this.DocumentationUrl, "?v=", HttpUtility.UrlEncode(infoVersion)));
 			writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
-			writer.AddAttribute(HtmlTextWriterAttribute.Title, Helper.Dictionary.GetDictionaryItem("DocumentationForUComponents", "Documentation for uComponents"));
+			writer.AddAttribute(HtmlTextWriterAttribute.Title, Helper.Dictionary.GetDictionaryItem("DocumentationForUComponents", "View documentation for this component"));
 			writer.RenderBeginTag(HtmlTextWriterTag.A);
 
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, "version");
