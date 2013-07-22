@@ -599,7 +599,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             if (this.textTemplateTextBox.Visible)
             {
-                writer.AddPrevalueRow("Text Template", "handlebar syntax, with additional tokens :node: :media: and :member: to get associated item properties <br/>eg. {{pickedImage:media:imageThumbnail}}", this.textTemplateTextBox);
+                writer.AddPrevalueRow("Text Template", "handlebar syntax, with additional tokens :node: :media: and :member: to get associated item properties. eg. {{pickedImage:media:imageThumbnail}}", this.textTemplateTextBox);
             }
 
             if (this.macroDropDownList.Visible)
