@@ -32,6 +32,11 @@ namespace uComponents.Core
 		public const string AppKey_TrayPeek = "ucomponents:TrayPeek";
 
 		/// <summary>
+		/// The documentation URL
+		/// </summary>
+		public const string DocumentationUrl = "http://ucomponents.org";
+
+		/// <summary>
 		/// The resource path for the favicon.
 		/// </summary>
 		public const string FaviconResourcePath = "uComponents.Core.Resources.Images.favicon.ico";

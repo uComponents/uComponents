@@ -10,9 +10,6 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.Shared.PrevalueEditors
 {
-	using System.Diagnostics;
-	using System.Reflection;
-
 	/// <summary>
 	/// Abstract class for the PreValue Editor.
 	/// </summary>
@@ -24,6 +21,20 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		public AbstractPrevalueEditor()
 			: base()
 		{
+		}
+
+		/// <summary>
+		/// Gets the documentation URL.
+		/// </summary>
+		/// <value>
+		/// The documentation URL.
+		/// </value>
+		public virtual string DocumentationUrl
+		{
+			get
+			{
+				return Constants.DocumentationUrl;
+			}
 		}
 
 		/// <summary>
@@ -73,7 +84,7 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-			writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Concat("http://ucomponents.org/?v=", HttpUtility.UrlEncode(infoVersion)));
+			writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Concat(this.DocumentationUrl, "?v=", HttpUtility.UrlEncode(infoVersion)));
 			writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
 			writer.AddAttribute(HtmlTextWriterAttribute.Title, Helper.Dictionary.GetDictionaryItem("DocumentationForUComponents", "Documentation for uComponents"));
 			writer.RenderBeginTag(HtmlTextWriterTag.A);

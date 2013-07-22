@@ -51,6 +51,20 @@ namespace uComponents.DataTypes.TextstringArray
 		}
 
 		/// <summary>
+		/// Gets the documentation URL.
+		/// </summary>
+		/// <value>
+		/// The documentation URL.
+		/// </value>
+		public override string DocumentationUrl
+		{
+			get
+			{
+				return string.Concat(base.DocumentationUrl, "/data-types/textstring-array/");
+			}
+		}
+
+		/// <summary>
 		/// Saves this instance.
 		/// </summary>
 		public override void Save()
