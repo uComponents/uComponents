@@ -477,7 +477,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 a.Attributes.Add("class", "add");
                 a.Attributes.Add("title", "add");
                 a.Attributes.Add("href", "javascript:void(0);");
-                a.Attributes.Add("onclick", "XPathTemplatableList.addItem(this);");                
+                a.Attributes.Add("onclick", "XPathTemplatableList.addItem(this);");
 
                 a.Controls.Add(new Literal() { Text = dataItem.Value });
 

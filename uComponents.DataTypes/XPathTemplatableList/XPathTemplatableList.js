@@ -10,12 +10,12 @@
 
     <div id="body_prop_XPathTemplatableListDocuments_ct100" class="xpath-templatable-list" 
          data-list-height="0"
-         data-min-items="1"          
+         data-min-items="1"
          data-max-items="3"
          data-allow-duplicates="false">
- 
-        <ul class="source-list propertypane">            
-            <li class="(active)" data-value="1">                
+
+        <ul class="source-list propertypane">
+            <li class="(active)" data-value="1">
                 <a class="add" title="add" href="javascript:void(0);" onclick="XPathTemplatableList.addItem(this);">
 
                     ***user templated markup***
@@ -23,7 +23,7 @@
                 </a>
             </li>
             ...
-            <li data-value="9">                
+            <li data-value="9">
                 <a class="add" title="add" href="javascript:void(0);" onclick="XPathTemplatableList.addItem(this);">
                     ...XYZ...
                 </a>
@@ -67,7 +67,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
 
     // public
     function init(div) {
-        
+
         // dom
         var sourceUl = div.find('ul.source-list:first');
         var sortableUl = div.find('ul.sortable-list:first');
@@ -119,7 +119,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
                 updateHidden(sortableUl, hidden, type);
             }
         });
-        
+
         // adjust height for scrolling if specified
         if (parseInt(listHeight) > 0) {
             sourceUl.css('height', listHeight);
@@ -138,13 +138,13 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
 
         var sortableUl = div.find('ul.sortable-list:first');
         var hidden = div.find('input:hidden:first');
-       
+
         // data
         var type = div.data('type');
         var minItems = div.data('min-items');
         var maxItems = div.data('max-items');
         var allowDuplicates = (div.data('allow-duplicates') === 'True');
-        
+
         // ensure won't exceed the max allowed
         if (maxItems == 0 || sortableUl.children('li:not(.placeholder)').length < maxItems) {
 
@@ -164,7 +164,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
     }
 
     // private  - adds an li to the sortable (destination) list
-    function addSortableListItem(sortableUl, text, value) {       
+    function addSortableListItem(sortableUl, text, value) {
         
         var li = jQuery('<li data-value="' + value + '"><div>' +
                             text + '<a class="delete" title="remove" href="javascript:void(0);" onclick="XPathTemplatableList.removeItem(this);"></a>' +
@@ -184,11 +184,11 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
         }
 
     }
-    
+
     // public
     function removeItem(a) {
-       
-        // dom        
+
+        // dom
         var li = jQuery(a).parentsUntil('ul.sortable-list', 'li');
         var sortableUl = li.parent();
         var hidden = sortableUl.siblings('input:hidden');
@@ -201,9 +201,9 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
         // re-activate the matching item by value in the source list
         sourceUl.children('li[data-value=' + value + ']').addClass('active');
 
-        
+
         removeSortableListItem(li);
-        
+
 
         // update the xml fragment
         updateHidden(sortableUl, hidden, type);
@@ -214,7 +214,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
 
         // dom
         var sortableUl = li.parent();
-        var div = sortableUl.parent();        
+        var div = sortableUl.parent();
         
         // data
         var minItems = div.data('min-items');
@@ -231,7 +231,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
                 sortableUl.prepend(PLACEHOLDER_MIN);
             } else {
                 jQuery(PLACEHOLDER_MIN).insertAfter(
-                    sortableUl.children('li:not(.placeholder):last'));                
+                    sortableUl.children('li:not(.placeholder):last'));
             }
 
         } else if(count < maxItems) {
@@ -239,11 +239,11 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
         }
     }
 
-    //// private -- re-generates the xml fragment of selected items, and stores in the hidden field    
+    //// private -- re-generates the xml fragment of selected items, and stores in the hidden field
     function updateHidden(sortableUl, hidden, type) {
 
         var xml = '<XPathTemplatableList Type="' + type + '">';
-        sortableUl.children('li:not(.placeholder)').each(function (index, element) {                
+        sortableUl.children('li:not(.placeholder)').each(function (index, element) {
                 xml += '<Item Value="' + jQuery(element).data('value') + '" />';
             });
             xml += '</XPathTemplatableList>';
@@ -261,7 +261,3 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
     };
 
 }());
-
-
-
-
