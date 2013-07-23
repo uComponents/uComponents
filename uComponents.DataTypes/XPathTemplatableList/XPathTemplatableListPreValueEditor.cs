@@ -225,13 +225,14 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.templateTypeRadioButtonList.AutoPostBack = true;
             this.templateTypeRadioButtonList.SelectedIndexChanged += this.TemplateTypeRadioButtonList_SelectedIndexChanged;
 
+            // TODO: [LK->HR] Would we consider using an elastic textbox here? So that the height expands with the template's content?
             this.textTemplateTextBox.ID = "textTemplateTextBox";
             this.textTemplateTextBox.CssClass = "umbEditorTextField";
             this.textTemplateTextBox.TextMode = TextBoxMode.MultiLine;
             this.textTemplateTextBox.Rows = 1;
 
-            //TODO: textTemplate validator
-            
+            //TODO: [HR] textTemplate validator
+
             this.macroDropDownList.ID = "macroDropDownList";
 
             this.macroRequiredFieldValidator.ControlToValidate = this.macroDropDownList.ID;

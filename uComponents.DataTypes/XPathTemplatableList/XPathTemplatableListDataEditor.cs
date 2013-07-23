@@ -359,7 +359,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 // the token gets a property from a linked node|media|member
                 case 3:
 
-                    //TODO: handlle the hardcoded "Name" property ?
+                    //TODO: [HR] handle the hardcoded "Name" property?
                     switch (token[1])
                     {
                         case "node": return uQuery.GetNode(token[0]).GetProperty<string>(token[2]);
@@ -509,6 +509,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
             }
         }
 
+        // TODO: [LK->HR] Should we move the `uComponents.MacroEngines.Extensions.ControlExtensions` (plus others) to `uComponents.Core.Extensions`?
         /// <summary>
         /// Renders an ASP.NET control into a string (NOTE: was an extension method - where to share in uComponents ?)
         /// </summary>
