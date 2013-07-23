@@ -384,6 +384,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.Controls.Add(this.style);
 
             this.div.Attributes.Add("class", "xpath-templatable-list");
+            this.div.Attributes.Add("data-type", this.options.Type);
             this.div.Attributes.Add("data-list-height", this.options.ListHeight.ToString());
             this.div.Attributes.Add("data-min-items", this.options.MinItems.ToString());
             this.div.Attributes.Add("data-max-items", this.options.MaxItems.ToString());
