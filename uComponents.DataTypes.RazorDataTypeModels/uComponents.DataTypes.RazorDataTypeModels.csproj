@@ -233,6 +233,7 @@
     <Compile Include="CheckBoxTree\CheckBoxTreeModelBinder.cs" />
     <Compile Include="CountryPicker\CountryPickerModelBinder.cs" />
     <Compile Include="DataTypeGrid\DTG_ModelBinder.cs" />
+    <Compile Include="ImagePoint\ImagePointModelBinder.cs" />
     <Compile Include="MultipleDates\MD_ModelBinder.cs" />
     <Compile Include="MultiUrlPicker\MultiUrlPickerModelBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

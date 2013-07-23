@@ -239,6 +239,7 @@
     <Compile Include="CheckBoxTree\CheckBoxTreePropertyEditorValueConverter.cs" />
     <Compile Include="CountryPicker\CountryPickerPropertyEditorValueConverter.cs" />
     <Compile Include="DataTypeGrid\DataTypeGridPropertyEditorValueConverter.cs" />
+    <Compile Include="ImagePoint\ImagePointPropertyEditorValueConverter.cs" />
     <Compile Include="MultipleDates\MultipleDatesPropertyEditorValueConverter.cs" />
     <Compile Include="MultiUrlPicker\MultiUrlPickerPropertyEditorValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
