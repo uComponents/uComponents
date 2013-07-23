@@ -30,26 +30,26 @@ namespace uComponents.DataTypes.ImagePoint
         public int Height { get; private set; }
 
 
-        public decimal PercentageX 
+        public byte PercentageX 
         {
             get
             {
                 if (this.Width > 0 && this.X > 0)
                 {
-                    return (decimal)((decimal)this.Width / this.X) * 100;
+                    return (byte)((decimal)((decimal)this.Width / this.X) * 100);
                 }
 
                 return 0;
             }
         }
 
-        public decimal PercentageY
+        public byte PercentageY
         {
             get
             {
                 if (this.Height > 0 && this.Y > 0)
                 {
-                    return (decimal)((decimal)this.Height / this.Y) * 100;
+                    return (byte)((decimal)((decimal)this.Height / this.Y) * 100);
                 }
 
                 return 0;
