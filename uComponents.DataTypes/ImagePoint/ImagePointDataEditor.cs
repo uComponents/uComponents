@@ -20,6 +20,8 @@ using Image = System.Web.UI.WebControls.Image;
 
 namespace uComponents.DataTypes.ImagePoint
 {
+    using System.Xml.Linq;
+
     /// <summary>
     /// Image Point Data Type
     /// </summary>
@@ -181,11 +183,17 @@ namespace uComponents.DataTypes.ImagePoint
             if (!this.Page.IsPostBack && this.data.Value != null)
             {
                 // set the x and y textboxes
-                string[] coordinates = this.data.Value.ToString().Split(',');
-                if (coordinates.Length == 2)
+                ImagePoint value = new ImagePoint();
+                ((uQuery.IGetProperty)value).LoadPropertyValue(this.data.Value.ToString());
+
+                if (value.X.HasValue)
                 {
-                    this.xTextBox.Text = coordinates[0];
-                    this.yTextBox.Text = coordinates[1];
+                    this.xTextBox.Text = value.X.ToString();
+                }
+
+                if (value.Y.HasValue)
+                {
+                    this.yTextBox.Text = value.Y.ToString();
                 }
             }
 
@@ -207,7 +215,14 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         public void Save()
         {
-            this.data.Value = this.xTextBox.Text + "," + this.yTextBox.Text;
+            // storing the width and height allow the percentage calculation in the property-value-convertor
+            this.data.Value = new XElement(
+                "ImagePoint",
+                new XAttribute("x", this.xTextBox.Text),
+                new XAttribute("y", this.yTextBox.Text),
+                new XAttribute("width", this.mainImage.Attributes["width"]),
+                new XAttribute("height", this.mainImage.Attributes["height"]))
+                .ToString();
         }
 
         /// <summary>
