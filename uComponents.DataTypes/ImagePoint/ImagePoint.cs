@@ -10,6 +10,17 @@ namespace uComponents.DataTypes.ImagePoint
     public class ImagePoint : uQuery.IGetProperty
     {
         /// <summary>
+        /// Gets a value indicating whether both the X and Y values have been set 
+        /// </summary>
+        public bool HasCoordinate
+        {
+            get
+            {
+                return this.X.HasValue && this.Y.HasValue;
+            }
+        }
+
+        /// <summary>
         /// Gets the X Coordinate (will be null if not set)
         /// </summary>
         public int? X { get; private set; }
@@ -29,7 +40,9 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         public int Height { get; private set; }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public byte PercentageX 
         {
             get
@@ -43,6 +56,9 @@ namespace uComponents.DataTypes.ImagePoint
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public byte PercentageY
         {
             get
@@ -59,13 +75,12 @@ namespace uComponents.DataTypes.ImagePoint
         /// <summary>
         /// Create this strongly typed object from the xml fragment
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">the xml string</param>
         void uQuery.IGetProperty.LoadPropertyValue(string value)
         {                      
             if (!string.IsNullOrWhiteSpace(value))
             {
                 // <ImagePoint x="5" y="10" width="100 height="100" />
-
                 XDocument valueXDocument = this.GetXDocument(value);
                 if (valueXDocument != null)
                 {
@@ -95,26 +110,6 @@ namespace uComponents.DataTypes.ImagePoint
                         if (int.TryParse(imagePointElement.Attribute("height").Value, out height))
                         {
                             this.Height = height;
-                        }
-                    }
-                }
-                else
-                {
-                    // LEGACY CODE - WILL BE REMOVED
-                    string[] coordinates = value.Split(',');
-                    if (coordinates.Length == 2)
-                    {
-                        int x;
-                        int y;
-
-                        if (int.TryParse(coordinates[0], out x))
-                        {
-                            this.X = x;
-                        }
-
-                        if (int.TryParse(coordinates[1], out y))
-                        {
-                            this.Y = y;
                         }
                     }
                 }
