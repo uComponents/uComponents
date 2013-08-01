@@ -36,6 +36,17 @@ namespace uComponents.DataTypes.RenderMacro
 		/// </summary>
 		private Literal Styles;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/render-macro/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RenderMacroPrevalueEditor"/> class.
 		/// </summary>

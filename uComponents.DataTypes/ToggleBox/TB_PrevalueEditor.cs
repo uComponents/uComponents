@@ -40,6 +40,17 @@ namespace uComponents.DataTypes.ToggleBox
 		/// </summary>
 		private TextBox OnText;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/toggle-box/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TB_PrevalueEditor"/> class.
 		/// </summary>

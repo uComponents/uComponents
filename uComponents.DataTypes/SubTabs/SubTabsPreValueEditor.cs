@@ -23,6 +23,17 @@ namespace uComponents.DataTypes.SubTabs
         private SubTabsOptions options = null;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/sub-tabs/");
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SubTabsPreValueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>

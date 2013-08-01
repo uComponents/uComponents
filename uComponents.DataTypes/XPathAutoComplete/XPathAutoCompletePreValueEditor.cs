@@ -71,6 +71,17 @@ namespace uComponents.DataTypes.XPathAutoComplete
         private XPathAutoCompleteOptions options = null;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/xpath-auto-complete/");
+            }
+        }
+
+        /// <summary>
         /// Initialize a new instance of XPathAutoCompletePreValueEditor
         /// </summary>
         /// <param name="dataType">XPathAutoCompleteDataType</param>

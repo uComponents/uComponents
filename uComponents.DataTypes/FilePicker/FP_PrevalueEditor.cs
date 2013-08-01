@@ -22,6 +22,17 @@ namespace uComponents.DataTypes.FilePicker
 		/// </summary>
 		private static readonly object m_Locker = new object();
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/file-picker/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FP_PrevalueEditor"/> class.
 		/// </summary>

@@ -73,16 +73,16 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		private CheckBoxTreeOptions options = null;
 
-		// TODO: [HR] CheckBox to toggle auto selecting parent if descendents fully selected (like when installing software)
-
-		/// <summary>
-		/// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
-		/// </summary>
-		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnInit(EventArgs e)
-		{
-			base.OnInit(e);
-		}
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/check-box-tree/");
+            }
+        }
 
 		/// <summary>
 		/// Gets the options.

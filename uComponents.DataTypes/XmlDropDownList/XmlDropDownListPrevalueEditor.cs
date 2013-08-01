@@ -31,6 +31,17 @@ namespace uComponents.DataTypes.XmlDropDownList
 		/// </summary>
 		private TextBox TextBoxValueColumn;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/xml-dropdownlist/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="XmlDropDownListPrevalueEditor"/> class.
 		/// </summary>

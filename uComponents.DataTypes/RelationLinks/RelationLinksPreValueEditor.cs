@@ -26,6 +26,17 @@ namespace uComponents.DataTypes.RelationLinks
         private RelationLinksOptions options = null;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/relation-links/");
+            }
+        }
+
+        /// <summary>
         /// Gets the options.
         /// </summary>
         /// <value>The options.</value>

@@ -140,6 +140,17 @@ namespace uComponents.DataTypes.XPathTemplatableList
         private XPathTemplatableListOptions options = null;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/xpath-templatable-list/");
+            }
+        }
+
+        /// <summary>
         /// Initialize a new instance of XPathTemplatableListPreValueEditor
         /// </summary>
         /// <param name="dataType">XPathTemplatableListDataType</param>

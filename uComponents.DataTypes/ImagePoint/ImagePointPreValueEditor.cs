@@ -34,6 +34,17 @@ namespace uComponents.DataTypes.ImagePoint
         private ImagePointOptions options = null;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/image-point/");
+            }
+        }
+
+        /// <summary>
         /// Gets the options data object that represents the current state of this datatypes configuration
         /// </summary>
         internal ImagePointOptions Options

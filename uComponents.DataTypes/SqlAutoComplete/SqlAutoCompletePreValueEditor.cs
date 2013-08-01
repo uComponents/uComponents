@@ -66,6 +66,17 @@ namespace uComponents.DataTypes.SqlAutoComplete
         private SqlAutoCompleteOptions options = null;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/sql-auto-complete/");
+            }
+        }
+
+        /// <summary>
         /// Initialize a new instance of SqlAutoCompletePreValueEditor
         /// </summary>
         /// <param name="dataType">SqlAutoCompleteDataType</param>

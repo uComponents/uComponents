@@ -42,6 +42,17 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// </summary>
 		private SqlCheckBoxListOptions options = null;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/sql-checkboxlist/");
+            }
+        }
+
 		/// <summary>
 		/// Initialize a new instance of XPathCheckBoxlistPreValueEditor
 		/// </summary>

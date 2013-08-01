@@ -103,6 +103,17 @@ namespace uComponents.DataTypes.DataTypeGrid
         private PreValueRow newPreValue;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/datatype-grid/");
+            }
+        }
+
+        /// <summary>
         /// The editor settings
         /// </summary>
         private PreValueEditorSettings settings;
