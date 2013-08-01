@@ -10,6 +10,7 @@ function RegexValidate(source, args) {
 	var uComponentsDataTypeGrid = {
 		init: function (options) {
 			return this.each(function () {
+				var grid;
 				
 				var defaults = {
 					bJQueryUI: true,
@@ -17,14 +18,14 @@ function RegexValidate(source, args) {
 					oLanguage: $.uComponents.dictionary().dataTablesTranslation,
 					sScrollY: getTableHeight(this),
 					bPaginate: false,
-					bScrollCollapse: true,
+					bScrollCollapse: false,
 					bSort: false,
 					bAutoWidth: true,
 					sScrollX: "100%",
 					sScrollXInner: "100%",
 					aoColumnDefs: [
 						{ "sTitle": "", "bSearchable": false, "bSortable": false, "sType": "numeric", "aTargets": [0] },
-						{ "sTitle": "", "bSearchable": false, "bSortable": false, "sType": "numeric", "aTargets": [1] }
+						{ "sTitle": "", "bSearchable": false, "bSortable": false, "aTargets": [1] }
 					],
 					fnDrawCallback: function (oSettings) {
 						configureToolbar($(oSettings.nTableWrapper).parent());
@@ -40,7 +41,7 @@ function RegexValidate(source, args) {
 
 					// Dont add datatables if there is no table
 					if ($("table.display", this).length > 0) {
-						var dataTable = $("table.display", this).dataTable(settings);
+						grid = $("table.display", this).dataTable(settings);
 					}
 
 					// Setup hover events
@@ -119,6 +120,11 @@ function RegexValidate(source, args) {
 
 					// Set loaded indicator
 					$(this).data("datatypegridloaded", true);
+					
+					// Trigger column resizing
+					grid.fnAdjustColumnSizing(false);
+
+					return grid;
 				}
 
 				// Private functions
@@ -149,9 +155,6 @@ function RegexValidate(source, args) {
 							return false;
 						}
 					});
-
-					// Set first column width
-					$(container).find("th.actions, td.actions").width(19);
 				}
 				
 				function configureSortable(container) {
