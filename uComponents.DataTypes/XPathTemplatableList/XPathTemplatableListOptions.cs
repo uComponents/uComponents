@@ -87,6 +87,18 @@ namespace uComponents.DataTypes.XPathTemplatableList
         public string TextTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets the css file name (empty string = not set)
+        /// </summary>
+        [DefaultValue("")]
+        public string CssFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets the script file name (empty string = not set)
+        /// </summary>
+        [DefaultValue("")]
+        public string ScriptFile { get; set; }
+
+        /// <summary>
         /// Gets or sets the macro by alias to use as the rendering mechanism for each item
         /// </summary>
         [DefaultValue("")]

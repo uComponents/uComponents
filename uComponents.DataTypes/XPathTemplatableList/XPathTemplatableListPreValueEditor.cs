@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -12,6 +14,7 @@ using umbraco.macroRenderings;
 namespace uComponents.DataTypes.XPathTemplatableList
 {
     using System.ComponentModel;
+    using System.Web.Hosting;
 
     using umbraco.cms.businesslogic.macro;
 
@@ -98,6 +101,16 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// 
         /// </summary>
         private RequiredFieldValidator macroRequiredFieldValidator = new RequiredFieldValidator();
+
+        /// <summary>
+        /// for selection of a css file (or empty)
+        /// </summary>
+        private DropDownList cssFileDropDownList = new DropDownList();
+
+        /// <summary>
+        /// for selection of a script file (or empty)
+        /// </summary>
+        private DropDownList scriptFileDropDownList = new DropDownList();
 
         /// <summary>
         /// Min number of items that must be selected - defaults to 0
@@ -240,6 +253,9 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.macroRequiredFieldValidator.CssClass = "validator";
             this.macroRequiredFieldValidator.ErrorMessage = " Macro required";
 
+            this.cssFileDropDownList.ID = "cssDropDownList";
+
+            this.scriptFileDropDownList.ID = "scriptDropDownList";
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
             this.minItemsTextBox.Width = 30;
@@ -286,6 +302,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.textTemplateTextBox,
                 this.macroDropDownList,
                 this.macroRequiredFieldValidator,
+                this.cssFileDropDownList,
+                this.scriptFileDropDownList,
                 this.minItemsTextBox,
                 this.minItemsRegularExpressionValidator,
                 this.minItemsCustomValidator,
@@ -329,7 +347,16 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.macroDropDownList.DataTextField = "Name";
                 this.macroDropDownList.DataSource = Macro.GetAll();
                 this.macroDropDownList.DataBind();
-                this.macroDropDownList.Items.Insert(0, string.Empty);                               
+                this.macroDropDownList.Items.Insert(0, string.Empty);
+
+
+                this.cssFileDropDownList.DataSource = this.GetAllFilesForDropDownList(HostingEnvironment.MapPath("~/css/"), "*.css");                
+                this.cssFileDropDownList.DataBind();
+                this.cssFileDropDownList.Items.Insert(0, string.Empty);
+
+                this.scriptFileDropDownList.DataSource = this.GetAllFilesForDropDownList(HostingEnvironment.MapPath("~/scripts/"), "*.js");
+                this.scriptFileDropDownList.DataBind();
+                this.scriptFileDropDownList.Items.Insert(0, string.Empty);
             }
 
             this.typeRadioButtonList.SelectedValue = this.Options.Type;
@@ -342,6 +369,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.templateTypeRadioButtonList.SelectedValue = this.Options.TemplateType;
             this.textTemplateTextBox.Text = this.Options.TextTemplate; // [HR] html decode ?
             this.macroDropDownList.SelectedValue = this.Options.MacroAlias;
+            this.cssFileDropDownList.SelectedValue = this.Options.CssFile;
+            this.scriptFileDropDownList.SelectedValue = this.Options.ScriptFile;
             this.minItemsTextBox.Text = this.Options.MinItems.ToString();
             this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
             this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
@@ -553,6 +582,9 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.Options.TextTemplate = this.textTemplateTextBox.Text;
                 this.Options.MacroAlias = this.macroDropDownList.SelectedValue;
 
+                this.Options.CssFile = this.cssFileDropDownList.SelectedValue;
+                this.Options.ScriptFile = this.scriptFileDropDownList.SelectedValue;
+
                 int minItems;
                 int.TryParse(this.minItemsTextBox.Text, out minItems);
                 this.Options.MinItems = minItems;
@@ -608,6 +640,9 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 writer.AddPrevalueRow("Macro", "macro expects an int paramter named 'id'", this.macroDropDownList, this.macroRequiredFieldValidator);
             }
 
+            writer.AddPrevalueRow("Css File", "can use classes: .xpath-templatable-list, .xpath-templatable-list-datatype-id-" + "123" + ", xpath-templatable-list-property-alias-????", this.cssFileDropDownList);
+            writer.AddPrevalueRow("Script File", "executed after datatype initialization", this.scriptFileDropDownList);
+
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsRegularExpressionValidator, this.minItemsCustomValidator);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator); // BUG: this.maxItemsRegularExpressionValidator doens't work here !
             writer.AddPrevalueRow("Allow Duplicates", "when checked, duplicate values can be selected", this.allowDuplicatesCheckBox);
@@ -619,6 +654,17 @@ namespace uComponents.DataTypes.XPathTemplatableList
             regularExpressionValidator.CssClass = "validator";
             regularExpressionValidator.ErrorMessage = " Must be a number";
             regularExpressionValidator.ValidationExpression = @"^\d{1,3}$";
+        }
+
+        private IEnumerable<ListItem> GetAllFilesForDropDownList(string path, string searchPattern)
+        {
+            var root = new Uri(HostingEnvironment.MapPath("~/"));
+
+            return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories)
+                .Select(x => 
+                    new ListItem(
+                        Uri.UnescapeDataString(
+                            "/" + root.MakeRelativeUri(new Uri(x)).ToString())));
         }
 
         /// <summary>
