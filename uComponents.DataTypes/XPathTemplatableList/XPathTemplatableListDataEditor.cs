@@ -23,6 +23,8 @@ using umbraco.interfaces;
 using umbraco.NodeFactory;
 using umbraco.presentation.templateControls;
 
+using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
+
 [assembly: WebResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.css", Constants.MediaTypeNames.Text.Css)]
 [assembly: WebResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.js", Constants.MediaTypeNames.Application.JavaScript)]
 
@@ -383,7 +385,12 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             this.Controls.Add(this.style);
 
-            this.div.Attributes.Add("class", "xpath-templatable-list");
+            this.div.Attributes.Add(
+                    "class",
+                    "xpath-templatable-list " + 
+                    "xpath-templatable-list-datatype-id-" + ((DefaultData)this.data).DataTypeDefinitionId + " " +
+                    "xpath-templatable-list-property-alias-" + this.Editor.ID.Replace("prop_", string.Empty)); // http://our.umbraco.org/forum/developers/extending-umbraco/7452-Document-type-alias-in-custom-datatype
+                    
             this.div.Attributes.Add("data-type", this.options.Type);
             this.div.Attributes.Add("data-list-height", this.options.ListHeight.ToString());
             this.div.Attributes.Add("data-min-items", this.options.MinItems.ToString());
