@@ -368,9 +368,11 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.itemHeightTextBox.Text = this.Options.ItemHeight.ToString();
             this.templateTypeRadioButtonList.SelectedValue = this.Options.TemplateType;
             this.textTemplateTextBox.Text = this.Options.TextTemplate; // [HR] html decode ?
-            this.macroDropDownList.SelectedValue = this.Options.MacroAlias;
-            this.cssFileDropDownList.SelectedValue = this.Options.CssFile;
-            this.scriptFileDropDownList.SelectedValue = this.Options.ScriptFile;
+
+            this.macroDropDownList.SetSelectedValue(this.Options.MacroAlias);
+            this.cssFileDropDownList.SetSelectedValue(this.Options.CssFile);
+            this.scriptFileDropDownList.SetSelectedValue(this.Options.ScriptFile);
+
             this.minItemsTextBox.Text = this.Options.MinItems.ToString();
             this.maxItemsTextBox.Text = this.Options.MaxItems.ToString();
             this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
