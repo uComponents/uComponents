@@ -66,7 +66,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
     var PLACEHOLDER_MAX = '<li class="placeholder max">&nbsp;</li>';
 
     // public
-    function init(div) {
+    function init(div, callback) {
 
         // dom
         var sourceUl = div.find('ul.source-list:first');
@@ -126,6 +126,9 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
             div.addClass('scrolling');
         }
 
+        if (typeof callback == 'function') {
+            callback();
+        }
     }
 
 

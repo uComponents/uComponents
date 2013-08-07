@@ -643,7 +643,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
             }
 
             writer.AddPrevalueRow("Css File", "can use classes: .xpath-templatable-list.datatype-id-" + this.DataType.DataTypeDefinitionId + ".property-alias-????", this.cssFileDropDownList);
-            writer.AddPrevalueRow("Script File", "executed after datatype initialization", this.scriptFileDropDownList);
+            writer.AddPrevalueRow("Script File", "contents passed as callback parameter to datatype initialization (can use classes above)", this.scriptFileDropDownList);
 
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsRegularExpressionValidator, this.minItemsCustomValidator);
             writer.AddPrevalueRow("Max Items", "number of items that can be selected - 0 means no limit", this.maxItemsTextBox, this.maxItemsCustomValidator); // BUG: this.maxItemsRegularExpressionValidator doens't work here !

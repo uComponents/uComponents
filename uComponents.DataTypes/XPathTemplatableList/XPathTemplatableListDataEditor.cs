@@ -30,6 +30,8 @@ using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
 
 namespace uComponents.DataTypes.XPathTemplatableList
 {
+    using System.Web.Hosting;
+
     using ClientDependency.Core.Controls;
 
     /// <summary>
@@ -442,24 +444,36 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.PopulateSourceList();
 
             // add custom css from options
-
-
             if (!string.IsNullOrWhiteSpace(this.options.CssFile))
             {
                 ClientDependencyLoader clientDependencyLoader = ClientDependencyLoader.GetInstance(new HttpContextWrapper(HttpContext.Current));
                 clientDependencyLoader.RegisterDependency(this.options.CssFile, ClientDependency.Core.ClientDependencyType.Css);
             }
 
-
-
-
+            // add datatype css / js
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.js", ClientDependencyType.Javascript);
+
+            // if selecting a js file, it'll read in the contents of that file server side, and pass that string as a callback to the datatype init function
+            string customCallbackScript = null;
+            if (!string.IsNullOrWhiteSpace(this.options.ScriptFile))
+            {
+                string scriptFile = HostingEnvironment.MapPath("~" + this.options.ScriptFile);
+                if (scriptFile != null)
+                {
+                    customCallbackScript = File.ReadAllText(scriptFile);
+                }                
+            }
+
+            if (string.IsNullOrWhiteSpace(customCallbackScript))
+            {
+                customCallbackScript = "null"; // ensure a clean js method call
+            }
 
             string startupScript = @"
                 <script language='javascript' type='text/javascript'>
                     $(document).ready(function () {
-                        XPathTemplatableList.init(jQuery('div#" + this.div.ClientID + @"'));
+                        XPathTemplatableList.init(jQuery('div#" + this.div.ClientID + "'), " + customCallbackScript + @");
                     });
                 </script>";
 
