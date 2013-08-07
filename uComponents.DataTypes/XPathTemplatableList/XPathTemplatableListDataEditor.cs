@@ -30,6 +30,8 @@ using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
 
 namespace uComponents.DataTypes.XPathTemplatableList
 {
+    using ClientDependency.Core.Controls;
+
     /// <summary>
     /// DataEditor for the XPath Templatable List data-type.
     /// </summary>
@@ -438,6 +440,18 @@ namespace uComponents.DataTypes.XPathTemplatableList
             }
 
             this.PopulateSourceList();
+
+            // add custom css from options
+
+
+            if (!string.IsNullOrWhiteSpace(this.options.CssFile))
+            {
+                ClientDependencyLoader clientDependencyLoader = ClientDependencyLoader.GetInstance(new HttpContextWrapper(HttpContext.Current));
+                clientDependencyLoader.RegisterDependency(this.options.CssFile, ClientDependency.Core.ClientDependencyType.Css);
+            }
+
+
+
 
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.css", ClientDependencyType.Css);
             this.RegisterEmbeddedClientResource("uComponents.DataTypes.XPathTemplatableList.XPathTemplatableList.js", ClientDependencyType.Javascript);
