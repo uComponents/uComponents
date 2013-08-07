@@ -642,7 +642,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 writer.AddPrevalueRow("Macro", "macro expects an int paramter named 'id'", this.macroDropDownList, this.macroRequiredFieldValidator);
             }
 
-            writer.AddPrevalueRow("Css File", "can use classes: .xpath-templatable-list, .xpath-templatable-list-datatype-id-" + "123" + ", xpath-templatable-list-property-alias-????", this.cssFileDropDownList);
+            writer.AddPrevalueRow("Css File", "can use classes: .xpath-templatable-list.datatype-id-" + this.DataType.DataTypeDefinitionId + ".property-alias-????", this.cssFileDropDownList);
             writer.AddPrevalueRow("Script File", "executed after datatype initialization", this.scriptFileDropDownList);
 
             writer.AddPrevalueRow("Min Items", "number of items that must be selected", this.minItemsTextBox, this.minItemsRegularExpressionValidator, this.minItemsCustomValidator);

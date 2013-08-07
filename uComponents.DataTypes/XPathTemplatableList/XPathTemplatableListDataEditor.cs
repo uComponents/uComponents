@@ -390,8 +390,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.div.Attributes.Add(
                     "class",
                     "xpath-templatable-list " + 
-                    "xpath-templatable-list-datatype-id-" + ((DefaultData)this.data).DataTypeDefinitionId + " " +
-                    "xpath-templatable-list-property-alias-" + this.Editor.ID.Replace("prop_", string.Empty)); // http://our.umbraco.org/forum/developers/extending-umbraco/7452-Document-type-alias-in-custom-datatype
+                    "datatype-id-" + ((DefaultData)this.data).DataTypeDefinitionId + " " +
+                    "property-alias-" + this.Editor.ID.Replace("prop_", string.Empty)); // http://our.umbraco.org/forum/developers/extending-umbraco/7452-Document-type-alias-in-custom-datatype
                     
             this.div.Attributes.Add("data-type", this.options.Type);
             this.div.Attributes.Add("data-list-height", this.options.ListHeight.ToString());
