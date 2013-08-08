@@ -32,9 +32,9 @@ namespace uComponents.DataTypes.XmlDropDownList
 		public string XmlFilePath { get; set; }
 
 		/// <summary>
-		/// Gets or sets the X path expression.
+		/// Gets or sets the XPath expression.
 		/// </summary>
-		/// <value>The X path expression.</value>
+		/// <value>The XPath expression.</value>
 		[DefaultValue("")]
 		public string XPathExpression { get; set; }
 
