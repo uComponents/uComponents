@@ -38,27 +38,43 @@ namespace uComponents.DataTypes.XPathTemplatableList
                     </XPathTemplatableList>
                 */
 
-                XDocument valueXDocument = XDocument.Load(value);
-                IEnumerable<int> values = valueXDocument.Descendants("Item").Attributes("Value").Select(x => int.Parse(x.Value));
-
-                Guid typeGuid;
-                if (Guid.TryParse(valueXDocument.Root.Attribute("Type").Value, out typeGuid))
+                XDocument valueXDocument = this.GetXDocument(value);
+                if (valueXDocument != null)
                 {
-                    switch(uQuery.GetUmbracoObjectType(typeGuid))
+                    IEnumerable<int> values = valueXDocument.Descendants("Item").Attributes("Value").Select(x => int.Parse(x.Value));
+
+                    Guid typeGuid;
+                    if (Guid.TryParse(valueXDocument.Root.Attribute("Type").Value, out typeGuid))
                     {
-                        case uQuery.UmbracoObjectType.Document:
-                            this.SelectedNodes = values.Select(x => new Node(x));
-                            break;
+                        switch (uQuery.GetUmbracoObjectType(typeGuid))
+                        {
+                            case uQuery.UmbracoObjectType.Document:
+                                this.SelectedNodes = values.Select(x => new Node(x));
+                                break;
 
-                        case uQuery.UmbracoObjectType.Media:
-                            this.SelectedMedia = values.Select(x => new Media(x));
-                            break;
+                            case uQuery.UmbracoObjectType.Media:
+                                this.SelectedMedia = values.Select(x => new Media(x));
+                                break;
 
-                        case uQuery.UmbracoObjectType.Member:
-                            this.SelectedMembers = values.Select(x => new Member(x));
-                            break;
+                            case uQuery.UmbracoObjectType.Member:
+                                this.SelectedMembers = values.Select(x => new Member(x));
+                                break;
+                        }
                     }
                 }
+            }
+        }
+
+        private XDocument GetXDocument(string value)
+        {
+            try
+            {
+                return XDocument.Parse(value);
+            }
+            catch
+            {
+                // invalid xml
+                return null;
             }
         }
 
