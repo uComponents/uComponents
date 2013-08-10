@@ -457,6 +457,10 @@
     <Compile Include="XPathAutoComplete\XPathAutoCompleteDataType.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompleteOptions.cs" />
     <Compile Include="XPathAutoComplete\XPathAutoCompletePreValueEditor.cs" />
+    <Compile Include="XPathRadioButtonList\XPathRadioButtonListDataEditor.cs" />
+    <Compile Include="XPathRadioButtonList\XPathRadioButtonListDataType.cs" />
+    <Compile Include="XPathRadioButtonList\XPathRadioButtonListOptions.cs" />
+    <Compile Include="XPathRadioButtonList\XPathRadioButtonListPreValueEditor.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableList.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListDataEditor.cs" />
     <Compile Include="XPathTemplatableList\XPathTemplatableListDataType.cs" />

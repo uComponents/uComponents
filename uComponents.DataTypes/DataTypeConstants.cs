@@ -225,7 +225,12 @@
 		/// </summary>
 		public const string XPathDropDownListId = "57A62843-C488-4C29-8125-52F51873613E";
 
-		/// <summary>
+        /// <summary>
+        /// Guid for the XPathRadioButtonList data-type.
+        /// </summary>
+        public const string XPathRadioButtonListId = "88BB2F11-2C76-4124-AAC4-4A544410D158";
+        
+        /// <summary>
 		/// Guid for the XPathTemplatableList data-type.
 		/// </summary>
 		public const string XPathTemplatableListId = "F5F79D85-83DC-40A8-9050-52C3B68B07D6";
