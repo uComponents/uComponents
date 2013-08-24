@@ -83,6 +83,40 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         /// <summary>
         /// Method for getting the backing object for the specified <see cref="IDataType" />.
         /// </summary>
+        /// <typeparam name="TBackingObjectType">The backing object type.</typeparam>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <returns>The backing object.</returns>
+        /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue{TBackingObjectType}()" /> method is called on a <see cref="GridCell" />.</remarks>
+        public TBackingObjectType GetPropertyValue<TBackingObjectType>(IDataType dataType)
+        {
+            var f = this.GetDataTypeFactory(dataType);
+
+            try
+            {
+                var m = f.GetType().GetMethods().Where(x => x.Name == "GetPropertyValue").First(x => x.GetGenericArguments().Count() == 1);
+                var v = m.MakeGenericMethod(typeof(TBackingObjectType)).Invoke(f, new object[] { dataType });
+
+                return v is TBackingObjectType ? (TBackingObjectType)v : default(TBackingObjectType);
+            }
+            catch (Exception ex)
+            {
+                var m =
+                    string.Format(
+                        "An error occured when getting the property value for the DataType {{ Id: {0}, Type: {1}, Name: {2}, Data: {3} }}.",
+                        dataType.Id,
+                        dataType.DataTypeDefinitionId,
+                        dataType.DataTypeName,
+                        dataType.Data.Value);
+
+                Helper.Log.Error<DataType>(m, ex);
+
+                throw new Exception(m, ex);
+            }
+        }
+
+        /// <summary>
+        /// Method for getting the backing object for the specified <see cref="IDataType" />.
+        /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
         /// <returns>The backing object.</returns>
         /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>

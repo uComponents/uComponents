@@ -28,6 +28,15 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         string GetDisplayValue(TDataType dataType);
 
         /// <summary>
+        /// Method for getting the typed backing object for the specified <typeparamref name="TDataType">datatype</typeparamref>.
+        /// </summary>
+        /// <typeparam name="TBackingObjectType">The backing object type.</typeparam>
+        /// <param name="dataType">The <typeparamref name="TDataType">datatype</typeparamref> instance.</param>
+        /// <returns>The backing object.</returns>
+        /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue{TBackingObjectType}()" /> method is called on a <see cref="GridCell" />.</remarks>
+        TBackingObjectType GetPropertyValue<TBackingObjectType>(TDataType dataType);
+
+        /// <summary>
         /// Method for getting the backing object for the specified <typeparamref name="TDataType">datatype</typeparamref>.
         /// </summary>
         /// <param name="dataType">The <typeparamref name="TDataType">datatype</typeparamref> instance.</param>

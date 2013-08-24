@@ -29,6 +29,15 @@ namespace uComponents.DataTypes.DataTypeGrid.Interfaces
         /// <summary>
         /// Method for getting the backing object for the specified <see cref="IDataType" />.
         /// </summary>
+        /// <typeparam name="TBackingObjectType">The backing object type.</typeparam>
+        /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
+        /// <returns>The backing object.</returns>
+        /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>
+        TBackingObjectType GetPropertyValue<TBackingObjectType>(IDataType dataType);
+
+        /// <summary>
+        /// Method for getting the backing object for the specified <see cref="IDataType" />.
+        /// </summary>
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
         /// <returns>The backing object.</returns>
         /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>
