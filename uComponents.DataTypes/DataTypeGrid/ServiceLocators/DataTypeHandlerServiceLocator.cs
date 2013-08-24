@@ -94,7 +94,7 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
             {
                 var v = f.GetType().GetMethod("GetPropertyValue").Invoke(f, new object[] { dataType });
 
-                return v.ToString();
+                return v;
             }
             catch (Exception ex)
             {
