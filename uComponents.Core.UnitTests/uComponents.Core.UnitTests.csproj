@@ -244,6 +244,7 @@
   <ItemGroup>
     <Compile Include="Abstractions\MockUmbracoLibrary.cs" />
     <Compile Include="Helpers\ResolversTests.cs" />
+    <Compile Include="PropertyEditorValueConverters\UrlPickerPropertyEditorValueConverterTests.cs" />
     <Compile Include="XsltExtensions\RandomTest.cs" />
     <Compile Include="XsltExtensions\UrlsTest.cs" />
     <Compile Include="DataTypes\DataTypeGrid\GridCellTests.cs" />
@@ -261,9 +262,17 @@
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\uComponents.DataTypes.RazorDataTypeModels\uComponents.DataTypes.RazorDataTypeModels.csproj">
+      <Project>{f3044b98-5d10-4492-a6c9-21612569fef1}</Project>
+      <Name>uComponents.DataTypes.RazorDataTypeModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
       <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
       <Name>uComponents.DataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.PropertyEditors.ValueConverters\uComponents.PropertyEditors.ValueConverters.csproj">
+      <Project>{9df10752-54c8-4ec2-bbde-3d3204f6d1c4}</Project>
+      <Name>uComponents.PropertyEditors.ValueConverters</Name>
     </ProjectReference>
     <ProjectReference Include="..\uComponents.XsltExtensions\uComponents.XsltExtensions.csproj">
       <Project>{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}</Project>

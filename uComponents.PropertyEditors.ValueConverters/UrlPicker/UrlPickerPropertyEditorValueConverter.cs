@@ -39,7 +39,9 @@ namespace uComponents.PropertyEditors.ValueConverters.UrlPicker
 		{
 			if (value != null && value.ToString().Length > 0)
 			{
-				return new Attempt<object>(true, new JavaScriptSerializer().Deserialize<UrlPickerState>(value.ToString()));
+			    var v = UrlPickerState.Deserialize(value.ToString());
+
+			    return new Attempt<object>(true, v);
 			}
 
 			return Attempt<object>.False;
