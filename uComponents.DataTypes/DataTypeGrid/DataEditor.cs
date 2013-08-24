@@ -1063,6 +1063,8 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 			// Adds the client dependencies
 			this.AddAllDtgClientDependencies();
+
+			this.EnsureChildControls();
 		}
 
 		/// <summary>
