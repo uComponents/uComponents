@@ -301,11 +301,16 @@ namespace uComponents.DataTypes.UrlPicker.Dto
                  // If the mode is a content node, get the url for the node
                  if (state.Mode == UrlPickerMode.Content && state.NodeId.HasValue && UmbracoContext.Current != null)
                  {
-                     var url = uQuery.GetNode(state.NodeId.Value).Url;
+                     var n = uQuery.GetNode(state.NodeId.Value);
   
-                     if (!string.IsNullOrWhiteSpace(url))
+                     if (!string.IsNullOrWhiteSpace(n.Url))
                      {
-                         state.Url = url;
+                         state.Url = n.Url;
+                     }
+
+                     if (string.IsNullOrWhiteSpace(state.Title))
+                     {
+                         state.Title = n.Name;
                      }
                  }
             }
