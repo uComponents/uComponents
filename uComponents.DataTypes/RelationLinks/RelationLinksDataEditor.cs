@@ -9,12 +9,16 @@ using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.relation;
 using umbraco.interfaces;
 using umbraco.editorControls;
+using umbraco.presentation.templateControls;
 
 [assembly: WebResource("uComponents.DataTypes.RelationLinks.RelationLinks.js", Constants.MediaTypeNames.Application.JavaScript)]
 
 namespace uComponents.DataTypes.RelationLinks
 {
-	/// <summary>
+    using System.IO;
+    using System.Text;
+
+    /// <summary>
 	/// Related Links dataeditor
 	/// </summary>
 	public class RelationLinksDataEditor : CompositeControl, IDataEditor
@@ -123,10 +127,8 @@ namespace uComponents.DataTypes.RelationLinks
 		{
 			HtmlGenericControl li = new HtmlGenericControl("li");
 			HtmlAnchor a = new HtmlAnchor();
-			HtmlImage img = new HtmlImage();
 
-			// Currently supports only Documents (items in the content tree) & Media
-			// TODO: [HR] add Members next and then all the other object types
+            string img = string.Empty;
 
 			switch (uQuery.GetUmbracoObjectType(relatedCMSNode.nodeObjectType))
 			{
@@ -135,27 +137,39 @@ namespace uComponents.DataTypes.RelationLinks
 					a.HRef = "javascript:jumpToEditContent(" + relatedCMSNode.Id + ");";
 
 					// WARNING - getting the content icon cia the document api may potentially be slow
-					img.Src = "/umbraco/images/umbraco/" + uQuery.GetDocument(relatedCMSNode.Id).ContentTypeIcon;
+					img = "/umbraco/images/umbraco/" + uQuery.GetDocument(relatedCMSNode.Id).ContentTypeIcon;
 
 					break;
 
 				case uQuery.UmbracoObjectType.Media:
 
 					a.HRef = "javascript:jumpToEditMedia(" + relatedCMSNode.Id + ");";
-					img.Src = "/umbraco/images/umbraco/" + uQuery.GetMedia(relatedCMSNode.Id).ContentTypeIcon;
+					img = "/umbraco/images/umbraco/" + uQuery.GetMedia(relatedCMSNode.Id).ContentTypeIcon;
 
 					break;
 
 				case uQuery.UmbracoObjectType.Member:
 
 					a.HRef = "javascript:jumpToEditMember(" + relatedCMSNode.Id + ");";
-					img.Src = "/umbraco/images/umbraco/" + uQuery.GetMember(relatedCMSNode.Id).ContentTypeIcon;
+					img = "/umbraco/images/umbraco/" + uQuery.GetMember(relatedCMSNode.Id).ContentTypeIcon;
 
 					break;
 			}
-		  
-			a.Controls.Add(img);
-			a.Controls.Add(new LiteralControl(relatedCMSNode.Text));
+		  		
+            // is there a macro ?
+            if (string.IsNullOrWhiteSpace(this.options.MacroAlias))
+            {
+                // default - no macro set
+                a.Controls.Add(new HtmlImage() { Src = img });
+                a.Controls.Add(new LiteralControl(relatedCMSNode.Text));
+            }
+            else
+            {
+                // use macro for markup
+                Macro macro = new Macro() { Alias = this.options.MacroAlias };
+                macro.MacroAttributes.Add("id", relatedCMSNode.Id);
+                a.Controls.Add(new LiteralControl(this.RenderToString(macro)));
+            }
 
 			li.Controls.Add(a);
 
@@ -180,5 +194,21 @@ namespace uComponents.DataTypes.RelationLinks
 		{
 			// This datatype doesn't save any data
 		}
+
+        // TODO: DUPLICATE CODE ! (from XPath Templatable List)
+        // TODO: [LK->HR] Should we move the `uComponents.MacroEngines.Extensions.ControlExtensions` (plus others) to `uComponents.Core.Extensions`?
+        /// <summary>
+        /// Renders an ASP.NET control into a string (NOTE: was an extension method - where to share in uComponents ?)
+        /// </summary>
+        private string RenderToString(Control control)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            StringWriter stringWriter = new StringWriter(stringBuilder);
+            HtmlTextWriter htmlTextWriter = new HtmlTextWriter(stringWriter);
+
+            control.RenderControl(htmlTextWriter);
+
+            return htmlTextWriter.InnerWriter.ToString();
+        }
 	}
 }
