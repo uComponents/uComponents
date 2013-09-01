@@ -1,22 +1,29 @@
 ﻿
 namespace uComponents.DataTypes.RelationLinks
 {
-    /// <summary>
-    /// Options class for the RelatedLinks datatype
-    /// </summary>
-    public class RelationLinksOptions
-    {
-        /// <summary>
-        /// The Id of the RelationType to use 
-        /// </summary>        
-        public int RelationTypeId { get; set; }
+    using System.ComponentModel;
+    using umbraco.editorControls;
 
+    /// <summary>
+    /// Options class for the RelatedLinks data-type
+    /// </summary>
+    public class RelationLinksOptions : AbstractOptions
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="RelationLinksOptions"/> class.
         /// </summary>
-        public RelationLinksOptions()
-        {
-            this.RelationTypeId = -1;
-        }
+        public RelationLinksOptions() : base(true) { }
+
+        /// <summary>
+        /// Gets or sets the Id of the RelationType to use 
+        /// </summary>
+        [DefaultValue(-1)]
+        public int RelationTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the macro by alias to use as the rendering mechanism for each item (if empty, then default icon + node name will be used)
+        /// </summary>
+        [DefaultValue("")]
+        public string MacroAlias { get; set; }
     }
 }
