@@ -16,9 +16,13 @@ using umbraco.presentation.templateControls;
 namespace uComponents.DataTypes.RelationLinks
 {
     using System.IO;
+    using System.Linq;
     using System.Text;
+    using System.Web;
 
     using uComponents.Core.Extensions;
+
+    using umbraco.NodeFactory;
 
     /// <summary>
 	/// Related Links dataeditor
@@ -128,7 +132,7 @@ namespace uComponents.DataTypes.RelationLinks
 		private HtmlGenericControl BuildLinkToRelated(CMSNode relatedCMSNode)
 		{
 			HtmlGenericControl li = new HtmlGenericControl("li");
-			HtmlAnchor a = new HtmlAnchor();
+			HtmlAnchor a = new HtmlAnchor();            
 
             string img = string.Empty;
 
@@ -167,7 +171,29 @@ namespace uComponents.DataTypes.RelationLinks
             }
             else
             {
-                // use macro for markup
+                // use macro for markup - to execute a macro, at least one item must be published - as context needed to execute macro ?
+
+                // get the node for the current page
+                Node contextNode = uQuery.GetCurrentNode();
+
+                // if the node is null (either document is unpublished, or rendering from outside the content section)
+                if (contextNode == null)
+                {
+                    // then get the first child node from the XML content root
+                    contextNode = uQuery.GetNodesByXPath(string.Concat("descendant::*[@parentID = ", uQuery.RootNodeId, "]")).FirstOrDefault();
+                }
+
+                if (contextNode != null)
+                {
+                    // load the page reference
+                    HttpContext.Current.Items["pageID"] = contextNode.Id;
+                    //HttpContext.Current.Items["pageElements"] = new page(contextNode.Id, contextNode.Version).Elements;                                                
+                }
+                else
+                {
+                    // nothing published ! so can't run a macro
+                }
+
                 Macro macro = new Macro() { Alias = this.options.MacroAlias };
                 macro.MacroAttributes.Add("id", relatedCMSNode.Id);
                 a.Controls.Add(new LiteralControl(macro.RenderToString()));
