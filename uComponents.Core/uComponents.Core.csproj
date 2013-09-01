@@ -245,6 +245,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\UmbracoLibraryWrapper.cs" />
+    <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Helper-Dictionary.cs">
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
@@ -283,6 +284,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
   </PropertyGroup>

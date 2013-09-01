@@ -34,6 +34,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
     using ClientDependency.Core.Controls;
 
+    using uComponents.Core.Extensions;
+
     /// <summary>
     /// DataEditor for the XPath Templatable List data-type.
     /// </summary>
@@ -213,7 +215,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                         macro = new Macro() { Alias = this.options.MacroAlias };
                                         macro.MacroAttributes.Add("id", node.Id);
 
-                                        markup = this.RenderToString(macro);
+                                        markup = macro.RenderToString();
 
                                         break;
                                 }
@@ -259,7 +261,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                         macro = new Macro() { Alias = this.options.MacroAlias };
                                         macro.MacroAttributes.Add("id", mediaItem.Id);
 
-                                        markup = this.RenderToString(macro);
+                                        markup = macro.RenderToString();
 
                                         break;
                                 }
@@ -304,7 +306,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                         macro = new Macro() { Alias = this.options.MacroAlias };
                                         macro.MacroAttributes.Add("id", member.Id);
 
-                                        markup = this.RenderToString(macro);
+                                        markup = macro.RenderToString();
 
                                         break;
                                 }
@@ -543,21 +545,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
             {
                 return new int[] { };
             }
-        }
-
-        // TODO: [LK->HR] Should we move the `uComponents.MacroEngines.Extensions.ControlExtensions` (plus others) to `uComponents.Core.Extensions`?
-        /// <summary>
-        /// Renders an ASP.NET control into a string (NOTE: was an extension method - where to share in uComponents ?)
-        /// </summary>
-        private string RenderToString(Control control)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            StringWriter stringWriter = new StringWriter(stringBuilder);
-            HtmlTextWriter htmlTextWriter = new HtmlTextWriter(stringWriter);
-
-            control.RenderControl(htmlTextWriter);
-
-            return htmlTextWriter.InnerWriter.ToString();
         }
     }
 }

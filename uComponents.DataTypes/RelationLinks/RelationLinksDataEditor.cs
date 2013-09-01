@@ -18,6 +18,8 @@ namespace uComponents.DataTypes.RelationLinks
     using System.IO;
     using System.Text;
 
+    using uComponents.Core.Extensions;
+
     /// <summary>
 	/// Related Links dataeditor
 	/// </summary>
@@ -168,7 +170,7 @@ namespace uComponents.DataTypes.RelationLinks
                 // use macro for markup
                 Macro macro = new Macro() { Alias = this.options.MacroAlias };
                 macro.MacroAttributes.Add("id", relatedCMSNode.Id);
-                a.Controls.Add(new LiteralControl(this.RenderToString(macro)));
+                a.Controls.Add(new LiteralControl(macro.RenderToString()));
             }
 
 			li.Controls.Add(a);
@@ -194,21 +196,5 @@ namespace uComponents.DataTypes.RelationLinks
 		{
 			// This datatype doesn't save any data
 		}
-
-        // TODO: DUPLICATE CODE ! (from XPath Templatable List)
-        // TODO: [LK->HR] Should we move the `uComponents.MacroEngines.Extensions.ControlExtensions` (plus others) to `uComponents.Core.Extensions`?
-        /// <summary>
-        /// Renders an ASP.NET control into a string (NOTE: was an extension method - where to share in uComponents ?)
-        /// </summary>
-        private string RenderToString(Control control)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            StringWriter stringWriter = new StringWriter(stringBuilder);
-            HtmlTextWriter htmlTextWriter = new HtmlTextWriter(stringWriter);
-
-            control.RenderControl(htmlTextWriter);
-
-            return htmlTextWriter.InnerWriter.ToString();
-        }
 	}
 }

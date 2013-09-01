@@ -4,9 +4,12 @@ using System.Web.UI;
 
 namespace uComponents.MacroEngines.Extensions
 {
-	/// <summary>
+    using System;
+
+    /// <summary>
 	/// Extension methods for <c>System.Web.UI.Control</c>.
 	/// </summary>
+	[Obsolete("use:  uComponents.Core.Extensions")]
 	internal static class ControlExtensions
 	{
 		/// <summary>
