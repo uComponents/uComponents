@@ -10,6 +10,8 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.RelationLinks
 {
+    using umbraco.cms.businesslogic.macro;
+
     /// <summary>
     /// 
     /// </summary>
@@ -21,7 +23,12 @@ namespace uComponents.DataTypes.RelationLinks
         private DropDownList relationTypeDropDownList = new DropDownList();
 
         /// <summary>
-        /// 
+        /// drop down list to select an optional macro
+        /// </summary>
+        private DropDownList macroDropDownList = new DropDownList();
+
+        /// <summary>
+        /// strongly typed options
         /// </summary>
         private RelationLinksOptions options = null;
 
@@ -75,13 +82,21 @@ namespace uComponents.DataTypes.RelationLinks
             base.CreateChildControls();
 
             this.relationTypeDropDownList.ID = "relationTypeDropDownList";
-            ////this.relationTypeDropDownList.AutoPostBack = true;
             this.relationTypeDropDownList.DataSource = RelationType.GetAll().OrderBy(x => x.Name);
             this.relationTypeDropDownList.DataTextField = "Name";
             this.relationTypeDropDownList.DataValueField = "Id";
             this.relationTypeDropDownList.DataBind();
 
-            this.Controls.Add(this.relationTypeDropDownList);
+            this.macroDropDownList.ID = "macroDropDownList";
+            this.macroDropDownList.DataValueField = "Alias"; // key
+            this.macroDropDownList.DataTextField = "Name";
+            this.macroDropDownList.DataSource = Macro.GetAll();
+            this.macroDropDownList.DataBind();
+            this.macroDropDownList.Items.Insert(0, string.Empty);
+
+            this.Controls.AddPrevalueControls(
+                this.relationTypeDropDownList,
+                this.macroDropDownList);
         }
 
         /// <summary>
@@ -94,10 +109,8 @@ namespace uComponents.DataTypes.RelationLinks
 
             if (!this.Page.IsPostBack)
             {
-                if (this.relationTypeDropDownList.Items.FindByValue(this.Options.RelationTypeId.ToString()) != null)
-                {
-                    this.relationTypeDropDownList.SelectedValue = this.Options.RelationTypeId.ToString();
-                }
+                this.relationTypeDropDownList.SetSelectedValue(this.Options.RelationTypeId.ToString());
+                this.macroDropDownList.SetSelectedValue(this.Options.MacroAlias);
             }
         }
 
@@ -109,6 +122,7 @@ namespace uComponents.DataTypes.RelationLinks
             base.Save();
 
             this.Options.RelationTypeId = int.Parse(this.relationTypeDropDownList.SelectedValue);
+            this.Options.MacroAlias = this.macroDropDownList.SelectedValue;
 
             this.SaveAsJson(this.Options);
         }
@@ -119,7 +133,8 @@ namespace uComponents.DataTypes.RelationLinks
         /// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow("Relation Type", this.relationTypeDropDownList);
+            writer.AddPrevalueRow("Relation Type", "queries this relation type using the id of the current document / media or member", this.relationTypeDropDownList);
+            writer.AddPrevalueRow("Macro Alias", "(optional) for custom rendering - expects a number parameter named 'id'", this.macroDropDownList);
         }
     }
 }
