@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web;
+using uComponents.Core.Extensions;
 using Umbraco.Web;
 using Umbraco.Web.Templates;
 
@@ -56,7 +57,7 @@ namespace uComponents.MacroEngines.Extensions
 				ctrl.Attributes.Add(parameter.Key, parameter.Value.ToString());
 			}
 
-			return new HtmlString(TemplateUtilities.ParseInternalLinks(ctrl.RenderControlToString()));
+			return new HtmlString(TemplateUtilities.ParseInternalLinks(ctrl.RenderToString()));
 		}
 	}
 }
