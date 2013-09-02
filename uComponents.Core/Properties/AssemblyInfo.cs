@@ -28,6 +28,7 @@ using uComponents.Core;
 [assembly: InternalsVisibleTo("uComponents.MacroEngines")]
 [assembly: InternalsVisibleTo("uComponents.Mapping")]
 [assembly: InternalsVisibleTo("uComponents.NotFoundHandlers")]
+[assembly: InternalsVisibleTo("uComponents.PropertyEditors.ValueConverters")]
 [assembly: InternalsVisibleTo("uComponents.UI")]
 [assembly: InternalsVisibleTo("uComponents.XsltExtensions")]
 

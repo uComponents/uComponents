@@ -5,14 +5,14 @@
 	using System.Web.UI;
 
 	/// <summary>
-	/// Extension method on System.Web.UI.Control
+	/// Extension methods for System.Web.UI.Control
 	/// </summary>
-	public static class ControlExtensions
+	internal static class ControlExtensions
 	{
 		/// <summary>
 		/// Renders the control.
 		/// </summary>
-		/// <param name="control">The control to render.</param>
+		/// <param name="ctrl">The control to render.</param>
 		/// <returns>
 		/// Returns a string of the rendered control.
 		/// </returns>
