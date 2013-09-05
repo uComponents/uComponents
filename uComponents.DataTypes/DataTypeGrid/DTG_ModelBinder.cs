@@ -30,7 +30,9 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             try
             {
-                instance = new GridRowCollection(PropertyData).OrderBy(x => x.SortOrder);
+                var c = new GridRowCollection(PropertyData).OrderBy(x => x.SortOrder).ToList();
+
+                instance = (GridRowCollection)c;
             }
             catch
             {

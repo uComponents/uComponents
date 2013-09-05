@@ -24,7 +24,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
     [ComVisible(false)]
     [DebuggerDisplay("Count = {Count}")]
     [Serializable]
-    public class GridRowCollection : IList<GridRow>, ICollection<GridRow>, IList, ICollection, IEnumerable<GridRow>, IEnumerable
+    public class GridRowCollection : IList<GridRow>, IList
     {
         /// <summary>
         /// The synchronization locker
@@ -86,6 +86,18 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
                         this.Add(row);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GridRowCollection"/> class.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        public GridRowCollection(IEnumerable<GridRow> list)
+        {
+            foreach (var item in list)
+            {
+                this.Add(item);
             }
         }
 
@@ -203,6 +215,16 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 
                 this[index] = r;
             }
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="IEnumerable" /> to <see cref="GridRowCollection" />.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator GridRowCollection(List<GridRow> list)
+        {
+            return new GridRowCollection(list);
         }
 
         /// <summary>
