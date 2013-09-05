@@ -309,7 +309,7 @@ namespace uComponents.DataTypes.UrlPicker.Dto
                          state.Url = url;
                      }
 
-                     if (string.IsNullOrWhiteSpace(state.Title))
+                     if (string.IsNullOrWhiteSpace(state.Title) && n != null)
                      {
                          state.Title = n.Name;
                      }
