@@ -7,6 +7,7 @@
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
     using System;
+    using System.Security;
 
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
@@ -48,7 +49,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         /// <returns>The dynamic xml.</returns>
         public DynamicXml AsDynamicXml()
         {
-            var xml = string.Format(@"<{0} nodeName=""{1}"" nodeType=""{2}"">{3}</{0}>", this.Alias, this.Name, this.DataType, this.Value);
+            var v = SecurityElement.Escape(this.Value);
+
+            var xml = string.Format(@"<{0} nodeName=""{1}"" nodeType=""{2}"">{3}</{0}>", this.Alias, this.Name, this.DataType, v);
 
             return new DynamicXml(xml);
         }
