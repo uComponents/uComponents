@@ -139,11 +139,11 @@ function RegexValidate(source, args) {
 				}
 
 				function configureToolbar(container) {
-					if ($(container).find("input[id$='ShowTableHeader']").val() == "False") {
+					if ($(container).find("input[id$='ShowGridHeader']").val() == "False") {
 						$(container).find(".fg-toolbar.ui-widget-header:first").hide();
 					}
 
-					if ($(container).find("input[id$='ShowTableFooter']").val() == "False") {
+					if ($(container).find("input[id$='ShowGridFooter']").val() == "False") {
 						$(container).find(".fg-toolbar.ui-widget-header:last").hide();
 					}
 				}

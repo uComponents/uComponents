@@ -1,5 +1,7 @@
 ﻿namespace uComponents.DataTypes.RazorDataTypeModels.DataTypeGrid
 {
+    using System.Linq;
+
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     using umbraco.MacroEngines;
@@ -30,7 +32,9 @@
 
             try
             {
-                instance = new GridRowCollection(PropertyData);
+                var c = new GridRowCollection(PropertyData).OrderBy(x => x.SortOrder).ToList();
+
+                instance = (GridRowCollection)c;
             }
             catch
             {

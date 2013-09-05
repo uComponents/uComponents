@@ -6,6 +6,8 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
+    using System.Security;
+
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
 
@@ -48,14 +50,17 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         /// <returns>The dynamic xml.</returns>
         public DynamicXml AsDynamicXml()
         {
-            var xml = string.Format(@"<{0} nodeName=""{1}"" nodeType=""{2}"">{3}</{0}>", this.Alias, this.Name, this.DataType, this.Value);
+            var v = SecurityElement.Escape(this.Value);
+
+            var xml = string.Format(@"<{0} nodeName=""{1}"" nodeType=""{2}"">{3}</{0}>", this.Alias, this.Name, this.DataType, v);
 
             return new DynamicXml(xml);
         }
 
         /// <summary>
-        /// Gets the value from the <see cref="IDataTypeHandler{TDataType}" /> for this DataType as a dynamic value.
+        /// Gets the value from the <see cref="IDataTypeHandler{TDataType}" /> for this DataType as a strongly typed value.
         /// </summary>
+        /// <typeparam name="T">The type.</typeparam>
         /// <returns>The typed value from the <see cref="IDataTypeHandler{TDataType}" /> for this DataType.</returns>
         public T GetPropertyValue<T>()
         {
