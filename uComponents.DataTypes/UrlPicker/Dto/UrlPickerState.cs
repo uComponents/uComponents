@@ -302,10 +302,11 @@ namespace uComponents.DataTypes.UrlPicker.Dto
                  if (state.Mode == UrlPickerMode.Content && state.NodeId.HasValue && UmbracoContext.Current != null)
                  {
                      var n = uQuery.GetNode(state.NodeId.Value);
+                     var url = n != null ? n.Url : "#";
   
-                     if (!string.IsNullOrWhiteSpace(n.Url))
+                     if (!string.IsNullOrWhiteSpace(url))
                      {
-                         state.Url = n.Url;
+                         state.Url = url;
                      }
 
                      if (string.IsNullOrWhiteSpace(state.Title))
