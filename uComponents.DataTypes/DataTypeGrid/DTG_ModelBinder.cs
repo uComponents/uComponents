@@ -2,6 +2,8 @@
 
 namespace uComponents.DataTypes.DataTypeGrid
 {
+    using System.Linq;
+
     using uComponents.DataTypes.DataTypeGrid.Model;
 
     /// <summary>
@@ -28,7 +30,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             try
             {
-                instance = new GridRowCollection(PropertyData);
+                instance = new GridRowCollection(PropertyData).OrderBy(x => x.SortOrder);
             }
             catch
             {
