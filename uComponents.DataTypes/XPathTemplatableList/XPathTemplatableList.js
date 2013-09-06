@@ -185,7 +185,6 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
             sortableUl.append(li);
 
         }
-
     }
 
     // public

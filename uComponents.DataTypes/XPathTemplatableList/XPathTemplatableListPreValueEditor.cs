@@ -83,24 +83,10 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// </summary>
         private RegularExpressionValidator itemHeightRegularExpressionValidator = new RegularExpressionValidator();
 
-
-        // Choose between the inline TextTemplate or a Macro for each item
-        private RadioButtonList templateTypeRadioButtonList = new RadioButtonList();
-
-        /// <summary>
-        /// Handlebar syntax to render text for each list item
-        /// </summary>
-        private TextBox textTemplateTextBox = new TextBox();
-
         /// <summary>
         /// 
         /// </summary>
         private DropDownList macroDropDownList = new DropDownList();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private RequiredFieldValidator macroRequiredFieldValidator = new RequiredFieldValidator();
 
         /// <summary>
         /// for selection of a css file (or empty)
@@ -233,25 +219,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.itemHeightRegularExpressionValidator.ControlToValidate = this.itemHeightTextBox.ID;
             this.ConfigureNumberValidation(ref this.itemHeightRegularExpressionValidator);
 
-            this.templateTypeRadioButtonList.ID = "templateTypeRadioButtonList";
-            this.templateTypeRadioButtonList.RepeatDirection = RepeatDirection.Horizontal;
-            this.templateTypeRadioButtonList.AutoPostBack = true;
-            this.templateTypeRadioButtonList.SelectedIndexChanged += this.TemplateTypeRadioButtonList_SelectedIndexChanged;
-
-            // TODO: [LK->HR] Would we consider using an elastic textbox here? So that the height expands with the template's content?
-            this.textTemplateTextBox.ID = "textTemplateTextBox";
-            this.textTemplateTextBox.CssClass = "umbEditorTextField";
-            this.textTemplateTextBox.TextMode = TextBoxMode.MultiLine;
-            this.textTemplateTextBox.Rows = 1;
-
-            //TODO: [HR] textTemplate validator
-
             this.macroDropDownList.ID = "macroDropDownList";
-
-            this.macroRequiredFieldValidator.ControlToValidate = this.macroDropDownList.ID;
-            this.macroRequiredFieldValidator.Display = ValidatorDisplay.Dynamic;
-            this.macroRequiredFieldValidator.CssClass = "validator";
-            this.macroRequiredFieldValidator.ErrorMessage = " Macro required";
 
             this.cssFileDropDownList.ID = "cssDropDownList";
 
@@ -298,10 +266,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.listHeightRegularExpressionValidator,
                 this.itemHeightTextBox,
                 this.itemHeightRegularExpressionValidator,
-                this.templateTypeRadioButtonList,
-                this.textTemplateTextBox,
                 this.macroDropDownList,
-                this.macroRequiredFieldValidator,
                 this.cssFileDropDownList,
                 this.scriptFileDropDownList,
                 this.minItemsTextBox,
@@ -339,16 +304,11 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Ascending.ToString()));
                 this.sortDirectionRadioButtonList.Items.Add(new ListItem(ListSortDirection.Descending.ToString()));
                 
-                this.templateTypeRadioButtonList.Items.Add(new ListItem("Text Template"));
-                this.templateTypeRadioButtonList.Items.Add(new ListItem("Macro"));
-
-                this.macroDropDownList.Visible = false;
                 this.macroDropDownList.DataValueField = "Alias"; // key
                 this.macroDropDownList.DataTextField = "Name";
                 this.macroDropDownList.DataSource = Macro.GetAll();
                 this.macroDropDownList.DataBind();
                 this.macroDropDownList.Items.Insert(0, string.Empty);
-
 
                 this.cssFileDropDownList.DataSource = this.GetAllFilesForDropDownList(HostingEnvironment.MapPath("~/css/"), "*.css");                
                 this.cssFileDropDownList.DataBind();
@@ -366,8 +326,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.limitToTextBox.Text = this.Options.LimitTo.ToString();
             this.listHeightTextBox.Text = this.Options.ListHeight.ToString();
             this.itemHeightTextBox.Text = this.Options.ItemHeight.ToString();
-            this.templateTypeRadioButtonList.SelectedValue = this.Options.TemplateType;
-            this.textTemplateTextBox.Text = this.Options.TextTemplate; // [HR] html decode ?
 
             this.macroDropDownList.SetSelectedValue(this.Options.MacroAlias);
             this.cssFileDropDownList.SetSelectedValue(this.Options.CssFile);
@@ -378,55 +336,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.allowDuplicatesCheckBox.Checked = this.Options.AllowDuplicates;
 
             this.sortDirectionRadioButtonList.Visible = !string.IsNullOrWhiteSpace(this.sortOnDropDown.SelectedValue);
-            this.SetTemplateTypeControls();
-
-            string startupScript = @"
-                <script language='javascript' type='text/javascript'>
-                    $(document).ready(function () {
-
-                        // walk up tree to find form, and on submit, html encode the TextTemplate 
-                        // (work around for ASP.NET : 'A potentially dangerous Request.Form value was detected from the...')
-                        // quick fix implementation - TODO: change this by hooking into the ASP.NET js before a postback occurs
-
-                        jQuery('#" + this.textTemplateTextBox.ClientID + @"').closest('form').submit(function () {
-                            
-                            var textTemplateTextBox = jQuery('#" + this.textTemplateTextBox.ClientID + @"');
-
-                            textTemplateTextBox.val(
-                                jQuery('<div/>').text(textTemplateTextBox.val()).html()
-                            );
-                        });
-
-                        jQuery('#" + this.sortOnDropDown.ClientID + @"').change(function () {
-                            
-                            var textTemplateTextBox = jQuery('#" + this.textTemplateTextBox.ClientID + @"');
-
-                            textTemplateTextBox.val(
-                                jQuery('<div/>').text(textTemplateTextBox.val()).html()
-                            );
-                        });
-
-                        jQuery('#" + this.templateTypeRadioButtonList.ClientID + @"').change(function () {
-                            
-                            var textTemplateTextBox = jQuery('#" + this.textTemplateTextBox.ClientID + @"');
-
-                            textTemplateTextBox.val(
-                                jQuery('<div/>').text(textTemplateTextBox.val()).html()
-                            );
-                        });
-             
-
-                    });
-                </script>";
-
-            ScriptManager.RegisterStartupScript(this, typeof(XPathTemplatableListPreValueEditor), this.ClientID + "_init", startupScript, false);
-
-        }
-
-        protected override void OnPreRender(EventArgs e)
-        {
-            base.OnPreRender(e);
-            this.textTemplateTextBox.Text = HttpUtility.HtmlDecode(this.textTemplateTextBox.Text);
         }
 
         private void SortOnDropDown_SelectedIndexChanged(object sender, EventArgs e)
@@ -548,11 +457,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
         #endregion
 
-        private void TemplateTypeRadioButtonList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SetTemplateTypeControls();
-        }
-
         /// <summary>
         /// Saves the pre value data to Umbraco
         /// </summary>
@@ -580,8 +484,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 int.TryParse(this.itemHeightTextBox.Text, out itemHeight);
                 this.Options.ItemHeight = itemHeight;
 
-                this.Options.TemplateType = this.templateTypeRadioButtonList.SelectedValue;
-                this.Options.TextTemplate = this.textTemplateTextBox.Text;
                 this.Options.MacroAlias = this.macroDropDownList.SelectedValue;
 
                 this.Options.CssFile = this.cssFileDropDownList.SelectedValue;
@@ -630,17 +532,7 @@ namespace uComponents.DataTypes.XPathTemplatableList
             writer.AddPrevalueRow("List Height", "px height of the source list - 0 means not set / no scrolling", this.listHeightTextBox, this.listHeightRegularExpressionValidator);
             writer.AddPrevalueRow("Item Height", "px height of each list item - 0 means not set / use content height", this.itemHeightTextBox, this.itemHeightRegularExpressionValidator);
 
-            writer.AddPrevalueRow("Template Type", "rendering mechanism for each list item", this.templateTypeRadioButtonList);
-
-            if (this.textTemplateTextBox.Visible)
-            {
-                writer.AddPrevalueRow("Text Template", "handlebar syntax, with additional tokens :node: :media: and :member: to get associated item properties. eg. {{pickedImage:media:imageThumbnail}}", this.textTemplateTextBox);
-            }
-
-            if (this.macroDropDownList.Visible)
-            {
-                writer.AddPrevalueRow("Macro", "macro expects an int paramter named 'id'", this.macroDropDownList, this.macroRequiredFieldValidator);
-            }
+            writer.AddPrevalueRow("Macro", "macro expects an int paramter named 'id'", this.macroDropDownList);
 
             writer.AddPrevalueRow("Css File", "can use classes: .xpath-templatable-list.datatype-id-" + this.DataType.DataTypeDefinitionId + ".property-alias-????", this.cssFileDropDownList);
             writer.AddPrevalueRow("Script File", "contents passed as callback parameter to datatype initialization (can use classes above)", this.scriptFileDropDownList);
@@ -667,29 +559,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
                     new ListItem(
                         Uri.UnescapeDataString(
                             "/" + root.MakeRelativeUri(new Uri(x)).ToString())));
-        }
-
-        /// <summary>
-        /// depending on Template Type radio button list, show / hide others
-        /// </summary>
-        private void SetTemplateTypeControls()
-        {
-            this.textTemplateTextBox.Visible = this.templateTypeRadioButtonList.SelectedValue == "Text Template";
-
-            switch (this.templateTypeRadioButtonList.SelectedValue)
-            {
-                case "Text Template":
-                    this.textTemplateTextBox.Visible = true;
-                    this.macroDropDownList.Visible = false;
-                    this.macroRequiredFieldValidator.Enabled = false;
-                    break;
-
-                case "Macro":
-                    this.textTemplateTextBox.Visible = false;
-                    this.macroDropDownList.Visible = true;
-                    this.macroRequiredFieldValidator.Enabled = true;
-                    break;
-            }
         }
     }
 }

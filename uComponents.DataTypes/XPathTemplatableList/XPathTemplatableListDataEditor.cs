@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -143,15 +141,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 {
                     // id, string of markup to render
                     this.sourceData = new Dictionary<int, string>();
-
-                    // regex to find tokens
-                    Regex textTemplateRegex = new Regex(@"{{(.*?)}}");
-
-                    // fill key list of template token names
-                    IEnumerable<string> templateTokens = textTemplateRegex.Matches(this.options.TextTemplate)
-                                                                            .Cast<Match>()
-                                                                            .Select(x => x.Groups[1].Value.ToString())
-                                                                            .ToArray();
                     
                     // to execute a macro, at least one item must be published - as context needed to execute macro ?
                     Macro macro = null;
@@ -193,31 +182,16 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                                                                                             x.GetProperty<string>(this.options.SortOn)
                                                                                                             : x.SortOrder.ToString())))
                             {
-                                switch (this.options.TemplateType)
+                                if (string.IsNullOrWhiteSpace(this.options.MacroAlias))
                                 {
-                                    case "Text Template":
+                                    markup = "<img src=\"/umbraco/images/umbraco/" + uQuery.GetDocument(node.Id).ContentTypeIcon + "\" /> " + node.Name;
+                                }
+                                else
+                                {
+                                    macro = new Macro() { Alias = this.options.MacroAlias };
+                                    macro.MacroAttributes.Add("id", node.Id);
 
-                                        markup = this.options.TextTemplate;
-
-                                        foreach (string templateToken in templateTokens)
-                                        {
-                                            string[] token = templateToken.Split(':');
-
-                                            token[0] = token[0] == "Name" ? node.Name : node.GetProperty<string>(token[0]);
-
-                                            markup = markup.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
-                                        }
-
-                                        break;
-
-                                    case "Macro":
-
-                                        macro = new Macro() { Alias = this.options.MacroAlias };
-                                        macro.MacroAttributes.Add("id", node.Id);
-
-                                        markup = macro.RenderToString();
-
-                                        break;
+                                    markup = macro.RenderToString();
                                 }
 
                                 if (!string.IsNullOrWhiteSpace(markup))
@@ -239,31 +213,16 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                                                                                                 x.GetProperty<string>(this.options.SortOn)
                                                                                                                 : x.sortOrder.ToString())))
                             {
-                                switch (this.options.TemplateType)
+                                if (string.IsNullOrWhiteSpace(this.options.MacroAlias))
                                 {
-                                    case "Text Template":
+                                    markup = "<img src=\"/umbraco/images/umbraco/" + mediaItem.ContentTypeIcon + "\" /> " + mediaItem.Text;
+                                }
+                                else
+                                {
+                                    macro = new Macro() { Alias = this.options.MacroAlias };
+                                    macro.MacroAttributes.Add("id", mediaItem.Id);
 
-                                        markup = this.options.TextTemplate;
-
-                                        foreach (string templateToken in templateTokens)
-                                        {
-                                            string[] token = templateToken.Split(':');
-
-                                            token[0] = token[0] == "Name" ? mediaItem.Text : mediaItem.GetProperty<string>(token[0]);
-
-                                            markup = markup.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
-                                        }
-
-                                        break;
-
-                                    case "Macro":
-
-                                        macro = new Macro() { Alias = this.options.MacroAlias };
-                                        macro.MacroAttributes.Add("id", mediaItem.Id);
-
-                                        markup = macro.RenderToString();
-
-                                        break;
+                                    markup = macro.RenderToString();
                                 }
 
                                 if (!string.IsNullOrWhiteSpace(markup))
@@ -284,31 +243,16 @@ namespace uComponents.DataTypes.XPathTemplatableList
                                                                                                         x.GetProperty<string>(this.options.SortOn)
                                                                                                         : x.Text.ToString())))
                             {
-                                switch (this.options.TemplateType)
+                                if (string.IsNullOrWhiteSpace(this.options.MacroAlias))
                                 {
-                                    case "Text Template":
+                                    markup = "<img src=\"/umbraco/images/umbraco/" + member.ContentTypeIcon + "\" /> " + member.Text;
+                                }
+                                else
+                                {
+                                    macro = new Macro() { Alias = this.options.MacroAlias };
+                                    macro.MacroAttributes.Add("id", member.Id);
 
-                                        markup = this.options.TextTemplate;
-
-                                        foreach (string templateToken in templateTokens)
-                                        {
-                                            string[] token = templateToken.Split(':');
-
-                                            token[0] = token[0] == "Name" ? member.Text : member.GetProperty<string>(token[0]);
-
-                                            markup = markup.Replace("{{" + templateToken + "}}", this.ProcessToken(token));
-                                        }
-
-                                        break;
-
-                                    case "Macro":
-
-                                        macro = new Macro() { Alias = this.options.MacroAlias };
-                                        macro.MacroAttributes.Add("id", member.Id);
-
-                                        markup = macro.RenderToString();
-
-                                        break;
+                                    markup = macro.RenderToString();
                                 }
 
                                 if (!string.IsNullOrWhiteSpace(markup))
@@ -324,7 +268,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 return this.sourceData;
             }
         }
-
 
         /// <summary>
         /// TODO: consider converting this into an extension method to make the calling code a little more readable ?
@@ -344,42 +287,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
             }
 
             return collection;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="token">
-        /// [0] localProperty value
-        /// or
-        /// [0] localProperty value, 
-        /// [1] node|media|member, 
-        /// [2] remoteProperty alias
-        /// </param>
-        /// <returns>the string result of a parsed token</returns>
-        private string ProcessToken(string[] token)
-        {
-            switch (token.Length)
-            {
-                // the token is the full property value
-                case 1: return token[0];
-
-                // the token gets a property from a linked node|media|member
-                case 3:
-
-                    //TODO: [HR] handle the hardcoded "Name" property?
-                    switch (token[1])
-                    {
-                        case "node": return uQuery.GetNode(token[0]).GetProperty<string>(token[2]);
-                        case "media": return uQuery.GetMedia(token[0]).GetProperty<string>(token[2]);
-                        case "member": return uQuery.GetMember(token[0]).GetProperty<string>(token[2]);
-                    }
-
-                    return string.Empty;
-
-                default:
-                    return string.Empty;
-            }
         }
 
         /// <summary>

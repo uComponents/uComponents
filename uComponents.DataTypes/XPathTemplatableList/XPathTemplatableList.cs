@@ -15,7 +15,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
     /// </summary>
     public class XPathTemplatableList : uQuery.IGetProperty
     {
-
         public IEnumerable<Node> SelectedNodes { get; private set; }
 
         public IEnumerable<Media> SelectedMedia { get; private set; }
@@ -27,7 +26,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.SelectedNodes = new Node[] { };
             this.SelectedMedia = new Media[] { };
             this.SelectedMembers = new Member[] { };
-
 
             if (!string.IsNullOrWhiteSpace(value))
             {

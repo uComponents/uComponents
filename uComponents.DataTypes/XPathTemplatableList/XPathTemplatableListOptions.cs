@@ -74,20 +74,13 @@ namespace uComponents.DataTypes.XPathTemplatableList
         public int ItemHeight { get; set; }
 
         /// <summary>
-        /// Gets or sets either "Text Template" or "Macro"
+        /// Gets or sets the macro by alias to use as the rendering mechanism for each item
         /// </summary>
-        [DefaultValue("Text Template")]
-        public string TemplateType { get; set; }
+        [DefaultValue("")]
+        public string MacroAlias { get; set; }
 
         /// <summary>
-        /// Gets or sets a handlebars syntax template, used for the text field of each list item
-        /// can use the tokens :media: :member: and :node: between the local property and a property on the respective type
-        /// </summary>
-        [DefaultValue("{{Name}}")]
-        public string TextTemplate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the css file name (empty string = not set)
+        /// Gets or sets the CSS file name (empty string = not set)
         /// </summary>
         [DefaultValue("")]
         public string CssFile { get; set; }
@@ -97,12 +90,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
         /// </summary>
         [DefaultValue("")]
         public string ScriptFile { get; set; }
-
-        /// <summary>
-        /// Gets or sets the macro by alias to use as the rendering mechanism for each item
-        /// </summary>
-        [DefaultValue("")]
-        public string MacroAlias { get; set; }
 
         /// <summary>
         /// Gets or sets the min items.
@@ -126,9 +113,9 @@ namespace uComponents.DataTypes.XPathTemplatableList
         public bool AllowDuplicates { get; set; }
 
         /// <summary>
-        /// Helper to get the UmbracoObjectType from the stored string guid
+        /// Gets the UmbracoObjectType from the stored string GUID
         /// </summary>
-        /// <value>The type of the umbraco object.</value>
+        /// <value>The type of the Umbraco object.</value>
         public uQuery.UmbracoObjectType UmbracoObjectType
         {
             get
