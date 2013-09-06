@@ -21,6 +21,28 @@
         }
 
         [TestMethod]
+        public void AsDynamicXml_WhenGivenUnescapedValue_ShouldReturnEscapedXml()
+        {
+            var v = "<XPathAutoComplete Type=\"c66ba18e-eaf3-4cff-8a22-41b16d66a972\"><Item Text=\"ABC\" Value=\"1\" /><Item Text=\"XYZ\" Value=\"9\" /></XPathAutoComplete>";
+            var c = new GridCell() { Alias = "test", DataType = -88, Name = "Test", Value = v };
+
+            var xml = c.AsDynamicXml();
+
+            Assert.AreEqual(xml.InnerText, c.Value);
+        }
+
+        [TestMethod]
+        public void AsDynamicXml_WhenGivenEscapedValue_ShouldReturnEscapedXml()
+        {
+            var v = "&lt;XPathAutoComplete Type=\"c66ba18e-eaf3-4cff-8a22-41b16d66a972\"&gt;&lt;Item Text=\"ABC\" Value=\"1\" /&gt;&lt;Item Text=\"XYZ\" Value=\"9\" /&gt;&lt;/XPathAutoComplete&gt;";
+            var c = new GridCell() { Alias = "test", DataType = -88, Name = "Test", Value = v };
+
+            var xml = c.AsDynamicXml();
+
+            Assert.AreEqual(xml.InnerText, c.Value);
+        }
+
+        [TestMethod]
         [Ignore]
         public void GetPropertyValue_WhenGivenValidGridCell_ShouldReturnPropertyValue()
         {

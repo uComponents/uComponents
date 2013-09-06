@@ -6,6 +6,7 @@
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Dynamic;
     using System.Linq;
@@ -19,10 +20,27 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
     public class GridRow : KeyedCollection<string, GridCell>, IDynamicMetaObjectProvider
     {
         /// <summary>
-        /// Gets or sets the id.
+        /// Initializes a new instance of the <see cref="GridRow" /> class.
+        /// </summary>
+        public GridRow()
+        {
+            this.Id = new Random(Guid.NewGuid().GetHashCode()).Next(0, int.MaxValue);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GridRow"/> class.
+        /// </summary>
+        /// <param name="id">The unique identifier.</param>
+        public GridRow(int id)
+        {
+            this.Id = id;
+        }
+
+        /// <summary>
+        /// Gets the id.
         /// </summary>
         /// <value>The id.</value>
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         /// <summary>
         /// Gets or sets the sort order.
