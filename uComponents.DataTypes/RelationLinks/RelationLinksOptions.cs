@@ -2,7 +2,8 @@
 namespace uComponents.DataTypes.RelationLinks
 {
     using System.ComponentModel;
-    using umbraco.editorControls;
+    using System.Web.UI.WebControls;
+    using umbraco.editorControls;    
 
     /// <summary>
     /// Options class for the RelatedLinks data-type
@@ -19,6 +20,12 @@ namespace uComponents.DataTypes.RelationLinks
         /// </summary>
         [DefaultValue(-1)]
         public int RelationTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating the direction the list should be rendered in
+        /// </summary>
+        [DefaultValue(RepeatDirection.Vertical)]
+        public RepeatDirection RepeatDirection { get; set; }
 
         /// <summary>
         /// Gets or sets the macro by alias to use as the rendering mechanism for each item (if empty, then default icon + node name will be used)

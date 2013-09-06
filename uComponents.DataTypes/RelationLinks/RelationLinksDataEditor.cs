@@ -132,6 +132,12 @@ namespace uComponents.DataTypes.RelationLinks
 		private HtmlGenericControl BuildLinkToRelated(CMSNode relatedCMSNode)
 		{
 			HtmlGenericControl li = new HtmlGenericControl("li");
+
+            if (this.options.RepeatDirection == RepeatDirection.Horizontal)
+            {
+                li.Attributes.Add("style", "float:left;margin-right:5px;");
+            }
+
 			HtmlAnchor a = new HtmlAnchor();            
 
             string img = string.Empty;

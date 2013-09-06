@@ -23,6 +23,11 @@ namespace uComponents.DataTypes.RelationLinks
         private DropDownList relationTypeDropDownList = new DropDownList();
 
         /// <summary>
+        /// drop down list to select the repeat direction
+        /// </summary>
+        private DropDownList repeatDirectionDropDownList = new DropDownList();
+
+        /// <summary>
         /// drop down list to select an optional macro
         /// </summary>
         private DropDownList macroDropDownList = new DropDownList();
@@ -87,15 +92,21 @@ namespace uComponents.DataTypes.RelationLinks
             this.relationTypeDropDownList.DataValueField = "Id";
             this.relationTypeDropDownList.DataBind();
 
+            this.repeatDirectionDropDownList.ID = "repeatDirectionDropDownList";
+            this.repeatDirectionDropDownList.Items.Add(RepeatDirection.Vertical.ToString());
+            this.repeatDirectionDropDownList.Items.Add(RepeatDirection.Horizontal.ToString());
+
             this.macroDropDownList.ID = "macroDropDownList";
             this.macroDropDownList.DataValueField = "Alias"; // key
             this.macroDropDownList.DataTextField = "Name";
             this.macroDropDownList.DataSource = Macro.GetAll();
             this.macroDropDownList.DataBind();
             this.macroDropDownList.Items.Insert(0, string.Empty);
+            
 
             this.Controls.AddPrevalueControls(
                 this.relationTypeDropDownList,
+                this.repeatDirectionDropDownList,
                 this.macroDropDownList);
         }
 
@@ -110,6 +121,7 @@ namespace uComponents.DataTypes.RelationLinks
             if (!this.Page.IsPostBack)
             {
                 this.relationTypeDropDownList.SetSelectedValue(this.Options.RelationTypeId.ToString());
+                this.repeatDirectionDropDownList.SetSelectedValue(this.Options.RepeatDirection.ToString());
                 this.macroDropDownList.SetSelectedValue(this.Options.MacroAlias);
             }
         }
@@ -122,6 +134,12 @@ namespace uComponents.DataTypes.RelationLinks
             base.Save();
 
             this.Options.RelationTypeId = int.Parse(this.relationTypeDropDownList.SelectedValue);
+            RepeatDirection repeatDirection;
+            if (!RepeatDirection.TryParse(this.repeatDirectionDropDownList.SelectedValue, true, out repeatDirection))
+            {
+                repeatDirection = RepeatDirection.Vertical;
+            }
+            this.Options.RepeatDirection = repeatDirection;
             this.Options.MacroAlias = this.macroDropDownList.SelectedValue;
 
             this.SaveAsJson(this.Options);
@@ -134,6 +152,7 @@ namespace uComponents.DataTypes.RelationLinks
         protected override void RenderContents(HtmlTextWriter writer)
         {
             writer.AddPrevalueRow("Relation Type", "queries this relation type using the id of the current document / media or member", this.relationTypeDropDownList);
+            writer.AddPrevalueRow("Repeat Direction", "list rendering direction", this.repeatDirectionDropDownList);
             writer.AddPrevalueRow("Macro Alias", "(optional) for custom rendering - expects a number parameter named 'id'", this.macroDropDownList);
         }
     }
