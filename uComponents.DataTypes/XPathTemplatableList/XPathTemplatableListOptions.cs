@@ -68,12 +68,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
         public int ListHeight { get; set; }
 
         /// <summary>
-        /// Gets or sets the height of all list items
-        /// </summary>
-        [DefaultValue(21)]
-        public int ItemHeight { get; set; }
-
-        /// <summary>
         /// Gets or sets the macro by alias to use as the rendering mechanism for each item
         /// </summary>
         [DefaultValue("")]

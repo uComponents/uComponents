@@ -111,6 +111,13 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
             });
         }
 
+        // set height of placeholders to match first item in source list
+        var itemHeight = sourceUl.find('a:first').height();
+        // set a data attribute with the height so that other functions can get at it (as source list may be empty in the future - so not able to get at the first item height)
+        sortableUl.data('item-height', itemHeight);
+        // update all placeholder heights
+        sortableUl.find('.placeholder').height(itemHeight);
+
         // make list sortable
         sortableUl.sortable({
             items: 'li:not(.placeholder)',
@@ -203,9 +210,7 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
         // re-activate the matching item by value in the source list
         sourceUl.children('li[data-value=' + value + ']').addClass('active');
 
-
         removeSortableListItem(li);
-
 
         // update the xml fragment
         updateHidden(sortableUl, hidden, type);
@@ -221,6 +226,9 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
         // data
         var minItems = div.data('min-items');
         var maxItems = div.data('max-items');
+        var itemHeight = sortableUl.data('item-height');
+
+        console.log(itemHeight);
         
        // remove the item
         li.remove();
@@ -239,6 +247,9 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
         } else if(count < maxItems) {
             sortableUl.append(PLACEHOLDER_MAX);
         }
+
+        // update heights of placeholders
+        sortableUl.find('.placeholder').height(itemHeight);
     }
 
     //// private -- re-generates the xml fragment of selected items, and stores in the hidden field

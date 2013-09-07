@@ -335,18 +335,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             if (!this.Page.IsPostBack)
             {
-                // if item height has been set, then set inline style
-                if (this.options.ItemHeight > 0)
-                {
-                    this.style.Controls.Add(new Literal()
-                    {
-                        Text = @"
-                                #" + this.div.ClientID + @" > ul > li {
-                                    height: " + this.options.ItemHeight + @"px;
-                                }"
-                    });
-                }
-
                 this.selectedItemsHiddenField.Value = this.data.Value.ToString();
             }
 

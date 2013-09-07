@@ -74,16 +74,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
         private RegularExpressionValidator listHeightRegularExpressionValidator = new RegularExpressionValidator();
 
         /// <summary>
-        /// Height of each list item (set here rather than in a template, so that placeholders can be of the same height)
-        /// </summary>
-        private TextBox itemHeightTextBox = new TextBox();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private RegularExpressionValidator itemHeightRegularExpressionValidator = new RegularExpressionValidator();
-
-        /// <summary>
         /// 
         /// </summary>
         private DropDownList macroDropDownList = new DropDownList();
@@ -212,17 +202,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.listHeightRegularExpressionValidator.ControlToValidate = this.listHeightTextBox.ID;
             this.ConfigureNumberValidation(ref this.listHeightRegularExpressionValidator);
 
-            this.itemHeightTextBox.ID = "itemHeightTextBox";
-            this.itemHeightTextBox.Width = 30;
-            this.itemHeightTextBox.MaxLength = 4;
-
-            this.itemHeightRegularExpressionValidator.ControlToValidate = this.itemHeightTextBox.ID;
-            this.ConfigureNumberValidation(ref this.itemHeightRegularExpressionValidator);
-
             this.macroDropDownList.ID = "macroDropDownList";
-
             this.cssFileDropDownList.ID = "cssDropDownList";
-
             this.scriptFileDropDownList.ID = "scriptDropDownList";
 
             this.minItemsTextBox.ID = "minSelectionItemsTextBox";
@@ -264,8 +245,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 this.limitToRegularExpressionValidator,
                 this.listHeightTextBox,
                 this.listHeightRegularExpressionValidator,
-                this.itemHeightTextBox,
-                this.itemHeightRegularExpressionValidator,
                 this.macroDropDownList,
                 this.cssFileDropDownList,
                 this.scriptFileDropDownList,
@@ -325,7 +304,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
             this.sortDirectionRadioButtonList.SelectedValue = this.Options.SortDirection.ToString();
             this.limitToTextBox.Text = this.Options.LimitTo.ToString();
             this.listHeightTextBox.Text = this.Options.ListHeight.ToString();
-            this.itemHeightTextBox.Text = this.Options.ItemHeight.ToString();
 
             this.macroDropDownList.SetSelectedValue(this.Options.MacroAlias);
             this.cssFileDropDownList.SetSelectedValue(this.Options.CssFile);
@@ -480,10 +458,6 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 int.TryParse(this.listHeightTextBox.Text, out listHeight);
                 this.Options.ListHeight = listHeight;
 
-                int itemHeight;
-                int.TryParse(this.itemHeightTextBox.Text, out itemHeight);
-                this.Options.ItemHeight = itemHeight;
-
                 this.Options.MacroAlias = this.macroDropDownList.SelectedValue;
 
                 this.Options.CssFile = this.cssFileDropDownList.SelectedValue;
@@ -530,10 +504,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
 
             writer.AddPrevalueRow("Limit To", "limit the source data count - 0 means no limit", this.limitToTextBox, this.limitToRegularExpressionValidator);
             writer.AddPrevalueRow("List Height", "px height of the source list - 0 means not set / no scrolling", this.listHeightTextBox, this.listHeightRegularExpressionValidator);
-            writer.AddPrevalueRow("Item Height", "px height of each list item - 0 means not set / use content height", this.itemHeightTextBox, this.itemHeightRegularExpressionValidator);
 
             writer.AddPrevalueRow("Macro", "macro expects an int paramter named 'id'", this.macroDropDownList);
-
             writer.AddPrevalueRow("Css File", "can use classes: .xpath-templatable-list.datatype-id-" + this.DataType.DataTypeDefinitionId + ".property-alias-????", this.cssFileDropDownList);
             writer.AddPrevalueRow("Script File", "contents passed as callback parameter to datatype initialization (can use classes above)", this.scriptFileDropDownList);
 
