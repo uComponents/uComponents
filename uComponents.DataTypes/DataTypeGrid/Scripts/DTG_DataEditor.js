@@ -214,7 +214,12 @@ function RegexValidate(source, args) {
 			});
 		},
 		openDialog: function () {
-			$(this).dialog('open');
+		    if ($(this).height() > $(window).height()) {
+		        var maxHeight = $(window).height() - 28 - 46 - 40;
+		        $(this).dialog("option", "height", maxHeight);
+		    }
+		    
+		    $(this).dialog('open');
 		},
 		getValidatorValue: function (validationProperty) {
 			if ($(this).is("input") && validationProperty == "Text") {

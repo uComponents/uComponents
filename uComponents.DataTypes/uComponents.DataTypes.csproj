@@ -259,6 +259,7 @@
     <Compile Include="DataTypeGrid\Handlers\ConfigurationHandler.cs" />
     <Compile Include="DataTypeGrid\Handlers\DataTypes\BaseDataTypeHandler.cs" />
     <Compile Include="DataTypeGrid\Handlers\DataTypes\ColorPickerDataTypeHandler.cs" />
+    <Compile Include="DataTypeGrid\Handlers\DataTypes\LegacyMediaPickerDataTypeHandler.cs" />
     <Compile Include="DataTypeGrid\Handlers\DataTypes\DateDataTypeHandler.cs" />
     <Compile Include="DataTypeGrid\Handlers\DataTypes\DateTimeDataTypeHandler.cs" />
     <Compile Include="DataTypeGrid\Handlers\DataTypes\DefaultDataTypeHandler.cs" />
