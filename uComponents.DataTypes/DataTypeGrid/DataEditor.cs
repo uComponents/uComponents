@@ -27,7 +27,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 	using System.Web;
 	using uComponents.DataTypes.DataTypeGrid.Constants;
 	using uComponents.DataTypes.DataTypeGrid.Extensions;
-	using uComponents.DataTypes.DataTypeGrid.Functions;
 	using uComponents.DataTypes.DataTypeGrid.Handlers;
 	using uComponents.DataTypes.DataTypeGrid.Interfaces;
 	using uComponents.DataTypes.DataTypeGrid.ServiceLocators;
@@ -1060,6 +1059,15 @@ namespace uComponents.DataTypes.DataTypeGrid
 		protected override void OnInit(EventArgs e)
 		{
 			base.OnInit(e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:System.Web.UI.Control.Load" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="T:System.EventArgs" /> object that contains the event data.</param>
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
 
 			// Adds the client dependencies
 			this.AddAllDtgClientDependencies();
@@ -1073,7 +1081,6 @@ namespace uComponents.DataTypes.DataTypeGrid
 		protected override void CreateChildControls()
 		{
 			base.CreateChildControls();
-			EnsureChildControls();
 
 			// DEBUG: Reset stored values
 			// this.Data.Value = "<items><item id='1'><name nodeName='Name' nodeType='-88' >Anna</name><age nodeName='Age' nodeType='-51' >25</age><picture nodeName='Picture' nodeType='1035' ></picture></item><item id='6'><name nodeName='Name' nodeType='-88' >Ove</name><gender nodeName='Gender' nodeType='-88'>Male</gender><age nodeName='Age' nodeType='-51' >23</age><picture nodeName='Picture' nodeType='1035' ></picture></item></items>";
