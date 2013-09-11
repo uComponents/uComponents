@@ -3,6 +3,10 @@
 	z-index: 1003 !important;
 }
 
+.dtg .umbDateTimePicker {
+	overflow: auto;
+}
+
 .dtg th.id,
 .dtg td.id {
 	display: none; 
