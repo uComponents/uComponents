@@ -14,10 +14,10 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
     using umbraco.interfaces;
 
     /// <summary>a
-    /// Factory for the <see cref="MemberPickerDataType"/>
+    /// Factory for the <see cref="MediaPickerDataType"/>
     /// </summary>
     [DataTypeFactory(Priority = -1)]
-    public class MediaPickerDataTypeHandler : BaseDataTypeHandler<MemberPickerDataType>
+    public class MediaPickerDataTypeHandler : BaseDataTypeHandler<MediaPickerDataType>
     {
         /// <summary>
         /// The umbraco helper
@@ -38,7 +38,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
         /// <remarks>Called when the grid displays the cell value for the specified <paramref name="dataType" />.</remarks>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The display value.</returns>
-        public override string GetDisplayValue(MemberPickerDataType dataType)
+        public override string GetDisplayValue(MediaPickerDataType dataType)
         {
             var value = dataType.Data.Value != null ? dataType.Data.Value.ToString() : string.Empty;
 
@@ -83,7 +83,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
         /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell"/>.</remarks>
         /// <param name="dataType">The <paramref name="dataType" /> instance.</param>
         /// <returns>The backing object.</returns>
-        public override object GetPropertyValue(MemberPickerDataType dataType)
+        public override object GetPropertyValue(MediaPickerDataType dataType)
         {
             // Try to use registered property value converter first
             var converter = Helper.Resolvers.GetPropertyValueConverter(dataType);
@@ -113,7 +113,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
         /// <param name="dataType">The <see cref="IDataType" /> instance.</param>
         /// <param name="editorControl">The <see cref="IDataType" /> editor control.</param>
         /// <returns>The control to validate.</returns>
-        public override Control GetControlToValidate(MemberPickerDataType dataType, Control editorControl)
+        public override Control GetControlToValidate(MediaPickerDataType dataType, Control editorControl)
         {
             var value = editorControl.Controls[0];
 
