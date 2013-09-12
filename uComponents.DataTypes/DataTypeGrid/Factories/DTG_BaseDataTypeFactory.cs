@@ -5,6 +5,7 @@
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.Model;
 
+    using umbraco.cms.businesslogic.packager;
     using umbraco.interfaces;
 
     /// <summary>
