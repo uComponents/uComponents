@@ -29,11 +29,6 @@ namespace uComponents.DataTypes.RazorDataTypeModels.TextstringArray
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		/// <remarks>
-		/// This is used to convert the value stored in the repository into a usable value on the front-end.
-		/// For example, if a 0 or 1 is stored for a boolean, we'd want to convert this to a real boolean.
-		/// Also note that the value might not come in as a 0 or 1 but as a "0" or "1"
-		/// </remarks>
 		public Attempt<object> ConvertPropertyValue(object value)
 		{
 			if (value != null && value.ToString().Length > 0)
