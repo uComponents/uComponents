@@ -15,7 +15,7 @@
         [TestInitialize]
         public void Initialize()
         {
-            this.converter = new UrlPickerModelBinder();
+            this.converter = new UrlPickerPropertyEditorValueConverter();
         }
 
         [TestMethod]

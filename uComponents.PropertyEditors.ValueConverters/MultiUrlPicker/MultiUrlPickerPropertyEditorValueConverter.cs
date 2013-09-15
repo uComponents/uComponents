@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Web.Script.Serialization;
 using uComponents.DataTypes;
 using uComponents.DataTypes.MultiUrlPicker.Dto;
 using Umbraco.Core;
 using Umbraco.Core.PropertyEditors;
-using Umbraco.Web;
 
 namespace uComponents.PropertyEditors.ValueConverters.MultiUrlPicker
 {
@@ -30,17 +28,10 @@ namespace uComponents.PropertyEditors.ValueConverters.MultiUrlPicker
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		/// <remarks>
-		/// This is used to convert the value stored in the repository into a usable value on the front-end.
-		/// For example, if a 0 or 1 is stored for a boolean, we'd want to convert this to a real boolean.
-		/// Also note that the value might not come in as a 0 or 1 but as a "0" or "1"
-		/// </remarks>
 		public Attempt<object> ConvertPropertyValue(object value)
 		{
 			if (value != null && value.ToString().Length > 0)
-			{
-				return new Attempt<object>(true, new JavaScriptSerializer().Deserialize<MultiUrlPickerState>(value.ToString()));
-			}
+				return new Attempt<object>(true, MultiUrlPickerState.Deserialize(value.ToString()));
 
 			return Attempt<object>.False;
 		}
