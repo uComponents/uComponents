@@ -260,12 +260,25 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
 
                 foreach (var assembly in assemblies)
                 {
-                    foreach (var type in assembly.GetTypes())
+                    try
                     {
-                        foreach (var i in type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDataTypeHandler<>)))
+                        foreach (var type in assembly.GetTypes())
                         {
-                            factories.Add(type);
+                            foreach (
+                                var i in
+                                    type.GetInterfaces()
+                                        .Where(
+                                            i =>
+                                                i.IsGenericType
+                                                && i.GetGenericTypeDefinition() == typeof(IDataTypeHandler<>)))
+                            {
+                                factories.Add(type);
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Helper.Log.Error<DataType>(string.Format("Unable to load types for assembly '{0}'", assembly.FullName), ex);
                     }
                 }
 
