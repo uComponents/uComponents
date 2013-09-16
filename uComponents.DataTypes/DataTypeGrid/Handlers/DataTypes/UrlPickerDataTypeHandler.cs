@@ -1,5 +1,7 @@
 namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
 {
+    using System;
+
     using uComponents.Core;
     using uComponents.DataTypes.DataTypeGrid.Model;
     using uComponents.DataTypes.UrlPicker;
@@ -44,7 +46,14 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
             // Deserialize stored value
             if (dataType.Data.Value != null && !string.IsNullOrEmpty(dataType.Data.Value.ToString()) && dataType.ContentEditor.State == null)
             {
-                state = UrlPickerState.Deserialize((string)dataType.Data.Value);
+                try 
+                { 
+                    state = UrlPickerState.Deserialize((string)dataType.Data.Value);
+                }
+                catch (Exception ex)
+                {
+                    Helper.Log.Error<DataType>(string.Format("DTG: Could not parse '{0}' as URL Picker state", dataType.Data.Value), ex);
+                }
             }
 
             // Generate display value
