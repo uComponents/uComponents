@@ -220,7 +220,7 @@ namespace uComponents.XsltExtensions
 			var children = node.SelectChildren(XPathNodeType.Element);
 
 			// gets a random number from the node count.
-			var random = (children != null && children.Count > 0) ? library.GetRandom().Next(1, children.Count) : 1;
+			var random = (children != null && children.Count > 0) ? library.GetRandom().Next(1, children.Count + 1) : 1;
 
 			// return the node at that position()
 			return node.Select(string.Concat("*[", random, "]"));

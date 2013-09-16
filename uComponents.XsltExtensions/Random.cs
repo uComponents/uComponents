@@ -93,7 +93,7 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns a random integer, less than specified maximum.</returns>
 		public static int GetRandomNumber(int maximum)
 		{
-			return Library.GetRandom().Next(maximum);
+			return Library.GetRandom().Next(maximum + 1);
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns a random integer, between the specified minimum and maximum.</returns>
 		public static int GetRandomNumber(int minimum, int maximum)
 		{
-			return Library.GetRandom().Next(minimum, maximum);
+			return Library.GetRandom().Next(minimum, maximum + 1);
 		}
 
 		/// <summary>
@@ -162,7 +162,7 @@ namespace uComponents.XsltExtensions
 		{
 			var characters = "AzByCxDwEvFuGtHsIrJqKpLoMnNmOlPkQjRiShTgUfVeWdXcYbZa1234567890";
 			var random = Library.GetRandom();
-			var evaluator = new MatchEvaluator(delegate(Match m) { return characters[random.Next(characters.Length)].ToString(); });
+			var evaluator = new MatchEvaluator(delegate(Match m) { return characters[random.Next(characters.Length + 1)].ToString(); });
 
 			return Regex.Replace(pattern, replacer, evaluator);
 		}
