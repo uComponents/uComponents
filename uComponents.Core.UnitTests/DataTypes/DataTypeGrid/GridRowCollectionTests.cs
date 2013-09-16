@@ -75,6 +75,16 @@
         }
 
         [TestMethod]
+        public void New_WhenGivenValidXml2_ShouldCreateGridRowCollection()
+        {
+            var xml = "<items><item id=\"1\" sortOrder=\"1\"><featureHeading nodeName=\"Feature Heading\" nodeType=\"-88\">Build your no claims discount fast with our Student Bonus Accelerator</featureHeading><featureDescription nodeName=\"Feature Description\" nodeType=\"1038\">If you don’t make a claim, you could build 2 years no claims discount in just 18 months. Even if you make a windscreen claim or have a claim where all costs are recovered, it won’t affect this offer.This exclusive offer is only available to students. If you’d like information on what happens if your occupation changes or you transfer your policy please see our terms and conditions.</featureDescription><featureAccordion nodeName=\"Feature Accordion (show/hide text)\" nodeType=\"1034\" /></item><item id=\"3\" sortOrder=\"2\"><featureHeading nodeName=\"Feature Heading\" nodeType=\"-88\">We’ll get you back on the road quicker</featureHeading><featureDescription nodeName=\"Feature Description\" nodeType=\"1038\">We settle quickly. One call to our team will help you with everything for your claim. Our mobile repair service, where possible, comes to you to save you time.</featureDescription><featureAccordion nodeName=\"Feature Accordion (show/hide text)\" nodeType=\"1034\" /></item><item id=\"2\" sortOrder=\"3\"><featureHeading nodeName=\"Feature Heading\" nodeType=\"-88\">24 hour windscreen and glass cover with our comprehensive policies</featureHeading><featureDescription nodeName=\"Feature Description\" nodeType=\"1038\">When you take out a comprehensive policy, you can rest assured that your windscreen and other glass is protected.This is a new para.</featureDescription><featureAccordion nodeName=\"Feature Accordion (show/hide text)\" nodeType=\"1034\" /></item></items>";
+
+            var c = new GridRowCollection(xml);
+
+            Assert.IsNotNull(c);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void New_WhenGivenInvalidXml_ShouldCreateGridRowCollection()
         {

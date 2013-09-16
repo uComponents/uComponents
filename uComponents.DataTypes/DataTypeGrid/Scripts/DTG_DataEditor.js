@@ -211,7 +211,13 @@ function RegexValidate(source, args) {
 			});
 		},
 		openDialog: function () {
-			$(this).dialog('open');
+		    $(this).dialog('open');
+
+		    if ($(this).height() > $(window).height()) {
+		        var maxHeight = $(window).height() - 28 - 46 - 10;
+		        $(this).dialog("option", "height", maxHeight);
+		        $(this).dialog("option", "width", $(this).dialog("option", "width") + 9);
+		    }
 		},
 		getValidatorValue: function (validationProperty) {
 			if ($(this).is("input") && validationProperty == "Text") {
