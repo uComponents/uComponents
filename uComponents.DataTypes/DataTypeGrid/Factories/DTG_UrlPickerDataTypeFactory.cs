@@ -1,5 +1,8 @@
 ﻿namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
+    using System;
+
+    using uComponents.DataTypes.DataTypeGrid.Functions;
     using uComponents.DataTypes.UrlPicker;
     using uComponents.DataTypes.UrlPicker.Dto;
 
@@ -20,7 +23,14 @@
         {
             if (dataType.Data.Value != null && dataType.ContentEditor.State == null)
             {
-                dataType.ContentEditor.State = UrlPickerState.Deserialize((string)dataType.Data.Value);
+                try
+                {
+                    dataType.ContentEditor.State = UrlPickerState.Deserialize((string)dataType.Data.Value);
+                }
+                catch (Exception ex)
+                {
+                    DtgHelpers.AddLogEntry(string.Format("DTG: Could not parse '{0}' as URL Picker state", (string)dataType.Data.Value));
+                }
             }
         }
     }
