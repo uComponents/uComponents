@@ -104,15 +104,18 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
                 var value = jQuery(element).attr('Value');
 
                 var li = sourceUl.children('li[data-value=' + value + ']:first');
-                //var text = li.data('text');
-                var text = li.children('a')[0].innerHTML;
+                if (li[0]) {
 
-                addSortableListItem(sortableUl, text, value);
+                    var text = li.children('a')[0].innerHTML;
+
+                    addSortableListItem(sortableUl, text, value);
+                }
+
             });
         }
 
         // set height of placeholders to match first item in source list
-        var itemHeight = sourceUl.find('a:first').height();
+        var itemHeight = sourceUl.find('li:first').height();
         // set a data attribute with the height so that other functions can get at it (as source list may be empty in the future - so not able to get at the first item height)
         sortableUl.data('item-height', itemHeight);
         // update all placeholder heights
@@ -227,8 +230,6 @@ var XPathTemplatableList = XPathTemplatableList || (function () {
         var minItems = div.data('min-items');
         var maxItems = div.data('max-items');
         var itemHeight = sortableUl.data('item-height');
-
-        console.log(itemHeight);
         
        // remove the item
         li.remove();

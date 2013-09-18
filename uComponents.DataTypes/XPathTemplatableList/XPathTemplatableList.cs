@@ -47,15 +47,15 @@ namespace uComponents.DataTypes.XPathTemplatableList
                         switch (uQuery.GetUmbracoObjectType(typeGuid))
                         {
                             case uQuery.UmbracoObjectType.Document:
-                                this.SelectedNodes = values.Select(x => new Node(x));
+                                this.SelectedNodes = values.Select(uQuery.GetNode);
                                 break;
 
                             case uQuery.UmbracoObjectType.Media:
-                                this.SelectedMedia = values.Select(x => new Media(x));
+                                this.SelectedMedia = values.Select(uQuery.GetMedia);
                                 break;
 
                             case uQuery.UmbracoObjectType.Member:
-                                this.SelectedMembers = values.Select(x => new Member(x));
+                                this.SelectedMembers = values.Select(uQuery.GetMember);
                                 break;
                         }
                     }
