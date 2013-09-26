@@ -75,7 +75,11 @@ namespace uComponents.DataTypes.SubTabs
         protected override void CreateChildControls()
         {
             var subTabsPanel = new Panel();
-            var tabs = uQuery.GetDocument(uQuery.GetIdFromQueryString()).ContentType.PropertyTypeGroups.Where(x => this.options.TabIds.Contains(x.Id));
+            var tabs = uQuery.GetDocument(uQuery.GetIdFromQueryString())
+                         .ContentType
+                         .PropertyTypeGroups
+                         .Where(x => this.options.TabIds.Contains(x.Id))
+                         .OrderBy(x => x.SortOrder);
 
             if (tabs.Any())
             {
