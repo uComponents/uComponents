@@ -134,6 +134,12 @@ namespace uComponents.DataTypes.DataTypeGrid
         public HiddenField ShowGridFooter { get; set; }
 
         /// <summary>
+        /// Gets or sets whether the grid is read only.
+        /// </summary>
+        /// <value>Whether the grid is read only.</value>
+        public HiddenField ReadOnly { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of rows per page.
         /// </summary>
         /// <value>The number of rows per page.</value>
@@ -426,47 +432,52 @@ namespace uComponents.DataTypes.DataTypeGrid
                 // Delete button
                 var actions = new TableCell() { CssClass = "actions" };
 
-                var dInner = new HtmlGenericControl("span");
-                dInner.Attributes["class"] = "ui-button-text";
-                dInner.InnerText = Helper.Dictionary.GetDictionaryItem("Delete", "Delete");
+                if (!this.settings.ReadOnly)
+                {
+                    var dInner = new HtmlGenericControl("span");
+                    dInner.Attributes["class"] = "ui-button-text";
+                    dInner.InnerText = Helper.Dictionary.GetDictionaryItem("Delete", "Delete");
 
-                var dIcon = new HtmlGenericControl("span");
-                dIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-close";
+                    var dIcon = new HtmlGenericControl("span");
+                    dIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-close";
 
-                var deleteRow = new LinkButton
-                    {
-                        ID = "DeleteButton_" + row.Id,
-                        CssClass =
-                            "deleteRowDialog ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
-                        CommandArgument = row.Id.ToString(),
-                        OnClientClick = "return confirm('Are you sure you want to delete this?')"
-                    };
-                deleteRow.Click += deleteRow_Click;
+                    var deleteRow = new LinkButton
+                                        {
+                                            ID = "DeleteButton_" + row.Id,
+                                            CssClass =
+                                                "deleteRowDialog ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
+                                            CommandArgument = row.Id.ToString(),
+                                            OnClientClick =
+                                                "return confirm('Are you sure you want to delete this?')"
+                                        };
+                    deleteRow.Click += deleteRow_Click;
 
-                deleteRow.Controls.Add(dIcon);
-                deleteRow.Controls.Add(dInner);
+                    deleteRow.Controls.Add(dIcon);
+                    deleteRow.Controls.Add(dInner);
 
-                // Edit button
-                var eInner = new HtmlGenericControl("span");
-                eInner.Attributes["class"] = "ui-button-text";
-                eInner.InnerText = Helper.Dictionary.GetDictionaryItem("Edit", "Edit");
+                    // Edit button
+                    var eInner = new HtmlGenericControl("span");
+                    eInner.Attributes["class"] = "ui-button-text";
+                    eInner.InnerText = Helper.Dictionary.GetDictionaryItem("Edit", "Edit");
 
-                var eIcon = new HtmlGenericControl("span");
-                eIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-pencil";
+                    var eIcon = new HtmlGenericControl("span");
+                    eIcon.Attributes["class"] = "ui-button-icon-primary ui-icon ui-icon-pencil";
 
-                var editRow = new LinkButton
-                    {
-                        ID = "EditButton_" + row.Id,
-                        CssClass = "editRowDialog ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
-                        CommandArgument = row.Id.ToString()
-                    };
-                editRow.Click += this.editRow_Click;
+                    var editRow = new LinkButton
+                                      {
+                                          ID = "EditButton_" + row.Id,
+                                          CssClass =
+                                              "editRowDialog ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only",
+                                          CommandArgument = row.Id.ToString()
+                                      };
+                    editRow.Click += this.editRow_Click;
 
-                editRow.Controls.Add(eIcon);
-                editRow.Controls.Add(eInner);
+                    editRow.Controls.Add(eIcon);
+                    editRow.Controls.Add(eInner);
 
-                actions.Controls.Add(deleteRow);
-                actions.Controls.Add(editRow);
+                    actions.Controls.Add(deleteRow);
+                    actions.Controls.Add(editRow);
+                }
 
                 tr.Cells.Add(actions);
 
@@ -1102,6 +1113,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
             this.ShowGridHeader = new HiddenField() { ID = "ShowGridHeader", Value = this.settings.ShowGridHeader.ToString() };
             this.ShowGridFooter = new HiddenField() { ID = "ShowGridFooter", Value = this.settings.ShowGridFooter.ToString() };
+            this.ReadOnly = new HiddenField() { ID = "ReadOnly", Value = this.settings.ReadOnly.ToString() };
             this.DataTablesTranslation = new LiteralControl() { ID = "DataTablesTranslation", Text = this.GetDataTablesTranslation() };
             this.TableHeight = new HiddenField() { ID = "TableHeight", Value = this.settings.TableHeight.ToString() };
             this.Value = new HiddenField() { ID = "Value", Value = this.data.Value != null ? this.data.Value.ToString() : string.Empty };
@@ -1133,14 +1145,18 @@ namespace uComponents.DataTypes.DataTypeGrid
             // Generate rows with edit, delete and row data
             GenerateValueRows();
 
-            // Generate header row
-            GenerateFooterToolbar();
+            // Generate insert and delete controls if grid is not in readonly mode
+            if (!this.settings.ReadOnly) 
+            {
+                // Generate footer row
+                GenerateFooterToolbar();
 
-            // Generate insert controls
-            GenerateInsertControls();
+                // Generate insert controls
+                GenerateInsertControls();
 
-            // Generate edit controls
-            GenerateEditControls();
+                // Generate edit controls
+                GenerateEditControls();
+            }
 
             // Add controls to container
             this.Controls.Add(this.ShowGridHeader);
@@ -1169,6 +1185,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
             this.ShowGridHeader.RenderControl(writer);
             this.ShowGridFooter.RenderControl(writer);
+            this.ReadOnly.RenderControl(writer);
             this.TableHeight.RenderControl(writer);
             this.DataTablesTranslation.RenderControl(writer);
             this.Value.RenderControl(writer);

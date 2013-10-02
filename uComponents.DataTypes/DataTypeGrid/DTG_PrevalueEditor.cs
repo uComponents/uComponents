@@ -36,8 +36,7 @@ namespace uComponents.DataTypes.DataTypeGrid
     /// <summary>
     /// The PreValue Editor for the DTG DataType.
     /// </summary>
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js",
-        "UmbracoClient")]
+    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
     public class PrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
     {
         /// <summary>
@@ -51,19 +50,24 @@ namespace uComponents.DataTypes.DataTypeGrid
         private Panel _accordionContainer = new Panel();
 
         /// <summary>
-        /// Wether to show the property name label or not
+        /// Whether to show the property name label or not
         /// </summary>
         private CheckBox _showLabel = new CheckBox();
 
         /// <summary>
-        /// Wether to show the table header or not
+        /// Whether to show the table header or not
         /// </summary>
         private CheckBox _showHeader = new CheckBox();
 
         /// <summary>
-        /// Wether to show the table footer or not
+        /// Whether to show the table footer or not
         /// </summary>
         private CheckBox _showFooter = new CheckBox();
+
+        /// <summary>
+        /// Whether the grid is read only or not
+        /// </summary>
+        private CheckBox _readOnly = new CheckBox();
 
         /// <summary>
         /// The table height
@@ -145,6 +149,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this._settings.ShowLabel = this._showLabel != null && this._showLabel.Checked;
                 this._settings.ShowGridHeader = this._showHeader != null && this._showHeader.Checked;
                 this._settings.ShowGridFooter = this._showFooter != null && this._showFooter.Checked;
+                this._settings.ReadOnly = this._readOnly != null && this._readOnly.Checked;
                 this._settings.TableHeight = this._tableHeight != null ? int.Parse(this._tableHeight.Text) : 300;
                 prevalues.Add(this._settings);
 
@@ -224,6 +229,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             this._showLabel = new CheckBox() { ID = "showLabel", Checked = this._settings.ShowLabel };
             this._showHeader = new CheckBox() { ID = "showHeader", Checked = this._settings.ShowGridHeader };
             this._showFooter = new CheckBox() { ID = "showFooter", Checked = this._settings.ShowGridFooter };
+            this._readOnly = new CheckBox() { ID = "readOnly", Checked = this._settings.ReadOnly };
             this._tableHeight = new TextBox() { ID = "TableHeight", Text = this._settings.TableHeight.ToString() };
             this._tableHeightValidator = new RegularExpressionValidator()
                 {
@@ -622,6 +628,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Controls.Add(this._showLabel);
             this.Controls.Add(this._showHeader);
             this.Controls.Add(this._showFooter);
+            this.Controls.Add(this._readOnly);
             this.Controls.Add(this._tableHeight);
             this.Controls.Add(this._tableHeightValidator);
             this.Controls.Add(this._accordionContainer);
@@ -690,6 +697,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowLabel", "Show Label"), this._showLabel);
             writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowGridHeader", "Show Grid Header"), this._showHeader);
             writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowGridFooter", "Show Grid Footer"), this._showFooter);
+            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ReadOnly", "Read Only"), this._readOnly);
             writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("TableHeight", "Table Height"), new Control[] { this._tableHeight, this._tableHeightValidator });
             this._accordionContainer.RenderControl(writer);
 

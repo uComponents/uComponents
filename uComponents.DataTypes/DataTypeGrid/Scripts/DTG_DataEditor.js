@@ -152,6 +152,11 @@ function RegexValidate(source, args) {
 
 					// Set first column width
 					$(container).find("th.actions, td.actions").width(19);
+				    
+				    // Hide actions column if read only mode
+					if ($(container).find("input[id$='ReadOnly']").val() == "True") {
+					    $(container).find("th.actions, td.actions").hide();
+					}
 				}
 				
 				function configureSortable(container) {			    
