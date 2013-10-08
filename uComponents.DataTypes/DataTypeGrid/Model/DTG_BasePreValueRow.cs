@@ -8,7 +8,9 @@ using System.Web.Script.Serialization;
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
-	/// <summary>
+    using System.ComponentModel;
+
+    /// <summary>
 	/// Base class for a Prevalue Row.
 	/// </summary>
 	public class BasePreValueRow
@@ -18,6 +20,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// </summary>
 		public BasePreValueRow()
 		{
+		    this.Visible = true;
 		}
 
 		/// <summary>
@@ -50,6 +53,13 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// </summary>
 		/// <value>The validation expression.</value>
 		public string ValidationExpression { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this column is visible.
+        /// </summary>
+        /// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
+        [DefaultValue(true)]
+        public bool Visible { get; set; }
 
 		/// <summary>
 		/// Gets or sets the data type id.

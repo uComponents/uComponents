@@ -395,7 +395,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             tr.Cells.Add(new TableHeaderCell { CssClass = "actions", Text = Helper.Dictionary.GetDictionaryItem("Actions", "Actions") });
 
             // Add prevalue cells
-            foreach (var s in StoredPreValues)
+            foreach (var s in StoredPreValues.Where(x => x.Visible))
             {
                 var th = new TableHeaderCell { Text = s.Name };
 
@@ -482,7 +482,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 tr.Cells.Add(actions);
 
                 // Print stored values
-                foreach (var storedConfig in StoredPreValues)
+                foreach (var storedConfig in StoredPreValues.Where(x => x.Visible))
                 {
                     var td = new TableCell();
 

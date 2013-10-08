@@ -350,6 +350,19 @@ namespace uComponents.DataTypes.DataTypeGrid
             ((PreValueRow)this._newPreValue).Controls.Add(chkNewMandatory);
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
+            // Visible
+            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+            // Instantiate controls
+            var chkNewVisible = new CheckBox() { ID = "newVisible", CssClass = "newVisible", Checked = true };
+            var lblNewVisible = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Visible", "Visible"), CssClass = "label" };
+
+            // Add controls to control
+            addNewPropertyControls.Controls.Add(lblNewVisible);
+            addNewPropertyControls.Controls.Add(chkNewVisible);
+            ((PreValueRow)this._newPreValue).Controls.Add(chkNewVisible);
+            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
             // VALIDATION
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
@@ -560,6 +573,20 @@ namespace uComponents.DataTypes.DataTypeGrid
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
 
+                // VISIBLE
+                editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+                // Instantiate controls
+                var chkEditVisible = new CheckBox() { ID = "editVisible_" + this._preValues.IndexOf(s), CssClass = "editVisible", Checked = s.Visible };
+                var lblEditVisible = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Visible", "Visible"), CssClass = "label" };
+
+                // Add controls to control
+                editPropertyControls.Controls.Add(lblEditVisible);
+                editPropertyControls.Controls.Add(chkEditVisible);
+                s.Controls.Add(chkEditVisible);
+                editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+
                 // VALIDATION
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
 
@@ -750,15 +777,16 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <returns></returns>
         private BasePreValueRow ParsePrevalue(PreValueRow t)
         {
-            if (t != null && t.Controls.Count == 6)
+            if (t != null && t.Controls.Count == 7)
             {
                 // Get values
                 var name = t.Controls[0] != null ? ((TextBox)t.Controls[0]).Text : null;
                 var alias = t.Controls[1] != null ? ((TextBox)t.Controls[1]).Text : null;
                 var dataTypeId = t.Controls[2] != null ? int.Parse(((DropDownList)t.Controls[2]).SelectedValue) : 0;
                 var mandatory = t.Controls[3] != null ? ((CheckBox)t.Controls[3]).Checked : false;
-                var validation = t.Controls[4] != null ? ((TextBox)t.Controls[4]).Text : null;
-                var sortOrder = t.Controls[5] != null ? int.Parse(((HiddenField)t.Controls[5]).Value) : 0;
+                var visible = t.Controls[4] != null ? ((CheckBox)t.Controls[4]).Checked : true;
+                var validation = t.Controls[5] != null ? ((TextBox)t.Controls[5]).Text : null;
+                var sortOrder = t.Controls[6] != null ? int.Parse(((HiddenField)t.Controls[6]).Value) : 0;
 
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(alias))
                 {
@@ -770,6 +798,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                             Alias = alias,
                             DataTypeId = dataTypeId,
                             Mandatory = mandatory,
+                            Visible = visible,
                             ValidationExpression = validation,
                             SortOrder = sortOrder
                         };
