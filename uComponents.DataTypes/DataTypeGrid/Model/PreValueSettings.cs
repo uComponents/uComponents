@@ -41,6 +41,15 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         public bool ShowGridFooter { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the grid is [read only].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the grid is [read only]; otherwise, <c>false</c>.
+        /// </value>
+        [DefaultValue(true)]
+        public bool ReadOnly { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of rows.
         /// </summary>
         /// <value>The number of rows.</value>

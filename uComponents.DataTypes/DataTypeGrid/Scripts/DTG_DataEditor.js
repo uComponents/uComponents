@@ -155,6 +155,11 @@ function RegexValidate(source, args) {
 							return false;
 						}
 					});
+				    
+				    // Hide actions column if read only mode
+					if ($(container).find("input[id$='ReadOnly']").val() == "True") {
+					    $(container).find("th.actions, td.actions").hide();
+					}
 				}
 				
 				function configureSortable(container) {

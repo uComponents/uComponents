@@ -170,6 +170,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 			base.OnLoad(e);
 			this.EnsureChildControls();
 
+            // OA: Need to check if this.data.Value is not null to prevent YSODs in some cases where it is actually null, like when the editor is not directly on a document type.
 			if (!this.Page.IsPostBack && this.data.Value != null)
 			{
 				// Get selected items from Node Name or Node Id
@@ -189,6 +190,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 		{
 			var d = (DefaultData)this.data;
 
+            // OA: the property id will be 0 if the editor is rendered without being directly on a document type, so we need to check to prevent YSODs here.
 			if (d.PropertyId > 0) 
 			{ 
 				var property = new Property(d.PropertyId);

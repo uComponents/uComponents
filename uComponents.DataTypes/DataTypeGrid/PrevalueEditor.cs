@@ -83,6 +83,11 @@ namespace uComponents.DataTypes.DataTypeGrid
         private CheckBox showFooter = new CheckBox();
 
         /// <summary>
+        /// Whether the grid is in read only mode or not
+        /// </summary>
+        private CheckBox readOnly = new CheckBox();
+
+        /// <summary>
         /// The table height
         /// </summary>
         private TextBox tableHeight = new TextBox() { Text = "300" };
@@ -172,6 +177,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 this.Settings.ShowLabel = this.showLabel != null && this.showLabel.Checked;
                 this.Settings.ShowGridHeader = this.showHeader != null && this.showHeader.Checked;
                 this.Settings.ShowGridFooter = this.showFooter != null && this.showFooter.Checked;
+                this.Settings.ReadOnly = this.readOnly != null && this.readOnly.Checked;
                 this.Settings.TableHeight = this.tableHeight != null ? int.Parse(this.tableHeight.Text) : 300;
                 prevalues.Add(this.Settings);
 
@@ -257,6 +263,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.showLabel = new CheckBox() { ID = "showLabel", Checked = this.Settings.ShowLabel };
             this.showHeader = new CheckBox() { ID = "showHeader", Checked = this.Settings.ShowGridHeader };
             this.showFooter = new CheckBox() { ID = "showFooter", Checked = this.Settings.ShowGridFooter };
+            this.readOnly = new CheckBox() { ID = "readOnly", Checked = this.Settings.ReadOnly };
             this.tableHeight = new TextBox() { ID = "TableHeight", Text = this.Settings.TableHeight.ToString() };
             this.tableHeightValidator = new RegularExpressionValidator()
             {
@@ -302,7 +309,12 @@ namespace uComponents.DataTypes.DataTypeGrid
             var txtNewName = new TextBox() { ID = "newName", CssClass = "newName" };
             var lblNewName = new Label()
                                  {
-                                     Text = Helper.Dictionary.GetDictionaryItem("Name", "Name"),
+                                     AssociatedControlID = txtNewName.ClientID,
+                                     Text =
+                                         string.Format(
+                                             "{0}<br/><small class='description'>{1}</small>",
+                                             Helper.Dictionary.GetDictionaryItem("Name", "Name"),
+                                             Helper.Dictionary.GetDictionaryItem("NameDescription", "The column display name")),
                                      CssClass = "label"
                                  };
             var valNewName = new RequiredFieldValidator()
@@ -331,7 +343,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             var txtNewAlias = new TextBox() { ID = "newAlias", CssClass = "newAlias" };
             var lblNewAlias = new Label()
                                   {
-                                      Text = Helper.Dictionary.GetDictionaryItem("Alias", "Alias"),
+                                      AssociatedControlID = txtNewAlias.ClientID,
+                                      Text = string.Format(
+                                             "{0}<br/><small class='description'>{1}</small>",
+                                             Helper.Dictionary.GetDictionaryItem("Alias", "Alias"),
+                                             Helper.Dictionary.GetDictionaryItem("AliasDescription", "The column alias")),
                                       CssClass = "label"
                                   };
             var valNewAlias = new RequiredFieldValidator()
@@ -377,7 +393,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             ddlNewType.ID = "newType";
             var lblNewType = new Label()
                                  {
-                                     Text = Helper.Dictionary.GetDictionaryItem("DataType", "Datatype"),
+                                     AssociatedControlID = ddlNewType.ClientID,
+                                     Text = string.Format(
+                                             "{0}<br/><small class='description'>{1}</small>",
+                                             Helper.Dictionary.GetDictionaryItem("Datatype", "Datatype"),
+                                             Helper.Dictionary.GetDictionaryItem("DatatypeDescription", "The column data editor")),
                                      CssClass = "label"
                                  };
 
@@ -394,7 +414,11 @@ namespace uComponents.DataTypes.DataTypeGrid
             var chkNewMandatory = new CheckBox() { ID = "newMandatory", CssClass = "newMandatory" };
             var lblNewMandatory = new Label()
                                       {
-                                          Text = Helper.Dictionary.GetDictionaryItem("Mandatory", "Mandatory"),
+                                          AssociatedControlID = chkNewMandatory.ClientID,
+                                          Text = string.Format(
+                                             "{0}<br/><small class='description'>{1}</small>",
+                                             Helper.Dictionary.GetDictionaryItem("Mandatory", "Mandatory"),
+                                             Helper.Dictionary.GetDictionaryItem("MandatoryDescription", "Whether this column is mandatory")),
                                           CssClass = "label"
                                       };
 
@@ -402,6 +426,28 @@ namespace uComponents.DataTypes.DataTypeGrid
             addNewPropertyControls.Controls.Add(lblNewMandatory);
             addNewPropertyControls.Controls.Add(chkNewMandatory);
             ((PreValueRow)this.newPreValue).Controls.Add(chkNewMandatory);
+            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+            // VISIBLE
+            addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+            // Instantiate controls
+            var chkNewVisible = new CheckBox() { ID = "newVisible", CssClass = "newVisible", Checked = true };
+            var lblNewVisible = new Label()
+            {
+                AssociatedControlID = chkNewVisible.ClientID,
+                Text =
+                    string.Format(
+                        "{0}<br/><small class='description'>{1}</small>",
+                        Helper.Dictionary.GetDictionaryItem("Visible", "Visible"),
+                        Helper.Dictionary.GetDictionaryItem("VisibleDescription", "Whether this column is visible in the grid. <br/>(it can still be edited)")),
+                CssClass = "label"
+            };
+
+            // Add controls to control
+            addNewPropertyControls.Controls.Add(lblNewVisible);
+            addNewPropertyControls.Controls.Add(chkNewVisible);
+            ((PreValueRow)this.newPreValue).Controls.Add(chkNewVisible);
             addNewPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
             // VALIDATION
@@ -416,7 +462,15 @@ namespace uComponents.DataTypes.DataTypeGrid
                 Columns = 20,
                 CssClass = "newValidation"
             };
-            var lblNewValidation = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Validation", "Validation"), CssClass = "label" };
+            var lblNewValidation = new Label()
+            {
+                AssociatedControlID = txtNewValidation.ClientID,
+                Text = string.Format(
+                    "{0}<br/><small class='description'>{1}</small>",
+                    Helper.Dictionary.GetDictionaryItem("Validation", "Validation"),
+                    Helper.Dictionary.GetDictionaryItem("ValidationDescription", "The regular expression used for validation. Leave empty to disable")),
+                CssClass = "label"
+            };
             var lnkNewValidation = new HyperLink
             {
                 ID = "newValidationLink",
@@ -525,7 +579,15 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 // Instantiate controls
                 var txtEditName = new TextBox() { ID = "editName_" + this.preValues.IndexOf(s), CssClass = "editName", Text = s.Name };
-                var lblEditName = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Name", "Name"), CssClass = "label" };
+                var lblEditName = new Label()
+                {
+                    AssociatedControlID = txtEditName.ClientID,
+                    Text = string.Format(
+                        "{0}<br/><small class='description'>{1}</small>",
+                        Helper.Dictionary.GetDictionaryItem("Name", "Name"),
+                        Helper.Dictionary.GetDictionaryItem("NameDescription", "The column display name")),
+                    CssClass = "label"
+                };
                 var valEditName = new RequiredFieldValidator()
                 {
                     ID = "editNameValidator_" + this.preValues.IndexOf(s),
@@ -548,7 +610,15 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 // Instantiate controls
                 var txtEditAlias = new TextBox() { ID = "editAlias_" + this.preValues.IndexOf(s), CssClass = "editAlias", Text = s.Alias };
-                var lblEditAlias = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Alias", "Alias"), CssClass = "label" };
+                var lblEditAlias = new Label()
+                {
+                    AssociatedControlID = txtEditAlias.ClientID,
+                    Text = string.Format(
+                        "{0}<br/><small class='description'>{1}</small>",
+                        Helper.Dictionary.GetDictionaryItem("Alias", "Alias"),
+                        Helper.Dictionary.GetDictionaryItem("AliasDescription", "The column alias")),
+                    CssClass = "label"
+                };
                 var valEditAlias = new RequiredFieldValidator()
                 {
                     ID = "editAliasValidator_" + this.preValues.IndexOf(s),
@@ -583,7 +653,15 @@ namespace uComponents.DataTypes.DataTypeGrid
                 // Instantiate controls
                 var ddlEditType = this.prevalueEditorControlFactory.BuildDataTypeDropDownList();
                 ddlEditType.ID = "editDataType_" + this.preValues.IndexOf(s);
-                var lblEditType = new Label() { Text = Helper.Dictionary.GetDictionaryItem("DataType", "DataType"), CssClass = "label" };
+                var lblEditType = new Label()
+                {
+                    AssociatedControlID = ddlEditType.ClientID,
+                    Text = string.Format(
+                        "{0}<br/><small class='description'>{1}</small>",
+                        Helper.Dictionary.GetDictionaryItem("Datatype", "Datatype"),
+                        Helper.Dictionary.GetDictionaryItem("DatatypeDescription", "The column data editor")),
+                    CssClass = "label"
+                };
 
                 // Add controls to control
                 editPropertyControls.Controls.Add(lblEditType);
@@ -598,12 +676,43 @@ namespace uComponents.DataTypes.DataTypeGrid
 
                 // Instantiate controls
                 var chkEditMandatory = new CheckBox() { ID = "editMandatory_" + this.preValues.IndexOf(s), CssClass = "editMandatory", Checked = s.Mandatory };
-                var lblEditMandatory = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Mandatory", "Mandatory"), CssClass = "label" };
+                var lblEditMandatory = new Label()
+                {
+                    AssociatedControlID = chkEditMandatory.ClientID,
+                    Text = string.Format(
+                        "{0}<br/><small class='description'>{1}</small>",
+                        Helper.Dictionary.GetDictionaryItem("Mandatory", "Mandatory"),
+                        Helper.Dictionary.GetDictionaryItem("MandatoryDescription", "Whether this column is mandatory")),
+                    CssClass = "label"
+                };
 
                 // Add controls to control
                 editPropertyControls.Controls.Add(lblEditMandatory);
                 editPropertyControls.Controls.Add(chkEditMandatory);
                 s.Controls.Add(chkEditMandatory);
+                editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
+
+
+                // VISIBLE
+                editPropertyControls.Controls.Add(new LiteralControl() { Text = "<li>" });
+
+                // Instantiate controls
+                var chkEditVisible = new CheckBox() { ID = "editVisible_" + this.preValues.IndexOf(s), CssClass = "editVisible", Checked = s.Visible };
+                var lblEditVisible = new Label()
+                                         {
+                                             AssociatedControlID = chkEditVisible.ClientID,
+                                             Text =
+                                                 string.Format(
+                                                     "{0}<br/><small class='description'>{1}</small>",
+                                                     Helper.Dictionary.GetDictionaryItem("Visible", "Visible"),
+                                                     Helper.Dictionary.GetDictionaryItem("VisibleDescription", "Whether this column is visible in the grid. <br/>(it can still be edited)")),
+                                             CssClass = "label"
+                                         };
+
+                // Add controls to control
+                editPropertyControls.Controls.Add(lblEditVisible);
+                editPropertyControls.Controls.Add(chkEditVisible);
+                s.Controls.Add(chkEditVisible);
                 editPropertyControls.Controls.Add(new LiteralControl() { Text = "</li>" });
 
 
@@ -620,7 +729,15 @@ namespace uComponents.DataTypes.DataTypeGrid
                     CssClass = "editValidation",
                     Text = s.ValidationExpression
                 };
-                var lblEditValidation = new Label() { Text = Helper.Dictionary.GetDictionaryItem("Validation", "Validation"), CssClass = "label" };
+                var lblEditValidation = new Label()
+                {
+                    AssociatedControlID = txtEditValidation.ClientID,
+                    Text = string.Format(
+                        "{0}<br/><small class='description'>{1}</small>",
+                        Helper.Dictionary.GetDictionaryItem("Validation", "Validation"),
+                        Helper.Dictionary.GetDictionaryItem("ValidationDescription", "The regular expression used for validation. Leave empty to disable")),
+                    CssClass = "label"
+                };
                 var lnkEditValidation = new HyperLink
                 {
                     CssClass = "validationLink",
@@ -674,6 +791,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Controls.Add(this.showLabel);
             this.Controls.Add(this.showHeader);
             this.Controls.Add(this.showFooter);
+            this.Controls.Add(this.readOnly);
             this.Controls.Add(this.tableHeight);
             this.Controls.Add(this.tableHeightValidator);
             this.Controls.Add(this.accordionContainer);
@@ -685,10 +803,15 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowLabel", "Show Label"), this.showLabel);
-            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowGridHeader", "Show Grid Header"), this.showHeader);
-            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("ShowGridFooter", "Show Grid Footer"), this.showFooter);
-            writer.AddPrevalueRow(Helper.Dictionary.GetDictionaryItem("TableHeight", "Table Height"), new Control[] { this.tableHeight, this.tableHeightValidator });
+            writer.AddAttribute("class", "prevalues");
+            writer.RenderBeginTag(HtmlTextWriterTag.Ul);
+            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ShowLabel", "Show Label"), Helper.Dictionary.GetDictionaryItem("ShowLabelDescription", "Show datatype name above grid"), this.showLabel);
+            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ShowGridHeader", "Show Grid Header"), Helper.Dictionary.GetDictionaryItem("ShowGridHeaderDescription", "Show grid header with search box"), this.showHeader);
+            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ShowGridFooter", "Show Grid Footer"), Helper.Dictionary.GetDictionaryItem("ShowGridFooterDescription", "Show grid footer with paging and total rows"), this.showFooter);
+            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ReadOnly", "Read Only"), Helper.Dictionary.GetDictionaryItem("ReadOnlyDescription", "Lock the grid for editing"), this.readOnly);
+            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("TableHeight", "Table Height"), Helper.Dictionary.GetDictionaryItem("TableHeightDescription", "The grid height"), new Control[] { this.tableHeight, this.tableHeightValidator });
+            writer.RenderEndTag();
+
             this.accordionContainer.RenderControl(writer);
 
             // Add javascript preview of alias
@@ -705,6 +828,50 @@ namespace uComponents.DataTypes.DataTypeGrid
                 javascriptLivePreview,
                 "});</script>");
             writer.WriteLine(javascript);
+        }
+
+        /// <summary>
+        /// Adds the prevalue row HTML to the page.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="controls">The controls.</param>
+        private void AddPrevalueRow(HtmlTextWriter writer, string label, string description, params Control[] controls)
+        {
+            writer.RenderBeginTag(HtmlTextWriterTag.Li);
+
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "label");
+
+            writer.RenderBeginTag(HtmlTextWriterTag.Span);
+
+            // Render label
+            var labelControl = new HtmlGenericControl("label") { InnerText = label };
+
+            if (controls.Length > 0 && !string.IsNullOrEmpty(controls[0].ClientID))
+            {
+                labelControl.Attributes.Add("for", controls[0].ClientID);
+            }
+
+            labelControl.RenderControl(writer);
+
+            // Render description
+            writer.WriteBreak();
+
+            var descriptionControl = new HtmlGenericControl("small") { InnerText = description };
+            descriptionControl.Attributes.Add("class", "description");
+            descriptionControl.RenderControl(writer);
+
+            writer.RenderEndTag();
+
+            // Render editors
+            foreach (var control in controls)
+            {
+                writer.AddAttribute("class", "field");
+                control.RenderControl(writer);
+            }
+
+            writer.RenderEndTag();
         }
 
         /// <summary>
@@ -792,15 +959,16 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <returns></returns>
         private BasePreValueRow ParsePrevalue(PreValueRow t)
         {
-            if (t != null && t.Controls.Count == 6)
+            if (t != null && t.Controls.Count == 7)
             {
                 // Get values
                 var name = t.Controls[0] != null ? ((TextBox)t.Controls[0]).Text : null;
                 var alias = t.Controls[1] != null ? ((TextBox)t.Controls[1]).Text : null;
                 var dataTypeId = t.Controls[2] != null ? int.Parse(((DropDownList)t.Controls[2]).SelectedValue) : 0;
                 var mandatory = t.Controls[3] != null ? ((CheckBox)t.Controls[3]).Checked : false;
-                var validation = t.Controls[4] != null ? ((TextBox)t.Controls[4]).Text : null;
-                var sortOrder = t.Controls[5] != null ? int.Parse(((HiddenField)t.Controls[5]).Value) : 0;
+                var visible = t.Controls[4] != null ? ((CheckBox)t.Controls[4]).Checked : true;
+                var validation = t.Controls[5] != null ? ((TextBox)t.Controls[5]).Text : null;
+                var sortOrder = t.Controls[6] != null ? int.Parse(((HiddenField)t.Controls[6]).Value) : 0;
 
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(alias))
                 {
@@ -812,6 +980,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                         Alias = alias,
                         DataTypeId = dataTypeId,
                         Mandatory = mandatory,
+                        Visible = visible,
                         ValidationExpression = validation,
                         SortOrder = sortOrder
                     };
