@@ -393,7 +393,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                     + "<br/><small class='description'>"
                     + Helper.Dictionary.GetDictionaryItem(
                     "VisibleDescription",
-                    "Whether this column is visible in the grid (it can still be edited)") + "</small>",
+                    "Whether this column is visible in the grid. <br/>(it can still be edited)") + "</small>",
                 CssClass = "label"
             };
 
@@ -822,8 +822,8 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ShowLabel", "Show Label"), Helper.Dictionary.GetDictionaryItem("ShowLabelDescription", "Show datatype name above grid"), this._showLabel);
             this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ShowGridHeader", "Show Grid Header"), Helper.Dictionary.GetDictionaryItem("ShowGridHeaderDescription", "Show grid header with search box"), this._showHeader);
             this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ShowGridFooter", "Show Grid Footer"), Helper.Dictionary.GetDictionaryItem("ShowGridFooterDescription", "Show grid footer with paging and total rows"), this._showFooter);
-            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ReadOnly", "Read Only"), Helper.Dictionary.GetDictionaryItem("ReadOnlyDescription", "Lock the grid for edits"), this._readOnly);
-            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("TableHeight", "Table Height"), Helper.Dictionary.GetDictionaryItem("ReadOnlyDescription", "The grid height"), new Control[] { this._tableHeight, this._tableHeightValidator });
+            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("ReadOnly", "Read Only"), Helper.Dictionary.GetDictionaryItem("ReadOnlyDescription", "Lock the grid for editing"), this._readOnly);
+            this.AddPrevalueRow(writer, Helper.Dictionary.GetDictionaryItem("TableHeight", "Table Height"), Helper.Dictionary.GetDictionaryItem("TableHeightDescription", "The grid height"), new Control[] { this._tableHeight, this._tableHeightValidator });
             writer.RenderEndTag();
 
             this._accordionContainer.RenderControl(writer);
