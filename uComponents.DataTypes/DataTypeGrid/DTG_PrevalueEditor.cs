@@ -664,7 +664,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                         + "<br/><small class='description'>"
                         + Helper.Dictionary.GetDictionaryItem(
                         "VisibleDescription",
-                        "Whether this column is visible in the grid (it can still be edited)") + "</small>",
+                        "Whether this column is visible in the grid. <br/>(it can still be edited)") + "</small>",
                     CssClass = "label"
                 };
 
