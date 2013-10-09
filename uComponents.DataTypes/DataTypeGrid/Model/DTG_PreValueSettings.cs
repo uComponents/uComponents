@@ -47,6 +47,13 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		[DefaultValue(300)]
 		public int TableHeight { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the grid is [read only].
+        /// </summary>
+        /// <value><c>true</c> if the grid is [read only]; otherwise, <c>false</c>.</value>
+        [DefaultValue(false)]
+        public bool ReadOnly { get; set; }
+
 		/// <summary>
 		/// Gets or sets a value indicating whether this column is mandatory.
 		/// </summary>
@@ -61,6 +68,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		{
 			this.TableHeight = 300;
 			this.ShowLabel = false;
+		    this.ReadOnly = false;
 		    this.Mandatory = false;
 			this.ShowGridHeader = true;
 			this.ShowGridFooter = true;

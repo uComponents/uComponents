@@ -157,7 +157,8 @@ namespace uComponents.DataTypes.EnumDropDownList
 			base.OnLoad(e);
 			this.EnsureChildControls();
 
-			if (!this.Page.IsPostBack)
+            // OA: Need to check if this.data.Value is not null to prevent YSODs in some cases where it is actually null, like when the editor is not directly on a document type.
+			if (!this.Page.IsPostBack && this.data.Value != null)
 			{
 				// Get selected items from Node Name or Node Id
 				var dropDownListItem = this.dropDownList.Items.FindByValue(this.data.Value.ToString());
@@ -173,20 +174,26 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// </summary>
 		public void Save()
 		{
-			Property property = new Property(((DefaultData)this.data).PropertyId);
-			if (property.PropertyType.Mandatory && this.dropDownList.SelectedValue == "-1")
-			{
-				// Property is mandatory, but no value selected in the DropDownList
-				this.customValidator.IsValid = false;
+		    var defaultPropertyId = ((DefaultData)this.data).PropertyId;
 
-				DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
-				ContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+            // OA: the property id will be 0 if the editor is rendered without being directly on a document type, so we need to check to prevent YSODs here.
+            if (defaultPropertyId > 0) 
+            {
+			    var property = new Property(defaultPropertyId);
+			    if (property.PropertyType.Mandatory && this.dropDownList.SelectedValue == "-1")
+			    {
+				    // Property is mandatory, but no value selected in the DropDownList
+				    this.customValidator.IsValid = false;
 
-				if (tab != null)
-				{
-					this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Alias, tab.Caption }, User.GetCurrent());
-				}
-			}
+				    DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
+				    ContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+
+				    if (tab != null)
+				    {
+					    this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Alias, tab.Caption }, User.GetCurrent());
+				    }
+			    }
+            }
 
 			this.data.Value = this.dropDownList.SelectedValue;
 		}

@@ -1,18 +1,30 @@
 ﻿/*
  *  PREVALUE EDITOR
  */
- 
-.row.clearfix 
+
+.prevalues {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.prevalues li 
 {
     padding: 5px;
 }
 
-.row.clearfix .label
+.prevalues li .label
 {
     display: inline-block;
     width: 16%;
     padding-right: 1%;
     font-weight: bold;
+    vertical-align: top;
+    min-height: 19px;
+}
+
+.prevalues li .field {
+    display: inline-block;
 }
 
 span.validator 
@@ -181,17 +193,17 @@ span.message.error
 
 .dtg_accordion .propertyControls li
 {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
-.dtg_accordion .propertyControls span.label 
+.dtg_accordion .propertyControls .label 
 {
     display: inline-block;
     width: 16%;
     padding-right: 1%;
     font-weight: bold;
     vertical-align: top;
-    line-height: 19px;
+    min-height: 19px;
 }
 
 .dtg_accordion .propertyControls input[type="text"]
