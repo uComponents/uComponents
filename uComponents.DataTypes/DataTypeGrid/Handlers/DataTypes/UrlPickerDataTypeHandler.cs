@@ -27,7 +27,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
             // Deserialize stored value
             if (dataType.Data.Value != null && !string.IsNullOrEmpty(dataType.Data.Value.ToString()) && dataType.ContentEditor.State == null)
             {
-                dataType.ContentEditor.State = UrlPickerState.Deserialize((string)dataType.Data.Value);
+                dataType.ContentEditor.State = UrlPickerState.Deserialize((string)dataType.Data.Value) ?? new UrlPickerState();
             }
         }
 
