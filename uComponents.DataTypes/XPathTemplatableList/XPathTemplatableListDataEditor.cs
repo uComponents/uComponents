@@ -331,6 +331,8 @@ namespace uComponents.DataTypes.XPathTemplatableList
         {
             base.OnLoad(e);
 
+            this.CssClass = "xpath-templatable-list-wrapper";
+
             this.EnsureChildControls();
 
             if (!this.Page.IsPostBack)
@@ -375,6 +377,24 @@ namespace uComponents.DataTypes.XPathTemplatableList
                 </script>";
 
             ScriptManager.RegisterStartupScript(this, typeof(XPathTemplatableListDataEditor), this.ClientID + "_init", startupScript, false);
+        }
+
+        /// <summary>
+        /// Sends server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"/> object, which writes the content to be rendered on the client.
+        /// </summary>
+        /// <param name="writer">
+        /// The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the server control content.
+        /// </param>
+        protected override void Render(HtmlTextWriter writer)
+        {
+            // Prints the grid
+            writer.AddAttribute("id", ClientID);
+            writer.AddAttribute("class", CssClass);
+
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+            this.div.RenderControl(writer);
+
+            writer.RenderEndTag();
         }
 
         /// <summary>
