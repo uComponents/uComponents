@@ -67,7 +67,7 @@ namespace umbraco.editorControls.XPathRadioButtonList
         /// </summary>
         /// <param name="dataType">XPathCheckBoxListDataType</param>
         public XPathRadioButtonListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
         }
 

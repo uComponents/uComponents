@@ -115,7 +115,7 @@ namespace uComponents.DataTypes.MultiPickerRelations
         /// </summary>
         /// <param name="dataType">MultiPickerRelationsDataType</param>
         public MultiPickerRelationsPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
         }
 

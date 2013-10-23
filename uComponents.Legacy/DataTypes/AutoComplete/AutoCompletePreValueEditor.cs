@@ -85,7 +85,7 @@ namespace uComponents.DataTypes.AutoComplete
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
         public AutoCompletePreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
         {
         }
 

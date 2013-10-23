@@ -58,7 +58,7 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// </summary>
 		/// <param name="dataType">XPathCheckBoxListDataType</param>
 		public SqlCheckBoxListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

@@ -240,6 +240,7 @@
     <Compile Include="Cms.cs" />
     <Compile Include="Dates.cs" />
     <Compile Include="Email.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="IO.cs" />
     <Compile Include="Media.cs" />

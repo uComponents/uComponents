@@ -101,7 +101,7 @@ namespace uComponents.DataTypes.StyledTextBox
         /// </summary>
         public void Save()
         {
-            this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar;
+            this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Ntext;
 
             lock (m_Locker)
             {
