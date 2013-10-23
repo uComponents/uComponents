@@ -283,6 +283,7 @@
     <Compile Include="DataTypeGrid\DataEditor.cs" />
     <Compile Include="DataTypeGrid\DataType.cs" />
     <Compile Include="DataTypeGrid\Handlers\PrevalueEditorSettingsHandler.cs" />
+    <Compile Include="DataTypeGrid\Model\StoredValueRowCollection.cs" />
     <Compile Include="DataTypeGrid\PrevalueEditor.cs" />
     <Compile Include="DataTypeGrid\Extensions\DataEditorExtensions.cs" />
     <Compile Include="DataTypeGrid\Factories\PrevalueEditorControlFactory.cs" />

@@ -49,6 +49,12 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         /// <param name="xml">The XML.</param>
         public GridRowCollection(string xml)
         {
+            // Don't try to parse this as xml if the string is empty
+            if (string.IsNullOrEmpty(xml))
+            {
+                return;
+            }
+
             var doc = new XmlDocument();
             doc.LoadXml(xml);
 
@@ -503,7 +509,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return this.AsDynamicXml().ToXml();
+            var data = this.AsDynamicXml();
+
+            return data.Any() ? data.ToXml() : string.Empty;
         }
     }
 }

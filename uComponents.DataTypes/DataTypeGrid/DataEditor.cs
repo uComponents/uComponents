@@ -97,7 +97,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// <summary>
 		/// Gets the configuration.
 		/// </summary>
-		public List<StoredValueRow> Rows { get; private set; }
+        public StoredValueRowCollection Rows { get; private set; }
 
 		/// <summary>
 		/// Gets the grid.
@@ -187,13 +187,13 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// Gets or sets the insert data types
 		/// </summary>
 		/// <value>The insert data types.</value>
-		private List<StoredValue> InsertDataTypes { get; set; }
+        private IEnumerable<StoredValue> InsertDataTypes { get; set; }
 
 		/// <summary>
 		/// Gets or sets the edit data types.
 		/// </summary>
 		/// <value>The edit data types.</value>
-		private List<StoredValue> EditDataTypes { get; set; }
+        private IEnumerable<StoredValue> EditDataTypes { get; set; }
 
 		/// <summary>
 		/// Gets or sets the current row.
@@ -239,6 +239,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 
 			set
 			{
+                // TODO: Parse value and fix sortorder
 				Helper.Log.Debug<DataType>(string.Format("DTG: Stored the following data in ViewState: {0}", value));
 
 				this.Value.Value = value;
@@ -254,10 +255,10 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		public void Save()
 		{
-			this.data.Value = string.IsNullOrEmpty(this.DataString) ? this.data.Value : this.DataString;
+			this.data.Value = this.DataString;
 
 			// Get new values
-			this.Rows = this.GetStoredValues();
+            this.Rows = new StoredValueRowCollection(this.ColumnConfigurations, this.DataString);
 
 			// Refresh grid
 			this.RefreshGrid();
@@ -273,44 +274,8 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		public void Store()
 		{
-			// Start data
-			var str = "<items>";
-
-			foreach (var container in this.Rows.OrderBy(x => x.SortOrder))
-			{
-				// Start
-				str += string.Concat("<item id='", container.Id.ToString(), "' sortOrder='", container.SortOrder, "'>");
-
-				foreach (var v in container.Cells)
-				{
-					if (v.Value.Data.Value == null)
-					{
-						v.Value.Data.Value = string.Empty;
-					}
-
-					str += string.Concat(
-						"<",
-						v.Alias,
-						" nodeName='",
-						v.Name,
-						"' nodeType='",
-						v.Value.DataTypeDefinitionId,
-						"'>",
-						HttpUtility.HtmlEncode(v.Value.Data.Value.ToString()),
-						"</",
-						v.Alias,
-						">");
-				}
-
-				// End row
-				str += "</item>";
-			}
-
-			// End data
-			str += "</items>";
-
 			// Save values
-			DataString = str;
+			DataString = this.Rows.ToString();
 
 			// Refresh grid
 			RefreshGrid();
@@ -541,7 +506,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// <param name="name">The name.</param>
 		/// <param name="config">The config.</param>
 		/// <param name="list">The list.</param>
-		private void GenerateValidationControls(Control parent, string name, StoredValue config, IList<StoredValue> list)
+        private void GenerateValidationControls(Control parent, string name, StoredValue config, IEnumerable<StoredValue> list)
 		{
 			var control = parent.FindControl(config.Value.DataEditor.Editor.ID);
 
@@ -857,91 +822,11 @@ namespace uComponents.DataTypes.DataTypeGrid
 		}
 
 		/// <summary>
-		/// Gets the stored values.
-		/// </summary>
-		/// <returns></returns>
-		private List<StoredValueRow> GetStoredValues()
-		{
-			var values = new List<StoredValueRow>();
-
-			// Add root element if value is empty
-			if (string.IsNullOrEmpty(this.DataString))
-			{
-				this.DataString = "<items></items>";
-			}
-
-			var doc = new XmlDocument();
-			doc.LoadXml(this.DataString);
-
-			// Create and add XML declaration. 
-			var xmldecl = doc.CreateXmlDeclaration("1.0", null, null);
-			var root = doc.DocumentElement;
-			doc.InsertBefore(xmldecl, root);
-
-			// Get stored values from database
-			if (root.ChildNodes.Count > 0)
-			{
-				foreach (XmlNode container in root.ChildNodes)
-				{
-					// <DataTypeGrid>
-					var valueRow = new StoredValueRow();
-
-					if (container.Attributes["id"] != null)
-					{
-						valueRow.Id = int.Parse(container.Attributes["id"].Value);
-					}
-
-					if (container.Attributes["sortOrder"] != null)
-					{
-						valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
-					}
-
-					foreach (PreValueRow config in this.ColumnConfigurations)
-					{
-						var value = new StoredValue { Name = config.Name, Alias = config.Alias };
-
-						var datatypeid = config.DataTypeId;
-
-						if (datatypeid != 0)
-						{
-							var dtd = DataTypeDefinition.GetDataTypeDefinition(datatypeid);
-							var dt = dtd.DataType;
-							dt.Data.Value = string.Empty;
-							value.Value = dt;
-
-							foreach (XmlNode node in container.ChildNodes)
-							{
-								if (config.Alias.Equals(node.Name))
-								{
-									try
-									{
-										value.Value.Data.Value = node.InnerText;
-									}
-									catch (Exception ex)
-									{
-										HttpContext.Current.Trace.Warn("DataTypeGrid", "Stored data (" + node.InnerText + ") for '" + value.Alias + "' is incompatible with the datatype '" + value.Value.DataTypeName + "'", ex);
-									}
-								}
-							}
-
-							valueRow.Cells.Add(value);
-						}
-					}
-
-					values.Add(valueRow);
-				}
-			}
-
-			// Set the configuration
-			return values;
-		}
-
-		/// <summary>
 		/// Gets the insert data types.
 		/// </summary>
 		/// <returns>
 		/// </returns>
-		private List<StoredValue> GetInsertDataTypes()
+        private IEnumerable<StoredValue> GetInsertDataTypes()
 		{
 			var list = new List<StoredValue>();
 
@@ -963,7 +848,7 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		/// <returns>
 		/// </returns>
-		private List<StoredValue> GetEditDataTypes()
+        private IEnumerable<StoredValue> GetEditDataTypes()
 		{
 			var list = new List<StoredValue>();
 
@@ -1123,18 +1008,23 @@ namespace uComponents.DataTypes.DataTypeGrid
 			this.Grid = new Table { ID = "tblGrid", CssClass = "display" };
 			this.Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
+            // Get column configurations
+            this.ColumnConfigurations = this.prevalueEditorSettingsHandler.GetColumnConfigurations(this.dataTypeDefinitionId);
+
 			// Add value container here, because we need the unique id
 			this.Controls.Add(this.Value);
 
 			// Use value from viewstate if present
 			if (this.Page != null && !string.IsNullOrEmpty(this.Page.Request.Form[this.Value.UniqueID]))
 			{
-				this.DataString = this.Page.Request.Form[this.Value.UniqueID];
+                // Parse to StoredValueRowCollection to get the values sorted
+                var l = new StoredValueRowCollection(this.ColumnConfigurations, this.Page.Request.Form[this.Value.UniqueID]);
+
+                this.DataString = l.ToString();
 			}
 
 			// Set up rows
-			this.ColumnConfigurations = this.prevalueEditorSettingsHandler.GetColumnConfigurations(this.dataTypeDefinitionId);
-			Rows = this.GetStoredValues();
+            Rows = new StoredValueRowCollection(this.ColumnConfigurations, this.DataString);
 			InsertDataTypes = GetInsertDataTypes();
 			EditDataTypes = GetEditDataTypes();
 
