@@ -378,6 +378,15 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandler.cs" />
     <Compile Include="Shared\AjaxUpload\AjaxUploadHandlerResource.Designer.cs" />
+    <Compile Include="Shared\Pages\DirectoryBrowser.aspx.cs">
+      <DependentUpon>DirectoryBrowser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Shared\Pages\SharedPages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SharedPages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Shared\Extensions\DropDownListExtensions.cs" />
     <Compile Include="Shared\Extensions\IRecordsReaderExtensions.cs" />
     <Compile Include="Shared\Models\AutoCompleteItem.cs" />
@@ -470,11 +479,16 @@
     <Compile Include="XPathTemplatableList\XPathTemplatableListPreValueEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Shared\Pages\SharedPages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedPages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="XPathTemplatableList\XPathTemplatableList.css" />
     <EmbeddedResource Include="XPathTemplatableList\XPathTemplatableList.js" />
     <EmbeddedResource Include="Shared\WebServices\SharedServices.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SharedServices.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.css" />
     <EmbeddedResource Include="XPathAutoComplete\XPathAutoComplete.js" />
@@ -519,6 +533,7 @@
     <EmbeddedResource Include="ImagePoint\ImagePoint.js" />
     <EmbeddedResource Include="ImagePoint\ImagePoint.css" />
     <EmbeddedResource Include="ImagePoint\ImagePointMarker.png" />
+    <Content Include="Shared\Pages\DirectoryBrowser.aspx" />
     <Content Include="Shared\WebServices\DictionaryService.asmx" />
     <Content Include="Similarity\Net\LICENSE.txt" />
     <Content Include="Similarity\Net\README.txt" />

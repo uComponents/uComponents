@@ -11,7 +11,9 @@ using Umbraco.Core.IO;
 
 namespace uComponents.Installer
 {
-	/// <summary>
+    using uComponents.DataTypes.Shared.Pages;
+
+    /// <summary>
 	/// The post-install dashboard control.
 	/// </summary>
 	public partial class uComponentsInstaller : UserControl
@@ -184,6 +186,10 @@ namespace uComponents.Installer
 			// Shared web services
 			var serviceFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "WebServices"));
 			Helper.IO.EnsureFileExists(Path.Combine(serviceFolder.FullName, "DictionaryService.asmx"), SharedServices.DictionaryService);
+
+            // Shared web pages
+            var pagesFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "Pages"));
+            Helper.IO.EnsureFileExists(Path.Combine(pagesFolder.FullName, "DirectoryBrowser.aspx"), SharedPages.DirectoryBrowser);
 
 			// set the feedback controls to hidden
 			this.Failure.Visible = this.Success.Visible = false;
