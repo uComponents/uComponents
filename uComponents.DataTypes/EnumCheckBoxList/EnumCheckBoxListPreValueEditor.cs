@@ -69,7 +69,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// </summary>
 		/// <param name="dataType">EnumCheckBoxListDataType</param>
 		public EnumCheckBoxListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
 		{
 		}
 

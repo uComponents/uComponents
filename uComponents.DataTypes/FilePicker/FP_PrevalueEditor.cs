@@ -74,7 +74,7 @@ namespace uComponents.DataTypes.FilePicker
 		/// </summary>
 		public override void Save()
 		{
-            this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Ntext;
+			this.m_DataType.DBType = umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar;
 
 			lock (m_Locker)
 			{

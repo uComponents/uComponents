@@ -454,7 +454,7 @@ namespace uComponents.DataTypes.TextImage
         {
             BackgroundMediaChooser.Save();
 
-            _dataType.DBType = DBTypes.Ntext;
+            _dataType.DBType = DBTypes.Nvarchar;
 
             UpdatePreValue(0, FontNameDropDownList.SelectedItem.Text);
             UpdatePreValue(1, CustomFontPathTextBox.Text);

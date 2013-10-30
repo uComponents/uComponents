@@ -73,7 +73,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         /// <param name="dataType">ImagePointDataType</param>
         public ImagePointPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
+            : base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
         {
         }
 
