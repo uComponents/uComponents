@@ -256,7 +256,7 @@
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
       <Project>{431971ff-df3b-42aa-9e57-fd5d65acad51}</Project>
       <Name>uComponents.Core</Name>
-      <Private>False</Private>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
       <Project>{e83250bd-27b0-4b39-90c8-f07538058938}</Project>
