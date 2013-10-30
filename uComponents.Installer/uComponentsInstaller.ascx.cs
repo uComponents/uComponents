@@ -6,14 +6,13 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
+using uComponents.DataTypes.Shared.Pages;
 using uComponents.DataTypes.Shared.WebServices;
 using Umbraco.Core.IO;
 
 namespace uComponents.Installer
 {
-    using uComponents.DataTypes.Shared.Pages;
-
-    /// <summary>
+	/// <summary>
 	/// The post-install dashboard control.
 	/// </summary>
 	public partial class uComponentsInstaller : UserControl
@@ -187,9 +186,9 @@ namespace uComponents.Installer
 			var serviceFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "WebServices"));
 			Helper.IO.EnsureFileExists(Path.Combine(serviceFolder.FullName, "DictionaryService.asmx"), SharedServices.DictionaryService);
 
-            // Shared web pages
-            var pagesFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "Pages"));
-            Helper.IO.EnsureFileExists(Path.Combine(pagesFolder.FullName, "DirectoryBrowser.aspx"), SharedPages.DirectoryBrowser);
+			// Shared web pages
+			var pagesFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "Pages"));
+			Helper.IO.EnsureFileExists(Path.Combine(pagesFolder.FullName, "DirectoryBrowser.aspx"), SharedPages.DirectoryBrowser);
 
 			// set the feedback controls to hidden
 			this.Failure.Visible = this.Success.Visible = false;

@@ -22,16 +22,16 @@ namespace uComponents.DataTypes.FilePicker
 		/// </summary>
 		private static readonly object m_Locker = new object();
 
-        /// <summary>
-        /// Gets the documentation URL.
-        /// </summary>
-        public override string DocumentationUrl
-        {
-            get
-            {
-                return string.Concat(base.DocumentationUrl, "/data-types/file-picker/");
-            }
-        }
+		/// <summary>
+		/// Gets the documentation URL.
+		/// </summary>
+		public override string DocumentationUrl
+		{
+			get
+			{
+				return string.Concat(base.DocumentationUrl, "/data-types/file-picker/");
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FP_PrevalueEditor"/> class.
@@ -58,7 +58,7 @@ namespace uComponents.DataTypes.FilePicker
 				}
 				else
 				{
-					return IOHelper.MapPath("~/");
+					return "/";
 				}
 			}
 		}
@@ -124,7 +124,7 @@ namespace uComponents.DataTypes.FilePicker
 		/// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter"/> that represents the output stream to render HTML content on the client.</param>
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
-			writer.AddPrevalueRow("Directory:", "The directory to start the folder browser from; must be relative to the root of the website.", this.RootDirectory);
+			writer.AddPrevalueRow("Directory:", "The directory to start the folder browser from, it must be relative to the root of the website.", this.RootDirectory);
 		}
 	}
 }
