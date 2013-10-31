@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Configuration;
 using uComponents.DataTypes.Shared.PrevalueEditors;
-using umbraco.cms.businesslogic.datatype;
+using umbraco;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {
@@ -30,11 +32,5 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// </summary>
 		[DefaultValue(true)]
 		public bool UseXml { get; set; }
-
-		/// <summary>
-		/// Gets or sets the Database Storage Type 
-		/// </summary>
-		[DefaultValue(DBTypes.Nvarchar)]
-		public DBTypes DBType { get; set; }
 	}
 }

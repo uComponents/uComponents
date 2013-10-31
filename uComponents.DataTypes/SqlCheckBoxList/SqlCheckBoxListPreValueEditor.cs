@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using uComponents.DataTypes.Shared.Extensions;
 using umbraco.editorControls;
+using System.Configuration;
+using uComponents.DataTypes.Shared.Extensions;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {
@@ -12,11 +12,6 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 	/// </summary>
 	public class SqlCheckBoxListPreValueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
 	{
-		/// <summary>
-		/// The DropDownList for the database data-type.
-		/// </summary>
-		private DropDownList DatabaseDataType;
-
 		/// <summary>
 		/// TextBox control to get the Sql expression
 		/// </summary>
@@ -63,7 +58,7 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// </summary>
 		/// <param name="dataType">XPathCheckBoxListDataType</param>
 		public SqlCheckBoxListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-			: base(dataType)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
 		{
 		}
 
@@ -96,11 +91,6 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			this.DatabaseDataType = new DropDownList() { ID = "DatabaseDataType" };
-			this.DatabaseDataType.Items.Clear();
-			this.DatabaseDataType.Items.Add(umbraco.cms.businesslogic.datatype.DBTypes.Ntext.ToString());
-			this.DatabaseDataType.Items.Add(umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar.ToString());
-
 			this.sqlTextBox.ID = "sqlTextBox";
 			this.sqlTextBox.TextMode = TextBoxMode.MultiLine;
 			this.sqlTextBox.Rows = 10;
@@ -127,7 +117,6 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 			this.storageTypeRadioButtonList.Items.Add(new ListItem("Csv", bool.FalseString));
 
 			this.Controls.AddPrevalueControls(
-				this.DatabaseDataType,
 				this.sqlTextBox,
 				this.sqlRequiredFieldValidator,
 				this.sqlCustomValidator,
@@ -143,8 +132,8 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		{
 			base.OnLoad(e);
 
-			this.DatabaseDataType.SelectedValue = this.DataType.DBType.ToString();
 			this.sqlTextBox.Text = this.Options.Sql;
+
 			this.connectionStringDropDownList.SetSelectedValue(this.Options.ConnectionStringName);
 			this.storageTypeRadioButtonList.SelectedValue = this.Options.UseXml.ToString();
 		}
@@ -180,9 +169,6 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		{
 			if (this.Page.IsValid)
 			{
-				this.DataType.DBType = (umbraco.cms.businesslogic.datatype.DBTypes)Enum.Parse(typeof(umbraco.cms.businesslogic.datatype.DBTypes), this.DatabaseDataType.SelectedValue);
-
-				this.Options.DBType = this.DataType.DBType;
 				this.Options.Sql = this.sqlTextBox.Text;
 				this.Options.ConnectionStringName = this.connectionStringDropDownList.SelectedValue;
 				this.Options.UseXml = bool.Parse(this.storageTypeRadioButtonList.SelectedValue);
@@ -197,7 +183,6 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// <param name="writer"></param>
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
-			writer.AddPrevalueRow("Database Type:", "", this.DatabaseDataType);
 			writer.AddPrevalueRow("SQL Expression", "expects a result set with two fields : 'Text' and 'Value' - can include the token: @currentId", this.sqlTextBox, this.sqlRequiredFieldValidator, this.sqlCustomValidator);
 			writer.AddPrevalueRow("Connection String", "add items to the web.config &lt;connectionStrings /&gt; section to list here", this.connectionStringDropDownList);
 			writer.AddPrevalueRow("Storage Type", "", this.storageTypeRadioButtonList);
