@@ -16,7 +16,7 @@
 
 Containing over 30 data types, 10 XSLT extension libraries, keyboard short-cuts, drag-n-drop functionality, as well as great developer utilities - uComponents is one of the must-have packages for any Umbraco-powered website!]]>
 		</description>
-		<copyright>Copyright &#169; 2012 The Umbraco Community</copyright>
+		<copyright>Copyright &#169; 2013 The Umbraco Community</copyright>
 		<tags>umbraco</tags>
 		<dependencies>
 			<dependency id="UmbracoCms.Core" version="6.1.0" />
