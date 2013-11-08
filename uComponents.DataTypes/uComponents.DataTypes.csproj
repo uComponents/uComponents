@@ -332,7 +332,7 @@
     <Compile Include="DataTypeGrid\Interfaces\IPrevalueEditorControlFactory.cs" />
     <Compile Include="DataTypeGrid\Model\DataTypeSaveEventArgs.cs" />
     <Compile Include="DataTypeGrid\Model\DataTypeLoadEventArgs.cs" />
-    <Compile Include="DataTypeGrid\Model\DataTypeFactoryAttribute.cs" />
+    <Compile Include="DataTypeGrid\Model\DataTypeHandlerAttribute.cs" />
     <Compile Include="DataTypeGrid\ServiceLocators\DataTypeHandlerServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Interfaces\IDataTypeHandlerServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Model\GridCell.cs" />

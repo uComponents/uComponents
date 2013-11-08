@@ -9,10 +9,10 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
     using umbraco.editorControls.pagepicker;
     using umbraco.interfaces;
 
-    /// <summary>a
+    /// <summary>
     /// Factory for the <see cref="PagePickerDataTypeHandler"/>
     /// </summary>
-    [DataTypeFactory(Priority = -1)]
+    [DataTypeHandler(Priority = -1)]
     public class PagePickerDataTypeHandler : BaseDataTypeHandler<PagePickerDataType>
     {
         /// <summary>

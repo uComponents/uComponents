@@ -233,17 +233,17 @@ namespace uComponents.DataTypes.DataTypeGrid.ServiceLocators
         }
 
         /// <summary>
-        /// Gets the <see cref="DataTypeFactoryAttribute">datatype factory attribute</see> for the specified type.
+        /// Gets the <see cref="DataTypeHandlerAttribute">datatype factory attribute</see> for the specified type.
         /// </summary>
         /// <param name="factory">The <see cref="IDataTypeHandler{TDataType}">datatype factory type</see>.</param>
-        /// <returns>The <see cref="DataTypeFactoryAttribute">datatype factory attribute</see>.</returns>
-        private DataTypeFactoryAttribute GetDataTypeFactoryAttribute(Type factory)
+        /// <returns>The <see cref="DataTypeHandlerAttribute">datatype factory attribute</see>.</returns>
+        private DataTypeHandlerAttribute GetDataTypeFactoryAttribute(Type factory)
         {
             var attribute =
-                factory.GetCustomAttributes(typeof(DataTypeFactoryAttribute), false)
-                    .FirstOrDefault() as DataTypeFactoryAttribute;
+                factory.GetCustomAttributes(typeof(DataTypeHandlerAttribute), false)
+                    .FirstOrDefault() as DataTypeHandlerAttribute;
             
-            return attribute ?? new DataTypeFactoryAttribute();
+            return attribute ?? new DataTypeHandlerAttribute();
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
     /// <summary>
     /// Factory for the <see cref="RadioButtonListDataType"/>.
     /// </summary>
-    [DataTypeFactory(Priority = -1)]
+    [DataTypeHandler(Priority = -1)]
     public class RadioButtonListDataTypeHandler : BaseDataTypeHandler<RadioButtonListDataType>
     {
         /// <summary>

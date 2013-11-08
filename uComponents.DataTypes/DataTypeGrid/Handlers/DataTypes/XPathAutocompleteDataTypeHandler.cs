@@ -12,7 +12,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
     /// <summary>
     /// Factory for the <see cref="XPathAutoCompleteDataType"/> class.
     /// </summary>
-    [DataTypeFactory(Priority = -1)]
+    [DataTypeHandler(Priority = -1)]
     public class XPathAutocompleteDataTypeHandler : BaseDataTypeHandler<XPathAutoCompleteDataType>
     {
         /// <summary>

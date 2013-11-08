@@ -8,7 +8,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
     /// <summary>
     /// Factory for the <see cref="EnumCheckBoxListDataType"/> datatype.
     /// </summary>
-    [DataTypeFactory(Priority = -1)]
+    [DataTypeHandler(Priority = -1)]
     public class EnumCheckBoxListDataTypeHandler : BaseDataTypeHandler<EnumCheckBoxListDataType>
     {
         /// <summary>

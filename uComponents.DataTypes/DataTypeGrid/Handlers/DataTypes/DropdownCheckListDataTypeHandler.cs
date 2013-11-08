@@ -8,7 +8,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
     /// <summary>
     /// Factory for the <see cref="DDCList_DataType"/>
     /// </summary>
-    [DataTypeFactory(Priority = -1)]
+    [DataTypeHandler(Priority = -1)]
     public class DropdownCheckListDataTypeHandler : BaseDataTypeHandler<DDCList_DataType>
     {
         /// <summary>
