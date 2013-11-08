@@ -25,6 +25,7 @@ using umbraco.interfaces;
 namespace uComponents.DataTypes.DataTypeGrid
 {
     using System.Web;
+    using System.Web.Script.Serialization;
 
     using uComponents.DataTypes.DataTypeGrid.Extensions;
     using uComponents.DataTypes.DataTypeGrid.Functions;
@@ -90,7 +91,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <summary>
         /// Gets the configuration.
         /// </summary>
-        public List<StoredValueRow> Rows { get; private set; }
+        public StoredValueRowCollection Rows { get; private set; }
 
         /// <summary>
         /// Gets the grid.
@@ -174,19 +175,19 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// Gets or sets the stored prevalues.
         /// </summary>
         /// <value>The stored pre values.</value>
-        private List<PreValueRow> StoredPreValues { get; set; }
+        private IEnumerable<PreValueRow> ColumnConfigurations { get; set; }
 
         /// <summary>
         /// Gets or sets the insert data types
         /// </summary>
         /// <value>The insert data types.</value>
-        private List<StoredValue> InsertDataTypes { get; set; }
+        private IEnumerable<StoredValue> InsertDataTypes { get; set; }
 
         /// <summary>
         /// Gets or sets the edit data types.
         /// </summary>
         /// <value>The edit data types.</value>
-        private List<StoredValue> EditDataTypes { get; set; }
+        private IEnumerable<StoredValue> EditDataTypes { get; set; }
 
         /// <summary>
         /// Gets or sets the current row.
@@ -247,10 +248,10 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// </summary>
         public void Save()
         {
-            this.data.Value = string.IsNullOrEmpty(this.DataString) ? this.data.Value : this.DataString;
-
             // Get new values
-            this.Rows = this.GetStoredValues();
+            this.Rows = new StoredValueRowCollection(this.ColumnConfigurations, this.DataString);
+
+            this.data.Value = this.Rows.ToString();
 
             // Refresh grid
             this.RefreshGrid();
@@ -266,44 +267,8 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// </summary>
         public void Store()
         {
-            // Start data
-            var str = "<items>";
-
-            foreach (var container in this.Rows.OrderBy(x => x.SortOrder))
-            {
-                // Start
-                str += string.Concat("<item id='", container.Id.ToString(), "' sortOrder='", container.SortOrder, "'>");
-
-                foreach (var v in container.Cells)
-                {
-                    if (v.Value.Data.Value == null)
-                    {
-                        v.Value.Data.Value = string.Empty;
-                    }
-
-                    str += string.Concat(
-                        "<",
-                        v.Alias,
-                        " nodeName='",
-                        v.Name,
-                        "' nodeType='",
-                        v.Value.DataTypeDefinitionId,
-                        "'>",
-                        HttpUtility.HtmlEncode(v.Value.Data.Value.ToString()),
-                        "</",
-                        v.Alias,
-                        ">");
-                }
-
-                // End row
-                str += "</item>";
-            }
-
-            // End data
-            str += "</items>";
-
             // Save values
-            DataString = str;
+            DataString = this.Rows.ToString();
 
             // Refresh grid
             RefreshGrid();
@@ -395,7 +360,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             tr.Cells.Add(new TableHeaderCell { CssClass = "actions", Text = Helper.Dictionary.GetDictionaryItem("Actions", "Actions") });
 
             // Add prevalue cells
-            foreach (var s in StoredPreValues.Where(x => x.Visible))
+            foreach (var s in this.ColumnConfigurations.Where(x => x.Visible))
             {
                 var th = new TableHeaderCell { Text = s.Name };
 
@@ -482,7 +447,7 @@ namespace uComponents.DataTypes.DataTypeGrid
                 tr.Cells.Add(actions);
 
                 // Print stored values
-                foreach (var storedConfig in StoredPreValues.Where(x => x.Visible))
+                foreach (var storedConfig in this.ColumnConfigurations.Where(x => x.Visible))
                 {
                     var td = new TableCell();
 
@@ -535,7 +500,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         /// <param name="name">The name.</param>
         /// <param name="config">The config.</param>
         /// <param name="list">The list.</param>
-        private void GenerateValidationControls(Control parent, string name, StoredValue config, IList<StoredValue> list)
+        private void GenerateValidationControls(Control parent, string name, StoredValue config, IEnumerable<StoredValue> list)
         {
             var control = parent.FindControl(config.Value.DataEditor.Editor.ID);
 
@@ -548,7 +513,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             }
 
             // Mandatory
-            if (this.StoredPreValues.Single(x => x.Alias == config.Alias).Mandatory && control != null)
+            if (this.ColumnConfigurations.Single(x => x.Alias == config.Alias).Mandatory && control != null)
             {
                 try
                 {
@@ -566,13 +531,13 @@ namespace uComponents.DataTypes.DataTypeGrid
             }
 
             // Regex
-            if (!string.IsNullOrEmpty(this.StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression) && control != null)
+            if (!string.IsNullOrEmpty(this.ColumnConfigurations.Single(x => x.Alias == config.Alias).ValidationExpression) && control != null)
             {
                 try
                 {
                     var wrapper = new Panel();
 
-                    var regex = new Regex(@StoredPreValues.Single(x => x.Alias == config.Alias).ValidationExpression);
+                    var regex = new Regex(this.ColumnConfigurations.Single(x => x.Alias == config.Alias).ValidationExpression);
                     var validator = new ClientSideRegexValidator(name, config, false)
                                         {
                                             ValidationExpression =
@@ -854,86 +819,6 @@ namespace uComponents.DataTypes.DataTypeGrid
         }
 
         /// <summary>
-        /// Gets the stored values.
-        /// </summary>
-        /// <returns></returns>
-        private List<StoredValueRow> GetStoredValues()
-        {
-            var values = new List<StoredValueRow>();
-
-            // Add root element if value is empty
-            if (string.IsNullOrEmpty(this.DataString))
-            {
-                this.DataString = "<items></items>";
-            }
-
-            var doc = new XmlDocument();
-            doc.LoadXml(this.DataString);
-
-            // Create and add XML declaration. 
-            var xmldecl = doc.CreateXmlDeclaration("1.0", null, null);
-            var root = doc.DocumentElement;
-            doc.InsertBefore(xmldecl, root);
-
-            // Get stored values from database
-            if (root.ChildNodes.Count > 0)
-            {
-                foreach (XmlNode container in root.ChildNodes)
-                {
-                    // <DataTypeGrid>
-                    var valueRow = new StoredValueRow();
-
-                    if (container.Attributes["id"] != null)
-                    {
-                        valueRow.Id = int.Parse(container.Attributes["id"].Value);
-                    }
-
-                    if (container.Attributes["sortOrder"] != null)
-                    {
-                        valueRow.SortOrder = int.Parse(container.Attributes["sortOrder"].Value);
-                    }
-
-                    foreach (PreValueRow config in this.StoredPreValues)
-                    {
-                        var value = new StoredValue { Name = config.Name, Alias = config.Alias };
-
-                        var datatypeid = config.DataTypeId;
-
-                        if (datatypeid != 0)
-                        {
-                            var dtd = DataTypeDefinition.GetDataTypeDefinition(datatypeid);
-                            var dt = dtd.DataType;
-                            dt.Data.Value = string.Empty;
-                            value.Value = dt;
-
-                            foreach (XmlNode node in container.ChildNodes)
-                            {
-                                if (config.Alias.Equals(node.Name))
-                                {
-                                    try
-                                    {
-                                        value.Value.Data.Value = node.InnerText;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        HttpContext.Current.Trace.Warn("DataTypeGrid", "Stored data (" + node.InnerText + ") for '" + value.Alias + "' is incompatible with the datatype '" + value.Value.DataTypeName + "'", ex);
-                                    }
-                                }
-                            }
-
-                            valueRow.Cells.Add(value);
-                        }
-                    }
-
-                    values.Add(valueRow);
-                }
-            }
-
-            // Set the configuration
-            return values;
-        }
-
-        /// <summary>
         /// Gets the insert data types.
         /// </summary>
         /// <returns>
@@ -942,7 +827,7 @@ namespace uComponents.DataTypes.DataTypeGrid
         {
             var list = new List<StoredValue>();
 
-            foreach (var config in StoredPreValues)
+            foreach (var config in this.ColumnConfigurations)
             {
                 var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
                 var dt = dtd.DataType;
@@ -970,7 +855,7 @@ namespace uComponents.DataTypes.DataTypeGrid
             }
             else
             {
-                foreach (var config in this.StoredPreValues)
+                foreach (var config in this.ColumnConfigurations)
                 {
                     var dtd = DataTypeDefinition.GetDataTypeDefinition(config.DataTypeId);
                     var dt = dtd.DataType;
@@ -1120,18 +1005,23 @@ namespace uComponents.DataTypes.DataTypeGrid
             this.Grid = new Table { ID = "tblGrid", CssClass = "display" };
             this.Toolbar = new Panel { ID = "pnlToolbar", CssClass = "Toolbar" };
 
+            // Get column configurations
+            this.ColumnConfigurations = this.GetColumnConfigurations(this.dataTypeDefinitionId);
+
             // Add value container here, because we need the unique id
             this.Controls.Add(this.Value);
 
             // Use value from viewstate if present
             if (this.Page != null && !string.IsNullOrEmpty(this.Page.Request.Form[this.Value.UniqueID]))
             {
-                this.DataString = this.Page.Request.Form[this.Value.UniqueID];
+                // Parse to StoredValueRowCollection to get the values sorted
+                var l = new StoredValueRowCollection(this.ColumnConfigurations, this.Page.Request.Form[this.Value.UniqueID]);
+
+                this.DataString = l.ToString();
             }
             
             // Set up rows
-            StoredPreValues = DtgHelpers.GetConfig(this.dataTypeDefinitionId);
-            Rows = this.GetStoredValues();
+            Rows = new StoredValueRowCollection(this.ColumnConfigurations, this.DataString);
             InsertDataTypes = GetInsertDataTypes();
             EditDataTypes = GetEditDataTypes();
 
@@ -1201,5 +1091,38 @@ namespace uComponents.DataTypes.DataTypeGrid
         }
 
         #endregion
+
+        /// <summary>
+        /// Gets the stored datatype column configurations.
+        /// </summary>
+        /// <param name="dataTypeDefinitionId">The data type definition id.</param>
+        /// <returns>A list of datatype column configurations.</returns>
+        private IEnumerable<PreValueRow> GetColumnConfigurations(int dataTypeDefinitionId)
+        {
+            var prevalues = PreValues.GetPreValues(dataTypeDefinitionId);
+            var sl = new List<PreValueRow>();
+
+            if (prevalues.Count > 1)
+            {
+                for (var i = 1; i < prevalues.Count; i++)
+                {
+                    var prevalue = (PreValue)prevalues[i];
+                    if (!string.IsNullOrEmpty(prevalue.Value))
+                    {
+                        // Get the config
+                        var serializer = new JavaScriptSerializer();
+
+                        // Return the config
+                        var s = serializer.Deserialize<PreValueRow>(prevalue.Value);
+                        s.Id = prevalue.Id;
+                        s.SortOrder = prevalue.SortOrder;
+
+                        sl.Add(s);
+                    }
+                }
+            }
+
+            return sl;
+        }
     }
 }
