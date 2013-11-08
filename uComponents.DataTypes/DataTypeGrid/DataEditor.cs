@@ -255,10 +255,10 @@ namespace uComponents.DataTypes.DataTypeGrid
 		/// </summary>
 		public void Save()
 		{
-			this.data.Value = this.DataString;
-
 			// Get new values
             this.Rows = new StoredValueRowCollection(this.ColumnConfigurations, this.DataString);
+
+            this.data.Value = this.Rows.ToString();
 
 			// Refresh grid
 			this.RefreshGrid();
