@@ -149,6 +149,7 @@
     <Compile Include="DataTypeGrid\Factories\DTG_RadioButtonListDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Factories\DTG_UrlPickerDataTypeFactory.cs" />
     <Compile Include="DataTypeGrid\Model\DataTypeFactoryAttribute.cs" />
+    <Compile Include="DataTypeGrid\Model\DTG_StoredValueRowCollection.cs" />
     <Compile Include="DataTypeGrid\ServiceLocators\DTG_DataTypeFactoryServiceLocator.cs" />
     <Compile Include="DataTypeGrid\Functions\DTG_Helpers.cs" />
     <Compile Include="DataTypeGrid\Interfaces\DTG_IDataTypeFactoryServiceLocator.cs" />
