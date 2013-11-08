@@ -2,11 +2,15 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
 {
     using System;
     using System.Globalization;
+    using System.Reflection;
     using System.Web;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
 
+    using umbraco.cms.businesslogic.packager;
+    using umbraco.editorControls;
     using umbraco.editorControls.datepicker;
+    using umbraco.interfaces;
 
     /// <summary>
     /// Factory for the <see cref="DateDataTypeHandler"/>
@@ -28,10 +32,36 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
 
             if (HttpContext.Current.Request.UserLanguages != null && DateTime.TryParse(value, out d))
             {
-                return d.ToString(CultureInfo.CreateSpecificCulture(HttpContext.Current.Request.UserLanguages[0]));
+                return d.ToString(CultureInfo.CreateSpecificCulture(HttpContext.Current.Request.UserLanguages[0]).DateTimeFormat.ShortDatePattern);
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Saves the specified data type.
+        /// </summary>
+        /// <param name="dataType">Type of the data.</param>
+        /// <param name="eventArgs">The <see cref="DataTypeSaveEventArgs"/> instance containing the event data.</param>
+        public override void Save(DateDataType dataType, DataTypeSaveEventArgs eventArgs)
+        {
+            // Persist value from page to dataType.Data
+            base.Save(dataType, eventArgs);
+
+            DateTime d;
+
+            // Parse value and save data again using reflection to prevent value from being saved with wrong culture
+            if (dataType.Data.Value != null && DateTime.TryParse(dataType.Data.Value.ToString(), out d))
+            {
+                var t = typeof(dateField).GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                if (t != null)
+                {
+                    dataType.Data.Value = d.ToString("s");
+
+                    t.SetValue(dataType.DataEditor, dataType.Data);
+                }
+            }
         }
 
         /// <summary>
