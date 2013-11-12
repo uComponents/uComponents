@@ -6,6 +6,11 @@ using System.Xml.Linq;
 
 namespace uComponents.DataTypes.UrlPicker.Dto
 {
+    using umbraco;
+
+    using Umbraco.Core.Services;
+    using Umbraco.Web;
+
     /// <summary>
     /// The DTO which contains the state of a URL picker at any time.
     /// </summary>
@@ -292,6 +297,23 @@ namespace uComponents.DataTypes.UrlPicker.Dto
                     default:
                         throw new NotImplementedException();
                 }
+                
+                 // If the mode is a content node, get the url for the node
+                 if (state.Mode == UrlPickerMode.Content && state.NodeId.HasValue && UmbracoContext.Current != null)
+                 {
+                     var n = uQuery.GetNode(state.NodeId.Value);
+                     var url = n != null ? n.Url : "#";
+  
+                     if (!string.IsNullOrWhiteSpace(url))
+                     {
+                         state.Url = url;
+                     }
+
+                     if (string.IsNullOrWhiteSpace(state.Title) && n != null)
+                     {
+                         state.Title = n.Name;
+                     }
+                 }
             }
             catch (Exception)
             {

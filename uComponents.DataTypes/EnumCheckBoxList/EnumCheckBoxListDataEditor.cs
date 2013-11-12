@@ -30,12 +30,24 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// <summary>
 		/// Field for the CustomValidator.
 		/// </summary>
-		private CustomValidator customValidator = new CustomValidator();
+		private CustomValidator customValidator = new CustomValidator() { ID = "CustomValidator" };
 
 		/// <summary>
 		/// Field for the CheckBoxList.
 		/// </summary>
-		private CheckBoxList checkBoxList = new CheckBoxList();
+		private CheckBoxList checkBoxList = new CheckBoxList() { ID = "CheckBoxList" };
+
+		/// <summary>
+		/// Gets the drop down list.
+		/// </summary>
+		/// <value>The drop down list.</value>
+		public CheckBoxList CheckBoxList
+		{
+			get
+			{
+				return this.checkBoxList;
+			}
+		}
 
 		/// <summary>
 		/// Gets a value indicating whether [treat as rich text editor].
@@ -132,7 +144,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 						}
 					}
 
-					this.checkBoxList.Items.Add(checkBoxListItem);
+					this.CheckBoxList.Items.Add(checkBoxListItem);
 				}
 			}
 			catch
@@ -140,7 +152,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 			}
 
 			this.Controls.Add(this.customValidator);
-			this.Controls.Add(this.checkBoxList);
+			this.Controls.Add(this.CheckBoxList);
 		}
 
 		/// <summary>
@@ -154,32 +166,42 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 
 			if (!this.Page.IsPostBack && this.data.Value != null)
 			{
-				string value = this.data.Value.ToString();
-				List<string> selectedValues = new List<string>();
+				var value = this.data.Value.ToString();
+				
+				this.SetSelectedValues(value);
+			}
+		}
 
-				if (Helper.Xml.CouldItBeXml(value))
-				{
-					// build selected values from XML fragment
-					foreach (XElement nodeXElement in XElement.Parse(value).Elements())
-					{
-						selectedValues.Add(nodeXElement.Value);
-					}
-				}
-				else
-				{
-					// Assume a CSV source
-					selectedValues = value.Split(Constants.Common.COMMA).ToList();
-				}
+		/// <summary>
+		/// Sets the selected values.
+		/// </summary>
+		/// <param name="data">The data.</param>
+		public void SetSelectedValues(string data)
+		{
+			var selectedValues = new List<string>();
 
-				// Find checkboxes where values match the stored values and set to selected
-				ListItem checkBoxListItem = null;
-				foreach (string selectedValue in selectedValues)
+			if (Helper.Xml.CouldItBeXml(data))
+			{
+				// build selected values from XML fragment
+				foreach (XElement nodeXElement in XElement.Parse(data).Elements())
 				{
-					checkBoxListItem = this.checkBoxList.Items.FindByValue(selectedValue);
-					if (checkBoxListItem != null)
-					{
-						checkBoxListItem.Selected = true;
-					}
+					selectedValues.Add(nodeXElement.Value);
+				}
+			}
+			else
+			{
+				// Assume a CSV source
+				selectedValues = data.Split(Constants.Common.COMMA).ToList();
+			}
+
+			// Find checkboxes where values match the stored values and set to selected
+			foreach (var selectedValue in selectedValues)
+			{
+				var checkBoxListItem = this.CheckBoxList.Items.FindByValue(selectedValue);
+
+				if (checkBoxListItem != null)
+				{
+					checkBoxListItem.Selected = true;
 				}
 			}
 		}
@@ -190,7 +212,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		public void Save()
 		{
 			// Get all checked item values
-			IEnumerable<string> selectedOptions = from ListItem item in this.checkBoxList.Items
+			IEnumerable<string> selectedOptions = from ListItem item in this.CheckBoxList.Items
 												  where item.Selected
 												  select item.Value;
 

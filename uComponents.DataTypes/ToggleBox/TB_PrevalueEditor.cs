@@ -41,6 +41,17 @@ namespace uComponents.DataTypes.ToggleBox
 		private TextBox OnText;
 
 		/// <summary>
+		/// Gets the documentation URL.
+		/// </summary>
+		public override string DocumentationUrl
+		{
+			get
+			{
+				return string.Concat(base.DocumentationUrl, "/data-types/toggle-box/");
+			}
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="TB_PrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
@@ -119,9 +130,7 @@ namespace uComponents.DataTypes.ToggleBox
 
 			// if the options are null, then load the defaults
 			if (options == null)
-			{
 				options = new TB_Options(true);
-			}
 
 			// set the values
 			this.DefaultValue.Checked = options.DefaultValue;
@@ -142,7 +151,7 @@ namespace uComponents.DataTypes.ToggleBox
 			writer.AddPrevalueRow("'On' background", "The background-color for the true (on) state", this.OnBackgroundColor);
 			writer.AddPrevalueRow("'Off' label", "The label text for the false (off) state", this.OffText);
 			writer.AddPrevalueRow("'Off' background", "The background-color for the false (off) state", this.OffBackgroundColor);
-			writer.AddPrevalueRow("Default value", "The default value for the ToggleBox, either 'on' or 'off'", this.DefaultValue);
+			writer.AddPrevalueRow("Default state", "The initial position for the ToggleBox on the edit page, either 'on' or 'off'", this.DefaultValue);
 		}
 	}
 }

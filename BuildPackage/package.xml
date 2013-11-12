@@ -5,8 +5,8 @@
 		<package>
 			<name>uComponents</name>
 			<version>0.0.0</version>
-			<license url="http://www.opensource.org/licenses/mit-license.php">MIT license</license>
-			<url>http://ucomponents.codeplex.com</url>
+			<license url="http://opensource.org/licenses/MIT">MIT license</license>
+			<url>http://ucomponents.org</url>
 			<requirements>
 				<major>0</major>
 				<minor>0</minor>

@@ -11,6 +11,8 @@ using System.Xml.Linq;
 
 namespace uComponents.DataTypes.XPathAutoComplete
 {
+    using System.Xml;
+
     /// <summary>
     /// Use the data-type guid as the start of the /base request
     /// </summary>
@@ -97,21 +99,34 @@ namespace uComponents.DataTypes.XPathAutoComplete
         [RestExtensionMethod(ReturnXml = false)]
         public static string GetData(int datatypeDefinitionId, int currentId)
         {
-            string autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];
-            string selectedItemsXml = HttpContext.Current.Request.Form["selectedItems"];
+            var autoCompleteText = HttpContext.Current.Request.Form["autoCompleteText"];
+            var selectedItemsXml = HttpContext.Current.Request.Form["selectedItems"];
 
             int[] selectedValues = null;
+
             if (!string.IsNullOrWhiteSpace(selectedItemsXml))
             {
-                // parse selectedItemsXml to get unique collection of ids
-                selectedValues = XDocument.Parse(selectedItemsXml).Descendants("Item").Select(x => int.Parse(x.Attribute("Value").Value)).ToArray();
+                try
+                {
+                    // Parse selectedItemsXml to get unique collection of ids
+                    selectedValues =
+                        XDocument.Parse(selectedItemsXml)
+                                 .Descendants("Item")
+                                 .Select(x => int.Parse(x.Attribute("Value").Value))
+                                 .ToArray();
+                }
+                catch (XmlException)
+                {
+                    // xml was not valid
+                    selectedValues = new int[0];
+                }
             }
 
             // default json returned if it wasn't able to get any data
-            string json = @"[]";
+            var json = @"[]";
 
             // get the options data for the current datatype instance
-            XPathAutoCompleteOptions options = GetOptions(datatypeDefinitionId);
+            var options = GetOptions(datatypeDefinitionId);
 
             // double check, as client shouldn't call this method if invalid
             if (options != null && autoCompleteText.Length >= options.MinLength)

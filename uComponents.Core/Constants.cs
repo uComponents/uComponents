@@ -4,7 +4,7 @@ namespace uComponents.Core
 	/// <summary>
 	/// Constants class for uComponent specific values.
 	/// </summary>
-	public partial class Constants
+	public static partial class Constants
 	{
 		/// <summary>
 		/// Name of the application.
@@ -30,6 +30,11 @@ namespace uComponents.Core
 		/// AppSettings key for UI Modules' tray peek.
 		/// </summary>
 		public const string AppKey_TrayPeek = "ucomponents:TrayPeek";
+
+		/// <summary>
+		/// The documentation URL
+		/// </summary>
+		public const string DocumentationUrl = "http://ucomponents.org";
 
 		/// <summary>
 		/// The resource path for the favicon.

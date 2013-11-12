@@ -9,9 +9,8 @@ using System.Web.Caching;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
-// using uComponents.Core.Shared.Extensions;
 using umbraco;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.XsltExtensions
 {
@@ -221,7 +220,7 @@ namespace uComponents.XsltExtensions
 			var children = node.SelectChildren(XPathNodeType.Element);
 
 			// gets a random number from the node count.
-			var random = (children != null && children.Count > 0) ? library.GetRandom().Next(1, children.Count) : 1;
+			var random = (children != null && children.Count > 0) ? library.GetRandom().Next(1, children.Count + 1) : 1;
 
 			// return the node at that position()
 			return node.Select(string.Concat("*[", random, "]"));

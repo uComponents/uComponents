@@ -1,14 +1,24 @@
-﻿using uComponents.XsltExtensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Xml.XPath;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Xml;
+using System.Xml.XPath;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using uComponents.XsltExtensions;
 
 namespace uComponents.Core.UnitTests.XsltExtensions
 {
 	[TestClass]
 	public class DatesTest
 	{
+		[TestInitialize]
+		public void Initialize()
+		{
+			// [LK] Setting the thread culture to 'en-GB' so to not fail on the date formats
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+		}
+
 		[TestMethod]
 		public void AddWorkdaysTest()
 		{
@@ -34,7 +44,7 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		public void AgeTest()
 		{
 			var dateOfBirth = "30/07/1978";
-			var expected = 34;
+			var expected = 35;
 			var actual = Dates.Age(dateOfBirth);
 			Assert.AreEqual(expected, actual);
 		}
@@ -233,10 +243,18 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 		[TestMethod]
 		public void ToUnixTimeTest()
 		{
-			var date = "24/06/2012 00:00";
-			var expected = 1340496000F;
-			var actual = Dates.ToUnixTime(date);
-			Assert.AreEqual(expected, actual);
+			var dates = new Dictionary<string, double>()
+			{
+				{ "01/01/1970 00:00", 0D },
+				{ "30/07/1978 18:38", 270671880D },
+				{ "29/06/2010 00:00", 1277769600D },
+				{ "24/06/2012 00:00", 1340496000D }
+			};
+
+			foreach (var date in dates)
+			{
+				Assert.AreEqual(date.Value, Dates.ToUnixTime(date.Key), string.Format("Problem with '{0}'. Expected {1} but was not that.", date.Key, date.Value));
+			}
 		}
 
 		[TestMethod]

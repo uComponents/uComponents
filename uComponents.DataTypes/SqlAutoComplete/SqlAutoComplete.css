@@ -44,3 +44,57 @@
 {
     width: 200px;
 }
+
+.sql-auto-complete-widget.ui-menu {
+    list-style: none;
+    padding: 2px;
+    margin: 0;
+    display: block;
+    float: left;
+}
+
+.sql-auto-complete-widget.ui-autocomplete {
+    position: absolute;
+    cursor: default;
+}
+
+.sql-auto-complete-widget.ui-corner-all {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.sql-auto-complete-widget.ui-widget-content {
+    border: 1px solid #dddddd;
+    background: #eeeeee url('/umbraco_client/ui/ui-lightness/images/ui-bg_highlight-soft_100_eeeeee_1x100.png') 50% top repeat-x;
+    color: #333333;
+}
+
+.sql-auto-complete-widget.ui-menu .ui-menu-item {
+    margin: 0;
+    padding: 0;
+    zoom: 1;
+    float: left;
+    clear: left;
+    width: 100%;
+}
+
+.sql-auto-complete-widget.ui-menu .ui-menu-item a {
+    text-decoration: none;
+    display: block;
+    padding: .2em .4em;
+    line-height: 1.5;
+    zoom: 1;
+}
+
+.sql-auto-complete-widget .ui-state-hover, 
+.sql-auto-complete-widget .ui-widget-content .ui-state-hover, 
+.sql-auto-complete-widget .ui-widget-header .ui-state-hover, 
+.sql-auto-complete-widget .ui-state-focus, 
+.sql-auto-complete-widget .ui-widget-content .ui-state-focus, 
+.sql-auto-complete-widget .ui-widget-header .ui-state-focus {
+    border: 1px solid #CAC9C9;
+    background: #D9D7D7 url('/umbraco_client/tabView/images/background.gif') 90% 10% repeat-x;
+    color: #378080;
+    font-weight: normal;
+}

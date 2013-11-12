@@ -13,6 +13,8 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.PropertyPicker
 {
+	using Umbraco.Web;
+
 	/// <summary>
 	/// Property Picker Data Type
 	/// </summary>
@@ -98,12 +100,12 @@ namespace uComponents.DataTypes.PropertyPicker
 				// Property is mandatory, but no value selected in the DropDownList
 				this.customValidator.IsValid = false;
 				
-				var documentType = new DocumentType(property.PropertyType.ContentTypeId);
-				var tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+				var documentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(property.PropertyType.ContentTypeId);
+				var tab = documentType.PropertyGroups.FirstOrDefault(x => x.Id == property.PropertyType.PropertyTypeGroup);
 
 				if (tab != null)
 				{
-					this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Alias, tab.Caption }, User.GetCurrent());
+					this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new[] { property.PropertyType.Alias, tab.Name }, User.GetCurrent());
 				}
 			}
 
@@ -122,7 +124,8 @@ namespace uComponents.DataTypes.PropertyPicker
 			int contentTypeId;
 			if (int.TryParse(this.options.ContentTypeId, out contentTypeId))
 			{
-				var contentType = new ContentType(contentTypeId);
+				var contentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(contentTypeId);
+
 				if (contentType != null)
 				{
 					foreach (var propertyType in contentType.PropertyTypes)

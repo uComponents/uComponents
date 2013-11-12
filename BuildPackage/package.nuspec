@@ -4,7 +4,7 @@
 		<id>uComponents</id>
 		<version>0.0.0</version>
 		<title>uComponents</title>
-		<authors>Lee Kelleher,Hendy Racher,James Diacono,Ove Andersen,Shannon Deminick</authors>
+		<authors>Lee Kelleher,Hendy Racher,Ove Andersen,James Diacono,Shannon Deminick</authors>
 		<owners>The Umbraco Community</owners>
 		<licenseUrl>http://ucomponents.codeplex.com/license</licenseUrl>
 		<projectUrl>http://ucomponents.org</projectUrl>
@@ -16,10 +16,10 @@
 
 Containing over 30 data types, 10 XSLT extension libraries, keyboard short-cuts, drag-n-drop functionality, as well as great developer utilities - uComponents is one of the must-have packages for any Umbraco-powered website!]]>
 		</description>
-		<copyright>Copyright &#169; 2012 The Umbraco Community</copyright>
+		<copyright>Copyright &#169; 2013 The Umbraco Community</copyright>
 		<tags>umbraco</tags>
 		<dependencies>
-			<dependency id="UmbracoCms.Core" version="4.11.1" />
+			<dependency id="UmbracoCms.Core" version="6.1.0" />
 		</dependencies>
 	</metadata>
 	<files />

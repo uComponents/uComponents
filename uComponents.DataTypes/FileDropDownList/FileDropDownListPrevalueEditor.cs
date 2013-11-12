@@ -25,6 +25,17 @@ namespace uComponents.DataTypes.FileDropDownList
 		/// </summary>
 		private TextBox TextBoxSearchPattern;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/file-dropdownlist/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileDropDownListPrevalueEditor"/> class.
 		/// </summary>

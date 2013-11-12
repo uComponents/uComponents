@@ -24,6 +24,17 @@ namespace uComponents.DataTypes.IncrementalTextBox
 		/// </summary>
 		private static readonly object m_Locker = new object();
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/incremental-textbox/");
+            }
+        }
+
 		/// <summary>
 		/// Gets the min value.
 		/// </summary>

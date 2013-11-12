@@ -71,6 +71,17 @@ namespace uComponents.DataTypes.XPathAutoComplete
         private XPathAutoCompleteOptions options = null;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/xpath-auto-complete/");
+            }
+        }
+
+        /// <summary>
         /// Initialize a new instance of XPathAutoCompletePreValueEditor
         /// </summary>
         /// <param name="dataType">XPathAutoCompleteDataType</param>
@@ -213,7 +224,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
             if (this.Page.IsValid)
             {
                 // wipe cache incase settings have changed
-                HttpContext.Current.Cache.Remove(string.Concat(DataTypeConstants.XPathAutoCompleteId, "_options_", this.m_DataType.DataTypeDefinitionId));
+                HttpContext.Current.Cache.Remove(string.Concat(DataTypeConstants.XPathAutoCompleteId, "_options_", this.DataType.DataTypeDefinitionId));
 
                 this.Options.Type = this.typeRadioButtonList.SelectedValue;
                 this.Options.XPath = this.xPathTextBox.Text;

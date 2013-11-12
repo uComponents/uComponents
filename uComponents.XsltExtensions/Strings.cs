@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Xml.XPath;
 using uComponents.Core;
 using umbraco;
-using umbraco.cms.helpers;
 
 namespace uComponents.XsltExtensions
 {
@@ -192,7 +191,7 @@ namespace uComponents.XsltExtensions
 		/// <remarks>This is a wrapper method for <c>umbraco.cms.helpers.Casing.SafeAlias</c>.</remarks>
 		public static string SafeAlias(string input)
 		{
-			return Casing.SafeAlias(input);
+			return Umbraco.Core.StringExtensions.ToSafeAlias(input);
 		}
 
 		/// <summary>
@@ -716,7 +715,7 @@ namespace uComponents.XsltExtensions
 		{
 			if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(textToTrim))
 				return input;
-			
+
 			while (input.StartsWith(textToTrim))
 			{
 				input = input.Substring(textToTrim.Length);

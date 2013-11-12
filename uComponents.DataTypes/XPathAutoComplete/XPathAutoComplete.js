@@ -1,6 +1,6 @@
 ﻿/*
     <div class="xpath-auto-complete" 
-         data-xpath-autocomplete-id="EE395ED1-CE6E-4417-AEEB-BCA780D3E96B" 
+         data-xpath-autocomplete-id="6905F13E-829D-4827-9B9F-72D5A00E7A9E" 
          data-datatype-definition-id="1056" 
          data-current-id="1051"
          data-type="Media" 
@@ -54,17 +54,22 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
         var allowDuplicates = div.data('allow-duplicates');
 
         // create list items from saved xml - ignore max-items here, always add all saved items
-        var xml = jQuery.parseXML(hidden.val());
-        jQuery(xml).find('Item').each(function (index, element) {
-            addItem(
-                ul,
-                {
-                    label: jQuery(element).attr('Text'),
-                    value: jQuery(element).attr('Value')
-                },
-                allowDuplicates
-            );
-        });
+        try {
+            var xml = jQuery.parseXML(hidden.val());
+            
+            jQuery(xml).find('Item').each(function(index, element) {
+                addItem(
+                    ul,
+                    {
+                        label: jQuery(element).attr('Text'),
+                        value: jQuery(element).attr('Value')
+                    },
+                    allowDuplicates
+                );
+            });
+        } catch(err) {
+            // value was not xml
+        }
 
         // make selection list sortable
         ul.sortable({
@@ -86,7 +91,9 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
                     contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     url: '/Base/' + xPathAutoCompleteId + '/GetData/' + dataTypeDefinitionId + '/' + currentId,
                     dataType: 'json',
-                    success: function (data) { response(data); }
+                    success: function(data) {
+                        response(data);
+                    }
                 });
             },
             open: function (event, ui) {
@@ -95,6 +102,9 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
             autoFocus: true,
             focus: function (event, ui) {
                 return false; // prevent the autocomplete text box from being populated with the value of the currenly highlighted item
+            },
+            create: function(event, ui) {
+                input.autocomplete('widget').addClass("xpath-auto-complete-widget");
             },
             select: function (event, ui) {
 
@@ -123,7 +133,7 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
     // public -- from the clicked anchor, remove it's <li> and re-generate the hidden field
     function removeItem(a) {
 
-        var ul = jQuery(a).parentsUntil('div.sql-auto-complete', 'ul');
+        var ul = jQuery(a).parentsUntil('div.xpath-auto-complete', 'ul');
         var hidden = ul.siblings('input:hidden');
         var type = ul.parent().data('type');
 

@@ -15,6 +15,10 @@ namespace uComponents.XsltExtensions
 	[XsltExtension("ucomponents.media")]
 	public class Media
 	{
+		// TODO: [LK] Consider a custom `GetMedia()` method
+		// ref: http://shazwazza.com/post/Ultra-fast-media-performance-in-Umbraco
+		// instead of returning Shannon's custom `MediaValues` object, we call `Search.GetResultsAsXml()`
+
 		/// <summary>
 		/// Gets the media by CSV.
 		/// </summary>

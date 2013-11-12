@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,14 +35,14 @@ namespace uComponents.Core
 				var assemblies = new List<string>();
 
 				// check if the App_Code directory exists and has any files
-				var appCode = new DirectoryInfo(IOHelper.MapPath("~/App_Code"));
+				var appCode = new DirectoryInfo(Umbraco.Core.IO.IOHelper.MapPath("~/App_Code"));
 				if (appCode.Exists && appCode.GetFiles().Length > 0)
 				{
 					assemblies.Add(appCode.Name);
 				}
 
 				// add assemblies from the /bin directory
-				assemblies.AddRange(Directory.GetFiles(IOHelper.MapPath("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
+				assemblies.AddRange(Directory.GetFiles(Umbraco.Core.IO.IOHelper.MapPath("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
 
 				return assemblies.ToArray();
 			}
@@ -80,6 +81,30 @@ namespace uComponents.Core
 				}
 
 				return null;
+			}
+
+			/// <summary>
+			/// Gets the assembly informational version.
+			/// </summary>
+			/// <param name="assemblyName">Name of the assembly.</param>
+			/// <returns>The value of the informational version.</returns>
+			public static string GetAssemblyInformationalVersion(string assemblyName)
+			{
+				var assembly = GetAssembly(assemblyName);
+				return GetAssemblyInformationalVersion(assembly);
+			}
+
+			/// <summary>
+			/// Gets the assembly informational version.
+			/// </summary>
+			/// <param name="assembly">The assembly.</param>
+			/// <returns>The value of the informational version.</returns>
+			public static string GetAssemblyInformationalVersion(Assembly assembly)
+			{
+				if (assembly != null)
+					return FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+
+				return string.Empty;
 			}
 
 			/// <summary>

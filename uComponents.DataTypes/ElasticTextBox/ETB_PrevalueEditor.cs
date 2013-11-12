@@ -42,6 +42,17 @@ namespace uComponents.DataTypes.ElasticTextBox
 		/// </summary>
 		private TextBox TextBoxWidth;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/elastic-textbox/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ETB_PrevalueEditor"/> class.
 		/// </summary>

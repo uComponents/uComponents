@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Web;
-using uComponents.MacroEngines.Extensions;
+using uComponents.Core.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.macro;
 using umbraco.interfaces;
@@ -135,7 +135,7 @@ namespace uComponents.MacroEngines
 
 				this.Success = true;
 
-				return ctrl.RenderControlToString();
+				return ctrl.RenderToString();
 			}
 			catch (Exception ex)
 			{

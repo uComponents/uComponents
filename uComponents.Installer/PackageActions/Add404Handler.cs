@@ -2,7 +2,6 @@
 using System.Xml;
 using uComponents.Core;
 using umbraco.interfaces;
-using Umbraco.Core;
 using Umbraco.Core.IO;
 
 namespace uComponents.Installer.PackageActions
@@ -42,7 +41,7 @@ namespace uComponents.Installer.PackageActions
 			var result = false;
 
 			// open the 404 handlers config file
-			var handlersFile = XmlHelper.OpenAsXmlDocument(VirtualPathUtility.ToAbsolute("/config/404handlers.config"));
+			var handlersFile = Umbraco.Core.XmlHelper.OpenAsXmlDocument(VirtualPathUtility.ToAbsolute("/config/404handlers.config"));
 
 			// select notfound node in the config file
 			var handlersRootNode = handlersFile.SelectSingleNode("//NotFoundHandlers");
@@ -59,8 +58,8 @@ namespace uComponents.Installer.PackageActions
 				var newHandlerNode = (XmlNode)handlersFile.CreateElement("notFound");
 
 				// add the attributes
-				newHandlerNode.Attributes.Append(XmlHelper.AddAttribute(handlersFile, "assembly", assembly));
-				newHandlerNode.Attributes.Append(XmlHelper.AddAttribute(handlersFile, "type", type));
+				newHandlerNode.Attributes.Append(Umbraco.Core.XmlHelper.AddAttribute(handlersFile, "assembly", assembly));
+				newHandlerNode.Attributes.Append(Umbraco.Core.XmlHelper.AddAttribute(handlersFile, "type", type));
 
 				// append the new handler node to the 404handlers config file before the 'handle404' entry
 				handlersRootNode.InsertBefore(newHandlerNode, handlersRootNode.SelectSingleNode("//notFound[@type = 'handle404']"));
@@ -90,7 +89,7 @@ namespace uComponents.Installer.PackageActions
 			var type = xmlData.Attributes["type"].Value;
 
 			// Open the 404handlers config file
-			var rewriteFile = XmlHelper.OpenAsXmlDocument(VirtualPathUtility.ToAbsolute("/config/404handlers.config"));
+			var rewriteFile = Umbraco.Core.XmlHelper.OpenAsXmlDocument(VirtualPathUtility.ToAbsolute("/config/404handlers.config"));
 
 			// Select the rootnode where we want to delete from
 			var handlersRootNode = rewriteFile.SelectSingleNode("//NotFoundHandlers");

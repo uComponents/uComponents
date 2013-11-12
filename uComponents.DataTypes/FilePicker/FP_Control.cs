@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using uComponents.Core;
+using uComponents.DataTypes.Shared.Pages;
 using umbraco;
 
 namespace uComponents.DataTypes.FilePicker
@@ -54,6 +57,10 @@ namespace uComponents.DataTypes.FilePicker
 		{
 			base.OnInit(e);
 
+			// Ensure directory browser page exist
+			var pagesFolder = Helper.IO.EnsureFolderExists(Path.Combine(Settings.BaseDir.FullName, "Shared", "Pages"));
+			Helper.IO.EnsureFileExists(Path.Combine(pagesFolder.FullName, "DirectoryBrowser.aspx"), SharedPages.DirectoryBrowser);
+
 			this.EnsureChildControls();
 		}
 
@@ -80,7 +87,7 @@ namespace uComponents.DataTypes.FilePicker
 
 			// create the anchor link
 			HtmlAnchor anchor = new HtmlAnchor() { HRef = "javascript:void(0);" };
-			anchor.Attributes.Add("onclick", string.Format("javascript:UmbClientMgr.openModalWindow('{0}/developer/packages/directoryBrowser.aspx?target={1}&path={2}', 'Choose a file or a folder', true, 400, 500, 0, 0); return false;", GlobalSettings.Path, this.TextBoxControl.ClientID, this.SelectedDirectory));
+			anchor.Attributes.Add("onclick", string.Format("javascript:UmbClientMgr.openModalWindow('{0}/plugins/uComponents/Shared/Pages/DirectoryBrowser.aspx?target={1}&path={2}', 'Choose a file or a folder', true, 400, 500, 0, 0); return false;", GlobalSettings.Path, this.TextBoxControl.ClientID, this.SelectedDirectory));
 
 			// add the image to the anchor link
 			anchor.Controls.Add(image);

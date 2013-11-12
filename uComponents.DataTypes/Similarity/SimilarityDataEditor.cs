@@ -16,6 +16,10 @@ using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.Similarity
 {
+    using Umbraco.Core.Models;
+    using Umbraco.Core.Services;
+    using Umbraco.Web;
+
     /// <summary>
     /// button to pull items, and second pane to show what is already picked
     /// </summary>
@@ -185,8 +189,8 @@ namespace uComponents.DataTypes.Similarity
             var results = (from item in items
                            where (item != string.Empty && item != ",")
                            select int.Parse(item)
-                           into id let d = new Document(id)
-                           select new SearchResultItem { NodeId = id, PageName = d.Text }).ToList();
+                           into id let d = UmbracoContext.Current.Application.Services.ContentService.GetById(id)
+                           select new SearchResultItem { NodeId = id, PageName = d.Name }).ToList();
 
             // TODO: [IM] add to list
             foreach (var searchResultItem in results)
@@ -338,19 +342,17 @@ namespace uComponents.DataTypes.Similarity
 
             if (sr.NodeId != 0)
             {
-                umbraco.cms.businesslogic.Content loadedNode;
-
                 try
                 {
-                    loadedNode = new umbraco.cms.businesslogic.Content(sr.NodeId);
+                    var loadedNode = UmbracoContext.Current.Application.Services.ContentService.GetById(sr.NodeId);
 
                     //add the node id
                     liSelectNode.Attributes["rel"] = sr.NodeId.ToString();
 
                     lnkSelectNode.HRef = "javascript:void(0);";
-                    litSelectNodeName.Text = loadedNode.Text;
+                    litSelectNodeName.Text = loadedNode.Name;
 
-                    if (loadedNode.IsTrashed)
+                    if (loadedNode.Status == ContentStatus.Trashed)
                     {
                         //need to flag this to be removed which will be done after all items are data bound
                         liSelectNode.Attributes["rel"] = "trashed";
@@ -358,13 +360,16 @@ namespace uComponents.DataTypes.Similarity
                     else
                     {
                         //we need to set the icon
-                        if (loadedNode.ContentTypeIcon.StartsWith(".spr")) lnkSelectNode.Attributes["class"] += " " + loadedNode.ContentTypeIcon.TrimStart('.');
+                        if (loadedNode.ContentType.Icon.StartsWith(".spr"))
+                        {
+                            lnkSelectNode.Attributes["class"] += " " + loadedNode.ContentType.Icon.TrimStart('.');
+                        }
                         else
                         {
                             //it's a real icon, so make it a background image
                             lnkSelectNode.Style.Add(
                                 HtmlTextWriterStyle.BackgroundImage,
-                                string.Format("url('{0}')", IconPath + loadedNode.ContentTypeIcon));
+                                string.Format("url('{0}')", IconPath + loadedNode.ContentType.Icon));
                             //set the nospr class since it's not a sprite
                             lnkSelectNode.Attributes["class"] += " noSpr";
                         }

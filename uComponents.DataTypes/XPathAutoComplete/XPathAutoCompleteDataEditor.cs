@@ -20,7 +20,6 @@ namespace uComponents.DataTypes.XPathAutoComplete
     /// DataEditor for the XPath AutoComplete data-type.
     /// </summary>
     [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Javascript, "ui/jqueryui.js", "UmbracoClient")]
-    [ClientDependency.Core.ClientDependency(ClientDependency.Core.ClientDependencyType.Css, "ui/ui-lightness/jquery-ui.custom.css", "UmbracoClient")]
     public class XPathAutoCompleteDataEditor : CompositeControl, IDataEditor
     {
         /// <summary>
@@ -36,12 +35,12 @@ namespace uComponents.DataTypes.XPathAutoComplete
         /// <summary>
         /// TextBox to attach the js autocompete, using this ClientId we can walk up the dom to the wrapping div to find everything else
         /// </summary>
-        private TextBox autoCompleteTextBox = new TextBox();
+        private TextBox autoCompleteTextBox = new TextBox() { ID = "AutoCompleteTextBox" };
 
         /// <summary>
         /// Stores the selected values
         /// </summary>
-        private HiddenField selectedItemsHiddenField = new HiddenField();
+        private HiddenField selectedItemsHiddenField = new HiddenField() { ID = "SelectedItems" };
 
         /// <summary>
         /// Ensure number of items selected is within any min and max configuration settings
@@ -109,6 +108,18 @@ namespace uComponents.DataTypes.XPathAutoComplete
         }
 
         /// <summary>
+        /// Gets the selected items hidden field.
+        /// </summary>
+        /// <value>The selected items hidden field.</value>
+        public HiddenField SelectedItemsHiddenField
+        {
+            get
+            {
+                return this.selectedItemsHiddenField;
+            }
+        }
+
+        /// <summary>
         /// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
         /// </summary>
         protected override void CreateChildControls()
@@ -162,7 +173,7 @@ namespace uComponents.DataTypes.XPathAutoComplete
 
             ScriptManager.RegisterStartupScript(this, typeof(XPathAutoCompleteDataEditor), this.ClientID + "_init", startupScript, false);
 
-            if (!this.Page.IsPostBack)
+            if (!this.Page.IsPostBack && this.data.Value != null)
             {
                 this.selectedItemsHiddenField.Value = this.data.Value.ToString();
             }
@@ -182,10 +193,17 @@ namespace uComponents.DataTypes.XPathAutoComplete
             // There should be a valid xml fragment (or empty) in the hidden field
             if (!string.IsNullOrWhiteSpace(xml))
             {
-                var xmlDocument = new XmlDocument();
-                xmlDocument.LoadXml(xml);
+                try
+                {
+                    var xmlDocument = new XmlDocument();
+                    xmlDocument.LoadXml(xml);
 
-                items = xmlDocument.SelectNodes("//Item").Count;
+                    items = xmlDocument.SelectNodes("//Item").Count;
+                }
+                catch (XmlException)
+                {
+                    return;
+                }
             }
 
             if (this.options.MinItems > 0 && items < this.options.MinItems)

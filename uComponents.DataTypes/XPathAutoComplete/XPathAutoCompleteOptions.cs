@@ -91,6 +91,11 @@ namespace uComponents.DataTypes.XPathAutoComplete
 		{
 			get
 			{
+				if (string.IsNullOrEmpty(this.Type))
+				{
+					return uQuery.GetUmbracoObjectType(new Guid(Constants.Umbraco.ObjectTypes.Document));
+				}
+
 				return uQuery.GetUmbracoObjectType(new Guid(this.Type));
 			}
 		}
