@@ -15,6 +15,7 @@ leekelleher - Lee Kelleher - Project Coordinator
 	Textstring Array
 	ToggleBox
 	User Picker
+	XML DropDownList
 	Not Found Handlers
 	XSLT Extensions
 	Controls: EditProperty, GetMedia, RenderTemplate
@@ -35,6 +36,7 @@ Hendy - Hendy Racher - Project Coordinator
 	XPath AutoComplete
 	XPath CheckBoxList
 	XPath DropDownList
+	XPath Templatable List
 	uQuery
 
 Azzlack - Ove Andersen
