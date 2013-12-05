@@ -32,17 +32,17 @@ namespace uComponents.DataTypes.UrlPicker
         /// <summary>
         /// Stores the state of the control in the ViewState via this control ONLY
         /// </summary>
-        protected HiddenField StateHiddenField;
+        protected HiddenField StateHiddenField = new HiddenField();
 
         /// <summary>
         /// The control for the <c>ContentPicker</c>.
         /// </summary>
-        protected SimpleContentPicker ContentPicker;
+        protected SimpleContentPicker ContentPicker = new SimpleContentPicker();
 
         /// <summary>
         /// The control for the <c>MediaPicker</c>.
         /// </summary>
-        protected SimpleMediaPicker MediaPicker;
+        protected SimpleMediaPicker MediaPicker = new SimpleMediaPicker();
 
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
@@ -92,18 +92,15 @@ namespace uComponents.DataTypes.UrlPicker
             base.CreateChildControls();
 
             // Content Mode:
-            ContentPicker = new SimpleContentPicker();
             ContentPicker.ID = ContentPicker.ClientID;
             ContentPicker.EnableViewState = false;
             this.Controls.Add(ContentPicker);
 
             // Media Mode:
-            MediaPicker = new SimpleMediaPicker();
             MediaPicker.ID = MediaPicker.ClientID;
             MediaPicker.EnableViewState = false;
             this.Controls.Add(MediaPicker);
 
-            StateHiddenField = new HiddenField();
             StateHiddenField.ID = StateHiddenField.ClientID;
             StateHiddenField.EnableViewState = true;
             this.Controls.Add(StateHiddenField);
@@ -227,6 +224,7 @@ namespace uComponents.DataTypes.UrlPicker
             {
                 return UrlPickerState.Deserialize(StateHiddenField.Value);
             }
+
             set
             {
                 // Is the mode allowed?  If not, set state to default - this will reset it on save/publish

@@ -13,6 +13,8 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.SqlDropDownList
 {
+	using Umbraco.Web;
+
 	/// <summary>
 	/// XPath configurabale DropDownList Data Type
 	/// </summary>
@@ -150,12 +152,12 @@ namespace uComponents.DataTypes.SqlDropDownList
 				// Property is mandatory, but no value selected in the DropDownList
 				this.customValidator.IsValid = false;
 
-				var documentType = new DocumentType(property.PropertyType.ContentTypeId);
-				var tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+				var documentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(property.PropertyType.ContentTypeId);
+				var tab = documentType.PropertyGroups.FirstOrDefault(x => x.Id == property.PropertyType.PropertyTypeGroup);
 
 				if (tab != null)
 				{
-					this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Name, tab.Caption }, User.GetCurrent());
+					this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Name, tab.Name }, User.GetCurrent());
 				}
 			}
 

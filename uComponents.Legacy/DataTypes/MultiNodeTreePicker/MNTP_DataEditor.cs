@@ -11,7 +11,7 @@ using umbraco;
 using umbraco.cms.presentation.Trees;
 using umbraco.controls.Images;
 using umbraco.controls.Tree;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.MultiNodeTreePicker
 {

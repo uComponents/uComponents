@@ -2,11 +2,8 @@
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using uComponents.DataTypes.Shared.Extensions;
-using uComponents.DataTypes.Shared.PrevalueEditors;
-using umbraco.cms.businesslogic.datatype;
-using umbraco.IO;
 using umbraco.editorControls;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.Notes
 {
@@ -26,6 +23,17 @@ namespace uComponents.DataTypes.Notes
         private CheckBox ShowLabel;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/notes/");
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NotesPrevalueEditor"/> class.
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
@@ -43,7 +51,7 @@ namespace uComponents.DataTypes.Notes
 
             this.EnsureChildControls();
 
-            this.Page.ClientScript.RegisterClientScriptInclude("TinyMCE", this.ResolveUrl(SystemDirectories.Umbraco_client) + "/tinymce3/tiny_mce_src.js");
+            this.Page.ClientScript.RegisterClientScriptInclude("TinyMCE", this.ResolveUrl(SystemDirectories.UmbracoClient) + "/tinymce3/tiny_mce_src.js");
         }
 
         /// <summary>

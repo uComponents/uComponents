@@ -20,7 +20,7 @@ namespace uComponents.UI
 	/// <summary>    
 	/// This control contains the scripts required for the shared ui extensions. They are automatically added to all (relevant) pages by the uComponentsModule
 	/// </summary>
-	public class UIExtensionResources : IResourceSet
+	public sealed class UIExtensionResources : IResourceSet
 	{
 		/// <summary>
 		/// We only expect trees in the top frame (umbraco.aspx) and edit pages

@@ -27,7 +27,7 @@ namespace uComponents.DataTypes.RenderMacro
 		private MacroEditor MacroEditor;
 
 		/// <summary>
-		/// The Checkbox control to define whether to show the label for the Notes data-type.
+		/// The Checkbox control to define whether to show the label for the data-type.
 		/// </summary>
 		private CheckBox ShowLabel;
 
@@ -35,6 +35,17 @@ namespace uComponents.DataTypes.RenderMacro
 		/// Field for the overriding CSS styles.
 		/// </summary>
 		private Literal Styles;
+
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/render-macro/");
+            }
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RenderMacroPrevalueEditor"/> class.

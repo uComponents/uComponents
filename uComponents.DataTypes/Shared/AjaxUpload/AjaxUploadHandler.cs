@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Script.Serialization;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.Shared.AjaxUpload
 {
@@ -52,7 +52,7 @@ namespace uComponents.DataTypes.Shared.AjaxUpload
             get
             {
                 // Default media path
-                return umbraco.IO.IOHelper.ResolveUrl(umbraco.IO.SystemDirectories.Media).TrimEnd('/');
+                return IOHelper.ResolveUrl(SystemDirectories.Media).TrimEnd('/');
             }
         }
 

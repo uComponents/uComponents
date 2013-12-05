@@ -245,7 +245,9 @@ namespace uComponents.DataTypes.TextstringArray
 				writer.WriteLine("<a href='#add' class='textstring-row-add' title='Add a new row'><img src='{0}/images/small_plus.png' /></a>", GlobalSettings.Path);
 				writer.WriteLine("<a href='#remove' class='textstring-row-remove' title='Remove this row'><img src='{0}/images/small_minus.png' /></a>", GlobalSettings.Path);
 				writer.WriteLine("</div>");
-				writer.WriteLine("<div class='textstring-row-sort' title='Re-order this row' style='background: url({0}/images/sort.png) no-repeat 0 2px;'></div>", GlobalSettings.Path);
+
+				if (!this.Options.DisableSorting)
+					writer.WriteLine("<div class='textstring-row-sort' title='Re-order this row' style='background: url({0}/images/sort.png) no-repeat 0 2px;'></div>", GlobalSettings.Path);
 
 				writer.RenderEndTag(); // </div> .textstring-row
 			}

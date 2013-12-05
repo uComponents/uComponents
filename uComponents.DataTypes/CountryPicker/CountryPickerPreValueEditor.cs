@@ -24,6 +24,17 @@ namespace uComponents.DataTypes.CountryPicker
 		/// </summary>
 		private static readonly object m_Locker = new object();
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/country-picker/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CountryPickerPreValueEditor"/> class.
 		/// </summary>

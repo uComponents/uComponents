@@ -31,6 +31,15 @@ namespace uComponents.Installer {
         protected global::umbraco.uicontrols.Feedback Failure;
         
         /// <summary>
+        /// phRazorModelBinding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phRazorModelBinding;
+        
+        /// <summary>
         /// cbDisableRazorModelBinding control.
         /// </summary>
         /// <remarks>
@@ -38,6 +47,15 @@ namespace uComponents.Installer {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbDisableRazorModelBinding;
+        
+        /// <summary>
+        /// phUiModules control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phUiModules;
         
         /// <summary>
         /// cbUiModules control.
@@ -58,6 +76,15 @@ namespace uComponents.Installer {
         protected global::System.Web.UI.WebControls.CheckBoxList cblUiModules;
         
         /// <summary>
+        /// phNotFoundHandlers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phNotFoundHandlers;
+        
+        /// <summary>
         /// cblNotFoundHandlers control.
         /// </summary>
         /// <remarks>
@@ -67,13 +94,13 @@ namespace uComponents.Installer {
         protected global::System.Web.UI.WebControls.CheckBoxList cblNotFoundHandlers;
         
         /// <summary>
-        /// cblXsltExtensions control.
+        /// phXsltExtensions control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList cblXsltExtensions;
+        protected global::System.Web.UI.WebControls.PlaceHolder phXsltExtensions;
         
         /// <summary>
         /// phDashboardControl control.

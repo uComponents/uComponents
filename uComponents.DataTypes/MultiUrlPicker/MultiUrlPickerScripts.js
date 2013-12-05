@@ -65,7 +65,7 @@ Date modified: 21st of March, 2011
                 append('<a href="#" title="Delete\'s the item" class="delete button">Delete</a>').
                 append('<a href="#" title="Edit the item" class="edit button">Edit</a>').
                 append('<a href="#" title="Save and stop editing this item" class="close button">Close</a>').
-                append('<a href="#" title="Open URL in new window" class="url button" />'));
+                append('<a href="#" title="Open URL in new window" class="url button" target="_blank" />'));
 
             setItemState($item, itemState);
 

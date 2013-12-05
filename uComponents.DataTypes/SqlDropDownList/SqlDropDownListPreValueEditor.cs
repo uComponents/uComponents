@@ -34,6 +34,17 @@ namespace uComponents.DataTypes.SqlDropDownList
 		/// </summary>
 		private SqlDropDownListOptions options = null;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/sql-dropdownlist/");
+            }
+        }
+
 		/// <summary>
 		/// Gets the options data object that represents the current state of this datatypes configuration
 		/// </summary>

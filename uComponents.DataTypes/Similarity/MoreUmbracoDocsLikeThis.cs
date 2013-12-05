@@ -9,7 +9,7 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using uComponents.DataTypes.Similarity.Net;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.Similarity
 {

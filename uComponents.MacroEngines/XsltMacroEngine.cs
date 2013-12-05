@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Web;
-using System.Web.UI;
+using uComponents.Core.Extensions;
 using umbraco;
 using umbraco.cms.businesslogic.macro;
 using umbraco.interfaces;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.MacroEngines
 {
@@ -33,7 +33,7 @@ namespace uComponents.MacroEngines
 		/// Gets the XSLT temp directory.
 		/// </summary>
 		/// <value>The XSLT temp directory.</value>
-		public string XsltTempDirectory
+		private string XsltTempDirectory
 		{
 			get
 			{
@@ -49,7 +49,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "xslt" };
+				return new[] { "xslt" };
 			}
 		}
 
@@ -112,9 +112,9 @@ namespace uComponents.MacroEngines
 				}
 				else if (!string.IsNullOrEmpty(macro.ScriptCode))
 				{
-					string xslt = this.CheckXsltFragment(macro.ScriptCode.Trim());
-					string md5 = library.md5(xslt);
-					string filename = string.Concat("inline-", md5, ".xslt");
+					var xslt = CheckXsltFragment(macro.ScriptCode.Trim());
+					var md5 = library.md5(xslt);
+					var filename = string.Concat("inline-", md5, ".xslt");
 					fileLocation = this.CreateTemporaryFile(xslt, filename, true).Replace("~", "..");
 				}
 
@@ -123,8 +123,7 @@ namespace uComponents.MacroEngines
 					return string.Empty;
 				}
 
-				var tempMacro = new macro() { };
-				tempMacro.Model.Xslt = fileLocation;
+				var tempMacro = new macro { Model = { Xslt = fileLocation } };
 
 				// copy the macro properties across
 				foreach (var property in macro.Properties)
@@ -136,7 +135,7 @@ namespace uComponents.MacroEngines
 
 				this.Success = true;
 
-				return this.RenderControl(ctrl);
+				return ctrl.RenderToString();
 			}
 			catch (Exception ex)
 			{
@@ -152,13 +151,13 @@ namespace uComponents.MacroEngines
 		/// </summary>
 		/// <param name="xslt">The contents of the XSLT.</param>
 		/// <returns>Returns a full XSLT document.</returns>
-		private string CheckXsltFragment(string xslt)
+		private static string CheckXsltFragment(string xslt)
 		{
 			if (!xslt.Contains("<xsl:stylesheet"))
 			{
 				using (var cleanXslt = File.OpenText(IOHelper.MapPath(SystemDirectories.Umbraco + "/xslt/templates/clean.xslt")))
 				{
-					string tempXslt = cleanXslt.ReadToEnd();
+					var tempXslt = cleanXslt.ReadToEnd();
 					xslt = tempXslt.Replace("<!-- start writing XSLT -->", xslt);
 					xslt = macro.AddXsltExtensionsToHeader(xslt);
 				}
@@ -201,24 +200,6 @@ namespace uComponents.MacroEngines
 			}
 
 			return relativePath;
-		}
-
-		/// <summary>
-		/// Renders the control.
-		/// </summary>
-		/// <param name="ctrl">The control to render.</param>
-		/// <returns>Returns a string of the rendered control.</returns>
-		private string RenderControl(Control ctrl)
-		{
-			var sb = new StringBuilder();
-
-			using (var tw = new StringWriter(sb))
-			using (var hw = new HtmlTextWriter(tw))
-			{
-				ctrl.RenderControl(hw);
-			}
-
-			return sb.ToString();
 		}
 
 		/// <summary>

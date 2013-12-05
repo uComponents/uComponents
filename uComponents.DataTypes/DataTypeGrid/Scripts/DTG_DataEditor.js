@@ -10,6 +10,7 @@ function RegexValidate(source, args) {
 	var uComponentsDataTypeGrid = {
 		init: function (options) {
 			return this.each(function () {
+				var grid;
 				
 				var defaults = {
 					bJQueryUI: true,
@@ -24,9 +25,9 @@ function RegexValidate(source, args) {
 					sScrollXInner: "100%",
 					aoColumnDefs: [
 						{ "sTitle": "", "bSearchable": false, "bSortable": false, "sType": "numeric", "aTargets": [0] },
-						{ "sTitle": "", "bSearchable": false, "bSortable": false, "sType": "numeric", "aTargets": [1] }
+						{ "sTitle": "", "bSearchable": false, "bSortable": false, "aTargets": [1] }
 					],
-					fnDrawCallback: function(oSettings) {
+					fnDrawCallback: function (oSettings) {
 						configureToolbar($(oSettings.nTableWrapper).parent());
 						configureRows($(oSettings.nTableWrapper).parent());
 						configureSortable($(oSettings.nTableWrapper).parent());
@@ -40,9 +41,9 @@ function RegexValidate(source, args) {
 
 					// Dont add datatables if there is no table
 					if ($("table.display", this).length > 0) {
-						var dataTable = $("table.display", this).dataTable(settings);
+						grid = $("table.display", this).dataTable(settings);
 					}
-					
+
 					// Setup hover events
 					$(".ui-button", this).on("hover", function () {
 						$(this).toggleClass("ui-state-hover");
@@ -119,6 +120,11 @@ function RegexValidate(source, args) {
 
 					// Set loaded indicator
 					$(this).data("datatypegridloaded", true);
+					
+					// Trigger column resizing
+					grid.fnAdjustColumnSizing(false);
+
+					return grid;
 				}
 
 				// Private functions
@@ -142,27 +148,27 @@ function RegexValidate(source, args) {
 					}
 				}
 
-				function configureRows(container) {			    
+				function configureRows(container) {
 					// Make sure disabled buttons are not clickable
 					$(container).find("tbody .ui-button").click(function () {
 						if ($(this).hasClass("ui-state-disabled")) {
 							return false;
 						}
 					});
-
-					// Set first column width
-					$(container).find("th.actions, td.actions").width(19);
 				    
 				    // Hide actions column if read only mode
 					if ($(container).find("input[id$='ReadOnly']").val() == "True") {
 					    $(container).find("th.actions, td.actions").hide();
 					}
+					if ($(container).find("input[id$='ReadOnly']").val() == "True") {
+					    $(container).find("th.actions, td.actions").hide();
+					}
 				}
 				
-				function configureSortable(container) {			    
+				function configureSortable(container) {
 					var table = $(container).find(".dataTables_scrollBody table.display");
 					var tbody = $(table).children("tbody");
-					
+
 					var sortable = $(tbody).sortable({
 						axis: "y",
 						containment: 'parent',
@@ -170,12 +176,12 @@ function RegexValidate(source, args) {
 						tolerance: 'pointer',
 						cursor: "move",
 						opacity: 0.6,
-						helper: function(e, ui) {
-							ui.children().each(function() {
+						helper: function (e, ui) {
+							ui.children().each(function () {
 								$(this).width($(this).width());
 								$(this).height($(this).height());
 							});
-							
+
 							return ui;
 						},
 						stop: function (event, ui) {
@@ -186,24 +192,24 @@ function RegexValidate(source, args) {
 				
 				function sortValue(container) {
 					// Update value sortorder
-				    var values = $.parseXML($(container).find("input[id$='Value']").val());
-				    var rows = $(".dataTables_scrollBody table.display tr", container);
-					
+					var values = $.parseXML($(container).find("input[id$='Value']").val());
+					var rows = $(".dataTables_scrollBody table.display tr", container);
+
 					// Loop all rows currently in grid
 					$.each(rows, function (i, r) {
 						// Find existing element with matching id as the current object
-					    $.each(values.childNodes[0].childNodes, function (j, e) {
-					        if (e.attributes["id"].value == $(r).data("dtg-rowid")) {
-					            // Update sortorder on element
-					            e.attributes["sortOrder"].value = i;
-					        }
+						$.each(values.childNodes[0].childNodes, function (j, e) {
+							if (e.attributes["id"].value == $(r).data("dtg-rowid")) {
+								// Update sortorder on element
+								e.attributes["sortOrder"].value = i;
+							}
 						});
 					});
 
 					$(container).find("input[id$='Value']").val((new XMLSerializer()).serializeToString(values));
-					
+
 					// Set correct row class
-					$.each($(container).find("tr"), function(i, o) {
+					$.each($(container).find("tr"), function (i, o) {
 						$(o).removeClass("even, odd");
 
 						if ((i + 1) % 2 == 0) {
@@ -217,7 +223,7 @@ function RegexValidate(source, args) {
 		},
 		openDialog: function () {
 		    $(this).dialog('open');
-
+		    
 		    if ($(this).height() > $(window).height()) {
 		        var maxHeight = $(window).height() - 28 - 46 - 10;
 		        $(this).dialog("option", "height", maxHeight);

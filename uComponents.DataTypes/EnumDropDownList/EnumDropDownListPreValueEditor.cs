@@ -32,6 +32,18 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// </summary>
 		private EnumDropDownListOptions options = null;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/enum-dropdownlist/");
+            }
+        }
+
+
 		/// <summary>
 		/// Gets the options data object that represents the current state of this datatypes configuration
 		/// </summary>

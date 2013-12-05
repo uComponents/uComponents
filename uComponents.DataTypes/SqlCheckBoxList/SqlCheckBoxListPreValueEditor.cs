@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using umbraco.editorControls;
-using System.Configuration;
 using uComponents.DataTypes.Shared.Extensions;
+using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {
@@ -27,9 +27,9 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		/// </summary>
 		private CustomValidator sqlCustomValidator = new CustomValidator();
 
-        /// <summary>
+		/// <summary>
 		/// drop down list of all web.config connection strings strings + default of the umbraco app setting connection string
-        /// </summary>
+		/// </summary>
 		private DropDownList connectionStringDropDownList = new DropDownList();
 
 		/// <summary>
@@ -43,11 +43,22 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 		private SqlCheckBoxListOptions options = null;
 
 		/// <summary>
+		/// Gets the documentation URL.
+		/// </summary>
+		public override string DocumentationUrl
+		{
+			get
+			{
+				return string.Concat(base.DocumentationUrl, "/data-types/sql-checkboxlist/");
+			}
+		}
+
+		/// <summary>
 		/// Initialize a new instance of XPathCheckBoxlistPreValueEditor
 		/// </summary>
 		/// <param name="dataType">XPathCheckBoxListDataType</param>
 		public SqlCheckBoxListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

@@ -3,11 +3,7 @@ using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
-using uComponents.Core;
-using uComponents.DataTypes.Shared.Extensions;
-using uComponents.DataTypes.Shared.PrevalueEditors;
 using umbraco;
-using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
 
 namespace uComponents.DataTypes.CheckBoxTree
@@ -52,10 +48,10 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		private TextBox maxSelectionTextBox = new TextBox();
 
-        /// <summary>
-        /// The auto selection variations
-        /// </summary>
-        private DropDownList autoSelectionDropDownList = new DropDownList();
+		/// <summary>
+		/// The auto selection variations
+		/// </summary>
+		private DropDownList autoSelectionDropDownList = new DropDownList();
 
 		/// <summary>
 		/// Field for the show tree-icons CheckBox.
@@ -77,16 +73,16 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		private CheckBoxTreeOptions options = null;
 
-		// TODO: [HR] CheckBox to toggle auto selecting parent if descendents fully selected (like when installing software)
-
-		/// <summary>
-		/// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
-		/// </summary>
-		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-		protected override void OnInit(EventArgs e)
-		{
-			base.OnInit(e);
-		}
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/check-box-tree/");
+            }
+        }
 
 		/// <summary>
 		/// Gets the options.
@@ -126,7 +122,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-            // XPath Start Node
+			// XPath Start Node
 			this.treeStartNodeXPathTextBox.ID = "treeNodesXPathTexdtBox";
 			this.treeStartNodeXPathTextBox.CssClass = "umbEditorTextField";
 
@@ -145,39 +141,39 @@ namespace uComponents.DataTypes.CheckBoxTree
 			this.selectableTreeNodesXPathCustomValidator.Display = ValidatorDisplay.Dynamic;
 			this.selectableTreeNodesXPathCustomValidator.ServerValidate += new ServerValidateEventHandler(this.XPathCustomValidator_ServerValidate);
 
-            // Min Selections
-            this.minSelectionTextBox.Width = 30;
-            this.minSelectionTextBox.MaxLength = 2;
-            this.minSelectionTextBox.AutoCompleteType = AutoCompleteType.None;
+			// Min Selections
+			this.minSelectionTextBox.Width = 30;
+			this.minSelectionTextBox.MaxLength = 2;
+			this.minSelectionTextBox.AutoCompleteType = AutoCompleteType.None;
 
-            // Max Selections
-            this.maxSelectionTextBox.Width = 30;
-            this.maxSelectionTextBox.MaxLength = 2;
-            this.minSelectionTextBox.AutoCompleteType = AutoCompleteType.None;
+			// Max Selections
+			this.maxSelectionTextBox.Width = 30;
+			this.maxSelectionTextBox.MaxLength = 2;
+			this.minSelectionTextBox.AutoCompleteType = AutoCompleteType.None;
 
-            // Auto Selection Options            
-            this.autoSelectionDropDownList.DataSource = new[]
-                                                            {
-                                                                new ListItem(string.Empty, "0"),
-                                                                new ListItem("Ensure Ancestors", "1"),
-                                                                new ListItem("Ensure Descendants", "2"),
-                                                            };
-            this.autoSelectionDropDownList.DataBind();
-
-
-            // ShowTreeIcons
+			// Auto Selection Options
+			this.autoSelectionDropDownList.DataSource = new[]
+			{
+				new ListItem(string.Empty, "0"),
+				new ListItem("Ensure Ancestors", "1"),
+				new ListItem("Ensure Descendants", "2"),
+			};
+			this.autoSelectionDropDownList.DataBind();
 
 
-            // Expand Options
+			// ShowTreeIcons
+
+
+			// Expand Options
 			this.selectExpandOptionDropDownList.DataSource = new[]
-			                                                    {
-				                                                    new ListItem("Collapse All", "0"),
-				                                                    new ListItem("Expand All", "1"),
-				                                                    new ListItem("Expand Selected", "2"),
-			                                                    };
+			{
+				new ListItem("Collapse All", "0"),
+				new ListItem("Expand All", "1"),
+				new ListItem("Expand Selected", "2"),
+			};
 			this.selectExpandOptionDropDownList.DataBind();
 
-            // Output Format
+			// Output Format
 			this.selectOutputFormat.DataSource = Enum.GetValues(typeof(Settings.OutputFormat));
 			this.selectOutputFormat.DataBind();
 
@@ -189,7 +185,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.selectableTreeNodesXPathCustomValidator,
 				this.minSelectionTextBox,
 				this.maxSelectionTextBox,
-                this.autoSelectionDropDownList,
+				this.autoSelectionDropDownList,
 				this.showTreeIconsCheckBox,
 				this.selectExpandOptionDropDownList,
 				this.selectOutputFormat);
@@ -234,7 +230,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 				this.selectableTreeNodesXPathTextBox.Text = this.Options.SelectableTreeNodesXPath;
 				this.minSelectionTextBox.Text = this.Options.MinSelection.ToString();
 				this.maxSelectionTextBox.Text = this.Options.MaxSelection.ToString();
-                this.autoSelectionDropDownList.SelectedIndex = (int)this.Options.AutoSelectionOption;
+				this.autoSelectionDropDownList.SelectedIndex = (int)this.Options.AutoSelectionOption;
 				this.showTreeIconsCheckBox.Checked = this.Options.ShowTreeIcons;
 				this.selectExpandOptionDropDownList.SelectedIndex = (int)this.Options.ExpandOption;
 				this.selectOutputFormat.SelectedIndex = (int)this.Options.OutputFormat;
@@ -248,27 +244,27 @@ namespace uComponents.DataTypes.CheckBoxTree
 		{
 			if (this.Page.IsValid)
 			{
-                this.Options.StartTreeNodeXPath = this.treeStartNodeXPathTextBox.Text;
-                this.Options.SelectableTreeNodesXPath = this.selectableTreeNodesXPathTextBox.Text;
-                
-                int minSelection;
-                if (int.TryParse(this.minSelectionTextBox.Text, out minSelection))
-                {
-                    this.Options.MinSelection = minSelection;
-                }
+				this.Options.StartTreeNodeXPath = this.treeStartNodeXPathTextBox.Text;
+				this.Options.SelectableTreeNodesXPath = this.selectableTreeNodesXPathTextBox.Text;
 
-                int maxSelection;
-                if (int.TryParse(this.maxSelectionTextBox.Text, out maxSelection))
-                {
-                    this.Options.MaxSelection = maxSelection;
-                }
+				int minSelection;
+				if (int.TryParse(this.minSelectionTextBox.Text, out minSelection))
+				{
+					this.Options.MinSelection = minSelection;
+				}
 
-                this.Options.AutoSelectionOption = (CheckBoxTreeOptions.AutoSelectionOptions)this.autoSelectionDropDownList.SelectedIndex;
+				int maxSelection;
+				if (int.TryParse(this.maxSelectionTextBox.Text, out maxSelection))
+				{
+					this.Options.MaxSelection = maxSelection;
+				}
+
+				this.Options.AutoSelectionOption = (CheckBoxTreeOptions.AutoSelectionOptions)this.autoSelectionDropDownList.SelectedIndex;
 				this.Options.ShowTreeIcons = this.showTreeIconsCheckBox.Checked;
 				this.Options.ExpandOption = (CheckBoxTreeOptions.ExpandOptions)this.selectExpandOptionDropDownList.SelectedIndex;
 				this.Options.OutputFormat = (Settings.OutputFormat)this.selectOutputFormat.SelectedIndex;
 
-				this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
+				this.SaveAsJson(this.Options); // Serialize to Umbraco database field
 			}
 		}
 
@@ -282,7 +278,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 			writer.AddPrevalueRow("XPath Filter", "not required - only matched nodes will have checkboxes", this.selectableTreeNodesXPathTextBox, this.selectableTreeNodesXPathCustomValidator);
 			writer.AddPrevalueRow("Min Selection", "0 = no limit", this.minSelectionTextBox);
 			writer.AddPrevalueRow("Max Selection", "0 = no limit", this.maxSelectionTextBox);
-            writer.AddPrevalueRow("Auto Selection", "ensure a top down or bottom up tree selection", this.autoSelectionDropDownList);
+			writer.AddPrevalueRow("Auto Selection", "ensure a top down or bottom up tree selection", this.autoSelectionDropDownList);
 			writer.AddPrevalueRow("Show Tree Icons", "(doesn't yet work with sprites)", this.showTreeIconsCheckBox);
 			writer.AddPrevalueRow("Expand Options", "on load, select whether to collapse all, expand all or only selected branches.", this.selectExpandOptionDropDownList);
 			writer.AddPrevalueRow("Output Format", this.selectOutputFormat);

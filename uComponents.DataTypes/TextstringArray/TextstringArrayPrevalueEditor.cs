@@ -2,12 +2,8 @@
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using umbraco;
+using umbraco.editorControls;
 using umbraco.editorControls.MultipleTextstring;
-using uComponents.DataTypes.Shared.Extensions;
-using uComponents.DataTypes.Shared.PrevalueEditors;
-using umbraco.cms.businesslogic.datatype;
- using umbraco.editorControls;
 
 namespace uComponents.DataTypes.TextstringArray
 {
@@ -42,12 +38,31 @@ namespace uComponents.DataTypes.TextstringArray
 		private MultipleTextstringControl MtcColumnLabels;
 
 		/// <summary>
+		/// The CheckBox control for determining whether to disable row sorting.
+		/// </summary>
+		private CheckBox CheckBoxDisableSorting;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="TextstringArrayPrevalueEditor"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
 		public TextstringArrayPrevalueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
 			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
+		}
+
+		/// <summary>
+		/// Gets the documentation URL.
+		/// </summary>
+		/// <value>
+		/// The documentation URL.
+		/// </value>
+		public override string DocumentationUrl
+		{
+			get
+			{
+				return string.Concat(base.DocumentationUrl, "/data-types/textstring-array/");
+			}
 		}
 
 		/// <summary>
@@ -70,6 +85,7 @@ namespace uComponents.DataTypes.TextstringArray
 			}
 
 			options.ItemsPerRow = itemsPerRow;
+			options.DisableSorting = this.CheckBoxDisableSorting.Checked;
 
 			// parse the maximum rows
 			int maximumRows;
@@ -107,10 +123,11 @@ namespace uComponents.DataTypes.TextstringArray
 			base.CreateChildControls();
 
 			// set-up child controls
-			this.TextBoxMaximumRows = new TextBox() { ID = "MaximumRows", CssClass = "guiInputText" };
-			this.TextBoxMinimumRows = new TextBox() { ID = "MinimumRows", CssClass = "guiInputText" };
 			this.CheckBoxShowColumnLabels = new CheckBox() { ID = "ShowColumnLabels" };
 			this.MtcColumnLabels = new MultipleTextstringControl() { ID = "ColumnLabels" };
+			this.TextBoxMaximumRows = new TextBox() { ID = "MaximumRows", CssClass = "guiInputText" };
+			this.TextBoxMinimumRows = new TextBox() { ID = "MinimumRows", CssClass = "guiInputText" };
+			this.CheckBoxDisableSorting = new CheckBox() { ID = "CheckBoxDisableSorting" };
 
 			// HACK: [LK] The 'MultipleTextstring.js' requires a wrapper container with a class of 'propertyItemContent'
 			this.MtcContainer = new HtmlGenericControl("div");
@@ -119,7 +136,12 @@ namespace uComponents.DataTypes.TextstringArray
 			this.MtcContainer.Controls.Add(this.MtcColumnLabels);
 
 			// add the child controls
-			this.Controls.AddPrevalueControls(this.TextBoxMaximumRows, this.TextBoxMinimumRows, this.CheckBoxShowColumnLabels, this.MtcContainer);
+			this.Controls.AddPrevalueControls(
+				this.CheckBoxShowColumnLabels,
+				this.MtcContainer,
+				this.TextBoxMaximumRows,
+				this.TextBoxMinimumRows,
+				this.CheckBoxDisableSorting);
 		}
 
 		/// <summary>
@@ -140,12 +162,13 @@ namespace uComponents.DataTypes.TextstringArray
 			}
 
 			// set the values
-			this.TextBoxMaximumRows.Text = options.MaximumRows.ToString();
-			this.TextBoxMinimumRows.Text = options.MinimumRows.ToString();
-
 			this.CheckBoxShowColumnLabels.Checked = options.ShowColumnLabels;
 			this.MtcColumnLabels.Options = new MultipleTextstringOptions() { Minimum = options.ItemsPerRow };
 			this.MtcColumnLabels.Values = options.ColumnLabels;
+
+			this.TextBoxMaximumRows.Text = options.MaximumRows.ToString();
+			this.TextBoxMinimumRows.Text = options.MinimumRows.ToString();
+			this.CheckBoxDisableSorting.Checked = options.DisableSorting;
 		}
 
 		/// <summary>
@@ -161,6 +184,7 @@ namespace uComponents.DataTypes.TextstringArray
 			writer.AddPrevalueHeading("Rows");
 			writer.AddPrevalueRow("Minimum:", "Minimum number of rows to display.", this.TextBoxMinimumRows);
 			writer.AddPrevalueRow("Maximum:", "Maximum number of rows to display. Use -1 for unlimited rows.", this.TextBoxMaximumRows);
+			writer.AddPrevalueRow("Disable sorting?", "Disables the ability to sort the rows.", this.CheckBoxDisableSorting);
 		}
 	}
 }

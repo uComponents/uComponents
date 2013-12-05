@@ -64,6 +64,34 @@ namespace uComponents.DataTypes.TextstringArray
 		}
 
 		/// <summary>
+		/// Field for the options.
+		/// </summary>
+		private TextstringArrayOptions options;
+
+		/// <summary>
+		/// Gets the options.
+		/// </summary>
+		/// <value>The options.</value>
+		private TextstringArrayOptions Options
+		{
+			get
+			{
+				if (this.options == null)
+				{
+					this.options = ((TextstringArrayPrevalueEditor)this.PrevalueEditor).GetPreValueOptions<TextstringArrayOptions>();
+				}
+
+				if (options == null)
+				{
+					// load defaults
+					options = new TextstringArrayOptions(true);
+				}
+
+				return this.options;
+			}
+		}
+
+		/// <summary>
 		/// Gets the data for the data-type.
 		/// </summary>
 		/// <value>The data for the data-type.</value>
@@ -73,7 +101,7 @@ namespace uComponents.DataTypes.TextstringArray
 			{
 				if (this.m_Data == null)
 				{
-					this.m_Data = new TextstringArrayData(this);
+					this.m_Data = new TextstringArrayData(this, this.Options);
 				}
 
 				return this.m_Data;
@@ -104,14 +132,6 @@ namespace uComponents.DataTypes.TextstringArray
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void m_Control_Init(object sender, EventArgs e)
 		{
-			var options = ((TextstringArrayPrevalueEditor)this.PrevalueEditor).GetPreValueOptions<TextstringArrayOptions>();
-
-			if (options == null)
-			{
-				// load defaults
-				options = new TextstringArrayOptions(true);
-			}
-
 			// check if the data value is available...
 			if (this.Data.Value != null)
 			{
@@ -120,7 +140,7 @@ namespace uComponents.DataTypes.TextstringArray
 			}
 
 			// set the controls options
-			this.m_Control.Options = options;
+			this.m_Control.Options = this.Options;
 		}
 
 		/// <summary>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -9,7 +8,7 @@ using umbraco.cms.businesslogic.macro;
 using umbraco.cms.businesslogic.packager;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.Installer.PackageActions
 {

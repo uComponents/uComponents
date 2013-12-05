@@ -167,7 +167,7 @@ namespace uComponents.DataTypes.SqlCheckBoxList
 			else
 			{
 				// Save the CSV
-				this.data.Value = string.Join(",", selectedOptions.ToArray());
+				this.data.Value = string.Join(new string(Constants.Common.COMMA, 1), selectedOptions.ToArray());
 			}
 		}
 	}

@@ -5,13 +5,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.XPath;
 using uComponents.Core;
-using umbraco.cms.helpers;
+using umbraco;
 
 namespace uComponents.XsltExtensions
 {
 	/// <summary>
 	/// The Strings class exposes XSLT extensions to offer extended string functionality.
 	/// </summary>
+	[XsltExtension("ucomponents.strings")]
 	public class Strings
 	{
 		/// <summary>
@@ -190,7 +191,7 @@ namespace uComponents.XsltExtensions
 		/// <remarks>This is a wrapper method for <c>umbraco.cms.helpers.Casing.SafeAlias</c>.</remarks>
 		public static string SafeAlias(string input)
 		{
-			return Casing.SafeAlias(input);
+			return Umbraco.Core.StringExtensions.ToSafeAlias(input);
 		}
 
 		/// <summary>
@@ -714,7 +715,7 @@ namespace uComponents.XsltExtensions
 		{
 			if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(textToTrim))
 				return input;
-			
+
 			while (input.StartsWith(textToTrim))
 			{
 				input = input.Substring(textToTrim.Length);

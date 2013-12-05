@@ -30,6 +30,17 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// </summary>
 		private EnumCheckBoxListOptions options = null;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/enum-checkboxlist/");
+            }
+        }
+
 		/// <summary>
 		/// Gets the options data object that represents the current state of this datatypes configuration
 		/// </summary>
@@ -58,7 +69,7 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// </summary>
 		/// <param name="dataType">EnumCheckBoxListDataType</param>
 		public EnumCheckBoxListPreValueEditor(umbraco.cms.businesslogic.datatype.BaseDataType dataType)
-			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Nvarchar)
+			: base(dataType, umbraco.cms.businesslogic.datatype.DBTypes.Ntext)
 		{
 		}
 

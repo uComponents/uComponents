@@ -1,8 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.Configuration;
+﻿using System.ComponentModel;
 using uComponents.DataTypes.Shared.PrevalueEditors;
-using umbraco;
 
 namespace uComponents.DataTypes.SqlCheckBoxList
 {

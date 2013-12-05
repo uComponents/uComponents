@@ -5,7 +5,7 @@
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
 
     /// <summary>
-    /// Attribute for configuring <see cref="IDataTypeFactory{T}"/> classes.
+    /// Attribute for configuring <see cref="IDataTypeHandler{TDataType}"/> classes.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class DataTypeFactoryAttribute : Attribute

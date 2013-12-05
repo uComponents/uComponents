@@ -58,5 +58,14 @@ namespace uComponents.DataTypes.TextstringArray
 		/// <value>The column labels.</value>
 		[DefaultValue("")]
 		public string ColumnLabels { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether [disable sorting].
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if [disable sorting]; otherwise, <c>false</c>.
+		/// </value>
+		[DefaultValue(false)]
+		public bool DisableSorting { get; set; }
 	}
 }

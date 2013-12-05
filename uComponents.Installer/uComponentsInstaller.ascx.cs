@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using uComponents.Core;
+using uComponents.DataTypes.Shared.Pages;
 using uComponents.DataTypes.Shared.WebServices;
-using umbraco;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.Installer
 {
@@ -30,86 +30,83 @@ namespace uComponents.Installer
 		}
 
 		/// <summary>
-		/// Handles the PreInit event of the Page control.
+		/// Handles the initialization event of the Page control.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Page_Init(object sender, EventArgs e)
 		{
-			// find and bind the NotFoundHandlers
-			var notFoundHandlersNamespace = "uComponents.NotFoundHandlers";
-			var notFoundHandlersAssembly = Assembly.Load(notFoundHandlersNamespace);
-			if (notFoundHandlersAssembly != null)
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
-				var notFoundHandlersTypes = notFoundHandlersAssembly.GetTypes();
-				if (notFoundHandlersTypes != null)
+				if (!assembly.FullName.StartsWith("uComponents"))
+					continue;
+
+				var assemblyName = assembly.GetName();
+				switch (assemblyName.Name)
 				{
-					var notFoundHandlers = new Dictionary<string, string>();
-					foreach (var type in notFoundHandlersTypes)
-					{
-						if (string.Equals(type.Namespace, notFoundHandlersNamespace) && type.FullName.StartsWith(notFoundHandlersNamespace))
+					case "uComponents.DataTypes.RazorDataTypeModels":
+						this.phRazorModelBinding.Visible = true;
+						break;
+
+					case "uComponents.UI":
+						this.phUiModules.Visible = true;
+
+						// bind the UI Modules options
+						this.cblUiModules.DataSource = Settings.AppKeys_UiModules;
+						this.cblUiModules.DataTextField = "Value";
+						this.cblUiModules.DataValueField = "Key";
+						this.cblUiModules.DataBind();
+
+						break;
+
+					case "uComponents.NotFoundHandlers":
+						this.phNotFoundHandlers.Visible = true;
+
+						// find and bind the NotFoundHandlers
+						var notFoundHandlersTypes = assembly.GetTypes();
+						if (notFoundHandlersTypes.Length > 0)
 						{
-							notFoundHandlers.Add(type.FullName.Substring(notFoundHandlersNamespace.Length + 1), type.Name);
-							continue;
+							var notFoundHandlers =
+								notFoundHandlersTypes.Where(
+									type => string.Equals(type.Namespace, assemblyName.Name) && type.FullName.StartsWith(assemblyName.Name))
+													 .ToDictionary(
+														 type => type.FullName.Substring(assemblyName.Name.Length + 1), type => type.Name);
+
+							this.cblNotFoundHandlers.DataSource = notFoundHandlers;
+							this.cblNotFoundHandlers.DataTextField = "Value";
+							this.cblNotFoundHandlers.DataValueField = "Key";
+							this.cblNotFoundHandlers.DataBind();
 						}
-					}
 
-					this.cblNotFoundHandlers.DataSource = notFoundHandlers;
-					this.cblNotFoundHandlers.DataTextField = "Value";
-					this.cblNotFoundHandlers.DataValueField = "Key";
-					this.cblNotFoundHandlers.DataBind();
-				}
-			}
+						break;
 
-			// bind the UI Modules options
-			this.cblUiModules.DataSource = Settings.AppKeys_UiModules;
-			this.cblUiModules.DataTextField = "Value";
-			this.cblUiModules.DataValueField = "Key";
-			this.cblUiModules.DataBind();
-
-			// find and bind the XSLT extensions
-			var xsltExtensionsNamespace = "uComponents.XsltExtensions";
-			var xsltExtensionsAssembly = Assembly.Load(xsltExtensionsNamespace);
-			if (xsltExtensionsAssembly != null)
-			{
-				var xsltExtensionsTypes = xsltExtensionsAssembly.GetTypes();
-				if (xsltExtensionsTypes != null)
-				{
-					var xsltExtensions = new Dictionary<string, string>();
-					foreach (var type in xsltExtensionsTypes)
-					{
-						if (string.Equals(type.Namespace, xsltExtensionsNamespace) && type.IsPublic && !type.IsSerializable)
-						{
-							xsltExtensions.Add(type.FullName, type.Name);
-							continue;
-						}
-					}
-
-					this.cblXsltExtensions.DataSource = xsltExtensions;
-					this.cblXsltExtensions.DataTextField = "Value";
-					this.cblXsltExtensions.DataValueField = "Key";
-					this.cblXsltExtensions.DataBind();
+					case "uComponents.XsltExtensions":
+						this.phXsltExtensions.Visible = true;
+						break;
 				}
 			}
 
 			// disable the dashboard control checkbox
 			try
 			{
-				var dashboardXml = xmlHelper.OpenAsXmlDocument(SystemFiles.DashboardConfig);
+				var dashboardXml = Umbraco.Core.XmlHelper.OpenAsXmlDocument(SystemFiles.DashboardConfig);
 				if (dashboardXml.SelectSingleNode("//section[@alias = 'uComponentsInstaller']") != null)
 				{
 					this.Success.Visible = false;
 					this.phDashboardControl.Visible = false;
 				}
 			}
-			catch { }
+			catch
+			{
+			}
 
 			// TODO: [LK] Add the uComponents namespace to the Web.config (system.web/compilation/assemblies)
 			// TODO: [LK] Add the uComponents.Controls namespace to the Web.config (system.web/pages/controls)
+			// TODO: [LK] Add the uComponents.MacroEngines.Extensions namespace to the /Views/Web.config (system.web.webPages.razor/pages/namespaces)
 		}
 
 		/// <summary>
-		/// Handles the Click event of the btnActivate control.
+		/// Handles the click event of the Activate button.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
@@ -132,20 +129,17 @@ namespace uComponents.Installer
 			}
 
 			// Not Found Handlers
-			foreach (ListItem item in this.cblNotFoundHandlers.Items)
+			foreach (var item in this.cblNotFoundHandlers.Items.Cast<ListItem>().Where(item => item.Selected))
 			{
-				if (item.Selected)
+				try
 				{
-					try
-					{
-						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_Add404Handler\" assembly=\"uComponents.NotFoundHandlers\" type=\"{0}\" />", item.Value));
-						umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "uComponents_Add404Handler", xml.FirstChild);
-						successes.Add(item.Text);
-					}
-					catch (Exception ex)
-					{
-						failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
-					}
+					xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"uComponents_Add404Handler\" assembly=\"uComponents.NotFoundHandlers\" type=\"{0}\" />", item.Value));
+					umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "uComponents_Add404Handler", xml.FirstChild);
+					successes.Add(item.Text);
+				}
+				catch (Exception ex)
+				{
+					failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
 				}
 			}
 
@@ -179,28 +173,10 @@ namespace uComponents.Installer
 				}
 			}
 
-			// XSLT extensions
-			foreach (ListItem item in this.cblXsltExtensions.Items)
-			{
-				if (item.Selected)
-				{
-					try
-					{
-						xml.LoadXml(string.Format("<Action runat=\"install\" undo=\"true\" alias=\"addXsltExtension\" assembly=\"uComponents.XsltExtensions\" type=\"{0}\" extensionAlias=\"ucomponents.{1}\" />", item.Value, item.Text.ToLower()));
-						umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(item.Text, "addXsltExtension", xml.FirstChild);
-						successes.Add(item.Text);
-					}
-					catch (Exception ex)
-					{
-						failures.Add(string.Concat(item.Text, " (", ex.Message, ")"));
-					}
-				}
-			}
-
 			// Dashboard control
 			if (this.cbDashboardControl.Checked)
 			{
-				var title = "Dashboard control";
+				const string title = "Dashboard control";
 				xml.LoadXml("<Action runat=\"install\" undo=\"true\" alias=\"addDashboardSection\" dashboardAlias=\"uComponentsInstaller\"><section><areas><area>developer</area></areas><tab caption=\"uComponents: Activator\"><control addPanel=\"true\">/umbraco/plugins/uComponents/uComponentsInstaller.ascx</control></tab></section></Action>");
 				umbraco.cms.businesslogic.packager.PackageAction.RunPackageAction(title, "addDashboardSection", xml.FirstChild);
 				successes.Add(title);
@@ -210,6 +186,10 @@ namespace uComponents.Installer
 			var serviceFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "WebServices"));
 			Helper.IO.EnsureFileExists(Path.Combine(serviceFolder.FullName, "DictionaryService.asmx"), SharedServices.DictionaryService);
 
+			// Shared web pages
+			var pagesFolder = Helper.IO.EnsureFolderExists(Path.Combine(DataTypes.Settings.BaseDir.FullName, "Shared", "Pages"));
+			Helper.IO.EnsureFileExists(Path.Combine(pagesFolder.FullName, "DirectoryBrowser.aspx"), SharedPages.DirectoryBrowser);
+
 			// set the feedback controls to hidden
 			this.Failure.Visible = this.Success.Visible = false;
 
@@ -217,7 +197,7 @@ namespace uComponents.Installer
 			if (failures.Count > 0)
 			{
 				this.Failure.type = umbraco.uicontrols.Feedback.feedbacktype.error;
-				this.Failure.Text = "There were errors with the following components:<br />" + string.Join("<br />", failures.ToArray());
+				this.Failure.Text = string.Concat("There were errors with the following components:<br />", string.Join("<br />", failures.ToArray()));
 				this.Failure.Visible = true;
 			}
 
@@ -225,7 +205,7 @@ namespace uComponents.Installer
 			if (successes.Count > 0)
 			{
 				this.Success.type = umbraco.uicontrols.Feedback.feedbacktype.success;
-				this.Success.Text = "Successfully installed the following components: " + string.Join(", ", successes.ToArray());
+				this.Success.Text = string.Concat("Successfully installed the following components: ", string.Join(", ", successes.ToArray()));
 				this.Success.Visible = true;
 			}
 		}

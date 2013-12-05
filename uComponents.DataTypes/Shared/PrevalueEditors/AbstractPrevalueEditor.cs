@@ -24,6 +24,20 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 		}
 
 		/// <summary>
+		/// Gets the documentation URL.
+		/// </summary>
+		/// <value>
+		/// The documentation URL.
+		/// </value>
+		public virtual string DocumentationUrl
+		{
+			get
+			{
+				return Constants.DocumentationUrl;
+			}
+		}
+
+		/// <summary>
 		/// Gets the editor.
 		/// </summary>
 		/// <value>The editor.</value>
@@ -70,9 +84,9 @@ namespace uComponents.DataTypes.Shared.PrevalueEditors
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
 			writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-			writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Concat("http://ucomponents.org/?v=", HttpUtility.UrlEncode(infoVersion)));
+			writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Concat(this.DocumentationUrl, "?v=", HttpUtility.UrlEncode(infoVersion)));
 			writer.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
-			writer.AddAttribute(HtmlTextWriterAttribute.Title, Helper.Dictionary.GetDictionaryItem("DocumentationForUComponents", "Documentation for uComponents"));
+			writer.AddAttribute(HtmlTextWriterAttribute.Title, Helper.Dictionary.GetDictionaryItem("DocumentationForUComponents", "View documentation for this component"));
 			writer.RenderBeginTag(HtmlTextWriterTag.A);
 
 			writer.AddAttribute(HtmlTextWriterAttribute.Class, "version");

@@ -18,6 +18,8 @@ using System.Web.UI.HtmlControls;
 [assembly: WebResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.js", Constants.MediaTypeNames.Application.JavaScript)]
 namespace uComponents.DataTypes.CheckBoxTree
 {
+	using Umbraco.Web;
+
 	/// <summary>
 	/// Data Editor for the CheckBoxTree data-type.
 	/// </summary>
@@ -132,19 +134,19 @@ namespace uComponents.DataTypes.CheckBoxTree
 		protected override void OnInit(EventArgs e)
 		{
 			base.OnInit(e);            
-            
+			
 			this.minSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MinSelectionCustomValidator_ServerValidate);
 			this.maxSelectionCustomValidator.ServerValidate += new ServerValidateEventHandler(this.MaxSelectionCustomValidator_ServerValidate);
 
 
-			CmsProperty property = new CmsProperty(((umbraco.cms.businesslogic.datatype.DefaultData)this.data).PropertyId);
-			DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
-			CmsContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+			var property = new CmsProperty(((umbraco.cms.businesslogic.datatype.DefaultData)this.data).PropertyId);
+			var documentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(property.PropertyType.ContentTypeId);
+			var propertyGroup = documentType.PropertyGroups.FirstOrDefault(x => x.Id == property.PropertyType.PropertyTypeGroup);
 
-			if (tab != null)
+			if (propertyGroup != null)
 			{
-				this.minSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab requires a minimum of ", this.options.MinSelection.ToString(), " selections<br/>");
-				this.maxSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", tab.Caption, " tab has exceeded the maximum number of selections<br/>");
+				this.minSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", propertyGroup.Name, " tab requires a minimum of ", this.options.MinSelection.ToString(), " selections<br/>");
+				this.maxSelectionCustomValidator.ErrorMessage = string.Concat("The ", property.PropertyType.Alias, " field in the ", propertyGroup.Name, " tab has exceeded the maximum number of selections<br/>");
 			}
 		}
 
@@ -153,19 +155,19 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-            // wrapping div
-            HtmlGenericControl div = new HtmlGenericControl("div");
+			// wrapping div
+			HtmlGenericControl div = new HtmlGenericControl("div");
 
-            div.Attributes.Add("class", "check-box-tree");
-            div.Attributes.Add("data-auto-selection-option", ((int)this.options.AutoSelectionOption).ToString());
+			div.Attributes.Add("class", "check-box-tree");
+			div.Attributes.Add("data-auto-selection-option", ((int)this.options.AutoSelectionOption).ToString());
 
-            this.treeView.ShowLines = true;            
-            
-            div.Controls.Add(this.treeView);
-            div.Controls.Add(this.minSelectionCustomValidator);
-            div.Controls.Add(this.maxSelectionCustomValidator);
+			this.treeView.ShowLines = true;            
+			
+			div.Controls.Add(this.treeView);
+			div.Controls.Add(this.minSelectionCustomValidator);
+			div.Controls.Add(this.maxSelectionCustomValidator);
 
-            this.Controls.Add(div);
+			this.Controls.Add(div);
 		}
 
 		/// <summary>
@@ -177,19 +179,19 @@ namespace uComponents.DataTypes.CheckBoxTree
 			base.OnLoad(e);
 			this.EnsureChildControls();
 
-            this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.css", ClientDependencyType.Css);
-            this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.js", ClientDependencyType.Javascript);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.css", ClientDependencyType.Css);
+			this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.js", ClientDependencyType.Javascript);
 
-            string startupScript = @"                
-                <script language='javascript' type='text/javascript'>
-                    $(document).ready(function () {
+			string startupScript = @"                
+				<script language='javascript' type='text/javascript'>
+					$(document).ready(function () {
 
-                        CheckBoxTree.init(jQuery('div#" + this.treeView.ClientID + @"'));
+						CheckBoxTree.init(jQuery('div#" + this.treeView.ClientID + @"'));
 
-                    });
-                </script>";
+					});
+				</script>";
 
-            ScriptManager.RegisterStartupScript(this, typeof(CheckBoxTreeDataEditor), this.ClientID + "_init", startupScript, false);
+			ScriptManager.RegisterStartupScript(this, typeof(CheckBoxTreeDataEditor), this.ClientID + "_init", startupScript, false);
 
 			if (!this.Page.IsPostBack)
 			{
@@ -274,18 +276,15 @@ namespace uComponents.DataTypes.CheckBoxTree
 		/// <returns>an ASP.NET TreeNode</returns>
 		private TreeNode GetTreeNode(Node node)
 		{
-			TreeNode treeNode = new TreeNode();
-
-			treeNode.Text = node.Name;
-			treeNode.Expanded = false;
-			treeNode.SelectAction = TreeNodeSelectAction.None;
+			var treeNode = new TreeNode { Text = node.Name, Expanded = false, SelectAction = TreeNodeSelectAction.None };
 
 			if (this.options.ShowTreeIcons)
 			{
-				DocumentType documentType = DocumentType.GetByAlias(node.NodeTypeAlias);
+				var documentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(node.NodeTypeAlias);
+
 				if (documentType != null)
 				{
-					treeNode.ImageUrl = "~/umbraco/images/umbraco/" + documentType.IconUrl;
+					treeNode.ImageUrl = "~/umbraco/images/umbraco/" + documentType.Icon;
 				}
 			}
 

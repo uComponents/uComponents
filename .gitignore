@@ -5,7 +5,7 @@
 *.Cache
 *_ReSharper.uComponents*
 DLLs/*
-uComponents*
+#uComponents*
 TestResults/*
 uComponents.ncrunch*
 TestResults/*
@@ -22,3 +22,8 @@ _NCrunch_uComponents/uComponents.crunchsolution.cache
 packages/*
 BuildPackage/uComponents.*.zip
 uComponents.sln.GhostDoc.xml
+
+*.BASE.*
+*.BACKUP.*
+*.LOCAL.*
+*.REMOTE.*

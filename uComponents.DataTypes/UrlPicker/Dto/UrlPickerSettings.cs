@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using uComponents.Core;
 using uComponents.DataTypes.Shared.AjaxUpload;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.DataTypes.UrlPicker.Dto
 {

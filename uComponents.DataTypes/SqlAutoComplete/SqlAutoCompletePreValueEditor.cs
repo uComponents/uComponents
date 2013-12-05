@@ -66,6 +66,17 @@ namespace uComponents.DataTypes.SqlAutoComplete
         private SqlAutoCompleteOptions options = null;
 
         /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/sql-auto-complete/");
+            }
+        }
+
+        /// <summary>
         /// Initialize a new instance of SqlAutoCompletePreValueEditor
         /// </summary>
         /// <param name="dataType">SqlAutoCompleteDataType</param>
@@ -210,7 +221,7 @@ namespace uComponents.DataTypes.SqlAutoComplete
             if (this.Page.IsValid)
             {
                 // wipe any associated caches incase they refer to old settings
-                HttpContext.Current.Cache.Remove(string.Concat(DataTypeConstants.SqlAutoCompleteId, "_options_", this.m_DataType.DataTypeDefinitionId));
+                HttpContext.Current.Cache.Remove(string.Concat(DataTypeConstants.SqlAutoCompleteId, "_options_", this.DataType.DataTypeDefinitionId));
 
                 this.Options.Sql = this.sqlTextBox.Text;
                 this.Options.ConnectionStringName = this.connectionStringDropDownList.SelectedValue;

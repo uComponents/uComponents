@@ -124,12 +124,14 @@ namespace uComponents.DataTypes.DropdownCheckList
 			this.DropDownList.RenderControl(writer);
 
 			var functions = @"
-				$('#{0}').dropdownchecklist();
-				$('#{0}').change(function() {
-					var title = $('#{0}').parent().find('span.ui-dropdownchecklist-text').attr('title');
-					var items = $('#{0}').parent().find('span.ui-dropdownchecklist-text');
-					$('#{1}').val(title);
-				});
+				if($('{0}').parent().find('span.ui-dropdownchecklist-wrapper').length == 0) { 
+					$('#{0}').dropdownchecklist();
+					$('#{0}').change(function() {
+						var title = $('#{0}').parent().find('span.ui-dropdownchecklist-text').attr('title');
+						var items = $('#{0}').parent().find('span.ui-dropdownchecklist-text');
+						$('#{1}').val(title);
+					});
+				}
 				".Replace("{0}", this.DropDownList.ClientID).Replace("{1}", this.SelectedValues.ClientID);
 			var javascript = string.Concat("<script type='text/javascript'>jQuery(document).ready(function() { ", functions, "});</script>");
 			writer.WriteLine(javascript);

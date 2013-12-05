@@ -4,9 +4,9 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using uComponents.DataTypes.DataTypeGrid.Model;
+    using Umbraco.Core.Dynamics;
 
-    using umbraco.MacroEngines;
+    using uComponents.DataTypes.DataTypeGrid.Model;
 
     [TestClass]
     public class GridRowTests

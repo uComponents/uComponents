@@ -1,0 +1,28 @@
+﻿.image-point .main
+{    
+    cursor:crosshair;
+}
+
+.image-point input 
+{
+    padding-left: 5px;
+    width: 30px;
+}
+
+.image-point .x
+{
+    margin-right: 5px;
+}
+
+.image-point .area 
+{
+    margin-top:5px;
+    position:relative;
+}
+
+.image-point .marker 
+{
+    display: none;
+    position: absolute;
+    cursor: move;
+}

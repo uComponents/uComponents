@@ -4,7 +4,7 @@ using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
 using umbraco;
-using umbraco.IO;
+using Umbraco.Core.IO;
 using System;
 
 namespace uComponents.XsltExtensions
@@ -12,8 +12,13 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Media class exposes XSLT extensions to access media from Umbraco.
 	/// </summary>
+	[XsltExtension("ucomponents.media")]
 	public class Media
 	{
+		// TODO: [LK] Consider a custom `GetMedia()` method
+		// ref: http://shazwazza.com/post/Ultra-fast-media-performance-in-Umbraco
+		// instead of returning Shannon's custom `MediaValues` object, we call `Search.GetResultsAsXml()`
+
 		/// <summary>
 		/// Gets the media by CSV.
 		/// </summary>

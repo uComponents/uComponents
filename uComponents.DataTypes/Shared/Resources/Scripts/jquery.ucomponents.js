@@ -17,5 +17,6 @@
         }
     };
     
+    // Set up aliases
     $.uComponents = $.uComponents || $(document).uComponents();
 })(jQuery);

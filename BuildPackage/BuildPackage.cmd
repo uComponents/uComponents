@@ -1,2 +1,2 @@
-C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /m /t:Package /p:"Configuration=Release";"MinUmbracoVersion=4.8.0";"PackageVersion=5.5.0-build";"BuildInParallel=true" BuildPackage.msbuild
+C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /m /t:Package /p:"Configuration=Release";"MinUmbracoVersion=6.1.0";"PackageVersion=6.0.0-build";"BuildInParallel=true" BuildPackage.msbuild
 PAUSE

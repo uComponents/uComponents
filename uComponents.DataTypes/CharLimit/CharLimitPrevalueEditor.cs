@@ -28,6 +28,17 @@ namespace uComponents.DataTypes.CharLimit
         /// </summary>
         private CheckBox CheckBoxEnforceCharacterLimit;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/character-limit/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CharLimitPrevalueEditor"/> class.
 		/// </summary>

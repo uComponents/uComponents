@@ -1,17 +1,14 @@
 syntax: glob
 
-*.csproj.user
-*.suo
+packages/*
+TestResults/*
 */bin/*
 */obj/*
-*.Cache
-*_ReSharper.uComponents*
-DLLs/*
-uComponents*
-TestResults/*
-uComponents.ncrunch*
-TestResults/*
-uComponents.sln.DotSettings.user
+*_ReSharper*
+*.[Cc]ache
+*.ncrunch*
+*.suo
+*.user
 uComponents.*.nupkg
 uComponents_*.zip
 ._.hgignore

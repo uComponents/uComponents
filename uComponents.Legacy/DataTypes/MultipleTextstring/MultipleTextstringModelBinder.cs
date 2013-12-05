@@ -21,7 +21,9 @@ namespace uComponents.DataTypes.MultipleTextstring
 		{
 			if (!Settings.RazorModelBindingEnabled)
 			{
+#pragma warning disable 0618
 				instance = new DynamicXml(PropertyData);
+#pragma warning restore 0618
 				return true;
 			}
 

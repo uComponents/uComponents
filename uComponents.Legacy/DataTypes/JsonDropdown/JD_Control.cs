@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using umbraco.BusinessLogic;
+using Umbraco.Core.Logging;
 
 namespace uComponents.DataTypes.JsonDropdown
 {
@@ -150,7 +150,7 @@ namespace uComponents.DataTypes.JsonDropdown
 			}
 			catch (Exception ex)
 			{
-				Log.Add(LogTypes.Error, 0, string.Concat("uComponents.DataTypes.JsonDropdown: ", ex.Message));
+				LogHelper.Error(typeof(JD_Control), "uComponents.DataTypes.JsonDropdown.", ex);
 			}
 
 			return pageResponse;

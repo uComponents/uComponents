@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
@@ -15,6 +14,8 @@ using umbraco.interfaces;
 
 namespace uComponents.DataTypes.EnumDropDownList
 {
+	using Umbraco.Web;
+
 	/// <summary>
 	/// Enum DropDownList Data Type
 	/// </summary>
@@ -33,12 +34,24 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// <summary>
 		/// Field for the CustomValidator.
 		/// </summary>
-		private CustomValidator customValidator = new CustomValidator();
+		private CustomValidator customValidator = new CustomValidator() { ID = "CustomValidator" };
 
 		/// <summary>
 		/// Field for the DropDownList.
 		/// </summary>
-		private DropDownList dropDownList = new DropDownList();
+		private DropDownList dropDownList = new DropDownList() { ID = "DropDownList" };
+
+		/// <summary>
+		/// Gets the drop down list.
+		/// </summary>
+		/// <value>The drop down list.</value>
+		public DropDownList DropDownList
+		{
+			get
+			{
+				return this.dropDownList;
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EnumDropDownListDataEditor"/> class. 
@@ -162,6 +175,7 @@ namespace uComponents.DataTypes.EnumDropDownList
 			{
 				// Get selected items from Node Name or Node Id
 				var dropDownListItem = this.dropDownList.Items.FindByValue(this.data.Value.ToString());
+
 				if (dropDownListItem != null)
 				{
 					dropDownListItem.Selected = true;
@@ -174,28 +188,30 @@ namespace uComponents.DataTypes.EnumDropDownList
 		/// </summary>
 		public void Save()
 		{
-		    var defaultPropertyId = ((DefaultData)this.data).PropertyId;
+			var d = (DefaultData)this.data;
 
             // OA: the property id will be 0 if the editor is rendered without being directly on a document type, so we need to check to prevent YSODs here.
-            if (defaultPropertyId > 0) 
-            {
-			    var property = new Property(defaultPropertyId);
-			    if (property.PropertyType.Mandatory && this.dropDownList.SelectedValue == "-1")
-			    {
-				    // Property is mandatory, but no value selected in the DropDownList
-				    this.customValidator.IsValid = false;
+			if (d.PropertyId > 0) 
+			{ 
+				var property = new Property(d.PropertyId);
 
-				    DocumentType documentType = new DocumentType(property.PropertyType.ContentTypeId);
-				    ContentType.TabI tab = documentType.getVirtualTabs.Where(x => x.Id == property.PropertyType.TabId).FirstOrDefault();
+				if (property.PropertyType.Mandatory && this.dropDownList.SelectedValue == "-1")
+				{
+					// Property is mandatory, but no value selected in the DropDownList
+					this.customValidator.IsValid = false;
 
-				    if (tab != null)
-				    {
-					    this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new string[] { property.PropertyType.Alias, tab.Caption }, User.GetCurrent());
-				    }
-			    }
+					var documentType = UmbracoContext.Current.Application.Services.ContentTypeService.GetContentType(property.PropertyType.ContentTypeId);
+					var propertyGroup = documentType.PropertyGroups.FirstOrDefault(x => x.Id == property.PropertyType.PropertyTypeGroup);
+
+					if (propertyGroup != null)
+					{
+						this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new[] { property.PropertyType.Alias, propertyGroup.Name }, User.GetCurrent());
+					}
+				}
             }
 
-			this.data.Value = this.dropDownList.SelectedValue;
+				this.data.Value = this.dropDownList.SelectedValue;
+			}
 		}
 	}
 }

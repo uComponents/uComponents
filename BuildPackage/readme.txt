@@ -4,5 +4,5 @@ Containing over 30 data-types, 10 XSLT extension libraries, keyboard short-cuts,
 
 Full documentation can be found here: http://ucomponents.org
 
-Visit the CodePlex site for full details, documentation, roadmap and source code.
+Visit the CodePlex site for release notes and source code.
 http://ucomponents.codeplex.com

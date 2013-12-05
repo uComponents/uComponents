@@ -9,6 +9,13 @@ using umbraco.editorControls;
 
 namespace uComponents.DataTypes.SubTabs
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Umbraco.Core;
+    using Umbraco.Core.Models;
+    using Umbraco.Core.Services;
+
     /// <summary>
     /// Control rendered in the cms when configuring the datatype.
     /// </summary>
@@ -21,6 +28,17 @@ namespace uComponents.DataTypes.SubTabs
         private CheckBox showLabelCheckBox = new CheckBox();
 
         private SubTabsOptions options = null;
+
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/sub-tabs/");
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SubTabsPreValueEditor"/> class.
@@ -60,27 +78,45 @@ namespace uComponents.DataTypes.SubTabs
             base.CreateChildControls();
 
             this.tabsCheckBoxList.ID = "tabsCheckBoxList";
-			// TODO: [LK->HR] The 'cmsTab' table has been renamed in v4.10 - lets use the API to future-proof this
-            this.tabsCheckBoxList.DataSource = uQuery.SqlHelper.ExecuteReader(@"
+            //            // TODO: [LK->HR] The 'cmsTab' table has been renamed in v4.10 - lets use the API to future-proof this
+            //            this.tabsCheckBoxList.DataSource = uQuery.SqlHelper.ExecuteReader(@"
+            //
+            //                SELECT              B.alias + ' - ' + A.text    AS 'Text',
+            //                                    A.id                        AS 'Value'
+            //                FROM                cmsTab A
+            //                LEFT OUTER JOIN     cmsContentType B ON A.contenttypeNodeId = B.nodeId
+            //                ORDER BY            B.alias, A.sortorder
+            //
+            //            ");
 
-                SELECT              B.alias + ' - ' + A.text    AS 'Text',
-                                    A.id                        AS 'Value'
-                FROM                cmsTab A
-                LEFT OUTER JOIN     cmsContentType B ON A.contenttypeNodeId = B.nodeId
-                ORDER BY            B.alias, A.sortorder
+            var items = new List<ListItem>();
 
-            ");
+            // use API to get all tabs (alias, id)
+            foreach (IContentType contentType in ApplicationContext.Current.Services.ContentTypeService.GetAllContentTypes())
+            {
+                foreach (PropertyGroup propertyGroup in contentType.PropertyGroups)
+                {
+                    items.Add(new ListItem(string.Format("<span style=\"font-weight:normal !important;\">{0} : </span> {1}", contentType.Name, propertyGroup.Name), propertyGroup.Id.ToString()));
+                    //this.tabsCheckBoxList.Items.Add(new ListItem(propertyGroup.Name, propertyGroup.Id.ToString()));
+                }
+            }
 
-            this.tabsCheckBoxList.DataTextField = "Text";
-            this.tabsCheckBoxList.DataValueField = "Value";
-            this.tabsCheckBoxList.DataBind();
+            // order by tab name
+            items = items.OrderBy(x => x.Text).ToList();
+            foreach (var listItem in items)
+            {
+                this.tabsCheckBoxList.Items.Add(listItem);
+            }
+            //this.tabsCheckBoxList.DataTextField = "Text";
+            //this.tabsCheckBoxList.DataValueField = "Value";
+            //this.tabsCheckBoxList.DataBind();
+
 
             this.showLabelCheckBox.ID = "showLabelCheckBox";
 
             this.typeDropDownList.ID = "typeDropDownList";
             this.typeDropDownList.DataSource = Enum.GetNames(typeof(SubTabType));
             this.typeDropDownList.DataBind();
-
 
             this.Controls.Add(this.tabsCheckBoxList);
             this.Controls.Add(this.typeDropDownList);

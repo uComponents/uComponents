@@ -35,6 +35,17 @@ namespace uComponents.DataTypes.PropertyPicker
 		/// </summary>
 		private PropertyPickerOptions options = null;
 
+        /// <summary>
+        /// Gets the documentation URL.
+        /// </summary>
+        public override string DocumentationUrl
+        {
+            get
+            {
+                return string.Concat(base.DocumentationUrl, "/data-types/property-picker/");
+            }
+        }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PropertyPickerPrevalueEditor"/> class.
 		/// </summary>

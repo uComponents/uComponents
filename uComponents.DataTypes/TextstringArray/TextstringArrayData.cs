@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.Xml;
 using uComponents.Core;
-using umbraco;
 using umbraco.cms.businesslogic.datatype;
+using Umbraco.Core;
 
 namespace uComponents.DataTypes.TextstringArray
 {
@@ -13,12 +14,18 @@ namespace uComponents.DataTypes.TextstringArray
 	public class TextstringArrayData : DefaultData
 	{
 		/// <summary>
+		/// Field for the options.
+		/// </summary>
+		private TextstringArrayOptions options;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="TextstringArrayData"/> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
-		public TextstringArrayData(BaseDataType dataType)
+		public TextstringArrayData(BaseDataType dataType, TextstringArrayOptions options)
 			: base(dataType)
 		{
+			this.options = options;
 		}
 
 		/// <summary>
@@ -50,6 +57,22 @@ namespace uComponents.DataTypes.TextstringArray
 					// load the values into an XML document.
 					xd.LoadXml("<TextstringArray/>");
 
+					// load the config options
+					if (this.options.ShowColumnLabels && !string.IsNullOrWhiteSpace(this.options.ColumnLabels))
+					{
+						var xlabels = xd.CreateElement("labels");
+
+						// loop through the labels.
+						foreach (var label in this.options.ColumnLabels.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+						{
+							// add each label to the XML document.
+							var xlabel = XmlHelper.AddTextNode(xd, "label", label);
+							xlabels.AppendChild(xlabel);
+						}
+
+						xd.DocumentElement.AppendChild(xlabels);
+					}
+
 					// loop through the list/array items.
 					foreach (var row in values)
 					{
@@ -59,7 +82,7 @@ namespace uComponents.DataTypes.TextstringArray
 						foreach (var item in row)
 						{
 							// add each value to the XML document.
-							var xvalue = xmlHelper.addTextNode(xd, "value", item);
+							var xvalue = XmlHelper.AddTextNode(xd, "value", item);
 							xrow.AppendChild(xvalue);
 						}
 

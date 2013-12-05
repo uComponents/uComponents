@@ -4,7 +4,7 @@ using System.IO;
 using umbraco;
 using umbraco.cms.businesslogic.macro;
 using umbraco.interfaces;
-using umbraco.IO;
+using Umbraco.Core.IO;
 
 namespace uComponents.MacroEngines
 {
@@ -33,7 +33,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "text", "txt", "htm", "html" };
+				return new[] { "text", "txt", "htm", "html" };
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace uComponents.MacroEngines
 		{
 			get
 			{
-				return new string[] { "txt", "html" };
+				return new[] { "txt", "html" };
 			}
 		}
 

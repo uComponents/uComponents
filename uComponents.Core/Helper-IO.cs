@@ -35,14 +35,14 @@ namespace uComponents.Core
 				var assemblies = new List<string>();
 
 				// check if the App_Code directory exists and has any files
-				var appCode = new DirectoryInfo(IOHelper.MapPath("~/App_Code"));
+				var appCode = new DirectoryInfo(Umbraco.Core.IO.IOHelper.MapPath("~/App_Code"));
 				if (appCode.Exists && appCode.GetFiles().Length > 0)
 				{
 					assemblies.Add(appCode.Name);
 				}
 
 				// add assemblies from the /bin directory
-				assemblies.AddRange(Directory.GetFiles(IOHelper.MapPath("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
+				assemblies.AddRange(Directory.GetFiles(Umbraco.Core.IO.IOHelper.MapPath("~/bin"), "*.dll").Select(fileName => fileName.Substring(fileName.LastIndexOf('\\') + 1)));
 
 				return assemblies.ToArray();
 			}

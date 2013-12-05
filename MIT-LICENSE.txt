@@ -1,4 +1,4 @@
-Copyright (c) 2010-12 The Umbraco Community 
+Copyright (c) 2010-13 The Umbraco Community 
 
 This software consists of voluntary contributions made by many
 individuals (http://ucomponents.codeplex.com/team/view) For exact

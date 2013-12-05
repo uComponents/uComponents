@@ -9,6 +9,7 @@ namespace uComponents.XsltExtensions
 	/// <summary>
 	/// The Nodes class exposes XSLT extensions to access nodes from Umbraco.
 	/// </summary>
+	[XsltExtension("ucomponents.nodes")]
 	public class Nodes
 	{
 		/// <summary>
@@ -147,24 +148,8 @@ namespace uComponents.XsltExtensions
 		/// <returns>Returns the XML for the node.</returns>
 		public static XPathNodeIterator GetXmlNodeByUrl(string url)
 		{
-			var xpathQuery = GetXPathQuery(url);
-			return library.GetXmlNodeByXPath(xpathQuery);
-		}
-
-		/// <summary>
-		/// Gets the XPath query.
-		/// </summary>
-		/// <param name="url">The specified URL.</param>
-		/// <returns>
-		/// Returns an XPath query for the specified URL.
-		/// </returns>
-		private static string GetXPathQuery(string url)
-		{
-			// strip the ASP.NET file-extension from the URL.
-			url = url.Replace(Constants.Common.DOTASPX, string.Empty);
-
-			// return the XPath query.
-			return requestHandler.CreateXPathQuery(url, true);
+			var nodeId = uQuery.GetNodeIdByUrl(url);
+			return library.GetXmlNodeById(nodeId.ToString());
 		}
 	}
 }

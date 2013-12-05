@@ -2,18 +2,18 @@
 
 namespace uComponents.Core
 {
-	public partial class Constants
+	public static partial class Constants
 	{
 		/// <summary>
 		/// Container class for MIME types.
 		/// </summary>
 		/// <remarks>Idea based on the <c>System.Net.Mime.MediaTypeNames</c> class.</remarks>
-		public struct MediaTypeNames
+		public static class MediaTypeNames
 		{
 			/// <summary>
 			/// Class containing MIME type constants for application files.
 			/// </summary>
-			public struct Application
+			public static class Application
 			{
 				/// <summary>
 				/// MIME type for JavaScript files/scripts.
@@ -29,7 +29,7 @@ namespace uComponents.Core
 			/// <summary>
 			/// Class containing MIME type constants for image files.
 			/// </summary>
-			public struct Image
+			public static class Image
 			{
 				/// <summary>
 				/// MIME type for GIF images.
@@ -55,7 +55,7 @@ namespace uComponents.Core
 			/// <summary>
 			/// Class containing MIME type constants for text files.
 			/// </summary>
-			public struct Text
+			public static class Text
 			{
 				/// <summary>
 				/// MIME type for Cascading StyleSheet files.
