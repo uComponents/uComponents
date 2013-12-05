@@ -1,0 +1,238 @@
+﻿/*
+ *  PREVALUE EDITOR
+ */
+
+.prevalues {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.prevalues li 
+{
+    padding: 5px;
+}
+
+.prevalues li .label
+{
+    display: inline-block;
+    width: 16%;
+    padding-right: 1%;
+    font-weight: bold;
+    vertical-align: top;
+    min-height: 19px;
+}
+
+.prevalues li .field {
+    display: inline-block;
+}
+
+span.validator 
+{
+    padding-left: 10px;
+}
+
+span.message.error 
+{
+    margin: 10px 5px;
+}
+ 
+.dtg_accordion 
+{
+    margin-top:        10px;
+    padding:           5px;
+}
+
+.dtg_accordion ul 
+{
+    list-style:         none;
+    padding:            0;
+    margin:             0;
+}
+
+.dtg_accordion .addNewProperty,
+.dtg_accordion .editProperty
+{
+    border: 1px solid #ccc;
+    padding: 0 7px;
+    margin-bottom: 3px;
+    background: rgb(238, 238, 238) url("/umbraco_client/tabView/images/background.gif") left bottom repeat-x;	
+}
+
+.dtg_accordion .propertyHeader 
+{
+    height: 26px;
+    position: relative;
+}
+
+.dtg_accordion .editProperty .propertyHeader 
+{
+    cursor: move;
+}
+
+.dtg_accordion .propertyHeader.ui-state-active
+{
+    padding: 7px 0;
+    height: 12px;
+}
+
+.dtg_accordion .propertyHeader h3
+{
+    font-size: 11px;
+    font-weight: bold;
+    font-style: normal;
+    color: Black;
+    line-height: 26px;
+    padding: 0;
+    margin: 0 45px 0 0;
+    cursor: pointer;
+}
+
+.dtg_accordion .propertyHeader.ui-state-active h3
+{
+    line-height: 12px;
+}
+
+.dtg_accordion a.DeleteProperty,
+.dtg_accordion span.ErrorProperty
+{
+    position: absolute;
+    padding: 0;
+    z-index: 99;
+}
+
+.dtg_accordion a.DeleteProperty
+{
+    top: 4px;
+    right: 0;
+}
+
+.dtg_accordion a.DeleteProperty span.ui-icon,
+.dtg_accordion span.ErrorProperty
+{
+    width: 16px;
+    height: 16px;	
+    background-image: url("/umbraco_client/DateTimePicker/images/ui-icons_999999_256x240.png");
+    background-repeat: no-repeat;	
+    text-indent: -99999px;
+    overflow: hidden;
+    display: block;
+}
+
+.dtg_accordion span.ErrorProperty
+{
+    top: 4px;
+    right: 23px;
+    display: none;
+}
+
+.dtg_accordion .addNewProperty span.ErrorProperty 
+{
+    right: 0;
+}
+
+.dtg_accordion a.DeleteProperty.ui-state-hover span.ui-icon
+{
+    background-image: url("/umbraco_client/DateTimePicker/images/ui-icons_666666_256x240.png");
+}
+
+.dtg_accordion .ui-button
+{
+    color: #333333;
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: 1.1;
+    background-image: url("/umbraco_client/propertypane/images/propertyBackground.gif");
+    background-position: 50% 50%;
+    background-repeat: repeat-x;
+}
+
+.dtg_accordion .ui-button.ui-state-default
+{
+    border: 1px solid #cccccc;
+    background-color: rgb(238, 238, 238);
+}
+
+.dtg_accordion .ui-button.ui-state-hover
+{
+    border: 1px solid #999999;
+    background-color: #378080;
+    background-position: left top;
+}
+
+.dtg_accordion a.DeleteProperty span.ui-icon.ui-icon-close
+{
+    background-position: -80px -128px;
+}
+
+.dtg_accordion span.ErrorProperty
+{
+    color: #CD0A0A;
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: 1.1;
+    border: 1px solid #CD0A0A;
+    background-image: url("/umbraco_client/DateTimePicker/images/ui-icons_666666_256x240.png");
+    background-color: #FEF1EC;
+    background-position: 0 -144px;
+}
+
+.dtg_accordion a.DeleteProperty span.ui-button-text
+{
+    display: none;
+}
+
+.dtg_accordion .propertyControls 
+{
+    padding: 5px;
+    margin-bottom: 7px;
+    font-size: 12px;
+    background-color: White;
+    border: 1px solid #d9d7d7;
+}
+
+.dtg_accordion .propertyControls li
+{
+    margin-bottom: 10px;
+}
+
+.dtg_accordion .propertyControls .label 
+{
+    display: inline-block;
+    width: 16%;
+    padding-right: 1%;
+    font-weight: bold;
+    vertical-align: top;
+    min-height: 19px;
+}
+
+.dtg_accordion .propertyControls input[type="text"]
+{
+    display: inline-block;
+    width: 300px;
+}
+
+.dtg_accordion .propertyControls input[type="checkbox"]
+{
+    display: inline-block;
+}
+
+.dtg_accordion .propertyControls select
+{
+    display: inline-block;
+    width: 300px;
+}
+
+.dtg_accordion .propertyControls textarea
+{
+    display: inline-block;
+    width: 300px;
+}
+
+.dtg_accordion .propertyControls .validationLink
+{
+    display: inline-block;
+    margin-left: 17%;
+    font-weight: normal;
+    font-size: 10px;
+}

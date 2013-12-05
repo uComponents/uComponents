@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{62902194-247B-4DCF-AA4E-062204D8A576}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>uComponents.Legacy</RootNamespace>
+    <AssemblyName>uComponents.Legacy</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\uComponents.Legacy.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\uComponents.Legacy.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic, Version=1.0.4807.30842, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\businesslogic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ClientDependency.Core">
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\ClientDependency.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="cms, Version=1.0.4807.30842, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\cms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="controls, Version=1.0.4807.30843, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Examine, Version=0.1.48.2941, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\Examine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="interfaces, Version=1.0.4807.30841, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="umbraco, Version=1.0.4807.30843, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\umbraco.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="umbraco.DataLayer, Version=1.0.4807.30842, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\umbraco.DataLayer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="umbraco.editorControls">
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\umbraco.editorControls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines">
+      <HintPath>..\packages\UmbracoCms.Core.4.8.0\lib\umbraco.MacroEngines.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataTypes\AutoComplete\AutoCompleteDataEditorUpdatePanel.cs" />
+    <Compile Include="DataTypes\AutoComplete\AutoCompleteDataType.cs" />
+    <Compile Include="DataTypes\AutoComplete\AutoCompleteOptions.cs" />
+    <Compile Include="DataTypes\AutoComplete\AutoCompletePreValueEditor.cs" />
+    <Compile Include="DataTypes\ImageDropdown\ID_DataEditor.cs" />
+    <Compile Include="DataTypes\ImageDropdown\ID_DataType.cs" />
+    <Compile Include="DataTypes\JsonDropdown\JD_Control.cs" />
+    <Compile Include="DataTypes\JsonDropdown\JD_DataType.cs" />
+    <Compile Include="DataTypes\JsonDropdown\JD_Options.cs" />
+    <Compile Include="DataTypes\JsonDropdown\JD_PrevalueEditor.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\BaseTreeExtensions.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\FilteredContentTree.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\FilteredMediaTree.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\HttpCookieExtensions.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\MNTPResources.Designer.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\MNTP_DataEditor.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\MNTP_DataType.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\MNTP_PrevalueEditor.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\MultiNodeTreePickerExtensions.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\MultiNodeTreePickerModelBinder.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\NodeSelectionType.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\SelectedItemsTemplate.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\XmlTreeNodeExtensions.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\XPathExpressionType.cs" />
+    <Compile Include="DataTypes\MultiNodeTreePicker\XPathFilterType.cs" />
+    <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringControl.cs" />
+    <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringDataType.cs" />
+    <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringModelBinder.cs" />
+    <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringOptions.cs" />
+    <Compile Include="DataTypes\MultipleTextstring\MultipleTextstringPrevalueEditor.cs" />
+    <Compile Include="DataTypes\RadiobuttonListWithImages\RLWI_DataEditor.cs" />
+    <Compile Include="DataTypes\RadiobuttonListWithImages\RLWI_DataType.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\PagePickerwMediaDataExtractor.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaData.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaDataEditor.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaDataType.cs" />
+    <Compile Include="DataTypes\RelatedLinksWithMedia\RelatedLinkswMediaPrevalueEditor.cs" />
+    <Compile Include="DataTypes\Shared\PrevalueEditors\MultiImageUpload_PrevalueEditor.cs" />
+    <Compile Include="DataTypes\Slider\SliderControl.cs" />
+    <Compile Include="DataTypes\Slider\SliderDataType.cs" />
+    <Compile Include="DataTypes\Slider\SliderOptions.cs" />
+    <Compile Include="DataTypes\Slider\SliderPrevalueEditor.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxDataEditor.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxDataType.cs" />
+    <Compile Include="DataTypes\StyledTextBox\StyledTextBoxPrevalueEditor.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyDataEditor.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyDataType.cs" />
+    <Compile Include="DataTypes\UniqueProperty\UniquePropertyPreValueEditor.cs" />
+    <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListDataEditor.cs" />
+    <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListDataType.cs" />
+    <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListModelBinder.cs" />
+    <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListOptions.cs" />
+    <Compile Include="DataTypes\XPathCheckBoxList\XPathCheckBoxListPreValueEditor.cs" />
+    <Compile Include="DataTypes\XPathDropDownList\XPathDropDownListDataEditor.cs" />
+    <Compile Include="DataTypes\XPathDropDownList\XPathDropDownListDataType.cs" />
+    <Compile Include="DataTypes\XPathDropDownList\XPathDropDownListOptions.cs" />
+    <Compile Include="DataTypes\XPathDropDownList\XPathDropDownListPreValueEditor.cs" />
+    <Compile Include="NotFoundHandlers\SearchFor404ContentHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="uQuery\uQuery.cs" />
+    <Compile Include="uQuery\uQuery-DataTypes.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Dictionary.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Content.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Document.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Media.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Members.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-Nodes.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-PreValues.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQuery-UmbracoObjectType.cs">
+      <DependentUpon>uQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="uQuery\uQueryExtensions\ContentExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\DocumentExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\MediaExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\MemberExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\NodeExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\PreValueExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\RelationTypeExtensions.cs" />
+    <Compile Include="uQuery\uQueryExtensions\UmbracoObjectTypeExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
+      <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
+      <Name>uComponents.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
+      <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
+      <Name>uComponents.DataTypes</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.XsltExtensions\uComponents.XsltExtensions.csproj">
+      <Project>{1665551B-1EE8-4A5A-8857-4A002F4DB3B9}</Project>
+      <Name>uComponents.XsltExtensions</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Images\dd_arrow.gif" />
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Scripts\jquery.dd.js" />
+    <EmbeddedResource Include="DataTypes\ImageDropdown\Styles\ImageDropdown.css" />
+    <EmbeddedResource Include="DataTypes\MultiNodeTreePicker\MNTPResources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataTypes\MultiNodeTreePicker\MultiNodePickerScripts.js" />
+    <EmbeddedResource Include="DataTypes\MultiNodeTreePicker\MultiNodePickerStyles.css" />
+    <EmbeddedResource Include="DataTypes\MultipleTextstring\MultipleTextstring.css" />
+    <EmbeddedResource Include="DataTypes\MultipleTextstring\MultipleTextstring.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataTypes\AutoComplete\Scripts\jquery.autocomplete.min.js" />
+    <EmbeddedResource Include="DataTypes\AutoComplete\Styles\autocomplete.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <!-- Minify all JavaScript files that were embedded as resources -->
+  <Import Project="..\BuildPackage\MSBuildTasks\AjaxMin.Tasks.Targets" />
+  <PropertyGroup>
+    <ResGenDependsOn>
+			MinifyJavaScript;
+			$(ResGenDependsOn)
+		</ResGenDependsOn>
+  </PropertyGroup>
+  <Target Name="MinifyJavaScript" Condition="'$(ConfigurationName)'=='Release'">
+    <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.js'">
+      <Output TaskParameter="DestinationFiles" ItemName="EmbeddedJavaScriptResource" />
+    </Copy>
+    <Copy SourceFiles="@(EmbeddedResource)" DestinationFolder="$(IntermediateOutputPath)" Condition="'%(Extension)'=='.css'">
+      <Output TaskParameter="DestinationFiles" ItemName="EmbeddedCssResource" />
+    </Copy>
+    <AjaxMin JsSourceFiles="@(EmbeddedJavaScriptResource)" JsSourceExtensionPattern="\.js$" JsTargetExtension=".js" CssSourceFiles="@(EmbeddedCssResource)" CssSourceExtensionPattern="\.css$" CssTargetExtension=".css" />
+    <ItemGroup>
+      <EmbeddedResource Remove="@(EmbeddedResource)" Condition="'%(Extension)'=='.js' OR '%(Extension)'=='.css'" />
+      <EmbeddedResource Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource)" />
+      <FileWrites Include="@(EmbeddedJavaScriptResource);@(EmbeddedCssResource" />
+    </ItemGroup>
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>
