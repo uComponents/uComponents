@@ -62,9 +62,6 @@ namespace uComponents.DataTypes.UrlPicker
                 throw new InvalidOperationException("No modes have been allowed for the URL picker. See the developer section.");
             }
 
-            //add the js/css required
-            this.AddAllUrlPickerClientDependencies();
-
             this.EnsureAjaxInfrastructure();
             this.EnsureChildControls();
         }
@@ -76,6 +73,9 @@ namespace uComponents.DataTypes.UrlPicker
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
+            //add the js/css required
+            this.AddAllUrlPickerClientDependencies();
 
             // If this.State was not set, create a default state
             if (State == null)

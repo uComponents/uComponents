@@ -7,7 +7,6 @@
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
     using System.Security;
-    using System.Security;
 
     using uComponents.DataTypes.DataTypeGrid.Interfaces;
     using uComponents.DataTypes.DataTypeGrid.ServiceLocators;

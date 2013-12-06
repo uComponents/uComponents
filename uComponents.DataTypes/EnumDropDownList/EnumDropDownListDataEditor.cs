@@ -208,7 +208,6 @@ namespace uComponents.DataTypes.EnumDropDownList
 						this.customValidator.ErrorMessage = ui.Text("errorHandling", "errorMandatory", new[] { property.PropertyType.Alias, propertyGroup.Name }, User.GetCurrent());
 					}
 				}
-            }
 
 				this.data.Value = this.dropDownList.SelectedValue;
 			}

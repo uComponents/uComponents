@@ -160,9 +160,6 @@ function RegexValidate(source, args) {
 					if ($(container).find("input[id$='ReadOnly']").val() == "True") {
 					    $(container).find("th.actions, td.actions").hide();
 					}
-					if ($(container).find("input[id$='ReadOnly']").val() == "True") {
-					    $(container).find("th.actions, td.actions").hide();
-					}
 				}
 				
 				function configureSortable(container) {

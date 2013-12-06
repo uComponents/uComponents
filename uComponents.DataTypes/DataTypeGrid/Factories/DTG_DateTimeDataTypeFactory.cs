@@ -6,15 +6,12 @@ using System.Text;
 namespace uComponents.DataTypes.DataTypeGrid.Factories
 {
     using System.Globalization;
-    using System.Reflection;
     using System.Web;
     using System.Web.UI;
 
     using uComponents.DataTypes.DataTypeGrid.Model;
 
-    using umbraco.editorControls;
     using umbraco.editorControls.datefieldmultiple;
-    using umbraco.editorControls.datepicker;
 
     /// <summary>
     /// Factory for the <see cref="DateTimeDataTypeFactory"/>
@@ -40,31 +37,6 @@ namespace uComponents.DataTypes.DataTypeGrid.Factories
             }
 
             return value;
-        }
-
-        /// <summary>
-        /// Saves the specified data type.
-        /// </summary>
-        /// <param name="dataType">Type of the data.</param>
-        public override void Save(DataTypeDatefieldMultiple dataType)
-        {
-            // Persist value from page to dataType.Data
-            base.Save(dataType);
-
-            DateTime d;
-
-            // Parse value and save data again using reflection to prevent value from being saved with wrong culture
-            if (dataType.Data.Value != null && DateTime.TryParse(dataType.Data.Value.ToString(), out d))
-            {
-                var t = typeof(dateField).GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance);
-
-                if (t != null)
-                {
-                    dataType.Data.Value = d.ToString("s");
-
-                    t.SetValue(dataType.DataEditor, dataType.Data);
-                }
-            }
         }
 
         /// <summary>

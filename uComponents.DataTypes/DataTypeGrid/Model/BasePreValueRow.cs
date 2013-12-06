@@ -61,13 +61,6 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
 		/// <value>The validation expression.</value>
 		public string ValidationExpression { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this column is visible.
-        /// </summary>
-        /// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
-        [DefaultValue(true)]
-        public bool Visible { get; set; }
-
 		/// <summary>
 		/// Gets or sets the data type id.
 		/// </summary>

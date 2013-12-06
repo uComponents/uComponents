@@ -250,7 +250,6 @@
     <Compile Include="DataTypes\DataTypeGrid\GridCellTests.cs" />
     <Compile Include="DataTypes\DataTypeGrid\GridRowTests.cs" />
     <Compile Include="DataTypes\DataTypeGrid\GridRowCollectionTests.cs" />
-    <Compile Include="DataTypes\DataTypeGrid\ModelBinderTests.cs" />
     <Compile Include="XsltExtensions\EmailTest.cs" />
     <Compile Include="XsltExtensions\IOTest.cs" />
     <Compile Include="XsltExtensions\DatesTest.cs" />

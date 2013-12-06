@@ -33,35 +33,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
             if (HttpContext.Current.Request.UserLanguages != null && DateTime.TryParse(value, out d))
             {
                 return d.ToString(CultureInfo.CreateSpecificCulture(HttpContext.Current.Request.UserLanguages[0]).DateTimeFormat.ShortDatePattern);
-
             }
 
             return value;
-        }
-
-        /// <summary>
-        /// Saves the specified data type.
-        /// </summary>
-        /// <param name="dataType">Type of the data.</param>
-        public override void Save(DateDataType dataType)
-        {
-            // Persist value from page to dataType.Data
-            base.Save(dataType);
-
-            DateTime d;
-
-            // Parse value and save data again using reflection to prevent value from being saved with wrong culture
-            if (dataType.Data.Value != null && DateTime.TryParse(dataType.Data.Value.ToString(), out d))
-            {
-                var t = typeof(dateField).GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance);
-
-                if (t != null)
-                {
-                    dataType.Data.Value = d.ToString("s");
-
-                    t.SetValue(dataType.DataEditor, dataType.Data);
-                }
-            }
         }
 
         /// <summary>
