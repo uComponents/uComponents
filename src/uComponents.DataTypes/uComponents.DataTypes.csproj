@@ -633,7 +633,7 @@
   </Target>
   -->
   <!-- Minify all JavaScript files that were embedded as resources -->
-  <Import Project="..\BuildPackage\MSBuildTasks\AjaxMin.Tasks.Targets" />
+  <Import Project="..\..\tools\MSBuildTasks\AjaxMin.Tasks.Targets" />
   <PropertyGroup>
     <ResGenDependsOn>
 			MinifyJavaScript;

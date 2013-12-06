@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package" ToolsVersion="4.0">
+	
 	<!-- IMPORTS -->
-	<Import Project="$(MSBuildProjectDirectory)\MSBuildTasks\MSBuild.Community.Tasks.Targets" />
-	<Import Project="$(MSBuildProjectDirectory)\MSBuildTasks\MSBuild.Umbraco.Tasks.Targets" />
-	<Import Project="$(MSBuildProjectDirectory)\MSBuildTasks\MSBuild.NuGet.Tasks.Targets" />
+	<PropertyGroup>
+		<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
+		<MSBuildCustomTasksPath>$(RootDir)\tools\MSBuildTasks</MSBuildCustomTasksPath>
+		<MSBuildCommunityTasksPath>$(MSBuildCustomTasksPath)</MSBuildCommunityTasksPath>
+		<MSBuildUmbracoTasksPath>$(MSBuildCustomTasksPath)</MSBuildUmbracoTasksPath>
+		<MSBuildNuGetTasksPath>$(MSBuildCustomTasksPath)</MSBuildNuGetTasksPath>
+	</PropertyGroup>
+	
+	<Import Project="$(MSBuildCustomTasksPath)\MSBuild.Community.Tasks.Targets" />
+	<Import Project="$(MSBuildCustomTasksPath)\MSBuild.Umbraco.Tasks.Targets" />
+	<Import Project="$(MSBuildCustomTasksPath)\MSBuild.NuGet.Tasks.Targets" />
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
-		<RootDir>$(MSBuildProjectDirectory)\..\uComponents.Core</RootDir>
+		<SrcDir>$(RootDir)\src</SrcDir>
 		<BuildDir>$(MSBuildProjectDirectory)\_build</BuildDir>
 		<BuildUmbDir>$(BuildDir)\_umbraco</BuildUmbDir>
 		<BuildNuGetDir>$(BuildDir)\_nuget</BuildNuGetDir>
@@ -15,49 +24,49 @@
 
 	<!-- TARGETS -->
 	<Target Name="Build">
-		<MSBuild Projects="..\uComponents.sln" Properties="Configuration = $(Configuration)" Targets="Rebuild"/>
+		<MSBuild Projects="$(SrcDir)\uComponents.sln" Properties="Configuration = $(Configuration)" Targets="Rebuild"/>
 	</Target>
 
 	<!-- PREPARE FILES -->
 	<Target Name="PrepareFiles" DependsOnTargets="Build">
 		<ItemGroup>
-			<BinFiles Include="$(RootDir)\bin\Release\uComponents.Core.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.dll" />
-			<BinFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.dll" />
-			<DebugFiles Include="$(RootDir)\bin\Release\uComponents.Core.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.pdb" />
-			<DebugFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.pdb" />
-			<XmlFiles Include="$(RootDir)\bin\Release\uComponents.Core.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.Controls\bin\Release\uComponents.Controls.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.DataTypes\bin\Release\uComponents.DataTypes.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.Installer\bin\Release\uComponents.Installer.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.Legacy\bin\Release\uComponents.Legacy.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.Mapping\bin\Release\uComponents.Mapping.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.UI\bin\Release\uComponents.UI.xml" />
-			<XmlFiles Include="$(RootDir)\..\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.xml" />
-			<PluginFiles Include="$(RootDir)\..\uComponents.Installer\*.ascx" />
+			<BinFiles Include="$(SrcDir)\uComponents.Core\bin\Release\uComponents.Core.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.DataTypes\bin\Release\uComponents.DataTypes.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.Installer\bin\Release\uComponents.Installer.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.Legacy\bin\Release\uComponents.Legacy.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.Mapping\bin\Release\uComponents.Mapping.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.UI\bin\Release\uComponents.UI.dll" />
+			<BinFiles Include="$(SrcDir)\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.dll" />
+			<DebugFiles Include="$(SrcDir)\uComponents.Core\bin\Release\uComponents.Core.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.Controls\bin\Release\uComponents.Controls.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.DataTypes\bin\Release\uComponents.DataTypes.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.Installer\bin\Release\uComponents.Installer.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.Legacy\bin\Release\uComponents.Legacy.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.Mapping\bin\Release\uComponents.Mapping.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.UI\bin\Release\uComponents.UI.pdb" />
+			<DebugFiles Include="$(SrcDir)\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.pdb" />
+			<XmlFiles Include="$(SrcDir)\uComponents.Core\bin\Release\uComponents.Core.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.Controls\bin\Release\uComponents.Controls.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.DataTypes\bin\Release\uComponents.DataTypes.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.DataTypes.RazorDataTypeModels\bin\Release\uComponents.DataTypes.RazorDataTypeModels.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.Installer\bin\Release\uComponents.Installer.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.Legacy\bin\Release\uComponents.Legacy.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.MacroEngines\bin\Release\uComponents.MacroEngines.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.Mapping\bin\Release\uComponents.Mapping.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.NotFoundHandlers\bin\Release\uComponents.NotFoundHandlers.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.PropertyEditors.ValueConverters\bin\Release\uComponents.PropertyEditors.ValueConverters.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.UI\bin\Release\uComponents.UI.xml" />
+			<XmlFiles Include="$(SrcDir)\uComponents.XsltExtensions\bin\Release\uComponents.XsltExtensions.xml" />
+			<PluginFiles Include="$(SrcDir)\uComponents.Installer\*.ascx" />
 			<PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
 			<NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
 		</ItemGroup>
@@ -85,7 +94,7 @@
 			WorkingDirectory="$(BuildUmbDir)"
 			MinimumRequiredUmbracoVersion="$(MinUmbracoVersion)"
 			PackageVersion="$(PackageVersion)"
-			Readme="$([System.IO.File]::ReadAllText(readme.txt))"
+			Readme="$([System.IO.File]::ReadAllText(package.txt))"
 			Files="@(ManifestFiles)" />
 	</Target>
 
@@ -112,15 +121,15 @@
 		
 		<MSBuild.Umbraco.Tasks.Package ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
-			OutputDirectory="$(MSBuildProjectDirectory)"
+			OutputDirectory="$(RootDir)"
 			Files="@(PackageFiles)" />
-		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\..\.nuget\NuGet.exe"
+		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(SrcDir)\.nuget\NuGet.exe"
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			BasePath="$(BuildNuGetDir)"
-			OutputDirectory="$(MSBuildProjectDirectory)"
+			OutputDirectory="$(RootDir)"
 			Verbosity="normal" />
 			
 		<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
-		<Delete Files="$(RootDir)\..\uComponents.sln.cache" />
+		<Delete Files="$(SrcDir)\uComponents.sln.cache" />
 	</Target>
 </Project>
