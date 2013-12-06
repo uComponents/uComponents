@@ -1,9 +1,11 @@
-Copyright (c) 2010-13 The Umbraco Community 
+# MIT License
 
-This software consists of voluntary contributions made by many
-individuals (http://ucomponents.codeplex.com/team/view) For exact
-contribution history, see the revision history and logs, available
-at http://ucomponents.codeplex.com/SourceControl/list/changesets
+Copyright &copy; 2010-13 The Umbraco Community 
+
+This software consists of voluntary contributions made by [many
+individuals](https://github.com/leekelleher/uComponents/graphs/contributors) For exact
+contribution history, see the 
+[revision history and logs](https://github.com/uComponents/uComponents/commits/).
 
 Permission is hereby granted, free of charge, to any person obtaining 
 a copy of this software and associated documentation files (the 
