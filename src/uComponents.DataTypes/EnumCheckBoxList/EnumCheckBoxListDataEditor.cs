@@ -111,41 +111,8 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 				var assembly = Helper.IO.GetAssembly(this.options.Assembly);
 				var type = assembly.GetType(this.options.Enum);
 
-				// Loop though enum to create drop down list items
-				foreach (string name in Enum.GetNames(type))
-				{
-					checkBoxListItem = new ListItem(name, name); // Default to the enum item name
-
-					fieldInfo = type.GetField(name);
-
-					// Loop though any custom attributes that may have been applied the the curent enum item
-					foreach (var customAttributeData in CustomAttributeData.GetCustomAttributes(fieldInfo))
-					{
-						if (customAttributeData.Constructor.DeclaringType != null && customAttributeData.Constructor.DeclaringType.Name == "EnumCheckBoxListAttribute" && customAttributeData.NamedArguments != null)
-						{
-							// Loop though each property on the EnumCheckBoxListAttribute
-							foreach (var customAttributeNamedArguement in customAttributeData.NamedArguments)
-							{
-								switch (customAttributeNamedArguement.MemberInfo.Name)
-								{
-									case "Text":
-										checkBoxListItem.Text = customAttributeNamedArguement.TypedValue.Value.ToString();
-										break;
-
-									case "Value":
-										checkBoxListItem.Value = customAttributeNamedArguement.TypedValue.Value.ToString();
-										break;
-
-									case "Enabled":
-										checkBoxListItem.Enabled = (bool)customAttributeNamedArguement.TypedValue.Value;
-										break;
-								}
-							}
-						}
-					}
-
-					this.CheckBoxList.Items.Add(checkBoxListItem);
-				}
+				var items = EnumHelper.GetEnumListAttributeValues(type).ToArray();
+				this.CheckBoxList.Items.AddRange(items);
 			}
 			catch
 			{

@@ -282,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\UmbracoLibraryWrapper.cs" />
+    <Compile Include="EnumHelper.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Helper-Dictionary.cs">
       <DependentUpon>Helper.cs</DependentUpon>

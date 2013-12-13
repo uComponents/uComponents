@@ -112,40 +112,8 @@ namespace uComponents.DataTypes.EnumDropDownList
 				var assembly = Helper.IO.GetAssembly(this.options.Assembly);
 				var type = assembly.GetType(this.options.Enum);
 
-				// Loop though enum to create drop down list items
-				foreach (var name in Enum.GetNames(type))
-				{
-					var dropDownListItem = new ListItem(name, name);
-					var fieldInfo = type.GetField(name);
-
-					// Loop though any custom attributes that may have been applied the the curent enum item
-					foreach (var customAttributeData in CustomAttributeData.GetCustomAttributes(fieldInfo))
-					{
-						if (customAttributeData.Constructor.DeclaringType != null && customAttributeData.Constructor.DeclaringType.Name == "EnumDropDownListAttribute" && customAttributeData.NamedArguments != null)
-						{
-							// Loop though each property on the EnumDropDownListAttribute
-							foreach (var customAttributeNamedArguement in customAttributeData.NamedArguments)
-							{
-								switch (customAttributeNamedArguement.MemberInfo.Name)
-								{
-									case "Text":
-										dropDownListItem.Text = customAttributeNamedArguement.TypedValue.Value.ToString();
-										break;
-
-									case "Value":
-										dropDownListItem.Value = customAttributeNamedArguement.TypedValue.Value.ToString();
-										break;
-
-									case "Enabled":
-										dropDownListItem.Enabled = (bool)customAttributeNamedArguement.TypedValue.Value;
-										break;
-								}
-							}
-						}
-					}
-
-					this.dropDownList.Items.Add(dropDownListItem);
-				}
+				var items = EnumHelper.GetEnumListAttributeValues(type).ToArray();
+				this.DropDownList.Items.AddRange(items);
 			}
 			catch
 			{
