@@ -4,7 +4,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using umbraco.editorControls;
-using umbraco.macroRenderings;
+using uComponents.DataTypes.Shared.macroRenderings;
 
 namespace uComponents.DataTypes.ImagePoint
 {
