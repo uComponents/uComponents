@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.UI.WebControls;
 
-namespace uComponents.Core
+namespace uComponents.DataTypes.Shared.Enums
 {
 	/// <summary>
 	/// Helper methods for working with Enums

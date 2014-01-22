@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
+using uComponents.DataTypes.Shared.Enums;
 using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic;

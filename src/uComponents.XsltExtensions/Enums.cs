@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
+using uComponents.DataTypes.Shared.Enums;
 using umbraco;
 using Umbraco.Core;
 

@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using uComponents.Core;
+using uComponents.DataTypes.Shared.Enums;
 using umbraco;
 using umbraco.interfaces;
 
