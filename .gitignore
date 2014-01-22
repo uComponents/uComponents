@@ -1,7 +1,7 @@
 *.csproj.user
 *.suo
-*/bin/*
-*/obj/*
+bin/
+obj/
 *.Cache
 *_ReSharper.uComponents*
 DLLs/*
