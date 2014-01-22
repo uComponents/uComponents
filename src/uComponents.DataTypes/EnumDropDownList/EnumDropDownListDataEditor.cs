@@ -1,16 +1,13 @@
-﻿using System;
+using System;
 using System.Linq;
-using System.Reflection;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Enums;
 using umbraco;
 using umbraco.BusinessLogic;
-using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.cms.businesslogic.property;
-using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
 
 namespace uComponents.DataTypes.EnumDropDownList

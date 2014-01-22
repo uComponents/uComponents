@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using uComponents.Core;
 using uComponents.DataTypes.Shared.Enums;
-using umbraco;
 using umbraco.interfaces;
 
 namespace uComponents.DataTypes.EnumCheckBoxList
@@ -104,9 +101,6 @@ namespace uComponents.DataTypes.EnumCheckBoxList
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			FieldInfo fieldInfo;
-			ListItem checkBoxListItem;
-
 			try
 			{
 				var assembly = Helper.IO.GetAssembly(this.options.Assembly);

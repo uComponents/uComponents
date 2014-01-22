@@ -1,10 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.XPath;
 using uComponents.Core;
@@ -24,7 +18,8 @@ namespace uComponents.XsltExtensions
 		/// <summary>
 		/// Gets the Enum of the supplied type and returns its attribute values as a ListItem
 		/// </summary>
-		/// <param name="enumFullTypeName">The full type name of the enum to parse</param>
+		/// <param name="assemblyName">Full name of the assembly containing the enum</param>
+		/// <param name="typeName">The enum's type name</param>
 		/// <returns>List of ListItems representing the Enum's attribute values</returns>
 		public static XPathNodeIterator GetEnumListAttributeValues(string assemblyName, string typeName)
 		{
@@ -42,7 +37,7 @@ namespace uComponents.XsltExtensions
 			// loop through each of the directories
 			foreach (var enumListItem in enumListItems)
 			{
-				var enumNode = Umbraco.Core.XmlHelper.AddTextNode(xd, "ListItem", "");
+				var enumNode = XmlHelper.AddTextNode(xd, "ListItem", "");
 				enumNode.Attributes.Append(XmlHelper.AddAttribute(xd, "Text", enumListItem.Text));
 				enumNode.Attributes.Append(XmlHelper.AddAttribute(xd, "Value", enumListItem.Value));
 				enumNode.Attributes.Append(XmlHelper.AddAttribute(xd, "Enabled", enumListItem.Enabled.ToString()));
