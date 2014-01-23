@@ -278,6 +278,7 @@
     <Compile Include="Cms.cs" />
     <Compile Include="Dates.cs" />
     <Compile Include="Email.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="IO.cs" />
     <Compile Include="Media.cs" />
@@ -295,6 +296,10 @@
     <ProjectReference Include="..\uComponents.Core\uComponents.Core.csproj">
       <Project>{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}</Project>
       <Name>uComponents.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uComponents.DataTypes\uComponents.DataTypes.csproj">
+      <Project>{E83250BD-27B0-4B39-90C8-F07538058938}</Project>
+      <Name>uComponents.DataTypes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
