@@ -41,7 +41,7 @@ namespace uComponents.DataTypes.ImagePoint
         public int Height { get; private set; }
 
         /// <summary>
-        /// 
+        /// Gets a value between 0 and 100
         /// </summary>
         public byte PercentageX 
         {
@@ -49,7 +49,12 @@ namespace uComponents.DataTypes.ImagePoint
             {
                 if (this.Width > 0 && this.X > 0)
                 {
-                    return (byte)((decimal)((decimal)this.Width / this.X) * 100);
+                    if (this.X >= this.Width)
+                    {
+                        return 100;
+                    }
+
+                    return (byte)(((decimal)this.X / (decimal)this.Width) * 100);
                 }
 
                 return 0;
@@ -57,7 +62,7 @@ namespace uComponents.DataTypes.ImagePoint
         }
 
         /// <summary>
-        /// 
+        /// Gets a value between 0 and 100
         /// </summary>
         public byte PercentageY
         {
@@ -65,7 +70,12 @@ namespace uComponents.DataTypes.ImagePoint
             {
                 if (this.Height > 0 && this.Y > 0)
                 {
-                    return (byte)((decimal)((decimal)this.Height / this.Y) * 100);
+                    if (this.Y >= this.Height)
+                    {
+                        return 100;
+                    }
+
+                    return (byte)(((decimal)this.Y / (decimal)this.Height) * 100);
                 }
 
                 return 0;
