@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using uComponents.Core;
 using umbraco;
+using umbraco.cms.businesslogic.web;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.editorControls;
 using umbraco.interfaces;
@@ -21,6 +23,7 @@ using Image = System.Web.UI.WebControls.Image;
 namespace uComponents.DataTypes.ImagePoint
 {
     using System.Xml.Linq;
+    using umbraco.cms.businesslogic.property;
 
     /// <summary>
     /// Image Point Data Type
@@ -62,6 +65,11 @@ namespace uComponents.DataTypes.ImagePoint
         /// Image used to mark the point
         /// </summary>
         private Image markerImage = new Image();
+
+        /// <summary>
+        /// Collection of ghost images to render
+        /// </summary>
+        private List<Image> ghostImages = new List<Image>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImagePointDataEditor"/> class. 
@@ -135,7 +143,13 @@ namespace uComponents.DataTypes.ImagePoint
              *      Y <input type="text" class="y" />
              *      <div class="area">
              *          <img src="" width="" height="" class="main" />
-             *          <ing src="" class="marker" />
+             *          <img src="" class="marker" />
+             * 
+             *          (optional)
+             *          <img src="" class="ghost" data-x="" data-y="" />
+             *          <img src="" class="ghost" />
+             *          ...
+             * 
              *      </div>
              *  </div>
              * 
@@ -176,9 +190,8 @@ namespace uComponents.DataTypes.ImagePoint
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            this.EnsureChildControls();
-
-            this.SetImageAndSize();
+            this.InitializeControls(); // using configuration options, set the class scope vars in preperation to be added to the control collection
+            this.EnsureChildControls(); // use the class scope vars to build markup hierarachy
 
             if (!this.Page.IsPostBack && this.data.Value != null)
             {
@@ -226,11 +239,11 @@ namespace uComponents.DataTypes.ImagePoint
         }
 
         /// <summary>
-        /// Calculates the width and height and sets these as data-attributes on the containing div (as well as on the image)
+        /// Calculates the width and height and sets these as attributes on the image, and builds a collection of ghost points
         /// if a width or height value has been supplied then these are used in preference to the image dimensions
         /// if a width or height value has been supplied, and one of these = 0, then it needs to be calculated from the image dimensions (so as to keep the aspect ratio)
         /// </summary>
-        private void SetImageAndSize()
+        private void InitializeControls()
         {            
             int width = 0; // default unknown values
             int height = 0;
@@ -247,13 +260,48 @@ namespace uComponents.DataTypes.ImagePoint
                     switch (uQuery.GetUmbracoObjectType(this.CurrentContentId))
                     {
                         case uQuery.UmbracoObjectType.Document:
-                            imageUrl = uQuery.GetDocument(this.CurrentContentId)
-                                                .GetAncestorOrSelfDocuments()
-                                                .First(x => x.HasProperty(this.options.ImagePropertyAlias))
-                                                .GetProperty<string>(this.options.ImagePropertyAlias);
+
+                            Document imageDocument = uQuery.GetDocument(this.CurrentContentId)
+                                                            .GetAncestorOrSelfDocuments()
+                                                            .First(x => x.HasProperty(this.options.ImagePropertyAlias));
+                            
+                            imageUrl = imageDocument.GetProperty<string>(this.options.ImagePropertyAlias);
+
+                            // find all self or descendant documents that have this specifc datatype datatype, but stop if any contain the imagePropertyAlias
+                            if (this.options.ShowNeighbours)
+                            {
+                                List<Document> documents = new List<Document>(); // building a collection as there isn't a .GetDescendantsOrSelf(Func<Document, bool> func) overload
+                                documents.Add(imageDocument); // add the top level document
+                                documents.AddRange(imageDocument.GetDescendantDocuments(x => !x.HasProperty(this.options.ImagePropertyAlias))); // drill down and get all documents, but stop descending if another the imagePropertyAlias is found
+
+                                Image ghostImage;
+                                ImagePoint imagePoint;
+
+                                // for all documents that contain this instance of this datatype
+                                foreach (Document document in documents.Where(x => x.GenericProperties.Select(y => y.PropertyType.DataTypeDefinition.Id).Contains(((XmlData)this.data).DataTypeDefinitionId)))
+                                {
+                                    // the document may contain multiple instance of the ImagePoint datatype, but with different aliases
+                                    foreach (Property property in document.GenericProperties.Where(x => x.PropertyType.DataTypeDefinition.Id == ((XmlData)this.data).DataTypeDefinitionId))
+                                    {
+                                        imagePoint = new ImagePoint();
+                                        ((uQuery.IGetProperty)imagePoint).LoadPropertyValue(property.Value.ToString());
+
+                                        if (imagePoint.HasCoordinate)
+                                        {
+                                            ghostImage = new Image();
+                                            ghostImage.Attributes.Add("data-x", imagePoint.X.ToString());
+                                            ghostImage.Attributes.Add("data-y", imagePoint.Y.ToString());
+
+                                            this.ghostImages.Add(ghostImage);
+                                        }
+                                    }
+                                }
+                            }                                            
+
                             break;
 
                         case uQuery.UmbracoObjectType.Media:
+
                             imageUrl = uQuery.GetMedia(this.CurrentContentId)
                                                 .GetAncestorOrSelfMedia()
                                                 .First(x => x.HasProperty(this.options.ImagePropertyAlias))
@@ -261,6 +309,7 @@ namespace uComponents.DataTypes.ImagePoint
                             break;
 
                         case uQuery.UmbracoObjectType.Member:
+
                             imageUrl = uQuery.GetMember(this.CurrentContentId).GetProperty<string>(this.options.ImagePropertyAlias);
 
                             break;
