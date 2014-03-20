@@ -45,7 +45,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// <summary>
         /// Wrapping div
         /// </summary>
-        private HtmlGenericControl div = new HtmlGenericControl("div");
+        private WebControl imagePointDiv = new WebControl(HtmlTextWriterTag.Div);
 
         /// <summary>
         /// X coordinate
@@ -58,6 +58,11 @@ namespace uComponents.DataTypes.ImagePoint
         private TextBox yTextBox = new TextBox();
 
         /// <summary>
+        /// div used to append ghost image controls
+        /// </summary>
+        private WebControl areaDiv = new WebControl(HtmlTextWriterTag.Div);
+
+        /// <summary>
         /// Image tag used to define the x, y area
         /// </summary>
         private Image mainImage = new Image();
@@ -66,11 +71,6 @@ namespace uComponents.DataTypes.ImagePoint
         /// Image used to mark the point
         /// </summary>
         private Image markerImage = new Image();
-
-        /// <summary>
-        /// Collection of ghost images to render
-        /// </summary>
-        private List<Image> ghostImages = new List<Image>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImagePointDataEditor"/> class. 
@@ -139,8 +139,8 @@ namespace uComponents.DataTypes.ImagePoint
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            this.InitializeControls(); // using configuration options, set the class scope vars in preperation to be added to the control collection
-            this.EnsureChildControls(); // use the class scope vars to build markup hierarachy
+            this.EnsureChildControls();
+            this.ConfigureControls(); 
 
             if (!this.Page.IsPostBack && this.data.Value != null)
             {
@@ -165,7 +165,7 @@ namespace uComponents.DataTypes.ImagePoint
             string startupScript = @"
                 <script language='javascript' type='text/javascript'>
                     $(document).ready(function () {
-                        ImagePoint.init(jQuery('div#" + this.div.ClientID + @"'));
+                        ImagePoint.init(jQuery('div#" + this.imagePointDiv.ClientID + @"'));
                     });
                 </script>";
 
@@ -196,7 +196,7 @@ namespace uComponents.DataTypes.ImagePoint
              *  </div>
              * 
              */
-            this.div.Attributes.Add("class", "image-point");
+            this.imagePointDiv.CssClass = "image-point";
 
             this.xTextBox.ID = "xTextBox";
             this.xTextBox.CssClass = "x";
@@ -211,23 +211,18 @@ namespace uComponents.DataTypes.ImagePoint
             this.markerImage.CssClass = "marker";
             this.markerImage.ImageUrl = this.Page.ClientScript.GetWebResourceUrl(this.GetType(), "uComponents.DataTypes.ImagePoint.ImagePointMarker.png");
 
-            WebControl areaDiv = new WebControl(HtmlTextWriterTag.Div) { CssClass = "area" };
+            this.areaDiv.CssClass = "area";
 
-            areaDiv.Controls.Add(this.mainImage);
-            areaDiv.Controls.Add(this.markerImage);
+            this.areaDiv.Controls.Add(this.mainImage);
+            this.areaDiv.Controls.Add(this.markerImage);
 
-            foreach(Image ghostImage in this.ghostImages.Where(x => x != null)) // single use of collection, so single place for null check
-            {
-                areaDiv.Controls.Add(ghostImage);
-            }
+            this.imagePointDiv.Controls.Add(new Literal() { Text = "X " });
+            this.imagePointDiv.Controls.Add(this.xTextBox);
+            this.imagePointDiv.Controls.Add(new Literal() { Text = " Y " });
+            this.imagePointDiv.Controls.Add(this.yTextBox);
+            this.imagePointDiv.Controls.Add(areaDiv);
 
-            this.div.Controls.Add(new Literal() { Text = "X " });
-            this.div.Controls.Add(this.xTextBox);
-            this.div.Controls.Add(new Literal() { Text = " Y " });
-            this.div.Controls.Add(this.yTextBox);
-            this.div.Controls.Add(areaDiv);
-
-            this.Controls.Add(this.div);
+            this.Controls.Add(this.imagePointDiv);
         }
 
         /// <summary>
@@ -250,7 +245,7 @@ namespace uComponents.DataTypes.ImagePoint
         /// if a width or height value has been supplied then these are used in preference to the image dimensions
         /// if a width or height value has been supplied, and one of these = 0, then it needs to be calculated from the image dimensions (so as to keep the aspect ratio)
         /// </summary>
-        private void InitializeControls()
+        private void ConfigureControls()
         {
             int width = 0; // default unknown values
             int height = 0;
@@ -290,10 +285,7 @@ namespace uComponents.DataTypes.ImagePoint
                                 foreach (Document document in documents.Where(x => x.GenericProperties.Select(y => y.PropertyType.DataTypeDefinition.Id).Contains(currentDataTypeDefinitionId)))
                                 {
                                     // the document may have multiple properties each using this imagepoint datatype instance
-                                    foreach (Property property in document.GenericProperties.Where(x => x.PropertyType.DataTypeDefinition.Id == currentDataTypeDefinitionId && x.Id != currentPropertyId))
-                                    {
-                                        this.ghostImages.Add(this.GetGhostImage(property));
-                                    }
+                                    this.CreateGhostImages(document.GenericProperties.Where(x => x.PropertyType.DataTypeDefinition.Id == currentDataTypeDefinitionId && x.Id != currentPropertyId));
                                 }
                             }
                         }
@@ -321,10 +313,7 @@ namespace uComponents.DataTypes.ImagePoint
 
                                 foreach(Media mediaItem in media.Where(x => x.GenericProperties.Select(y => y.PropertyType.DataTypeDefinition.Id).Contains(currentDataTypeDefinitionId)))
                                 {
-                                    foreach (Property property in mediaItem.GenericProperties.Where(x => x.PropertyType.DataTypeDefinition.Id == currentDataTypeDefinitionId && x.Id != currentPropertyId))
-                                    {
-                                        this.ghostImages.Add(this.GetGhostImage(property));
-                                    }
+                                    this.CreateGhostImages(mediaItem.GenericProperties.Where(x => x.PropertyType.DataTypeDefinition.Id == currentDataTypeDefinitionId && x.Id != currentPropertyId));
                                 }
                             }
                         }
@@ -397,29 +386,29 @@ namespace uComponents.DataTypes.ImagePoint
         }
 
         /// <summary>
-        /// From a document or media property, attempt to get the imagepoint coordinate to use as a ghost image
+        /// from a collection of document or media properties, create and add any required ghost images to the areaDiv
         /// </summary>
-        /// <param name="property"></param>
-        /// <returns>an Image or null</returns>
-        private Image GetGhostImage(Property property)
+        /// <param name="properties"></param>
+        private void CreateGhostImages(IEnumerable<Property> properties)
         {
-            ImagePoint imagePoint = new ImagePoint();
-            ((uQuery.IGetProperty)imagePoint).LoadPropertyValue(property.Value.ToString());
-
-            if (imagePoint.HasCoordinate)
+            foreach(Property property in properties)
             {
-                Image ghostImage = new Image();
+                ImagePoint imagePoint = new ImagePoint();
+                ((uQuery.IGetProperty)imagePoint).LoadPropertyValue(property.Value.ToString());
 
-                ghostImage.ImageUrl = this.Page.ClientScript.GetWebResourceUrl(this.GetType(), "uComponents.DataTypes.ImagePoint.ImagePointGhost.png");
-                ghostImage.CssClass = "ghost";                
+                if (imagePoint.HasCoordinate)
+                {
+                    Image ghostImage = new Image();
 
-                ghostImage.Style.Add(HtmlTextWriterStyle.Left, (imagePoint.X - 7).ToString() + "px");
-                ghostImage.Style.Add(HtmlTextWriterStyle.Top, (imagePoint.Y - 7).ToString() + "px");
+                    ghostImage.ImageUrl = this.Page.ClientScript.GetWebResourceUrl(this.GetType(), "uComponents.DataTypes.ImagePoint.ImagePointGhost.png");
+                    ghostImage.CssClass = "ghost";
 
-                return ghostImage;
+                    ghostImage.Style.Add(HtmlTextWriterStyle.Left, (imagePoint.X - 7).ToString() + "px");
+                    ghostImage.Style.Add(HtmlTextWriterStyle.Top, (imagePoint.Y - 7).ToString() + "px");
+
+                    areaDiv.Controls.Add(ghostImage);
+                }
             }
-
-            return null;
         }
 
         /// <summary>
