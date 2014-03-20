@@ -571,6 +571,7 @@
     <EmbeddedResource Include="ImagePoint\ImagePoint.js" />
     <EmbeddedResource Include="ImagePoint\ImagePoint.css" />
     <EmbeddedResource Include="ImagePoint\ImagePointMarker.png" />
+    <EmbeddedResource Include="ImagePoint\ImagePointGhost.png" />
     <Content Include="Shared\Pages\DirectoryBrowser.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
