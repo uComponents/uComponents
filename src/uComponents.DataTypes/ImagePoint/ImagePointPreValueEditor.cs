@@ -178,7 +178,7 @@ namespace uComponents.DataTypes.ImagePoint
             writer.AddPrevalueRow("Image Property Alias", "(recursive) property to use as source for image", this.imagePropertyAliasPicker);
             writer.AddPrevalueRow("Width", "width in px (0 = calculate from image)", this.widthTextBox);
             writer.AddPrevalueRow("Height", "height in px (0 = calculate from image)", this.heightTextBox);
-            writer.AddPrevalueRow("Show Neighbours", "show other points using the same image", this.showNeighboursCheckBox);
+            writer.AddPrevalueRow("Show Neighbours", "show other points using this datatype, with the same image", this.showNeighboursCheckBox);
         }
     }
 }

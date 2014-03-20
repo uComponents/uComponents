@@ -11,6 +11,7 @@ using uComponents.Core;
 using umbraco;
 using umbraco.cms.businesslogic.web;
 using umbraco.cms.businesslogic.datatype;
+using umbraco.DataLayer;
 using umbraco.editorControls;
 using umbraco.interfaces;
 using DefaultData = umbraco.cms.businesslogic.datatype.DefaultData;
@@ -187,9 +188,8 @@ namespace uComponents.DataTypes.ImagePoint
              *          <img src="" class="marker" />
              * 
              *          (optional)
-             *          <img src="" class="ghost" style="left:x;top:y;" />
-             *          <img src="" class="ghost" style="left:x;top:y;" />
-             *          <img src="" class="ghost" style="left:x;top:y;" />
+             *          <img src="" class="ghost" style="left:x;top:y;" title="" />
+             *          <img src="" class="ghost" style="left:x;top:y;" title="" />
              *          ...
              * 
              *      </div>
@@ -398,10 +398,36 @@ namespace uComponents.DataTypes.ImagePoint
 
                 if (imagePoint.HasCoordinate)
                 {
-                    Image ghostImage = new Image();
+                    Image ghostImage = new Image();                    
 
                     ghostImage.ImageUrl = this.Page.ClientScript.GetWebResourceUrl(this.GetType(), "uComponents.DataTypes.ImagePoint.ImagePointGhost.png");
                     ghostImage.CssClass = "ghost";
+
+                    // using sql here, else would have to query document and media seperately
+                    using(IRecordsReader iRecordsReader = uQuery.SqlHelper.ExecuteReader(@"
+                                                                                            SELECT  A.contentNodeId AS 'Id', 
+		                                                                                            B.text AS 'Name',
+		                                                                                            C.Name AS 'PropertyName'
+
+			                                                                                FROM    cmsPropertyData A
+			                                                                                        LEFT OUTER JOIN umbracoNode B ON A.ContentNodeId = B.Id
+			                                                                                        LEFT OUTER JOIN cmsPropertyType C ON A.propertytypeid = C.id
+
+			                                                                                WHERE   A.id = @propertyDataId",
+                                                                                            uQuery.SqlHelper.CreateParameter("propertyDataId", property.Id)))
+                    {
+                        iRecordsReader.Read(); // there should only be a single row returned
+
+                        // if the properties are on the same item, then label with property name, otherwise default to labeling with the node / media or member name
+                        if (iRecordsReader.Get<int>("Id") == this.CurrentContentId)
+                        {
+                            ghostImage.ToolTip = iRecordsReader.Get<string>("PropertyName");
+                        }
+                        else
+                        {
+                            ghostImage.ToolTip = iRecordsReader.Get<string>("Name");
+                        }
+                    }
 
                     ghostImage.Style.Add(HtmlTextWriterStyle.Left, (imagePoint.X - 7).ToString() + "px");
                     ghostImage.Style.Add(HtmlTextWriterStyle.Top, (imagePoint.Y - 7).ToString() + "px");
@@ -412,7 +438,7 @@ namespace uComponents.DataTypes.ImagePoint
         }
 
         /// <summary>
-        /// No idea where to put this method !
+        /// No idea where to put this method ! ideally should have been in uQuery
         /// </summary>
         /// <param name="media"></param>
         /// <param name="func"></param>
