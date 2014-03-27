@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Web.UI.WebControls;
+using System.Xml;
 using umbraco;
 using umbraco.cms.businesslogic.datatype;
 using umbraco.interfaces;
@@ -73,6 +74,11 @@ namespace uComponents.DataTypes.XmlDropDownList
 			}
 		}
 
+		/// <summary>
+		/// Handles the Init event of the m_Control control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
 		private void m_Control_Init(object sender, EventArgs e)
 		{
 			var options = ((XmlDropDownListPrevalueEditor)this.PrevalueEditor).GetPreValueOptions<XmlDropDownListOptions>();
@@ -86,17 +92,20 @@ namespace uComponents.DataTypes.XmlDropDownList
 			if (!string.IsNullOrWhiteSpace(options.XmlFilePath) && !string.IsNullOrWhiteSpace(options.XPathExpression))
 			{
 				var path = IOHelper.MapPath(options.XmlFilePath);
-
 				if (File.Exists(path))
 				{
-					using (var xml = new XmlDataSource() { DataFile = path, XPath = options.XPathExpression })
-					{
-						this.m_Control.DataSource = xml;
-						this.m_Control.DataTextField = options.TextColumn;
-						this.m_Control.DataValueField = options.ValueColumn;
-						this.m_Control.DataBind();
+					var xml = new XmlDocument();
+					xml.Load(path);
 
-						this.m_Control.Items.Insert(0, new ListItem(string.Concat(ui.Text("choose"), "..."), string.Empty));
+					this.m_Control.Items.Clear();
+					this.m_Control.Items.Add(new ListItem(string.Concat(ui.Text("choose"), "..."), string.Empty));
+
+					foreach (XmlNode node in xml.SelectNodes(options.XPathExpression))
+					{
+						var text = GetValueFromAttributeOrXPath(node, options.TextColumn);
+						var value = GetValueFromAttributeOrXPath(node, options.ValueColumn);
+
+						this.m_Control.Items.Add(new ListItem(text, value));
 					}
 
 					if (base.Data.Value != null)
@@ -105,6 +114,25 @@ namespace uComponents.DataTypes.XmlDropDownList
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Gets the value from attribute or XPath.
+		/// </summary>
+		/// <param name="node">The XML Node.</param>
+		/// <param name="xpath">The XPath expression.</param>
+		/// <returns></returns>
+		private string GetValueFromAttributeOrXPath(XmlNode node, string xpath)
+		{
+			var attribute = node.Attributes[xpath];
+			if (attribute != null)
+				return attribute.InnerText;
+
+			var element = node.SelectSingleNode(xpath);
+			if (element != null)
+				return element.InnerText;
+
+			return string.Empty;
 		}
 
 		/// <summary>
