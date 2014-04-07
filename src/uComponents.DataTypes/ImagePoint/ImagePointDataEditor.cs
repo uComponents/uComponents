@@ -269,7 +269,7 @@ namespace uComponents.DataTypes.ImagePoint
                 catch
                 {
                     // node, media or member with specified property couldn't be found
-                    // TODO: if debug mode on, then thow exception, else be silent
+                    // TODO: if debug mode on, then throw exception, else be silent
                 }
 
                 if (!string.IsNullOrWhiteSpace(imageUrl))
@@ -296,7 +296,7 @@ namespace uComponents.DataTypes.ImagePoint
             }            
             else if (this.options.Width > 0 && this.options.Height == 0)
             {
-                // width set, so calulate height
+                // width set, so calculate height
                 width = this.options.Width;
 
                 if (imageSize.Height > 0)
