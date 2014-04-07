@@ -301,7 +301,7 @@ namespace uComponents.DataTypes.ImagePoint
 
                 if (imageSize.Height > 0)
                 {
-                    height = (int)(imageSize.Height / ((decimal)(imageSize.Width / this.options.Width)));
+                    height = (int)(imageSize.Height / ((decimal)imageSize.Width / (decimal)this.options.Width));
                 }
             }            
             else if (this.options.Width == 0 && this.options.Height > 0)
@@ -309,7 +309,7 @@ namespace uComponents.DataTypes.ImagePoint
                 // height set, so calculate width
                 if (imageSize.Width > 0)
                 {
-                    width = (int)(imageSize.Width / ((decimal)(imageSize.Height / this.options.Height)));
+                    width = (int)(imageSize.Width / ((decimal)imageSize.Height / (decimal)this.options.Height));
                 }
 
                 height = this.options.Height;
