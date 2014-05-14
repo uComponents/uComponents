@@ -10,7 +10,7 @@ namespace uComponents.Mapping
     /// Provides a context for a stack of mapping operations.  Lifetime should complete
     /// once the bottom mapping operation is completed.
     /// </summary>
-    internal class NodeMappingContext
+    public class NodeMappingContext
     {
         public NodeMappingContext(int id, string[] paths, NodeMappingContext parent)
         {

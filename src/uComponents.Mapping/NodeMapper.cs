@@ -10,7 +10,7 @@ namespace uComponents.Mapping
     /// <summary>
     /// Mapper which maps from Umbraco Node properties to strongly typed model properties
     /// </summary>
-    internal class NodeMapper
+    public class NodeMapper
     {
         public NodeMappingEngine Engine { get; private set; }
         public Type DestinationType { get; private set; }

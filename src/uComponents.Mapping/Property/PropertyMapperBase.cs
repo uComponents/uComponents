@@ -12,7 +12,7 @@ namespace uComponents.Mapping.Property
     /// <summary>
     /// An immutable mapper for Umbraco Node properties to strongly typed model properties
     /// </summary>
-    internal abstract class PropertyMapperBase
+    public abstract class PropertyMapperBase
     {
         // Stores the GetProperty<> method for casting node property values
         private readonly static MethodInfo _getNodePropertyMethod = typeof(NodeExtensions).GetMethod("GetProperty", new Type[] { typeof(Node), typeof(String) });
