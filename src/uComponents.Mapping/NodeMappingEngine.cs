@@ -19,7 +19,7 @@ namespace uComponents.Mapping
     /// </summary>
     public class NodeMappingEngine : INodeMappingEngine
     {
-        internal Dictionary<Type, NodeMapper> NodeMappers { get; set; }
+        public Dictionary<Type, NodeMapper> NodeMappers { get; set; }
 
         private ICacheProvider _cacheProvider;
         private content.DocumentCacheEventHandler _documentCacheEventHandler;
