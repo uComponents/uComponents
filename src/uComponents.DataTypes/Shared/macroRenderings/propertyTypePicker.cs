@@ -11,6 +11,7 @@ namespace uComponents.DataTypes.Shared.macroRenderings
 	/// A legacy copy of Umbraco's macro-rendering control for listing property-types.
 	/// </summary>
 	/// <remarks>
+	/// The original `umbraco.macroRenderings.propertyTypePicker` was removed from the Umbraco code-base in v7.0.0.
 	/// This class was copied from the Umbraco v6.2.0 code-base.
 	/// It has been marked as `internal sealed` so that it is only used for the uComponents data-types.
 	/// </remarks>
