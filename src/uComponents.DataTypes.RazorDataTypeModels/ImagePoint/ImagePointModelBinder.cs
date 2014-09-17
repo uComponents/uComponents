@@ -7,9 +7,19 @@ using uComponents.DataTypes.ImagePoint;
 
 namespace uComponents.DataTypes.RazorDataTypeModels.ImagePoint
 {
+	/// <summary>
+	/// Model binder for the ImagePoint data-type.
+	/// </summary>
     [RazorDataTypeModel(DataTypeConstants.ImagePointId)]
     public class ImagePointModelBinder : IRazorDataTypeModel
     {
+		/// <summary>
+		/// Initializes the specified current node unique identifier.
+		/// </summary>
+		/// <param name="CurrentNodeId">The current node unique identifier.</param>
+		/// <param name="PropertyData">The property data.</param>
+		/// <param name="instance">The instance.</param>
+		/// <returns></returns>
         public bool Init(int CurrentNodeId, string PropertyData, out object instance)
         {
             // if model binding is disbaled, return a DynamicXml object

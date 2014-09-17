@@ -22,11 +22,44 @@ namespace uComponents.Mapping.Property
         /// </summary>
         protected bool AllowCaching { get; set; }
 
+		/// <summary>
+		/// Gets or sets the engine.
+		/// </summary>
+		/// <value>
+		/// The engine.
+		/// </value>
         protected NodeMappingEngine Engine { get; set; }
-        protected NodeMapper NodeMapper { get; set; }
-        protected string SourcePropertyAlias { get; set; }
 
+		/// <summary>
+		/// Gets or sets the node mapper.
+		/// </summary>
+		/// <value>
+		/// The node mapper.
+		/// </value>
+		protected NodeMapper NodeMapper { get; set; }
+
+		/// <summary>
+		/// Gets or sets the source property alias.
+		/// </summary>
+		/// <value>
+		/// The source property alias.
+		/// </value>
+		protected string SourcePropertyAlias { get; set; }
+
+		/// <summary>
+		/// Gets the destination information.
+		/// </summary>
+		/// <value>
+		/// The destination information.
+		/// </value>
         public PropertyInfo DestinationInfo { get; private set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether [requires include].
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if [requires include]; otherwise, <c>false</c>.
+		/// </value>
         public bool RequiresInclude { get; protected set; }
 
         /// <param name="destinationProperty">
