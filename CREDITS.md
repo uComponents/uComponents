@@ -1,9 +1,6 @@
 # The uComponents development team
 
-#### Shandem - Shannon Deminick - Project Coordinator
-* Multi-Node Tree Picker
-
-#### leekelleher - Lee Kelleher - Project Coordinator
+#### @leekelleher - Lee Kelleher - Project Coordinator
 * Character Limit
 * Elastic TextBox
 * File DropDownList
@@ -22,7 +19,7 @@
 * Package Installer
 * uQuery
 
-#### Hendy - Hendy Racher - Project Coordinator
+#### @Hendy - Hendy Racher - Project Coordinator
 * Auto Complete
 * CheckBoxTree
 * Enum CheckBoxList
@@ -39,48 +36,51 @@
 * XPath Templatable List
 * uQuery
 
-#### Azzlack - Ove Andersen
+#### @Shandem - Shannon Deminick - Project Coordinator
+* Multi-Node Tree Picker
+
+#### @Azzlack - Ove Andersen
 * DataType Grid
 * uQuery
 
-#### dascoba - Daniel Bardi
+#### @dascoba - Daniel Bardi
 * Text Image
 
-#### diachedelic - James Diacono
+#### @diachedelic - James Diacono
 * Multi-URL Picker
 * URL Picker
 * uMapper
 
-#### ismailm - Ismail Mayat
+#### @ismailm - Ismail Mayat
 * Country Picker
 * Similarity
 * Unique Property
 
-#### kenny - Kenneth Solberg
+#### @kenny - Kenneth Solberg
 * Styled TextBox
 
-#### mattbrailsford - Matt Brailsford
+#### @mattbrailsford - Matt Brailsford
 * Notes
 * XSLT Extensions
 
-#### Meniro - Drew Brigham
+#### @Meniro - Drew Brigham
 * Bug Fixing / Unit Testing / Collaboration
 
-#### met67 - Marco Lusini
+#### @met67 - Marco Lusini
 * Related Links with Media
 
-#### nielskuhnel - Niels Kuhnel
+#### @nielskuhnel - Niels Kuhnel
 * Keyboard navigation and shortcuts
 * Drag and drop for content pickers
 * Tray Peak
 
-#### Offroadcode - Peter Duncanson
+#### @Offroadcode - Peter Duncanson
 * Unit Testing / Collaboration
 
-#### readingdancer - Chris Houston
+#### @readingdancer - Chris Houston
 * Bug Fixing / Collaboration
 
-#### RonnieHegelund - Ronnie Hegelund
+#### @RonnieHegelund - Ronnie Hegelund
 * Dropdown CheckList
 * Image DropDown
 * Incremental TextBox
@@ -88,12 +88,12 @@
 * Multiple Dates
 * Radiobutton List with Images
 
-#### tomnf - Tom Fulton
+#### @tomnf - Tom Fulton
 * XSLT Extensions
 * Bug Fixing / Collaboration
 
-#### tentonipete - Joel Williams
+#### @tentonipete - Joel Williams
 * Wiki Editor
 
-#### wolulcmit - Tim Clulow
+#### @wolulcmit - Tim Clulow
 * Website / Collaboration / Wiki Editor

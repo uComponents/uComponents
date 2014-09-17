@@ -6,7 +6,7 @@
 		<title>uComponents</title>
 		<authors>Lee Kelleher,Hendy Racher,Ove Andersen,James Diacono,Shannon Deminick</authors>
 		<owners>The Umbraco Community</owners>
-		<licenseUrl>http://ucomponents.codeplex.com/license</licenseUrl>
+		<licenseUrl>https://github.com/uComponents/uComponents/blob/master/LICENSE.md</licenseUrl>
 		<projectUrl>http://ucomponents.org</projectUrl>
 		<iconUrl>http://ucomponents.org/apple-touch-icon-114x114-precomposed.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
