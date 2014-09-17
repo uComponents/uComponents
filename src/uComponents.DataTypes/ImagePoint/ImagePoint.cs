@@ -1,4 +1,5 @@
-﻿using umbraco;
+﻿using System;
+using umbraco;
 
 namespace uComponents.DataTypes.ImagePoint
 {
@@ -41,7 +42,7 @@ namespace uComponents.DataTypes.ImagePoint
         public int Height { get; private set; }
 
         /// <summary>
-        /// 
+        /// Gets a value between 0 and 100
         /// </summary>
         public byte PercentageX 
         {
@@ -49,7 +50,7 @@ namespace uComponents.DataTypes.ImagePoint
             {
                 if (this.Width > 0 && this.X > 0)
                 {
-                    return (byte)((decimal)((decimal)this.Width / this.X) * 100);
+                    return (byte)(((decimal)this.X / (decimal)this.Width) * 100);
                 }
 
                 return 0;
@@ -57,7 +58,7 @@ namespace uComponents.DataTypes.ImagePoint
         }
 
         /// <summary>
-        /// 
+        /// Gets a value between 0 and 100
         /// </summary>
         public byte PercentageY
         {
@@ -65,7 +66,7 @@ namespace uComponents.DataTypes.ImagePoint
             {
                 if (this.Height > 0 && this.Y > 0)
                 {
-                    return (byte)((decimal)((decimal)this.Height / this.Y) * 100);
+                    return (byte)(((decimal)this.Y / (decimal)this.Height) * 100);
                 }
 
                 return 0;
@@ -88,28 +89,46 @@ namespace uComponents.DataTypes.ImagePoint
 
                     if (imagePointElement != null)
                     {
-                        int x;
-                        if (int.TryParse(imagePointElement.Attribute("x").Value, out x))
-                        {
-                            this.X = x;
-                        }
-
-                        int y;
-                        if (int.TryParse(imagePointElement.Attribute("y").Value, out y))
-                        {
-                            this.Y = y;
-                        }
+                        // reset any values - shouldn't be required, as exeptect this class only to be inflated once
+                        this.X = null;
+                        this.Y = null;
+                        this.Width = 0;
+                        this.Height = 0;
 
                         int width;
                         if (int.TryParse(imagePointElement.Attribute("width").Value, out width))
                         {
-                            this.Width = width;
+                            if (width > 0)
+                            {
+                                this.Width = width;
+                            }
                         }
 
                         int height;
                         if (int.TryParse(imagePointElement.Attribute("height").Value, out height))
                         {
-                            this.Height = height;
+                            if (height > 0)
+                            {
+                                this.Height = height;
+                            }
+                        }
+
+                        int x;
+                        if (int.TryParse(imagePointElement.Attribute("x").Value, out x))
+                        {
+                            if (x >= 0)
+                            {
+                                this.X = Math.Min(x, this.Width);
+                            }                            
+                        }
+
+                        int y;
+                        if (int.TryParse(imagePointElement.Attribute("y").Value, out y))
+                        {
+                            if (y >= 0)
+                            {
+                                this.Y = Math.Min(y, this.Height);
+                            }
                         }
                     }
                 }

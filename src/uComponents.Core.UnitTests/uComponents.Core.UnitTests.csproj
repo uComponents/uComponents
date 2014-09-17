@@ -243,6 +243,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\MockUmbracoLibrary.cs" />
+    <Compile Include="DataTypes\ImagePoint\ImagePointModelTests.cs" />
     <Compile Include="Helpers\ResolversTests.cs" />
     <Compile Include="PropertyEditorValueConverters\UrlPickerPropertyEditorValueConverterTests.cs" />
     <Compile Include="XsltExtensions\RandomTest.cs" />

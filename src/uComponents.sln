@@ -3,18 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uComponents.Core", "uComponents.Core\uComponents.Core.csproj", "{431971FF-DF3B-42AA-9E57-FD5D65ACAD51}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildPackage", "BuildPackage", "{242824E1-675B-47F0-9876-C709F579BC3A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Package Manifests", "Package Manifests", "{242824E1-675B-47F0-9876-C709F579BC3A}"
 	ProjectSection(SolutionItems) = preProject
-		BuildPackage\BuildPackage.cmd = BuildPackage\BuildPackage.cmd
-		BuildPackage\BuildPackage.msbuild = BuildPackage\BuildPackage.msbuild
-		BuildPackage\package.nuspec = BuildPackage\package.nuspec
-		BuildPackage\package.xml = BuildPackage\package.xml
-		BuildPackage\readme.txt = BuildPackage\readme.txt
+		..\package\package.nuspec = ..\package\package.nuspec
+		..\package\package.proj = ..\package\package.proj
+		..\package\package.txt = ..\package\package.txt
+		..\package\package.xml = ..\package\package.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E2ADE05-3906-4DDA-87E3-4D84539AB51C}"
 	ProjectSection(SolutionItems) = preProject
-		MIT-LICENSE.txt = MIT-LICENSE.txt
+		..\.gitignore = ..\.gitignore
+		..\build.cmd = ..\build.cmd
+		..\CREDITS.md = ..\CREDITS.md
+		..\LICENSE.md = ..\LICENSE.md
+		..\README.md = ..\README.md
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject

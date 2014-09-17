@@ -115,7 +115,7 @@ var SqlAutoComplete = SqlAutoComplete || (function () {
 
         if (allowDuplicates == 'True' ||        
             ul.children('li[data-value=' + item.value + ']').length == 0) {
-            ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '">' + item.label + '<a class="delete" title="remove" href="javascript:void(0);" onClick="SqlAutoComplete.removeItem(this);"></a></li>');
+            ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '"><span>' + item.label + '</span><a class="delete" title="remove" href="javascript:void(0);" onClick="SqlAutoComplete.removeItem(this);"></a></li>');
         }
     }
 

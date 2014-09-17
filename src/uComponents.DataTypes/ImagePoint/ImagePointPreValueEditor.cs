@@ -34,6 +34,12 @@ namespace uComponents.DataTypes.ImagePoint
         private ImagePointOptions options = null;
 
         /// <summary>
+        /// When checked, all other points that use the same image are rendered as ghost points
+        /// (chose the word neighbouring, as may be siblings / descendents / ancestors etc...)
+        /// </summary>
+        private CheckBox showNeighboursCheckBox = new CheckBox();
+
+        /// <summary>
         /// Gets the documentation URL.
         /// </summary>
         public override string DocumentationUrl
@@ -92,10 +98,13 @@ namespace uComponents.DataTypes.ImagePoint
             this.heightTextBox.Width = 30;
             this.heightTextBox.MaxLength = 4;
 
+            this.showNeighboursCheckBox.ID = "showNeighboursCheckBox";
+
             this.Controls.AddPrevalueControls(
                 this.imagePropertyAliasPicker,
                 this.widthTextBox,
-                this.heightTextBox);
+                this.heightTextBox,
+                this.showNeighboursCheckBox);
         }
 
         /// <summary>
@@ -116,6 +125,7 @@ namespace uComponents.DataTypes.ImagePoint
 
                 this.widthTextBox.Text = this.Options.Width.ToString();
                 this.heightTextBox.Text = this.Options.Height.ToString();
+                this.showNeighboursCheckBox.Checked = this.Options.ShowNeighbours;
             }
         }
 
@@ -136,12 +146,14 @@ namespace uComponents.DataTypes.ImagePoint
                 int.TryParse(this.heightTextBox.Text, out height);
                 this.Options.Height = height;
 
+                this.Options.ShowNeighbours = this.showNeighboursCheckBox.Checked;
+
                 this.SaveAsJson(this.Options);  // Serialize to Umbraco database field
             }
         }
 
         /// <summary>
-        /// Used to remove styling from the built in multiNodePickerProperty alias picker DropDownList 
+        /// Used to remove styling from the built in propertyTypePicker 
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPreRender(EventArgs e)
@@ -166,6 +178,7 @@ namespace uComponents.DataTypes.ImagePoint
             writer.AddPrevalueRow("Image Property Alias", "(recursive) property to use as source for image", this.imagePropertyAliasPicker);
             writer.AddPrevalueRow("Width", "width in px (0 = calculate from image)", this.widthTextBox);
             writer.AddPrevalueRow("Height", "height in px (0 = calculate from image)", this.heightTextBox);
+            writer.AddPrevalueRow("Show Neighbours", "show other points using this datatype, with the same image", this.showNeighboursCheckBox);
         }
     }
 }
