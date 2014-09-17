@@ -15,10 +15,28 @@ namespace uComponents.DataTypes.XPathTemplatableList
     /// </summary>
     public class XPathTemplatableList : uQuery.IGetProperty
     {
+		/// <summary>
+		/// Gets the selected nodes.
+		/// </summary>
+		/// <value>
+		/// The selected nodes.
+		/// </value>
         public IEnumerable<Node> SelectedNodes { get; private set; }
 
+		/// <summary>
+		/// Gets the selected media.
+		/// </summary>
+		/// <value>
+		/// The selected media.
+		/// </value>
         public IEnumerable<Media> SelectedMedia { get; private set; }
 
+		/// <summary>
+		/// Gets the selected members.
+		/// </summary>
+		/// <value>
+		/// The selected members.
+		/// </value>
         public IEnumerable<Member> SelectedMembers { get; private set; }
 
         void uQuery.IGetProperty.LoadPropertyValue(string value)

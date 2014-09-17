@@ -150,6 +150,14 @@ namespace uComponents.Mapping
             }
         }
 
+		/// <summary>
+		/// Maps the node.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <returns></returns>
+		/// <exception cref="System.ArgumentNullException">context</exception>
+		/// <exception cref="uComponents.Mapping.InvalidPathException">
+		/// </exception>
         public object MapNode(NodeMappingContext context)
         {
             if (context == null)

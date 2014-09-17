@@ -16,10 +16,10 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
         where T : IDataType
     {
         /// <summary>
-        /// Method for customizing the way the <see cref="T">datatype</see> value is displayed in the grid.
+		/// Method for customizing the way the `datatype` value is displayed in the grid.
         /// </summary>
-        /// <remarks>Called when the grid displays the cell value for the specified <see cref="T">datatype</see>.</remarks>
-        /// <param name="dataType">The <see cref="T">datatype</see> instance.</param>
+		/// <remarks>Called when the grid displays the cell value for the specified `datatype`.</remarks>
+		/// <param name="dataType">The `datatype` instance.</param>
         /// <returns>The display value.</returns>
         public virtual string GetDisplayValue(T dataType)
         {
@@ -41,9 +41,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
         }
 
         /// <summary>
-        /// Method for getting the backing object for the specified <see cref="T">datatype</see>.
+		/// Method for getting the backing object for the specified `datatype`.
         /// </summary>
-        /// <param name="dataType">The <see cref="T">datatype</see> instance.</param>
+		/// <param name="dataType">The `datatype` instance.</param>
         /// <returns>The backing object.</returns>
         /// <remarks>Called when the method <see cref="GridCell.GetPropertyValue()" /> method is called on a <see cref="GridCell" />.</remarks>
         public virtual object GetPropertyValue(T dataType)
@@ -105,9 +105,9 @@ namespace uComponents.DataTypes.DataTypeGrid.Handlers.DataTypes
         /// <summary>
         /// Method for executing special actions before saving the editor value to the database.
         /// </summary>
-        /// <param name="dataType">The <see cref="T">datatype</see> instance.</param>
+		/// <param name="dataType">The `datatype` instance.</param>
         /// <param name="eventArgs">The <see cref="DataTypeSaveEventArgs"/> instance containing the event data.</param>
-        /// <remarks>Called when the grid is saved for the specified <see cref="T">datatype</see>.</remarks>
+		/// <remarks>Called when the grid is saved for the specified `datatype`.</remarks>
         public virtual void Save(T dataType, DataTypeSaveEventArgs eventArgs)
         {
             dataType.DataEditor.Save();
