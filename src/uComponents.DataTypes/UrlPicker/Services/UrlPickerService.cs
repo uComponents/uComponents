@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.IO;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -39,20 +40,26 @@ namespace uComponents.DataTypes.UrlPicker.Services
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string MediaNodeUrl(int id)
         {
+            // Github Issue #30 - A 500 server error is thrown when a local Umbraco media file is attempted to be loaded/added in Umbraco 6.2.5
+            // Following code is taken from Governor Technology at https://our.umbraco.org/projects/backoffice-extensions/ucomponents/questionssuggestions/61972-URL-picker-just-spinning,-generating-500-server-error?p=0#comment211285
+            // So, looking at the source for uComponents, it seems it is down to the following method: uComponents.DataTypes.UrlPicker.Services.MediaNodeUrl. 
+            // It extracts the media item XML by ID and then uses XElement.Parse on it, however it seems that 
+            // in Umbraco 6.2.5, the XML fragment being parsed here has multiple root elements, which causes this method to fail. 
+
             Authorize();
 
-            var media = XElement.Parse(library.GetMedia((int)id, false).Current.InnerXml);
+            var media = XElement.Parse(string.Format("<root>{0}</root>", library.GetMedia((int)id, false).Current.InnerXml));
 
-            var umbracoFile = media.Element(Constants.Umbraco.Media.File);
+            var umbracoFile = media.Descendants(Constants.Umbraco.Media.File);
 
-            if (umbracoFile != null)
+            if (umbracoFile.Any())
             {
-                return umbracoFile.Value;
+                return umbracoFile.First().Value;
             }
             else
             {
                 // Cycle through other properties
-                foreach (var element in media.Elements())
+                foreach (var element in media.Descendants())
                 {
                     // Check if the property looks like a URL to the media folder
                     if (element != null &&
