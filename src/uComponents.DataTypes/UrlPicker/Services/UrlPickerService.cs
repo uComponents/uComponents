@@ -41,7 +41,7 @@ namespace uComponents.DataTypes.UrlPicker.Services
         {
             Authorize();
 
-            var media = XElement.Parse(library.GetMedia((int)id, false).Current.InnerXml);
+            var media = XElement.Parse(library.GetMedia((int)id, false).Current.OuterXml);
 
             var umbracoFile = media.Element(Constants.Umbraco.Media.File);
 
