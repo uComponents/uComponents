@@ -369,9 +369,16 @@ Date modified: 15th of March, 2011
             $tempForm.
             ajaxSubmit({
                 url: settings.AjaxUploadHandlerUrl + "?" + settings.AjaxUploadHandlerGuid + "_Id=" + settings.UniquePropertyId,
-                success: function (responseText) {
+                success: function (response) {
+                    // pre umbraco 6.2.5 responses were returned as pre-formatted pre html
+                    // post umbraco 6.2.5 responses were returned as parsed objects, causing errors below
+                    // this tests for string and parses the html into JSON if required.
+                    // darylteo 2015-04-01
+
                     // Strip any <pre> tags and parse the JSON
-                    var response = jQuery.parseJSON(responseText.replace(/<(\/)?pre[^>]*>/gi, ""));
+                    if(typeof response === 'string') {
+                        response = jQuery.parseJSON(responseText.replace(/<(\/)?pre[^>]*>/gi, ""));
+                    }
 
                     // Check for errors, if there are none do a report on files saved
                     if (response.statusCode !== 200) {
