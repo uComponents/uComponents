@@ -6,9 +6,9 @@ obj/
 *_ReSharper.uComponents*
 DLLs/*
 #uComponents*
-TestResults/*
+# TestResults/* (commented out)
+/src/TestResults
 uComponents.ncrunch*
-TestResults/*
 uComponents.sln.DotSettings.user
 uComponents.*.nupkg
 uComponents_*.zip

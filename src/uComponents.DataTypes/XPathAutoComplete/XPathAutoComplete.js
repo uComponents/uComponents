@@ -126,7 +126,7 @@ var XPathAutoComplete = XPathAutoComplete || (function () {
         // if duplicates are allowed or item doesn't already exist then add
         if (allowDuplicates == 'True' ||
             ul.children('li[data-value=' + item.value + ']').length == 0) {
-            ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '">' + item.label + '<a class="delete" title="remove" href="javascript:void(0);" onClick="XPathAutoComplete.removeItem(this);"></a></li>');
+            ul.append('<li data-text="' + item.label + '" data-value="' + item.value + '"><span>' + item.label + '</span><a class="delete" title="remove" href="javascript:void(0);" onClick="XPathAutoComplete.removeItem(this);"></a></li>');
         }
     }
 

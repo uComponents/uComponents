@@ -7,16 +7,56 @@ using uComponents.Mapping.Property;
 
 namespace uComponents.Mapping
 {
-    /// <summary>
-    /// Mapper which maps from Umbraco Node properties to strongly typed model properties
-    /// </summary>
+	/// <summary>
+	/// Mapper which maps from Umbraco Node properties to strongly typed model properties
+	/// </summary>
     public class NodeMapper
     {
+		/// <summary>
+		/// Gets the engine.
+		/// </summary>
+		/// <value>
+		/// The engine.
+		/// </value>
         public NodeMappingEngine Engine { get; private set; }
-        public Type DestinationType { get; private set; }
-        public List<PropertyMapperBase> PropertyMappers { get; private set; }
-        public DocumentType SourceDocumentType { get; private set; }
 
+		/// <summary>
+		/// Gets the type of the destination.
+		/// </summary>
+		/// <value>
+		/// The type of the destination.
+		/// </value>
+		public Type DestinationType { get; private set; }
+
+		/// <summary>
+		/// Gets the property mappers.
+		/// </summary>
+		/// <value>
+		/// The property mappers.
+		/// </value>
+		public List<PropertyMapperBase> PropertyMappers { get; private set; }
+
+		/// <summary>
+		/// Gets the type of the source document.
+		/// </summary>
+		/// <value>
+		/// The type of the source document.
+		/// </value>
+		public DocumentType SourceDocumentType { get; private set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NodeMapper"/> class.
+		/// </summary>
+		/// <param name="engine">The engine.</param>
+		/// <param name="destinationType">Type of the destination.</param>
+		/// <param name="sourceDocumentType">Type of the source document.</param>
+		/// <exception cref="System.ArgumentNullException">
+		/// sourceDocumentType
+		/// or
+		/// engine
+		/// or
+		/// destinationType
+		/// </exception>
         public NodeMapper(NodeMappingEngine engine, Type destinationType, DocumentType sourceDocumentType)
         {
             if (sourceDocumentType == null)
@@ -110,6 +150,14 @@ namespace uComponents.Mapping
             }
         }
 
+		/// <summary>
+		/// Maps the node.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <returns></returns>
+		/// <exception cref="System.ArgumentNullException">context</exception>
+		/// <exception cref="uComponents.Mapping.InvalidPathException">
+		/// </exception>
         public object MapNode(NodeMappingContext context)
         {
             if (context == null)
@@ -244,6 +292,11 @@ require an explicit include (do not include it as a path, it will be populated a
             }
         }
 
+		/// <summary>
+		/// Removes the property mapper.
+		/// </summary>
+		/// <param name="destinationProperty">The destination property.</param>
+		/// <exception cref="System.ArgumentNullException">destinationProperty</exception>
         public void RemovePropertyMapper(PropertyInfo destinationProperty)
         {
             if (destinationProperty == null)

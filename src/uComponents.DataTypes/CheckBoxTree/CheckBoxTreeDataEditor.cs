@@ -161,7 +161,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 			div.Attributes.Add("class", "check-box-tree");
 			div.Attributes.Add("data-auto-selection-option", ((int)this.options.AutoSelectionOption).ToString());
 
-			this.treeView.ShowLines = true;            
+			this.treeView.ShowLines = true;
 			
 			div.Controls.Add(this.treeView);
 			div.Controls.Add(this.minSelectionCustomValidator);
@@ -182,7 +182,7 @@ namespace uComponents.DataTypes.CheckBoxTree
 			this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.css", ClientDependencyType.Css);
 			this.RegisterEmbeddedClientResource("uComponents.DataTypes.CheckBoxTree.CheckBoxTree.js", ClientDependencyType.Javascript);
 
-			string startupScript = @"                
+			string startupScript = @"
 				<script language='javascript' type='text/javascript'>
 					$(document).ready(function () {
 

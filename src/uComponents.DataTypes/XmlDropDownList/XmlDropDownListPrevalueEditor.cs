@@ -6,7 +6,7 @@ using umbraco.editorControls.SettingControls.Pickers;
 
 namespace uComponents.DataTypes.XmlDropDownList
 {
-    /// <summary>
+	/// <summary>
 	/// The PreValue Editor for the XmlDropDownList data-type.
 	/// </summary>
 	public class XmlDropDownListPrevalueEditor : uComponents.DataTypes.Shared.PrevalueEditors.AbstractJsonPrevalueEditor
@@ -31,16 +31,16 @@ namespace uComponents.DataTypes.XmlDropDownList
 		/// </summary>
 		private TextBox TextBoxValueColumn;
 
-        /// <summary>
-        /// Gets the documentation URL.
-        /// </summary>
-        public override string DocumentationUrl
-        {
-            get
-            {
-                return string.Concat(base.DocumentationUrl, "/data-types/xml-dropdownlist/");
-            }
-        }
+		/// <summary>
+		/// Gets the documentation URL.
+		/// </summary>
+		public override string DocumentationUrl
+		{
+			get
+			{
+				return string.Concat(base.DocumentationUrl, "/data-types/xml-dropdownlist/");
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="XmlDropDownListPrevalueEditor"/> class.
@@ -120,8 +120,8 @@ namespace uComponents.DataTypes.XmlDropDownList
 		{
 			writer.AddPrevalueRow("XML File Path:", "Specify the path to the XML file.", this.PathPickerXmlFilePath);
 			writer.AddPrevalueRow("XPath Expression:", "The XPath expression to select the nodes used in the XML file.", this.TextBoxXPathExpression);
-			writer.AddPrevalueRow("Text column:", "The name of the field used for the item's display text.", this.TextBoxTextColumn);
-			writer.AddPrevalueRow("Value column:", "The name of the field used for the item's value.", this.TextBoxValueColumn);
+			writer.AddPrevalueRow("Text column:", "The name (or XPath expression) of the field used for the item's display text.", this.TextBoxTextColumn);
+			writer.AddPrevalueRow("Value column:", "The name (or XPath expression) of the field used for the item's value.", this.TextBoxValueColumn);
 		}
 	}
 }

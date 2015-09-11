@@ -30,13 +30,23 @@
     background-color:#F6F6FA;
 }
 
+.xpath-auto-complete li span
+{
+    display: block;
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 270px;
+}
+
 .xpath-auto-complete li a
 {
     background: transparent url('/umbraco/images/delete.gif') no-repeat 0px 3px;
     width:15px;
     height:15px;
     float:right;
-    margin-right:20px;
+    margin-right: 5px;
     margin-top:2px;
 }
 

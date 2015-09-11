@@ -41,7 +41,11 @@ namespace uComponents.DataTypes.UrlPicker.Services
         {
             Authorize();
 
-            var media = XElement.Parse(library.GetMedia((int)id, false).Current.InnerXml);
+            // Github Issue #30 - A 500 server error is thrown when a local Umbraco media file is attempted to be loaded/added in Umbraco 6.2.5
+            // It extracts the media item XML by ID and then uses XElement.Parse on it, however it seems that in Umbraco 6.2.5,
+            // the XML fragment being parsed here has multiple root elements, which causes this method to fail.
+
+            var media = XElement.Parse(library.GetMedia((int)id, false).Current.OuterXml);
 
             var umbracoFile = media.Element(Constants.Umbraco.Media.File);
 

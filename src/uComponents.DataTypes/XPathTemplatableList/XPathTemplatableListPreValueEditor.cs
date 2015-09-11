@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 using uComponents.DataTypes.Shared.Extensions;
 using umbraco;
 using umbraco.editorControls;
-using umbraco.macroRenderings;
+using uComponents.DataTypes.Shared.macroRenderings;
 
 namespace uComponents.DataTypes.XPathTemplatableList
 {

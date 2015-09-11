@@ -9,15 +9,27 @@ using umbraco.cms.businesslogic.datatype;
 
 namespace uComponents.DataTypes.DataTypeGrid.Model
 {
+	/// <summary>
+	/// StoredValueRowCollection class
+	/// </summary>
     public class StoredValueRowCollection : List<StoredValueRow>
     {
         private IEnumerable<PreValueRow> columnConfigurations;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StoredValueRowCollection"/> class.
+		/// </summary>
+		/// <param name="columnConfigurations">The column configurations.</param>
         public StoredValueRowCollection(IEnumerable<PreValueRow> columnConfigurations)
         {
             this.columnConfigurations = columnConfigurations;
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StoredValueRowCollection"/> class.
+		/// </summary>
+		/// <param name="columnConfigurations">The column configurations.</param>
+		/// <param name="xml">The XML.</param>
         public StoredValueRowCollection(IEnumerable<PreValueRow> columnConfigurations, string xml)
             : this(columnConfigurations)
         {
@@ -70,7 +82,7 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
                                         {
                                             value.Value.Data.Value = node.InnerText;
                                         }
-                                        catch (Exception ex)
+                                        catch (Exception)
                                         {
                                             Helper.Log.Warn<DataType>(string.Format("DataTypeGrid", "Stored data ({0}) for '{1}' is incompatible with the datatype '{2}'", node.InnerText, value.Alias, value.Value.DataTypeName));
                                         }
@@ -87,6 +99,12 @@ namespace uComponents.DataTypes.DataTypeGrid.Model
             }
         }
 
+		/// <summary>
+		/// Returns a <see cref="System.String" /> that represents this instance.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String" /> that represents this instance.
+		/// </returns>
         public override string ToString()
         {
             var str = string.Empty;

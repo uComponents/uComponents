@@ -383,6 +383,7 @@
     <Compile Include="ImagePoint\ImagePointDataType.cs" />
     <Compile Include="ImagePoint\ImagePointOptions.cs" />
     <Compile Include="ImagePoint\ImagePointPreValueEditor.cs" />
+    <Compile Include="Shared\macroRenderings\propertyTypePicker.cs" />
     <Compile Include="IncrementalTextBox\IT_DataEditor.cs" />
     <Compile Include="IncrementalTextBox\IT_DataType.cs" />
     <Compile Include="IncrementalTextBox\IT_PrevalueEditor.cs" />
@@ -572,6 +573,7 @@
     <EmbeddedResource Include="ImagePoint\ImagePoint.js" />
     <EmbeddedResource Include="ImagePoint\ImagePoint.css" />
     <EmbeddedResource Include="ImagePoint\ImagePointMarker.png" />
+    <EmbeddedResource Include="ImagePoint\ImagePointGhost.png" />
     <Content Include="Shared\Pages\DirectoryBrowser.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>

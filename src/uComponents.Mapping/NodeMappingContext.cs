@@ -12,6 +12,12 @@ namespace uComponents.Mapping
     /// </summary>
     public class NodeMappingContext
     {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NodeMappingContext"/> class.
+		/// </summary>
+		/// <param name="id">The unique identifier.</param>
+		/// <param name="paths">The paths.</param>
+		/// <param name="parent">The parent.</param>
         public NodeMappingContext(int id, string[] paths, NodeMappingContext parent)
         {
             Id = id;
@@ -21,6 +27,12 @@ namespace uComponents.Mapping
             _nodeCache = new List<Node>();
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NodeMappingContext"/> class.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <param name="paths">The paths.</param>
+		/// <param name="parent">The parent.</param>
         public NodeMappingContext(Node node, string[] paths, NodeMappingContext parent)
             : this(node.Id, paths, parent)
         {

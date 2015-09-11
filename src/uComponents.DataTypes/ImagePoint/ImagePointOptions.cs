@@ -33,5 +33,11 @@ namespace uComponents.DataTypes.ImagePoint
         /// </summary>
         [DefaultValue(0)]
         public int Height { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether neighbouring points should be rendered as ghost points
+        /// </summary>
+        [DefaultValue(false)]
+        public bool ShowNeighbours { get; set; }
     }
 }

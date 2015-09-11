@@ -19,9 +19,10 @@ namespace uComponents.DataTypes.TextstringArray
 		private TextstringArrayOptions options;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TextstringArrayData"/> class.
+		/// Initializes a new instance of the <see cref="TextstringArrayData" /> class.
 		/// </summary>
 		/// <param name="dataType">Type of the data.</param>
+		/// <param name="options">The options.</param>
 		public TextstringArrayData(BaseDataType dataType, TextstringArrayOptions options)
 			: base(dataType)
 		{
