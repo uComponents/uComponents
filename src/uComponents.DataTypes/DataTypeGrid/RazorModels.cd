@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="uComponents.DataTypes.DataTypeGrid.Model.GridCell">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>DataTypeGrid\Model\DTG_GridCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="uComponents.DataTypes.DataTypeGrid.Model.GridRow">
+    <Position X="4.25" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="GetKeyForItem" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAACBAAAIAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataTypeGrid\Model\DTG_GridRow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="uComponents.DataTypes.DataTypeGrid.Model.GridRowCollection">
+    <Position X="1.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataTypeGrid\Model\DTG_GridRowCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9.05" />
+</ClassDiagram>
