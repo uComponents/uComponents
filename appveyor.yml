@@ -9,9 +9,9 @@ init:
 build_script:
 - build-appveyor.cmd
 
-#test:
-#  assemblies:
-#    - 'uComponents.Core.UnitTests.dll'
+test:
+  assemblies:
+    - 'uComponents.Core.UnitTests.dll'
 
 artifacts:
   - path: artifacts\*.nupkg

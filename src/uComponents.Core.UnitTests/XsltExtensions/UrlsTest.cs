@@ -33,37 +33,37 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			Assert.AreEqual("http://www.microsoft.com|test|", actual);
 		}
 
-		[TestMethod]
-		[DeploymentItem("uComponents.Core.dll")]
-		public void ConstructQueryStringTest()
-		{
-			var parameters = new NameValueCollection();
+		//[TestMethod]
+		//[DeploymentItem("uComponents.Core.dll")]
+		//public void ConstructQueryStringTest()
+		//{
+		//	var parameters = new NameValueCollection();
 
-			// Empty collection first
-			Assert.AreEqual("", Urls_Accessor.ConstructQueryString(parameters));
+		//	// Empty collection first
+		//	Assert.AreEqual("", Urls_Accessor.ConstructQueryString(parameters));
 
-			// Various names/values
-			parameters["test1"] = "value1";
-			Assert.AreEqual("test1=value1", Urls_Accessor.ConstructQueryString(parameters));
+		//	// Various names/values
+		//	parameters["test1"] = "value1";
+		//	Assert.AreEqual("test1=value1", Urls_Accessor.ConstructQueryString(parameters));
 
-			parameters["test2"] = "value2";
-			Assert.AreEqual("test1=value1&test2=value2", Urls_Accessor.ConstructQueryString(parameters));
+		//	parameters["test2"] = "value2";
+		//	Assert.AreEqual("test1=value1&test2=value2", Urls_Accessor.ConstructQueryString(parameters));
 
-			parameters["test3"] = "value3";
-			Assert.AreEqual("test1=value1&test2=value2&test3=value3", Urls_Accessor.ConstructQueryString(parameters));
+		//	parameters["test3"] = "value3";
+		//	Assert.AreEqual("test1=value1&test2=value2&test3=value3", Urls_Accessor.ConstructQueryString(parameters));
 
-			// Different delimiter
-			Assert.AreEqual("test1=value1~test2=value2~test3=value3", Urls_Accessor.ConstructQueryString(parameters, "~", true));
+		//	// Different delimiter
+		//	Assert.AreEqual("test1=value1~test2=value2~test3=value3", Urls_Accessor.ConstructQueryString(parameters, "~", true));
 
-			// Empty values
-			parameters["test3"] = null;
-			Assert.AreEqual("test1=value1&test2=value2", Urls_Accessor.ConstructQueryString(parameters));
-			Assert.AreEqual("test1=value1&test2=value2&test3=", Urls_Accessor.ConstructQueryString(parameters, false));   // Include empty values
+		//	// Empty values
+		//	parameters["test3"] = null;
+		//	Assert.AreEqual("test1=value1&test2=value2", Urls_Accessor.ConstructQueryString(parameters));
+		//	Assert.AreEqual("test1=value1&test2=value2&test3=", Urls_Accessor.ConstructQueryString(parameters, false));   // Include empty values
 
-			parameters["test1"] = null;
-			Assert.AreEqual("test2=value2", Urls_Accessor.ConstructQueryString(parameters));
-			Assert.AreEqual("test1=&test2=value2&test3=", Urls_Accessor.ConstructQueryString(parameters, false));   // Include empty values
-		}
+		//	parameters["test1"] = null;
+		//	Assert.AreEqual("test2=value2", Urls_Accessor.ConstructQueryString(parameters));
+		//	Assert.AreEqual("test1=&test2=value2&test3=", Urls_Accessor.ConstructQueryString(parameters, false));   // Include empty values
+		//}
 
 		[TestMethod]
 		public void AddAltTemplateTest()
@@ -118,31 +118,31 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			Assert.AreEqual("http://www.test.com/?testKey=testValue&existingKey=existingValue", actual);
 		}
 
-		[TestMethod]
-		public void NiceUrlTest()
-		{
-			var cannedUrl = "/my/test/url/1234.aspx";
-			Urls_Accessor.Library = new MockUmbracoLibrary(cannedUrl);
+		//[TestMethod]
+		//public void NiceUrlTest()
+		//{
+		//	var cannedUrl = "/my/test/url/1234.aspx";
+		//	Urls_Accessor.Library = new MockUmbracoLibrary(cannedUrl);
 
-			var nodeId = 1234;
+		//	var nodeId = 1234;
 
-			var actual = Urls.NiceUrl(nodeId);
-			Assert.AreEqual(cannedUrl, actual, "On its own it should just return our dummy url as is");
+		//	var actual = Urls.NiceUrl(nodeId);
+		//	Assert.AreEqual(cannedUrl, actual, "On its own it should just return our dummy url as is");
 
-			actual = Urls.NiceUrl(nodeId, null);
-			Assert.AreEqual(cannedUrl, actual, "Invalid alt temp so should just return our dummy url as is");
+		//	actual = Urls.NiceUrl(nodeId, null);
+		//	Assert.AreEqual(cannedUrl, actual, "Invalid alt temp so should just return our dummy url as is");
 
-			actual = Urls.NiceUrl(nodeId, "");
-			Assert.AreEqual(cannedUrl, actual, "Invalid alt temp so should just return our dummy url as is");
+		//	actual = Urls.NiceUrl(nodeId, "");
+		//	Assert.AreEqual(cannedUrl, actual, "Invalid alt temp so should just return our dummy url as is");
 
-			actual = Urls.NiceUrl(nodeId, "altTemp");
-			Assert.AreEqual("/my/test/url/1234/alttemp.aspx", actual, "Dummy url with altTemp added, defaulted as a folder name, assumes directory naming is OFF");
+		//	actual = Urls.NiceUrl(nodeId, "altTemp");
+		//	Assert.AreEqual("/my/test/url/1234/alttemp.aspx", actual, "Dummy url with altTemp added, defaulted as a folder name, assumes directory naming is OFF");
 
-			actual = Urls.NiceUrl(nodeId, "altTemp", false);
-			Assert.AreEqual("/my/test/url/1234/alttemp.aspx", actual, "Dummy url with altTemp added as a folder name, assumes directory naming is OFF");
+		//	actual = Urls.NiceUrl(nodeId, "altTemp", false);
+		//	Assert.AreEqual("/my/test/url/1234/alttemp.aspx", actual, "Dummy url with altTemp added as a folder name, assumes directory naming is OFF");
 
-			actual = Urls.NiceUrl(nodeId, "altTemp", true);
-			Assert.AreEqual(cannedUrl + "?altTemplate=alttemp", actual, "Dummy url with altTemp added as a QS");
-		}
+		//	actual = Urls.NiceUrl(nodeId, "altTemp", true);
+		//	Assert.AreEqual(cannedUrl + "?altTemplate=alttemp", actual, "Dummy url with altTemp added as a QS");
+		//}
 	}
 }
