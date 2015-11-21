@@ -269,6 +269,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Cms-Helper.cs">
       <DependentUpon>Cms.cs</DependentUpon>
     </Compile>

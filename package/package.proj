@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package" ToolsVersion="4.0">
-	
+
 	<!-- IMPORTS -->
 	<PropertyGroup>
 		<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
@@ -9,26 +9,90 @@
 		<MSBuildUmbracoTasksPath>$(MSBuildCustomTasksPath)</MSBuildUmbracoTasksPath>
 		<MSBuildNuGetTasksPath>$(MSBuildCustomTasksPath)</MSBuildNuGetTasksPath>
 	</PropertyGroup>
-	
+
 	<Import Project="$(MSBuildCustomTasksPath)\MSBuild.Community.Tasks.Targets" />
 	<Import Project="$(MSBuildCustomTasksPath)\MSBuild.Umbraco.Tasks.Targets" />
 	<Import Project="$(MSBuildCustomTasksPath)\MSBuild.NuGet.Tasks.Targets" />
+	<Import Project="$(MSBuildCustomTasksPath)\AppVeyorUmbraco.Targets" />
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
+		<BuildConfig>Release</BuildConfig>
+		<MinUmbracoVersion>6.2.5</MinUmbracoVersion>
+
 		<SrcDir>$(RootDir)\src</SrcDir>
 		<BuildDir>$(MSBuildProjectDirectory)\_build</BuildDir>
 		<BuildUmbDir>$(BuildDir)\_umbraco</BuildUmbDir>
 		<BuildNuGetDir>$(BuildDir)\_nuget</BuildNuGetDir>
+		<ArtifactsDir>$(RootDir)\artifacts</ArtifactsDir>
 	</PropertyGroup>
 
+	<!-- APPVEYOR PROPERTIES -->
+	<PropertyGroup>
+		<FileVersion>$(APPVEYOR_BUILD_VERSION)</FileVersion>
+	</PropertyGroup>
+	<Choose>
+		<When Condition="$(APPVEYOR_BUILD_NUMBER) != '' And $(APPVEYOR_REPO_TAG) != 'true' ">
+			<PropertyGroup>
+				<Release>false</Release>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<Release>true</Release>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<Choose>
+		<When Condition="$(Release) == 'false' And $(UMBRACO_PACKAGE_PRERELEASE_SUFFIX) == 'rtm'">
+			<PropertyGroup>
+				<AbortBuild>true</AbortBuild>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<AbortBuild>false</AbortBuild>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
 	<!-- TARGETS -->
-	<Target Name="Build">
-		<MSBuild Projects="$(SrcDir)\uComponents.sln" Properties="Configuration = $(Configuration)" Targets="Rebuild"/>
+	<Target Name="GetProductVersion">
+		<Error Condition="$(AbortBuild) == 'true'" Text="Aborting the build as the UMBRACO_PACKAGE_PRERELEASE_SUFFIX suffix is set 'rtm' but APPVEYOR_REPO_TAG is not 'true'" />
+		<GetProductVersion BuildVersion="$(APPVEYOR_BUILD_VERSION)" BuildSuffix="$(UMBRACO_PACKAGE_PRERELEASE_SUFFIX)" Release="$(Release)">
+			<Output TaskParameter="ProductVersion" PropertyName="ProductVersion"/>
+		</GetProductVersion>
+	</Target>
+
+	<!-- CLEAN -->
+	<Target Name="Clean" DependsOnTargets="GetProductVersion">
+		<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
+		<RemoveDir Directories="$(ArtifactsDir)" Condition="Exists('$(ArtifactsDir)')" />
+		<MakeDir Directories="$(BuildDir)" />
+		<MakeDir Directories="$(BuildUmbDir)" />
+		<MakeDir Directories="$(BuildNuGetDir)" />
+		<MakeDir Directories="$(ArtifactsDir)" />
+	</Target>
+
+	<!-- UPDATE PROJECT ASSEMBLEY VERSION -->
+	<Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
+		<ItemGroup>
+			<VersionMajor Include="$(ProductVersion.Split('.')[0])" />
+			<VersionMinor Include="$(ProductVersion.Split('.')[1])" />
+		</ItemGroup>
+		<AssemblyInfo CodeLanguage="CS"
+			OutputFile="$(SrcDir)\uComponents.Core\Properties\VersionInfo.cs"
+			AssemblyVersion="@(VersionMajor).@(VersionMinor).*"
+			AssemblyInformationalVersion="$(ProductVersion)"/>
+	</Target>
+
+	<Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
+		<MSBuild Projects="$(SrcDir)\uComponents.sln" Properties="Configuration = $(BuildConfig)" />
 	</Target>
 
 	<!-- PREPARE FILES -->
-	<Target Name="PrepareFiles" DependsOnTargets="Build">
+	<Target Name="PrepareFiles" DependsOnTargets="Compile">
 		<ItemGroup>
 			<BinFiles Include="$(SrcDir)\uComponents.Core\bin\Release\uComponents.Core.dll" />
 			<BinFiles Include="$(SrcDir)\uComponents.Controls\bin\Release\uComponents.Controls.dll" />
@@ -74,12 +138,12 @@
 		<MSBuild.Umbraco.Tasks.TimestampOffset Files="@(BinFiles)" Offset="-11" />
 		<!-- COPY FOR UMBRACO PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildUmbDir)\bin" />
-		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildUmbDir)\bin" Condition="$(PackageVersion.EndsWith('-build'))" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildUmbDir)\bin" Condition="$(ProductVersion.Contains('-build'))" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildUmbDir)\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildUmbDir)" />
 		<!-- COPY FOR NUGET PACKAGE -->
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
-		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" Condition="$(PackageVersion.EndsWith('-build'))" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" Condition="$(ProductVersion.Contains('-build'))" />
 		<Copy SourceFiles="@(XmlFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net40" />
 		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(BuildNuGetDir)\content\umbraco\plugins\uComponents" />
 		<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
@@ -93,7 +157,7 @@
 		<MSBuild.Umbraco.Tasks.ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
 			MinimumRequiredUmbracoVersion="$(MinUmbracoVersion)"
-			PackageVersion="$(PackageVersion)"
+			PackageVersion="$(ProductVersion)"
 			Readme="$([System.IO.File]::ReadAllText(package.txt))"
 			Files="@(ManifestFiles)" />
 	</Target>
@@ -106,7 +170,7 @@
 		<MSBuild.NuGet.Tasks.ManifestUpdate
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			WorkingDirectory="$(BuildNuGetDir)"
-			Version="$(PackageVersion)"
+			Version="$(ProductVersion)"
 			Files="@(ManifestFiles)" />
 	</Target>
 
@@ -116,19 +180,21 @@
 			<PackageFiles Include="$(BuildUmbDir)\**\*.*" />
 		</ItemGroup>
 
-		<Message Text="Package version: $(PackageVersion)" />
+		<Message Text="Package version: $(ProductVersion)" />
 		<Message Text="Minimum Umbraco version: $(MinUmbracoVersion)" />
-		
+
 		<MSBuild.Umbraco.Tasks.Package ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
-			OutputDirectory="$(RootDir)"
+			OutputDirectory="$(ArtifactsDir)"
 			Files="@(PackageFiles)" />
 		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(SrcDir)\.nuget\NuGet.exe"
 			ManifestFile="$(BuildNuGetDir)\package.nuspec"
 			BasePath="$(BuildNuGetDir)"
-			OutputDirectory="$(RootDir)"
-			Verbosity="normal" />
-			
+			Version="$(ProductVersion)"
+			OutputDirectory="$(ArtifactsDir)"
+			Verbosity="normal"
+			Symbols="true" />
+
 		<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
 		<Delete Files="$(SrcDir)\uComponents.sln.cache" />
 	</Target>
