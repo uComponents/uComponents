@@ -2,7 +2,7 @@
 
 Containing over 30 data-types, 10 XSLT extension libraries, keyboard short-cuts, drag-n-drop functionality, as well as great developer utilities - uComponents is one of the must-have packages for any Umbraco-powered website!
 
-Full documentation can be found here: http://ucomponents.org
+Full documentation can be found here: http://ucomponents.github.io
 
 Visit the CodePlex site for release notes and source code.
 https://github.com/uComponents/uComponents

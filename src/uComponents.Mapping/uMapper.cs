@@ -16,7 +16,7 @@ namespace uComponents.Mapping
     /// </summary>
     /// <remarks>
     /// This is a static convenience class which wraps single instance of a <c>NodeMappingEngine</c>.
-    /// See http://ucomponents.org/umapper/ for usage examples and pretty pictures.
+    /// See http://ucomponents.github.io/umapper/ for usage examples and pretty pictures.
     /// </remarks>
     public static class uMapper
     {

@@ -7,7 +7,7 @@
 		<authors>Lee Kelleher,Hendy Racher,Ove Andersen,James Diacono,Shannon Deminick</authors>
 		<owners>The Umbraco Community</owners>
 		<licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
-		<projectUrl>http://ucomponents.org</projectUrl>
+		<projectUrl>http://ucomponents.github.io</projectUrl>
 		<iconUrl>https://raw.githubusercontent.com/uComponents/ucomponents.github.com/master/apple-touch-icon-114x114-precomposed.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<summary>uComponents is a collaborative project for creating components for Umbraco including data types, XSLT extensions, controls and more.</summary>

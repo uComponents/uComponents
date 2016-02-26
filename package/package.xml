@@ -6,7 +6,7 @@
 			<name>uComponents</name>
 			<version>0.0.0</version>
 			<license url="http://opensource.org/licenses/MIT">MIT license</license>
-			<url>http://ucomponents.org</url>
+			<url>http://ucomponents.github.io</url>
 			<requirements>
 				<major>0</major>
 				<minor>0</minor>
@@ -15,7 +15,7 @@
 		</package>
 		<author>
 			<name>uComponents Team</name>
-			<website>http://ucomponents.org</website>
+			<website>http://ucomponents.github.io</website>
 		</author>
 		<readme><![CDATA[]]></readme>
 	</info>

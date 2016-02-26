@@ -12,7 +12,7 @@
 				
 			<p>Now that <strong>uComponents</strong> has been installed, you can activate any of the following components.</p>
 			<p>To activate these components, simply mark the ones you would like to activate, and click the "Activate Selected Components" button.</p>
-			<p>If you do no wish to activate a component now, then you can always do so later on. <a href="http://ucomponents.org" target="_blank">Please refer to the documentation.</a></p>
+			<p>If you do no wish to activate a component now, then you can always do so later on. <a href="http://ucomponents.github.io" target="_blank">Please refer to the documentation.</a></p>
 
 			<h3>Data Types</h3>
 			<div class="dashboardColWrapper">

@@ -34,7 +34,7 @@ namespace uComponents.Core
 		/// <summary>
 		/// The documentation URL
 		/// </summary>
-		public const string DocumentationUrl = "http://ucomponents.org";
+		public const string DocumentationUrl = "http://ucomponents.github.io";
 
 		/// <summary>
 		/// The resource path for the favicon.
