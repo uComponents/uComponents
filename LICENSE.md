@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright &copy; 2010-14 The Umbraco Community 
+Copyright &copy; 2010-2015 The Umbraco Community 
 
 This software consists of voluntary contributions made by [many
 individuals](https://github.com/uComponents/uComponents/graphs/contributors) For exact

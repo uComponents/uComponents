@@ -377,7 +377,7 @@ Date modified: 15th of March, 2011
 
                     // Strip any <pre> tags and parse the JSON
                     if(typeof response === 'string') {
-                        response = jQuery.parseJSON(responseText.replace(/<(\/)?pre[^>]*>/gi, ""));
+                        response = jQuery.parseJSON(response.replace(/<(\/)?pre[^>]*>/gi, ""));
                     }
 
                     // Check for errors, if there are none do a report on files saved

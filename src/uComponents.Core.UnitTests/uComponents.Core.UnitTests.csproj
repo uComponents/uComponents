@@ -242,6 +242,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="Abstractions\MockUmbracoLibrary.cs" />
     <Compile Include="DataTypes\ImagePoint\ImagePointModelTests.cs" />
     <Compile Include="Helpers\ResolversTests.cs" />

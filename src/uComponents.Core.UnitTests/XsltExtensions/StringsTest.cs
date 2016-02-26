@@ -297,17 +297,17 @@ namespace uComponents.Core.UnitTests.XsltExtensions
 			Assert.AreEqual(expected, actual, "Should return a plain-text version of the specified HTML string input");
 		}
 
-		[TestMethod]
-		public void StripLineBreaksTest()
-		{
-			var input = @"hello
-world
-foo
-bar";
-			var expected = "helloworldfoobar";
-			var actual = Strings.StripLineBreaks(input);
-			Assert.AreEqual(expected, actual);
-		}
+//		[TestMethod]
+//		public void StripLineBreaksTest()
+//		{
+//			var input = @"hello
+//world
+//foo
+//bar";
+//			var expected = "helloworldfoobar";
+//			var actual = Strings.StripLineBreaks(input);
+//			Assert.AreEqual(expected, actual);
+//		}
 
 		[TestMethod]
 		public void StripNonAlphaNumericTest()

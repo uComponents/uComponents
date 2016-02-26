@@ -267,6 +267,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\UmbracoHelperExtensions.cs" />
     <Compile Include="StaticFileMacroEngine.cs" />

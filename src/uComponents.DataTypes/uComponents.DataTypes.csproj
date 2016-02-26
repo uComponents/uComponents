@@ -274,6 +274,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\uComponents.Core\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\uComponents.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="CharLimit\CharLimitControl.cs" />
     <Compile Include="CharLimit\CharLimitDataType.cs" />
     <Compile Include="CharLimit\CharLimitOptions.cs" />
