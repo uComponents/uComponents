@@ -68,8 +68,7 @@ namespace uComponents.NotFoundHandlers
 				var port = HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
 
 				// if there is a port number, append it
-				if (!string.IsNullOrEmpty(port) && port != "80")
-				{
+				if (!string.IsNullOrEmpty(port) && port != "80" && port != "443" ) {
 					domainName = string.Concat(domainName, ":", port);
 				}
 
